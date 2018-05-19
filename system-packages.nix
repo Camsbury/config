@@ -14,6 +14,7 @@
     openssh
     vim
     wget
+    xclip
     zsh
   ];
 }
