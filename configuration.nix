@@ -30,6 +30,7 @@
   # $ nix search wget
   environment.variables = {
     OH_MY_ZSH = [ "${pkgs.oh-my-zsh}/share/oh-my-zsh" ];
+    EDITOR = "vim";
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -53,5 +54,4 @@
 
   # Don't change without guidance
   system.stateVersion = "18.03";
-
 }
