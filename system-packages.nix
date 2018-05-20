@@ -9,6 +9,7 @@
     curl
     emacs
     firefox
+    geoclue2
     git
     gnumake
     gnutls
