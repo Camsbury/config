@@ -1,10 +1,13 @@
+*#*
 *.el~
 *.nix~
 *.swp
 *archives/
 *auto-save-list/
 *cache/
-*#*
+*recentf*
+machine.nix
+networking.nix
 result
 users.nix
 networking.nix
