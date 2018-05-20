@@ -1,5 +1,10 @@
-result
-*.swp
+*.el~
 *.nix~
+*.swp
+*archives/
+*auto-save-list/
+*cache/
+.#.
+result
 users.nix
 networking.nix

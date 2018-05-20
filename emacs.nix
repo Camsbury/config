@@ -7,10 +7,15 @@ let
   emacsWithPackages = (pkgs.emacsPackagesNgGen camEmacs).emacsWithPackages;
 in
   emacsWithPackages (epkgs: (with epkgs.melpaStablePackages; [
+    counsel
+    dash
     evil
+    f
     ivy
-    restart-emacs
     nix-mode
+    restart-emacs
+    s
   ]) ++ (with epkgs.melpaPackages; [
+    general
     undo-tree
   ]))
