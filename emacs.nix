@@ -8,6 +8,8 @@ let
 in
   emacsWithPackages (epkgs: (with epkgs.melpaStablePackages; [
     evil
+    ivy
+    restart-emacs
     nix-mode
   ]) ++ (with epkgs.melpaPackages; [
     undo-tree
