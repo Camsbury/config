@@ -1,6 +1,5 @@
 *#*
-*.el~
-*.nix~
+*.*~
 *.swp
 *archives/
 *auto-save-list/
