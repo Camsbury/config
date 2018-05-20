@@ -10,6 +10,7 @@
     emacs
     firefox
     git
+    gnutls
     oh-my-zsh
     openssh
     vim
