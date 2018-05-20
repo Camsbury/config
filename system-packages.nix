@@ -8,8 +8,10 @@
     chromium
     curl
     firefox
+    fzf
     geoclue2
     git
+    gitAndTools.hub
     gnumake
     gnutls
     oh-my-zsh
