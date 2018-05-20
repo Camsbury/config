@@ -18,10 +18,19 @@
 (my-leader-def 'normal
   "TAB" 'describe-key
   ")"   'eval-defun
+  "g"   'magit-status
+  "G"   'magit-blame
+  "i"   'imenu
   "k"   'delete-window
   "K"   'kill-this-buffer
   "l"   'spawn-right
+  "n"   'counsel-recentf
+  "N"   'project-find-file
+  "q"   'evil-save-modified-and-close
   "t"   'find-file
   "w"   'evil-write)
+
+(my-leader-def 'visual
+  "S" 'sort-lines)
 
 (provide 'bindings)

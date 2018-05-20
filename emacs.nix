@@ -8,11 +8,15 @@ let
 in
   emacsWithPackages (epkgs: (with epkgs.melpaStablePackages; [
     counsel
+    counsel-projectile
     dash
     evil
+    evil-magit
     f
     ivy
+    magit
     nix-mode
+    projectile
     restart-emacs
     s
   ]) ++ (with epkgs.melpaPackages; [
