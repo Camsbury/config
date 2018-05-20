@@ -1,4 +1,5 @@
 result
 *.swp
+*.nix~
 users.nix
 networking.nix

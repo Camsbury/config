@@ -7,7 +7,6 @@
     autojump
     chromium
     curl
-    emacs
     firefox
     geoclue2
     git
@@ -19,5 +18,7 @@
     wget
     xclip
     zsh
+  ] ++ [
+    (import ./emacs.nix { inherit pkgs; })
   ];
 }
