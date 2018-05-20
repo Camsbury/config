@@ -10,6 +10,7 @@
     emacs
     firefox
     git
+    gnumake
     gnutls
     oh-my-zsh
     openssh
