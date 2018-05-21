@@ -8,5 +8,8 @@
 (global-auto-revert-mode)
 (ivy-mode)
 (evil-mode)
+(rainbow-delimiters-mode)
+(rainbow-identifiers-mode)
+(load-theme 'doom-molokai t)
 
 (provide 'ui-conf)

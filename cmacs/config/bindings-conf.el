@@ -5,12 +5,16 @@
 (general-create-definer my-leader-def
   :prefix "SPC")
 
+(general-create-definer my-config-def
+  :prefix "SPC SPC c")
+
 (general-define-key
  "s-x" 'execute-extended-command
  "C-h" 'evil-window-left
  "C-j" 'evil-window-down
  "C-k" 'evil-window-up
- "C-l" 'evil-window-right)
+ "C-l" 'evil-window-right
+ "M-q" (if (daemonp) 'delete-frame 'save-buffers-kill-emacs))
 
 (general-def 'normal
   "U" 'undo-tree-visualize
@@ -36,6 +40,8 @@
 
 (my-leader-def 'normal
   "TAB" 'describe-key
+  "DEL" 'spawn-project-file
+  "RET" 'spawn-recent-file
   ")"   'eval-defun
   "e"   'evil-goto-definition
   "g"   'magit-status
@@ -47,10 +53,19 @@
   "n"   'counsel-recentf
   "N"   'project-find-file
   "q"   'evil-save-modified-and-close
+  "R"   'restart-emacs
   "t"   'find-file
-  "w"   'evil-write)
+  "w"   'evil-write
+  "z"   'git-timemachine-toggle)
 
 (my-leader-def 'visual
   "S" 'sort-lines)
+
+(my-config-def 'normal
+  "b" 'spawn-bindings
+  "c" 'spawn-config
+  "n" 'spawn-zshrc
+  "o" 'spawn-emacs-nix
+  "f" 'spawn-functions)
 
 (provide 'bindings-conf)

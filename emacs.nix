@@ -10,6 +10,7 @@ in
     counsel
     counsel-projectile
     dash
+    doom-themes
     evil
     evil-commentary
     evil-magit
@@ -19,10 +20,13 @@ in
     flycheck-haskell
     flycheck-irony
     flycheck-popup-tip
+    git-timemachine
     ivy
     magit
     nix-mode
     projectile
+    rainbow-delimiters
+    rainbow-identifiers
     restart-emacs
     s
     use-package
