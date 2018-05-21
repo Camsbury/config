@@ -1,6 +1,6 @@
 ;; Bindings for my emacs config
 
-(require 'functions)
+(require 'functions-conf)
 
 (general-create-definer my-leader-def
   :prefix "SPC")
@@ -52,4 +52,4 @@
 (my-leader-def 'visual
   "S" 'sort-lines)
 
-(provide 'bindings)
+(provide 'bindings-conf)

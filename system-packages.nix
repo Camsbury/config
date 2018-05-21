@@ -18,6 +18,7 @@
     gnutls
     oh-my-zsh
     openssh
+    redshift
     ripgrep
     shellcheck
     spotify

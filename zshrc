@@ -11,6 +11,7 @@ ZSH_THEME="robbyrussell"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 plugins=(
+  # autojump
   git
   zsh-autosuggestions
 )
@@ -84,6 +85,7 @@ alias ne='nix-env'
 alias zz='source ~/.zshrc'
 
 ################################################################################
-# autojump
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
-alias j='autojump'
+# redshift
+alias red='redshift -O 1000k -b 0.5'
+alias orng='redshift -O 2000k'
+alias blue='redshift -O 6000k'

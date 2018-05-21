@@ -6,4 +6,4 @@
   (split-window-right)
   (windmove-right))
 
-(provide 'functions)
+(provide 'functions-conf)
