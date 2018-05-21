@@ -4,6 +4,8 @@
 
 {
   environment.systemPackages = with pkgs; [
+    ack
+    ag
     autojump
     chromium
     curl
@@ -16,6 +18,10 @@
     gnutls
     oh-my-zsh
     openssh
+    ripgrep
+    shellcheck
+    spotify
+    tldr
     vim
     wget
     xclip

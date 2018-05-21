@@ -52,6 +52,9 @@ in
     sound.enable = true;
     hardware.pulseaudio.enable = true;
 
+    # Allow unfree software (like nvidia drivers)
+    nixpkgs.config.allowUnfree = true;
+
     # Don't change without guidance
     system.stateVersion = "18.03";
   } // (
@@ -64,7 +67,6 @@ in
     if machine.nvidia
     then {
       #set up nvidia drivers
-      nixpkgs.config.allowUnfree = true;
       services.xserver.videoDrivers = [ "nvidia"];
     } else {}
   )

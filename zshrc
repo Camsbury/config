@@ -59,6 +59,7 @@ alias gprom='git pull --rebase origin master'
 alias gpu='git push -u origin "$(git symbolic-ref --short HEAD)"'
 alias grhr='git reset --hard'
 alias gril='rm .git/index.lock'
+alias grom='git reset --hard origin/master'
 alias gsbu='git status -sbu'
 alias gsn='git add .; git commit --no-verify -m "wip"; git reset head~'
 alias gtt='git-task-types'
@@ -66,7 +67,12 @@ alias pulls='open "https://github.com:/$(git remote -v | /usr/bin/grep -oP "(?<=
 
 ################################################################################
 # nix
-alias nqp='nix-env -qaP'
+alias nxt='cd ~ && sudo nixos-rebuild test; cd -'
+alias nxs='cd ~ && sudo nixos-rebuild switch; cd -'
+alias nxsr='cd ~ && sudo nixos-rebuild switch && sudo reboot'
+alias nq='nix-env -qaP'
+alias nqu='NIXPKGS_ALLOW_UNFREE=1 nix-env -qaP'
+alias ne='nix-env'
 
 ################################################################################
 # repeats
@@ -80,3 +86,4 @@ alias zz='source ~/.zshrc'
 ################################################################################
 # autojump
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+alias j='autojump'
