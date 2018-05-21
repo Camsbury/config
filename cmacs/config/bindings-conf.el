@@ -37,6 +37,7 @@
 (my-leader-def 'normal
   "TAB" 'describe-key
   ")"   'eval-defun
+  "e"   'evil-goto-definition
   "g"   'magit-status
   "G"   'magit-blame
   "i"   'imenu
