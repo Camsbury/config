@@ -12,6 +12,7 @@ in
     dash
     evil
     evil-magit
+    evil-surround
     f
     ivy
     magit

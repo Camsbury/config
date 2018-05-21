@@ -13,7 +13,26 @@
  "C-l" 'evil-window-right)
 
 (general-def 'normal
-  "U" 'undo-tree-visualize)
+  "U" 'undo-tree-visualize
+  "]t" 'evil-next-buffer
+  "[t" 'evil-prev-buffer
+  "]f" 'text-scale-increase
+  "[f" 'text-scale-decrease
+  "]r" 'undo-tree-restore-state-from-register
+  "[r" 'undo-tree-save-state-to-register)
+
+(general-def 'motion
+  "]e" 'flycheck-next-error
+  "[e" 'flycheck-previous-error)
+
+(general-def '(normal visual)
+  "gc" 'evil-commentary)
+
+(general-def 'visual
+  "S" 'evil-surround-region)
+
+(general-def 'operator
+  "s" 'evil-surround-edit)
 
 (my-leader-def 'normal
   "TAB" 'describe-key
