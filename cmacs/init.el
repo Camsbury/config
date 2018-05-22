@@ -7,4 +7,4 @@
 (setq initial-buffer-choice "*scratch*")
 ;; (setq initial-major-mode 'emacs-lisp-mode) - why doesn't this work
 
-(require 'config)
+(add-hook 'after-init-hook (lambda () (require 'config)))
