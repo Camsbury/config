@@ -3,6 +3,7 @@
 *.swp
 *archives/
 *auto-save-list/
+bookmarks
 *cache/
 *recentf*
 machine.nix

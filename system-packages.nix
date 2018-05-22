@@ -9,7 +9,7 @@
     autojump
     chromium
     curl
-    dropbox #unfree
+    dropbox-cli #bad version, should PR
     firefox
     fzf
     geoclue2

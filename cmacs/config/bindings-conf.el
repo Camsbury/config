@@ -46,6 +46,7 @@
   "e"   'evil-goto-definition
   "g"   'magit-status
   "G"   'magit-blame
+  "h"   'org-capture
   "i"   'imenu
   "k"   'delete-window
   "K"   'kill-this-buffer
