@@ -9,6 +9,7 @@
     autojump
     chromium
     curl
+    dropbox #unfree
     firefox
     fzf
     geoclue2
@@ -21,7 +22,7 @@
     redshift
     ripgrep
     shellcheck
-    spotify
+    spotify #unfree
     tldr
     vim
     wget

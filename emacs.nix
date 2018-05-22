@@ -21,9 +21,11 @@ in
     flycheck-irony
     flycheck-popup-tip
     git-timemachine
+    intero
     ivy
     magit
     nix-mode
+    org-bullets
     projectile
     rainbow-delimiters
     rainbow-identifiers
