@@ -10,6 +10,7 @@
     chromium
     curl
     dropbox-cli #bad version, should PR
+    exa
     firefox
     fzf
     geoclue2

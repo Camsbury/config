@@ -10,6 +10,7 @@ in
     counsel
     counsel-projectile
     dash
+    define-word
     doom-themes
     evil
     evil-commentary
