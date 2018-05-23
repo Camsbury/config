@@ -3,11 +3,12 @@
 *.swp
 *archives/
 *auto-save-list/
-bookmarks
 *cache/
 *recentf*
+*url/
+bookmarks
 machine.nix
+networking.nix
 networking.nix
 result
 users.nix
-networking.nix

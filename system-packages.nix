@@ -13,17 +13,20 @@
     exa
     firefox
     fzf
+    gcc
     geoclue2
     git
     gitAndTools.hub
     gnumake
     gnutls
+    htop
     oh-my-zsh
     openssh
     redshift
     ripgrep
     shellcheck
     spotify #unfree
+    sqlite
     tldr
     vim
     wget

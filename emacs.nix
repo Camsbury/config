@@ -25,6 +25,7 @@ in
     intero
     ivy
     magit
+    mediawiki
     nix-mode
     org-bullets
     projectile

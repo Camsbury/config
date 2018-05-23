@@ -38,7 +38,7 @@ function git-task-types {
 }
 
 function git-files() {
-  commit="${1:-head}"
+  commit="${1:-HEAD}"
   git show --pretty="" --name-only "${commit}" | cat
 }
 
@@ -47,24 +47,24 @@ alias git='hub'
 alias gbdd='git branch -D'
 alias gbm='git branch --merged'
 alias gcan='git commit --no-edit --amend'
-alias gdh='git diff head~ head'
+alias gdh='git diff HEAD~ head'
 alias gds='git diff --staged'
 alias gfl='git-files'
 alias gfx='git commit --fixup'
 alias gi='git init'
+alias glf='git fetch && git reset --hard origin/master'
 alias glp="git log --graph --pretty=format:'%Cred%h%Creset -%Cblue %an %Creset - %C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias gpf='git push --force'
-alias gpop='git reset head~'
+alias gpop='git reset HEAD~'
 alias gpr='git pull-request'
 alias gprom='git pull --rebase origin master'
 alias gpu='git push -u origin "$(git symbolic-ref --short HEAD)"'
 alias grhr='git reset --hard'
 alias gril='rm .git/index.lock'
-alias grom='git reset --hard origin/master'
 alias gsbu='git status -sbu'
-alias gsn='git add .; git commit --no-verify -m "wip"; git reset head~'
+alias gsn='git add .; git commit --no-verify -m "wip"; git reset HEAD~'
 alias gtt='git-task-types'
-alias pulls='open "https://github.com:/$(git remote -v | /usr/bin/grep -oP "(?<=git@github.com:).+(?=\.git)" | head -n 1)/pulls"'
+alias pulls='open "https://github.com:/$(git remote -v | /usr/bin/grep -oP "(?<=git@github.com:).+(?=\.git)" | HEAD -n 1)/pulls"'
 
 ################################################################################
 # nix
