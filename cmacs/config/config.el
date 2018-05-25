@@ -1,4 +1,5 @@
 (require 'bindings-conf)
+(require 'elisp-conf)
 (require 'evil-conf)
 (require 'functions-conf)
 (require 'git-conf)

@@ -1,5 +1,7 @@
 ;; Functions for my emacs config
 
+(require 'dash)
+
 (defun spawn-right ()
   "Spawns a window to the right"
   (interactive)

@@ -6,9 +6,9 @@
 *cache/
 *recentf*
 *url/
-bookmarks
+*tramp*
+*bookmarks*
 machine.nix
-networking.nix
 networking.nix
 result
 users.nix
