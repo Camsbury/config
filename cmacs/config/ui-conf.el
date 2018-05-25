@@ -9,6 +9,7 @@
 (ivy-mode)
 (evil-mode)
 (recentf-mode)
+(projectile-mode)
 (rainbow-delimiters-mode) ;; make these two apply to all modes (no global)
 (rainbow-identifiers-mode)
 (load-theme 'doom-molokai t)

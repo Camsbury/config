@@ -52,7 +52,9 @@
   "K"   'kill-this-buffer
   "l"   'spawn-right
   "n"   'counsel-recentf
-  "N"   'project-find-file
+  "N"   'counsel-projectile-find-file
+  "p"   'counsel-projectile-switch-project
+  "P"   'projectile-invalidate-cache
   "q"   'evil-save-modified-and-close
   "R"   'restart-emacs
   "t"   'find-file
