@@ -65,6 +65,7 @@ in
         naturalScrolling = true;
         tapping = false;
       };
+      services.upower.enable = true;
     } else {}
   ) // (
     if machine.nvidia

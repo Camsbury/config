@@ -33,7 +33,7 @@
     redshift
     ripgrep
     shellcheck
-    spotify #unfree
+    spotify #non-free
     sqlite
     tldr
     vim
