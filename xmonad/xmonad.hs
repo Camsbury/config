@@ -4,6 +4,8 @@ import Data.Traversable
 import System.IO
 import XMonad
 import XMonad.Actions.WindowBringer
+import XMonad.Layout
+import XMonad.Layout.NoBorders
 import XMonad.Util.EZConfig
 
 import qualified XMonad.StackSet as W
@@ -11,6 +13,7 @@ import qualified XMonad.StackSet as W
 main = do
   xmonad $ defaultConfig
          { terminal = "konsole"
+         , layoutHook = smartBorders $ noBorders Full ||| Tall 1 (3/100) (1/2)
          } `additionalKeysP` myKeys
 
 myKeys = [ ("M1-M4-S-C-c", grabApp "chromium")
@@ -20,7 +23,7 @@ myKeys = [ ("M1-M4-S-C-c", grabApp "chromium")
 -- .StackSet -> W.allWindows :: Eq a => StackSet i l a s sd -> [a]
 -- .Core -> withWindowSet :: (WindowSet -> X a) -> X a
 -- .Core -> withDisplay :: (Display -> X a) -> X a
--- resClass
+-- resClass/getClassHint?
 findAppWindows :: String -> X [Window]
 findAppWindows queriedName = withWindowSet $ \windowSet -> do
   let windowsV = W.allWindows windowSet
