@@ -5,6 +5,7 @@ import Data.Traversable
 import System.IO
 import XMonad
 import XMonad.Layout
+import XMonad.Layout.ThreeColumns
 import XMonad.Layout.NoBorders
 import XMonad.Util.EZConfig
 
@@ -12,7 +13,7 @@ import qualified XMonad.StackSet as W
 
 main = do
   xmonad $ defaultConfig
-         { layoutHook = smartBorders $ noBorders Full ||| Tall 1 (3/100) (1/2)
+         { layoutHook = smartBorders $ ThreeCol 1 (3/100) (2/3) ||| noBorders Full
          , focusFollowsMouse = False
          } `additionalKeysP` myKeys
 
