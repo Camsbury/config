@@ -5,6 +5,9 @@
 (general-create-definer my-leader-def
   :prefix "SPC")
 
+(general-create-definer my-mode-leader-def
+  :prefix "SPC m")
+
 (general-create-definer my-config-def
   :prefix "SPC SPC c")
 
