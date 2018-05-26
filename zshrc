@@ -82,7 +82,18 @@ alias ne='nix-env'
 
 ################################################################################
 # shell
+function check-time() {
+  timedatectl | grep "Local" | sed -r "s/^\s*(\S+\s+){4}(\S+)\s+\S+$/\2/"
+}
+function check-battery() {
+  percentage=`upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep "percentage:" \
+    | sed -r "s/\s*\S+\s+(.*)$/\1/"`
+  echo "Battery is at $percentage."
+}
+
 alias zz='source ~/.zshrc'
+alias tm='check-time'
+alias bat='check-battery'
 
 ################################################################################
 # redshift
