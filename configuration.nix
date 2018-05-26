@@ -50,7 +50,14 @@ in
 
     # Enable sound.
     sound.enable = true;
-    hardware.pulseaudio.enable = true;
+    hardware.pulseaudio = {
+      enable = true;
+      # For Steam
+      support32Bit = true;
+    };
+
+    # For Steam
+    hardware.opengl.driSupport32Bit = true;
 
     # Allow unfree software (like nvidia drivers)
     nixpkgs.config.allowUnfree = true;

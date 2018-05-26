@@ -11,7 +11,7 @@
     conky
     curl
     dmenu
-    dropbox-cli #bad version, should PR
+    dropbox-cli # bad version, should PR
     dzen2
     exa
     firefox
@@ -33,7 +33,8 @@
     redshift
     ripgrep
     shellcheck
-    spotify #non-free
+    spotify # non-free
+    steam # non-free
     sqlite
     tldr
     vim
