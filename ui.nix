@@ -24,13 +24,18 @@ in
         # gnome3.enable = true;
       };
 
-      #windowManager = {
-      #  xmonad.enable = true;
-      #  twm.enable = true;
-      #  icewm.enable = true;
-      #  i3.enable = true;
-      #  default = "xmonad";
-      #};
+      windowManager = {
+        xmonad = {
+          enable = true;
+          enableContribAndExtras = true;
+          extraPackages = haskellPackages: [
+            haskellPackages.xmonad-contrib
+            haskellPackages.xmonad-extras
+            haskellPackages.xmonad
+          ];
+        };
+        default = "xmonad";
+      };
     } // (if ! machine.ergodox
         then { xkbVariant = "colemak";
                xkbOptions = "caps:escape";
