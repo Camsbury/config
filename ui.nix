@@ -22,7 +22,10 @@ in
         # plasma5.enable = true;
         # xfce.enable = true;
         # gnome3.enable = true;
-      };
+      # };
+
+    autoRepeatDelay = 200;
+    autoRepeatInterval = 20;
 
       windowManager = {
         xmonad = {
