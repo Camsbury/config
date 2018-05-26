@@ -1,3 +1,4 @@
+# -*- shell-script -*-
 # Path to your oh-my-zsh installation.
 export ZSH=$OH_MY_ZSH
 
