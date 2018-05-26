@@ -37,8 +37,11 @@
     sqlite
     tldr
     vim
+    weechat
     wget
+    xbindkeys
     xclip
+    xorg.xbacklight
     xorg.xmodmap
     zsh
   ] ++ [
