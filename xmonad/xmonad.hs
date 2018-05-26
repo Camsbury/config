@@ -12,8 +12,7 @@ import qualified XMonad.StackSet as W
 
 main = do
   xmonad $ defaultConfig
-         { terminal = "konsole"
-         , layoutHook = smartBorders $ noBorders Full ||| Tall 1 (3/100) (1/2)
+         { layoutHook = smartBorders $ noBorders Full ||| Tall 1 (3/100) (1/2)
          , focusFollowsMouse = False
          } `additionalKeysP` myKeys
 
