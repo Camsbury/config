@@ -2,6 +2,12 @@
 
 (require 'dash)
 
+(defun spawn-below ()
+  "Spawns a window below"
+  (interactive)
+  (split-window-below)
+  (windmove-down))
+
 (defun spawn-right ()
   "Spawns a window to the right"
   (interactive)

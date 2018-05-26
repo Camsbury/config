@@ -2,6 +2,9 @@
 
 (require 'functions-conf)
 
+(setq x-super-keysym 'meta)
+(setq x-meta-keysym 'super)
+
 (general-create-definer my-leader-def
   :prefix "SPC")
 
@@ -51,6 +54,7 @@
   "G"   'magit-blame
   "h"   'org-capture
   "i"   'imenu
+  "j"   'spawn-below
   "k"   'delete-window
   "K"   'kill-this-buffer
   "l"   'spawn-right
