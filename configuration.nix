@@ -60,8 +60,11 @@ in
   } // (
     if machine.laptop
     then {
-      # enable touchpad
-      services.xserver.libinput.enable = true;
+      services.xserver.libinput = {
+        enable = true;
+        naturalScrolling = true;
+        tapping = false;
+      };
     } else {}
   ) // (
     if machine.nvidia
