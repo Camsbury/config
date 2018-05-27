@@ -17,6 +17,7 @@
     firefox
     fzf
     gcc
+    gdb
     geoclue2
     ghc
     git
@@ -39,6 +40,7 @@
     tldr
     udisks
     unzip
+    valgrind
     vim
     vlc
     weechat
