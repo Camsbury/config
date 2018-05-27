@@ -18,6 +18,7 @@ main = do
          } `additionalKeysP` myKeys
 
 myKeys = [ ("M1-M4-S-C-c", grabApp "chromium" "Chromium-browser")
+         , ("M1-M4-S-C-d", grabApp "dota2" "dota2")
          , ("M1-M4-S-C-e", grabApp "emacs" "Emacs")
          , ("M1-M4-S-C-t", grabApp "xterm" "XTerm")
          ]
