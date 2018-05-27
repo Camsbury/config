@@ -31,6 +31,7 @@
     haskellPackages.xmonad-extras
     htop
     irony-server
+    man-pages
     oh-my-zsh
     openssh
     redshift
