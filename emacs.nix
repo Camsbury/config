@@ -28,6 +28,7 @@ in
     magit
     mediawiki
     nix-mode
+    nov
     org-bullets
     projectile
     rainbow-delimiters

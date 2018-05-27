@@ -37,6 +37,8 @@
     steam # non-free
     sqlite
     tldr
+    udisks
+    unzip
     vim
     weechat
     wget
