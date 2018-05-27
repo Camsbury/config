@@ -77,11 +77,6 @@ alias nqu='NIXPKGS_ALLOW_UNFREE=1 nix-env -qaP'
 alias ne='nix-env'
 
 ################################################################################
-# repeats
-# defaults write -g KeyRepeat -int 1
-# defaults write -g InitialKeyRepeat -int 20
-
-################################################################################
 # shell
 function check-time() {
   timedatectl | grep "Local" | sed -r "s/^\s*(\S+\s+){4}(\S+)\s+\S+$/\2/"
@@ -99,6 +94,6 @@ alias bat='check-battery'
 
 ################################################################################
 # redshift
-alias red='redshift -O 1000k -b 0.5'
+alias red='redshift -O 1000k'
 alias orng='redshift -O 2000k'
 alias blue='redshift -O 6000k'
