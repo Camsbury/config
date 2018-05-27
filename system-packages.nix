@@ -40,6 +40,7 @@
     udisks
     unzip
     vim
+    vlc
     weechat
     wget
     xbindkeys
