@@ -93,6 +93,7 @@ function check-battery() {
 }
 
 alias zz='source ~/.zshrc'
+alias xmrg='xrdb -merge ~/.Xresources'
 alias tm='check-time'
 alias bat='check-battery'
 
