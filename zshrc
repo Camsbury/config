@@ -100,5 +100,5 @@ alias blue='redshift -O 6000k'
 
 ################################################################################
 # C
-alias gseg='gdb --batch --ex run --ex bt --eex q --args'
+alias gseg='gdb --batch --ex run --ex bt --ex q --args'
 alias bam='bear -a make'

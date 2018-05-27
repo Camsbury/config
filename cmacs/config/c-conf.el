@@ -4,6 +4,8 @@
                   (list 'irony-mode
                         'flycheck-mode
                         'flycheck-irony-setup
+                        'eldoc-mode
+                        'irony-eldoc
                         'rainbow-delimiters-mode
                         'rainbow-identifiers-mode))
 
