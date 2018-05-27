@@ -7,6 +7,7 @@
     ack
     ag
     autojump
+    bear
     chromium
     conky
     curl
@@ -29,6 +30,7 @@
     haskellPackages.xmonad-contrib
     haskellPackages.xmonad-extras
     htop
+    irony-server
     oh-my-zsh
     openssh
     redshift

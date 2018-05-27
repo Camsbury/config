@@ -1,5 +1,5 @@
 (require 'bindings-conf)
-(require 'cc-conf)
+(require 'c-conf)
 (require 'elisp-conf)
 (require 'evil-conf)
 (require 'functions-conf)

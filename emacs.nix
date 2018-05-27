@@ -24,6 +24,7 @@ in
     flycheck-popup-tip
     git-timemachine
     intero
+    irony
     ivy
     magit
     mediawiki
@@ -39,5 +40,6 @@ in
   ]) ++ (with epkgs.melpaPackages; [
     command-log-mode
     general
+    irony-eldoc
     undo-tree
   ]))
