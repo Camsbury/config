@@ -97,3 +97,7 @@ alias bat='check-battery'
 alias red='redshift -O 1000k'
 alias orng='redshift -O 2000k'
 alias blue='redshift -O 6000k'
+
+################################################################################
+# gdb
+alias gseg='gdb --batch --ex run --ex bt --eex q --args'
