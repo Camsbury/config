@@ -42,8 +42,13 @@
   "Spawns the bindings file to the right"
   (interactive)
   (spawn-right)
-  (find-file "~/.zshrc")
-  (shell-script-mode))
+  (find-file "~/.zshrc"))
+
+(defun spawn-xmonad ()
+  "Spawns the XMonad conf file to the right"
+  (interactive)
+  (spawn-right)
+  (find-file "~/.xmonad/xmonad.hs"))
 
 (defun spawn-emacs-nix ()
   "Spawns the bindings file to the right"

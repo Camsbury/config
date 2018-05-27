@@ -75,6 +75,7 @@
   "b" 'spawn-bindings
   "c" 'spawn-config
   "n" 'spawn-zshrc
+  "x" 'spawn-xmonad
   "o" 'spawn-emacs-nix
   "f" 'spawn-functions)
 
