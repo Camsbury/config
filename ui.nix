@@ -24,7 +24,7 @@ in
         # gnome3.enable = true;
       # };
 
-    autoRepeatDelay = 200;
+    autoRepeatDelay = 250;
     autoRepeatInterval = 20;
 
       windowManager = {
