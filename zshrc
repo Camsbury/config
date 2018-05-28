@@ -58,7 +58,7 @@ alias glp="git log --graph --pretty=format:'%Cred%h%Creset -%Cblue %an %Creset -
 alias gpf='git push --force'
 alias gpop='git reset HEAD~'
 alias gpr='git pull-request'
-alias gprom='git pull --rebase origin master'
+alias gprom='git fetch && git pull --rebase origin master'
 alias gpu='git push -u origin "$(git symbolic-ref --short HEAD)"'
 alias grhr='git reset --hard'
 alias gril='rm .git/index.lock'
