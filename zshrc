@@ -68,6 +68,17 @@ alias gtt='git-task-types'
 alias pulls='open "https://github.com:/$(git remote -v | /usr/bin/grep -oP "(?<=git@github.com:).+(?=\.git)" | HEAD -n 1)/pulls"'
 
 ################################################################################
+# C
+alias gseg='gdb --batch --ex run --ex bt --ex q --args'
+alias bam='bear -a make'
+
+################################################################################
+# redshift
+alias red='redshift -O 1000k'
+alias orng='redshift -O 2000k'
+alias blue='redshift -O 6000k'
+
+################################################################################
 # nix
 alias nxt='cd ~ && sudo nixos-rebuild test; cd -'
 alias nxs='cd ~ && sudo nixos-rebuild switch; cd -'
@@ -91,14 +102,3 @@ alias zz='source ~/.zshrc'
 alias xmrg='xrdb -merge ~/.Xresources'
 alias tm='check-time'
 alias bat='check-battery'
-
-################################################################################
-# redshift
-alias red='redshift -O 1000k'
-alias orng='redshift -O 2000k'
-alias blue='redshift -O 6000k'
-
-################################################################################
-# C
-alias gseg='gdb --batch --ex run --ex bt --ex q --args'
-alias bam='bear -a make'
