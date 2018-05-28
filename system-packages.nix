@@ -32,6 +32,7 @@
     htop
     irony-server
     man-pages
+    nox
     oh-my-zsh
     openssh
     redshift
