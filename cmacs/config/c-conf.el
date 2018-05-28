@@ -4,6 +4,7 @@
                   (list 'irony-mode
                         'flycheck-mode
                         'flycheck-irony-setup
+                        'irony-cdb-autosetup-compile-options
                         'eldoc-mode
                         'irony-eldoc
                         'rainbow-delimiters-mode
