@@ -23,4 +23,4 @@
 *xterm*Translations: #override\n\
  Shift Ctrl <KeyPress> v: insert-selection(CLIPBOARD)\n\
  Shift Ctrl <KeyPress> c: copy-selection(CLIPBOARD)\n
-*xterm*faceName: Noto Mono:size=10
+*xterm*faceName: Noto Mono:size=8
