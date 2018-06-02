@@ -49,7 +49,8 @@
   "DEL" 'spawn-project-file
   "RET" 'spawn-recent-file
   ")"   'eval-defun
-  "e"   'evil-goto-definition
+  "d"   'evil-goto-definition
+  "e"   'counsel-projectile-find-file
   "g"   'magit-status
   "G"   'magit-blame
   "h"   'org-capture
@@ -59,7 +60,6 @@
   "K"   'kill-this-buffer
   "l"   'spawn-right
   "n"   'counsel-recentf
-  "N"   'counsel-projectile-find-file
   "p"   'counsel-projectile-switch-project
   "P"   'projectile-invalidate-cache
   "q"   'evil-save-modified-and-close
