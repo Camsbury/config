@@ -4,6 +4,7 @@ import Data.Foldable
 import Data.Traversable
 import System.IO
 import XMonad
+-- import XMonad.Hooks.Script
 import XMonad.Layout
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.NoBorders
@@ -16,6 +17,7 @@ main = do
          { layoutHook = smartBorders $
            ThreeCol 1 (3/100) (1/4) ||| noBorders Full ||| Tall 1 (3/100) (1/2)
          , focusFollowsMouse = False
+         -- , startupHook = execScriptHook "" -- permission denied...
          } `additionalKeysP` myKeys
 
 myKeys = [ ("M1-M4-S-C-c", grabApp "chromium" "Chromium-browser")
