@@ -59,9 +59,6 @@ in
     # For Steam
     hardware.opengl.driSupport32Bit = true;
 
-    # Allow unfree software (like nvidia drivers)
-    nixpkgs.config.allowUnfree = true;
-
     # Don't change without guidance
     system.stateVersion = "18.03";
   } // (
