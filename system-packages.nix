@@ -15,6 +15,7 @@
     dropbox-cli # bad version, should PR
     dzen2
     exa
+    fd
     firefox
     fzf
     gcc
