@@ -15,13 +15,14 @@
   :prefix "SPC SPC c")
 
 (general-define-key
- "s-x" 'execute-extended-command
+ "s-x" 'counsel-M-x
+ "M-x" 'counsel-M-x
  "C-h" 'evil-window-left
  "C-j" 'evil-window-down
  "C-k" 'evil-window-up
  "C-l" 'evil-window-right
- "M-q" (if (daemonp) 'delete-frame 'save-buffers-kill-emacs))
  "C-u" 'evil-scroll-up
+ "M-q" (if (daemonp) 'delete-frame 'save-buffers-kill-emacs))
 
 (general-def 'normal
   "U" 'undo-tree-visualize
@@ -39,7 +40,7 @@
   "[e" 'flycheck-previous-error)
 
 (general-def '(normal visual)
-  "gc" 'evil-commentary)
+  "gc"  'evil-commentary)
 
 (general-def 'visual
   "S" 'evil-surround-region
@@ -54,9 +55,9 @@
   "DEL" 'spawn-project-file
   "RET" 'spawn-recent-file
   ")"   'eval-defun
+  "A"   'org-agenda-list
   "d"   'evil-goto-definition
   "e"   'counsel-projectile-find-file
-  "A"   'org-agenda-list
   "g"   'magit-status
   "G"   'magit-blame
   "h"   'org-capture
@@ -65,9 +66,9 @@
   "k"   'delete-window
   "K"   'kill-this-buffer
   "l"   'spawn-right
+  "L"   'org-todo-list
   "n"   'counsel-recentf
   "p"   'counsel-projectile-switch-project
-  "L"   'org-todo-list
   "P"   'projectile-invalidate-cache
   "q"   'evil-save-modified-and-close
   "R"   'restart-emacs
