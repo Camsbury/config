@@ -55,6 +55,7 @@
   ")"   'eval-defun
   "d"   'evil-goto-definition
   "e"   'counsel-projectile-find-file
+  "A"   'org-agenda-list
   "g"   'magit-status
   "G"   'magit-blame
   "h"   'org-capture
@@ -65,6 +66,7 @@
   "l"   'spawn-right
   "n"   'counsel-recentf
   "p"   'counsel-projectile-switch-project
+  "L"   'org-todo-list
   "P"   'projectile-invalidate-cache
   "q"   'evil-save-modified-and-close
   "R"   'restart-emacs

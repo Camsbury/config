@@ -3,7 +3,7 @@
 (setq org-directory (expand-file-name "~/projects/lxndr/")
       org-capture-templates '(("n" "Place in the Inbox" entry
                                (file+headline "~/projects/lxndr/inbox.org" "Inbox") "* [ ] %i%?"))
-      org-agenda-files '("~/projects/lxndr/queue.org" "~/projects/lxndr/store.org")
+      org-agenda-files '("~/projects/lxndr/store.org")
       org-refile-targets '(("~/projects/lxndr/queue.org" :maxlevel . 3)
                            ("~/projects/lxndr/store.org" :level . 1)
                            ("~/projects/lxndr/ref.org" :level . 1))
@@ -19,11 +19,20 @@
   [remap evil-ret]          'org-todo
   [remap org-return-indent] 'evil-window-down
   "M-t"                     'org-todo
+  "M-h"                     'outline-up-heading
+  "M-j"                     'org-forward-heading-same-level
+  "M-k"                     'org-backward-heading-same-level
   )
+
+(general-def 'normal org-mode-map
+ "]m" 'org-shiftright
+ "[m" 'org-shiftleft
+ )
 
 (my-mode-leader-def
  :states  'normal
  :keymaps 'org-mode-map
+ "RET" 'org-sparse-tree
  "a" 'org-archive-subtree
  "d" 'org-deadline
  "r" 'org-refile
