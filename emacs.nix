@@ -37,6 +37,7 @@ in
     rainbow-identifiers
     restart-emacs
     s
+    smex
     use-package
   ]) ++ (with epkgs.melpaPackages; [
     command-log-mode
