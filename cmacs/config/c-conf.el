@@ -7,7 +7,6 @@
                         'irony-cdb-autosetup-compile-options
                         'eldoc-mode
                         'irony-eldoc
-                        'rainbow-delimiters-mode
-                        'rainbow-identifiers-mode))
+                        'rainbow-delimiters-mode))
 
 (provide 'c-conf)
