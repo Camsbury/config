@@ -29,7 +29,9 @@
   "]f" 'text-scale-increase
   "[f" 'text-scale-decrease
   "]r" 'undo-tree-restore-state-from-register
-  "[r" 'undo-tree-save-state-to-register)
+  "[r" 'undo-tree-save-state-to-register
+  "M-d" 'evil-multiedit-match-symbol-and-next
+  "M-d" 'evil-multiedit-match-symbol-and-prev)
 
 (general-def 'motion
   "]e" 'flycheck-next-error
@@ -39,7 +41,9 @@
   "gc" 'evil-commentary)
 
 (general-def 'visual
-  "S" 'evil-surround-region)
+  "S" 'evil-surround-region
+  "M-d" 'evil-multiedit-match-and-next
+  "M-d" 'evil-multiedit-match-and-prev)
 
 (general-def 'operator
   "s" 'evil-surround-edit)

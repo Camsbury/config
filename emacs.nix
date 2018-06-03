@@ -16,6 +16,7 @@ in
     evil
     evil-commentary
     evil-magit
+    evil-multiedit
     evil-surround
     f
     flycheck
