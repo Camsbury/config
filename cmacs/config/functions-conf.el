@@ -62,4 +62,10 @@
   (spawn-right)
   (find-file "~/.emacs.d/config/functions-conf.el"))
 
+(defun open-tmp-org ()
+  "opens a temporary org file"
+  (interactive)
+  (evil-window-vsplit)
+  (find-file "/tmp/notes.org"))
+
 (provide 'functions-conf)

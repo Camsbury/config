@@ -61,6 +61,7 @@
   "g"   'magit-status
   "G"   'magit-blame
   "h"   'org-capture
+  "H"   'open-tmp-org
   "i"   'imenu
   "j"   'spawn-below
   "k"   'delete-window
