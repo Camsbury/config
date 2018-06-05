@@ -68,4 +68,18 @@
   (evil-window-vsplit)
   (find-file "/tmp/notes.org"))
 
+(defun open-tmp-org ()
+  "opens a temporary org file"
+  (interactive)
+  (evil-window-vsplit)
+  (find-file "/tmp/notes.org"))
+
+(defun eww-new ()
+  "opens a new eww buffer"
+  (interactive)
+  (let ((url (read-from-minibuffer "Enter URL or keywords: ")))
+    (switch-to-buffer (generate-new-buffer "eww"))
+    (eww-mode)
+    (eww url)))
+
 (provide 'functions-conf)
