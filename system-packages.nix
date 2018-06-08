@@ -17,6 +17,8 @@
     ag
     autojump
     bear
+    cargo
+    carnix
     chromium
     conky
     curl
