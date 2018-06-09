@@ -45,6 +45,7 @@
     irony-server
     libnotify
     man-pages
+    nix-repl
     notify-osd
     nox
     oh-my-zsh
