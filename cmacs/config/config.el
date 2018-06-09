@@ -1,3 +1,4 @@
+(require 'autocomplete-conf)
 (require 'bindings-conf)
 (require 'c-conf)
 (require 'counsel-conf)
