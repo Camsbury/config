@@ -94,17 +94,5 @@ alias ne='nix-env'
 ################################################################################
 # shell
 
-function check-time() {
-    time=`timedatectl | grep "Local" | sed -r "s/^\s*(\S+\s+){4}(\S+)\s+\S+$/\2/"`
-    notify-send "$time"
-}
-function check-battery() {
-  percentage=`upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep "percentage:" \
-    | sed -r "s/\s*\S+\s+(.*)$/\1/"`
-  notify-send "Battery is at $percentage."
-}
-
 alias zz='source ~/.zshrc'
 alias xmrg='xrdb -merge ~/.Xresources'
-alias tm='check-time'
-alias bat='check-battery'

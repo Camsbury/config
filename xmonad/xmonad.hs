@@ -21,11 +21,13 @@ main = do
          } `additionalKeysP` myKeys
 
 myKeys = [ ("M1-M4-S-C-c", grabApp "chromium" "Chromium-browser")
-         , ("M1-M4-S-C-d", grabApp "dota2" "dota2")
          , ("M1-M4-S-C-e", grabApp "emacs" "Emacs")
          , ("M1-M4-S-C-s", grabApp "spotify" "Spotify")
          , ("M1-M4-S-C-t", grabApp "xterm" "XTerm")
          , ("M1-M4-S-C-v", grabApp "vlc" "Vlc")
+         , ("M1-S-C-t",    spawn   "sh ~/.notifications/check-time.sh")
+         , ("M1-S-C-b",    spawn   "sh ~/.notifications/check-battery.sh")
+         , ("M1-S-C-p",    spawn   "sh ~/.notifications/pomodoro.sh")
          ]
 
 findAppWindows :: String -> X [Window]
