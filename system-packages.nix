@@ -43,7 +43,9 @@
     haskellPackages.xmonad-extras
     htop
     irony-server
+    libnotify
     man-pages
+    notify-osd
     nox
     oh-my-zsh
     openssh

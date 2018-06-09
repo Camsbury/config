@@ -26,6 +26,7 @@ source $ZSH/oh-my-zsh.sh
 
 ################################################################################
 # git
+
 function git-task-types {
   echo "fix - bug patching"
   echo "feat - introducing a new feature"
@@ -69,17 +70,20 @@ alias pulls='open "https://github.com:/$(git remote -v | /usr/bin/grep -oP "(?<=
 
 ################################################################################
 # C
+
 alias gseg='gdb --batch --ex run --ex bt --ex q --args'
 alias bam='bear -a make'
 
 ################################################################################
 # redshift
+
 alias red='redshift -O 1000k'
 alias orng='redshift -O 2000k'
 alias blue='redshift -O 6000k'
 
 ################################################################################
 # nix
+
 alias nxt='cd ~ && sudo nixos-rebuild test; cd -'
 alias nxs='cd ~ && sudo nixos-rebuild switch; cd -'
 alias nxsr='cd ~ && sudo nixos-rebuild switch && sudo reboot'
@@ -89,13 +93,15 @@ alias ne='nix-env'
 
 ################################################################################
 # shell
+
 function check-time() {
-  timedatectl | grep "Local" | sed -r "s/^\s*(\S+\s+){4}(\S+)\s+\S+$/\2/"
+    time=`timedatectl | grep "Local" | sed -r "s/^\s*(\S+\s+){4}(\S+)\s+\S+$/\2/"`
+    notify-send "$time"
 }
 function check-battery() {
   percentage=`upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep "percentage:" \
     | sed -r "s/\s*\S+\s+(.*)$/\1/"`
-  echo "Battery is at $percentage."
+  notify-send "Battery is at $percentage."
 }
 
 alias zz='source ~/.zshrc'
