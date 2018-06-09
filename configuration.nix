@@ -59,6 +59,10 @@ in
     # For Steam
     hardware.opengl.driSupport32Bit = true;
 
+    # Suspend with power button
+    services.logind.extraConfig = "HandlePowerKey=ignore";
+
+
     # Don't change without guidance
     system.stateVersion = "18.03";
   } // (
