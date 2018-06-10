@@ -90,6 +90,10 @@ alias nxsr='cd ~ && sudo nixos-rebuild switch && sudo reboot'
 alias nq='nix-env -qaP'
 alias nqu='NIXPKGS_ALLOW_UNFREE=1 nix-env -qaP'
 alias ne='nix-env'
+alias ns='nix-shell'
+alias nsp='nix-shell -p'
+alias nr='nix-repl'
+alias nhash='nix-prefetch-url --type sha256'
 
 ################################################################################
 # shell
