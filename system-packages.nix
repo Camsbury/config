@@ -60,6 +60,7 @@
     udisks
     unzip
     valgrind
+    python3
     vim
     vlc
     weechat
