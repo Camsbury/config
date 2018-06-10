@@ -6,6 +6,7 @@
 (require 'evil-conf)
 (require 'functions-conf)
 (require 'git-conf)
+(require 'lisp-conf)
 (require 'minibuffer-conf)
 (require 'org-conf)
 (require 'project-conf)

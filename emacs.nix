@@ -40,6 +40,7 @@ in
     nix-mode
     nov
     org-bullets
+    paredit
     projectile
     rainbow-delimiters
     rainbow-identifiers

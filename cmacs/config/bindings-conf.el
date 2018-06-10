@@ -21,8 +21,7 @@
  "C-j" 'evil-window-down
  "C-k" 'evil-window-up
  "C-l" 'evil-window-right
- "C-u" 'evil-scroll-up
- "M-q" (if (daemonp) 'delete-frame 'save-buffers-kill-emacs))
+ "C-u" 'evil-scroll-up)
 
 (general-def 'normal
   "U" 'undo-tree-visualize
@@ -54,62 +53,62 @@
   "TAB" 'describe-key
   "DEL" 'spawn-project-file
   "RET" 'spawn-recent-file
-  ;"["
-  ;"]"
-  ;"("
+  ;; "["
+  ;; "]"
+  ;; "("
   ")"   'eval-defun
-  ;"a"
+  ;; "a"
   "A"   'org-agenda-list
-  ;"b"
-  ;"B"
-  ;"c"
-  ;"C"
+  ;; "b"
+  ;; "B"
+  ;; "c"
+  ;; "C"
   "d"   'evil-goto-definition
-  ;"D"
+  ;; "D"
   "e"   'counsel-projectile-find-file
-  ;"E"
-  ;"f"
-  ;"F"
+  ;; "E"
+  ;; "f"
+  ;; "F"
   "g"   'magit-status
   "G"   'magit-blame
   "h"   'org-capture
   "H"   'open-tmp-org
   "i"   'imenu
-  ;"I"
+  ;; "I"
   "j"   'spawn-below
-  ;"J"
+  ;; "J"
   "k"   'delete-window
   "K"   'kill-this-buffer
   "l"   'spawn-right
   "L"   'org-todo-list
-  ;"m"
-  ;"M"
+  ;; "m"
+  ;; "M"
   "n"   'counsel-recentf
-  ;"N"
-  ;"o"
-  ;"O"
+  ;; "N"
+  ;; "o"
+  ;; "O"
   "p"   'counsel-projectile-switch-project
   "P"   'projectile-invalidate-cache
   "q"   'evil-save-modified-and-close
-  ;"Q"
-  ;"r"
+  "Q" (if (daemonp) 'delete-frame 'save-buffers-kill-emacs)
+  ;; "r"
   "R"   'restart-emacs
-  ;"s"
-  ;"S"
+  ;; "s"
+  ;; "S"
   "t"   'find-file
-  ;"T"
-  ;"u"
-  ;"U"
-  ;"v"
-  ;"V"
+  ;; "T"
+  ;; "u"
+  ;; "U"
+  ;; "v"
+  ;; "V"
   "w"   'evil-write
   "W"   'eww-new
-  ;"x"
-  ;"X"
-  ;"y"
-  ;"Y"
+  ;; "x"
+  ;; "X"
+  ;; "y"
+  ;; "Y"
   "z"   'git-timemachine-toggle
-  ;"Z"
+  ;; "Z"
   )
 
 (my-leader-def 'visual
