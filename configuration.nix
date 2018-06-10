@@ -10,7 +10,7 @@ in
       [ # Modular NixOS Configuration
         /etc/nixos/hardware-configuration.nix
         ./networking.nix
-        ./system-packages.nix
+        ./packages.nix
         ./ui.nix
         ./users.nix
       ];
