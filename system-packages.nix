@@ -2,13 +2,23 @@
 
 { config, pkgs, ... }:
 
-{
+let
+  unstableTarball =
+  fetchTarball
+    https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
+in {
   nixpkgs.config = {
     allowUnfree = true;
 
     chromium = {
       enablePepperFlash = true;
       enablePepperPDF = true;
+    };
+
+    packageOverrides = pkgs: {
+      unstable = import unstableTarball {
+        config = config.nixpkgs.config;
+      };
     };
   };
 
@@ -50,6 +60,7 @@
     nox
     oh-my-zsh
     openssh
+    python3
     redshift
     ripgrep
     shellcheck
@@ -60,7 +71,6 @@
     udisks
     unzip
     valgrind
-    python3
     vim
     vlc
     weechat
@@ -70,6 +80,8 @@
     xorg.xbacklight
     xorg.xmodmap
     zsh
+  ] ++ [
+    unstable.bat
   ] ++ [
     (import ./emacs.nix { inherit pkgs; })
   ];
