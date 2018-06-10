@@ -23,25 +23,26 @@ in {
   };
 
   environment.systemPackages = with pkgs; [
+    # Stable Packages
     ack
     ag
-    autojump
+    autojump # need to make this work
     bear
     cargo
     carnix
     chromium
-    conky
+    conky # haven't used
     curl
     dmenu
-    dropbox-cli # bad version, should PR
-    dzen2
+    dropbox-cli # bad version, should PR or unstable
+    dzen2 # what am I currently using this for
     exa
     fd
     firefox
-    fzf
+    fzf # need to integrate
     gcc
     gdb
-    geoclue2
+    geoclue2 # redshift geo, but doesn't work
     ghc
     git
     gitAndTools.hub
@@ -56,7 +57,7 @@ in {
     libnotify
     man-pages
     nix-repl
-    notify-osd
+    notify-osd # to upgrade to zenity
     nox
     oh-my-zsh
     openssh
@@ -68,7 +69,7 @@ in {
     steam # non-free
     sqlite
     tldr
-    udisks
+    udisks # manage drives
     unzip
     valgrind
     vim
@@ -76,13 +77,15 @@ in {
     weechat
     wget
     xbindkeys
-    xclip
+    xclip # copy paste stuff
     xorg.xbacklight
     xorg.xmodmap
     zsh
   ] ++ [
+    # Unstable Packages
     unstable.bat
   ] ++ [
+    # Custom Packages
     (import ./emacs.nix { inherit pkgs; })
   ];
 }
