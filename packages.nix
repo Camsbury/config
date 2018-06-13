@@ -61,6 +61,7 @@ in {
     nox
     oh-my-zsh
     openssh
+    peek
     python3
     redshift
     ripgrep
