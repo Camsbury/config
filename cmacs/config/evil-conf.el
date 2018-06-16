@@ -1,3 +1,4 @@
+(evil-mode)
 (general-add-hook 'evil-mode-hook
                   (list 'evil-surround-mode
                         'evil-commentary-mode
