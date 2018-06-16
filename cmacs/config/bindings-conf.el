@@ -54,7 +54,7 @@
   "DEL" 'spawn-project-file
   "RET" 'spawn-recent-file
   ;; "["
-  ;; "]"
+  "]" 'switch-to-buffer
   ;; "("
   ")"   'eval-defun
   ;; "a"
