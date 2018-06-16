@@ -54,5 +54,8 @@ in
     command-log-mode
     general
     irony-eldoc
+    lsp-haskell
+    lsp-mode
+    lsp-ui
     undo-tree
   ]))

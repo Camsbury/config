@@ -9,6 +9,7 @@
 (require 'git-conf)
 (require 'haskell-conf)
 (require 'lisp-conf)
+(require 'lsp-conf)
 (require 'minibuffer-conf)
 (require 'org-conf)
 (require 'project-conf)

@@ -2,8 +2,12 @@
 (setq haskell-interactive-mode-scroll-to-bottom t)
 (setq haskell-process-type 'cabal-repl)
 
+(require 'lsp-haskell)
+
 (general-add-hook 'haskell-mode-hook
-                  (list 'eldoc-mode
+                  (list 'lsp-mode
+                        #'lsp-haskell-enable
+                        'flycheck-mode
                         'rainbow-delimiters-mode))
 
 (my-mode-leader-def
