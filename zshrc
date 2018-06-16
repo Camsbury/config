@@ -98,5 +98,6 @@ alias nhash='nix-prefetch-url --type sha256'
 ################################################################################
 # shell
 
-alias zz='source ~/.zshrc'
+alias cat='bat'
 alias xmrg='xrdb -merge ~/.Xresources'
+alias zz='source ~/.zshrc'
