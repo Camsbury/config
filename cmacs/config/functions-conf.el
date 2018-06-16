@@ -16,12 +16,6 @@
   (evil-window-vsplit)
   (find-file "/tmp/notes.org"))
 
-(defun open-tmp-org ()
-  "opens a temporary org file"
-  (interactive)
-  (evil-window-vsplit)
-  (find-file "/tmp/notes.org"))
-
 (defun set-window-width (count)
   "Set the selected window's width."
   (adjust-window-trailing-edge (selected-window) (- count (window-width)) t))
