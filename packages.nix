@@ -28,6 +28,8 @@ in {
     ag
     autojump # need to make this work
     bear
+    cabal-install
+    cabal2nix
     cargo
     carnix
     chromium
@@ -67,8 +69,8 @@ in {
     ripgrep
     shellcheck
     spotify # non-free
-    steam # non-free
     sqlite
+    steam # non-free
     tldr
     tree
     truecrypt
