@@ -84,6 +84,7 @@ alias blue='redshift -O 6000k'
 ################################################################################
 # nix
 
+alias nb='nix-build'
 alias nxt='cd ~ && sudo nixos-rebuild test; cd -'
 alias nxs='cd ~ && sudo nixos-rebuild switch; cd -'
 alias nxsr='cd ~ && sudo nixos-rebuild switch && sudo reboot'
