@@ -2,6 +2,7 @@
 (require 'bindings-conf)
 (require 'c-conf)
 (require 'counsel-conf)
+(require 'docs-conf)
 (require 'elisp-conf)
 (require 'evil-conf)
 (require 'functions-conf)

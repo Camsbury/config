@@ -32,6 +32,7 @@ in
     flycheck-irony
     flycheck-popup-tip
     git-timemachine
+    helm-dash
     intero
     irony
     ivy
