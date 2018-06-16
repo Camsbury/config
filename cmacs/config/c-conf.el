@@ -1,5 +1,6 @@
 (setq c-basic-offset 2)
 (setq c-basic-indent 2)
+
 (general-add-hook 'c-mode-hook
   (list 'irony-mode
         'flycheck-mode
