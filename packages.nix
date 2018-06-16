@@ -70,6 +70,7 @@ in {
     steam # non-free
     sqlite
     tldr
+    tree
     truecrypt
     udisks # manage drives
     unzip
