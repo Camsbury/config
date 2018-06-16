@@ -49,6 +49,7 @@ in
     s
     smex
     use-package
+    yaml-mode
   ]) ++ (with epkgs.melpaPackages; [
     command-log-mode
     general
