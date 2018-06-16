@@ -85,16 +85,23 @@ alias blue='redshift -O 6000k'
 # nix
 
 alias nb='nix-build'
-alias nxt='cd ~ && sudo nixos-rebuild test; cd -'
-alias nxs='cd ~ && sudo nixos-rebuild switch; cd -'
-alias nxsr='cd ~ && sudo nixos-rebuild switch && sudo reboot'
+alias ne='nix-env'
+alias nhash='nix-prefetch-url --type sha256'
 alias nq='nix-env -qaP'
 alias nqu='NIXPKGS_ALLOW_UNFREE=1 nix-env -qaP'
-alias ne='nix-env'
+alias nr='nix-repl'
 alias ns='nix-shell'
 alias nsp='nix-shell -p'
-alias nr='nix-repl'
-alias nhash='nix-prefetch-url --type sha256'
+alias nxs='cd ~ && sudo nixos-rebuild switch; cd -'
+alias nxsr='cd ~ && sudo nixos-rebuild switch && sudo reboot'
+alias nxt='cd ~ && sudo nixos-rebuild test; cd -'
+
+################################################################################
+# cabal
+
+alias nhs='nix-shell --attr env'
+alias cn='cabal2nix'
+alias cnd='cabal2nix . > default.nix'
 
 ################################################################################
 # shell
