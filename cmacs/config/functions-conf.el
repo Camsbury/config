@@ -2,6 +2,30 @@
 
 (require 'dash)
 
+(defun eww-new ()
+  "opens a new eww buffer"
+  (interactive)
+  (let ((url (read-from-minibuffer "Enter URL or keywords: ")))
+    (switch-to-buffer (generate-new-buffer "eww"))
+    (eww-mode)
+    (eww url)))
+
+(defun open-tmp-org ()
+  "opens a temporary org file"
+  (interactive)
+  (evil-window-vsplit)
+  (find-file "/tmp/notes.org"))
+
+(defun open-tmp-org ()
+  "opens a temporary org file"
+  (interactive)
+  (evil-window-vsplit)
+  (find-file "/tmp/notes.org"))
+
+(defun set-window-width (count)
+  "Set the selected window's width."
+  (adjust-window-trailing-edge (selected-window) (- count (window-width)) t))
+
 (defun spawn-below ()
   "Spawns a window below"
   (interactive)
@@ -12,6 +36,7 @@
   "Spawns a window to the right"
   (interactive)
   (split-window-right)
+  (set-window-width 90)
   (windmove-right))
 
 (defun spawn-project-file ()
@@ -61,25 +86,5 @@
   (interactive)
   (spawn-right)
   (find-file "~/.emacs.d/config/functions-conf.el"))
-
-(defun open-tmp-org ()
-  "opens a temporary org file"
-  (interactive)
-  (evil-window-vsplit)
-  (find-file "/tmp/notes.org"))
-
-(defun open-tmp-org ()
-  "opens a temporary org file"
-  (interactive)
-  (evil-window-vsplit)
-  (find-file "/tmp/notes.org"))
-
-(defun eww-new ()
-  "opens a new eww buffer"
-  (interactive)
-  (let ((url (read-from-minibuffer "Enter URL or keywords: ")))
-    (switch-to-buffer (generate-new-buffer "eww"))
-    (eww-mode)
-    (eww url)))
 
 (provide 'functions-conf)
