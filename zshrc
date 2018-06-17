@@ -101,7 +101,7 @@ alias nxt='cd ~ && sudo nixos-rebuild test; cd -'
 
 alias nhs='nix-shell --attr env'
 alias cn='cabal2nix'
-alias cnd='cabal2nix . > default.nix'
+alias cnd='cabal2nix . > ${PWD##*/}.nix'
 
 ################################################################################
 # shell
