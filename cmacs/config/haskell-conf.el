@@ -4,9 +4,16 @@
 
 (require 'lsp-haskell)
 
+(defun setup-lsp-if-hie ()
+  "only starts lsp-mode for haskell if hie available"
+  (let ((hie-directory (locate-dominating-file default-directory "hie.sh")))
+    (when hie-directory
+      (setq-local lsp-haskell-process-path-hie (expand-file-name "hie.sh" hie-directory))
+      (lsp-mode)
+      (lsp-haskell-enable))))
+
 (general-add-hook 'haskell-mode-hook
-                  (list 'lsp-mode
-                        #'lsp-haskell-enable
+                  (list 'setup-lsp-if-hie
                         'flycheck-mode
                         'rainbow-delimiters-mode))
 
