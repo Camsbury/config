@@ -29,8 +29,6 @@ in
     # Set your time zone.
     time.timeZone = "America/New_York";
 
-    # List packages installed in system profile. To search, run:
-    # $ nix search wget
     environment.variables = {
       OH_MY_ZSH = [ "${pkgs.oh-my-zsh}/share/oh-my-zsh" ];
       EDITOR = "vim";
