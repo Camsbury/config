@@ -15,8 +15,12 @@ let
   emacsWithPackages = (pkgs.emacsPackagesNgGen camEmacs).emacsWithPackages;
 in
   emacsWithPackages (epkgs: (with epkgs.melpaStablePackages; [
+    company
+    company-cabal
+    company-ghc
     counsel
     counsel-projectile
+    dante
     dash
     dash-functional
     define-word
@@ -33,7 +37,6 @@ in
     flycheck-popup-tip
     git-timemachine
     helm-dash
-    intero
     irony
     ivy
     magit
