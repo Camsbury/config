@@ -3,6 +3,7 @@
 (setq haskell-process-type 'cabal-repl)
 
 (require 'lsp-haskell)
+(require 'lsp-conf)
 
 (defun setup-lsp-if-hie ()
   "only starts lsp-mode for haskell if hie available"
