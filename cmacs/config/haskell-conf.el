@@ -43,8 +43,10 @@
 (my-mode-leader-def
  :states  'normal
  :keymaps 'haskell-mode-map
- "l" 'haskell-process-load-file
+ "e" 'haskell-align-imports
+ "s" 'haskell-sort-imports
  "i" 'dante-info
+ "l" 'haskell-process-load-file
  "r" 'dante-restart
  "t" 'hlint-refactor-at-point
  "T" 'hlint-refactor-refactor-buffer)
