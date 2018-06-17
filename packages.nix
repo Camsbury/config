@@ -75,10 +75,10 @@ in {
     steam # non-free
     tldr
     tree
-    truecrypt
     udisks # manage drives
     unzip
     valgrind
+    veracrypt
     vim
     vlc
     weechat
