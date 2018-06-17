@@ -106,6 +106,11 @@ alias cnd='cabal2nix . > default.nix'
 ################################################################################
 # shell
 
+function take-dir() {
+    mkdir -p "$1" && cd "$1"
+}
+
 alias cat='bat'
+alias take='take-dir'
 alias xmrg='xrdb -merge ~/.Xresources'
 alias zz='source ~/.zshrc'
