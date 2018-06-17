@@ -13,8 +13,29 @@
       (lsp-mode)
       (lsp-haskell-enable))))
 
+(defun dante-init ()
+  "runs a cabal new-repl in the nix-shell"
+  (setq-default
+       dante-repl-command-line-methods-alist
+       `(
+         (nix-new .
+                  ,(lambda (root)
+                     (dante-repl-by-file
+                      (projectile-project-root)
+                      "shell.nix"
+                      `("nix-shell" "--run" "cabal repl"
+                        ,(concat (projectile-project-root) "/shell.nix")))))
+         (bare  . ,(lambda (_) '("cabal" "repl"))))))
+
+
+(general-add-hook 'dante-mode-hook
+   '(lambda () (flycheck-add-next-checker 'haskell-dante
+                '(warning . haskell-hlint))))
+
 (general-add-hook 'haskell-mode-hook
                   (list 'setup-lsp-if-hie
+                        'dante-init
+                        'dante-mode
                         'flycheck-mode
                         'rainbow-delimiters-mode))
 
@@ -22,7 +43,7 @@
  :states  'normal
  :keymaps 'haskell-mode-map
  "l" 'haskell-process-load-file
- "i" 'haskell-process-do-info
+ "i" 'dante-info
  )
 
 (provide 'haskell-conf)

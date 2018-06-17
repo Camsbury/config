@@ -51,6 +51,7 @@ in {
     gnumake
     gnutls
     haskellPackages.Cabal_2_2_0_0
+    haskellPackages.hlint
     haskellPackages.xmonad
     haskellPackages.xmonad-contrib
     haskellPackages.xmonad-extras
