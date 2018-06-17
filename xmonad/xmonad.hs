@@ -18,6 +18,7 @@ main = do
            ThreeCol 1 (3/100) (1/4) ||| noBorders Full ||| Tall 1 (3/100) (1/2)
          , focusFollowsMouse = False
          -- , startupHook = execScriptHook "" -- permission denied...
+         , startupHook = spawn "sh ~/.scripts/startup.sh"
          } `additionalKeysP` myKeys
 
 myKeys = [ ("M1-M4-S-C-c", grabApp "chromium" "Chromium-browser")
@@ -25,9 +26,9 @@ myKeys = [ ("M1-M4-S-C-c", grabApp "chromium" "Chromium-browser")
          , ("M1-M4-S-C-s", grabApp "spotify" "Spotify")
          , ("M1-M4-S-C-t", grabApp "xterm" "XTerm")
          , ("M1-M4-S-C-v", grabApp "vlc" "Vlc")
-         , ("M1-c",    spawn   "sh ~/.notifications/check-time.sh")
-         , ("M1-b",    spawn   "sh ~/.notifications/check-battery.sh")
-         , ("M1-m",    spawn   "sh ~/.notifications/pomodoro.sh")
+         , ("M1-c",    spawn   "sh ~/.scripts/check-time.sh")
+         , ("M1-b",    spawn   "sh ~/.scripts/check-battery.sh")
+         , ("M1-m",    spawn   "sh ~/.scripts/pomodoro.sh")
          ]
 
 findAppWindows :: String -> X [Window]
