@@ -1,7 +1,8 @@
 # machine Type - pick options below to customize for machine
 
 {
-  laptop = true;
   ergodox = false;
+  gaming = false;
+  laptop = true;
   nvidia = false;
 }

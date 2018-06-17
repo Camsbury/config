@@ -6,6 +6,8 @@ let
   unstableTarball =
   fetchTarball
     https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
+
+  machine = (import ./machine.nix);
 in {
   nixpkgs.config = {
     allowUnfree = true;
@@ -69,7 +71,6 @@ in {
     shellcheck
     spotify # non-free
     sqlite
-    steam # non-free
     tldr
     tree
     udisks # manage drives
@@ -91,5 +92,10 @@ in {
   ] ++ [
     # Custom Packages
     (import ./emacs.nix { inherit pkgs; })
-  ];
+  ] ++ (    # Machine Specific
+  if machine.gaming
+  then
+  [ steam #non-free
+  ] else []
+  );
 }
