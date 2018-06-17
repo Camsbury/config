@@ -15,14 +15,7 @@ in
 
       displayManager = {
         sddm.enable = true;
-        # lightdm.enable = true;
       };
-
-      # desktopManager = {
-        # plasma5.enable = true;
-        # xfce.enable = true;
-        # gnome3.enable = true;
-      # };
 
     autoRepeatDelay = 250;
     autoRepeatInterval = 20;

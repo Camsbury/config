@@ -33,18 +33,15 @@ in {
     cargo
     carnix
     chromium
-    conky # haven't used
     curl
     dmenu
     dropbox-cli # bad version, should PR or unstable
-    dzen2 # what am I currently using this for
     exa
     fd
     firefox
     fzf # need to integrate
     gcc
     gdb
-    geoclue2 # redshift geo, but doesn't work
     ghc
     git
     gitAndTools.hub
