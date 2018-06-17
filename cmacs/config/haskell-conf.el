@@ -22,7 +22,7 @@
                   ,(lambda (root)
                      (dante-repl-by-file
                       (projectile-project-root)
-                      "shell.nix"
+                      '("shell.nix")
                       `("nix-shell" "--run" "cabal repl"
                         ,(concat (projectile-project-root) "/shell.nix")))))
          (bare  . ,(lambda (_) '("cabal" "repl"))))))
@@ -36,6 +36,7 @@
                   (list 'setup-lsp-if-hie
                         'dante-init
                         'dante-mode
+                        'hlint-refactor-mode
                         'flycheck-mode
                         'rainbow-delimiters-mode))
 
@@ -44,6 +45,8 @@
  :keymaps 'haskell-mode-map
  "l" 'haskell-process-load-file
  "i" 'dante-info
- )
+ "r" 'dante-restart
+ "t" 'hlint-refactor-at-point
+ "T" 'hlint-refactor-refactor-buffer)
 
 (provide 'haskell-conf)

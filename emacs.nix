@@ -56,6 +56,7 @@ in
   ]) ++ (with epkgs.melpaPackages; [
     command-log-mode
     general
+    hlint-refactor
     irony-eldoc
     lsp-haskell
     lsp-mode
