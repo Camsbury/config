@@ -53,8 +53,8 @@
   "TAB" 'describe-key
   "DEL" 'spawn-project-file
   "RET" 'spawn-recent-file
-  ;; "["
-  "]" 'switch-to-buffer
+  "["   'describe-function
+  "]"   'switch-to-buffer
   ;; "("
   ")"   'eval-defun
   ;; "a"
