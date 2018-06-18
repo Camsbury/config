@@ -32,7 +32,7 @@
   "]r" 'undo-tree-restore-state-from-register
   "[r" 'undo-tree-save-state-to-register
   "M-d" 'evil-multiedit-match-symbol-and-next
-  "M-d" 'evil-multiedit-match-symbol-and-prev)
+  "M-D" 'evil-multiedit-match-symbol-and-prev)
 
 (general-def 'motion
   "]e" 'flycheck-next-error
