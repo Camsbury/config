@@ -3,6 +3,6 @@
 {
   ergodox = false;
   gaming = false;
-  laptop = true;
+  laptop = false;
   nvidia = false;
 }
