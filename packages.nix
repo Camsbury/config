@@ -59,7 +59,6 @@ in {
     irony-server
     libnotify
     man-pages
-    nix-repl
     notify-osd # to upgrade to zenity
     nox
     oh-my-zsh
