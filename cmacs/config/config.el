@@ -14,6 +14,7 @@
 (require 'org-conf)
 (require 'project-conf)
 (require 'scroll-conf)
+(require 'shell-conf)
 (require 'style-conf)
 (require 'theme-conf)
 (require 'ui-conf)
