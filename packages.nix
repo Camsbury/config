@@ -70,6 +70,7 @@ in {
     shellcheck
     spotify # non-free
     sqlite
+    teensy-loader-cli
     tldr
     tree
     udisks # manage drives
