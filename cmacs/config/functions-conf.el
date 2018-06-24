@@ -26,7 +26,7 @@
   (save-excursion
     (select-window (frame-first-window))
     (while (window-next-sibling)
-      (set-window-width 90)
+      (set-window-width 81)
       (select-window (window-next-sibling)))))
 
 (defun pretty-delete-window ()
