@@ -20,6 +20,23 @@
   "Set the selected window's width."
   (adjust-window-trailing-edge (selected-window) (- count (window-width)) t))
 
+(defun prettify-windows ()
+  "Set the windows all to have 90 chars of length"
+  (interactive)
+  (save-excursion
+    (select-window (frame-first-window))
+    (while (window-next-sibling)
+      (set-window-width 90)
+      (select-window (window-next-sibling)))))
+
+(defun pretty-delete-window ()
+  "Cleans up after itself after deleting current window"
+  (interactive)
+  (delete-window)
+  (prettify-windows))
+
+;; Spawn Functions
+
 (defun spawn-below ()
   "Spawns a window below"
   (interactive)
@@ -30,7 +47,7 @@
   "Spawns a window to the right"
   (interactive)
   (split-window-right)
-  (set-window-width 90)
+  (prettify-windows)
   (windmove-right))
 
 (defun spawn-project-file ()

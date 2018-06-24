@@ -77,7 +77,7 @@
   ;; "I"
   "j"   'spawn-below
   ;; "J"
-  "k"   'delete-window
+  "k"   'pretty-delete-window
   "K"   'kill-this-buffer
   "l"   'spawn-right
   "L"   'org-todo-list
