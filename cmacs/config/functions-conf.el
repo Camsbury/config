@@ -69,13 +69,19 @@
   (find-file "~/.emacs.d/config/bindings-conf.el"))
 
 (defun spawn-config ()
-  "Spawns the bindings file to the right"
+  "Spawns the config file to the right"
   (interactive)
   (spawn-right)
   (find-file "~/.emacs.d/config/config.el"))
 
+(defun spawn-functions ()
+  "Spawns the functions file to the right"
+  (interactive)
+  (spawn-right)
+  (find-file "~/.emacs.d/config/functions-conf.el"))
+
 (defun spawn-zshrc ()
-  "Spawns the bindings file to the right"
+  "Spawns the zshrc file to the right"
   (interactive)
   (spawn-right)
   (find-file "~/.zshrc"))
@@ -87,15 +93,9 @@
   (find-file "~/.xmonad/xmonad.hs"))
 
 (defun spawn-emacs-nix ()
-  "Spawns the bindings file to the right"
+  "Spawns the emacs nix file to the right"
   (interactive)
   (spawn-right)
   (find-file "~/projects/nix_dots/emacs.nix"))
-
-(defun spawn-functions ()
-  "Spawns the bindings file to the right"
-  (interactive)
-  (spawn-right)
-  (find-file "~/.emacs.d/config/functions-conf.el"))
 
 (provide 'functions-conf)
