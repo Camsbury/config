@@ -120,3 +120,8 @@ alias lnf='readlink -f'
 alias take='take-dir'
 alias xmrg='xrdb -merge ~/.Xresources'
 alias zz='source ~/.zshrc'
+
+################################################################################
+# fzf integration - fix to be intelligent
+
+source /nix/store/89y736djzmybqz5franjxkmh43pkl9sx-fzf-0.17.3-bin/share/fzf/key-bindings.zsh
