@@ -84,6 +84,10 @@ alias blue='redshift -O 6000k'
 ################################################################################
 # nix
 
+function store-path() {
+  readlink -f `which "${1}"`
+}
+
 alias nb='nix-build'
 alias ne='nix-env'
 alias nhash='nix-prefetch-url --type sha256'
@@ -92,6 +96,7 @@ alias nqu='NIXPKGS_ALLOW_UNFREE=1 nix-env -qaP'
 alias nr='nix-repl'
 alias ns='nix-shell'
 alias nsp='nix-shell -p'
+alias nst='store-path'
 alias nxs='cd ~ && sudo nixos-rebuild switch; cd -'
 alias nxsr='cd ~ && sudo nixos-rebuild switch && sudo reboot'
 alias nxt='cd ~ && sudo nixos-rebuild test; cd -'
@@ -107,10 +112,11 @@ alias cnd='cabal2nix . > ${PWD##*/}.nix'
 # shell
 
 function take-dir() {
-    mkdir -p "$1" && cd "$1"
+  mkdir -p "$1" && cd "$1"
 }
 
 alias cat='bat'
+alias lnf='readlink -f'
 alias take='take-dir'
 alias xmrg='xrdb -merge ~/.Xresources'
 alias zz='source ~/.zshrc'
