@@ -66,12 +66,20 @@ in
   } // (
     if machine.laptop
     then {
-      services.xserver.libinput = {
-        enable = true;
-        naturalScrolling = true;
-        tapping = false;
+      services = {
+        xserver.libinput = {
+          enable = true;
+          naturalScrolling = true;
+          tapping = false;
+        };
+        upower.enable = true;
+        # cron = {
+        #   enable = true;
+        #   systemCronJobs = {
+        #     "***** checkpower"
+        #   };
+        # };
       };
-      services.upower.enable = true;
     } else {}
   ) // (
     if machine.nvidia
