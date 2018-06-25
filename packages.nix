@@ -91,7 +91,8 @@ in {
     unstable.bat
   ] ++ [
     # Custom Packages
-    (import ./emacs.nix { inherit pkgs; })
+    # (import ./emacs.nix { inherit pkgs; })
+    (import ./emacs.nix { pkgs = unstable; })
   ] ++ (    # Machine Specific
   if machine.gaming
   then
