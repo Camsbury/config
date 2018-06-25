@@ -28,7 +28,7 @@ in {
     # Stable Packages
     ack
     ag
-    autojump # need to make this work
+    autojump
     bear
     cabal-install
     cabal2nix
@@ -41,7 +41,7 @@ in {
     exa
     fd
     firefox
-    fzf # need to integrate
+    fzf
     gcc
     gdb
     ghc

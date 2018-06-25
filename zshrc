@@ -124,9 +124,9 @@ alias zz='source ~/.zshrc'
 ################################################################################
 # fzf integration - fix to be intelligent
 
-source /nix/store/89y736djzmybqz5franjxkmh43pkl9sx-fzf-0.17.3-bin/share/fzf/key-bindings.zsh
+source $FZF/key-bindings.zsh
 
 ################################################################################
 # autojump integration - needs fixing just like fzf
 
-source /nix/store/21pqbn639jjc62j9y72g6hvq46hbmxai-autojump-22.5.1/share/autojump/autojump.zsh
+source $AUTOJUMP/autojump.zsh
