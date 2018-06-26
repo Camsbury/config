@@ -23,9 +23,9 @@
                      (dante-repl-by-file
                       (projectile-project-root)
                       '("shell.nix")
-                      `("nix-shell" "--run" "cabal repl"
+                      `("nix-shell" "--run" "cabal new-repl"
                         ,(concat (projectile-project-root) "/shell.nix")))))
-         (bare  . ,(lambda (_) '("cabal" "repl"))))))
+         (bare  . ,(lambda (_) '("cabal" "new-repl"))))))
 
 
 (general-add-hook 'dante-mode-hook
