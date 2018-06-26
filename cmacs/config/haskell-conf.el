@@ -45,7 +45,7 @@
  "i" 'dante-info
  "l" 'haskell-process-load-file
  "r" 'dante-restart
- "t" 'hlint-refactor-at-point
+ "t" 'hlint-refactor-refactor-at-point
  "T" 'hlint-refactor-refactor-buffer)
 
 (provide 'haskell-conf)
