@@ -13,19 +13,17 @@
       (lsp-mode)
       (lsp-haskell-enable))))
 
-(defun dante-init ()
-  "runs a cabal new-repl in the nix-shell"
-  (setq-default
-       dante-repl-command-line-methods-alist
-       `(
-         (nix-new .
-                  ,(lambda (root)
-                     (dante-repl-by-file
-                      (projectile-project-root)
-                      '("shell.nix")
-                      `("nix-shell" "--run" "cabal new-repl"
-                        ,(concat (projectile-project-root) "/shell.nix")))))
-         (bare  . ,(lambda (_) '("cabal" "new-repl"))))))
+(setq-default
+     dante-repl-command-line-methods-alist
+     `(
+       (nix-new .
+                ,(lambda (root)
+                   (dante-repl-by-file
+                    (projectile-project-root)
+                    '("shell.nix")
+                    `("nix-shell" "--run" "cabal new-repl"
+                      ,(concat (projectile-project-root) "/shell.nix")))))
+       (bare  . ,(lambda (_) '("cabal" "new-repl")))))
 
 
 (general-add-hook 'dante-mode-hook
@@ -34,7 +32,6 @@
 
 (general-add-hook 'haskell-mode-hook
                   (list 'setup-lsp-if-hie
-                        'dante-init
                         'dante-mode
                         'hlint-refactor-mode
                         'flycheck-mode
