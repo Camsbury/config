@@ -13,7 +13,7 @@ in {
     allowUnfree = true;
 
     chromium = {
-      enablePepperFlash = true;
+    #   enablePepperFlash = true;
       enablePepperPDF = true;
     };
 
@@ -37,7 +37,7 @@ in {
     chromium
     curl
     dmenu
-    dropbox-cli # bad version, should PR or unstable
+    # dropbox-cli # bad version, should PR or unstable
     exa
     fd
     firefox
@@ -68,7 +68,7 @@ in {
     redshift
     ripgrep
     shellcheck
-    spotify # non-free
+    # spotify # non-free
     sqlite
     teensy-loader-cli
     tldr
@@ -89,6 +89,8 @@ in {
   ] ++ [
     # Unstable Packages
     unstable.bat
+    unstable.dropbox-cli
+    unstable.spotify # non-free
   ] ++ [
     # Custom Packages
     # (import ./emacs.nix { inherit pkgs; })
