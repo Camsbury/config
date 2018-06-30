@@ -8,6 +8,7 @@
 *url/
 *tramp*
 *bookmarks*
+encryption.nix
 machine.nix
 networking.nix
 nov-places
