@@ -116,6 +116,9 @@ function take-dir() {
 }
 
 alias cat='bat'
+alias ls='exa --long'
+alias ll='exa --long --all'
+alias la='exa --long --all'
 alias lnf='readlink -f'
 alias take='take-dir'
 alias xmrg='xrdb -merge ~/.Xresources'
