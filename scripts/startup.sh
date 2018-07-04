@@ -1,3 +1,4 @@
 # perform startup actions
 dropbox start;
-xbindkeys
+xbindkeys;
+xss-lock slock

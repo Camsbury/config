@@ -68,6 +68,7 @@ in {
     redshift
     ripgrep
     shellcheck
+    slock
     # spotify # non-free
     sqlite
     teensy-loader-cli
@@ -85,6 +86,7 @@ in {
     xclip # copy paste stuff
     xorg.xbacklight
     xorg.xmodmap
+    xss-lock
     zsh
   ] ++ [
     # Unstable Packages
@@ -101,4 +103,6 @@ in {
   [ steam #non-free
   ] else []
   );
+
+  security.wrappers.slock.source = "${pkgs.slock.out}/bin/slock";
 }
