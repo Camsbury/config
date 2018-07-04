@@ -33,6 +33,7 @@
 (defun pretty-delete-window ()
   "Cleans up after itself after deleting current window"
   (interactive)
+  (recentf-save-list)
   (delete-window)
   (prettify-windows))
 
