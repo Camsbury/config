@@ -50,6 +50,7 @@ in {
     gnumake
     gnutls
     haskellPackages.apply-refact
+    haskellPackages.Agda
     haskellPackages.Cabal_2_2_0_0
     haskellPackages.hlint
     haskellPackages.xmonad

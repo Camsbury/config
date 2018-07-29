@@ -55,4 +55,6 @@ in
     lsp-ui
   ]) ++ (with epkgs.elpaPackages; [
     undo-tree
+  ]) ++ (with epkgs; [
+    agda2-mode
   ]))
