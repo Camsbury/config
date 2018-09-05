@@ -19,7 +19,6 @@ in
     doom-themes
     evil
     evil-commentary
-    evil-magit
     evil-multiedit
     evil-surround
     f
@@ -27,7 +26,7 @@ in
     flycheck-haskell
     flycheck-irony
     flycheck-popup-tip
-    # git-timemachine
+    git-timemachine
     helm-dash
     irony
     ivy
@@ -47,6 +46,7 @@ in
     yaml-mode
   ]) ++ (with epkgs.melpaPackages; [
     command-log-mode
+    evil-magit
     general
     hlint-refactor
     irony-eldoc

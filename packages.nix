@@ -3,8 +3,7 @@
 { config, pkgs, ... }:
 
 let
-  unstableTarball =
-  fetchTarball
+  unstableTarball = fetchTarball
     https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
 
   machine = (import ./machine.nix);
@@ -13,7 +12,6 @@ in {
     allowUnfree = true;
 
     chromium = {
-    #   enablePepperFlash = true;
       enablePepperPDF = true;
     };
 
@@ -29,15 +27,14 @@ in {
     ack
     ag
     autojump
+    # autorandr
     bear
     cabal-install
     cabal2nix
     cargo
     carnix
-    chromium
     curl
     dmenu
-    # dropbox-cli # bad version, should PR or unstable
     exa
     fd
     firefox
@@ -94,6 +91,7 @@ in {
     unstable.bat
     unstable.dropbox-cli
     unstable.spotify # non-free
+    (unstable.chromium.override { enablePepperFlash = true; })
   ] ++ [
     # Custom Packages
     # (import ./emacs.nix { inherit pkgs; })
