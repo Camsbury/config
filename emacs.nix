@@ -3,8 +3,7 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  camEmacs = pkgs.emacs;
-  emacsWithPackages = (pkgs.emacsPackagesNgGen camEmacs).emacsWithPackages;
+  emacsWithPackages = (pkgs.emacsPackagesNgGen pkgs.emacs).emacsWithPackages;
 in
   emacsWithPackages (epkgs: (with epkgs.melpaStablePackages; [
     company
