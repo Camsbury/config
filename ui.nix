@@ -3,7 +3,7 @@
 { config, pkgs, ... }:
 
 let
-  machine = (import ./machine.nix);
+  machine = import ./machine.nix;
 in
   {
     services.xserver = {

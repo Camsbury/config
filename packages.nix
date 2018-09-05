@@ -6,7 +6,7 @@ let
   unstableTarball = fetchTarball
     https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
 
-  machine = (import ./machine.nix);
+  machine = import ./machine.nix;
 in {
   nixpkgs.config = {
     allowUnfree = true;
