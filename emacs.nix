@@ -20,6 +20,7 @@ in
     evil-commentary
     evil-multiedit
     evil-surround
+    evil-visualstar
     f
     flycheck
     flycheck-haskell
