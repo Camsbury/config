@@ -12,6 +12,7 @@ in {
     allowUnfree = true;
 
     chromium = {
+      enablePepperFlash = true;
       enablePepperPDF = true;
     };
 
@@ -92,7 +93,9 @@ in {
     unstable.bat
     unstable.dropbox-cli
     unstable.spotify # non-free
-    (unstable.chromium.override { enablePepperFlash = true; })
+    unstable.chromium
+    ## unneeded because the config is passed into unstable!
+    # (unstable.chromium.override { enablePepperFlash = true; })
   ] ++ [
     # Custom Packages
     # (import ./emacs.nix { inherit pkgs; })
