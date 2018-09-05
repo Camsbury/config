@@ -57,7 +57,7 @@ in {
     irony-server
     libnotify
     man-pages
-    notify-osd # to upgrade to zenity
+    notify-osd # to upgrade...
     nox
     oh-my-zsh
     openssh
@@ -66,8 +66,8 @@ in {
     redshift
     ripgrep
     shellcheck
+    slack
     slock
-    # spotify # non-free
     sqlite
     teensy-loader-cli
     tldr
