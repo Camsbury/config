@@ -20,4 +20,6 @@
 (require 'theme-conf)
 (require 'ui-conf)
 
+(require 'modes)
+
 (provide 'config)

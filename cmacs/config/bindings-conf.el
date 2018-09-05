@@ -59,7 +59,7 @@
   ")"   'eval-defun
   ;; "a"
   "A"   'org-agenda-list
-  ;; "b"
+  "b"   'blind-mode
   ;; "B"
   ;; "c"
   ;; "C"
