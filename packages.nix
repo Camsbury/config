@@ -88,6 +88,7 @@ in {
     zsh
   ] ++ [
     # Unstable Packages
+    unstable._1password
     unstable.bat
     unstable.dropbox-cli
     unstable.spotify # non-free
