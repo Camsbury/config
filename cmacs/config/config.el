@@ -1,4 +1,4 @@
-(require 'agda2-mode)
+(require 'agda-conf)
 (require 'autocomplete-conf)
 (require 'bindings-conf)
 (require 'c-conf)
