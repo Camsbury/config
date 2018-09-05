@@ -27,6 +27,7 @@ in
     flycheck-popup-tip
     git-timemachine
     helm-dash
+    hl-todo
     irony
     ivy
     magit
