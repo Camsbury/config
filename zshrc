@@ -84,7 +84,23 @@ alias blue='redshift -O 6000k'
 ################################################################################
 # nix
 
-function store-path() {
+function nix-store-references() {
+  nix-store -q --references `which "${1}"`
+}
+
+function nix-store-referrers() {
+  nix-store -q --referrers `which "${1}"`
+}
+
+function nix-store-deps() {
+  nix-store -qR `which "${1}"`
+}
+
+function nix-store-deps-tree() {
+  nix-store -q --tree `which "${1}"`
+}
+
+function nix-store-path() {
   readlink -f `which "${1}"`
 }
 
@@ -96,7 +112,12 @@ alias nqu='NIXPKGS_ALLOW_UNFREE=1 nix-env -qaP'
 alias nr='nix repl'
 alias ns='nix-shell'
 alias nsp='nix-shell -p'
-alias nst='store-path'
+alias nst='nix-store'
+alias nsref='nix-store-references'
+alias nsrefr='nix-store-referrers'
+alias ndeps='nix-store-deps'
+alias ndtree='nix-store-deps-tree'
+alias nstp='nix-store-path'
 alias nxs='cd ~ && sudo nixos-rebuild switch; cd -'
 alias nxsr='cd ~ && sudo nixos-rebuild switch && sudo reboot'
 alias nxt='cd ~ && sudo nixos-rebuild test; cd -'
