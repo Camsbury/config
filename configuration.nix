@@ -9,6 +9,7 @@ in
     imports =
       [ # Modular NixOS Configuration
         /etc/nixos/hardware-configuration.nix
+        ./cachix.nix
         ./encryption.nix
         ./networking.nix
         ./packages.nix

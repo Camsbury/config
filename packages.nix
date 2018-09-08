@@ -6,6 +6,8 @@ let
   unstableTarball = fetchTarball
     https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
 
+  cachixBall = import (builtins.fetchTarball "https://github.com/NixOS/nixpkgs/tarball/1d4de0d552ae9aa66a5b8dee5fb0650a4372d148") {};
+
   machine = import ./machine.nix;
 in {
   nixpkgs.config = {
@@ -99,6 +101,7 @@ in {
   ] ++ [
     # Custom Packages
     # (import ./emacs.nix { inherit pkgs; })
+    (cachixBall.cachix)
     (import ./emacs.nix { pkgs = unstable; })
   ] ++ (    # Machine Specific
   if machine.gaming

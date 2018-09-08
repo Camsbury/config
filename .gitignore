@@ -8,6 +8,7 @@
 *url/
 *tramp*
 *bookmarks*
+cachix.nix
 encryption.nix
 machine.nix
 networking.nix
