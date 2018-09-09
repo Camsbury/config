@@ -137,6 +137,7 @@ function take-dir() {
 }
 
 alias cat='bat'
+alias cclip='xclip -selection clipboard'
 alias ls='exa --long'
 alias ll='exa --long --all'
 alias la='exa --long --all'
