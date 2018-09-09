@@ -1,3 +1,5 @@
+(require 'dockerfile-mode)
+
 (require 'agda-conf)
 (require 'autocomplete-conf)
 (require 'bindings-conf)

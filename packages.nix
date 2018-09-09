@@ -25,6 +25,9 @@ in {
     };
   };
 
+  virtualisation.docker.enable = true;
+  virtualization.docker.enableOnBoot = true;
+
   environment.systemPackages = with pkgs; [
     # Stable Packages
     ack
@@ -37,6 +40,8 @@ in {
     cargo
     carnix
     curl
+    docker
+    docker_compose
     dmenu
     exa
     fd

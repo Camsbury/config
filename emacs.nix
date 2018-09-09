@@ -15,6 +15,7 @@ in
     dash
     dash-functional
     define-word
+    dockerfile-mode
     doom-themes
     evil
     evil-commentary
