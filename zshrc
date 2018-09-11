@@ -125,9 +125,7 @@ alias nxt='cd ~ && sudo nixos-rebuild test; cd -'
 ################################################################################
 # cabal
 
-alias nhs='nix-shell --attr env'
-alias cn='cabal2nix'
-alias cnd='cabal2nix . > ${PWD##*/}.nix'
+alias nhs='nix-shell --run "cabal new-repl"'
 
 ################################################################################
 # shell
