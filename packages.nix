@@ -45,6 +45,7 @@ in {
     dmenu
     exa
     fd
+    feh # wallpapers
     firefox
     fzf
     gcc
