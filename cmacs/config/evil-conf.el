@@ -1,6 +1,7 @@
 (general-add-hook 'evil-mode-hook
                   (list 'evil-surround-mode
                         'evil-commentary-mode
+                        'evil-visualstar-mode
                         ))
 
 ;; Yanks to end instead of whole line
