@@ -4,7 +4,6 @@ import Data.Foldable
 import Data.Traversable
 import System.IO
 import XMonad
--- import XMonad.Hooks.Script
 import XMonad.Layout
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.NoBorders
@@ -17,7 +16,6 @@ main = do
          { layoutHook = smartBorders $
            ThreeCol 1 (3/100) (1/4) ||| noBorders Full ||| Tall 1 (3/100) (1/2)
          , focusFollowsMouse = False
-         -- , startupHook = execScriptHook "" -- permission denied...
          , startupHook = spawn "sh ~/.scripts/startup.sh"
          } `additionalKeysP` myKeys
 
@@ -27,24 +25,26 @@ myKeys = [ ("M1-M4-S-C-c", grabApp "chromium" "Chromium-browser")
          , ("M1-M4-S-C-s", grabApp "spotify" "Spotify")
          , ("M1-M4-S-C-t", grabApp "xterm" "XTerm")
          , ("M1-M4-S-C-v", grabApp "vlc" "Vlc")
-         , ("M1-c",    spawn   "sh ~/.scripts/check-time.sh")
-         , ("M1-b",    spawn   "sh ~/.scripts/check-battery.sh")
-         , ("M1-m",    spawn   "sh ~/.scripts/pomodoro.sh")
+         , ("M1-c",        spawn   "sh ~/.scripts/check-time.sh")
+         , ("M1-b",        spawn   "sh ~/.scripts/check-battery.sh")
+         , ("M1-m",        spawn   "sh ~/.scripts/pomodoro.sh")
          ]
 
 findAppWindows :: String -> X [Window]
-findAppWindows queriedName = withWindowSet $ \windowSet -> do
-  let windowsV = W.allWindows windowSet
-  filterM (hasWindowName queriedName) windowsV
+findAppWindows queriedName = withWindowSet filterQueried
+  where
+    filterQueried windowSet
+      = filterM (hasWindowName queriedName)
+      $ W.allWindows windowSet
 
 hasWindowName :: String -> Window -> X Bool
-hasWindowName queriedName window = do
-  windowName <- runQuery className window
-  pure $ windowName == queriedName
+hasWindowName queriedName window
+  =   (== queriedName)
+  <$> runQuery className window
 
 grabApp :: String -> String -> X ()
 grabApp spawnName matchName = do
   winV <- findAppWindows matchName
-  if length winV > 0 then
-    windows . W.focusWindow $ head winV
-    else spawn spawnName
+  case winV of
+    (headWin:_) -> windows . W.focusWindow $ head winV
+    _           -> spawn spawnName
