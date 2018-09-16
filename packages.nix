@@ -57,6 +57,7 @@ in {
     haskellPackages.apply-refact
     haskellPackages.Agda
     haskellPackages.Cabal_2_2_0_0
+    haskellPackages.ghcid
     haskellPackages.hlint
     haskellPackages.xmonad
     haskellPackages.xmonad-contrib
@@ -76,6 +77,7 @@ in {
     shellcheck
     slack
     slock
+    sourceHighlight
     sqlite
     teensy-loader-cli
     tldr
