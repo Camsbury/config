@@ -20,8 +20,7 @@
                    (dante-repl-by-file
                     (projectile-project-root)
                     '("shell.nix")
-                    `("nix-shell" "--run" "cabal new-repl"
-                      ,(concat (projectile-project-root) "/shell.nix")))))
+                    `("nix-shell" "--arg" "nixpkgs" "import <nixpkgs-unstable> {}" "--run" "cabal new-repl"))))
        (bare  . ,(lambda (_) '("cabal" "new-repl")))))
 
 
