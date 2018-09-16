@@ -50,7 +50,6 @@ in {
     fzf
     gcc
     gdb
-    ghc
     git
     gitAndTools.hub
     gnumake
@@ -99,9 +98,10 @@ in {
     # Unstable Packages
     unstable._1password
     unstable.bat
-    unstable.dropbox-cli
-    unstable.spotify # non-free
     unstable.chromium
+    unstable.dropbox-cli
+    unstable.ghc
+    unstable.spotify # non-free
     ## unneeded because the config is passed into unstable!
     # (unstable.chromium.override { enablePepperFlash = true; })
   ] ++ [
