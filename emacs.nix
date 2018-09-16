@@ -45,6 +45,7 @@ in
     s
     smex
     use-package
+    wgrep
     yaml-mode
   ]) ++ (with epkgs.melpaPackages; [
     command-log-mode

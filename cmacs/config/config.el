@@ -1,4 +1,5 @@
 (require 'dockerfile-mode)
+(require 'wgrep)
 
 (require 'agda-conf)
 (require 'autocomplete-conf)
