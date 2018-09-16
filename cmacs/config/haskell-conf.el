@@ -10,7 +10,6 @@
   (let ((hie-directory (locate-dominating-file default-directory "hie.sh")))
     (when hie-directory
       (setq-local lsp-haskell-process-path-hie (expand-file-name "hie.sh" hie-directory))
-      (lsp-mode)
       (lsp-haskell-enable))))
 
 (setq-default
