@@ -1,9 +1,17 @@
+(require 'lsp-haskell)
+(require 'lsp-conf)
+(require 'haskell-font-lock)
+
 (setq haskell-process-use-presentation-mode t)
 (setq haskell-interactive-mode-scroll-to-bottom t)
 (setq haskell-process-type 'cabal-repl)
-
-(require 'lsp-haskell)
-(require 'lsp-conf)
+(setq haskell-font-lock-symbols-alist (-reject
+                                       (lambda (elem)
+                                         (string-equal "()" (car elem)))
+                                       haskell-font-lock-symbols-alist))
+(setq haskell-font-lock-symbols-alist (cons '("^." "⌾" haskell-font-lock-dot-is-not-composition) haskell-font-lock-symbols-alist))
+(setq haskell-font-lock-symbols-alist (cons '("<>" "⊕" haskell-font-lock-dot-is-not-composition) haskell-font-lock-symbols-alist))
+(setq haskell-font-lock-symbols t)
 
 (defun setup-lsp-if-hie ()
   "only starts lsp-mode for haskell if hie available"
