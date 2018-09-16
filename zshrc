@@ -104,10 +104,27 @@ function nix-store-path() {
   readlink -f `which "${1}"`
 }
 
+function nix-query () {
+  local CACHE="$HOME/.cache/nq-cache"
+  if ! ( [ -e $CACHE ] && [ $(stat -c %Y $CACHE) -gt $(( $(date +%s) - 3600 )) ] ); then
+    echo "update cache" && nix-env -qa --json > "$CACHE"
+  fi
+  jq -r 'to_entries | .[] | .key + "|" + .value.meta.description' < "$CACHE" |
+    {
+       if [ $# -gt 0 ]; then
+          # double grep because coloring breaks column's char count
+          # $* so that we include spaces (could do .* instead?)
+            grep -i "$*" | column -t -s "|" | grep --color=always -i "$*"
+       else
+            column -t -s "|"
+       fi
+    }
+}
+
 alias nb='nix-build'
 alias ne='nix-env'
 alias nhash='nix-prefetch-url --type sha256'
-alias nq='nix-env -qaP'
+alias nq='nix-query'
 alias nqu='NIXPKGS_ALLOW_UNFREE=1 nix-env -qaP'
 alias nr='nix repl'
 alias ns='nix-shell'

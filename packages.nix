@@ -63,10 +63,10 @@ in {
     haskellPackages.xmonad-extras
     htop
     irony-server
+    jq
     libnotify
     man-pages
     notify-osd # to upgrade...
-    nox
     oh-my-zsh
     openssh
     peek
