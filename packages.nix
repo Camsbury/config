@@ -25,6 +25,13 @@ in {
     };
   };
 
+  nix.nixPath = [
+    "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs"
+    "nixpkgs-unstable=${unstableTarball}"
+    "nixos-config=/etc/nixos/configuration.nix"
+    "/nix/var/nix/profiles/per-user/root/channels"
+  ];
+
   virtualisation.docker.enable = true;
   virtualization.docker.enableOnBoot = true;
 
