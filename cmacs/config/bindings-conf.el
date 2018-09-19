@@ -91,10 +91,10 @@
   "p"   'counsel-projectile-switch-project
   "P"   'projectile-invalidate-cache
   "q"   'evil-save-modified-and-close
-  "Q" (if (daemonp) 'delete-frame 'save-buffers-kill-emacs)
+  "Q"   (if (daemonp) 'delete-frame 'save-buffers-kill-emacs)
   ;; "r"
   "R"   'restart-emacs
-  ;; "s"
+  "s"   'avy-goto-char
   ;; "S"
   "t"   'find-file
   ;; "T"

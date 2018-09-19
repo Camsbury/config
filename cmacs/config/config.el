@@ -18,6 +18,7 @@
 (require 'org-conf)
 (require 'project-conf)
 (require 'scroll-conf)
+(require 'search-conf)
 (require 'shell-conf)
 (require 'style-conf)
 (require 'theme-conf)

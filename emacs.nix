@@ -6,6 +6,7 @@ let
   emacsWithPackages = (pkgs.emacsPackagesNgGen pkgs.emacs).emacsWithPackages;
 in
   emacsWithPackages (epkgs: (with epkgs.melpaStablePackages; [
+    avy
     company
     company-cabal
     company-ghc
