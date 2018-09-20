@@ -39,7 +39,8 @@
   "[e" 'flycheck-previous-error)
 
 (general-def '(normal visual)
-  "gc"  'evil-commentary)
+  "gt" 'toggle-test
+  "gc" 'evil-commentary)
 
 (general-def 'visual
   "S" 'evil-surround-region
