@@ -1,0 +1,7 @@
+# name: function
+# key: f
+# expand-env: ((yas-indent-line 'fixed))
+# --
+-- | ${4:Document me!}
+${1:newFn} :: ${2:a}
+$1 $3= ${5:undefined}

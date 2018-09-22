@@ -1,0 +1,5 @@
+# name: next_accessor
+# key: na
+# expand-env: ((yas-indent-line 'fixed))
+# --
+, _${1:accessor} :: ${2:accessorType}$3

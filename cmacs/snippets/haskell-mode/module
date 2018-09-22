@@ -1,0 +1,45 @@
+# -*- mode: snippet -*-
+# name: new_module
+# key: m
+# expand-env: ((yas-indent-line 'fixed))
+# --
+--------------------------------------------------------------------------------
+-- |
+-- Module: ${1:`(if (not buffer-file-name) "Module"
+                (let ((name (file-name-sans-extension (buffer-file-name)))
+                      (case-fold-search nil))
+                     (if (cl-search "src/" name)
+                         (replace-regexp-in-string "/" "."
+                           (replace-regexp-in-string "^\/[^A-Z]*" ""
+                             (car (last (split-string name "src")))))
+                         (file-name-nondirectory name))))`}
+-- Description: $2
+-- Maintainers: Cameron Kingsbury <cameron@urbint.com>
+-- Maturity: Draft
+--
+--
+-- = Detailed Description
+-- $3
+--
+--
+-- = Usage Example
+-- $4
+--
+--
+-- = Implementation Overview
+-- $5
+--
+--
+-- = Known Concessions
+-- $6
+--
+--------------------------------------------------------------------------------
+module $1
+  ( module $1
+  ) where
+--------------------------------------------------------------------------------
+import Prelude
+--------------------------------------------------------------------------------
+
+
+$0

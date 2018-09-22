@@ -20,6 +20,7 @@
 (require 'scroll-conf)
 (require 'search-conf)
 (require 'shell-conf)
+(require 'snippet-conf)
 (require 'style-conf)
 (require 'theme-conf)
 (require 'ui-conf)

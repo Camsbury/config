@@ -1,0 +1,7 @@
+# name: record
+# key: r
+# expand-env: ((yas-indent-line 'fixed))
+# --
+data ${1:Type} = $1
+  { _${2:accessor} :: ${3:accessorType}
+  }

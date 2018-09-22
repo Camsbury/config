@@ -1,0 +1,6 @@
+# name: typeclass
+# key: cli
+# expand-env: ((yas-indent-line 'fixed))
+# --
+instance ${1:ClassName} ${2:a} where
+  ${3:someFun} = ${4:undefined}

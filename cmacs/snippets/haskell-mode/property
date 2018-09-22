@@ -1,0 +1,8 @@
+# name: Hedgehog Property
+# key: prop
+# expand-env: ((yas-indent-line 'fixed))
+# --
+test_${1:somethingIsAlwaysTrue} :: Property
+test_$1 = property $ do
+  ${2:x} <- ${3:forAll} ${4:Gen.int $ Range.linear 1 100}
+  ${5:x === x}1 $4= ${6:undefined}

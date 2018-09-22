@@ -1,0 +1,53 @@
+# -*- mode: snippet -*-
+# key: p
+# name: project
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+#+TITLE: module project
+
+* description
+** principles
+** reqs
+** format
+** ideas
+** timeline
+** what sucks?
+** what is great?
+
+* [ ] execute
+** [ ] fill in subsections of execution with domain
+** [ ] initial description
+*** [ ] write top-level module documentation
+**** [ ] detailed description
+**** [ ] usage example
+*** [ ] write top-level function signature & undefined
+*** [ ] write top-level function documentation
+** [ ] test setup
+*** [ ] brainstorm testing
+**** [ ] decide on properties
+**** [ ] decide on cases
+**** [ ] look for similar projects' tests for ideas
+**** [ ] write all of this stuff in the bullets below
+*** [ ] write test tree for the top level module
+*** [ ] write test signatures for the top level functions
+*** [ ] add tests to the tests pass node in this file
+*** [ ] impl tests for the top level functions
+** [ ] implement
+*** [ ] write out a vague implementation overview for the module
+**** [ ] look for similar projects' impl for ideas
+**** [ ] write all of this stuff in the bullets below
+*** [ ] breadth first impl with liberal undefined and type signatures (add below)
+**** [ ] example layer
+***** [ ] example function
+*** [ ] tests pass
+** [ ] finish documentation
+*** [ ] update impl overview
+*** [ ] add known concessions
+** [ ] productionize
+*** [ ] constrain exports
+*** [ ] test all
+*** [ ] hlint
+*** [ ] PR & add review checkboxes below
+*** [ ] address Comments
+*** [ ] merge

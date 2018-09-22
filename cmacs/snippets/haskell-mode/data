@@ -1,0 +1,5 @@
+# name: data
+# key: d
+# expand-env: ((yas-indent-line 'fixed))
+# --
+data ${1:Type} = $1 $2

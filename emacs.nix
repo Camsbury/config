@@ -48,6 +48,7 @@ in
     use-package
     wgrep
     yaml-mode
+    yasnippet
   ]) ++ (with epkgs.melpaPackages; [
     command-log-mode
     evil-magit

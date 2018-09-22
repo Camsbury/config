@@ -1,0 +1,5 @@
+# name: newtype
+# key: nt
+# expand-env: ((yas-indent-line 'fixed))
+# --
+newtype ${1:Type} = $1 $2
