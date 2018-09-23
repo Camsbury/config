@@ -33,6 +33,7 @@ in
     hl-todo
     irony
     ivy
+    keychain-environment
     magit
     mediawiki
     nix-mode
