@@ -60,6 +60,7 @@ in {
     git
     gitAndTools.hub
     gnumake
+    gnupg
     gnutls
     haskellPackages.apply-refact
     haskellPackages.Agda
