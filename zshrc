@@ -19,6 +19,9 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+# set up keychain
+eval $(keychain --eval --agents ssh id_rsa)
+
 # User configuration
 
 # ssh
