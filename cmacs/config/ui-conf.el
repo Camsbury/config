@@ -8,7 +8,11 @@
       `(("TODO"  . ,(face-foreground 'warning))
         ("FIXME" . ,(face-foreground 'error))
         ("NOTE"  . ,(face-foreground 'success))))
+(setq
+ whitespace-line-column 80
+ whitespace-style '(face trailing lines-tail))
 (general-add-hook 'prog-mode-hook
-  (list 'hl-todo-mode))
+  (list 'hl-todo-mode
+        'whitespace-mode))
 
 (provide 'ui-conf)
