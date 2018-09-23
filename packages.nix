@@ -72,6 +72,7 @@ in {
     htop
     irony-server
     jq
+    keychain
     libnotify
     man-pages
     notify-osd # to upgrade...
