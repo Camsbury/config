@@ -23,6 +23,7 @@ in
     evil-multiedit
     evil-surround
     evil-visualstar
+    exec-path-from-shell
     f
     flycheck
     flycheck-haskell

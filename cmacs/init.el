@@ -3,6 +3,8 @@
 
 (setq load-path
       (cons "~/.emacs.d/config" load-path))
+(when (memq window-system '(ns))
+  (exec-path-from-shell-initialize))
 
 (setq initial-buffer-choice t)
 (setq auto-window-vscroll nil)

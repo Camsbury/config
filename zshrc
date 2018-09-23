@@ -145,7 +145,7 @@ alias nxt='cd ~ && sudo nixos-rebuild test; cd -'
 
 alias nhs='nix-shell --arg nixpkgs "import <nixpkgs-unstable> {}" --run "cabal new-repl"'
 alias cbw='ghcid -c "cabal repl lib:bobby" | source-highlight -s haskell -f esc'
-alias ctw=' ghcid -c "cabal repl test:bobby-tests" --warnings --test "Main.main" | source-highlight -s haskell -f esc'
+alias ctw='ghcid -c "cabal repl test:bobby-tests" --warnings --test "Main.main" | source-highlight -s haskell -f esc'
 alias cbi='cabal build --ghc-option=-ddump-minimal-imports'
 
 ################################################################################
