@@ -1,30 +1,34 @@
-(require 'dockerfile-mode)
-(require 'wgrep)
+(require 'dash)
+(-map 'require
+      '( dockerfile-mode
+         wgrep
 
-(require 'agda-conf)
-(require 'autocomplete-conf)
-(require 'bindings-conf)
-(require 'c-conf)
-(require 'counsel-conf)
-(require 'docs-conf)
-(require 'elisp-conf)
-(require 'evil-conf)
-(require 'functions-conf)
-(require 'git-conf)
-(require 'haskell-conf)
-(require 'lisp-conf)
-(require 'lsp-conf)
-(require 'minibuffer-conf)
-(require 'org-conf)
-(require 'project-conf)
-(require 'scroll-conf)
-(require 'search-conf)
-(require 'shell-conf)
-(require 'snippet-conf)
-(require 'style-conf)
-(require 'theme-conf)
-(require 'ui-conf)
+         agda-conf
+         autocomplete-conf
+         bindings-conf
+         c-conf
+         counsel-conf
+         docs-conf
+         elisp-conf
+         evil-conf
+         functions-conf
+         git-conf
+         haskell-conf
+         lisp-conf
+         lsp-conf
+         minibuffer-conf
+         org-conf
+         project-conf
+         scroll-conf
+         search-conf
+         shell-conf
+         snippet-conf
+         style-conf
+         theme-conf
+         ui-conf
 
-(require 'modes)
+         modes
+         ))
+
 
 (provide 'config)
