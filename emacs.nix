@@ -37,6 +37,7 @@ in
     keychain-environment
     magit
     mediawiki
+    nav-flash
     nix-mode
     nov
     org-bullets
