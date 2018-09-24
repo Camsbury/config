@@ -40,8 +40,7 @@
                   (list 'setup-lsp-if-hie
                         'dante-mode
                         'hlint-refactor-mode
-                        'flycheck-mode
-                        'rainbow-delimiters-mode))
+                        'flycheck-mode))
 
 (my-mode-leader-def
  :states  'normal
