@@ -106,7 +106,7 @@
   "W"   'eww-new
   ;; "x"
   ;; "X"
-  ;; "y"
+  "y"   'nav-flash-line
   ;; "Y"
   "z"   'git-timemachine-toggle
   ;; "Z"

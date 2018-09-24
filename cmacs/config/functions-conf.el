@@ -147,3 +147,7 @@
   (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
 
 (provide 'functions-conf)
+
+(defun nav-flash-line ()
+  (interactive)
+  (nav-flash-show))
