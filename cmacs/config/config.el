@@ -19,6 +19,7 @@
          minibuffer-conf
          org-conf
          project-conf
+         racket-conf
          scroll-conf
          search-conf
          shell-conf
