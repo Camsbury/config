@@ -95,7 +95,7 @@
   ;; "r"
   "R"   'restart-emacs
   "s"   'avy-goto-char
-  ;; "S"
+  "S"   'spawn-se-principles
   "t"   'find-file
   ;; "T"
   ;; "u"

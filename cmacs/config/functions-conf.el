@@ -101,6 +101,12 @@
   (spawn-right)
   (find-file "~/projects/nix_dots/emacs.nix"))
 
+(defun spawn-se-principles ()
+  "Spawns the se principles file to the right"
+  (interactive)
+  (spawn-right)
+  (find-file "~/projects/lxndr/ref/software_engineering.org"))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Test Jumping
 (defun jump-to-test-haskell ()
