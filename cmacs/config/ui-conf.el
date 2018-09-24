@@ -13,6 +13,7 @@
  whitespace-style '(face trailing lines-tail))
 (general-add-hook 'prog-mode-hook
   (list 'hl-todo-mode
-        'whitespace-mode))
+        'whitespace-mode
+        'rainbow-delimiters-mode))
 
 (provide 'ui-conf)
