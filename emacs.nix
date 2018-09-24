@@ -60,6 +60,7 @@ in
     lsp-haskell
     lsp-mode
     lsp-ui
+    racket-mode
   ]) ++ (with epkgs.elpaPackages; [
     undo-tree
   ]) ++ (with epkgs; [

@@ -18,6 +18,7 @@ in
         htop
         httpie
         python36
+        racket-minimal
         ripgrep
         shellcheck
         sourceHighlight

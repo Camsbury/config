@@ -80,6 +80,7 @@ in {
     oh-my-zsh
     openssh
     peek
+    pltScheme
     python3
     redshift
     ripgrep
