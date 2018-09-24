@@ -56,7 +56,7 @@
   "RET" 'spawn-recent-file
   "["   'describe-function
   "]"   'switch-to-buffer
-  ;; "("
+  "("   'eval-print-last-sexp
   ")"   'eval-defun
   ;; "a"
   "A"   'org-agenda-list
