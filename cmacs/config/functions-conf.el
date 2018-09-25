@@ -107,6 +107,14 @@
   (spawn-right)
   (find-file "~/projects/lxndr/ref/software_engineering.org"))
 
+(defun spawn-project-tasks ()
+  "Spawns the project's tasks file to the right"
+  (interactive)
+  (let* ((p-dir (projectile-project-root))
+        (pname (s-chop-suffix "/" (s-chop-prefix (f-parent p-dir) p-dir))))
+       (spawn-right)
+       (find-file (s-concat "~/projects/lxndr/tasks" pname ".org"))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Test Jumping
 (defun jump-to-test-haskell ()
