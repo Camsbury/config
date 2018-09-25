@@ -110,10 +110,12 @@
 (defun spawn-project-tasks ()
   "Spawns the project's tasks file to the right"
   (interactive)
-  (let* ((p-dir (projectile-project-root))
-        (pname (s-chop-suffix "/" (s-chop-prefix (f-parent p-dir) p-dir))))
+  (let ((path (->> (projectile-project-root)
+                  f-filename
+                  (f-join "~/projects/lxndr/tasks")
+                  (s-append ".org"))))
        (spawn-right)
-       (find-file (s-concat "~/projects/lxndr/tasks" pname ".org"))))
+       (find-file path)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Test Jumping
