@@ -98,7 +98,7 @@
   "S"   #'spawn-se-principles
   "t"   #'find-file
   ;; "T"
-  ;; "u"
+  "u"   #'prettify-windows
   ;; "U"
   ;; "v"
   ;; "V"

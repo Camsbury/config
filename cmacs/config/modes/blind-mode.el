@@ -10,9 +10,11 @@
                 (if blind-mode-on
                     (progn
                       (setq blind-mode-on nil)
-                      (set-face-attribute 'default nil :height normal-font-height))
+                      (set-face-attribute
+                       'default nil :height normal-font-height))
                   (progn
                     (setq blind-mode-on t)
-                    (set-face-attribute 'default nil :height blind-mode-font-height)))))
+                    (set-face-attribute
+                     'default nil :height blind-mode-font-height)))))
 
 (provide 'modes/blind-mode)

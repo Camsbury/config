@@ -119,6 +119,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Test Jumping
+
 (defun jump-to-test-haskell ()
   "Jump from a haskell module to a test."
   (let ((filename (->> buffer-file-name
