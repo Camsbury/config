@@ -18,6 +18,7 @@
          lsp-conf
          minibuffer-conf
          org-conf
+         package-conf
          project-conf
          racket-conf
          scroll-conf
