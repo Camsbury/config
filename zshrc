@@ -181,7 +181,7 @@ source $AUTOJUMP/autojump.zsh
 ################################################################################
 # 1Pass retrieval
 function op-retrieve() {
-  op get item "${1}" | jq '.details.password' | tr -d \" | xclip -selection clipboard
+  op get item "${1}" | jq '.details.password' | tr -d \" | tr -d '\n' | xclip -selection clipboard
 }
 
 alias opl="op list items | jq -c 'map(.overview.title) | sort'"
