@@ -17,7 +17,8 @@ in
         gitAndTools.hub
         htop
         httpie
-        python36
+        # pipenv
+        # python36
         racket-minimal
         ripgrep
         shellcheck
