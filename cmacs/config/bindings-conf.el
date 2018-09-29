@@ -68,7 +68,7 @@
   ;; "D"
   "e"   #'counsel-projectile-find-file
   ;; "E"
-  ;; "f"
+  "f"   #'counsel-rg
   ;; "F"
   "g"   #'magit-status
   "G"   #'magit-blame
