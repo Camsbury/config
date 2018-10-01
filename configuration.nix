@@ -4,6 +4,7 @@
 
 let
   machine = import ./machine.nix;
+  opSession = import ./op.nix;
 in
   {
     imports =
@@ -40,7 +41,7 @@ in
       FZF = [ "${pkgs.fzf}/share/fzf" ];
       AUTOJUMP = [ "${pkgs.autojump}/share/autojump" ];
       EDITOR = "vim";
-    };
+    } // opSession;
 
     # Some programs need SUID wrappers, can be configured further or are
     # started in user sessions.

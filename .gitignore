@@ -12,6 +12,7 @@ cachix.nix
 encryption.nix
 machine.nix
 networking.nix
+op.nix
 nov-places
 result
 users.nix
