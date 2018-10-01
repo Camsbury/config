@@ -89,6 +89,7 @@ in {
     slock
     sourceHighlight
     sqlite
+    stack2nix
     teensy-loader-cli
     tldr
     tree
