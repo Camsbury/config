@@ -32,8 +32,11 @@ in
     git-timemachine
     helm-dash
     hl-todo
+    hydra
     irony
     ivy
+    ivy-hydra
+    jedi # python-lsp
     keychain-environment
     magit
     mediawiki
@@ -51,6 +54,7 @@ in
     use-package
     wgrep
     yaml-mode
+    yapfify # python-lsp
     yasnippet
   ]) ++ (with epkgs.melpaPackages; [
     command-log-mode
@@ -60,6 +64,7 @@ in
     irony-eldoc
     lsp-haskell
     lsp-mode
+    lsp-python # python-lsp
     lsp-ui
     racket-mode
   ]) ++ (with epkgs.elpaPackages; [

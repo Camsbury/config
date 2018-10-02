@@ -14,12 +14,14 @@
          functions-conf
          git-conf
          haskell-conf
+         hydra-conf
          lisp-conf
          lsp-conf
          minibuffer-conf
          org-conf
          package-conf
          project-conf
+         python-conf
          racket-conf
          scroll-conf
          search-conf

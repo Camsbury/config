@@ -17,8 +17,12 @@ in
         gitAndTools.hub
         htop
         httpie
-        # pipenv
-        # python36
+        python36
+        python36Packages.jedi
+        python36Packages.python-language-server
+        python36Packages.pyls-isort
+        python36Packages.pyls-mypy
+        python36Packages.yapf
         racket-minimal
         ripgrep
         shellcheck

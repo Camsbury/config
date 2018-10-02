@@ -1,6 +1,7 @@
 ;; Bindings for my emacs config
 
 (require 'functions-conf)
+(require 'hydra-conf)
 
 (setq x-super-keysym 'meta)
 (setq x-meta-keysym 'super)
@@ -82,8 +83,7 @@
   "K"   #'kill-this-buffer
   "l"   #'spawn-right
   "L"   #'org-todo-list
-  ;; "m"
-  ;; "M"
+  "M"   #'hydra-merge/body
   "n"   #'counsel-recentf
   ;; "N"
   "o"   #'spawn-project-tasks
