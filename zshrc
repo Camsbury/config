@@ -180,6 +180,7 @@ source $AUTOJUMP/autojump.zsh
 
 ################################################################################
 # 1Pass retrieval
+
 function op-retrieve() {
   op get item "${1}" | jq '.details.password' | tr -d \" | tr -d '\n' | xclip -selection clipboard
 }
@@ -187,3 +188,9 @@ function op-retrieve() {
 alias opl="op list items | jq -c 'map(.overview.title) | sort'"
 alias opp='op-retrieve'
 alias opg="op get item GPG | jq '.details.password'"
+alias ops='eval $(op signin urbint)'
+
+################################################################################
+# xndr
+
+alias xndr='~/projects/xndr/dist/build/xndr/xndr'
