@@ -81,7 +81,6 @@ in {
     openssh
     peek
     pltScheme
-    python3
     redshift
     ripgrep
     shellcheck
@@ -114,6 +113,12 @@ in {
     unstable.chromium
     unstable.dropbox-cli
     unstable.ghc
+    unstable.python36
+    unstable.python36Packages.jedi
+    unstable.python36Packages.pyls-isort
+    unstable.python36Packages.pyls-mypy
+    unstable.python36Packages.yapf
+    unstable.python36Packages.python-language-server
     unstable.spotify # non-free
     ## unneeded because the config is passed into unstable!
     # (unstable.chromium.override { enablePepperFlash = true; })
