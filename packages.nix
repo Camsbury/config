@@ -90,6 +90,7 @@ in {
     sqlite
     stack2nix
     teensy-loader-cli
+    sloccount
     tldr
     tree
     udisks # manage drives
