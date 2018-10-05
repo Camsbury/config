@@ -15,6 +15,7 @@
          git-conf
          haskell-conf
          hydra-conf
+         js-conf
          lisp-conf
          lsp-conf
          minibuffer-conf
