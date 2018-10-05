@@ -5,9 +5,12 @@
                   (list 'lsp-python-enable
                         'lsp-ui-peek-mode
                         'yapf-mode
-                        'flycheck-mode
-                        (lambda () (general-add-hook
-                                    'before-save-hook 'yapfify-buffer))))
+                        'flycheck-mode))
+
+(general-add-hook 'before-save-hook
+                  (lambda ()
+                    (when (eq major-mode 'python-mode)
+                      yapfify-buffer)))
 
 (my-mode-leader-def
  :states  'normal
