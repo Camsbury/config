@@ -37,6 +37,7 @@ in
     ivy
     ivy-hydra
     jedi # python-lsp
+    js2-mode
     keychain-environment
     magit
     mediawiki
@@ -49,6 +50,7 @@ in
     rainbow-delimiters
     rainbow-identifiers
     restart-emacs
+    rjsx-mode
     s
     smex
     use-package
@@ -66,6 +68,7 @@ in
     lsp-mode
     lsp-python # python-lsp
     lsp-ui
+    prettier-js
     racket-mode
   ]) ++ (with epkgs.elpaPackages; [
     undo-tree
