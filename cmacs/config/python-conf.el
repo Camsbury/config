@@ -3,9 +3,10 @@
 
 (general-add-hook 'python-mode-hook
                   (list 'lsp-python-enable
-                        'lsp-ui-peek-mode
                         'yapf-mode
                         'flycheck-mode))
+
+                        ;; 'lsp-ui-peek-mode
 
 (general-add-hook 'before-save-hook
                   (lambda ()
