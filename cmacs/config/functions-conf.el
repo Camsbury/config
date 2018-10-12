@@ -27,6 +27,7 @@
     (select-window (frame-first-window))
     (while (window-next-sibling)
       (set-window-width 81)
+      (evil-beginning-of-line)
       (select-window (window-next-sibling)))
     (select-window my-window)))
 
