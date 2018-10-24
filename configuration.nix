@@ -25,6 +25,7 @@ in
     boot.loader.grub.device = "nodev";
     boot.loader.grub.efiSupport = true;
     boot.loader.efi.canTouchEfiVariables = true;
+    boot.kernelPackages = pkgs.linuxPackages_latest;
 
     # Select internationalisation properties.
     i18n = {
