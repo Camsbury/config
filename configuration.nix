@@ -61,7 +61,11 @@ in
       enable = true;
       # For Steam
       support32Bit = true;
+      # For bluetooth
+      package = pkgs.pulseaudioFull;
     };
+
+    hardware.bluetooth.enable = true;
 
     # For Steam
     hardware.opengl.driSupport32Bit = true;
