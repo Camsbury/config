@@ -2,6 +2,7 @@
 (-map 'require
       '( dockerfile-mode
          wgrep
+         buffer-move
 
          agda-conf
          autocomplete-conf

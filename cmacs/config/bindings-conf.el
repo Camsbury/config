@@ -32,6 +32,8 @@
   "[f"  #'text-scale-decrease
   "]r"  #'undo-tree-restore-state-from-register
   "[r"  #'undo-tree-save-state-to-register
+  "]n"  #'buf-move-right
+  "[n"  #'buf-move-left
   "M-d" #'evil-multiedit-match-symbol-and-next
   "M-D" #'evil-multiedit-match-symbol-and-prev)
 

@@ -7,6 +7,7 @@ let
 in
   emacsWithPackages (epkgs: (with epkgs.melpaStablePackages; [
     avy
+    buffer-move
     company
     company-cabal
     company-ghc
