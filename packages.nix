@@ -40,6 +40,7 @@ in {
     ack
     ag
     autojump
+    audacity
     # autorandr
     bear
     cabal-install
