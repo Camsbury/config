@@ -58,6 +58,7 @@ in {
     fzf
     gcc
     gdb
+    gimp
     git
     gitAndTools.hub
     gnumake
