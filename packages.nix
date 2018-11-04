@@ -33,7 +33,7 @@ in {
   ];
 
   virtualisation.docker.enable = true;
-  virtualization.docker.enableOnBoot = true;
+  virtualisation.docker.enableOnBoot = true;
 
   environment.systemPackages = with pkgs; [
     # Stable Packages
