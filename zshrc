@@ -152,6 +152,10 @@ alias ctw='ghcid -c "cabal repl test:bobby-tests" --warnings --test "Main.main" 
 alias cbi='cabal build --ghc-option=-ddump-minimal-imports'
 
 ################################################################################
+# docker
+alias dps='docker ps'
+
+################################################################################
 # shell
 
 function take-dir() {
