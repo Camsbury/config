@@ -132,7 +132,7 @@ alias nqu='NIXPKGS_ALLOW_UNFREE=1 nix-env -qaP'
 alias nr='nix repl'
 alias ns='nix-shell'
 alias nsu="nix-shell --arg nixpkgs 'import <nixpkgs-unstable> {}'"
-alias nsp='nix-shell -p'
+alias nsp='nix-shell --pure'
 alias nst='nix-store'
 alias nsref='nix-store-references'
 alias nsrefr='nix-store-referrers'
