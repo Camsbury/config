@@ -98,7 +98,7 @@
   "R"   #'restart-emacs
   "s"   #'avy-goto-char
   "S"   #'spawn-se-principles
-  "t"   #'find-file
+  "t"   #'counsel-find-file
   ;; "T"
   "u"   #'prettify-windows
   ;; "U"
