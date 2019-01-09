@@ -7,6 +7,7 @@
   ("l" #'smerge-keep-lower "keep lower")
   ("p" #'smerge-prev "previous")
   ("n" #'smerge-next "next")
+  ("z" #'evil-scroll-line-to-center "center")
   ("q" nil "quit" :color red))
 
 (provide 'hydra-conf)
