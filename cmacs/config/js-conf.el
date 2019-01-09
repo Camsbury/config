@@ -6,6 +6,8 @@
 
 (setq js2-mode-show-parse-errors nil)
 (setq js2-mode-show-strict-warnings nil)
+(setq flycheck-javascript-eslint-executable
+      "~/projects/urbint/grid/client/node_modules/.bin/eslint")
 (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
 
 ;; All the prettiers
