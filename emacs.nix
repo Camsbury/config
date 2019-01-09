@@ -71,6 +71,7 @@ in
     lsp-ui
     prettier-js
     racket-mode
+    ranger
   ]) ++ (with epkgs.elpaPackages; [
     undo-tree
   ]) ++ (with epkgs; [
