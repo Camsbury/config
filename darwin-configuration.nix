@@ -17,6 +17,7 @@ in
         gitAndTools.hub
         htop
         httpie
+        mu
         python36
         python36Packages.jedi
         python36Packages.python-language-server
