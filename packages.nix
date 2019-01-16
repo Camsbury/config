@@ -108,6 +108,7 @@ in {
     xorg.xbacklight
     xorg.xmodmap
     xss-lock
+    zip
     zsh
   ] ++ [
     # Unstable Packages
