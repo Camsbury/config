@@ -26,6 +26,8 @@
 
 (general-def 'normal
   "U"   #'undo-tree-visualize
+  "[b"  #'rename-buffer
+  "]b"  #'view-buffer
   "]t"  #'evil-next-buffer
   "[t"  #'evil-prev-buffer
   "]f"  #'text-scale-increase
