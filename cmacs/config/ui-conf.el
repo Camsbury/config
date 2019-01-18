@@ -3,6 +3,7 @@
 (electric-pair-mode)
 (global-linum-mode)
 (global-auto-revert-mode)
+(global-hl-line-mode)
 
 (setq hl-todo-keyword-faces
       `(("TODO"  . ,(face-foreground 'warning))
