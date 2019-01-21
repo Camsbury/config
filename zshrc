@@ -198,3 +198,23 @@ alias ops='eval $(op signin urbint)'
 # xndr
 
 alias xndr='~/projects/xndr/dist/build/xndr/xndr'
+
+################################################################################
+# tmux
+function tt() {
+  sessionName="${1}"
+  if ! tmux has-session -t "${sessionName}" 2> /dev/null; then
+    oldTMUX="${TMUX}"
+    unset TMUX
+    tmux new -d -s "${sessionName}"
+    export TMUX="${oldTMUX}"
+    unset oldTMUX
+  fi
+  if [[ -n "${TMUX}" ]]; then
+    tmux switch-client -t "${sessionName}"
+  else
+    tmux attach -t "${sessionName}"
+  fi
+}
+
+alias tls='tmux list-sessions'
