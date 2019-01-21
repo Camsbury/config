@@ -94,6 +94,7 @@ in {
     teensy-loader-cli
     sloccount
     tldr
+    tmux
     tree
     udisks # manage drives
     unzip
