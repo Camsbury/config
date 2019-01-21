@@ -67,7 +67,6 @@ in
     irony-eldoc
     lsp-haskell
     lsp-mode
-    lsp-python # python-lsp
     lsp-ui
     prettier-js
     racket-mode
@@ -75,5 +74,5 @@ in
   ]) ++ (with epkgs.elpaPackages; [
     undo-tree
   ]) ++ (with epkgs; [
-    agda2-mode
+    # agda2-mode
   ]))

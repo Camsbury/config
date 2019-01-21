@@ -4,7 +4,6 @@
          wgrep
          buffer-move
 
-         agda-conf
          autocomplete-conf
          bindings-conf
          c-conf

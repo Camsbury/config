@@ -1,8 +1,8 @@
-(require 'lsp-python)
+(require 'lsp-clients)
 (require 'lsp-conf)
 
 (general-add-hook 'python-mode-hook
-                  (list 'lsp-python-enable
+                  (list 'lsp-mode
                         'yapf-mode
                         'flycheck-mode))
 
