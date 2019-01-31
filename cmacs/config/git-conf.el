@@ -13,5 +13,15 @@
  [remap evil-window-up] #'git-timemachine-show-previous-revision
  [remap evil-window-down] #'git-timemachine-show-next-revision)
 
+(general-define-key
+ :states  'normal
+ :keymaps 'magit-diff-mode-map
+ "zz" #'evil-scroll-line-to-center
+ "zt" #'evil-scroll-line-to-top
+ "zb" #'evil-scroll-line-to-bottom
+ "L"  #'evil-window-bottom
+ "H"  #'evil-window-top
+ )
+
 
 (provide 'git-conf)
