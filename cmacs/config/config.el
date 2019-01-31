@@ -7,6 +7,7 @@
          autocomplete-conf
          bindings-conf
          c-conf
+         clj-conf
          counsel-conf
          docs-conf
          elisp-conf

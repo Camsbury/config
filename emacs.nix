@@ -60,6 +60,8 @@ in
     yapfify # python-lsp
     yasnippet
   ]) ++ (with epkgs.melpaPackages; [
+    cider
+    clj-refactor
     command-log-mode
     evil-magit
     general
@@ -68,6 +70,7 @@ in
     lsp-haskell
     lsp-mode
     lsp-ui
+    paxedit
     prettier-js
     racket-mode
     ranger

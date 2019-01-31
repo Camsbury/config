@@ -5,6 +5,6 @@
 (require 's)
 
 (general-add-hook 'emacs-lisp-mode-hook
-  (list 'rainbow-delimiters-mode 'paredit-mode))
+  (list 'paredit-mode))
 
 (provide 'elisp-conf)

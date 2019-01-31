@@ -6,6 +6,8 @@
 (setq x-super-keysym 'meta)
 (setq x-meta-keysym 'super)
 
+(general-evil-setup t)
+
 (general-create-definer my-leader-def
   :prefix "SPC")
 
