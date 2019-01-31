@@ -15,7 +15,7 @@
   :prefix "SPC m")
 
 (general-create-definer my-config-def
-  :prefix "SPC SPC c")
+  :prefix "SPC c")
 
 (general-define-key
  "s-x" #'counsel-M-x
@@ -69,7 +69,7 @@
   "A"   #'org-agenda-list
   "b"   #'blind-mode
   ;; "B"
-  ;; "c"
+  ;; "c" -- the config leader
   ;; "C"
   "d"   #'evil-goto-definition
   ;; "D"
@@ -89,6 +89,7 @@
   "K"   #'kill-this-buffer
   "l"   #'spawn-right
   "L"   #'org-todo-list
+  ;; "m" -- the mode leader
   "M"   #'hydra-merge/body
   "n"   #'counsel-recentf
   ;; "N"
