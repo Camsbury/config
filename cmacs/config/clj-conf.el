@@ -88,6 +88,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
   "e" #'cider-eval-last-sexp
   "l" #'cider-load-buffer
   "n" #'cider-eval-ns-form
+  "o" #'cider-inspect-last-result
   "q" #'cider-jack-in-clj&cljs
   ")" #'cider-eval-defun-at-point)
 
@@ -108,5 +109,9 @@ If invoked with a prefix ARG eval the expression after inserting it"
         "!" (general-key-dispatch 'fireplace-replace
               "!" 'cider-eval-current-sexp-and-replace
               "c" 'cider-eval-last-sexp-and-replace)))
+
+(nmap :states 'normal :keymaps 'cider-mode-map
+  "<RET>" #'cider-inspector-operate-on-point
+  "M-k"   #'cider-inspector-pop)
 
 (provide 'clj-conf)
