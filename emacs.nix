@@ -4,6 +4,7 @@
 
 let
   emacsWithPackages = (pkgs.emacsPackagesNgGen pkgs.emacs).emacsWithPackages;
+  machine = import ./machine.nix;
 in
   emacsWithPackages (epkgs: (with epkgs.melpaStablePackages; [
     avy
@@ -37,7 +38,6 @@ in
     irony
     ivy
     ivy-hydra
-    jedi # python-lsp
     js2-mode
     keychain-environment
     magit
@@ -57,7 +57,6 @@ in
     use-package
     wgrep
     yaml-mode
-    yapfify # python-lsp
     yasnippet
   ]) ++ (with epkgs.melpaPackages; [
     cider
@@ -67,6 +66,7 @@ in
     general
     hlint-refactor
     irony-eldoc
+    jedi # python-lsp
     lsp-haskell
     lsp-mode
     lsp-ui
@@ -74,8 +74,13 @@ in
     prettier-js
     racket-mode
     ranger
+    yapfify # python-lsp
   ]) ++ (with epkgs.elpaPackages; [
     undo-tree
   ]) ++ (with epkgs; [
     # agda2-mode
-  ]))
+  ]) ++ (
+  if machine.darwin
+  then
+    [epkgs.melpaPackages.lsp-python] else [])
+  )

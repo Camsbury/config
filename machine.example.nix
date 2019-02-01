@@ -2,7 +2,8 @@
 
 {
   ergodox = false;
-  gaming = false;
-  laptop = false;
-  nvidia = false;
+  gaming  = false;
+  laptop  = false;
+  nvidia  = false;
+  darwin  = false;
 }

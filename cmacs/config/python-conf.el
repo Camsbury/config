@@ -1,8 +1,11 @@
-(require 'lsp-clients)
+(if (string-equal system-type "gnu/linux")
+    (require 'lsp-clients))
 (require 'lsp-conf)
 
 (general-add-hook 'python-mode-hook
-                  (list 'lsp-mode
+                  (list (if (string-equal system-type "darwin")
+                            'lsp-python
+                            'lsp-mode)
                         'yapf-mode
                         'flycheck-mode))
 
