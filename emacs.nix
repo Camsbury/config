@@ -76,6 +76,7 @@ in
     ranger
     yapfify # python-lsp
   ]) ++ (with epkgs.elpaPackages; [
+    rainbow-mode
     undo-tree
   ]) ++ (with epkgs; [
     # agda2-mode

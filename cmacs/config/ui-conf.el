@@ -16,6 +16,7 @@
 (general-add-hook 'prog-mode-hook
   (list 'hl-todo-mode
         'whitespace-mode
-        'rainbow-delimiters-mode))
+        'rainbow-delimiters-mode
+        'rainbow-mode))
 
 (provide 'ui-conf)
