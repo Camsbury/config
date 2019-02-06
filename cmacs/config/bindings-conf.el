@@ -92,7 +92,7 @@
   ;; "m" -- the mode leader
   "M"   #'hydra-merge/body
   "n"   #'counsel-recentf
-  ;; "N"
+  "N"   #'spawn-new
   "o"   #'spawn-project-tasks
   ;; "O"
   "p"   #'counsel-projectile-switch-project

@@ -54,6 +54,12 @@
   (prettify-windows)
   (windmove-right))
 
+(defun spawn-new (arg)
+  "opens a new fundamental buffer"
+  (interactive "sBuffer name: ")
+  (spawn-right)
+  (switch-to-buffer (generate-new-buffer arg)))
+
 (defun spawn-project-file ()
   "Spawns a project file to the right"
   (interactive)
