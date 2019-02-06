@@ -63,6 +63,7 @@ in
     clj-refactor
     command-log-mode
     evil-magit
+    evil-smartparens
     general
     hlint-refactor
     irony-eldoc
@@ -74,6 +75,7 @@ in
     prettier-js
     racket-mode
     ranger
+    smartparens
     yapfify # python-lsp
   ]) ++ (with epkgs.elpaPackages; [
     rainbow-mode

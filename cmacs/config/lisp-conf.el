@@ -4,20 +4,6 @@
 (general-evil-define-key 'normal lisp-interaction-mode-map
   [remap eval-print-last-sexp] 'evil-window-down)
 
-(general-define-key :keymaps 'paredit-mode-map
-  "C-h" 'evil-window-left
-  "C-j" 'evil-window-down
-  "C-k" 'evil-window-up
-  "C-l" 'evil-window-right
-  "M-t" 'paredit-forward
-  "M-p" 'paredit-forward-up
-  "M-v" 'paredit-forward-down
-  "M-a" 'paredit-backward
-  "M-q" 'paredit-backward-up
-  "M-z" 'paredit-backward-down
-  "M-r" 'paredit-forward-slurp-sexp
-  "M-s" 'paredit-forward-barf-sexp)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Paxedit movement functions
 
@@ -63,21 +49,23 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Paxedit mappings
 
-
-(nmap :keymaps 'paxedit-mode-map
-      ">" (general-key-dispatch 'evil-shift-right
-            "e" 'paxedit-transpose-forward
-            ")" 'sp-forward-slurp-sexp
-            "(" 'sp-backward-barf-sexp
-            "I" 'grfn/insert-at-sexp-end
-            "a" 'grfn/insert-at-form-end))
-
-(nmap :keymaps 'paxedit-mode-map
-      "<" (general-key-dispatch 'evil-shift-left
-            "e" 'paxedit-transpose-backward
-            ")" 'sp-forward-barf-sexp
-            "(" 'sp-backward-slurp-sexp
-            "I" 'grfn/insert-at-sexp-start
-            "a" 'grfn/insert-at-form-start))
+(general-define-key :keymaps 'paredit-mode-map
+  "C-h" #'evil-window-left
+  "C-j" #'evil-window-down
+  "C-k" #'evil-window-up
+  "C-l" #'evil-window-right
+  "M-t" #'paredit-forward
+  "M-p" #'paredit-forward-up
+  "M-v" #'paredit-forward-down
+  "M-a" #'paredit-backward
+  "M-q" #'paredit-backward-up
+  "M-z" #'paredit-backward-down
+  "M-r" #'sp-forward-slurp-sexp
+  "M-s" #'sp-forward-barf-sexp
+  "M-w" #'sp-backward-barf-sexp
+  "M-f" #'sp-backward-slurp-sexp
+  [remap evil-multiedit-match-symbol-and-next] #'paxedit-transpose-forward
+  "M-b" #'paxedit-transpose-backward
+  )
 
 (provide 'lisp-conf)

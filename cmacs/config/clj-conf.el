@@ -2,12 +2,15 @@
 (require 'evil)
 (require 'lisp-conf)
 
-(general-add-hook 'emacs-lisp-mode-hook
-  (list 'paxedit-mode))
+(general-add-hook 'clojure-mode-hook
+                  (list 'paredit-mode
+                        'paxedit-mode
+                        'smartparens-mode
+                        'evil-smartparens-mode))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Functinos
+;; Functions
 
 (defun cider-copy-last-result ()
   (interactive)
@@ -62,6 +65,12 @@ If invoked with a prefix ARG eval the expression after inserting it"
   (interactive)
   (apply #'cider-eval-and-replace (cider-sexp-at-point 'bounds)))
 
+(defun cider-rejack ()
+  "Jack back in!"
+  (interactive)
+  (sesman-quit)
+  (cider-jack-in-clj&cljs))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Operators
@@ -85,11 +94,14 @@ If invoked with a prefix ARG eval the expression after inserting it"
 (my-mode-leader-def
   :states 'normal
   :keymaps 'clojure-mode-map
+  "d" #'cider-doc
+  "D" #'cider-find-dwim
   "e" #'cider-eval-last-sexp
   "l" #'cider-load-buffer
   "n" #'cider-eval-ns-form
   "o" #'cider-inspect-last-result
   "q" #'cider-jack-in-clj&cljs
+  "r" #'cider-rejack
   ")" #'cider-eval-defun-at-point)
 
 ;;; fireplace-esque eval binding

@@ -5,6 +5,9 @@
 (require 's)
 
 (general-add-hook 'emacs-lisp-mode-hook
-  (list 'paredit-mode))
+                  (list 'paredit-mode
+                        'paxedit-mode
+                        'smartparens-mode
+                        'evil-smartparens-mode))
 
 (provide 'elisp-conf)
