@@ -1,5 +1,4 @@
 (require 'bindings-conf)
-(require 'hydra-conf)
 
 (setq org-directory (expand-file-name "~/projects/lxndr/")
       org-capture-templates '(("n" "Place in the Inbox" entry
@@ -10,6 +9,32 @@
                            ("~/projects/lxndr/ref.org" :level . 1))
       org-archive-location (concat "~/projects/lxndr/archive/" (format-time-string "%Y-%m") ".org::")
       org-todo-keywords '((sequence "[ ]" "[x]")))
+
+(defun org-table-clear-and-align ()
+  (interactive)
+  "Clear a cell, then align the table."
+  (org-table-blank-field)
+  (org-table-align))
+
+(defun org-table-edit-and-align ()
+  (interactive)
+  "Edit a cell, then align the table."
+  (call-interactively 'org-table-edit-field)
+  (org-table-align))
+
+;; hydra def
+
+(defhydra hydra-org-table ()
+  "org table"
+  ("o" #'org-table-align "align table")
+  ("c" #'org-table-create "create table")
+  ("j" #'evil-next-line "next row")
+  ("k" #'evil-previous-line "previous row")
+  ("l" #'org-table-next-field "next field")
+  ("h" #'org-table-previous-field "previous field")
+  ("x" #'org-table-clear-and-align "clear field")
+  ("i" #'org-table-edit-and-align "edit field")
+  ("q" nil "quit" :color red))
 
 (general-emacs-define-key org-capture-mode-map
   [remap evil-save-and-close]          #'org-capture-finalize
@@ -26,19 +51,18 @@
   )
 
 (general-def 'normal org-mode-map
- "]m" 'org-shiftright
- "[m" 'org-shiftleft
+ "]m"                      #'org-shiftright
+ "[m"                      #'org-shiftleft
+ [remap empty-mode-leader] #'hydra-org/body
  )
 
-(my-mode-leader-def
- :states  'normal
- :keymaps 'org-mode-map
- "RET" #'org-sparse-tree
- "a"   #'org-archive-subtree
- "d"   #'org-deadline
- "r"   #'org-refile
- "t"   #'org-set-tags-command
- )
+(defhydra hydra-org (:exit t)
+  "org-mode"
+ ("RET" #'org-sparse-tree      "sparse tree")
+ ("a"   #'org-archive-subtree  "archive")
+ ("d"   #'org-deadline         "deadline")
+ ("r"   #'org-refile           "refile")
+ ("t"   #'org-set-tags-command "set tags"))
 
 (general-add-hook 'org-mode-hook
   (list 'org-bullets-mode 'org-indent-mode 'visual-line-mode))

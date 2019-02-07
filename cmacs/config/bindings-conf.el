@@ -1,21 +1,133 @@
 ;; Bindings for my emacs config
 
+(require 'hydra)
 (require 'functions-conf)
-(require 'hydra-conf)
+(require 'merge-conf)
 
 (setq x-super-keysym 'meta)
 (setq x-meta-keysym 'super)
 
 (general-evil-setup t)
 
-(general-create-definer my-leader-def
-  :prefix "SPC")
+(defhydra hydra-describe (:exit t)
+  "describe: "
+  ("k" #'describe-key      "key")
+  ("f" #'describe-function "function")
+  ("m" #'describe-mode     "mode")
+  ("v" #'describe-variable "variable"))
 
-(general-create-definer my-mode-leader-def
-  :prefix "SPC m")
+(defhydra hydra-spawn (:exit t)
+  "spawn: "
+  ("e" #'spawn-project-file  "project file")
+  ("H" #'spawn-tmp-org       "tmp org")
+  ("n" #'spawn-recent-file   "recent file")
+  ("N" #'spawn-new           "new file")
+  ("o" #'spawn-project-tasks "project tasks")
+  ("p" #'spawn-project       "new project")
+  ("S" #'spawn-se-principles "SE principles")
+  ("t" #'spawn-file-in-dir   "file in dir"))
 
-(general-create-definer my-config-def
-  :prefix "SPC c")
+(defhydra hydra-config (:exit t)
+  "spawn: "
+  ("b" #'spawn-bindings  "bindings")
+  ("c" #'spawn-config    "config")
+  ("n" #'spawn-zshrc     "zshrc")
+  ("x" #'spawn-xmonad    "xmonad")
+  ("o" #'spawn-emacs-nix "emacs.nix")
+  ("f" #'spawn-functions "functions"))
+
+(defhydra hydra-nav (:exit t)
+  "nav to: "
+  ("e" #'counsel-projectile-find-file      "project file")
+  ("H" #'open-tmp-org                      "tmp org")
+  ("n" #'counsel-recentf                   "recent file")
+  ("N" #'open-new-fundamental              "new file")
+  ("p" #'counsel-projectile-switch-project "new project")
+  ("S" #'open-se-principles                "SE principles")
+  ("t" #'counsel-find-file                 "file in dir")
+  )
+
+(defhydra hydra-leader (:exit t :columns 5)
+  "leader"
+  ("]" #'switch-to-buffer "switch to buffer")
+  (")" #'eval-defun "eval outer sexp")
+  ("a" #'hydra-describe/body "describe")
+  ("A" #'org-agenda-list "org agenda list")
+  ("b" #'blind-mode "blind mode")
+  ;; ("B")
+  ("c" #'hydra-config/body "spawn config file")
+  ;; ("C")
+  ("d" #'evil-goto-definition "evil jump to def")
+  ;; ("D")
+  ;; ("e")
+  ;; ("E")
+  ("f" #'counsel-rg "find text in project")
+  ;; ("F")
+  ("g" #'magit-status "magit")
+  ("G" #'magit-blame "git blame")
+  ("h" #'org-capture "capture")
+  ;; ("H")
+  ("i" #'imenu "search with imenu")
+  ;; ("I")
+  ("j" #'spawn-below "spawn window below")
+  ;; ("J")
+  ("k" #'pretty-delete-window "delete window")
+  ("K" #'kill-this-buffer "kill buffer")
+  ("l" #'spawn-right "spawn window right")
+  ("L" #'org-todo-list "see org todo list")
+  ("m" #'empty-mode-leader "mode leader")
+  ("M" #'hydra-merge/body "merge")
+  ("n" #'hydra-spawn/body "spawn")
+  ;; ("N")
+  ;; ("o")
+  ;; ("O")
+  ;; ("p")
+  ("P" #'projectile-invalidate-cache "invalidate project cache")
+  ("q" #'evil-save-modified-and-close "write quit")
+  ("Q" (if (daemonp) #'delete-frame #'save-buffers-kill-emacs) "leave emacs")
+  ;; ("r")
+  ("R" #'restart-emacs "restart emacs")
+  ("s" #'avy-goto-char "avy jump to char")
+  ;; ("S")
+  ("t" #'hydra-nav/body "nav")
+  ;; ("T")
+  ("u" #'prettify-windows "prettify")
+  ;; ("U")
+  ;; ("v")
+  ;; ("V")
+  ("w" #'evil-write "write file")
+  ("W" #'eww-new "new browser")
+  ;; ("x")
+  ;; ("X")
+  ("y" #'nav-flash-line "flash line")
+  ;; ("Y")
+  ("Z" #'git-timemachine-toggle "git timemachine")
+  ;; ("Z")
+  )
+
+(defhydra hydra-visual-leader (:exit t)
+  "visual leader"
+  ("s" #'sort-lines "sort lines"))
+
+(defhydra hydra-left-leader (:exit t)
+  "left leader"
+  ("b" #'rename-buffer                    "rename buffer")
+  ("e" #'flycheck-previous-error          "previous error")
+  ("t" #'evil-prev-buffer                 "previous buffer")
+  ("f" #'text-scale-decrease              "zoom out")
+  ("r" #'undo-tree-save-state-to-register "mark undo tree")
+  ("n" #'buf-move-left                    "move window left")
+  )
+
+(defhydra hydra-right-leader (:exit t)
+  "right leader"
+  ("b" #'view-buffer                           "view buffer")
+  ("e" #'flycheck-next-error                   "next error")
+  ("t" #'evil-next-buffer                      "next buffer")
+  ("f" #'text-scale-increase                   "zoom in")
+  ("r" #'undo-tree-restore-state-from-register "goto undo tree mark")
+  ("n" #'buf-move-right                        "move window right")
+  )
 
 (general-define-key
  "s-x" #'counsel-M-x
@@ -27,107 +139,24 @@
  "C-u" #'evil-scroll-up)
 
 (general-def 'normal
+  "SPC" #'hydra-leader/body
   "U"   #'undo-tree-visualize
-  "[b"  #'rename-buffer
-  "]b"  #'view-buffer
-  "]t"  #'evil-next-buffer
-  "[t"  #'evil-prev-buffer
-  "]f"  #'text-scale-increase
-  "[f"  #'text-scale-decrease
-  "]r"  #'undo-tree-restore-state-from-register
-  "[r"  #'undo-tree-save-state-to-register
-  "]n"  #'buf-move-right
-  "[n"  #'buf-move-left
+  "["   #'hydra-left-leader/body
+  "]"   #'hydra-right-leader/body
   "M-d" #'evil-multiedit-match-symbol-and-next
   "M-D" #'evil-multiedit-match-symbol-and-prev)
-
-(general-def 'motion
-  "]e" #'flycheck-next-error
-  "[e" #'flycheck-previous-error)
 
 (general-def '(normal visual)
   "gt" #'toggle-test
   "gc" #'evil-commentary)
 
 (general-def 'visual
+  "SPC" #'hydra-visual-leader/body
   "S"   #'evil-surround-region
   "M-d" #'evil-multiedit-match-and-next
   "M-d" #'evil-multiedit-match-and-prev)
 
 (general-def 'operator
   "s" #'evil-surround-edit)
-
-(my-leader-def 'normal
-  "TAB" #'describe-key
-  "DEL" #'spawn-project-file
-  "RET" #'spawn-recent-file
-  "["   #'describe-function
-  "]"   #'switch-to-buffer
-  "("   #'eval-print-last-sexp
-  ")"   #'eval-defun
-  ;; "a"
-  "A"   #'org-agenda-list
-  "b"   #'blind-mode
-  ;; "B"
-  ;; "c" -- the config leader
-  ;; "C"
-  "d"   #'evil-goto-definition
-  ;; "D"
-  "e"   #'counsel-projectile-find-file
-  ;; "E"
-  "f"   #'counsel-rg
-  ;; "F"
-  "g"   #'magit-status
-  "G"   #'magit-blame
-  "h"   #'org-capture
-  "H"   #'open-tmp-org
-  "i"   #'imenu
-  ;; "I"
-  "j"   #'spawn-below
-  ;; "J"
-  "k"   #'pretty-delete-window
-  "K"   #'kill-this-buffer
-  "l"   #'spawn-right
-  "L"   #'org-todo-list
-  ;; "m" -- the mode leader
-  "M"   #'hydra-merge/body
-  "n"   #'counsel-recentf
-  "N"   #'spawn-new
-  "o"   #'spawn-project-tasks
-  ;; "O"
-  "p"   #'counsel-projectile-switch-project
-  "P"   #'projectile-invalidate-cache
-  "q"   #'evil-save-modified-and-close
-  "Q"   (if (daemonp) #'delete-frame #'save-buffers-kill-emacs)
-  ;; "r"
-  "R"   #'restart-emacs
-  "s"   #'avy-goto-char
-  "S"   #'spawn-se-principles
-  "t"   #'counsel-find-file
-  ;; "T"
-  "u"   #'prettify-windows
-  ;; "U"
-  ;; "v"
-  ;; "V"
-  "w"   #'evil-write
-  "W"   #'eww-new
-  ;; "x"
-  ;; "X"
-  "y"   #'nav-flash-line
-  ;; "Y"
-  "z"   #'git-timemachine-toggle
-  ;; "Z"
-  )
-
-(my-leader-def 'visual
-  "S" #'sort-lines)
-
-(my-config-def 'normal
-  "b" #'spawn-bindings
-  "c" #'spawn-config
-  "n" #'spawn-zshrc
-  "x" #'spawn-xmonad
-  "o" #'spawn-emacs-nix
-  "f" #'spawn-functions)
 
 (provide 'bindings-conf)

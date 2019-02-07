@@ -15,10 +15,10 @@
          functions-conf
          git-conf
          haskell-conf
-         hydra-conf
          js-conf
          lisp-conf
          lsp-conf
+         merge-conf
          minibuffer-conf
          org-conf
          package-conf

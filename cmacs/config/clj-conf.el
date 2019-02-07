@@ -91,18 +91,21 @@ If invoked with a prefix ARG eval the expression after inserting it"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Bindings
 
-(my-mode-leader-def
-  :states 'normal
-  :keymaps 'clojure-mode-map
-  "d" #'cider-doc
-  "D" #'cider-find-dwim
-  "e" #'cider-eval-last-sexp
-  "l" #'cider-load-buffer
-  "n" #'cider-eval-ns-form
-  "o" #'cider-inspect-last-result
-  "q" #'cider-jack-in-clj&cljs
-  "r" #'cider-rejack
-  ")" #'cider-eval-defun-at-point)
+(general-def 'normal clojure-mode-map
+ [remap empty-mode-leader] #'hydra-clj/body
+ )
+
+(defhydra hydra-clj (:exit t)
+  "clojure-mode"
+  ("d" #'cider-doc)
+  ("D" #'cider-find-dwim)
+  ("e" #'cider-eval-last-sexp)
+  ("l" #'cider-load-buffer)
+  ("n" #'cider-eval-ns-form)
+  ("o" #'cider-inspect-last-result)
+  ("q" #'cider-jack-in-clj&cljs)
+  ("r" #'cider-rejack)
+  (")" #'cider-eval-defun-at-point))
 
 ;;; fireplace-esque eval binding
 (nmap :keymaps 'cider-mode-map

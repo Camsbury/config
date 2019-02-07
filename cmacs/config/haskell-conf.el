@@ -1,3 +1,4 @@
+(require 'bindings-conf)
 (require 'lsp-haskell)
 (require 'lsp-conf)
 (require 'haskell-font-lock)
@@ -42,15 +43,18 @@
                         'hlint-refactor-mode
                         'flycheck-mode))
 
-(my-mode-leader-def
- :states  'normal
- :keymaps 'haskell-mode-map
- "e" 'haskell-align-imports
- "s" 'haskell-sort-imports
- "i" 'dante-info
- "l" 'haskell-process-load-file
- "r" 'dante-restart
- "t" 'hlint-refactor-refactor-at-point
- "T" 'hlint-refactor-refactor-buffer)
+(general-def 'normal haskell-mode-map
+ [remap empty-mode-leader] #'hydra-haskell/body
+ )
+
+(defhydra hydra-haskell (:exit t)
+  "haskell-mode"
+ ("e" 'haskell-align-imports            "align imports")
+ ("s" 'haskell-sort-imports             "sort imports")
+ ("i" 'dante-info                       "dante info")
+ ("l" 'haskell-process-load-file        "load file")
+ ("r" 'dante-restart                    "dante restart")
+ ("t" 'hlint-refactor-refactor-at-point "hlint point")
+ ("T" 'hlint-refactor-refactor-buffer   "hlint buffer"))
 
 (provide 'haskell-conf)

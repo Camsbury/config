@@ -1,10 +1,14 @@
 (require 'racket-mode)
+(require 'bindings-conf)
 
-(my-mode-leader-def
- :states  'normal
- :keymaps 'racket-mode-map
- "l" 'racket-repl
- "r" 'racket-run-and-switch-to-repl
- "t" 'racket-test)
+(general-def 'normal racket-mode-map
+ [remap empty-mode-leader] #'hydra-racket/body
+ )
+
+(defhydra hydra-racket (:exit t)
+  "racket-mode"
+ ("l" 'racket-repl                   "repl")
+ ("r" 'racket-run-and-switch-to-repl "run and repl")
+ ("t" 'racket-test                   "test"))
 
 (provide 'racket-conf)

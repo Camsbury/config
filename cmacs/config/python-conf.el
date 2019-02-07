@@ -1,3 +1,5 @@
+(require 'bindings-conf)
+
 (if (string-equal system-type "gnu/linux")
     (require 'lsp-clients))
 (require 'lsp-conf)
@@ -16,12 +18,16 @@
                     (when (eq major-mode 'python-mode)
                       yapfify-buffer)))
 
-(my-mode-leader-def
- :states  'normal
- :keymaps 'python-mode-map
- "f" 'lsp-ui-peek-find-references
- "n" 'lsp-rename
- "r" 'lsp-restart-workspace
- "i" 'lsp-ui-imenu)
+
+(general-def 'normal python-mode-map
+ [remap empty-mode-leader] #'hydra-python/body
+ )
+
+(defhydra hydra-python (:exit t)
+  "python-mode"
+ ("f" 'lsp-ui-peek-find-references "find references")
+ ("n" 'lsp-rename                  "rename variable")
+ ("r" 'lsp-restart-workspace       "restart lsp")
+ ("i" 'lsp-ui-imenu                "lsp imenu"))
 
 (provide 'python-conf)

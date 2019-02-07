@@ -10,12 +10,6 @@
     (eww-mode)
     (eww url)))
 
-(defun open-tmp-org ()
-  "opens a temporary org file"
-  (interactive)
-  (evil-window-vsplit)
-  (find-file "/tmp/notes.org"))
-
 (defun set-window-width (count)
   "Set the selected window's width."
   (adjust-window-trailing-edge (selected-window) (- count (window-width)) t))
@@ -38,6 +32,21 @@
   (delete-window)
   (prettify-windows))
 
+(defun open-new-fundamental (arg)
+  "Opens a new fundamental mode file"
+  (interactive "sBuffer name: ")
+  (switch-to-buffer (generate-new-buffer arg)))
+
+(defun open-se-principles ()
+  "Opens the SE principles file"
+  (interactive)
+  (find-file "~/projects/lxndr/ref/software_engineering.org"))
+
+(defun open-tmp-org ()
+  "opens a temporary org file"
+  (interactive)
+  (find-file "/tmp/notes.org"))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Spawn Functions
 
@@ -54,23 +63,45 @@
   (prettify-windows)
   (windmove-right))
 
+(defmacro spawnify (f)
+  "Spawns a window to the right before calling the function"
+    `(progn (spawn-right) (,f)))
+
 (defun spawn-new (arg)
-  "opens a new fundamental buffer"
+  "Spawns a new fundamental buffer"
   (interactive "sBuffer name: ")
   (spawn-right)
   (switch-to-buffer (generate-new-buffer arg)))
+
+(defun spawn-tmp-org ()
+  "Spawns a temporary org file"
+  (interactive)
+  (spawn-right)
+  (open-tmp-org))
+
+(defun spawn-project ()
+  "Spawns a project to the right"
+  (interactive)
+  (spawn-right)
+  (counsel-projectile-switch-project))
 
 (defun spawn-project-file ()
   "Spawns a project file to the right"
   (interactive)
   (spawn-right)
-  (project-find-file))
+  (counsel-projectile-find-file))
 
 (defun spawn-recent-file ()
   "Spawns a project file to the right"
   (interactive)
   (spawn-right)
   (counsel-recentf))
+
+(defun spawn-file-in-dir ()
+  "Spawns a file in the dir to the right"
+  (interactive)
+  (spawn-right)
+  (counsel-find-file))
 
 (defun spawn-bindings ()
   "Spawns the bindings file to the right"
@@ -167,6 +198,10 @@
 (defun nav-flash-line ()
   (interactive)
   (nav-flash-show))
+
+(defun empty-mode-leader ()
+  (interactive)
+  (message "current mode hydra is unbound"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; grfn utils
