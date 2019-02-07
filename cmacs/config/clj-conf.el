@@ -8,6 +8,12 @@
                         'smartparens-mode
                         'evil-smartparens-mode))
 
+(general-add-hook 'clojurescript-mode-hook
+                  (list 'paredit-mode
+                        'paxedit-mode
+                        'smartparens-mode
+                        'evil-smartparens-mode))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Functions
@@ -92,20 +98,22 @@ If invoked with a prefix ARG eval the expression after inserting it"
 ;; Bindings
 
 (general-def 'normal clojure-mode-map
+ "M-o" #'hydra-clj/body
  [remap empty-mode-leader] #'hydra-clj/body
  )
 
 (defhydra hydra-clj (:exit t)
   "clojure-mode"
-  ("d" #'cider-doc)
-  ("D" #'cider-find-dwim)
-  ("e" #'cider-eval-last-sexp)
-  ("l" #'cider-load-buffer)
-  ("n" #'cider-eval-ns-form)
-  ("o" #'cider-inspect-last-result)
-  ("q" #'cider-jack-in-clj&cljs)
-  ("r" #'cider-rejack)
-  (")" #'cider-eval-defun-at-point))
+  ("d" #'cider-doc                   "documentation")
+  ("D" #'cider-find-dwim             "jump to def")
+  ("l" #'cider-load-buffer           "load buffer")
+  ("n" #'cider-eval-ns-form          "eval ns")
+  ("o" #'cider-inspect-last-result   "inspect last result")
+  ("q" #'cider-jack-in-clj&cljs      "jack in clj&cljs")
+  ("r" #'cider-rejack                "rejack")
+  ("h" #'cider-switch-to-repl-buffer "repl"))
+; cider-browse-spec
+; cider-switch-to-repl-buffer
 
 ;;; fireplace-esque eval binding
 (nmap :keymaps 'cider-mode-map

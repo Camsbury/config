@@ -2,14 +2,17 @@
 
 (if (string-equal system-type "gnu/linux")
     (require 'lsp-clients))
+(if (string-equal system-type "darwin")
+    (require 'lsp-python))
 (require 'lsp-conf)
 
 (general-add-hook 'python-mode-hook
                   (list (if (string-equal system-type "darwin")
-                            'lsp-python
+                            'lsp-python-enable
                             'lsp-mode)
                         'yapf-mode
-                        'flycheck-mode))
+                        'flycheck-mode)
+                  (lambda () (make-local-variable 'hydra-leader/keymap) (define-key hydra-leader/keymap (kbd "m") 'hydra-python/body)))
 
                         ;; 'lsp-ui-peek-mode
 
