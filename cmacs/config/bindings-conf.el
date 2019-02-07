@@ -84,7 +84,7 @@
   ;; ("p")
   ("P" #'projectile-invalidate-cache "invalidate project cache")
   ("q" #'evil-save-modified-and-close "write quit")
-  ("Q" (if (daemonp) #'delete-frame #'save-buffers-kill-emacs) "leave emacs")
+  ("Q" #'save-buffers-kill-emacs "leave emacs")
   ;; ("r")
   ("R" #'restart-emacs "restart emacs")
   ("s" #'avy-goto-char "avy jump to char")
