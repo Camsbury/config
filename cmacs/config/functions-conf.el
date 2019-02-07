@@ -73,36 +73,6 @@
   (spawn-right)
   (switch-to-buffer (generate-new-buffer arg)))
 
-(defun spawn-tmp-org ()
-  "Spawns a temporary org file"
-  (interactive)
-  (spawn-right)
-  (open-tmp-org))
-
-(defun spawn-project ()
-  "Spawns a project to the right"
-  (interactive)
-  (spawn-right)
-  (counsel-projectile-switch-project))
-
-(defun spawn-project-file ()
-  "Spawns a project file to the right"
-  (interactive)
-  (spawn-right)
-  (counsel-projectile-find-file))
-
-(defun spawn-recent-file ()
-  "Spawns a project file to the right"
-  (interactive)
-  (spawn-right)
-  (counsel-recentf))
-
-(defun spawn-file-in-dir ()
-  "Spawns a file in the dir to the right"
-  (interactive)
-  (spawn-right)
-  (counsel-find-file))
-
 (defun spawn-bindings ()
   "Spawns the bindings file to the right"
   (interactive)

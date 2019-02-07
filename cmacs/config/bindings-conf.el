@@ -18,14 +18,14 @@
 
 (defhydra hydra-spawn (:exit t)
   "spawn: "
-  ("e" #'spawn-project-file  "project file")
-  ("H" #'spawn-tmp-org       "tmp org")
-  ("n" #'spawn-recent-file   "recent file")
-  ("N" #'spawn-new           "new file")
-  ("o" #'spawn-project-tasks "project tasks")
-  ("p" #'spawn-project       "new project")
-  ("S" #'spawn-se-principles "SE principles")
-  ("t" #'spawn-file-in-dir   "file in dir"))
+  ("e" (spawnify counsel-projectile-find-file)      "project file")
+  ("H" (spawnify open-tmp-org)                      "tmp org")
+  ("n" (spawnify counsel-recentf)                   "recent file")
+  ("N" (spawnify open-new-fundamental)              "new file")
+  ("o" #'spawn-project-tasks                        "project tasks")
+  ("p" (spawnify counsel-projectile-switch-project) "new project")
+  ("S" (spawnify open-se-principles)                "SE principles")
+  ("t" (spawnify counsel-find-file)                 "file in dir"))
 
 (defhydra hydra-config (:exit t)
   "spawn: "
