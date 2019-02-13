@@ -63,9 +63,11 @@
   (prettify-windows)
   (windmove-right))
 
-(defmacro spawnify (f)
-  "Spawns a window to the right before calling the function"
-    `(progn (spawn-right) (,f)))
+(defun spawnify (f)
+  "Spawn a window to the right before calling a function"
+  (interactive)
+  (spawn-right)
+  (call-interactively f))
 
 (defun spawn-new (arg)
   "Spawns a new fundamental buffer"
