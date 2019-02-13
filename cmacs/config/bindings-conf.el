@@ -13,14 +13,14 @@
 (setq hydra-look-for-remap t)
 
 (defhydra hydra-describe (:exit t)
-  "describe: "
+  "describe"
   ("k" #'describe-key      "key")
   ("f" #'describe-function "function")
   ("m" #'describe-mode     "mode")
   ("v" #'describe-variable "variable"))
 
 (defhydra hydra-spawn (:exit t)
-  "spawn: "
+  "spawn"
   ("e" (spawnify #'counsel-projectile-find-file)      "project file")
   ("H" (spawnify #'open-tmp-org)                      "tmp org")
   ("n" (spawnify #'counsel-recentf)                   "recent file")
@@ -31,7 +31,7 @@
   ("t" (spawnify #'counsel-find-file)                 "file in dir"))
 
 (defhydra hydra-config (:exit t)
-  "spawn: "
+  "spawn config"
   ("b" #'spawn-bindings  "bindings")
   ("c" #'spawn-config    "config")
   ("n" #'spawn-zshrc     "zshrc")
@@ -40,7 +40,7 @@
   ("f" #'spawn-functions "functions"))
 
 (defhydra hydra-nav (:exit t)
-  "nav to: "
+  "nav to"
   ("e" #'counsel-projectile-find-file      "project file")
   ("H" #'open-tmp-org                      "tmp org")
   ("n" #'counsel-recentf                   "recent file")
