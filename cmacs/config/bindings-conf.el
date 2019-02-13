@@ -9,6 +9,9 @@
 
 (general-evil-setup t)
 
+;;; allows easy remapping in hydras
+(setq hydra-look-for-remap t)
+
 (defhydra hydra-describe (:exit t)
   "describe: "
   ("k" #'describe-key      "key")
@@ -47,7 +50,7 @@
   ("t" #'counsel-find-file                 "file in dir")
   )
 
-(defhydra hydra-leader (:exit t :columns 5)
+(defhydra hydra-leader (:exit t :columns 5 :idle 1.5)
   "leader"
   ("]" #'switch-to-buffer "switch to buffer")
   (")" #'eval-defun "eval outer sexp")

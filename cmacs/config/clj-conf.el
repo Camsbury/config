@@ -100,6 +100,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
 (general-def 'normal clojure-mode-map
  "M-o" #'hydra-clj/body
  [remap empty-mode-leader] #'hydra-clj/body
+ [remap evil-lookup] #'cider-doc
  )
 
 (defhydra hydra-clj (:exit t)
@@ -114,6 +115,9 @@ If invoked with a prefix ARG eval the expression after inserting it"
   ("h" #'cider-switch-to-repl-buffer "repl"))
 ; cider-browse-spec
 ; cider-switch-to-repl-buffer
+; clojure-move-to-let
+; clojure-introduce-let
+; cljr-add-require-to-ns
 
 ;;; fireplace-esque eval binding
 (nmap :keymaps 'cider-mode-map
