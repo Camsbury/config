@@ -14,6 +14,7 @@ in
         ag
         bat
         exa
+        gitAndTools.git-extras
         gitAndTools.hub
         htop
         httpie
