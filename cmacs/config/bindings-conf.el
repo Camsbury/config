@@ -104,7 +104,7 @@
   ;; ("X")
   ("y" #'nav-flash-line               "flash line")
   ;; ("Y")
-  ("Z" #'git-timemachine-toggle       "git timemachine")
+  ("z" #'git-timemachine-toggle       "git timemachine")
   ;; ("Z")
   )
 
