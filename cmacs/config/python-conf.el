@@ -26,11 +26,19 @@
  [remap empty-mode-leader] #'hydra-python/body
  )
 
+(defun python-narrow-defun ()
+  "Narrows to the current defun"
+  (interactive)
+  (python-mark-defun)
+  (call-interactively 'narrow-and-zoom-in)
+  (evil-exit-visual-state))
+
 (defhydra hydra-python (:exit t)
   "python-mode"
- ("f" 'lsp-ui-peek-find-references "find references")
- ("n" 'lsp-rename                  "rename variable")
- ("r" 'lsp-restart-workspace       "restart lsp")
- ("i" 'lsp-ui-imenu                "lsp imenu"))
+ ("f" #'lsp-ui-peek-find-references "find references")
+ ("n" #'lsp-rename                  "rename variable")
+ ("r" #'lsp-restart-workspace       "restart lsp")
+ ("i" #'lsp-ui-imenu                "lsp imenu")
+ ("o" #'python-narrow-defun         "focus on def"))
 
 (provide 'python-conf)
