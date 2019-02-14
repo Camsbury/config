@@ -90,7 +90,7 @@
   ("Q" #'save-buffers-kill-emacs      "leave emacs")
   ;; ("r")
   ("R" #'restart-emacs                "restart emacs")
-  ("s" #'avy-goto-char                "avy jump to char")
+  ("s" #'avy-goto-char-2              "avy jump to char")
   ;; ("S")
   ("t" #'hydra-nav/body               "nav")
   ;; ("T")
