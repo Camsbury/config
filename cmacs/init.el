@@ -17,3 +17,4 @@
 (scroll-bar-mode -1)
 
 (add-hook 'after-init-hook (lambda () (require 'config)))
+(put 'narrow-to-region 'disabled nil)
