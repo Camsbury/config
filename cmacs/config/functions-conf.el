@@ -175,6 +175,23 @@
   (interactive)
   (message "current mode hydra is unbound"))
 
+(defun narrow-and-zoom-in ()
+  "Narrow to selection and zoom in"
+  (interactive)
+  (call-interactively 'narrow-to-region)
+  (call-interactively 'text-scale-increase)
+  (call-interactively 'text-scale-increase)
+  (call-interactively 'text-scale-increase)
+  (set-window-width 130))
+
+(defun widen-and-zoom-out ()
+  "Widen the buffer and set zoom to normal"
+  (interactive)
+  (call-interactively 'widen)
+  (call-interactively 'text-scale-set)
+  (call-interactively 'text-scale-decrease)
+  (prettify-windows))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; grfn utils
 
