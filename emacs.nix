@@ -3,7 +3,11 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  emacsWithPackages = (pkgs.emacsPackagesNgGen pkgs.emacs).emacsWithPackages;
+  customEmacsPackages = import ./custom-emacs-packages.nix;
+  myEmacs = (pkgs.emacsPackagesNgGen pkgs.emacs).overrideScope (super: self:
+    customEmacsPackages pkgs self super
+  );
+  emacsWithPackages = myEmacs.emacsWithPackages;
   machine = import ./machine.nix;
 in
   emacsWithPackages (epkgs: (with epkgs.melpaStablePackages; [
@@ -81,6 +85,7 @@ in
     rainbow-mode
     undo-tree
   ]) ++ (with epkgs; [
+    org-clubhouse
     # agda2-mode
   ]) ++ (
   if machine.darwin
