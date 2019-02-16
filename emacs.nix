@@ -86,6 +86,7 @@ in
     undo-tree
   ]) ++ (with epkgs; [
     org-clubhouse
+    etymology-of-word
     # agda2-mode
   ]) ++ (
   if machine.darwin

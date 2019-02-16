@@ -1,6 +1,7 @@
 ;; Functions for my emacs config
 
 (require 'dash)
+(require 'etymology-of-word)
 
 (defun eww-new ()
   "opens a new eww buffer"
