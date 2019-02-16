@@ -14,6 +14,10 @@
 (setq haskell-font-lock-symbols-alist (cons '("<>" "⊕" haskell-font-lock-dot-is-not-composition) haskell-font-lock-symbols-alist))
 (setq haskell-font-lock-symbols t)
 
+(setq flymake-no-changes-timeout nil)
+(setq flymake-start-syntax-check-on-newline nil)
+(setq flycheck-check-syntax-automatically '(save mode-enabled))
+
 (defun setup-lsp-if-hie ()
   "only starts lsp-mode for haskell if hie available"
   (let ((hie-directory (locate-dominating-file default-directory "hie.sh")))
@@ -36,6 +40,7 @@
 (general-add-hook 'dante-mode-hook
    '(lambda () (flycheck-add-next-checker 'haskell-dante
                 '(warning . haskell-hlint))))
+
 
 (general-add-hook 'haskell-mode-hook
                   (list 'setup-lsp-if-hie
