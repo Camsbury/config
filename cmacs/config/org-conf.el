@@ -1,4 +1,5 @@
 (require 'bindings-conf)
+(require 'org-clubhouse)
 
 (setq org-directory (expand-file-name "~/projects/lxndr/")
       org-capture-templates '(("n" "Place in the Inbox" entry
@@ -9,6 +10,19 @@
                            ("~/projects/lxndr/ref.org" :level . 1))
       org-archive-location (concat "~/projects/lxndr/archive/" (format-time-string "%Y-%m") ".org::")
       org-todo-keywords '((sequence "[ ]" "[x]")))
+
+(setq org-clubhouse-team-name "urbint"
+      org-clubhouse-state-alist
+        '(("SOMEDAY"   . "Some Day")
+          ("PROPOSED"  . "Proposed")
+          ("SCHEDULED" . "Scheduled")
+          ("ACTIVE"    . "In Development")
+          ("REVIEW"    . "Review")
+          ("DONE"      . "Ready for Testing")
+          ("DEPLOYED"  . "Deployed")
+          ("ABANDONED" . "Abandoned")))
+
+(general-add-hook 'org-mode-hook (list #'org-clubhouse-mode))
 
 (defun org-table-clear-and-align ()
   (interactive)

@@ -111,6 +111,12 @@
   (spawn-right)
   (find-file "~/projects/nix_dots/emacs.nix"))
 
+(defun spawn-clubhouse ()
+  "Clubhouse tix"
+  (interactive)
+  (spawn-right)
+  (find-file "~/clubhouse.org"))
+
 (defun spawn-se-principles ()
   "Spawns the se principles file to the right"
   (interactive)

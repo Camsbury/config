@@ -1,4 +1,7 @@
 (require 'dash)
+(when (load "private-conf.el")
+  (require 'private-conf))
+
 (-map 'require
       '( dockerfile-mode
          wgrep

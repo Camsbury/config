@@ -34,6 +34,7 @@
   "spawn config"
   ("b" #'spawn-bindings  "bindings")
   ("c" #'spawn-config    "config")
+  ("l" #'spawn-clubhouse "clubhouse")
   ("n" #'spawn-zshrc     "zshrc")
   ("x" #'spawn-xmonad    "xmonad")
   ("o" #'spawn-emacs-nix "emacs.nix")
