@@ -1,31 +1,137 @@
 # -*- shell-script -*-
-# Path to your oh-my-zsh installation.
-export ZSH=$OH_MY_ZSH
+
+if [ $(uname -s) = "Linux" ]; then
+  # Path to your oh-my-zsh installation.
+  export ZSH=$OH_MY_ZSH
+
+  # fzf integration
+  source $FZF/key-bindings.zsh
+
+  # autojump integration
+  source $AUTOJUMP/autojump.zsh
+
+  plugins=(
+    # autojump
+    git
+    zsh-autosuggestions
+  )
+fi
+
+if [ $(uname -s) = "Darwin" ]; then
+
+  # If you come from bash you might have to change your $PATH.
+  export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+  # Path to your oh-my-zsh installation.
+  export ZSH=$HOME/.oh-my-zsh
+
+  # zsh completions
+  fpath=(~/.zsh/completion $fpath)
+
+  # docker completions?
+  autoload -Uz compinit && compinit -i
+
+  # postgres in path...
+  export PATH=/usr/local/Cellar/postgresql/11.1_1/bin:$PATH
+
+  # Secrets stuff
+  if [ -f '$HOME/.secrets.zsh.inc' ]; then source '$HOME/.secrets.zsh.inc'; fi
+
+  # drone env variables
+  export DRONE_TOKEN=$DRONE_TOKEN_PRIVATE
+  export DRONE_SERVER=https://ci.urbinternal.com
+
+  # stack Haskell path add
+  export PATH=$PATH:$HOME/.local/bin
+
+  # cabal path add
+  export PATH=$PATH:$HOME/.cabal/bin
+
+  # anaconda path add
+  export PATH=$PATH:~/anaconda/bin
+
+  # export nix related
+  source $HOME/.nix-profile/etc/profile.d/nix.sh
+  export NIX_PATH=darwin-config=$HOME/.nixpkgs/darwin-configuration.nix:$HOME/.nix-defexpr/channels:$NIX_PATH
+  export NIX_PATH=darwin=$HOME/.nix-defexpr/channels/darwin:$NIX_PATH
+  # Add darwin-nix to path
+  export PATH=$(nix-build '<darwin>' -A system --no-out-link)/sw/bin/:$PATH
+
+  # zsh plugins
+  plugins=(git zsh-autosuggestions alias-tips kubetail)
+fi
 
 ZSH_THEME="robbyrussell"
 
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(
-  # autojump
-  git
-  zsh-autosuggestions
-)
-
+# get oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
-# set up keychain
-eval $(keychain --eval --agents ssh id_rsa)
+if [ $(uname -s) = "Linux" ]; then
+  # set up keychain
+  eval $(keychain --eval --agents ssh id_rsa)
+fi
+
+if [ $(uname -s) = "Darwin" ]; then
+  # fzf things
+  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+  # key repeat speed up
+  defaults write -g KeyRepeat -int 1
+  defaults write -g InitialKeyRepeat -int 20
+
+  # autojump
+  [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+
+  # The next line updates PATH for the Google Cloud SDK.
+  if [ -f '$HOME/google-cloud-sdk/path.zsh.inc' ]; then source '$HOME/google-cloud-sdk/path.zsh.inc'; fi
+
+  # The next line enables shell command completion for gcloud.
+  if [ -f '$HOME/google-cloud-sdk/completion.zsh.inc' ]; then source '$HOME/google-cloud-sdk/completion.zsh.inc'; fi
+fi
+
 
 # User configuration
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
+
+################################################################################
+# gpg
+
+# git config --global commit.gpgsign true
+# git config --global user.signingkey $KEY
+
+function sign-and-send {
+  gpg --sign-key "${1}" && gpg --send-keys "${1}"
+}
+
+alias pgz='gpg --list-secret-keys --keyid-format LONG'
+alias pgr='gpg --recv-keys'
+alias pgl='gpg --list-keys'
+alias pgs='sign-and-send'
+
+
+################################################################################
+# tmux
+
+function tt() {
+  sessionName="${1}"
+  if ! tmux has-session -t "${sessionName}" 2> /dev/null; then
+    oldTMUX="${TMUX}"
+    unset TMUX
+    tmux new -d -s "${sessionName}"
+    export TMUX="${oldTMUX}"
+    unset oldTMUX
+  fi
+  if [[ -n "${TMUX}" ]]; then
+    tmux switch-client -t "${sessionName}"
+  else
+    tmux attach -t "${sessionName}"
+  fi
+}
+
+alias tls='tmux list-sessions'
+
 
 ################################################################################
 # git
@@ -47,17 +153,37 @@ function git-files() {
   git show --pretty="" --name-only "${commit}" | cat
 }
 
+function cd-git-head() {
+  cd "$(git rev-parse --show-toplevel)"
+}
+
+function git-branch-delete-pattern() {
+  git branch -D `git branch | grep -E ${1}`
+}
+
+function git-branch-checkout-pattern() {
+  git checkout `git branch | grep -E ${1} | sed -n 1p`
+}
+
+function git-force-pull() {
+  commit="${1:-$(git symbolic-ref --short HEAD)}"
+  git fetch && git reset --hard origin/"${commit}"
+}
+
 alias git='hub'
 
 alias gbdd='git branch -D'
+alias gbdp='git-branch-delete-pattern'
 alias gbm='git branch --merged'
 alias gcan='git commit --no-edit --amend'
-alias gdh='git diff HEAD~ head'
+alias gcop='git-branch-checkout-pattern'
+alias gdh='git diff HEAD~ HEAD'
 alias gds='git diff --staged'
 alias gfl='git-files'
 alias gfx='git commit --fixup'
 alias gi='git init'
-alias glf='git fetch && git reset --hard origin/master'
+alias glf='git-force-pull'
+alias glfm='git fetch && git reset --hard origin/master'
 alias glp="git log --graph --pretty=format:'%Cred%h%Creset -%Cblue %an %Creset - %C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias gpf='git push --force'
 alias gpop='git reset HEAD~'
@@ -70,6 +196,23 @@ alias gsbu='git status -sbu'
 alias gsn='git add .; git commit --no-verify -m "wip"; git reset HEAD~'
 alias gtt='git-task-types'
 alias pulls='open "https://github.com:/$(git remote -v | /usr/bin/grep -oP "(?<=git@github.com:).+(?=\.git)" | HEAD -n 1)/pulls"'
+alias ghsh="git rev-parse --short head"
+
+alias cdg='cd-git-head'
+
+
+################################################################################
+# Python aliases
+
+alias ptw="pipenv run watchmedo auto-restart --recursive -p '*.py' -- python -m pytest grid/jobs/tests --show-capture=all"
+alias pei='pipenv install --dev'
+alias pesy='pipenv sync --dev'
+alias pes='pipenv shell'
+alias pyf='pipenv run yapf --in-place --recursive .'
+alias pmy='pipenv run alembic upgrade head'
+alias auh='alembic upgrade head'
+alias amg='alembic revision -m'
+
 
 ################################################################################
 # C
@@ -107,6 +250,11 @@ function nix-store-path() {
   readlink -f `which "${1}"`
 }
 
+function nix-shell-haskell() {
+  # Creates a nix-shell with the specified arguments as Haskell packages
+  nix-shell -p "haskellPackages.ghcWithPackages (p: with p; [$@])"
+}
+
 function nix-query () {
   local CACHE="$HOME/.cache/nq-cache"
   if ! ( [ -e $CACHE ] && [ $(stat -c %Y $CACHE) -gt $(( $(date +%s) - 3600 )) ] ); then
@@ -124,24 +272,34 @@ function nix-query () {
     }
 }
 
+if [ $(uname -s) = "Darwin" ]; then
+  alias dxs='darwin-rebuild switch'
+fi
+if [ $(uname -s) = "Linux" ]; then
+  alias nxs='cd ~ && sudo nixos-rebuild switch; cd -'
+  alias nxsr='cd ~ && sudo nixos-rebuild switch && sudo reboot'
+  alias nxt='cd ~ && sudo nixos-rebuild test; cd -'
+fi
 alias nb='nix-build'
+alias ndeps='nix-store-deps'
+alias ndtree='nix-store-deps-tree'
 alias ne='nix-env'
 alias nhash='nix-prefetch-url --type sha256'
 alias nq='nix-query'
+alias nl='nix-env -q'
+alias nq='nix-query'
 alias nqu='NIXPKGS_ALLOW_UNFREE=1 nix-env -qaP'
 alias nr='nix repl'
+alias nrp="nix repl '<nixpkgs>'"
 alias ns='nix-shell'
-alias nsu="nix-shell --arg nixpkgs 'import <nixpkgs-unstable> {}'"
+alias nsh='nix-shell-haskell'
 alias nsp='nix-shell --pure'
-alias nst='nix-store'
 alias nsref='nix-store-references'
 alias nsrefr='nix-store-referrers'
-alias ndeps='nix-store-deps'
-alias ndtree='nix-store-deps-tree'
+alias nst='nix-store'
 alias nstp='nix-store-path'
-alias nxs='cd ~ && sudo nixos-rebuild switch; cd -'
-alias nxsr='cd ~ && sudo nixos-rebuild switch && sudo reboot'
-alias nxt='cd ~ && sudo nixos-rebuild test; cd -'
+alias nsu="nix-shell --arg nixpkgs 'import <nixpkgs-unstable> {}'"
+
 
 ################################################################################
 # cabal
@@ -151,9 +309,85 @@ alias cbw='ghcid -c "cabal repl lib:bobby" | source-highlight -s haskell -f esc'
 alias ctw='ghcid -c "cabal repl test:bobby-tests" --warnings --test "Main.main" | source-highlight -s haskell -f esc'
 alias cbi='cabal build --ghc-option=-ddump-minimal-imports'
 
+
+################################################################################
+# chunkwm utility
+
+if [ $(uname -s) = "Darwin" ]; then
+  function upgrade-chunkwm() {
+      brew reinstall --HEAD chunkwm
+      codesign -fs "chunkwm-cert" $(brew --prefix chunkwm)/bin/chunkwm
+      brew services restart chunkwm
+  }
+  alias uch='upgrade-chunkwm'
+fi
+
+
+################################################################################
+# slack dark theme
+
+if [ $(uname -s) = "Darwin" ]; then
+  function dark-slack() {
+
+  echo "\ndocument.addEventListener('DOMContentLoaded', function() {
+   $.ajax({
+     url: 'https://cdn.rawgit.com/laCour/slack-night-mode/master/css/raw/black.css',
+     success: function(css) {
+       \$(\"<style></style>\").appendTo('head').html(css);
+     }
+   });
+  });" >> /Applications/Slack.app/Contents/Resources/app.asar.unpacked/src/static/ssb-interop.js
+  }
+fi
+
+
 ################################################################################
 # docker
+
+function docker-restart-and-log() {
+  docker-compose restart "$1" && docker-compose logs -f "$1"
+}
+
+alias dcud='docker-compose up -d'
+alias dclf='docker-compose logs -f'
+alias dc='docker-compose'
+alias dcub='docker-compose up --build -d'
+alias dcr='docker-compose restart'
 alias dps='docker ps'
+alias dsac='docker stop $(docker ps -aq)'
+alias drac='docker rm $(docker ps -aq)'
+alias dcrf="docker-restart-and-log"
+if [ $(uname -s) = "Darwin" ]; then
+  alias dcrb="docker-compose restart server internal_server celery celery-beat celery-process-video celery-classify-frames celery-upload-video-to-gcs"
+  alias dclb="docker-compose logs -f server internal_server celery celery-beat celery-process-video celery-classify-frames celery-upload-video-to-gcs"
+fi
+alias drni="docker rmi $(docker images | grep '^<none>' | awk '{print $3}')"
+alias drdi="docker rmi $(docker images -q -f "dangling=true")"
+alias drmc="docker rm $(docker ps -q -f 'status=exited')"
+
+
+################################################################################
+# kubernetes
+
+function kpods-by-app() {
+  kubectl get pods --selector="app=${1}"
+}
+
+alias kc='kubectl'
+alias kt='kubetail'
+if [ $(uname -s) = "Darwin" ]; then
+  alias klj='kubetail grid-jobs'
+  alias kls='kubetail server'
+  alias klb='kubetail "grid-(server|jobs|celery\S*)" --regex'
+fi
+alias kp='kubectl get pods'
+alias kpn='kpods-by-app'
+alias kdys='kubectl get deployments'
+alias ksrvs='kubectl get services'
+alias kpw='kubectl get pods -w'
+alias klf='kubectl logs -f'
+alias gclc='gcloud container clusters get-credentials' # followed by the cluster name
+
 
 ################################################################################
 # shell
@@ -172,15 +406,6 @@ alias take='take-dir'
 alias xmrg='xrdb -merge ~/.Xresources'
 alias zz='source ~/.zshrc'
 
-################################################################################
-# fzf integration - fix to be intelligent
-
-source $FZF/key-bindings.zsh
-
-################################################################################
-# autojump integration - needs fixing just like fzf
-
-source $AUTOJUMP/autojump.zsh
 
 ################################################################################
 # 1Pass retrieval
@@ -194,27 +419,14 @@ alias opp='op-retrieve'
 alias opg="op get item GPG | jq '.details.password'"
 alias ops='eval $(op signin urbint)'
 
+
+################################################################################
+# emacs
+
+alias emd='emacs --debug-init'
+
+
 ################################################################################
 # xndr
 
 alias xndr='~/projects/xndr/dist/build/xndr/xndr'
-
-################################################################################
-# tmux
-function tt() {
-  sessionName="${1}"
-  if ! tmux has-session -t "${sessionName}" 2> /dev/null; then
-    oldTMUX="${TMUX}"
-    unset TMUX
-    tmux new -d -s "${sessionName}"
-    export TMUX="${oldTMUX}"
-    unset oldTMUX
-  fi
-  if [[ -n "${TMUX}" ]]; then
-    tmux switch-client -t "${sessionName}"
-  else
-    tmux attach -t "${sessionName}"
-  fi
-}
-
-alias tls='tmux list-sessions'
