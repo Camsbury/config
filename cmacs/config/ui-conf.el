@@ -1,11 +1,13 @@
-(require 'doom-modeline)
+(if (string-equal system-type "gnu/linux")
+    (require 'doom-modeline))
 (column-number-mode)
 (show-paren-mode)
 (electric-pair-mode)
 (global-linum-mode)
 (global-auto-revert-mode)
 (global-hl-line-mode)
-(doom-modeline-init)
+(if (string-equal system-type "gnu/linux")
+    (doom-modeline-init))
 
 (setq hl-todo-keyword-faces
       `(("TODO"  . ,(face-foreground 'warning))

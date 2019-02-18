@@ -26,7 +26,6 @@ in
     dash-functional
     define-word
     dockerfile-mode
-    doom-modeline
     doom-themes
     evil
     evil-commentary
@@ -91,5 +90,5 @@ in
   ]) ++ (
   if machine.darwin
   then
-    [epkgs.melpaPackages.lsp-python] else [])
+    [epkgs.melpaPackages.lsp-python] else [epkgs.melpaPackagesdoom-modeline])
   )
