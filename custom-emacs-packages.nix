@@ -6,7 +6,7 @@ let
     name = "org-clubhouse.el";
     src = builtins.fetchurl {
       url = https://raw.githubusercontent.com/urbint/org-clubhouse/master/org-clubhouse.el;
-      sha256 = "0c52bf314sh3gdl8hs0lwqgwqdj42f87ifhhl1pdig7qk3951sgn";
+      sha256 = "13c1380adg5lhvg2hi6ah1jdj4pswbhsi05866f18bn19cvnz5k7";
     };
     buildInputs = with self.melpaPackages; [
       dash
