@@ -11,6 +11,8 @@
       org-archive-location (concat "~/projects/lxndr/archive/" (format-time-string "%Y-%m") ".org::")
       org-todo-keywords '((sequence "[ ]" "[x]")))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; org-clubhouse stuff
 (setq org-clubhouse-team-name "urbint"
       org-clubhouse-state-alist
         '(("SOMEDAY"   . "Some Day")
@@ -24,6 +26,9 @@
 
 (general-add-hook 'org-mode-hook (list #'org-clubhouse-mode))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; my org functions
+
 (defun org-table-clear-and-align ()
   (interactive)
   "Clear a cell, then align the table."
@@ -36,7 +41,8 @@
   (call-interactively 'org-table-edit-field)
   (org-table-align))
 
-;; hydra def
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; my org bindings
 
 (defhydra hydra-org-table ()
   "org table"
@@ -62,7 +68,11 @@
   "M-h"                     #'outline-up-heading
   "M-j"                     #'org-forward-heading-same-level
   "M-k"                     #'org-backward-heading-same-level
-  )
+  "M-l"                     #'org-next-visible-heading)
+;;; #-org-forward-element - needed on M-l?
+;;; #'org-clock-in
+;;; #'org-slurp-forward, etc.
+;;; #'org-transpose-forward...
 
 (general-def 'normal org-mode-map
  "]m"                      #'org-shiftright

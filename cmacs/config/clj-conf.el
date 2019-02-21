@@ -101,6 +101,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
  "M-o" #'hydra-clj/body
  [remap empty-mode-leader] #'hydra-clj/body
  [remap evil-lookup] #'cider-doc
+ [remap evil-goto-definition] #'cider-find-dwim
  )
 
 (defhydra hydra-clj (:exit t)

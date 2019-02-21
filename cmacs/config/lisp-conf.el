@@ -1,11 +1,8 @@
 (require 'bindings-conf)
 (require 'paxedit)
 
-(general-evil-define-key 'normal lisp-interaction-mode-map
-  [remap eval-print-last-sexp] 'evil-window-down)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Paxedit movement functions
+;;; Lisp Functions
 
 (defmacro define-move-and-insert
     (name &rest body)
@@ -46,26 +43,39 @@
   (forward-sexp)
   (insert " "))
 
+(defun lisp-tree-forward ()
+  (interactive)
+  "Move forward in the lisp tree"
+  (paredit-forward)
+  (sp-next-sexp))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Paxedit mappings
+;;; Paxedit mappings
+
+(general-evil-define-key 'normal lisp-interaction-mode-map
+  [remap eval-print-last-sexp] 'evil-window-down)
 
 (general-define-key :keymaps 'paredit-mode-map
   "C-h" #'evil-window-left
   "C-j" #'evil-window-down
   "C-k" #'evil-window-up
   "C-l" #'evil-window-right
-  "M-t" #'paredit-forward
-  "M-p" #'paredit-forward-up
-  "M-v" #'paredit-forward-down
-  "M-a" #'paredit-backward
-  "M-q" #'paredit-backward-up
-  "M-z" #'paredit-backward-down
-  "M-r" #'sp-forward-slurp-sexp
-  "M-s" #'sp-forward-barf-sexp
-  "M-w" #'sp-backward-barf-sexp
-  "M-f" #'sp-backward-slurp-sexp
-  [remap evil-multiedit-match-symbol-and-next] #'paxedit-transpose-forward
-  "M-b" #'paxedit-transpose-backward
-  )
+
+  "M-j" #'lisp-tree-forward
+  "M-l" #'paredit-forward-down
+  "M-k" #'paredit-backward
+  "M-h" #'paredit-backward-up
+
+  "M-s" #'paredit-forward-slurp-sexp
+  "M-t" #'paredit-forward-barf-sexp
+  "M-a" #'paredit-backward-barf-sexp
+  "M-r" #'paredit-backward-slurp-sexp
+
+  "M-f" #'paxedit-transpose-backward
+  "M-p" #'paxedit-transpose-forward)
+
+(general-evil-define-key 'normal paredit-mode-map
+  "B" #'sp-backward-symbol
+  "W" #'paxedit-next-symbol)
 
 (provide 'lisp-conf)
