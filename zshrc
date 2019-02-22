@@ -429,9 +429,3 @@ alias ops='eval $(op signin urbint)'
 # emacs
 
 alias emd='emacs --debug-init'
-
-
-################################################################################
-# xndr
-
-# alias xndr='~/projects/xndr/dist/build/xndr/xndr'
