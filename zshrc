@@ -283,7 +283,9 @@ fi
 alias nb='nix-build'
 alias ndeps='nix-store-deps'
 alias ndtree='nix-store-deps-tree'
+alias ndx='nix-index'
 alias ne='nix-env'
+alias nev='nix eval'
 alias nhash='nix-prefetch-url --type sha256'
 alias nq='nix-query'
 alias nl='nix-env -q'
@@ -304,7 +306,10 @@ alias nsu="nix-shell --arg nixpkgs 'import <nixpkgs-unstable> {}'"
 ################################################################################
 # cabal
 
-alias nhs='nix-shell --arg nixpkgs "import <nixpkgs-unstable> {}" --run "cabal new-repl"'
+# Write scripts for these to make them available in the shell
+# use a default shell.nix bash script to set all these aliases up!
+alias nbhs="nix-build -E 'with import <nixpkgs> {}; haskellPackages.callCabal2nix "foo" ./. {}'"
+alias nshs="nix-shell -E 'with import <nixpkgs> {}; (haskellPackages.callCabal2nix "foo" ./. {}).env'"
 alias cbw='ghcid -c "cabal repl lib:bobby" | source-highlight -s haskell -f esc'
 alias ctw='ghcid -c "cabal repl test:bobby-tests" --warnings --test "Main.main" | source-highlight -s haskell -f esc'
 alias cbi='cabal build --ghc-option=-ddump-minimal-imports'
@@ -429,4 +434,4 @@ alias emd='emacs --debug-init'
 ################################################################################
 # xndr
 
-alias xndr='~/projects/xndr/dist/build/xndr/xndr'
+# alias xndr='~/projects/xndr/dist/build/xndr/xndr'

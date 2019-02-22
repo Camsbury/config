@@ -40,9 +40,6 @@ in {
     ag
     audacity
     autojump
-    avrbinutils
-    avrgcc
-    avrlibc
     # autorandr
     bear
     binutils
@@ -61,6 +58,7 @@ in {
     fzf
     gcc
     gdb
+    ghc
     gimp
     git
     gitAndTools.hub
@@ -82,6 +80,7 @@ in {
     keychain
     libnotify
     man-pages
+    nix-index
     notify-osd # to upgrade...
     oh-my-zsh
     openssh
@@ -121,7 +120,6 @@ in {
     unstable.bat
     unstable.chromium
     unstable.dropbox-cli
-    unstable.ghc
     unstable.python36
     unstable.python36Packages.jedi
     unstable.python36Packages.pyls-isort
