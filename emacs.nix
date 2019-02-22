@@ -90,5 +90,5 @@ in
   ]) ++ (
   if machine.darwin
   then
-    [epkgs.melpaPackages.lsp-python] else [epkgs.melpaPackagesdoom-modeline])
+    [epkgs.melpaPackages.lsp-python] else [epkgs.melpaPackages.doom-modeline])
   )

@@ -15,7 +15,6 @@ in {
 
     chromium = {
       enablePepperFlash = true;
-      enablePepperPDF = true;
     };
 
     packageOverrides = pkgs: {
@@ -41,8 +40,12 @@ in {
     ag
     audacity
     autojump
+    avrbinutils
+    avrgcc
+    avrlibc
     # autorandr
     bear
+    binutils
     cabal-install
     cabal2nix
     cargo
@@ -61,11 +64,12 @@ in {
     gimp
     git
     gitAndTools.hub
+    glibc
     gnumake
     gnupg
     gnutls
     haskellPackages.Agda
-    haskellPackages.Cabal_2_2_0_0
+    haskellPackages.Cabal_2_4_0_0
     haskellPackages.apply-refact
     haskellPackages.ghcid
     haskellPackages.hlint
