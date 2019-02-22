@@ -39,8 +39,8 @@ in {
     # Stable Packages
     ack
     ag
-    autojump
     audacity
+    autojump
     # autorandr
     bear
     cabal-install
@@ -48,9 +48,9 @@ in {
     cargo
     carnix
     curl
+    dmenu
     docker
     docker_compose
-    dmenu
     exa
     fd
     feh # wallpapers
@@ -64,9 +64,9 @@ in {
     gnumake
     gnupg
     gnutls
-    haskellPackages.apply-refact
     haskellPackages.Agda
     haskellPackages.Cabal_2_2_0_0
+    haskellPackages.apply-refact
     haskellPackages.ghcid
     haskellPackages.hlint
     haskellPackages.xmonad
@@ -87,12 +87,12 @@ in {
     ripgrep
     shellcheck
     slack
+    sloccount
     slock
     sourceHighlight
     sqlite
     stack2nix
     teensy-loader-cli
-    sloccount
     tldr
     tmux
     tree
@@ -122,8 +122,8 @@ in {
     unstable.python36Packages.jedi
     unstable.python36Packages.pyls-isort
     unstable.python36Packages.pyls-mypy
-    unstable.python36Packages.yapf
     unstable.python36Packages.python-language-server
+    unstable.python36Packages.yapf
     unstable.spotify # non-free
     ## unneeded because the config is passed into unstable!
     # (unstable.chromium.override { enablePepperFlash = true; })
