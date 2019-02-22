@@ -12,7 +12,16 @@
       org-todo-keywords '((sequence "[ ]" "[x]")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; org-babel stuff
+
+(setq org-babel-confirm-evaluate nil)
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((sql . t)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-clubhouse stuff
+
 (setq org-clubhouse-team-name "urbint"
       org-clubhouse-state-alist
         '(("SOMEDAY"   . "Some Day")
