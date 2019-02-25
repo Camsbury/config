@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# key: t
+# name: title
+# --
+
+#+TITLE: ${1:title}
