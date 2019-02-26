@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # key: x
-# name: title
+# name: src
 # --
 
 #+BEGIN_SRC ${1:sql}
