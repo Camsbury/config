@@ -48,6 +48,11 @@
   (interactive)
   (find-file "/tmp/notes.org"))
 
+(defun evil-save-as (arg)
+  "Save buffer as"
+  (interactive "sFile name: ")
+  (evil-save arg))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Spawn Functions
 

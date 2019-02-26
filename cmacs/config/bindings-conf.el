@@ -101,7 +101,7 @@
   ;; ("v")
   ;; ("V")
   ("w" #'evil-write                   "write file")
-  ("W" #'eww-new                      "new browser")
+  ("W" #'evil-save-as                 "save file as")
   ;; ("x")
   ;; ("X")
   ("y" #'nav-flash-line               "flash line")
