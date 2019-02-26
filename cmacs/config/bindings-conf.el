@@ -61,7 +61,7 @@
   ("b" #'blind-mode                   "blind mode")
   ;; ("B")
   ("c" #'hydra-config/body            "spawn config file")
-  ;; ("C")
+  ("C" #'toggle-command-logging       "toggle command logging")
   ("d" #'evil-goto-definition         "evil jump to def")
   ;; ("D")
   ;; ("e")

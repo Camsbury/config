@@ -53,6 +53,17 @@
   (interactive "sFile name: ")
   (evil-save arg))
 
+(defun toggle-command-logging ()
+  "Toggle command logging"
+  (interactive)
+  (if (bound-and-true-p command-log-mode)
+      (call-interactively #'global-command-log-mode)
+    (progn
+      (call-interactively #'global-command-log-mode)
+      (clm/toggle-command-log-buffer))))
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Spawn Functions
 
