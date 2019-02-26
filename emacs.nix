@@ -61,6 +61,7 @@ in
     nav-flash
     nix-mode
     nov
+    ob-async
     org-bullets
     paredit
     paxedit

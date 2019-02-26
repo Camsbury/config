@@ -1,5 +1,6 @@
 (require 'bindings-conf)
 (require 'org-clubhouse)
+(require 'ob-async)
 
 (setq org-directory (expand-file-name "~/projects/lxndr/")
       org-capture-templates '(("n" "Place in the Inbox" entry
