@@ -53,9 +53,10 @@
 
 (defhydra hydra-leader (:exit t :columns 5 :idle 1.5)
   "leader"
+  ("[" #'hydra-describe/body          "describe")
   ("]" #'switch-to-buffer             "switch to buffer")
   (")" #'eval-defun                   "eval outer sexp")
-  ("a" #'hydra-describe/body          "describe")
+  ;; ("a")
   ("A" #'org-agenda-list              "org agenda list")
   ("b" #'blind-mode                   "blind mode")
   ;; ("B")
