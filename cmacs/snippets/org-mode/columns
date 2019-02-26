@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# key: cols
+# name: columns
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+
+#+BEGIN_SRC sql
+SELECT column_name
+FROM   information_schema.columns
+WHERE  table_schema = '${1:public}'
+AND    table_name   = '$2'
+ORDER BY column_name
+#+END_SRC
