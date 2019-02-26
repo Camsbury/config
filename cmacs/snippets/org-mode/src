@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# key: x
+# name: title
+# --
+
+#+BEGIN_SRC ${1:sql}
+$2
+#+END_SRC
