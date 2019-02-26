@@ -2,6 +2,7 @@
 
 let
   emacs = import ./emacs.nix {};
+  customPackages = import ./custom-packages.nix { inherit pkgs; };
 in
   {
     # nix.extraOptions = ''
@@ -35,7 +36,7 @@ in
         wget
       ] ++ [
         emacs
-      ];
+      ] ++ customPackages;
 
     environment.shellAliases = {
       emacs = "${emacs}";
