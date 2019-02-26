@@ -66,14 +66,16 @@
   "Spawns a window to the right"
   (interactive)
   (split-window-right)
-  (prettify-windows)
-  (windmove-right))
+  (windmove-right)
+  (prettify-windows))
 
 (defun spawnify (f)
   "Spawn a window to the right before calling a function"
   (interactive)
-  (spawn-right)
-  (call-interactively f))
+  (split-window-right)
+  (windmove-right)
+  (call-interactively f)
+  (prettify-windows))
 
 (defun spawn-new (arg)
   "Spawns a new fundamental buffer"
