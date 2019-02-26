@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# key: d
+# name: drawer
+# --
+
+:${1:DRAWERNAME}:
+$2
+:END:
