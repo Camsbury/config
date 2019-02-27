@@ -40,16 +40,28 @@
 ;;; my org functions
 
 (defun org-table-clear-and-align ()
-  (interactive)
   "Clear a cell, then align the table."
+  (interactive)
   (org-table-blank-field)
   (org-table-align))
 
 (defun org-table-edit-and-align ()
-  (interactive)
   "Edit a cell, then align the table."
+  (interactive)
   (call-interactively 'org-table-edit-field)
   (org-table-align))
+
+(defun org-insert-top-level-heading ()
+  "Insert top level heading"
+  (interactive)
+  (insert "* ")
+  (call-interactively #'evil-insert))
+
+(defun org-insert-heading ()
+  "Insert top level heading"
+  (interactive)
+  (call-interactively #'outline-insert-heading)
+  (call-interactively #'evil-insert))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org bindings
@@ -88,6 +100,10 @@
  "]m"                      #'org-shiftright
  "[m"                      #'org-shiftleft
  [remap empty-mode-leader] #'hydra-org/body)
+
+(general-def org-mode-map
+  "M-a" #'org-insert-top-level-heading
+  "M-r" #'org-insert-heading)
 
 (defhydra hydra-org (:exit t)
   "org-mode"

@@ -59,6 +59,7 @@
   (if (bound-and-true-p command-log-mode)
       (call-interactively #'global-command-log-mode)
     (progn
+      (call-interactively #'command-log-mode)
       (call-interactively #'global-command-log-mode)
       (clm/toggle-command-log-buffer))))
 
