@@ -111,7 +111,8 @@
 
 (defhydra hydra-visual-leader (:exit t)
   "visual leader"
-  ("s" #'sort-lines "sort lines"))
+  ("s" #'sort-lines "sort lines")
+  ("o" #'narrow-and-zoom-in           "narrow and zoom in"))
 
 (defhydra hydra-left-leader (:exit t)
   "left leader"
