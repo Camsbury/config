@@ -89,7 +89,11 @@ in
     etymology-of-word
     # agda2-mode
   ]) ++ (
-  if machine.darwin
-  then
-    [epkgs.melpaPackages.lsp-python] else [epkgs.melpaPackages.doom-modeline])
-  )
+    if machine.darwin
+    then [
+      epkgs.melpaPackages.lsp-python
+    ]
+    else [
+      epkgs.melpaPackages.doom-modeline
+    ]
+  ))

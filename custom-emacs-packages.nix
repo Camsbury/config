@@ -1,7 +1,10 @@
 pkgs: self: super:
 
 let
+  machine = import ./machine.nix;
+
   compileEmacsFiles = pkgs.callPackage ./builder.nix;
+
   org-clubhouse = compileEmacsFiles {
     name = "org-clubhouse.el";
     src = builtins.fetchurl {
@@ -14,6 +17,7 @@ let
       s
     ];
   };
+
   etymology-of-word = compileEmacsFiles {
     name = "etymology-of-word.el";
     src = builtins.fetchurl {
@@ -24,8 +28,35 @@ let
       dash
     ];
   };
+
+  cider = self.melpaBuild {
+      pname = "cider";
+      version = "20190226.1059";
+      src = pkgs.fetchFromGitHub {
+        owner = "clojure-emacs";
+        repo = "cider";
+        rev = "dafb08cd429e622fb49aaf84df8491d04d8512f8";
+        sha256 = "1sw16474i2kav2bvg9r7zpfwkcbj3paymxi0jn9pdhgjyfm9bssk";
+      };
+      recipe = pkgs.fetchurl {
+        url = "https://github.com/melpa/melpa/blob/master/recipes/cider";
+        sha256 = "0si9yyxyb681v4lxxc789xwdvk55gallwxbv3ldqfq4vjf0di0im";
+        name = "recipe";
+      };
+      packageRequires = with self; [
+        emacs
+        pkg-info
+        sesman
+      ];
+      meta = {
+        homepage = "https://melpa.org/#/cider";
+        license = pkgs.stdenv.lib.licenses.free;
+      };
+    };
 in
-{
-  inherit org-clubhouse;
-  inherit etymology-of-word;
-}
+  {
+    inherit org-clubhouse;
+    inherit etymology-of-word;
+  } // (if machine.darwin then {
+    inherit cider;
+  } else {})
