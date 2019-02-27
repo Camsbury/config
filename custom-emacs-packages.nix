@@ -58,5 +58,5 @@ in
     inherit org-clubhouse;
     inherit etymology-of-word;
   } // (if machine.darwin then {
-    inherit cider;
+    # inherit cider;
   } else {})
