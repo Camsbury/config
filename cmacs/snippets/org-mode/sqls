@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# key: sqls
+# name: sqls
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+:header-args: :engine "postgresql" :dbpassword ${1:DB_PASSWORD} :cmdline "-h ${2:host} ${3:database} ${4:username}" :async
