@@ -87,8 +87,7 @@
 (general-def 'normal org-mode-map
  "]m"                      #'org-shiftright
  "[m"                      #'org-shiftleft
- [remap empty-mode-leader] #'hydra-org/body
- )
+ [remap empty-mode-leader] #'hydra-org/body)
 
 (defhydra hydra-org (:exit t)
   "org-mode"
@@ -96,7 +95,16 @@
  ("a"   #'org-archive-subtree  "archive")
  ("d"   #'org-deadline         "deadline")
  ("r"   #'org-refile           "refile")
- ("t"   #'org-set-tags-command "set tags"))
+ ("t"   #'org-set-tags-command "set tags")
+ ("e"   #'org-edit-special     "edit src"))
+
+(general-def org-src-mode-map
+ [remap empty-mode-leader] #'hydra-org-src/body)
+
+(defhydra hydra-org-src (:exit t)
+  "org-src-mode"
+  ("q" #'org-edit-src-exit "write and quit")
+  ("k" #'org-edit-src-abort "quit without saving"))
 
 (general-add-hook 'org-mode-hook
   (list 'org-bullets-mode 'org-indent-mode 'visual-line-mode))
