@@ -48,8 +48,7 @@
   ("N" #'open-new-fundamental              "new file")
   ("p" #'counsel-projectile-switch-project "new project")
   ("S" #'open-se-principles                "SE principles")
-  ("t" #'counsel-find-file                 "file in dir")
-  )
+  ("t" #'counsel-find-file                 "file in dir"))
 
 (defhydra hydra-leader (:exit t :columns 5 :idle 1.5)
   "leader"
@@ -121,8 +120,7 @@
   ("t" #'evil-prev-buffer                 "previous buffer")
   ("f" #'text-scale-decrease              "zoom out")
   ("r" #'undo-tree-save-state-to-register "mark undo tree")
-  ("n" #'buf-move-left                    "move window left")
-  )
+  ("n" #'buf-move-left                    "move window left"))
 
 (defhydra hydra-right-leader (:exit t)
   "right leader"
@@ -131,8 +129,7 @@
   ("t" #'evil-next-buffer                      "next buffer")
   ("f" #'text-scale-increase                   "zoom in")
   ("r" #'undo-tree-restore-state-from-register "goto undo tree mark")
-  ("n" #'buf-move-right                        "move window right")
-  )
+  ("n" #'buf-move-right                        "move window right"))
 
 (general-define-key
  "s-x"     #'counsel-M-x
@@ -142,7 +139,8 @@
  "C-j"     #'evil-window-down
  "C-k"     #'evil-window-up
  "C-l"     #'evil-window-right
- "C-u"     #'evil-scroll-up)
+ "C-u"     #'evil-scroll-up
+ "C-S-p"   #'yank)
 
 (general-def 'normal
   "SPC" #'hydra-leader/body
