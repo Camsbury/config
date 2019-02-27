@@ -135,13 +135,14 @@
   )
 
 (general-define-key
- "s-x" #'counsel-M-x
- "M-x" #'counsel-M-x
- "C-h" #'evil-window-left
- "C-j" #'evil-window-down
- "C-k" #'evil-window-up
- "C-l" #'evil-window-right
- "C-u" #'evil-scroll-up)
+ "s-x"     #'counsel-M-x
+ "M-x"     #'counsel-M-x
+ "M-<RET>" #'indent-new-comment-line
+ "C-h"     #'evil-window-left
+ "C-j"     #'evil-window-down
+ "C-k"     #'evil-window-up
+ "C-l"     #'evil-window-right
+ "C-u"     #'evil-scroll-up)
 
 (general-def 'normal
   "SPC" #'hydra-leader/body
@@ -159,7 +160,7 @@
   "SPC" #'hydra-visual-leader/body
   "S"   #'evil-surround-region
   "M-d" #'evil-multiedit-match-and-next
-  "M-d" #'evil-multiedit-match-and-prev)
+  "M-D" #'evil-multiedit-match-and-prev)
 
 (general-def 'operator
   "s" #'evil-surround-edit)
