@@ -99,10 +99,10 @@ If invoked with a prefix ARG eval the expression after inserting it"
 
 (general-def 'normal clojure-mode-map
  "M-o" #'hydra-clj/body
- [remap empty-mode-leader] #'hydra-clj/body
- [remap evil-lookup] #'cider-doc
+ [remap empty-mode-leader]    #'hydra-clj/body
+ [remap evil-lookup]          #'cider-doc
  [remap evil-goto-definition] #'cider-find-dwim
- )
+ [remap cider-inspector-pop]  #'paredit-backward)
 
 (defhydra hydra-clj (:exit t)
   "clojure-mode"
