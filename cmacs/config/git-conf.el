@@ -10,10 +10,13 @@
 (general-define-key
  :states  'normal
  :keymaps 'magit-status-mode-map
- [remap magit-section-backward]  #'evil-window-up
- [remap magit-section-forward]   #'evil-window-down
- [remap indent-new-comment-line] #'magit-section-forward
- [remap kill-sentence]           #'magit-section-backward)
+ [remap magit-section-backward-sibling] #'hydra-left-leader/body
+ [remap magit-section-forward-sibling]  #'hydra-right-leader/body
+ [remap magit-diff-show-or-scroll-up]   #'hydra-leader/body
+ [remap magit-section-backward]         #'evil-window-up
+ [remap magit-section-forward]          #'evil-window-down
+ [remap indent-new-comment-line]        #'magit-section-forward
+ [remap kill-sentence]                  #'magit-section-backward)
 
 (general-define-key
  :keymaps 'git-timemachine-mode-map
