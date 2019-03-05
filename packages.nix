@@ -88,6 +88,14 @@ in {
     openssh
     peek
     pltScheme
+    python36
+    python36Packages.jedi
+    python36Packages.jupyter_client
+    python36Packages.jupyter_core
+    python36Packages.pyls-isort
+    python36Packages.pyls-mypy
+    python36Packages.python-language-server
+    python36Packages.yapf
     redshift
     ripgrep
     shellcheck
@@ -122,15 +130,7 @@ in {
     unstable.bat
     unstable.chromium
     unstable.dropbox-cli
-    unstable.python36
-    unstable.python36Packages.jedi
-    unstable.python36Packages.pyls-isort
-    unstable.python36Packages.pyls-mypy
-    unstable.python36Packages.python-language-server
-    unstable.python36Packages.yapf
     unstable.spotify # non-free
-    ## unneeded because the config is passed into unstable!
-    # (unstable.chromium.override { enablePepperFlash = true; })
   ] ++ [
     # Custom Packages
     # (import ./emacs.nix { inherit pkgs; })

@@ -1,6 +1,7 @@
 (require 'bindings-conf)
 (require 'org-clubhouse)
 (require 'ob-async)
+(require 'ob-ipython)
 
 (setq org-directory (expand-file-name "~/projects/lxndr/")
       org-capture-templates '(("n" "Place in the Inbox" entry
@@ -18,7 +19,8 @@
 (setq org-babel-confirm-evaluate nil)
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((sql . t)))
+ '((sql . t)
+   (ipython . t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-clubhouse stuff

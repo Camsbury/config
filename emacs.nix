@@ -62,6 +62,7 @@ in
     nix-mode
     nov
     ob-async
+    ob-ipython
     org-bullets
     paredit
     paxedit
