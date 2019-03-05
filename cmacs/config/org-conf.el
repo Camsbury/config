@@ -99,8 +99,8 @@
 ;;; #'org-transpose-forward...
 
 (general-def 'normal org-mode-map
- "]m"                      #'org-shiftright
- "[m"                      #'org-shiftleft
+ "]"                       #'hydra-right-leader/body
+ "["                       #'hydra-left-leader/body
  [remap empty-mode-leader] #'hydra-org/body)
 
 (general-def org-mode-map
