@@ -75,6 +75,7 @@ in
     restart-emacs
     rjsx-mode
     s
+    slack
     smartparens
     smex
     use-package
