@@ -11,7 +11,6 @@ let
   machine = import ./machine.nix;
 in
   emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
-    alert
     avy
     buffer-move
     cider
@@ -19,7 +18,6 @@ in
     command-log-mode
     company
     company-cabal
-    company-emoji
     company-ghc
     counsel
     counsel-projectile
@@ -77,7 +75,6 @@ in
     restart-emacs
     rjsx-mode
     s
-    slack
     smartparens
     smex
     use-package
@@ -91,6 +88,7 @@ in
   ]) ++ (with epkgs; [
     org-clubhouse
     etymology-of-word
+    slack
     # agda2-mode
   ]) ++ (
     if machine.darwin

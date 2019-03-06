@@ -53,10 +53,39 @@ let
         license = pkgs.stdenv.lib.licenses.free;
       };
     };
+
+  slack = self.melpaBuild {
+      pname = "slack";
+      version = "20190303.1037";
+      src = pkgs.fetchFromGitHub {
+        owner = "yuya373";
+        repo = "slack";
+        rev = "5d37cb4aa8f1e100e2b0bed6193bd9d7df549637";
+        sha256 = "1sw16474i2kav2bvg9r7zpfwkcbj3paymxi0jn9pdhgjyfm9bssk";
+      };
+      recipe = pkgs.fetchurl {
+        url = "https://github.com/melpa/melpa/blob/master/recipes/slack";
+        sha256 = "0si9yyxyb681v4lxxc789xwdvk55gallwxbv3ldqfq4vjf0di0im";
+        name = "recipe";
+      };
+      packageRequires = with self.melpaPackages; [
+        alert
+        circe
+        emojify
+        self.elpaPackages.oauth2
+        request
+        websocket
+      ];
+      meta = {
+        homepage = "https://melpa.org/#/slack";
+        license = pkgs.stdenv.lib.licenses.free;
+      };
+    };
 in
   {
     inherit org-clubhouse;
     inherit etymology-of-word;
   } // (if machine.darwin then {
+    # inherit slack;
     # inherit cider;
   } else {})

@@ -1,8 +1,10 @@
 (require 'slack)
 (require 'alert)
+(require 'emojify)
+(require 'company-emoji)
 (require 'private-conf)
 
-(setq slack-buffer-emojify t) ;; if you want to enable emoji, default nil
+;; (setq slack-buffer-emojify t) ;; if you want to enable emoji, default nil
 (setq slack-prefer-current-team t)
 (if (string-equal system-type "gnu/linux")
     (setq alert-default-style 'notifier))
