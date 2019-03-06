@@ -32,6 +32,7 @@
          scroll-conf
          search-conf
          shell-conf
+         slack-conf
          snippet-conf
          style-conf
          theme-conf

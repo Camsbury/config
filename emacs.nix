@@ -11,6 +11,7 @@ let
   machine = import ./machine.nix;
 in
   emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
+    alert
     avy
     buffer-move
     cider
@@ -18,6 +19,7 @@ in
     command-log-mode
     company
     company-cabal
+    company-emoji
     company-ghc
     counsel
     counsel-projectile
