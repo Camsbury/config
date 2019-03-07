@@ -1,0 +1,115 @@
+# -*- shell-script -*-
+
+################################################################################
+# window management
+#
+
+# allows for normal keyboard usage in all modes - would be good to do by mode
+# maybe run this on the swap to the new mode first as a `khd -e`
+khd void_unlisted_bind off
+
+# swap modes
+# would be nice to also change my keyboard layout...
+default + ctrl + shift + alt - a : khd -p "ctrl - space";\
+                                   khd -e "mode activate colemak"
+colemak + ctrl + shift + alt - a : khd -p "ctrl - space";\
+                                   khd -e "mode activate default"
+
+# toggle desktop offset
+# what does this do? - rearrange windows nicely?
+default + ctrl + shift + alt - z : chunkc tiling::desktop --toggle offset
+colemak + ctrl + shift + alt - z : chunkc tiling::desktop --toggle offset
+
+# enter fullscreen mode
+default + ctrl + shift + alt - f : chunkc tiling::window --toggle fullscreen
+colemak + ctrl + shift + alt - e : chunkc tiling::window --toggle fullscreen
+
+# change focus between tiling / floating windows
+default + ctrl + shift + alt - t : chunkc tiling::window --toggle float
+colemak + ctrl + shift + alt - f : chunkc tiling::window --toggle float
+
+# kill window
+default + ctrl + shift + alt - q : chunkc tiling::window --close
+colemak + ctrl + shift + alt - q : chunkc tiling::window --close
+
+# move window
+default + ctrl + shift + alt - j : chunkc tiling::window --swap east
+colemak + ctrl + shift + alt - y : chunkc tiling::window --swap east
+default + ctrl + shift + alt - k : chunkc tiling::window --swap west
+colemak + ctrl + shift + alt - n : chunkc tiling::window --swap west
+
+# adjust window
+default + ctrl + shift + alt - l : chunkc tiling::window -r 0.08 -e east
+colemak + ctrl + shift + alt - u : chunkc tiling::window -r 0.08 -e east
+default + ctrl + shift + alt - h : chunkc tiling::window -r 0.08 -e west
+colemak + ctrl + shift + alt - h : chunkc tiling::window -r 0.08 -e west
+
+# equalize windows
+default + ctrl + shift + alt - o : chunkc tiling::desktop --equalize
+colemak + ctrl + shift + alt - ox29 : chunkc tiling::desktop --equalize
+
+# move focused container to monitor
+default + ctrl + shift + alt - n : chunkc tiling::window --send-to-monitor next
+colemak + ctrl + shift + alt - j : chunkc tiling::window --send-to-monitor next
+default + ctrl + shift + alt - p : chunkc tiling::window --send-to-monitor prev
+colemak + ctrl + shift + alt - r : chunkc tiling::window --send-to-monitor prev
+
+
+################################################################################
+# apps
+#
+
+default + cmd + ctrl + shift + alt - a : open -a /Applications/Utilities/Activity\ Monitor.app
+colemak + cmd + ctrl + shift + alt - a : open -a /Applications/Utilities/Activity\ Monitor.app
+default + cmd + ctrl + shift + alt - b : open -a /Applications/iBooks.app
+colemak + cmd + ctrl + shift + alt - b : open -a /Applications/iBooks.app
+default + cmd + ctrl + shift + alt - c : open -a /Applications/Google\ Chrome.app
+colemak + cmd + ctrl + shift + alt - c : open -a /Applications/Google\ Chrome.app
+default + cmd + ctrl + shift + alt - d : open -a /Applications/Dash.app
+colemak + cmd + ctrl + shift + alt - g : open -a /Applications/Dash.app
+# default + cmd + ctrl + shift + alt - e : open -a /nix/store/6in6av4q2z7prfsyyylvlxbj96l7a203-darwin-system-19.03pre-git/Applications/Emacs.app
+# colemak + cmd + ctrl + shift + alt - k : open -a /nix/store/6in6av4q2z7prfsyyylvlxbj96l7a203-darwin-system-19.03pre-git/Applications/Emacs.app
+default + cmd + ctrl + shift + alt - e : open -a /nix/store/rkx0k2fa57hiysifn452ss18iwpcz3gg-darwin-system-19.03pre-git/Applications/Emacs.app
+colemak + cmd + ctrl + shift + alt - k : open -a /nix/store/rkx0k2fa57hiysifn452ss18iwpcz3gg-darwin-system-19.03pre-git/Applications/Emacs.app
+default + cmd + ctrl + shift + alt - f : open -a /Applications/Figma.app
+colemak + cmd + ctrl + shift + alt - e : open -a /Applications/Figma.app
+# default + cmd + ctrl + shift + alt - g : open -a filler
+# colemak + cmd + ctrl + shift + alt - d : open -a filler
+# default + cmd + ctrl + shift + alt - h : open -a filler
+# colemak + cmd + ctrl + shift + alt - h : open -a filler
+# default + cmd + ctrl + shift + alt - i : open -a filler
+# colemak + cmd + ctrl + shift + alt - l : open -a filler
+default + cmd + ctrl + shift + alt - j : open -a /Applications/JQBX.app
+colemak + cmd + ctrl + shift + alt - y : open -a /Applications/JQBX.app
+default + cmd + ctrl + shift + alt - k : open -a /Applications/Slack.app
+colemak + cmd + ctrl + shift + alt - n : open -a /Applications/Slack.app
+default + cmd + ctrl + shift + alt - l : open -a /Applications/LimeChat.app
+colemak + cmd + ctrl + shift + alt - u : open -a /Applications/LimeChat.app
+default + cmd + ctrl + shift + alt - m : open -a /Applications/Messages.app
+colemak + cmd + ctrl + shift + alt - m : open -a /Applications/Messages.app
+# default + cmd + ctrl + shift + alt - n : open -a filler
+# colemak + cmd + ctrl + shift + alt - j : open -a filler
+default + cmd + ctrl + shift + alt - o : open -a /Applications/Postico.app
+colemak + cmd + ctrl + shift + alt - 0x29 : open -a /Applications/Postico.app
+default + cmd + ctrl + shift + alt - p : open -a /Applications/1Password\ 6.app
+colemak + cmd + ctrl + shift + alt - r : open -a /Applications/1Password\ 6.app
+# default + cmd + ctrl + shift + alt - q : open -a filler
+# colemak + cmd + ctrl + shift + alt - q : open -a filler
+# default + cmd + ctrl + shift + alt - r : open -a filler
+# colemak + cmd + ctrl + shift + alt - s : open -a filler
+default + cmd + ctrl + shift + alt - s : open -a /Applications/Spotify.app
+colemak + cmd + ctrl + shift + alt - d : open -a /Applications/Spotify.app
+default + cmd + ctrl + shift + alt - t : open -a /Applications/iTerm.app
+colemak + cmd + ctrl + shift + alt - f : open -a /Applications/iTerm.app
+# default + cmd + ctrl + shift + alt - u : open -a filler
+# colemak + cmd + ctrl + shift + alt - i : open -a filler
+default + cmd + ctrl + shift + alt - v : open -a /Applications/VLC.app
+colemak + cmd + ctrl + shift + alt - v : open -a /Applications/VLC.app
+default + cmd + ctrl + shift + alt - w : open -a /Applications/Preview.app
+colemak + cmd + ctrl + shift + alt - w : open -a /Applications/Preview.app
+default + cmd + ctrl + shift + alt - x : open -a /Applications/Keybase.app
+colemak + cmd + ctrl + shift + alt - x : open -a /Applications/Keybase.app
+# default + cmd + ctrl + shift + alt - y : open -a filler
+# colemak + cmd + ctrl + shift + alt - o : open -a filler
+# default + cmd + ctrl + shift + alt - z : open -a filler
+# colemak + cmd + ctrl + shift + alt - z : open -a filler
