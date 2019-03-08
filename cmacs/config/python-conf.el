@@ -19,7 +19,7 @@
 (general-add-hook 'before-save-hook
                   (lambda ()
                     (when (eq major-mode 'python-mode)
-                      yapfify-buffer)))
+                      (yapfify-buffer))))
 
 
 (general-def 'normal python-mode-map
