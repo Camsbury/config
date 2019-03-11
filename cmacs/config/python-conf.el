@@ -1,4 +1,5 @@
 (require 'bindings-conf)
+(require 'functions-conf)
 
 (if (string-equal system-type "gnu/linux")
     (require 'lsp-clients))
