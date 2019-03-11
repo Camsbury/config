@@ -77,6 +77,13 @@ If invoked with a prefix ARG eval the expression after inserting it"
   (sesman-quit)
   (cider-jack-in-clj&cljs))
 
+(defun clj-narrow-defun ()
+  "Narrows to the current defun"
+  (interactive)
+  (save-mark-and-excursion
+    (mark-defun)
+    (call-interactively 'narrow-and-zoom-in)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Operators
@@ -108,9 +115,10 @@ If invoked with a prefix ARG eval the expression after inserting it"
   "clojure-mode"
   ("d" #'cider-doc                   "documentation")
   ("D" #'cider-find-dwim             "jump to def")
+  ("e" #'cider-inspect-last-result   "inspect last result")
   ("l" #'cider-load-buffer           "load buffer")
   ("n" #'cider-eval-ns-form          "eval ns")
-  ("o" #'cider-inspect-last-result   "inspect last result")
+  ("o" #'clj-narrow-defun            "focus on def")
   ("q" #'cider-jack-in-clj&cljs      "jack in clj&cljs")
   ("r" #'cider-rejack                "rejack")
   ("h" #'cider-switch-to-repl-buffer "repl"))
