@@ -29,9 +29,9 @@
 (defun python-narrow-defun ()
   "Narrows to the current defun"
   (interactive)
-  (python-mark-defun)
-  (call-interactively 'narrow-and-zoom-in)
-  (evil-exit-visual-state))
+  (save-mark-and-excursion
+    (python-mark-defun)
+    (call-interactively 'narrow-and-zoom-in)))
 
 (defhydra hydra-python (:exit t)
   "python-mode"

@@ -213,10 +213,10 @@
 (defun widen-and-zoom-out ()
   "Widen the buffer and set zoom to normal"
   (interactive)
-  (call-interactively 'widen)
-  (call-interactively 'text-scale-set)
-  (call-interactively 'text-scale-decrease)
-  (prettify-windows))
+  (save-mark-and-excursion (call-interactively 'widen)
+   (call-interactively 'text-scale-set)
+   (call-interactively 'text-scale-decrease)
+   (prettify-windows)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; grfn utils
