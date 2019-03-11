@@ -121,7 +121,8 @@ If invoked with a prefix ARG eval the expression after inserting it"
   ("o" #'clj-narrow-defun            "focus on def")
   ("q" #'cider-jack-in-clj&cljs      "jack in clj&cljs")
   ("r" #'cider-rejack                "rejack")
-  ("h" #'cider-switch-to-repl-buffer "repl"))
+  ("t" #'cider-switch-to-repl-buffer "repl")
+  ("y" #'cider-copy-last-result      "copy last result"))
 ; cider-browse-spec
 ; cider-switch-to-repl-buffer
 ; clojure-move-to-let
