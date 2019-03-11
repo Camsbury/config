@@ -27,6 +27,8 @@ in
     define-word
     dockerfile-mode
     doom-themes
+    emacsql
+    emacsql-psql
     evil
     evil-commentary
     evil-magit
@@ -86,7 +88,7 @@ in
     rainbow-mode
     undo-tree
   ]) ++ (with epkgs; [
-    company-sql
+    company-postgresql
     org-clubhouse
     etymology-of-word
     slack

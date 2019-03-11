@@ -18,11 +18,11 @@ let
     ];
   };
 
-  company-sql = compileEmacsFiles {
-    name = "company-sql.el";
+  company-postgresql = compileEmacsFiles {
+    name = "company-postgresql.el";
     src = builtins.fetchurl {
-      url = https://raw.githubusercontent.com/glittershark/emacs.d/fe879c97f3b8b9c04f800ebadc055790abc7cb32/company-sql.el;
-      sha256 = "0g3yjcg7nnqswp33yzrdajjmwiyvnq9kg993ay4aqzgxib1p1yx1";
+      url = https://raw.githubusercontent.com/urbint/emacs-postgresql-interactive/0c26f9cb4a7784c1eac121c30c557a70bff9b85e/company-postgresql.el;
+      sha256 = "1znqdnz5dx2cil7pilpggl18jkalys0923k26iabqlab9apygi0z";
     };
     buildInputs = with self.melpaPackages; [
       dash
@@ -98,7 +98,7 @@ let
 in
   {
     inherit org-clubhouse;
-    inherit company-sql;
+    inherit company-postgresql;
     inherit etymology-of-word;
   } // (if machine.darwin then {
     # inherit slack;

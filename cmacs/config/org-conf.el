@@ -1,7 +1,9 @@
 (require 'bindings-conf)
+;; (require 'company-sql-conf)
 (require 'org-clubhouse)
 (require 'ob-async)
-(require 'ob-ipython)
+(require 'company-postgresql)
+;; (require 'ob-ipython)
 
 (setq org-directory (expand-file-name "~/projects/lxndr/")
       org-capture-templates '(("n" "Place in the Inbox" entry
@@ -19,8 +21,7 @@
 (setq org-babel-confirm-evaluate nil)
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((sql . t)
-   (ipython . t)))
+ '((sql . t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-clubhouse stuff
@@ -36,7 +37,8 @@
           ("DEPLOYED"  . "Deployed")
           ("ABANDONED" . "Abandoned")))
 
-(general-add-hook 'org-mode-hook (list #'org-clubhouse-mode))
+(general-add-hook 'org-mode-hook (list #'org-clubhouse-mode
+                                       (lambda () (add-to-list 'company-backends 'company-ob-postgresql))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org functions
