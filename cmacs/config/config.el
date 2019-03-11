@@ -14,7 +14,6 @@
          counsel-conf
          docs-conf
          elisp-conf
-         error-conf
          evil-conf
          functions-conf
          git-conf

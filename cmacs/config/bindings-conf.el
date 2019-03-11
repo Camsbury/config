@@ -102,7 +102,7 @@
   ("w" #'evil-write                   "write file")
   ("W" #'evil-save-as                 "save file as")
   ;; ("x")
-  ;; ("X")
+  ("X" #'toggle-debug-on-error        "toggle debug on error")
   ("y" #'nav-flash-line               "flash line")
   ;; ("Y")
   ("z" #'git-timemachine-toggle       "git timemachine")
