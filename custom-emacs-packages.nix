@@ -18,6 +18,20 @@ let
     ];
   };
 
+  company-sql = compileEmacsFiles {
+    name = "company-sql.el";
+    src = builtins.fetchurl {
+      url = https://raw.githubusercontent.com/glittershark/emacs.d/fe879c97f3b8b9c04f800ebadc055790abc7cb32/company-sql.el;
+      sha256 = "0g3yjcg7nnqswp33yzrdajjmwiyvnq9kg993ay4aqzgxib1p1yx1";
+    };
+    buildInputs = with self.melpaPackages; [
+      dash
+      emacsql
+      emacsql-psql
+      s
+    ];
+  };
+
   etymology-of-word = compileEmacsFiles {
     name = "etymology-of-word.el";
     src = builtins.fetchurl {
@@ -84,6 +98,7 @@ let
 in
   {
     inherit org-clubhouse;
+    inherit company-sql;
     inherit etymology-of-word;
   } // (if machine.darwin then {
     # inherit slack;

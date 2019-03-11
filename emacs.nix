@@ -86,6 +86,7 @@ in
     rainbow-mode
     undo-tree
   ]) ++ (with epkgs; [
+    company-sql
     org-clubhouse
     etymology-of-word
     slack
