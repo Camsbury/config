@@ -3,12 +3,13 @@
   (require 'private-conf))
 
 (-map 'require
-      '( dockerfile-mode
+      '( buffer-move
+         dockerfile-mode
          wgrep
-         buffer-move
 
          autocomplete-conf
          bindings-conf
+         browser-conf
          c-conf
          clj-conf
          counsel-conf
