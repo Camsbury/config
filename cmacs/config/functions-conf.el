@@ -33,10 +33,10 @@
   (delete-window)
   (prettify-windows))
 
-(defun open-new-fundamental (arg)
-  "Opens a new fundamental mode file"
-  (interactive "sBuffer name: ")
-  (switch-to-buffer (generate-new-buffer arg)))
+(defun open-new-tmp (arg)
+  "Opens a new tmp file"
+  (interactive "sFile name: ")
+  (find-file (concat "/tmp/" arg)))
 
 (defun open-se-principles ()
   "Opens the SE principles file"
