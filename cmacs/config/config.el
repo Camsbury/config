@@ -13,6 +13,7 @@
          c-conf
          clj-conf
          counsel-conf
+         dashboard-conf
          docs-conf
          elisp-conf
          evil-conf

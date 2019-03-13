@@ -1,3 +1,4 @@
+(require 'bindings-conf)
 (general-add-hook 'magit-mode-hook
                   (list 'evil-magit-init))
 

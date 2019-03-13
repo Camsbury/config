@@ -21,7 +21,9 @@
 (setq org-babel-confirm-evaluate nil)
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((sql . t)))
+ '((emacs-lisp . t)
+   (sql . t)
+   (http . t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-clubhouse stuff
@@ -74,12 +76,14 @@
   "org table"
   ("o" #'org-table-align "align table")
   ("c" #'org-table-create "create table")
+  ("f" #'org-table-eval-formula "eval formula")
   ("j" #'evil-next-line "next row")
   ("k" #'evil-previous-line "previous row")
   ("l" #'org-table-next-field "next field")
   ("h" #'org-table-previous-field "previous field")
   ("x" #'org-table-clear-and-align "clear field")
   ("i" #'org-table-edit-and-align "edit field")
+  ("z" #'org-table-toggle-formula-debugger "formula debugger")
   ("q" nil "quit" :color red))
 
 (general-emacs-define-key org-capture-mode-map

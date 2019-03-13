@@ -55,6 +55,7 @@ in
     jedi # python-lsp
     js2-mode
     keychain-environment
+    know-your-http-well
     lsp-haskell
     lsp-mode
     lsp-ui
@@ -64,6 +65,7 @@ in
     nix-mode
     nov
     ob-async
+    ob-http
     ob-ipython
     org-bullets
     paredit
@@ -80,6 +82,7 @@ in
     smartparens
     smex
     use-package
+    web
     wgrep
     yaml-mode
     yapfify # python-lsp
