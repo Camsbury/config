@@ -2,4 +2,5 @@
 # key: d
 # expand-env: ((yas-indent-line 'fixed))
 # --
+-- | ${3:Document me!}
 data ${1:Type} = $1 $2
