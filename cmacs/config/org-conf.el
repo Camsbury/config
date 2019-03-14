@@ -111,8 +111,7 @@
 
 (general-def org-mode-map
   "M-a"                   #'org-insert-top-level-heading
-  "M-r"                   #'org-insert-heading
-  [remap org-meta-return] #'comment-indent-new-line)
+  "M-r"                   #'org-insert-heading)
 
 (defhydra hydra-org (:exit t)
   "org-mode"

@@ -151,7 +151,8 @@ If invoked with a prefix ARG eval the expression after inserting it"
               "c" 'cider-eval-last-sexp-and-replace)))
 
 (nmap :states 'normal :keymaps 'cider-mode-map
-  "<RET>" #'cider-inspector-operate-on-point
-  "M-k"   #'cider-inspector-pop)
+  "<RET>"   #'cider-inspector-operate-on-point
+  "M-k"     #'cider-inspector-pop
+  "M-<RET>" #'cider-eval-sexp-at-point)
 
 (provide 'clj-conf)

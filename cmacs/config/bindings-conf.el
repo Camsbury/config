@@ -137,7 +137,6 @@
 (general-define-key
  "s-x"     #'counsel-M-x
  "M-x"     #'counsel-M-x
- "M-<RET>" #'indent-new-comment-line
  "C-h"     #'evil-window-left
  "C-j"     #'evil-window-down
  "C-k"     #'evil-window-up
@@ -147,6 +146,7 @@
 
 (general-def 'normal
   "SPC" #'hydra-leader/body
+  "K"   #'comment-indent-new-line
   "U"   #'undo-tree-visualize
   "["   #'hydra-left-leader/body
   "]"   #'hydra-right-leader/body
