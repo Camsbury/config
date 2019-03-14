@@ -20,6 +20,7 @@
          functions-conf
          git-conf
          haskell-conf
+         irc-conf
          js-conf
          lisp-conf
          lsp-conf

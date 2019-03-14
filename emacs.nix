@@ -14,6 +14,7 @@ in
     avy
     buffer-move
     cider
+    circe
     clj-refactor
     command-log-mode
     company
