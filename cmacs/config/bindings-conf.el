@@ -19,19 +19,6 @@
   ("m" #'describe-mode     "mode")
   ("v" #'describe-variable "variable"))
 
-(defhydra hydra-spawn (:exit t)
-  "spawn"
-  ("e" (spawnify #'counsel-projectile-find-file)      "project file")
-  ("H" (spawnify #'open-tmp-org)                      "tmp org")
-  ("n" (spawnify #'counsel-recentf)                   "recent file")
-  ("N" (spawnify #'open-new-tmp)                      "new file")
-  ("o" #'spawn-project-tasks                          "project tasks")
-  ("p" (spawnify #'counsel-projectile-switch-project) "new project")
-  ("S" (spawnify #'open-se-principles)                "SE principles")
-  ("t" (spawnify #'counsel-find-file)                 "file in dir")
-  ("w" (spawnify #'eww-new)                           "web browser")
-  )
-
 (defhydra hydra-config (:exit t)
   "spawn config"
   ("b" #'spawn-bindings  "bindings")
@@ -42,17 +29,28 @@
   ("o" #'spawn-emacs-nix "emacs.nix")
   ("f" #'spawn-functions "functions"))
 
+(defhydra hydra-spawn (:exit t)
+  "spawn"
+  ("e" (spawnify #'counsel-projectile-find-file)      "project file")
+  ("h" (spawnify #'open-tmp-org)                      "tmp org")
+  ("n" (spawnify #'counsel-recentf)                   "recent file")
+  ("N" (spawnify #'open-new-tmp)                      "new file")
+  ("o" #'spawn-project-tasks                          "project tasks")
+  ("p" (spawnify #'counsel-projectile-switch-project) "new project")
+  ("s" (spawnify #'open-se-principles)                "SE principles")
+  ("t" (spawnify #'counsel-find-file)                 "file in dir")
+  ("w" (spawnify #'eww-new)                           "web browser"))
+
 (defhydra hydra-nav (:exit t)
   "nav to"
   ("e" #'counsel-projectile-find-file      "project file")
-  ("H" #'open-tmp-org                      "tmp org")
+  ("h" #'open-tmp-org                      "tmp org")
   ("n" #'counsel-recentf                   "recent file")
   ("N" #'open-new-tmp                      "new file")
   ("p" #'counsel-projectile-switch-project "new project")
-  ("S" #'open-se-principles                "SE principles")
+  ("s" #'open-se-principles                "SE principles")
   ("t" #'counsel-find-file                 "file in dir")
-  ("w" #'eww-new                           "web browser")
-  )
+  ("w" #'eww-new                           "web browser"))
 
 (defhydra hydra-leader (:exit t :columns 5 :idle 1.5)
   "leader"
