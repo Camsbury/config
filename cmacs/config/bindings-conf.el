@@ -28,7 +28,9 @@
   ("o" #'spawn-project-tasks                          "project tasks")
   ("p" (spawnify #'counsel-projectile-switch-project) "new project")
   ("S" (spawnify #'open-se-principles)                "SE principles")
-  ("t" (spawnify #'counsel-find-file)                 "file in dir"))
+  ("t" (spawnify #'counsel-find-file)                 "file in dir")
+  ("w" (spawnify #'eww-new)                           "web browser")
+  )
 
 (defhydra hydra-config (:exit t)
   "spawn config"
@@ -48,7 +50,9 @@
   ("N" #'open-new-tmp                      "new file")
   ("p" #'counsel-projectile-switch-project "new project")
   ("S" #'open-se-principles                "SE principles")
-  ("t" #'counsel-find-file                 "file in dir"))
+  ("t" #'counsel-find-file                 "file in dir")
+  ("w" #'eww-new                           "web browser")
+  )
 
 (defhydra hydra-leader (:exit t :columns 5 :idle 1.5)
   "leader"
