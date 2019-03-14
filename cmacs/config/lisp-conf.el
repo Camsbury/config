@@ -65,6 +65,7 @@
   "M-l" #'paredit-forward-down
   "M-k" #'paredit-backward
   "M-h" #'paredit-backward-up
+  "M-H" #'paredit-raise-sexp
 
   "M-s" #'paredit-forward-slurp-sexp
   "M-t" #'paredit-forward-barf-sexp

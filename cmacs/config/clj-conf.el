@@ -111,6 +111,9 @@ If invoked with a prefix ARG eval the expression after inserting it"
  [remap evil-goto-definition] #'cider-find-dwim
  [remap cider-inspector-pop]  #'paredit-backward)
 
+(general-define-key :keymaps 'clojure-mode-map
+  [remap paredit-raise-sexp] #'cljr-raise-sexp)
+
 (defhydra hydra-clj (:exit t)
   "clojure-mode"
   ("d" #'cider-doc                   "documentation")
