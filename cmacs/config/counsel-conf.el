@@ -1,6 +1,7 @@
 (ivy-mode)
 (recentf-mode)
 (projectile-mode)
+(minibuffer-electric-default-mode)
 
 ;; Remove the initial carat from searches
 (setq ivy-initial-inputs-alist nil
