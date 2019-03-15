@@ -47,7 +47,11 @@
   (interactive)
   "Move forward in the lisp tree"
   (paredit-forward)
-  (sp-next-sexp))
+  (when (and
+         (/= ?} (following-char))
+         (/= ?\) (following-char))
+         (/= ?\] (following-char)))
+    (sp-next-sexp)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Paxedit mappings

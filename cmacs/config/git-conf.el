@@ -38,8 +38,7 @@
  [remap magit-section-forward]   #'evil-window-down
  [remap indent-new-comment-line] #'magit-section-forward
  [remap kill-sentence]           #'magit-section-backward
- [remap scroll-up]               #'hydra-leader-body
- )
+ [remap scroll-up]               #'hydra-leader-body)
 
 
 (provide 'git-conf)
