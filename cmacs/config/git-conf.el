@@ -2,6 +2,16 @@
 (general-add-hook 'magit-mode-hook
                   (list 'evil-magit-init))
 
+(defun github-clone (user repo)
+  "clones a repo from github to the obvious path"
+  (interactive "sUser name: \nsRepo name:")
+  (start-process-shell-command
+   (concat "clone " user "/" repo)
+   nil
+   (concat "mkdir -p ~/projects/" user " && "
+    "cd ~/projects/" user " && "
+    "git clone git@github.com:" user "/" repo ".git")))
+
 
 (general-define-key
  :states  'normal
