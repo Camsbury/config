@@ -1,8 +1,11 @@
+(require 'smartparens-config)
+
 (if (string-equal system-type "gnu/linux")
     (require 'doom-modeline))
 (column-number-mode)
 (show-paren-mode)
-(electric-pair-mode)
+;; (electric-pair-mode)
+(smartparens-global-mode)
 (global-linum-mode)
 (global-auto-revert-mode)
 (global-hl-line-mode)

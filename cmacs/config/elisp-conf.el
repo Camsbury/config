@@ -8,8 +8,8 @@
 (general-add-hook 'emacs-lisp-mode-hook
                   (list 'paredit-mode
                         'paxedit-mode
-                        'smartparens-mode
                         'evil-smartparens-mode))
+
 
 (general-def 'normal emacs-lisp-mode-map
  [remap empty-mode-leader] #'hydra-elisp/body)

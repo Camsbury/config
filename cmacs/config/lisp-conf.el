@@ -53,11 +53,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Paxedit mappings
 
-(general-add-hook 'paredit-mode-hook
-                  (when (minor-mode-active-p 'electric-pair-mode)
-                    (call-interactively electric-pair-mode)))
-
-
 (general-evil-define-key 'normal lisp-interaction-mode-map
   [remap eval-print-last-sexp] 'evil-window-down)
 
