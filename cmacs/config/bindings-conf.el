@@ -52,6 +52,12 @@
   ("t" #'counsel-find-file                 "file in dir")
   ("w" #'eww-new                           "web browser"))
 
+(defhydra hydra-git (:exit t)
+  "git"
+  ("b" #'magit-blame                       "magit blame")
+  ("s" #'magit-status                      "magit status")
+  ("l" #'github-clone                      "github clone"))
+
 (defhydra hydra-leader (:exit t :columns 5 :idle 1.5)
   "leader"
   ("[" #'hydra-describe/body          "describe")
@@ -69,8 +75,8 @@
   ("E" #'etymology-of-word-at-point   "etymology of word at point")
   ("f" #'counsel-rg                   "find text in project")
   ;; ("F")
-  ("g" #'magit-status                 "magit")
-  ("G" #'magit-blame                  "git blame")
+  ("g" #'hydra-git/body               "git tasks")
+  ;; ("G")
   ("h" #'org-capture                  "capture")
   ;; ("H")
   ("i" #'imenu                        "search with imenu")
