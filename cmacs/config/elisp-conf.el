@@ -12,8 +12,7 @@
                         'evil-smartparens-mode))
 
 (general-def 'normal emacs-lisp-mode-map
- [remap empty-mode-leader] #'hydra-elisp/body
- )
+ [remap empty-mode-leader] #'hydra-elisp/body)
 
 (defun elisp-narrow-defun ()
   "Narrows to the current defun"
