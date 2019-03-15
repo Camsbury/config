@@ -77,6 +77,7 @@ in {
     haskellPackages.xmonad-contrib
     haskellPackages.xmonad-extras
     htop
+    httpie
     irony-server
     jq
     keychain
