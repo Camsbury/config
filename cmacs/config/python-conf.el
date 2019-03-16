@@ -1,15 +1,10 @@
 (require 'bindings-conf)
 (require 'functions-conf)
-
-(if (string-equal system-type "gnu/linux")
-    (require 'lsp-clients))
-(if (string-equal system-type "darwin")
-    (require 'lsp-python))
+(require 'lsp-clients)
 (require 'lsp-conf)
 
 (general-add-hook 'python-mode-hook
                   (list (if (string-equal system-type "darwin")
-                            'lsp-python-enable
                             'lsp-mode)
                         'yapf-mode
                         'flycheck-mode)
