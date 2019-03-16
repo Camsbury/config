@@ -77,8 +77,6 @@
   "M-p" #'paxedit-transpose-forward)
 
 (general-evil-define-key 'normal paredit-mode-map
-  "B"       #'sp-backward-symbol
-  "W"       #'paxedit-next-symbol
   "M-<RET>" #'eval-defun)
 
 (provide 'lisp-conf)
