@@ -205,8 +205,8 @@ alias cdg='cd-git-head'
 # Python aliases
 
 alias ptw="pipenv run watchmedo auto-restart --recursive -p '*.py' -- python -m pytest grid/jobs/tests --show-capture=all"
-alias pei='pipenv install --dev'
-alias pesy='pipenv sync --dev'
+alias pei='pipenv install --dev --python 3.6'
+alias pesy='pipenv sync --dev --python 3.6'
 alias pes='pipenv shell'
 alias pyf='pipenv run yapf --in-place --recursive .'
 alias pmy='pipenv run alembic upgrade head'
