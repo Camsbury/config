@@ -20,6 +20,7 @@ in
     company
     company-cabal
     company-ghc
+    company-lsp
     counsel
     counsel-projectile
     dante
@@ -95,14 +96,6 @@ in
     company-postgresql
     org-clubhouse
     etymology-of-word
-    slack
+    # slack
     # agda2-mode
-  ]) ++ (
-    if machine.darwin
-    then [
-      epkgs.melpaPackages.lsp-python
-    ]
-    else [
-      epkgs.melpaPackages.doom-modeline
-    ]
-  ))
+  ]))
