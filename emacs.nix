@@ -29,6 +29,7 @@ in
     define-word
     dockerfile-mode
     doom-themes
+    doom-modeline
     emacsql
     emacsql-psql
     evil
@@ -81,6 +82,7 @@ in
     restart-emacs
     rjsx-mode
     s
+    slack
     smartparens
     smex
     use-package
