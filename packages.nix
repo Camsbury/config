@@ -87,6 +87,7 @@ in {
     notify-osd # to upgrade...
     oh-my-zsh
     openssh
+    openssl
     peek
     pltScheme
     python36
