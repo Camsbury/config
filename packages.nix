@@ -68,14 +68,6 @@ in {
     gnumake
     gnupg
     gnutls
-    haskellPackages.Agda
-    haskellPackages.Cabal_2_4_0_0
-    haskellPackages.apply-refact
-    haskellPackages.ghcid
-    haskellPackages.hlint
-    haskellPackages.xmonad
-    haskellPackages.xmonad-contrib
-    haskellPackages.xmonad-extras
     htop
     httpie
     irony-server
@@ -132,6 +124,14 @@ in {
     unstable.bat
     unstable.chromium
     unstable.dropbox-cli
+    # unstable.haskellPackages.Agda
+    unstable.haskellPackages.Cabal_2_4_1_0
+    unstable.haskellPackages.apply-refact
+    unstable.haskellPackages.ghcid
+    unstable.haskellPackages.hlint
+    unstable.haskellPackages.xmonad
+    unstable.haskellPackages.xmonad-contrib
+    unstable.haskellPackages.xmonad-extras
     unstable.spotify # non-free
   ] ++ [
     # Custom Packages
