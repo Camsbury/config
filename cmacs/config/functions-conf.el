@@ -3,11 +3,11 @@
 (require 'dash)
 (require 'etymology-of-word)
 
-(defun eww-new ()
+(defun eww-new (buff-name)
   "opens a new eww buffer"
-  (interactive)
+  (interactive "sBuffer name: ")
   (let ((url (read-from-minibuffer "Enter URL or keywords: ")))
-    (switch-to-buffer (generate-new-buffer "eww"))
+    (switch-to-buffer (generate-new-buffer buff-name))
     (eww-mode)
     (eww url)))
 

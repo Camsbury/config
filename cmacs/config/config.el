@@ -40,8 +40,7 @@
          theme-conf
          ui-conf
 
-         modes
-         ))
+         modes))
 
 
 (provide 'config)
