@@ -41,7 +41,7 @@
 (defun open-se-principles ()
   "Opens the SE principles file"
   (interactive)
-  (find-file "~/projects/lxndr/ref/software_engineering.org"))
+  (find-file "~/Dropbox/lxndr/ref/software_engineering.org"))
 
 (defun open-tmp-org ()
   "opens a temporary org file"
@@ -141,14 +141,14 @@
   "Spawns the se principles file to the right"
   (interactive)
   (spawn-right)
-  (find-file "~/projects/lxndr/ref/software_engineering.org"))
+  (find-file "~/Dropbox/lxndr/ref/software_engineering.org"))
 
 (defun spawn-project-tasks ()
   "Spawns the project's tasks file to the right"
   (interactive)
   (let ((path (->> (projectile-project-root)
                   f-filename
-                  (f-join "~/projects/lxndr/tasks")
+                  (f-join "~/Dropbox/lxndr/tasks")
                   (s-append ".org"))))
        (spawn-right)
        (find-file path)))
