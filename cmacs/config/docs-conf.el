@@ -6,7 +6,7 @@
 (general-def Info-mode-map
   [remap Info-history] 'ignore)
 
-(general-def 'normal Info-mode-map
+(general-def 'Info-mode-map
   [remap Info-scroll-up] #'hydra-leader/body
   [remap Info-history]   #'evil-window-bottom)
 
