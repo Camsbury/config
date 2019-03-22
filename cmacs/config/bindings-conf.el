@@ -56,6 +56,7 @@
   "git"
   ("b" #'magit-blame                       "magit blame")
   ("s" #'magit-status                      "magit status")
+  ("t" #'git-timemachine-toggle            "git time machine")
   ("l" #'github-clone                      "github clone"))
 
 (defhydra hydra-leader (:exit t :columns 5 :idle 1.5)
@@ -113,7 +114,7 @@
   ("X" #'toggle-debug-on-error        "toggle debug on error")
   ("y" #'nav-flash-line               "flash line")
   ;; ("Y")
-  ("z" #'git-timemachine-toggle       "git timemachine")
+  ;; ("z")
   ;; ("Z")
   )
 
