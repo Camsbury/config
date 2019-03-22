@@ -9,8 +9,7 @@
 (global-linum-mode)
 (global-auto-revert-mode)
 (global-hl-line-mode)
-(if (string-equal system-type "gnu/linux")
-    (doom-modeline-init))
+(doom-modeline-init)
 
 (setq hl-todo-keyword-faces
       `(("TODO"  . ,(face-foreground 'warning))
@@ -24,6 +23,7 @@
   (list 'hl-todo-mode
         'whitespace-mode
         'rainbow-delimiters-mode
-        'rainbow-mode))
+        'rainbow-mode
+        'evil-smartparens-mode))
 
 (provide 'ui-conf)
