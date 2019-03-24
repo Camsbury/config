@@ -396,7 +396,7 @@ alias gclc='gcloud container clusters get-credentials' # followed by the cluster
 
 ################################################################################
 # R
-alias rds='nix-shell -p R rPackages.tidyverse rPackages.nycflights13 rPackages.gapminder rPackages.Lahman --run emacs'
+alias nsr='nix-shell ~/projects/Camsbury/config/rSetup.nix --run emacs'
 
 
 ################################################################################
