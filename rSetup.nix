@@ -7,6 +7,7 @@
       googledrive
       httr
       nycflights13
+      rlist
       tidyverse
     ];
 }
