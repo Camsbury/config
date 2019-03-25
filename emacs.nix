@@ -32,6 +32,7 @@ in
     doom-modeline
     emacsql
     emacsql-psql
+    ess
     evil
     evil-commentary
     evil-magit
