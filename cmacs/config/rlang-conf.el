@@ -2,7 +2,8 @@
 (require 'functions-conf)
 
 (general-def 'normal ess-r-mode-map
-  [remap empty-mode-leader] #'hydra-r/body)
+  [remap empty-mode-leader] #'hydra-r/body
+  [remap ess-use-this-dir]  #'ess-eval-region-or-function-or-paragraph)
 
 (defhydra hydra-r (:exit t)
   "ess-r-mode"
