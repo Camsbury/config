@@ -11,6 +11,8 @@
 (global-hl-line-mode)
 (doom-modeline-init)
 
+(sp-pair "*" nil :actions :rem)
+
 (setq hl-todo-keyword-faces
       `(("TODO"  . ,(face-foreground 'warning))
         ("FIXME" . ,(face-foreground 'error))
