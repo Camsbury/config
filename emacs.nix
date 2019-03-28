@@ -86,6 +86,7 @@ in
     slack
     smartparens
     smex
+    sqlup-mode
     use-package
     web
     wgrep
