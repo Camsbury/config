@@ -172,6 +172,7 @@ function git-force-pull() {
 
 alias git='hub'
 
+alias gb='git branch | cat'
 alias gbdd='git branch -D'
 alias gbdp='git-branch-delete-pattern'
 alias gbm='git branch --merged'
