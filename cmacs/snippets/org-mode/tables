@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# key: tbls
+# name: tables
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+
+#+BEGIN_SRC sql
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema= '${1:public}'
+ORDER BY table_name
+#+END_SRC
