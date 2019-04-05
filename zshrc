@@ -387,6 +387,7 @@ if [ $(uname -s) = "Darwin" ]; then
   alias klb='kubetail "grid-(server|jobs|celery\S*)" --regex'
 fi
 alias kp='kubectl get pods'
+alias ks='kubernetes_switch_project.sh'
 alias kpn='kpods-by-app'
 alias kdys='kubectl get deployments'
 alias ksrvs='kubectl get services'
