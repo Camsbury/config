@@ -122,8 +122,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
   ("l" #'cider-load-buffer           "load buffer")
   ("n" #'cider-eval-ns-form          "eval ns")
   ("o" #'clj-narrow-defun            "focus on def")
-  ("q" #'cider-jack-in-clj&cljs      "jack in clj&cljs")
-  ("r" #'cider-rejack                "rejack")
+  ("j" #'hydra-clj-jack-in/body         "hydra cider-jack-in")
   ("t" #'cider-switch-to-repl-buffer "repl")
   ("y" #'cider-copy-last-result      "copy last result"))
 ; cider-browse-spec
@@ -131,6 +130,13 @@ If invoked with a prefix ARG eval the expression after inserting it"
 ; clojure-move-to-let
 ; clojure-introduce-let
 ; cljr-add-require-to-ns
+
+(defhydra hydra-clj-jack-in (:exit t)
+  "cider-jack-in"
+  ("q" #'sesman-quit            "Quit cider session")
+  ("j" #'cider-jack-in-clj      "Jack in clj")
+  ("s" #'cider-jack-in-cljs     "Jack in cljs")
+  ("b" #'cider-jack-in-clj&cljs "Jack in both"))
 
 ;;; fireplace-esque eval binding
 (nmap :keymaps 'cider-mode-map
