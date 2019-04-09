@@ -19,6 +19,7 @@ in
         gitAndTools.hub
         htop
         httpie
+        leiningen
         mu
         python36
         python36Packages.jedi
