@@ -10,7 +10,8 @@
 
 (defhydra hydra-eww (:exit t)
   "eww-mode"
-  ("h" #'eww-back-url "back"))
+  ("h" #'eww-back-url "back")
+  ("y" #'eww-copy-page-url "copy url"))
 
 
 (provide 'browser-conf)
