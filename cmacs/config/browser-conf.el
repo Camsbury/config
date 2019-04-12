@@ -11,6 +11,7 @@
 (defhydra hydra-eww (:exit t)
   "eww-mode"
   ("h" #'eww-back-url "back")
+  ("f" #'eww-toggle-fonts "monospace toggle")
   ("y" #'eww-copy-page-url "copy url"))
 
 
