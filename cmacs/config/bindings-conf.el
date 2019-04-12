@@ -153,6 +153,8 @@
 
 (general-def 'normal
   "SPC" #'hydra-leader/body
+  "k"   #'evil-previous-visual-line
+  "j"   #'evil-next-visual-line
   "K"   #'comment-indent-new-line
   "U"   #'undo-tree-visualize
   "["   #'hydra-left-leader/body
