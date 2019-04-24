@@ -46,6 +46,7 @@ in
     flycheck-haskell
     flycheck-irony
     flycheck-popup-tip
+    format-all
     general
     git-timemachine
     helm-dash
