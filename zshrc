@@ -439,6 +439,12 @@ alias emd='emacs --debug-init'
 
 
 ################################################################################
+# yarn
+
+alias yin='yarn install'
+
+
+################################################################################
 # Ergodox Flashing
 
 alias ezs='sudo teensy-loader-cli -vw --mcu atmega32u4'
