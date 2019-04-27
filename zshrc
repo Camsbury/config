@@ -13,6 +13,7 @@ if [ $(uname -s) = "Linux" ]; then
   plugins=(
     # autojump
     git
+    fzf
     zsh-autosuggestions
   )
 fi

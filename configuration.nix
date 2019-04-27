@@ -41,6 +41,7 @@ in
     environment.variables = {
       OH_MY_ZSH = [ "${pkgs.oh-my-zsh}/share/oh-my-zsh" ];
       FZF = [ "${pkgs.fzf}/share/fzf" ];
+      FZF_BASE = [ "${pkgs.fzf}" ];
       AUTOJUMP = [ "${pkgs.autojump}/share/autojump" ];
       EDITOR = "vim";
     } // opSession;
