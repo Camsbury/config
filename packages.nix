@@ -26,6 +26,8 @@ in {
     };
   };
 
+  nixpkgs.overlays = import ./overlays.nix;
+
   nix.nixPath = [
     "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs"
     "nixpkgs-unstable=${unstableTarball}"
@@ -38,6 +40,7 @@ in {
 
   environment.systemPackages = with pkgs; [
     # Stable Packages
+    _1password
     ack
     ag
     audacity
@@ -120,7 +123,7 @@ in {
     zsh
   ] ++ [
     # Unstable Packages
-    unstable._1password
+    # unstable._1password
     unstable.bat
     unstable.chromium
     unstable.dropbox-cli
