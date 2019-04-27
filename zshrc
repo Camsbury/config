@@ -4,16 +4,11 @@ if [ $(uname -s) = "Linux" ]; then
   # Path to your oh-my-zsh installation.
   export ZSH=$OH_MY_ZSH
 
-  # fzf integration
-  source $FZF/key-bindings.zsh
-
   # autojump integration
   source $AUTOJUMP/autojump.zsh
 
   plugins=(
-    # autojump
     git
-    fzf
     zsh-autosuggestions
   )
 fi
@@ -68,6 +63,9 @@ ZSH_THEME="robbyrussell"
 source $ZSH/oh-my-zsh.sh
 
 if [ $(uname -s) = "Linux" ]; then
+  # fzf integration
+  source $FZF/key-bindings.zsh
+
   # set up keychain
   eval $(keychain --eval --agents ssh id_rsa)
 fi
