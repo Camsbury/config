@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# key: mr
+# name: morning
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+#+TITLE: morning
+
+* [ ] Check Inbox
+* [ ] Check Email
+* [ ] Check Slack
+* [ ] Check Calendar
+* [ ] Check Clubhouse
+* [ ] Check Github
