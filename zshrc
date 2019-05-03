@@ -31,7 +31,7 @@ if [ $(uname -s) = "Darwin" ]; then
   export PATH=/usr/local/Cellar/postgresql/11.1_1/bin:$PATH
 
   # Secrets stuff
-  if [ -f '$HOME/.secrets.zsh.inc' ]; then source '$HOME/.secrets.zsh.inc'; fi
+  if [ -f "$HOME/.secrets.zsh.inc" ]; then source "$HOME/.secrets.zsh.inc" ; fi
 
   # drone env variables
   export DRONE_TOKEN=$DRONE_TOKEN_PRIVATE
@@ -82,10 +82,10 @@ if [ $(uname -s) = "Darwin" ]; then
   [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
   # The next line updates PATH for the Google Cloud SDK.
-  if [ -f '$HOME/google-cloud-sdk/path.zsh.inc' ]; then source '$HOME/google-cloud-sdk/path.zsh.inc'; fi
+  if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then source "$HOME/google-cloud-sdk/path.zsh.inc"; fi
 
   # The next line enables shell command completion for gcloud.
-  if [ -f '$HOME/google-cloud-sdk/completion.zsh.inc' ]; then source '$HOME/google-cloud-sdk/completion.zsh.inc'; fi
+  if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then source "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
 fi
 
 
@@ -447,3 +447,9 @@ alias yin='yarn install'
 # Ergodox Flashing
 
 alias ezs='sudo teensy-loader-cli -vw --mcu atmega32u4'
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/ckingsbury/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/ckingsbury/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/ckingsbury/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/ckingsbury/google-cloud-sdk/completion.zsh.inc'; fi
