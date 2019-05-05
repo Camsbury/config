@@ -127,7 +127,7 @@ in {
     unstable.bat
     unstable.chromium
     unstable.dropbox-cli
-    # unstable.haskellPackages.Agda
+    unstable.haskellPackages.Agda
     unstable.haskellPackages.Cabal_2_4_1_0
     unstable.haskellPackages.apply-refact
     unstable.haskellPackages.ghcid

@@ -102,5 +102,5 @@ in
     org-clubhouse
     etymology-of-word
     # slack
-    # agda2-mode
+    agda2-mode
   ]))
