@@ -27,7 +27,7 @@ in
         python36Packages.pyls-isort
         python36Packages.pyls-mypy
         python36Packages.yapf
-        racket-minimal
+        # racket-minimal
         ripgrep
         shellcheck
         sourceHighlight
@@ -38,6 +38,8 @@ in
       ] ++ [
         emacs
       ] ++ customPackages;
+
+    nixpkgs.overlays = import ./darwin-overlays.nix;
 
     environment.shellAliases = {
       emacs = "${emacs}";
