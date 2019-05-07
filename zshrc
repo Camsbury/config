@@ -223,8 +223,8 @@ alias bam='bear -a make'
 ################################################################################
 # redshift
 
-alias red='redshift -PO 1000k'
-alias orng='redshift -PO 2000k'
+alias red='redshift -PO 1000k -b 0.3'
+alias orng='redshift -PO 2000k -b 0.6'
 alias blue='redshift -x'
 
 ################################################################################
