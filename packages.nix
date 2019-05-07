@@ -5,6 +5,7 @@
 let
   unstableTarball = fetchTarball
     https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
+    unstable = import unstableTarball { config = {allowUnfree = true;}; };
 
   cachixBall = import (builtins.fetchTarball "https://github.com/NixOS/nixpkgs/tarball/1d4de0d552ae9aa66a5b8dee5fb0650a4372d148") {};
 
@@ -14,16 +15,6 @@ let
 in {
   nixpkgs.config = {
     allowUnfree = true;
-
-    chromium = {
-      enablePepperFlash = true;
-    };
-
-    packageOverrides = pkgs: {
-      unstable = import unstableTarball {
-        config = config.nixpkgs.config;
-      };
-    };
   };
 
   nixpkgs.overlays = import ./overlays.nix;
@@ -46,16 +37,19 @@ in {
     audacity
     autojump
     # autorandr
+    bat
     bear
     binutils
     cabal-install
     cabal2nix
     cargo
     carnix
+    chromium
     curl
     dmenu
     docker
     docker_compose
+    dropbox-cli
     exa
     fd
     feh # wallpapers
@@ -71,6 +65,14 @@ in {
     gnumake
     gnupg
     gnutls
+    haskellPackages.Agda
+    haskellPackages.Cabal_2_4_1_0
+    haskellPackages.apply-refact
+    haskellPackages.ghcid
+    haskellPackages.hlint
+    haskellPackages.xmonad
+    haskellPackages.xmonad-contrib
+    haskellPackages.xmonad-extras
     htop
     httpie
     irony-server
@@ -100,6 +102,7 @@ in {
     sloccount
     slock
     sourceHighlight
+    spotify # non-free
     sqlite
     stack2nix
     teensy-loader-cli
@@ -122,23 +125,7 @@ in {
     zip
     zsh
   ] ++ [
-    # Unstable Packages
-    # unstable._1password
-    unstable.bat
-    unstable.chromium
-    unstable.dropbox-cli
-    unstable.haskellPackages.Agda
-    unstable.haskellPackages.Cabal_2_4_1_0
-    unstable.haskellPackages.apply-refact
-    unstable.haskellPackages.ghcid
-    unstable.haskellPackages.hlint
-    unstable.haskellPackages.xmonad
-    unstable.haskellPackages.xmonad-contrib
-    unstable.haskellPackages.xmonad-extras
-    unstable.spotify # non-free
-  ] ++ [
     # Custom Packages
-    # (import ./emacs.nix { inherit pkgs; })
     (cachixBall.cachix)
     (import ./emacs.nix { pkgs = unstable; })
   ] ++ customPackages

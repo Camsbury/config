@@ -1,3 +1,8 @@
+let
+  unstableTarball = fetchTarball
+    https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
+    unstable = import unstableTarball { config = {allowUnfree = true;}; };
+in
 [(self: super: {
   _1password = super.stdenv.mkDerivation rec {
     version = "0.5.5";
@@ -42,4 +47,10 @@
       platforms    = [ "i686-linux" "x86_64-linux" "x86_64-darwin" ];
     };
   };
+
+  bat = unstable.bat;
+  chromium = unstable.chromium;
+  dropbox-cli = unstable.dropbox-cli;
+  haskellPackages = unstable.haskellPackages;
+  spotify = unstable.spotify; # non-free
 })]
