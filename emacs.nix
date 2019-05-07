@@ -4,7 +4,7 @@
 
 let
   customEmacsPackages = import ./custom-emacs-packages.nix;
-  myEmacs = (pkgs.emacsPackagesNgGen pkgs.emacs).overrideScope (self: super:
+  myEmacs = (pkgs.emacsPackagesNgGen pkgs.emacs).overrideScope' (self: super:
     customEmacsPackages pkgs self super
   );
   emacsWithPackages = myEmacs.emacsWithPackages;
