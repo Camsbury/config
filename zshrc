@@ -250,15 +250,10 @@ function nix-store-path() {
   readlink -f `which "${1}"`
 }
 
-function nix-shell-haskell() {
-  # Creates a nix-shell with the specified arguments as Haskell packages
-  nix-shell -p "haskellPackages.ghcWithPackages (p: with p; [$@])"
-}
-
 function nix-query () {
   local CACHE="$HOME/.cache/nq-cache"
   if ! ( [ -e $CACHE ] && [ $(stat -c %Y $CACHE) -gt $(( $(date +%s) - 3600 )) ] ); then
-    echo "update cache" && nix-env -qa --json > "$CACHE"
+    echo "update cache" && NIXPKGS_ALLOW_UNFREE=1 nix-env -qa --json > "$CACHE"
   fi
   jq -r 'to_entries | .[] | .key + "|" + .value.meta.description' < "$CACHE" |
     {
@@ -276,6 +271,9 @@ if [ $(uname -s) = "Darwin" ]; then
   alias dxs='darwin-rebuild switch'
 fi
 if [ $(uname -s) = "Linux" ]; then
+  alias npk="sudo nixos-option environment.systemPackages | head -2 | tail -1 | \
+    sed -e 's/ /\n/g' | cut -d- -f2- | sort | uniq"
+  alias npka="sudo nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq"
   alias nxs='cd ~ && sudo nixos-rebuild switch; cd -'
   alias nxsr='cd ~ && sudo nixos-rebuild switch && sudo reboot'
   alias nxt='cd ~ && sudo nixos-rebuild test; cd -'
@@ -294,7 +292,6 @@ alias nqu='NIXPKGS_ALLOW_UNFREE=1 nix-env -qaP'
 alias nr='nix repl'
 alias nrp="nix repl '<nixpkgs>'"
 alias ns='nix-shell'
-alias nsh='nix-shell-haskell'
 alias nsp='nix-shell --pure'
 alias nsref='nix-store-references'
 alias nsrefr='nix-store-referrers'
