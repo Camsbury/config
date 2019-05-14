@@ -5,6 +5,9 @@
 let
   machine = import ./machine.nix;
   opSession = import ./op.nix;
+  unstableTarball = fetchTarball
+    https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
+    unstable = import unstableTarball { config = {allowUnfree = true;}; };
 in
   {
     imports =
@@ -13,10 +16,30 @@ in
         ./cachix.nix
         ./encryption.nix
         ./networking.nix
-        ./packages.nix
+        # ./packages.nix
         ./ui.nix
         ./users.nix
       ];
+
+    nixpkgs.config = {
+      allowUnfree = true;
+    };
+
+    nixpkgs.overlays = import ./overlays.nix;
+
+    nix.nixPath = [
+      "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs"
+      "nixpkgs-unstable=${unstableTarball}"
+      "nixos-config=/etc/nixos/configuration.nix"
+      "/nix/var/nix/profiles/per-user/root/channels"
+    ];
+
+    security.wrappers.slock.source = "${pkgs.slock.out}/bin/slock";
+
+    environment.systemPackages = import ./packages {inherit pkgs;};
+
+    virtualisation.docker.enable = true;
+    virtualisation.docker.enableOnBoot = true;
 
     # Use the systemd-boot EFI boot loader.
     # boot.loader.systemd-boot.enable = true;
