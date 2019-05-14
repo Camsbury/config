@@ -11,7 +11,12 @@
 (global-hl-line-mode)
 (doom-modeline-init)
 
+;; who wants pairs of *?
 (sp-pair "*" nil :actions :rem)
+
+;; open buffers in a vertical split!
+(setq split-height-threshold nil)
+(setq split-width-threshold 160)
 
 (setq hl-todo-keyword-faces
       `(("TODO"  . ,(face-foreground 'warning))
