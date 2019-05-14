@@ -1,6 +1,6 @@
-# My NixOS Dotfiles
+# My Config Files
 
-## Setup
+## NixOS Setup
 - install NixOS
 - create a user with a home directory
 - clone the repo somewhere in that directory

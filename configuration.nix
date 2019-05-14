@@ -16,7 +16,6 @@ in
         ./cachix.nix
         ./encryption.nix
         ./networking.nix
-        # ./packages.nix
         ./ui.nix
         ./users.nix
       ];

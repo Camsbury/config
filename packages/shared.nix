@@ -6,7 +6,7 @@ with pkgs; [
   ag
   audacity
   autojump
-  # autorandr
+  # autorandr # maybe for displays?
   bat
   bear
   binutils
@@ -26,9 +26,7 @@ with pkgs; [
   feh # wallpapers
   firefox
   fzf
-  gcc
   gdb
-  ghc
   gimp
   git
   gitAndTools.hub
@@ -41,9 +39,6 @@ with pkgs; [
   haskellPackages.apply-refact
   haskellPackages.ghcid
   haskellPackages.hlint
-  haskellPackages.xmonad
-  haskellPackages.xmonad-contrib
-  haskellPackages.xmonad-extras
   htop
   httpie
   irony-server
@@ -76,7 +71,7 @@ with pkgs; [
   spotify # non-free
   sqlite
   stack2nix
-  teensy-loader-cli
+  teensy-loader-cli # flash ergodox firmware (use zshrc alias for help)
   tldr
   tmux
   tree

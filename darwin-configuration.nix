@@ -26,7 +26,6 @@ in
         python36Packages.pyls-isort
         python36Packages.pyls-mypy
         python36Packages.yapf
-        # racket-minimal
         ripgrep
         shellcheck
         sourceHighlight
@@ -36,7 +35,7 @@ in
         wget
       ] ++ [
         emacs
-      ] ++ customPackages;
+      ];
 
     nixpkgs.overlays = import ./darwin-overlays.nix;
 
