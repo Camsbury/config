@@ -49,7 +49,7 @@ in {
     dmenu
     docker
     docker_compose
-    dropbox-cli
+    # dropbox-cli
     exa
     fd
     feh # wallpapers
@@ -128,6 +128,7 @@ in {
     # Custom Packages
     (cachixBall.cachix)
     (import ./emacs.nix { pkgs = unstable; })
+    unstable.dropbox-cli
   ] ++ customPackages
     ++ (    # Machine Specific
   if machine.gaming
