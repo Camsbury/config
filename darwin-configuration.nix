@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  emacs = import ./emacs.nix {};
+  emacs = import ./emacs.nix {inherit pkgs;};
 in
   {
     # nix.extraOptions = ''
