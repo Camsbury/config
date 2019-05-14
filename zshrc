@@ -438,6 +438,8 @@ alias emd='emacs --debug-init'
 # yarn
 
 alias yin='yarn install'
+alias ybw='yarn build:watch'
+alias nprm='rm -rf */node_modules'
 
 
 ################################################################################
