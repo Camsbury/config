@@ -59,6 +59,7 @@ in
     ivy-hydra
     jedi # python-lsp
     js2-mode
+    json-navigator
     keychain-environment
     know-your-http-well
     lsp-haskell
@@ -88,6 +89,7 @@ in
     smartparens
     smex
     sqlup-mode
+    tree-mode
     use-package
     web
     wgrep
