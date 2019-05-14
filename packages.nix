@@ -7,10 +7,6 @@ let
     https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
     unstable = import unstableTarball { config = {allowUnfree = true;}; };
 
-  cachixBall = import (builtins.fetchTarball "https://github.com/NixOS/nixpkgs/tarball/1d4de0d552ae9aa66a5b8dee5fb0650a4372d148") {};
-
-  customPackages = import ./custom-packages.nix { inherit pkgs; };
-
   machine = import ./machine.nix;
 in {
   nixpkgs.config = {
@@ -49,7 +45,8 @@ in {
     dmenu
     docker
     docker_compose
-    # dropbox-cli
+    dropbox-cli
+    emacs
     exa
     fd
     feh # wallpapers
@@ -115,22 +112,14 @@ in {
     veracrypt
     vim
     vlc
-    weechat
     wget
-    xbindkeys
     xclip # copy paste stuff
     xorg.xbacklight
     xorg.xmodmap
     xss-lock
     zip
     zsh
-  ] ++ [
-    # Custom Packages
-    (cachixBall.cachix)
-    (import ./emacs.nix { pkgs = unstable; })
-    unstable.dropbox-cli
-  ] ++ customPackages
-    ++ (    # Machine Specific
+  ] ++ (    # Machine Specific
   if machine.gaming
   then
   [ steam #non-free

@@ -2,6 +2,7 @@ let
   unstableTarball = fetchTarball
     https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
     unstable = import unstableTarball { config = {allowUnfree = true;}; };
+  cachixBall = import (builtins.fetchTarball "https://github.com/NixOS/nixpkgs/tarball/1d4de0d552ae9aa66a5b8dee5fb0650a4372d148") {};
 in
 [(self: super: {
   _1password = super.stdenv.mkDerivation rec {
@@ -49,8 +50,12 @@ in
   };
 
   bat = unstable.bat;
+  cachix = cachixBall.cachix;
   chromium = unstable.chromium;
   dropbox-cli = unstable.dropbox-cli;
+  emacs = import ./emacs.nix { pkgs = unstable; };
   haskellPackages = unstable.haskellPackages;
   spotify = unstable.spotify; # non-free
+  xndr = super.callPackage (builtins.fetchTarball
+    "https://github.com/Camsbury/xndr/archive/094be18.tar.gz") {};
 })]
