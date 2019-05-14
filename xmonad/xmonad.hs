@@ -29,13 +29,22 @@ myKeys = [ ("M1-M4-S-C-c", grabApp "chromium" "Chromium-browser")
          , ("M1-b",        spawn   "sh ~/.scripts/check-battery.sh")
          , ("M1-m",        spawn   "sh ~/.scripts/pomodoro.sh")
          , ( "<XF86AudioRaiseVolume>"
-           , spawn   "pactl set-sink-volume @DEFAULT_SINK@ +1000"
+           , spawn "pactl set-sink-volume @DEFAULT_SINK@ +1000"
            )
          , ( "<XF86AudioLowerVolume>"
-           , spawn   "pactl set-sink-volume @DEFAULT_SINK@ -1000"
+           , spawn "pactl set-sink-volume @DEFAULT_SINK@ -1000"
            )
          , ( "<XF86AudioMute>"
-           , spawn   "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+           , spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+           )
+         , ( "<XF86AudioPlay>" -- default to spotify until intelligent process stuff
+           , spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+           )
+         , ( "<XF86AudioPrev>" -- default to spotify until intelligent process stuff
+           , spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+           )
+         , ( "<XF86AudioNext>" -- default to spotify until intelligent process stuff
+           , spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
            )
          ]
 
