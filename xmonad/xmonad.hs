@@ -28,6 +28,15 @@ myKeys = [ ("M1-M4-S-C-c", grabApp "chromium" "Chromium-browser")
          , ("M1-c",        spawn   "sh ~/.scripts/check-time.sh")
          , ("M1-b",        spawn   "sh ~/.scripts/check-battery.sh")
          , ("M1-m",        spawn   "sh ~/.scripts/pomodoro.sh")
+         , ( "<XF86AudioRaiseVolume>"
+           , spawn   "pactl set-sink-volume @DEFAULT_SINK@ +1000"
+           )
+         , ( "<XF86AudioLowerVolume>"
+           , spawn   "pactl set-sink-volume @DEFAULT_SINK@ -1000"
+           )
+         , ( "<XF86AudioMute>"
+           , spawn   "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+           )
          ]
 
 findAppWindows :: String -> X [Window]
