@@ -8,7 +8,6 @@ let
     customEmacsPackages pkgs self super
   );
   emacsWithPackages = myEmacs.emacsWithPackages;
-  machine = import ./machine.nix;
 in
   emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
     avy

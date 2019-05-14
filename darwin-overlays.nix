@@ -32,4 +32,6 @@
                 oldAttrs: { doCheck = false; }
               );
             });};
+  xndr = super.callPackage (builtins.fetchTarball
+    "https://github.com/Camsbury/xndr/archive/094be18.tar.gz") {pkgs = self;};
 })]

@@ -3,7 +3,7 @@ pkgs: self: super:
 let
   machine = import ./machine.nix;
 
-  compileEmacsFiles = pkgs.callPackage ./builder.nix;
+  compileEmacsFiles = pkgs.callPackage ./emacs-builder.nix;
 
   org-clubhouse = compileEmacsFiles {
     name = "org-clubhouse.el";
