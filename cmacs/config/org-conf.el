@@ -6,14 +6,21 @@
 ;; (require 'ob-ipython)
 
 (setq org-directory (expand-file-name "~/Dropbox/lxndr/")
-      org-capture-templates '(("n" "Place in the Inbox" entry
-                               (file+headline "~/Dropbox/lxndr/inbox.org" "Inbox") "* [ ] %i%?"))
+      org-capture-templates
+        '(("n" "Place in the Inbox"
+           entry (file+headline "~/Dropbox/lxndr/inbox.org" "Inbox")
+           "* [ ] %i%?"))
       org-agenda-files '("~/Dropbox/lxndr/store.org")
       org-refile-targets '(("~/Dropbox/lxndr/queue.org" :maxlevel . 3)
                            ("~/Dropbox/lxndr/store.org" :level . 1)
                            ("~/Dropbox/lxndr/ref.org" :level . 1))
       org-archive-location (concat "~/Dropbox/lxndr/archive/" (format-time-string "%Y-%m") ".org::")
       org-todo-keywords '((sequence "[ ]" "[x]")))
+
+;; auto save on refily
+(advice-add 'org-refile :after
+        (lambda (&rest _)
+        (org-save-all-org-buffers)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-babel stuff
