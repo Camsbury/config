@@ -363,6 +363,7 @@ if [ $(uname -s) = "Darwin" ]; then
   alias dcrb="docker-compose restart server internal_server celery celery-beat celery-process-video celery-classify-frames celery-upload-video-to-gcs"
   alias dclb="docker-compose logs -f server internal_server celery celery-beat celery-process-video celery-classify-frames celery-upload-video-to-gcs"
 fi
+alias dk="docker"
 alias drni="docker rmi $(docker images | grep '^<none>' | awk '{print $3}')"
 alias drdi="docker rmi $(docker images -q -f "dangling=true")"
 alias drmc="docker rm $(docker ps -q -f 'status=exited')"
