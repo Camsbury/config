@@ -75,6 +75,7 @@ with pkgs; [
   teensy-loader-cli # flash ergodox firmware (use zshrc alias for help)
   tldr
   tmux
+  transmission
   tree
   udisks # manage drives
   unzip
