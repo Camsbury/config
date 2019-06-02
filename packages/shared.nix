@@ -3,6 +3,7 @@
 with pkgs; [
   _1password
   ack
+  anki
   ag
   audacity
   autojump
