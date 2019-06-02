@@ -19,7 +19,8 @@ main = do
          , startupHook = spawn "sh ~/.scripts/startup.sh"
          } `additionalKeysP` myKeys
 
-myKeys = [ ("M1-M4-S-C-c", grabApp "chromium" "Chromium-browser")
+myKeys = [ ("M1-M4-S-C-a", grabApp "anki" "Anki")
+         , ("M1-M4-S-C-c", grabApp "chromium" "Chromium-browser")
          , ("M1-M4-S-C-e", grabApp "emacs" "Emacs")
          , ("M1-M4-S-C-k", grabApp "slack" "Slack")
          , ("M1-M4-S-C-s", grabApp "spotify" "Spotify")
