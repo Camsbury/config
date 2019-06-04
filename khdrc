@@ -81,10 +81,10 @@ default + cmd + ctrl + shift + alt - j : open -a /Applications/JQBX.app
 colemak + cmd + ctrl + shift + alt - y : open -a /Applications/JQBX.app
 default + cmd + ctrl + shift + alt - k : open -a /Applications/Slack.app
 colemak + cmd + ctrl + shift + alt - n : open -a /Applications/Slack.app
-default + cmd + ctrl + shift + alt - l : open -a /Applications/LimeChat.app
-colemak + cmd + ctrl + shift + alt - u : open -a /Applications/LimeChat.app
-default + cmd + ctrl + shift + alt - m : open -a /Applications/Messages.app
-colemak + cmd + ctrl + shift + alt - m : open -a /Applications/Messages.app
+# default + cmd + ctrl + shift + alt - l : open -a filler
+# colemak + cmd + ctrl + shift + alt - u : open -a filler
+# default + cmd + ctrl + shift + alt - m : open -a filler
+# colemak + cmd + ctrl + shift + alt - m : open -a filler
 # default + cmd + ctrl + shift + alt - n : open -a filler
 # colemak + cmd + ctrl + shift + alt - j : open -a filler
 default + cmd + ctrl + shift + alt - o : open -a /Applications/Postico.app
