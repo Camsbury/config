@@ -56,6 +56,7 @@ in
   emacs = import ./emacs.nix { pkgs = unstable; };
   haskellPackages = unstable.haskellPackages;
   spotify = unstable.spotify; # non-free
+  steam = unstable.steam;
   xndr = super.callPackage (builtins.fetchTarball
     "https://github.com/Camsbury/xndr/archive/094be18.tar.gz") {};
 })]
