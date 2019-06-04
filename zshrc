@@ -441,6 +441,7 @@ alias emd='emacs --debug-init'
 alias yin='yarn install'
 alias ybw='yarn build:watch'
 alias nprm='rm -rf */node_modules'
+alias ybwr='cd ~/projects/urbint/grid && rm -rf */node_modules && yarn install && cd urbint-components && yarn build:watch'
 
 
 ################################################################################
