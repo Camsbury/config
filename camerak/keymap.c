@@ -71,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
       KC_NO,
                KC_NO,      KC_NO,
-      KC_NO,   KC_NO,      KC_NO),
+      KC_NO,   TO(3),      KC_NO),
 
   // NUMBER LAYER
   [2] = LAYOUT_ergodox(
@@ -97,6 +97,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_NO,
                       KC_NO,        KC_NO,
       KC_NO,          KC_TRNS,      KC_NO),
+
+  /* // BRAID LAYER */
+  [3] = LAYOUT_ergodox(
+      //LEFT HAND
+      TO(0), KC_NO,   KC_NO,   KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK, KC_MEDIA_PLAY_PAUSE, KC_NO,
+      KC_NO, KC_NO,   KC_NO,   KC_NO,               KC_NO,               KC_NO,               KC_NO,
+      KC_NO, KC_LEFT, KC_DOWN, KC_UP,               KC_RIGHT,            KC_NO,
+      KC_NO, KC_NO,   KC_NO,   KC_NO,               KC_NO,               KC_NO,               KC_NO,
+      KC_NO, KC_NO,   KC_NO,   KC_NO,               KC_NO,
+
+                                                    KC_NO,               KC_NO,
+                                                                                              KC_NO,
+                                                    KC_NO,               KC_TRNS,             KC_NO,
+
+
+      //RIGHT HAND
+      KC_NO, KC_AUDIO_MUTE, KC_AUDIO_VOL_UP, KC_AUDIO_VOL_DOWN, KC_NO, KC_NO, KC_NO,
+      KC_NO, KC_NO,         KC_NO,           KC_NO,             KC_NO, KC_NO, KC_NO,
+             KC_LSPO,       KC_NO,           KC_NO,             KC_NO, KC_NO, KC_NO,
+      KC_NO, KC_NO,         KC_NO,           KC_NO,             KC_NO, KC_NO, KC_NO,
+                            KC_NO,           KC_NO,             KC_NO, KC_NO, KC_NO,
+
+      KC_NO,
+             KC_NO,         KC_NO,
+      KC_NO, KC_TRNS,       KC_SPACE),
 
   /* // SC2 LAYER */
   /* [3] = LAYOUT_ergodox( */
