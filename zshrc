@@ -394,6 +394,15 @@ alias gclc='gcloud container clusters get-credentials' # followed by the cluster
 
 
 ################################################################################
+# server ssh
+
+alias sshml="ssh cameron@${ML_1_IP_ADDR}"
+alias sshmll="ssh cameron@${ML_2_IP_ADDR}"
+alias sshvpn="ssh cameron@${VPN_IP_ADDR}"
+alias sshadmin="ssh cameron@${ADMIN_IP_ADDR}"
+
+
+################################################################################
 # R
 alias nsr='nix-shell ~/projects/Camsbury/config/rSetup.nix --run emacs'
 
