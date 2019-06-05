@@ -9,12 +9,22 @@
                         'smartparens-mode
                         'evil-smartparens-mode))
 
+(general-add-hook 'before-save-hook
+                  (lambda ()
+                    (when (eq major-mode 'clojure-mode)
+                      (delete-trailing-whitespace))))
+
 (general-add-hook 'clojurescript-mode-hook
                   (list 'paredit-mode
                         'paxedit-mode
                         'format-all-mode
                         'smartparens-mode
                         'evil-smartparens-mode))
+
+(general-add-hook 'before-save-hook
+                  (lambda ()
+                    (when (eq major-mode 'clojurescript-mode)
+                      (delete-trailing-whitespace))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
