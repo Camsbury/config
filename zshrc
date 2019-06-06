@@ -299,6 +299,9 @@ alias nst='nix-store'
 alias nstp='nix-store-path'
 alias nsu="nix-shell --arg nixpkgs 'import <nixpkgs-unstable> {}'"
 
+# shells
+alias dana='nix-shell ~/.shells/dataAnalysis.nix'
+
 
 ################################################################################
 # cabal
