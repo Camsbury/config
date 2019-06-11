@@ -13,7 +13,7 @@ enum custom_keycodes {
   EPRM,
   VRSN,
   RGB_SLD,
-  QMK_LAYOUT,
+  /* QMK_LAYOUT, */
   /* EMACS_BINDINGS, */
   /* EMACS_CONFIG, */
   /* ZSHRC, */
@@ -77,9 +77,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [2] = LAYOUT_ergodox(
       //LEFT HAND
       CHROME_INSPECT, KC_F1,        KC_F2,        KC_F3,      KC_F4,          KC_F5,        KC_NO,
-      KC_NO,          KC_NO,        KC_NO,        QMK_LAYOUT, EMACS_BINDINGS, KC_NO,        KC_NO,
+      KC_NO,          KC_NO,        KC_NO,        KC_NO,      KC_NO, KC_NO,   KC_NO,
       KC_NO,          KC_1,         KC_2,         KC_3,       KC_4,           KC_5,
-      KC_LCTL,        KC_NO,        KC_NO,        KC_NO,      EMACS_CONFIG,   KC_NO,        KC_NO,
+      KC_LCTL,        KC_NO,        KC_NO,        KC_NO,      KC_NO,   KC_NO,        KC_NO,
       KC_NO,          ALL_T(KC_NO), MEH_T(KC_NO), KC_LALT,    KC_LGUI,
 
                                                               KC_NO,          KC_NO,
@@ -89,9 +89,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
       //RIGHT HAND
       KC_NO,          KC_F6,        KC_F7,        KC_F8,      KC_F9,          KC_F10,       KC_F11,
-      KC_NO,          KC_NO,        ZSHRC,        KC_NO,      KC_NO,          KC_NO,        KC_F12,
+      KC_NO,          KC_NO,        KC_NO,        KC_NO,      KC_NO,          KC_NO,        KC_F12,
                       KC_6,         KC_7,         KC_8,       KC_9,           KC_0,         KC_NO,
-      KC_NO,          KC_NO,        KHDRC,        CHUNKRC,    KC_NO,          KC_NO,        KC_LCTL,
+      KC_NO,          KC_NO,        KC_NO,        KC_NO,      KC_NO,          KC_NO,        KC_LCTL,
                                     KC_LGUI,      KC_LALT,    MEH_T(KC_NO),   ALL_T(KC_NO), KC_NO,
 
       KC_NO,
@@ -101,7 +101,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   /* // BRAID LAYER */
   [3] = LAYOUT_ergodox(
       //LEFT HAND
-      TO(0), KC_NO,   KC_NO,   KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK, KC_MEDIA_PLAY_PAUSE, KC_NO,
+      TO(0), TO(3),   TO(4),   KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK, KC_MEDIA_PLAY_PAUSE, KC_NO,
       KC_NO, KC_NO,   KC_NO,   KC_NO,               KC_NO,               KC_NO,               KC_NO,
       KC_NO, KC_LEFT, KC_DOWN, KC_UP,               KC_RIGHT,            KC_NO,
       KC_NO, KC_NO,   KC_NO,   KC_NO,               KC_NO,               KC_NO,               KC_NO,
@@ -115,13 +115,38 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       //RIGHT HAND
       KC_NO, KC_AUDIO_MUTE, KC_AUDIO_VOL_UP, KC_AUDIO_VOL_DOWN, KC_NO, KC_NO, KC_NO,
       KC_NO, KC_NO,         KC_NO,           KC_NO,             KC_NO, KC_NO, KC_NO,
-             KC_LSPO,       KC_NO,           KC_NO,             KC_NO, KC_NO, KC_NO,
+             KC_LSFT,       KC_NO,           KC_NO,             KC_NO, KC_NO, KC_NO,
       KC_NO, KC_NO,         KC_NO,           KC_NO,             KC_NO, KC_NO, KC_NO,
                             KC_NO,           KC_NO,             KC_NO, KC_NO, KC_NO,
 
       KC_NO,
              KC_NO,         KC_NO,
       KC_NO, KC_TRNS,       KC_SPACE),
+
+  /* // CUPHEAD LAYER */
+  [4] = LAYOUT_ergodox(
+      //LEFT HAND
+      TO(0), TO(3),   TO(4),   KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK, KC_MEDIA_PLAY_PAUSE, KC_NO,
+      KC_NO, KC_NO,   KC_NO,   KC_NO,               KC_NO,               KC_NO,               KC_NO,
+      KC_NO, KC_LEFT, KC_DOWN, KC_UP,               KC_RIGHT,            KC_NO,
+      KC_NO, KC_NO,   KC_NO,   KC_NO,               KC_NO,               KC_NO,               KC_NO,
+      KC_NO, KC_NO,   KC_NO,   KC_NO,               KC_NO,
+
+                                                    KC_NO,               KC_NO,
+                                                                                              KC_NO,
+                                                    KC_NO,               KC_TRNS,             KC_NO,
+
+
+      //RIGHT HAND
+      KC_NO, KC_AUDIO_MUTE, KC_AUDIO_VOL_UP, KC_AUDIO_VOL_DOWN, KC_NO,   KC_NO, KC_NO,
+      KC_NO, KC_NO,         KC_NO,           KC_NO,             KC_NO,   KC_NO, KC_NO,
+             KC_NO,         KC_X,            KC_V,              KC_LSFT, KC_C,  KC_TAB,
+      KC_NO, KC_NO,         KC_NO,           KC_NO,             KC_NO,   KC_NO, KC_NO,
+                            KC_NO,           KC_NO,             KC_NO,   KC_NO, KC_NO,
+
+      KC_NO,
+             KC_NO,         KC_NO,
+      KC_NO, KC_TRNS,       KC_Z),
 
   /* // SC2 LAYER */
   /* [3] = LAYOUT_ergodox( */
