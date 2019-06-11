@@ -3,7 +3,8 @@
 (require 'lsp-conf)
 
 (general-add-hook 'python-mode-hook
-                  (list #'lsp
+                  (list
+                   ;; #'lsp
                         #'yapf-mode
                         #'flycheck-mode)
                   (lambda ()
