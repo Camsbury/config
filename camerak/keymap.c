@@ -2,12 +2,8 @@
 #include "debug.h"
 #include "action_layer.h"
 #include "version.h"
-
-
 #include "keymap_german.h"
-
 #include "keymap_nordic.h"
-
 
 
 #define CHROME_INSPECT LGUI(LSFT(KC_C))
@@ -18,11 +14,11 @@ enum custom_keycodes {
   VRSN,
   RGB_SLD,
   QMK_LAYOUT,
-  EMACS_BINDINGS,
-  EMACS_CONFIG,
-  ZSHRC,
-  KHDRC,
-  CHUNKRC,
+  /* EMACS_BINDINGS, */
+  /* EMACS_CONFIG, */
+  /* ZSHRC, */
+  /* KHDRC, */
+  /* CHUNKRC, */
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -222,42 +218,42 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     // dynamically generate these.
-    case QMK_LAYOUT:
-      if (record->event.pressed) {
-          SEND_STRING("  ce");
-      }
-      return false;
-      break;
-    case EMACS_BINDINGS:
-      if (record->event.pressed) {
-          SEND_STRING("  cb");
-      }
-      return false;
-      break;
-    case EMACS_CONFIG:
-      if (record->event.pressed) {
-          SEND_STRING("  cc");
-      }
-      return false;
-      break;
-    case ZSHRC:
-      if (record->event.pressed) {
-          SEND_STRING("  cn");
-      }
-      return false;
-      break;
-    case KHDRC:
-      if (record->event.pressed) {
-          SEND_STRING("  ci");
-      }
-      return false;
-      break;
-    case CHUNKRC:
-      if (record->event.pressed) {
-          SEND_STRING("  cI");
-      }
-      return false;
-      break;
+    /* case QMK_LAYOUT: */
+    /*   if (record->event.pressed) { */
+    /*       SEND_STRING("  ce"); */
+    /*   } */
+    /*   return false; */
+    /*   break; */
+    /* case EMACS_BINDINGS: */
+    /*   if (record->event.pressed) { */
+    /*       SEND_STRING("  cb"); */
+    /*   } */
+    /*   return false; */
+    /*   break; */
+    /* case EMACS_CONFIG: */
+    /*   if (record->event.pressed) { */
+    /*       SEND_STRING("  cc"); */
+    /*   } */
+    /*   return false; */
+    /*   break; */
+    /* case ZSHRC: */
+    /*   if (record->event.pressed) { */
+    /*       SEND_STRING("  cn"); */
+    /*   } */
+    /*   return false; */
+    /*   break; */
+    /* case KHDRC: */
+    /*   if (record->event.pressed) { */
+    /*       SEND_STRING("  ci"); */
+    /*   } */
+    /*   return false; */
+    /*   break; */
+    /* case CHUNKRC: */
+    /*   if (record->event.pressed) { */
+    /*       SEND_STRING("  cI"); */
+    /*   } */
+    /*   return false; */
+    /*   break; */
     case EPRM:
       if (record->event.pressed) {
         eeconfig_init();
