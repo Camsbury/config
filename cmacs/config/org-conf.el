@@ -65,16 +65,17 @@
   (call-interactively 'org-table-edit-field)
   (org-table-align))
 
-(defun org-insert-top-level-heading ()
-  "Insert top level heading"
-  (interactive)
-  (insert "* ")
-  (call-interactively #'evil-insert))
-
 (defun org-insert-heading ()
   "Insert top level heading"
   (interactive)
   (call-interactively #'outline-insert-heading)
+  (call-interactively #'evil-insert))
+
+(defun org-insert-todo-heading ()
+  "Insert top level heading"
+  (interactive)
+  (call-interactively #'outline-insert-heading)
+  (call-interactively #'org-todo)
   (call-interactively #'evil-insert))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -113,13 +114,15 @@
 ;;; #'org-transpose-forward...
 
 (general-def 'normal org-mode-map
- "]"                       #'hydra-right-leader/body
- "["                       #'hydra-left-leader/body
+ "]" #'hydra-right-leader/body
+ "[" #'hydra-left-leader/body
  [remap empty-mode-leader] #'hydra-org/body)
 
 (general-def org-mode-map
-  "M-a"                   #'org-insert-top-level-heading
-  "M-r"                   #'org-insert-heading)
+  "M-a" #'org-insert-todo-heading
+  "M-r" #'org-promote-subtree
+  "M-s" #'org-insert-heading
+  "M-t" #'org-demote-subtree)
 
 (defhydra hydra-org (:exit t)
   "org-mode"
