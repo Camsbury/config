@@ -68,15 +68,32 @@
 (defun org-insert-heading ()
   "Insert top level heading"
   (interactive)
-  (call-interactively #'outline-insert-heading)
-  (call-interactively #'evil-insert))
+  (call-interactively #'evil-open-below)
+  (call-interactively #'outline-insert-heading))
 
 (defun org-insert-todo-heading ()
   "Insert top level heading"
   (interactive)
+  (call-interactively #'evil-open-below)
   (call-interactively #'outline-insert-heading)
-  (call-interactively #'org-todo)
-  (call-interactively #'evil-insert))
+  (call-interactively #'org-todo))
+
+(defun org-cycle-shallow (&optional arg)
+  "Toggle org-cycle for only one level"
+  (interactive "P")
+  (unless (eq this-command 'org-shifttab)
+    (save-excursion
+      (org-beginning-of-line)
+      (let (invisible-p)
+        (when (and (org-at-heading-p)
+                   (or org-cycle-open-archived-trees
+                       (not (member org-archive-tag (org-get-tags))))
+                   (or (not arg)
+                       (setq invisible-p (outline-invisible-p (line-end-position)))))
+          (unless invisible-p
+            (setq org-cycle-subtree-status 'subtree))
+          (org-cycle-internal-local)
+          t)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org bindings
@@ -107,11 +124,14 @@
   "M-h"                     #'outline-up-heading
   "M-j"                     #'org-forward-heading-same-level
   "M-k"                     #'org-backward-heading-same-level
-  "M-l"                     #'org-next-visible-heading)
+  "M-l"                     #'org-next-visible-heading
+  "M-o"                     #'org-cycle-shallow
+  "M-O"                     #'org-show-subtree)
 ;;; #-org-forward-element - needed on M-l?
 ;;; #'org-clock-in
 ;;; #'org-slurp-forward, etc.
 ;;; #'org-transpose-forward...
+;;; org-cycle
 
 (general-def 'normal org-mode-map
  "]" #'hydra-right-leader/body
