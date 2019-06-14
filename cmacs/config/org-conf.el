@@ -140,9 +140,9 @@
 
 (general-def org-mode-map
   "M-a" #'org-insert-todo-heading
-  "M-r" #'org-promote-subtree
+  "M-r" #'org-metaleft
   "M-s" #'org-insert-heading
-  "M-t" #'org-demote-subtree)
+  "M-t" #'org-metaright)
 
 (defhydra hydra-org (:exit t)
   "org-mode"
