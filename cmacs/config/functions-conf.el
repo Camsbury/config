@@ -33,21 +33,6 @@
   (delete-window)
   (prettify-windows))
 
-(defun open-new-tmp (arg)
-  "Opens a new tmp file"
-  (interactive "sFile name: ")
-  (find-file (concat "/tmp/" arg)))
-
-(defun open-se-principles ()
-  "Opens the SE principles file"
-  (interactive)
-  (find-file "~/Dropbox/lxndr/ref/software_engineering.org"))
-
-(defun open-tmp-org ()
-  "opens a temporary org file"
-  (interactive)
-  (find-file "/tmp/notes.org"))
-
 (defun evil-save-as (arg)
   "Save buffer as"
   (interactive "sFile name: ")
@@ -64,6 +49,47 @@
       (clm/toggle-command-log-buffer))))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Nav Functions
+
+(defun open-new-tmp (arg)
+  "Opens a new tmp file"
+  (interactive "sFile name: ")
+  (find-file (concat "/tmp/" arg)))
+
+(defun open-se-principles ()
+  "Opens the SE principles file"
+  (interactive)
+  (find-file "~/Dropbox/lxndr/ref/software_engineering.org"))
+
+(defun open-tmp-org ()
+  "opens a temporary org file"
+  (interactive)
+  (find-file "/tmp/notes.org"))
+
+(defun open-project-tasks ()
+  "Opens the project's tasks file"
+  (interactive)
+  (let ((path (->> (projectile-project-root)
+                  f-filename
+                  (f-join "~/Dropbox/lxndr/tasks")
+                  (s-append ".org"))))
+       (find-file path)))
+
+(defun open-clubhouse ()
+  "Clubhouse tix"
+  (interactive)
+  (find-file "~/clubhouse.org"))
+
+(defun open-tasks ()
+  "Opens the generic tasks file"
+  (interactive)
+  (find-file "~/Dropbox/lxndr/ref/tasks.org"))
+
+(defun open-timesheet ()
+  "Opens the timesheet"
+  (interactive)
+  (find-file "~/Dropbox/lxndr/ref/time.org"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Spawn Functions
@@ -131,27 +157,6 @@
   (spawn-right)
   (find-file "~/projects/nix_dots/emacs.nix"))
 
-(defun spawn-clubhouse ()
-  "Clubhouse tix"
-  (interactive)
-  (spawn-right)
-  (find-file "~/clubhouse.org"))
-
-(defun spawn-se-principles ()
-  "Spawns the se principles file to the right"
-  (interactive)
-  (spawn-right)
-  (find-file "~/Dropbox/lxndr/ref/software_engineering.org"))
-
-(defun spawn-project-tasks ()
-  "Spawns the project's tasks file to the right"
-  (interactive)
-  (let ((path (->> (projectile-project-root)
-                  f-filename
-                  (f-join "~/Dropbox/lxndr/tasks")
-                  (s-append ".org"))))
-       (spawn-right)
-       (find-file path)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Test Jumping
