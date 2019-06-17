@@ -51,27 +51,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // SYMBOL LAYER
   [1] = LAYOUT_ergodox(
       //LEFT HAND
-      KC_NO,   KC_NO,      KC_NO,          KC_NO,          KC_NO,          KC_NO,     KC_NO,
-      KC_NO,   KC_DLR,     KC_CIRC,        KC_HASH,        KC_UNDS,        KC_NO,     KC_NO,
-      KC_TRNS, KC_PLUS, KC_ASTERISK, KC_EQUAL,       KC_MINUS,       KC_QUES,
-      KC_LCBR, KC_LEFT,    KC_DOWN,        KC_UP,          KC_RIGHT,       KC_NO,     KC_NO,
-      KC_NO,   KC_NO,      KC_NO,          KC_NO,          KC_NO,
+      KC_NO,   KC_NO,   KC_NO,       KC_NO,    KC_NO,    KC_NO,     KC_NO,
+      KC_NO,   KC_DLR,  KC_CIRC,     KC_HASH,  KC_UNDS,  KC_NO,     KC_NO,
+      KC_TRNS, KC_PLUS, KC_ASTERISK, KC_EQUAL, KC_MINUS, KC_QUES,
+      KC_LCBR, KC_LEFT, KC_DOWN,     KC_UP,    KC_RIGHT, KC_NO,     KC_NO,
+      KC_NO,   KC_NO,   KC_NO,       KC_NO,    KC_NO,
 
-                                                           KC_NO,          KC_NO,
-                                                                                      KC_NO,
-                                                           KC_NO,          KC_NO,     KC_NO,
+                                               KC_NO,    KC_NO,
+                                                                    KC_NO,
+                                               KC_NO,    KC_NO,     KC_NO,
 
 
       //RIGHT HAND
-      KC_NO,   KC_NO,      KC_NO,          KC_NO,          KC_NO,          KC_NO,     KC_NO,
-      KC_NO,   KC_NO,      KC_AT,          KC_PERC,        KC_PIPE,        KC_SCOLON, KC_NO,
-               KC_EXLM,    KC_QUOTE,       KC_DQUO,        KC_GRAVE,       KC_TILD,   KC_TRNS,
-      KC_NO,   KC_NO,      KC_AMPR,        KC_LABK,        KC_RABK,        KC_BSLASH, KC_RCBR,
-                           KC_NO,          KC_NO,          KC_NO,          KC_NO,     KC_NO,
+      KC_NO,   KC_NO,   KC_NO,       KC_NO,    KC_NO,    KC_NO,     KC_NO,
+      KC_NO,   KC_NO,   KC_AT,       KC_PERC,  KC_PIPE,  KC_SCOLON, KC_NO,
+               KC_EXLM, KC_QUOTE,    KC_DQUO,  KC_GRAVE, KC_TILD,   KC_TRNS,
+      KC_NO,   KC_NO,   KC_AMPR,     KC_LABK,  KC_RABK,  KC_BSLASH, KC_RCBR,
+                        KC_NO,       KC_NO,    KC_NO,    KC_NO,     KC_NO,
 
       KC_NO,
-               KC_NO,      KC_NO,
-      KC_NO,   TO(3),      KC_NO),
+               KC_NO,   KC_NO,
+      KC_NO,   TO(3),   KC_NO),
 
   // NUMBER LAYER
   [2] = LAYOUT_ergodox(
@@ -79,7 +79,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       CHROME_INSPECT, KC_F1,        KC_F2,        KC_F3,      KC_F4,          KC_F5,        KC_NO,
       KC_NO,          KC_NO,        KC_NO,        KC_NO,      KC_NO, KC_NO,   KC_NO,
       KC_NO,          KC_1,         KC_2,         KC_3,       KC_4,           KC_5,
-      KC_LCTL,        KC_NO,        KC_NO,        KC_NO,      KC_NO,   KC_NO,        KC_NO,
+      KC_LCTL,        KC_NO,        KC_NO,        KC_NO,      KC_NO,          KC_NO,        KC_NO,
       KC_NO,          ALL_T(KC_NO), MEH_T(KC_NO), KC_LALT,    KC_LGUI,
 
                                                               KC_NO,          KC_NO,
