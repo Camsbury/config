@@ -19,6 +19,7 @@ in
         htop
         httpie
         leiningen
+        loc
         mu
         python36
         python36Packages.jedi

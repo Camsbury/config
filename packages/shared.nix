@@ -46,6 +46,7 @@ with pkgs; [
   jq
   keychain
   libnotify
+  loc
   man-pages
   nix-index
   notify-osd # to upgrade...
