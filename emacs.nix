@@ -102,9 +102,10 @@ in
     rainbow-mode
     undo-tree
   ]) ++ (with epkgs; [
-    company-postgresql
-    org-clubhouse
-    etymology-of-word
-    # slack
     agda2-mode
+    company-postgresql
+    etymology-of-word
+    key-quiz
+    org-clubhouse
+    # slack
   ]))

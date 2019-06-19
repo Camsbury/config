@@ -43,6 +43,14 @@ let
     ];
   };
 
+  key-quiz = compileEmacsFiles {
+    name = "key-quiz.el";
+    src = builtins.fetchurl {
+      url = https://raw.githubusercontent.com/federicotdn/key-quiz/master/key-quiz.el;
+      sha256 = "1xqp76a5wld0ip7i6flxsjqjicdp3kgzgvlcvr1awd04ndq40wxh";
+    };
+  };
+
   cider = self.melpaBuild {
       pname = "cider";
       version = "20190226.1059";
@@ -97,9 +105,10 @@ let
     };
 in
   {
-    inherit org-clubhouse;
     inherit company-postgresql;
     inherit etymology-of-word;
+    inherit key-quiz;
+    inherit org-clubhouse;
   } // (if machine.darwin then {
     # inherit slack;
     # inherit cider;
