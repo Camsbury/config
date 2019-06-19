@@ -21,12 +21,16 @@ in
         leiningen
         loc
         mu
-        python36
-        python36Packages.jedi
-        python36Packages.python-language-server
-        python36Packages.pyls-isort
-        python36Packages.pyls-mypy
-        python36Packages.yapf
+        (python36.withPackages (
+          pythonPackages: with pythonPackages;
+            [ jedi
+              isort
+              mypy
+              pyflakes
+              pylint
+              yapf
+            ]
+        ))
         ripgrep
         shellcheck
         sourceHighlight

@@ -55,14 +55,18 @@ with pkgs; [
   openssl
   peek
   pltScheme
-  python36
-  python36Packages.jedi
-  python36Packages.jupyter_client
-  python36Packages.jupyter_core
-  python36Packages.pyls-isort
-  python36Packages.pyls-mypy
-  python36Packages.python-language-server
-  python36Packages.yapf
+  (python36.withPackages (
+    pythonPackages: with pythonPackages;
+      [ jedi
+        jupyter_client
+        jupyter_core
+        isort
+        mypy
+        pyflakes
+        pylint
+        yapf
+      ]
+  ))
   redshift
   ripgrep
   shellcheck

@@ -19,6 +19,7 @@ in
     company
     company-cabal
     company-ghc
+    company-jedi
     company-lsp
     counsel
     counsel-projectile
@@ -57,7 +58,6 @@ in
     irony-eldoc
     ivy
     ivy-hydra
-    jedi # python-lsp
     js2-mode
     json-navigator
     keychain-environment
@@ -78,6 +78,8 @@ in
     paxedit
     prettier-js
     projectile
+    pylint
+    py-isort
     racket-mode
     rainbow-delimiters
     rainbow-identifiers
