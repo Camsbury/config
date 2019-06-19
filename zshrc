@@ -300,6 +300,7 @@ alias nsu="nix-shell --arg nixpkgs 'import <nixpkgs-unstable> {}'"
 
 # shells
 alias dana='nix-shell ~/.shells/dataAnalysis.nix'
+alias fpy='nix-shell ~/.shells/yapf.nix'
 
 
 ################################################################################
