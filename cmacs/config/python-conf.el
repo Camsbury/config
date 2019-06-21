@@ -42,10 +42,10 @@
 
 (defhydra hydra-python (:exit t)
   "python-mode"
- ("f" #'lsp-ui-peek-find-references "find references")
- ("n" #'lsp-rename                  "rename variable")
- ("r" #'lsp-restart-workspace       "restart lsp")
- ("i" #'lsp-ui-imenu                "lsp imenu")
+ ;; ("f" #'lsp-ui-peek-find-references "find references")
+ ;; ("n" #'lsp-rename                  "rename variable")
+ ;; ("r" #'lsp-restart-workspace       "restart lsp")
+ ;; ("i" #'lsp-ui-imenu                "lsp imenu")
  ("o" #'python-narrow-defun         "focus on def"))
 
 (provide 'python-conf)
