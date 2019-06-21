@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# key: suf
+# name: standup_friday
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+* Today
+  -
+* Monday
+  -
+* Blockers
+  -

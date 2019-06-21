@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# key: su
+# name: standup
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+* Today
+  -
+* Tomorrow
+  -
+* Blockers
+  -
