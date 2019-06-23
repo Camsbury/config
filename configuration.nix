@@ -5,8 +5,7 @@
 let
   machine = import ./machine.nix;
   opSession = import ./op.nix;
-  unstableTarball = fetchTarball
-    https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
+  unstableTarball = import ./unstable.nix;
     unstable = import unstableTarball { config = {allowUnfree = true;}; };
 in
   {
