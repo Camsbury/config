@@ -379,6 +379,10 @@ function kpods-by-app() {
   kubectl get pods --selector="app=${1}"
 }
 
+function kube-get-secret() {
+  kubectl get secret "$1" -o json | jq -r "$2" | base64 -D | cat
+}
+
 alias kc='kubectl'
 alias kt='kubetail'
 if [ $(uname -s) = "Darwin" ]; then
@@ -390,6 +394,7 @@ alias kp='kubectl get pods'
 alias ks='kubernetes_switch_project.sh'
 alias kpn='kpods-by-app'
 alias kdys='kubectl get deployments'
+alias kgs='kube-get-secret'
 alias ksrvs='kubectl get services'
 alias kpw='kubectl get pods -w'
 alias klf='kubectl logs -f'
