@@ -5,6 +5,9 @@
 (require 'company-postgresql)
 ;; (require 'ob-ipython)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; org capture
+
 (setq org-directory (expand-file-name "~/Dropbox/lxndr/")
       org-capture-templates
         '(("n" "Place in the Inbox"
@@ -23,7 +26,18 @@
         (org-save-all-org-buffers)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; org-babel stuff
+;;; org themeing
+
+(set-face-foreground 'org-level-2 "#28fbae")
+(set-face-foreground 'org-level-3 "#2876fb")
+(set-face-foreground 'org-level-4 "#fbae28")
+(set-face-foreground 'org-level-5 "#ceff52")
+(set-face-foreground 'org-level-6 "#8352ff")
+(set-face-foreground 'org-level-7 "#ff52ce")
+(set-face-foreground 'org-level-8 "#52ff83")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; org-babel
 
 (setq org-confirm-babel-evaluate nil)
 (org-babel-do-load-languages
@@ -34,7 +48,7 @@
    (http . t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; org-clubhouse stuff
+;;; org-clubhouse
 
 (setq org-clubhouse-team-name "urbint"
       org-clubhouse-state-alist
