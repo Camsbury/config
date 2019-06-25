@@ -1,4 +1,6 @@
 (require 'bindings-conf)
+(require 'magit)
+
 (general-add-hook 'magit-mode-hook
                   (list 'evil-magit-init))
 
@@ -12,6 +14,27 @@
     "cd ~/projects/" user " && "
     "git clone git@github.com:" user "/" repo ".git")))
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Add smart upstream
+
+(define-suffix-command magit-push-smart-upstream (args)
+  "Push the current branch to its smart upstream branch."
+  :if 'magit-get-current-branch
+  :description 'magit-push--upstream-description
+  (interactive (list (magit-push-arguments)))
+  (let ((branch (or (magit-get-current-branch)
+                     (user-error "No branch is checked out"))))
+    (run-hooks 'magit-credential-hook)
+    (magit-run-git-async "push" "-v" args "-u" "origin" branch)))
+
+(transient-suffix-put 'magit-push "u" :key "U")
+(transient-append-suffix 'magit-push "U"
+  '("u" "Smart Upstream" magit-push-smart-upstream))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Keybindings
 
 (general-define-key
  :states  'normal
