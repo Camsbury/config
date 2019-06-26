@@ -93,6 +93,7 @@ in
     sqlup-mode
     tree-mode
     use-package
+    visual-fill-column
     web
     wgrep
     yaml-mode
