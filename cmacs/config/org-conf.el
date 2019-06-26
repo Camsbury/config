@@ -26,17 +26,6 @@
         (org-save-all-org-buffers)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; org themeing
-
-(set-face-foreground 'org-level-2 "#28fbae")
-(set-face-foreground 'org-level-3 "#2876fb")
-(set-face-foreground 'org-level-4 "#fbae28")
-(set-face-foreground 'org-level-5 "#ceff52")
-(set-face-foreground 'org-level-6 "#8352ff")
-(set-face-foreground 'org-level-7 "#ff52ce")
-(set-face-foreground 'org-level-8 "#52ff83")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-babel
 
 (setq org-confirm-babel-evaluate nil)
@@ -61,8 +50,17 @@
           ("DEPLOYED"  . "Deployed")
           ("ABANDONED" . "Abandoned")))
 
-(general-add-hook 'org-mode-hook (list #'org-clubhouse-mode
-                                       (lambda () (add-to-list 'company-backends 'company-ob-postgresql))))
+(general-add-hook
+ 'org-mode-hook
+ (list #'org-clubhouse-mode
+       (lambda () (add-to-list 'company-backends 'company-ob-postgresql)
+                  (set-face-foreground 'org-level-2 "#28fbae")
+                  (set-face-foreground 'org-level-3 "#2876fb")
+                  (set-face-foreground 'org-level-4 "#fbae28")
+                  (set-face-foreground 'org-level-5 "#ceff52")
+                  (set-face-foreground 'org-level-6 "#8352ff")
+                  (set-face-foreground 'org-level-7 "#ff52ce")
+                  (set-face-foreground 'org-level-8 "#52ff83"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org functions

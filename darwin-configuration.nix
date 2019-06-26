@@ -38,7 +38,6 @@ in
         tldr
         tree
         wget
-      ] ++ [
         emacs
       ];
 
