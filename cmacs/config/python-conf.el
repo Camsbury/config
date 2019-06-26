@@ -1,5 +1,16 @@
 (require 'bindings-conf)
 (require 'functions-conf)
+(require 'yapfify)
+
+;; /nix/store/4igq48l69gpfmjg0k2hjn5zk8iil6h7f-python3.6-yapf-0.27.0/bin/yapf
+
+(defun yapfify-call-bin (input-buffer output-buffer start-line end-line)
+  "Call process yapf on INPUT-BUFFER saving the output to OUTPUT-BUFFER.
+
+Return the exit code.  START-LINE and END-LINE specify region to
+format."
+  (with-current-buffer input-buffer
+    (call-process-region (point-min) (point-max) "/nix/store/rqspbns7n6fgqxk2wdhai3waijx2xi0v-python3-3.6.8-env/bin/yapf" nil output-buffer nil "-l" (concat (number-to-string start-line) "-" (number-to-string end-line)))))
 
 (flycheck-define-checker
     python-mypy ""
@@ -23,12 +34,6 @@
                     (setq flycheck-python-pylint-executable "pylint")
                     (setq flycheck-pylintrc "~/urbint/grid/backend/src/.pylintrc")))
 
-(general-add-hook 'before-save-hook
-                  (lambda ()
-                    (when (eq major-mode 'python-mode)
-                      (yapfify-buffer
-                       py-isort-buffer))))
-
 
 (general-def 'normal python-mode-map
  [remap empty-mode-leader] #'hydra-python/body)
@@ -42,10 +47,6 @@
 
 (defhydra hydra-python (:exit t)
   "python-mode"
- ;; ("f" #'lsp-ui-peek-find-references "find references")
- ;; ("n" #'lsp-rename                  "rename variable")
- ;; ("r" #'lsp-restart-workspace       "restart lsp")
- ;; ("i" #'lsp-ui-imenu                "lsp imenu")
  ("o" #'python-narrow-defun         "focus on def"))
 
 (provide 'python-conf)
