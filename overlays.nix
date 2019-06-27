@@ -51,6 +51,7 @@ in
   bat = unstable.bat;
   cachix = cachixBall.cachix;
   chromium = unstable.chromium;
+  dropbox = unstable.dropbox;
   emacs = import ./emacs.nix { pkgs = unstable; };
   haskellPackages = unstable.haskellPackages;
   spotify = unstable.spotify; # non-free
