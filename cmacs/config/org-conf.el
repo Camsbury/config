@@ -37,6 +37,11 @@
    (http . t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; org styling
+
+(setq org-ellipsis " ▾")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-clubhouse
 
 (setq org-clubhouse-team-name "urbint"
@@ -55,7 +60,7 @@
  (list #'org-clubhouse-mode
        (lambda () (add-to-list 'company-backends 'company-ob-postgresql)
                   (set-face-foreground 'org-level-2 "#28fbae")
-                  (set-face-foreground 'org-level-3 "#2876fb")
+                  (set-face-foreground 'org-level-3 "#4e8ffc")
                   (set-face-foreground 'org-level-4 "#fbae28")
                   (set-face-foreground 'org-level-5 "#ceff52")
                   (set-face-foreground 'org-level-6 "#8352ff")
