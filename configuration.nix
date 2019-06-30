@@ -64,6 +64,7 @@ in
       FZF = [ "${pkgs.fzf}/share/fzf" ];
       AUTOJUMP = [ "${pkgs.autojump}/share/autojump" ];
       EDITOR = "vim";
+      HISTCONTROL = "ignorespace";
     } // opSession;
 
     # Some programs need SUID wrappers, can be configured further or are
