@@ -4,5 +4,5 @@
 
 {
   #path for the encrypted drive
-  boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/<FILL-ME-IN>"
+  boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/<FILL-ME-IN>";
 }
