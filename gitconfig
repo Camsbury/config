@@ -1,0 +1,17 @@
+[user]
+	email = camsbury7@gmail.com
+        signingkey = D3F6CEF58C6E0F38
+	name = Cameron Kingsbury
+[core]
+        editor = /run/current-system/sw/bin/vim
+        excludesfile = /home/monoid/.gitignore_global
+[commit]
+        gpgsign = true
+[push]
+        default = current
+[rebase]
+	autosquash = true
+[merge]
+	conflictstyle = diff3
+[rerere]
+	enabled = 1
