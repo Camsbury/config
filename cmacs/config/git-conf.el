@@ -31,6 +31,7 @@
 (transient-suffix-put 'magit-push "u" :key "U")
 (transient-append-suffix 'magit-push "U"
   '("u" "Smart Upstream" magit-push-smart-upstream))
+(setq transient-default-level 7)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
