@@ -76,7 +76,7 @@ with pkgs; [
   sourceHighlight
   spotify # non-free
   sqlite
-  stack2nix
+  # stack2nix
   teensy-loader-cli # flash ergodox firmware (use zshrc alias for help)
   tldr
   tmux

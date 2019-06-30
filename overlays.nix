@@ -47,6 +47,20 @@ in
       platforms    = [ "i686-linux" "x86_64-linux" "x86_64-darwin" ];
     };
   };
+  python36 = super.python36.override {
+    packageOverrides = (
+      pythonSelf: pythonSuper:
+        let
+          buildPythonPackage = pythonSuper.buildPythonPackage;
+          fetchPypi = pythonSuper.fetchPypi;
+        in
+          {
+            pylint = pythonSuper.pylint.overridePythonAttrs (
+              oldAttrs: { doCheck = false; }
+            );
+          }
+    );
+  };
 
   bat = unstable.bat;
   cachix = cachixBall.cachix;

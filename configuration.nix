@@ -98,7 +98,7 @@ in
 
 
     # Don't change without guidance
-    system.stateVersion = "18.09";
+    system.stateVersion = "19.03";
   } // (
     if machine.laptop
     then {
