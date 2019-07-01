@@ -301,8 +301,14 @@ alias nstp='nix-store-path'
 alias nsu="nix-shell --arg nixpkgs 'import <nixpkgs-unstable> {}'"
 
 # shells
+function uuid-gen-n() {
+  nix-shell --argstr "$1" ~/.shells/uuid.nix --run "echo \"$UUID_GEN_N\""
+}
+
 alias dana='nix-shell ~/.shells/dataAnalysis.nix'
 alias fpy='nix-shell ~/.shells/yapf.nix'
+alias ipy='nix-shell -p python36Packages.ipython --run ipython'
+alias ugen='uuid-gen-n'
 
 
 ################################################################################
