@@ -67,7 +67,9 @@ if [ $(uname -s) = "Linux" ]; then
   source $FZF/key-bindings.zsh
 
   # set up keychain
+  export GPG_TTY=$(tty)
   eval $(keychain --eval --agents ssh id_rsa)
+  eval $(keychain --eval --agents gpg D3F6CEF58C6E0F38)
 fi
 
 if [ $(uname -s) = "Darwin" ]; then
