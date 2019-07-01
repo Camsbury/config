@@ -404,6 +404,16 @@ alias gclc='gcloud container clusters get-credentials' # followed by the cluster
 
 
 ################################################################################
+# Stackdriver
+
+function google-logs() {
+  gcloud logging read "'labels.compute.googleapis.com/resource_name=$1 $2'" --limit 10 --format json
+}
+
+alias lglg='google-logs'
+
+
+################################################################################
 # server ssh
 
 alias sshml="ssh cameron@${ML_1_IP_ADDR}"
