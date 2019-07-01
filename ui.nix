@@ -11,7 +11,7 @@ in
       enable = true;
 
       # Set keyboard layout
-      layout = "us";
+      layout = "us,us";
 
       displayManager = {
         sddm.enable = true;
@@ -33,8 +33,12 @@ in
         default = "xmonad";
       };
     } // (if ! machine.ergodox
-        then { xkbVariant = "colemak";
-               xkbOptions = "caps:escape";
-             } else {});
+        then {
+               xkbVariant = "colemak,";
+               xkbOptions = "caps:escape,";
+             } else {
+               xkbVariant = ",colemak";
+               xkbOptions = ",caps:escape";
+             });
 
   }

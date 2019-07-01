@@ -90,6 +90,7 @@ with pkgs; [
   vlc
   wget
   xclip # copy paste stuff
+  xkb-switch
   xorg.xbacklight
   xorg.xmodmap
   xss-lock

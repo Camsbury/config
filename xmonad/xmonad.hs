@@ -29,6 +29,7 @@ myKeys = [ ("M1-M4-S-C-a", grabApp "anki" "Anki")
          , ("M1-c",        spawn   "sh ~/.scripts/check-time.sh")
          , ("M1-b",        spawn   "sh ~/.scripts/check-battery.sh")
          , ("M1-m",        spawn   "sh ~/.scripts/pomodoro.sh")
+         , ("C-<Space>",   spawn   "xkb-switch -n")
          , ( "<XF86AudioRaiseVolume>"
            , spawn "pactl set-sink-volume @DEFAULT_SINK@ +1000"
            )

@@ -52,7 +52,7 @@ in
     # Select internationalisation properties.
     i18n = {
       consoleFont = "Noto Mono";
-      consoleKeyMap = "us";
+      consoleUseXkbConfig = true;
       defaultLocale = "en_US.UTF-8";
     };
 
