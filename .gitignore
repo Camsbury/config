@@ -9,6 +9,7 @@
 *tramp*
 *bookmarks*
 cachix.nix
+cmacs/smex-items
 cmacs/transient/
 encryption.nix
 machine.nix
