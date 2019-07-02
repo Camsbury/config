@@ -1,5 +1,6 @@
 (require 'bindings-conf)
 ;; (require 'company-sql-conf)
+(require 'dash)
 (require 'org-clubhouse)
 (require 'ob-async)
 (require 'company-postgresql)
@@ -40,6 +41,25 @@
 ;;; org styling
 
 (setq org-ellipsis " ▾")
+(setq org-bullets-bullet-list '("•"))
+(defun org-faces-init ()
+  "Initialize org faces"
+  (set-face-attribute 'org-level-1 nil :height 1.0)
+  (-map (lambda (x) (set-face-bold-p x nil))
+                 '( org-level-1
+                    org-level-2
+                    org-level-3
+                    org-level-4
+                    org-level-5
+                    org-level-6
+                    org-level-7
+                    org-level-8))
+ (-map (lambda (pair) (set-face-foreground (car pair) (cdr pair)))
+                 (-zip-pair
+                   '(org-level-1 org-level-2 org-level-3 org-level-4 org-level-5
+                     org-level-6 org-level-7 org-level-8)
+                   '( "#ceff52" "#fbae28" "#28fbae" "#ff52ce" "#ceff52"
+                      "#fbae28" "#28fbae" "#ff52ce"))) )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-clubhouse
@@ -58,14 +78,10 @@
 (general-add-hook
  'org-mode-hook
  (list #'org-clubhouse-mode
-       (lambda () (add-to-list 'company-backends 'company-ob-postgresql)
-                  (set-face-foreground 'org-level-2 "#28fbae")
-                  (set-face-foreground 'org-level-3 "#4e8ffc")
-                  (set-face-foreground 'org-level-4 "#fbae28")
-                  (set-face-foreground 'org-level-5 "#ceff52")
-                  (set-face-foreground 'org-level-6 "#8352ff")
-                  (set-face-foreground 'org-level-7 "#ff52ce")
-                  (set-face-foreground 'org-level-8 "#52ff83"))))
+       (lambda ()
+         (add-to-list 'company-backends 'company-ob-postgresql)
+         (org-faces-init))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org functions

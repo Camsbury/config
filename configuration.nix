@@ -14,6 +14,7 @@ in
         /etc/nixos/hardware-configuration.nix
         ./cachix.nix
         ./encryption.nix
+        ./fonts.nix
         ./networking.nix
         ./ui.nix
         ./users.nix
@@ -51,7 +52,7 @@ in
 
     # Select internationalisation properties.
     i18n = {
-      consoleFont = "Noto Mono";
+      consoleFont = "Roboto Mono";
       consoleUseXkbConfig = true;
       defaultLocale = "en_US.UTF-8";
     };
