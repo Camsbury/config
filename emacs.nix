@@ -30,6 +30,7 @@ in
     dockerfile-mode
     doom-themes
     doom-modeline
+    dotenv-mode
     emacsql
     emacsql-psql
     ess
