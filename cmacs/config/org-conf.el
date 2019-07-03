@@ -182,6 +182,7 @@
  ("RET" #'org-sparse-tree      "sparse tree")
  ("a"   #'org-archive-subtree  "archive")
  ("d"   #'org-deadline         "deadline")
+ ("o"   #'outline-show-all     "sparse tree")
  ("r"   #'org-refile           "refile")
  ("t"   #'org-set-tags-command "set tags")
  ("e"   #'org-edit-special     "edit src"))
