@@ -151,7 +151,7 @@
   [remap evil-quit]                    #'org-capture-kill)
 
 (general-emacs-define-key org-mode-map
-  [remap evil-ret]          #'org-todo
+  "M-RET"                   #'org-todo
   [remap org-return-indent] #'evil-window-down
   "M-t"                     #'hydra-org-table/body
   "M-h"                     #'outline-up-heading
