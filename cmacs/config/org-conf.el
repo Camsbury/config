@@ -40,6 +40,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org styling
 
+(setq org-cycle-separator-lines -1)
 (setq org-ellipsis " ▾")
 (setq org-bullets-bullet-list '("•"))
 (defun org-faces-init ()

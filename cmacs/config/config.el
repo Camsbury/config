@@ -18,6 +18,7 @@
          dashboard-conf
          docs-conf
          elisp-conf
+         env-conf
          evil-conf
          functions-conf
          git-conf
