@@ -4,6 +4,6 @@
         (set-default-font "Roboto Mono 6")
       (set-default-font "Roboto Mono 8")))
 (if (string-equal system-type "darwin")
-    (set-default-font "DejaVu Sans Mono 8"))
+    (set-default-font "Roboto Mono 8"))
 
 (provide 'theme-conf)
