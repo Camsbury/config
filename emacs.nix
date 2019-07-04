@@ -67,6 +67,7 @@ in
     lsp-mode
     lsp-ui
     magit
+    markdown-preview-mode
     mediawiki
     nav-flash
     nix-mode

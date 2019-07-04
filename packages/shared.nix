@@ -82,6 +82,7 @@ with pkgs; [
   tmux
   transmission
   tree
+  typora
   udisks # manage drives
   unzip
   valgrind
