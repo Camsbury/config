@@ -31,6 +31,7 @@
          minibuffer-conf
          org-conf
          package-conf
+         pdf-conf
          project-conf
          python-conf
          racket-conf
