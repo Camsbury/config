@@ -39,10 +39,9 @@ in
     } // (if ! machine.ergodox
         then {
                xkbVariant = "colemak,";
-               xkbOptions = "caps:escape,";
+               xkbOptions = "caps:escape";
              } else {
                xkbVariant = ",colemak";
-               xkbOptions = ",caps:escape";
              });
 
   }
