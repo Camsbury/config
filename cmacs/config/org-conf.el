@@ -174,15 +174,23 @@
 
 (general-def org-mode-map
   "M-a" #'org-insert-todo-heading
+  "M-n" #'org-open-at-point
   "M-r" #'org-metaleft
   "M-s" #'org-insert-heading
   "M-t" #'org-metaright)
+
+(defhydra hydra-org-link (:exit t)
+  "org-mode links"
+  ("e" #'org-store-link     "store a link")
+  ("n" #'org-insert-link    "insert a link")
+  ("t" #'org-open-at-point  "follow a link"))
 
 (defhydra hydra-org (:exit t)
   "org-mode"
  ("RET" #'org-sparse-tree      "sparse tree")
  ("a"   #'org-archive-subtree  "archive")
  ("d"   #'org-deadline         "deadline")
+ ("l"   #'hydra-org-link/body  "org-links")
  ("o"   #'outline-show-all     "sparse tree")
  ("r"   #'org-refile           "refile")
  ("t"   #'org-set-tags-command "set tags")
