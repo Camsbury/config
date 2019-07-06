@@ -11,6 +11,7 @@ with pkgs; [
   bat
   bear
   binutils
+  brave
   cabal-install
   cabal2nix
   cargo
