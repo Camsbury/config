@@ -70,6 +70,7 @@ with pkgs; [
   redshift
   ripgrep
   shellcheck
+  signal-desktop
   slack
   sloccount
   slock

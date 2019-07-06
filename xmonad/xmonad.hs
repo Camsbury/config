@@ -22,6 +22,7 @@ main = do
 myKeys = [ ("M1-M4-S-C-a", grabApp "anki" "Anki")
          , ("M1-M4-S-C-c", grabApp "chromium" "Chromium-browser")
          , ("M1-M4-S-C-e", grabApp "emacs" "Emacs")
+         , ("M1-M4-S-C-g", grabApp "signal" "Signal")
          , ("M1-M4-S-C-k", grabApp "slack" "Slack")
          , ("M1-M4-S-C-s", grabApp "spotify" "Spotify")
          , ("M1-M4-S-C-t", grabApp "xterm" "XTerm")
