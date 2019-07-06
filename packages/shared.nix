@@ -28,6 +28,7 @@ with pkgs; [
   firefox
   fzf
   gdb
+  ghostscript # for viewing pdfs
   gimp
   git
   gitAndTools.hub
@@ -95,6 +96,7 @@ with pkgs; [
   xkb-switch
   xorg.xbacklight
   xorg.xmodmap
+  xpdf
   xss-lock
   zip
   zsh

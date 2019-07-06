@@ -1,4 +1,5 @@
 (require 'smartparens-config)
+(require 'general)
 
 (if (string-equal system-type "gnu/linux")
     (require 'doom-modeline))
@@ -6,7 +7,6 @@
 (show-paren-mode)
 ;; (electric-pair-mode)
 (smartparens-global-mode)
-(global-linum-mode)
 (global-auto-revert-mode)
 (global-hl-line-mode)
 (doom-modeline-init)
@@ -31,6 +31,7 @@
         'whitespace-mode
         'rainbow-delimiters-mode
         'rainbow-mode
+        'linum-mode
         'evil-smartparens-mode))
 
 (provide 'ui-conf)

@@ -79,6 +79,7 @@
 (general-add-hook
  'org-mode-hook
  (list #'org-clubhouse-mode
+       'linum-mode
        (lambda ()
          (add-to-list 'company-backends 'company-ob-postgresql)
          (org-faces-init))))
