@@ -5,8 +5,6 @@
 let
   machine = import ./machine.nix;
   opSession = import ./op.nix;
-  unstableTarball = import ./unstable.nix;
-    unstable = import unstableTarball { config = {allowUnfree = true;}; };
 in
   {
     imports =
@@ -28,7 +26,7 @@ in
 
     nix.nixPath = [
       "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs"
-      "nixpkgs-unstable=${unstableTarball}"
+      "nixpkgs-unstable=${./unstable.nix}"
       "nixos-config=/etc/nixos/configuration.nix"
       "/nix/var/nix/profiles/per-user/root/channels"
     ];
