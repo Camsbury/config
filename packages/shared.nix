@@ -9,13 +9,8 @@ with pkgs; [
   autojump
   # autorandr # maybe for displays?
   bat
-  bear
   binutils
   brave
-  cabal-install
-  cabal2nix
-  cargo
-  carnix
   chromium
   curl
   dmenu
@@ -60,7 +55,6 @@ with pkgs; [
   openssh
   openssl
   peek
-  pltScheme
   (python36.withPackages (
     pythonPackages: with pythonPackages;
       [ jedi
@@ -92,7 +86,6 @@ with pkgs; [
   typora
   udisks # manage drives
   unzip
-  valgrind
   veracrypt
   vim
   vlc
