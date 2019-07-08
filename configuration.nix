@@ -10,6 +10,7 @@ in
     imports =
       [ # Modular NixOS Configuration
         /etc/nixos/hardware-configuration.nix
+        ./boot.nix
         ./cachix.nix
         ./encryption.nix
         ./fonts.nix
@@ -37,16 +38,6 @@ in
 
     virtualisation.docker.enable = true;
     virtualisation.docker.enableOnBoot = true;
-
-    # Use the systemd-boot EFI boot loader.
-    # boot.loader.systemd-boot.enable = true;
-    boot.loader.grub.enable = true;
-    boot.loader.grub.version = 2;
-    boot.loader.grub.device = "nodev";
-    boot.loader.grub.useOSProber = true;
-    boot.loader.grub.efiSupport = true;
-    boot.loader.efi.canTouchEfiVariables = true;
-    boot.kernelPackages = pkgs.linuxPackages_latest;
 
     # Select internationalisation properties.
     i18n = {
