@@ -21,8 +21,8 @@ in
         };
       };
 
-    autoRepeatDelay = 250;
-    autoRepeatInterval = 20;
+      autoRepeatDelay = 250;
+      autoRepeatInterval = 20;
 
       windowManager = {
         xmonad = {
