@@ -32,15 +32,15 @@ with pkgs; [
   gnumake
   gnupg
   gnutls
-  (haskell.packages.ghc865.ghcWithPackages (
-    haskellPackages: with haskellPackages;
-    [ Agda
-      Cabal_2_4_1_0
-      apply-refact
-      ghcid
-      hlint
-    ]
-  ))
+  # (haskell.packages.ghc865.ghcWithPackages (
+  #   haskellPackages: with haskellPackages;
+  #   [ Agda
+  #     Cabal_2_4_1_0
+  #     apply-refact
+  #     ghcid
+  #     hlint
+  #   ]
+  # ))
   htop
   httpie
   irony-server

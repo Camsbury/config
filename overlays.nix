@@ -74,7 +74,6 @@ let
         inherit bat;
         inherit chromium;
         inherit dropbox;
-        inherit haskell;
         inherit spotify; # non-free
         inherit steam;
     }))
