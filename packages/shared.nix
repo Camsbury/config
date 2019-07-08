@@ -69,6 +69,7 @@ with pkgs; [
   ))
   redshift
   ripgrep
+  rural
   shellcheck
   signal-desktop
   slack

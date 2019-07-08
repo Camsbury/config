@@ -40,6 +40,31 @@ let
           );
         };
 
+        rural = super.rustPlatform.buildRustPackage rec {
+          pname = "rural";
+          version = "0.8.1";
+          src = super.fetchFromGitHub {
+            owner  = "saghm";
+            repo   = pname;
+            rev    = "be6f7ac7b4ea926d0c6085819d9b4189206914d9";
+            sha256 = "1z87dlkvla1alf2whjllf999kl3z18kjjsl7pa5y68amwhd9f2sj";
+          };
+          cargoSha256 = "1gwsynnh42byy9ls3zzi48mpz75l7zrvcdim6q4i8jvyj0h1lzx3";
+
+          propagatedBuildInputs = [
+            self.pkg-config
+            self.openssl
+          ];
+
+          doCheck = false;
+
+          meta = with super.stdenv.lib; {
+            homepage    = https://github.com/saghm/rural;
+            license     = with licenses; [ mit ];
+            platforms   = platforms.all;
+          };
+        };
+
         xndr = super.callPackage (builtins.fetchTarball
           "https://github.com/Camsbury/xndr/archive/094be18.tar.gz") {};
 
