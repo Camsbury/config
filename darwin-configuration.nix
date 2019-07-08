@@ -11,9 +11,9 @@
 
   nixpkgs.overlays = import ./overlays;
 
-  environment.shellAliases = {
-    emacs = "${pkgs.emacs}";
-  };
+  # environment.shellAliases = {
+  #   emacs = "${pkgs.emacs}";
+  # };
 
   # Use a custom configuration.nix location.
   # $ darwin-rebuild switch -I darwin-config=$HOME/.config/nixpkgs/darwin/configuration.nix

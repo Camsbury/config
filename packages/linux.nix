@@ -15,6 +15,7 @@
     docker
     docker_compose
     dropbox-cli
+    emacs
     fd
     feh # wallpapers
     firefox

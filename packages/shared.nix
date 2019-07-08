@@ -3,7 +3,6 @@
 with pkgs; [
   ag
   bat
-  emacs
   exa
   gitAndTools.git-extras
   gitAndTools.hub
