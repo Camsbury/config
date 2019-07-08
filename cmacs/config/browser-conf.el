@@ -1,4 +1,4 @@
-(require 'bindings-conf)
+(use-package bindings-conf)
 
 (general-add-hook 'eww-mode-hook
                   'visual-line-mode

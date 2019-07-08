@@ -1,4 +1,4 @@
-(require 'yasnippet)
-(yas-global-mode 1)
+(use-package yasnippet
+  :hook (org-mode haskell-mode))
 
 (provide 'snippet-conf)

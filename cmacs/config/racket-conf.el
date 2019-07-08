@@ -1,5 +1,5 @@
-(require 'racket-mode)
-(require 'bindings-conf)
+(use-package racket-mode)
+(use-package bindings-conf)
 
 (general-def 'normal racket-mode-map
  [remap empty-mode-leader] #'hydra-racket/body

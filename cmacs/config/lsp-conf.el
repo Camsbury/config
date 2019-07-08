@@ -1,7 +1,7 @@
-(require 'lsp-clients)
-(require 'lsp-ui)
-(require 'lsp-ui-flycheck)
-(require 'company-lsp)
+(use-package lsp-clients)
+(use-package lsp-ui)
+(use-package lsp-ui-flycheck)
+(use-package company-lsp)
 
 (general-add-hook 'lsp-mode-hook
                   (list #'lsp-ui-mode

@@ -1,5 +1,5 @@
 ;; Bindings for smerge
-(require 'hydra)
+(use-package hydra)
 
 ;;; smerge bindings
 (defhydra hydra-merge ()

@@ -1,8 +1,8 @@
 ;; Bindings for my emacs config
 
-(require 'hydra)
-(require 'functions-conf)
-(require 'merge-conf)
+(use-package hydra)
+(use-package functions-conf)
+(use-package merge-conf)
 
 (setq x-super-keysym 'meta)
 (setq x-meta-keysym 'super)

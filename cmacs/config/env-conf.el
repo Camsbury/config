@@ -1,4 +1,4 @@
-(require 'functions-conf)
+(use-package functions-conf)
 
 (general-add-hook 'dotenv-mode-hook
                   (lambda ()

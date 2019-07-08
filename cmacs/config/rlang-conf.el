@@ -1,5 +1,5 @@
-(require 'bindings-conf)
-(require 'functions-conf)
+(use-package bindings-conf)
+(use-package functions-conf)
 
 (general-def 'normal ess-r-mode-map
   [remap empty-mode-leader] #'hydra-r/body

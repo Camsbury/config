@@ -1,6 +1,6 @@
-(require 'bindings-conf)
-(require 'evil)
-(require 'lisp-conf)
+(use-package bindings-conf)
+(use-package evil)
+(use-package lisp-conf)
 
 (general-add-hook 'clojure-mode-hook
                   (list 'paredit-mode

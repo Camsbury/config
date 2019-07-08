@@ -1,5 +1,5 @@
-(require 'bindings-conf)
-(require 'magit)
+(use-package bindings-conf)
+(use-package magit)
 
 (general-add-hook 'magit-mode-hook
                   (list 'evil-magit-init))

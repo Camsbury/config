@@ -1,5 +1,5 @@
-(require 'wgrep)
-(require 'avy)
+(use-package wgrep)
+(use-package avy)
 
 (defun wgrep-save-and-quit ()
   "things"

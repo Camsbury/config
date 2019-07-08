@@ -1,6 +1,6 @@
-(require 'bindings-conf)
-(require 'functions-conf)
-(require 'yapfify)
+(use-package bindings-conf)
+(use-package functions-conf)
+(use-package yapfify)
 
 ;; /nix/store/4igq48l69gpfmjg0k2hjn5zk8iil6h7f-python3.6-yapf-0.27.0/bin/yapf
 

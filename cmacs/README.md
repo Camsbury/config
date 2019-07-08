@@ -29,9 +29,11 @@
 ## My Emacs Architecture
 - Nix to build dependencies
   - __../emacs.nix__ describes the packages to be built in a [nix](https://nixos.org/nix/) expression
-  - Most people will imperatively install these packages using [emacs commands](http://ergoemacs.org/emacs/emacs_package_system.html), or [use-package](https://github.com/jwiegley/use-package)
-  - `(require '<package-name>)` to import!
+  - Most people will imperatively install these packages using [emacs commands](http://ergoemacs.org/emacs/emacs_package_system.html), or [use-package](https://github.com/jwiegley/use-package) ensure
+  - `(use-package <package-name>)` to import!
 - Minimal true dependencies
+  - [use-package](https://github.com/jwiegley/use-package)
+  Allows for smart configuration
   - [general](https://github.com/noctuid/general.el)
   Allows for clean bindings and mode hooks
   - [dash](https://github.com/magnars/dash.el)

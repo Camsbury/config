@@ -1,5 +1,5 @@
-(require 'bindings-conf)
-(require 'paxedit)
+(use-package bindings-conf)
+(use-package paxedit)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Lisp Functions

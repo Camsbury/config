@@ -1,2 +1,2 @@
-(require 'ranger)
+(use-package ranger)
 

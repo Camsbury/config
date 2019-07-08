@@ -1,8 +1,6 @@
-(require 'smartparens-config)
-(require 'general)
+(use-package smartparens-config)
+(use-package general)
 
-(if (string-equal system-type "gnu/linux")
-    (require 'doom-modeline))
 (column-number-mode)
 (show-paren-mode)
 ;; (electric-pair-mode)

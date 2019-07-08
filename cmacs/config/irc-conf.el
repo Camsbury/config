@@ -1,4 +1,4 @@
-(require 'private-conf)
+(use-package private-conf)
 
 (setq circe-sasl-username circe-sasl-username-private)
 (setq circe-sasl-password circe-sasl-password-private)

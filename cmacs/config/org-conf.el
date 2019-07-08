@@ -1,10 +1,10 @@
-(require 'bindings-conf)
-;; (require 'company-sql-conf)
-(require 'dash)
-(require 'org-clubhouse)
-(require 'ob-async)
-(require 'company-postgresql)
-;; (require 'ob-ipython)
+(use-package bindings-conf)
+;; (use-package company-sql-conf)
+(use-package dash)
+(use-package org-clubhouse)
+(use-package ob-async)
+(use-package company-postgresql)
+;; (use-package ob-ipython)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org capture

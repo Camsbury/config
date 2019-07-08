@@ -1,9 +1,9 @@
-(require 'bindings-conf)
-(require 'dash)
-(require 'dash-functional)
-(require 'f)
-(require 'functions-conf)
-(require 's)
+(use-package bindings-conf)
+(use-package dash)
+(use-package dash-functional)
+(use-package f)
+(use-package functions-conf)
+(use-package s)
 
 (general-add-hook 'emacs-lisp-mode-hook
                   (list 'paredit-mode

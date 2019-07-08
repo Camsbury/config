@@ -16,8 +16,11 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-(require 'benchmark-init)
+(require 'use-package)
+(use-package benchmark-init)
 (add-hook 'after-init-hook
-          (lambda () (require 'config))
+          (lambda ()
+            (use-package config
+                     :load-path "config/config.el"))
           'benchmark-init/deactivate)
 (put 'narrow-to-region 'disabled nil)
