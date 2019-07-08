@@ -4,6 +4,7 @@ with pkgs; [
   ag
   bat
   exa
+  fd
   gitAndTools.git-extras
   gitAndTools.hub
   # (haskell.packages.ghc865.ghcWithPackages (
@@ -17,6 +18,7 @@ with pkgs; [
   # ))
   htop
   httpie
+  jq
   leiningen
   loc
   (python36.withPackages (
@@ -30,10 +32,13 @@ with pkgs; [
       ]
   ))
   ripgrep
+  rural
   shellcheck
+  sloccount
   sourceHighlight
   sqlite
   tldr
+  tmux
   tree
   wget
 ]

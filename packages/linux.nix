@@ -16,7 +16,6 @@
     docker_compose
     dropbox-cli
     emacs
-    fd
     feh # wallpapers
     firefox
     fzf
@@ -29,7 +28,6 @@
     gnupg
     gnutls
     irony-server
-    jq
     keychain
     libnotify
     man-pages
@@ -40,15 +38,12 @@
     openssl
     peek
     redshift
-    rural
     signal-desktop
     slack
-    sloccount
     slock
     spotify # non-free
     # stack2nix
     teensy-loader-cli # flash ergodox firmware (use zshrc alias for help)
-    tmux
     transmission
     typora
     udisks # manage drives
