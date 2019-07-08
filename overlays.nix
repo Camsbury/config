@@ -4,49 +4,26 @@ let
   overlays = [
       (self: super: {
 
-        _1password = super.stdenv.mkDerivation rec {
-          version = "0.5.5";
-          pname = "1password";
-          name = "${pname}-${version}";
-          src =
-            if super.stdenv.hostPlatform.system == "i686-linux" then
-              super.fetchzip {
-                url = "https://cache.agilebits.com/dist/1P/op/pkg/v${version}/op_linux_386_v${version}.zip";
-                sha256 = "14qx69fq1a3h93h167nhwp6gxka8r34295p82kim9grijrx5zz5f";
-                stripRoot = false;
+        _1password =
+          if super.stdenv.hostPlatform.system == "x86_64-linux" then
+            super._1password.overrideAttrs (
+              oldAttrs: {
+                src = super.fetchzip {
+                  url = "https://cache.agilebits.com/dist/1P/op/pkg/v${
+                      super._1password.version
+                    }/op_linux_amd64_v${
+                      super._1password.version
+                    }.zip";
+                  sha256 = "1svic2b2msbwzfx3qxfglxp0jjzy3p3v78273wab942zh822ld8b";
+                  stripRoot = false;
+                };
               }
-            else if super.stdenv.hostPlatform.system == "x86_64-linux" then
-              super.fetchzip {
-                url = "https://cache.agilebits.com/dist/1P/op/pkg/v${version}/op_linux_amd64_v${version}.zip";
-                sha256 = "1svic2b2msbwzfx3qxfglxp0jjzy3p3v78273wab942zh822ld8b";
-                stripRoot = false;
-              }
-            else if super.stdenv.hostPlatform.system == "x86_64-darwin" then
-              super.fetchzip {
-                url = "https://cache.agilebits.com/dist/1P/op/pkg/v${version}/op_darwin_amd64_v${version}.zip";
-                sha256 = "1s6gw2qwsbhj4z9nrwrxs776y45ingpfp9533qz0gc1pk7ia99js";
-                stripRoot = false;
-              }
-            else throw "Architecture not supported";
+            )
+          else super._1password;
 
-          installPhase = ''
-            install -D op $out/bin/op
-          '';
-          postFixup = super.stdenv.lib.optionalString super.stdenv.isLinux ''
-            patchelf \
-              --set-interpreter $(cat $NIX_CC/nix-support/dynamic-linker) \
-              $out/bin/op
-          '';
+        cachix = cachixBall.cachix;
 
-          meta = with super.stdenv.lib; {
-            description  = "1Password command-line tool";
-            homepage     = https://support.1password.com/command-line/;
-            downloadPage = https://app-updates.agilebits.com/product_history/CLI;
-            maintainers  = with maintainers; [ joelburget ];
-            license      = licenses.unfree;
-            platforms    = [ "i686-linux" "x86_64-linux" "x86_64-darwin" ];
-          };
-        };
+        emacs = import ./emacs.nix { pkgs = unstablePkgs; };
 
         python36 = super.python36.override {
           packageOverrides = (
@@ -63,12 +40,8 @@ let
           );
         };
 
-        cachix = cachixBall.cachix;
-
         xndr = super.callPackage (builtins.fetchTarball
           "https://github.com/Camsbury/xndr/archive/094be18.tar.gz") {};
-
-        emacs = import ./emacs.nix { pkgs = unstablePkgs; };
 
     } // (with unstablePkgs; {
         inherit bat;
