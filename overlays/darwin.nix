@@ -1,4 +1,6 @@
 [(self: super: (if super.stdenv.hostPlatform.system == "x86_64-darwin" then {
+  emacs = import ../emacs.nix { pkgs = self; };
+
   enchant =
     super.stdenv.mkDerivation rec {
       pname = "enchant";

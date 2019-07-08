@@ -1,71 +1,39 @@
 { config, pkgs, ... }:
 
-let
-  emacs = import ./emacs.nix {inherit pkgs;};
-in
-  {
-    # nix.extraOptions = ''
-    #   binary-caches-parallel-connections = 50
-    # '';
+{
+  # nix.extraOptions = ''
+  #   binary-caches-parallel-connections = 50
+  # '';
 
-    # List packages installed in system profile. To search by name, run:
-    # $ nix-env -qaP | grep wget
-    environment.systemPackages = with pkgs; [
-        ag
-        bat
-        exa
-        gitAndTools.git-extras
-        gitAndTools.hub
-        htop
-        httpie
-        leiningen
-        loc
-        mu
-        (python36.withPackages (
-          pythonPackages: with pythonPackages;
-            [ jedi
-              isort
-              mypy
-              pyflakes
-              pylint
-              yapf
-            ]
-        ))
-        ripgrep
-        shellcheck
-        sourceHighlight
-        sqlite
-        tldr
-        tree
-        wget
-        emacs
-      ];
+  # List packages installed in system profile. To search by name, run:
+  # $ nix-env -qaP | grep wget
+  environment.systemPackages = import ./packages {inherit pkgs;};
 
-    nixpkgs.overlays = import ./darwin-overlays.nix;
+  nixpkgs.overlays = import ./overlays;
 
-    environment.shellAliases = {
-      emacs = "${emacs}";
-    };
+  environment.shellAliases = {
+    emacs = "${pkgs.emacs}";
+  };
 
-    # Use a custom configuration.nix location.
-    # $ darwin-rebuild switch -I darwin-config=$HOME/.config/nixpkgs/darwin/configuration.nix
-    # environment.darwinConfig = "$HOME/.config/nixpkgs/darwin/configuration.nix";
+  # Use a custom configuration.nix location.
+  # $ darwin-rebuild switch -I darwin-config=$HOME/.config/nixpkgs/darwin/configuration.nix
+  # environment.darwinConfig = "$HOME/.config/nixpkgs/darwin/configuration.nix";
 
-    # Auto upgrade nix package and the daemon service.
-    # services.nix-daemon.enable = true;
-    # nix.package = pkgs.nix;
+  # Auto upgrade nix package and the daemon service.
+  # services.nix-daemon.enable = true;
+  # nix.package = pkgs.nix;
 
-    # Create /etc/bashrc that loads the nix-darwin environment.
-    # programs.bash.enable = true;
-    # programs.zsh.enable = true;
-    # programs.fish.enable = true;
+  # Create /etc/bashrc that loads the nix-darwin environment.
+  # programs.bash.enable = true;
+  # programs.zsh.enable = true;
+  # programs.fish.enable = true;
 
-    # Used for backwards compatibility, please read the changelog before changing.
-    # $ darwin-rebuild changelog
-    system.stateVersion = 3;
+  # Used for backwards compatibility, please read the changelog before changing.
+  # $ darwin-rebuild changelog
+  system.stateVersion = 3;
 
-    # You should generally set this to the total number of logical cores in your system.
-    # $ sysctl -n hw.ncpu
-    nix.maxJobs = 8;
-    nix.buildCores = 8;
-  }
+  # You should generally set this to the total number of logical cores in your system.
+  # $ sysctl -n hw.ncpu
+  nix.maxJobs = 8;
+  nix.buildCores = 8;
+}
