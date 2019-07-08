@@ -417,6 +417,7 @@ function google-logs() {
 }
 
 alias lglg='google-logs'
+alias lgl='gcloud logging read --format json'
 
 
 ################################################################################
