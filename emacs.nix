@@ -11,6 +11,7 @@ let
 in
   emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
     avy
+    benchmark-init
     buffer-move
     cider
     circe

@@ -16,5 +16,8 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-(add-hook 'after-init-hook (lambda () (require 'config)))
+(require 'benchmark-init)
+(add-hook 'after-init-hook
+          (lambda () (require 'config))
+          'benchmark-init/deactivate)
 (put 'narrow-to-region 'disabled nil)
