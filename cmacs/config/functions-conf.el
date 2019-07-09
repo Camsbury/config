@@ -206,6 +206,10 @@
   (interactive)
   (message "current mode hydra is unbound"))
 
+(defun empty-visual-mode-leader ()
+  (interactive)
+  (message "current visual mode hydra is unbound"))
+
 (defun narrow-and-zoom-in ()
   "Narrow to selection and zoom in"
   (interactive)

@@ -40,6 +40,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org styling
 
+;; Don't have lines get sucked into folds
 (setq org-cycle-separator-lines -1)
 (setq org-ellipsis " ▾")
 (setq org-bullets-bullet-list '("•"))
@@ -171,7 +172,8 @@
 (general-def 'normal org-mode-map
  "]" #'hydra-right-leader/body
  "[" #'hydra-left-leader/body
- [remap empty-mode-leader] #'hydra-org/body)
+ [remap empty-mode-leader] #'hydra-org/body
+ [remap empty-visual-mode-leader] #'hydra-visual-org/body)
 
 (general-def org-mode-map
   "M-a" #'org-insert-todo-heading
@@ -196,6 +198,10 @@
  ("r"   #'org-refile           "refile")
  ("t"   #'org-set-tags-command "set tags")
  ("e"   #'org-edit-special     "edit src"))
+
+(defhydra hydra-visual-org (:exit t)
+  "org-mode"
+ ("s" #'org-sort "sort"))
 
 (general-def org-src-mode-map
  [remap empty-mode-leader] #'hydra-org-src/body)
