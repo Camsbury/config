@@ -1,0 +1,9 @@
+# name: function
+# key: fn
+# expand-env: ((yas-indent-line 'fixed))
+# --
+def $1($2):
+    """
+    ${3:Document me!}
+    """
+    ${4:pass}
