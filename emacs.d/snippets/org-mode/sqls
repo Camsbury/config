@@ -5,5 +5,5 @@
 # --
 
 :PROPERTIES:
-:header-args: :engine "postgresql" :dbpassword "${1:DB_PASSWORD}" :cmdline "-h ${2:host} ${3:database} ${4:username}" :async
+:header-args: :engine "postgresql" :dbpassword "${1:DB_PASSWORD}" :cmdline "-h ${2:localhost} -p ${3:5432} ${4:database} ${5:username}" :async
 :END:
