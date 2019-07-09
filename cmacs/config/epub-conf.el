@@ -10,7 +10,8 @@
 
 (defhydra hydra-nov (:exit t)
   "nov-mode"
+  ("t" #'nov-goto-toc          "table of contents")
   ("h" #'nov-previous-document "back")
-  ("l" #'nov-next-document "next"))
+  ("l" #'nov-next-document     "next"))
 
 (provide 'epub-conf)
