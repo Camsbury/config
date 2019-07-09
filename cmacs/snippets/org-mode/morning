@@ -4,19 +4,18 @@
 # expand-env: ((yas-indent-line 'fixed))
 # --
 
-* [ ] Open Circe
 * [ ] Synchronize Config
 * [ ] Check Inbox
 * [ ] Check Slack
 * [ ] Read Standups
 * [ ] Check Calendar
 * [ ] Check Email
-* [ ] Create Tripwire Tickets
 * [ ] Create Tripwire Tasks
+* [ ] Create Tripwire Tickets
 * [ ] Correctly Status Clubhouse Tickets
 * [ ] Check Clubhouse Notifications
 * [ ] Create Clubhouse Tasks
 * [ ] Check Github Notifications
 * [ ] Check Github PRs
 * [ ] Create Github Tasks
-* [ ] 10 Min Google Docs exploration
+* [ ] 10 Min Stack Overflow exploration
