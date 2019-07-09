@@ -9,8 +9,8 @@
 *tramp*
 *bookmarks*
 cachix.nix
-cmacs/smex-items
-cmacs/transient/
+emacs.d/smex-items
+emacs.d/transient/
 encryption.nix
 machine.nix
 networking.nix
