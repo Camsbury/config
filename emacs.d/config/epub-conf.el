@@ -1,8 +1,9 @@
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
 (setq nov-text-width 80)
-(setq nov-variable-pitch nil)
+
 ;; make this thing monospaced
+(setq nov-variable-pitch nil)
 
 (general-add-hook 'nov-mode-hook
                   'evil-mode)

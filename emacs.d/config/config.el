@@ -19,6 +19,7 @@
          docs-conf
          elisp-conf
          env-conf
+         epub-conf
          evil-conf
          functions-conf
          git-conf
