@@ -63,8 +63,8 @@ default + cmd + ctrl + shift + alt - a : open -a /Applications/Utilities/Activit
 colemak + cmd + ctrl + shift + alt - a : open -a /Applications/Utilities/Activity\ Monitor.app
 default + cmd + ctrl + shift + alt - b : open -a /Applications/iBooks.app
 colemak + cmd + ctrl + shift + alt - b : open -a /Applications/iBooks.app
-default + cmd + ctrl + shift + alt - c : open -a /Applications/Google\ Chrome.app
-colemak + cmd + ctrl + shift + alt - c : open -a /Applications/Google\ Chrome.app
+default + cmd + ctrl + shift + alt - c : open -a /Applications/Brave\ Browser.app
+colemak + cmd + ctrl + shift + alt - c : open -a /Applications/Brave\ Browser.app
 default + cmd + ctrl + shift + alt - d : open -a /Applications/Dash.app
 colemak + cmd + ctrl + shift + alt - g : open -a /Applications/Dash.app
 default + cmd + ctrl + shift + alt - e : open -a /run/current-system/Applications/Emacs.app

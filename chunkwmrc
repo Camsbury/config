@@ -51,4 +51,4 @@ chunkc tiling::rule -o "Emacs.*" --subrole AXStandardWindow -s tile
 chunkc tiling::rule -o Finder -s float
 chunkc tiling::rule -o Spotify -s float
 chunkc tiling::rule -o Slack -s float
-chunkc tiling::rule -o "Google Chrome" -s float
+chunkc tiling::rule -o "Brave Browser" -s float
