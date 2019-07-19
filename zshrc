@@ -441,6 +441,7 @@ function take-dir() {
   mkdir -p "$1" && cd "$1"
 }
 
+alias apr='apropos'
 alias cat='bat'
 alias cclip='xclip -selection clipboard'
 alias ls='exa --long'
@@ -448,8 +449,9 @@ alias ll='exa --long --all'
 alias la='exa --long --all'
 alias lnf='readlink -f'
 alias take='take-dir'
-alias xmrg='xrdb -merge ~/.Xresources'
 alias zz='source ~/.zshrc'
+
+alias xmrg='xrdb -merge ~/.Xresources'
 
 
 ################################################################################
