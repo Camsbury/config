@@ -28,7 +28,6 @@ with pkgs; [
   sourceHighlight
   sqlite
   tldr
-  tmux
   tree
   wget
 ]

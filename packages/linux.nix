@@ -57,6 +57,7 @@
     spotify # non-free
     # stack2nix
     teensy-loader-cli # flash ergodox firmware (use zshrc alias for help)
+    tmux
     transmission
     typora
     udisks # manage drives
