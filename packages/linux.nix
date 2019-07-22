@@ -37,6 +37,19 @@
     openssh
     openssl
     peek
+    (python36.withPackages (
+      pythonPackages: with pythonPackages;
+        [ isort
+          jedi
+          jupyter
+          jupyter_core
+          jupyter_client
+          mypy
+          pyflakes
+          pylint
+          yapf
+        ]
+    ))
     redshift
     signal-desktop
     slack
