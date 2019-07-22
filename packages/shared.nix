@@ -23,8 +23,11 @@ with pkgs; [
   loc
   (python36.withPackages (
     pythonPackages: with pythonPackages;
-      [ jedi
-        isort
+      [ isort
+        jedi
+        jupyter
+        jupyter_core
+        jupyter_client
         mypy
         pyflakes
         pylint

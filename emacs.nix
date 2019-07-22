@@ -32,6 +32,7 @@ in
     doom-themes
     doom-modeline
     dotenv-mode
+    ein
     emacsql
     emacsql-psql
     ess
