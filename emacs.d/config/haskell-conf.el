@@ -12,7 +12,10 @@
                                        haskell-font-lock-symbols-alist))
 (setq haskell-font-lock-symbols-alist (cons '("^." "⌾" haskell-font-lock-dot-is-not-composition) haskell-font-lock-symbols-alist))
 (setq haskell-font-lock-symbols-alist (cons '("<>" "⊕" haskell-font-lock-dot-is-not-composition) haskell-font-lock-symbols-alist))
+(setq haskell-font-lock-symbols-alist (cons '("->" "⟶" haskell-font-lock-dot-is-not-composition) haskell-font-lock-symbols-alist))
+(setq haskell-font-lock-symbols-alist (cons '("<-" "⟵" haskell-font-lock-dot-is-not-composition) haskell-font-lock-symbols-alist))
 (setq haskell-font-lock-symbols t)
+
 
 (setq flymake-no-changes-timeout nil)
 (setq flymake-start-syntax-check-on-newline nil)
