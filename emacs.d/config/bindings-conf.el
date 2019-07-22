@@ -136,7 +136,8 @@
   ("t" #'evil-prev-buffer                 "previous buffer")
   ("f" #'text-scale-decrease              "zoom out")
   ("r" #'undo-tree-save-state-to-register "mark undo tree")
-  ("n" #'buf-move-left                    "move window left"))
+  ("n" #'buf-move-left                    "move window left")
+  ("x" #'org-previous-block))
 
 (defhydra hydra-right-leader (:exit t)
   "right leader"
@@ -145,7 +146,8 @@
   ("t" #'evil-next-buffer                      "next buffer")
   ("f" #'text-scale-increase                   "zoom in")
   ("r" #'undo-tree-restore-state-from-register "goto undo tree mark")
-  ("n" #'buf-move-right                        "move window right"))
+  ("n" #'buf-move-right                        "move window right")
+  ("x" #'org-next-block))
 
 (general-define-key
  "s-x"     #'counsel-M-x
