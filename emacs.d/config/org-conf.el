@@ -29,14 +29,25 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-babel
 
+;; don't ask for confirmation on org-babel evaluation
 (setq org-confirm-babel-evaluate nil)
+
+;; languages to support in org-babel
+(setq org-babel-enabled-languages
+  '((emacs-lisp . t)
+    (sql . t)
+    (R . t)
+    (http . t)))
+
+;; only enable ipython ob on linux for now
+(when (string-equal system-type "gnu/linux")
+    (setq org-babel-enabled-languages
+          (cons '(ipython . t) org-babel-enabled-languages)))
+
+;; load the languages into org-babel
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((emacs-lisp . t)
-   (sql . t)
-   (R . t)
-   (ipython . t)
-   (http . t)))
+ org-babel-enabled-languages)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org styling
@@ -83,7 +94,7 @@
  (list #'org-clubhouse-mode
        'linum-mode
        (lambda ()
-         (add-to-list 'company-backends 'company-ob-postgresql)
+         ;; (add-to-list 'company-backends 'company-ob-postgresql)
          (org-faces-init))))
 
 
