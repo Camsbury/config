@@ -34,4 +34,7 @@
         'linum-mode
         'evil-smartparens-mode))
 
+(general-add-hook 'yaml-mode-hook
+                  (list 'linum-mode))
+
 (provide 'ui-conf)
