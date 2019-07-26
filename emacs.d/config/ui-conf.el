@@ -37,4 +37,7 @@
 (general-add-hook 'yaml-mode-hook
                   (list 'linum-mode))
 
+(general-add-hook 'nov-mode-hook
+                  (list 'linum-mode))
+
 (provide 'ui-conf)
