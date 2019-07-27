@@ -173,4 +173,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
   "M-k"     #'cider-inspector-pop
   "M-<RET>" #'cider-eval-sexp-at-point)
 
+(general-define-key :keymaps 'cider-repl-mode-map
+  "M-l" #'cider-repl-clear-buffer)
+
 (provide 'clj-conf)
