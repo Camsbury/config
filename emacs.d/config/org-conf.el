@@ -35,6 +35,7 @@
 ;; languages to support in org-babel
 (setq org-babel-enabled-languages
   '((emacs-lisp . t)
+    (shell . t)
     (sql . t)
     (R . t)
     (http . t)))
