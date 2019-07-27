@@ -1,15 +1,7 @@
-# Emacs packages managed by Nix
-
-{ pkgs ? import <nixpkgs> {} }:
+epkgs:
 
 let
-  customEmacsPackages = import ./custom-emacs-packages.nix;
-  myEmacs = (pkgs.emacsPackagesNgGen pkgs.emacs).overrideScope' (self: super:
-    customEmacsPackages pkgs self super
-  );
-  emacsWithPackages = myEmacs.emacsWithPackages;
-in
-  emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
+  melpas = with epkgs.melpaPackages; [
     avy
     benchmark-init
     buffer-move
@@ -103,14 +95,18 @@ in
     yaml-mode
     yapfify # python-lsp
     yasnippet
-  ]) ++ (with epkgs.elpaPackages; [
+  ];
+  elpas = with epkgs.elpaPackages; [
     rainbow-mode
     undo-tree
-  ]) ++ (with epkgs; [
+  ];
+  others = with epkgs; [
     agda2-mode
     company-postgresql
     etymology-of-word
     key-quiz
     org-clubhouse
     # slack
-  ]))
+  ];
+in
+  melpas ++ elpas ++ others

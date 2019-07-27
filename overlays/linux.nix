@@ -20,8 +20,6 @@ let
 
         cachix = cachixBall.cachix;
 
-        emacs = import ../emacs.nix { pkgs = unstablePkgs; };
-
     } // (with unstablePkgs; {
         inherit bat;
         inherit chromium;

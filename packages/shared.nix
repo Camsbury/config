@@ -3,6 +3,7 @@
 with pkgs; [
   ag
   bat
+  (emacsPackagesNg.emacsWithPackages (import ./emacs.nix))
   exa
   fd
   gitAndTools.git-extras

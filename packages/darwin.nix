@@ -11,5 +11,4 @@
           yapf
         ]
     ))
-    (import ../emacs.nix { inherit pkgs; })
   ] else [])
