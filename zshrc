@@ -485,6 +485,7 @@ alias ybwr='cd ~/projects/urbint/grid && rm -rf */node_modules && yarn install &
 ################################################################################
 # Ergodox Flashing
 
+# qmk keyboard camerak
 alias ezs='sudo teensy-loader-cli -vw --mcu atmega32u4'
 
 # The next line updates PATH for the Google Cloud SDK.
