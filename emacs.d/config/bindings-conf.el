@@ -30,9 +30,12 @@
 
 (defhydra hydra-spawn (:exit t)
   "spawn"
+  ("d" (spawnify #'open-queue)                        "queue org")
+  ("D" (spawnify #'open-dump)                         "brain dump")
   ("e" (spawnify #'counsel-projectile-find-file)      "project file")
   ("h" (spawnify #'open-tasks)                        "tasks org")
   ("H" (spawnify #'open-tmp-org)                      "tmp org")
+  ("i" (spawnify #'open-inbox)                        "inbox org")
   ("l" (spawnify #'open-clubhouse)                    "clubhouse org")
   ("m" (spawnify #'open-timesheet)                    "timesheet")
   ("n" (spawnify #'counsel-recentf)                   "recent file")
@@ -45,9 +48,12 @@
 
 (defhydra hydra-nav (:exit t)
   "nav to"
+  ("d" #'open-queue                        "queue org")
+  ("D" #'open-dump                         "brain dump")
   ("e" #'counsel-projectile-find-file      "project file")
   ("h" #'open-tasks                        "tasks org")
   ("H" #'open-tmp-org                      "tmp org")
+  ("i" #'open-inbox                        "inbox org")
   ("l" #'open-clubhouse                    "clubhouse org")
   ("m" #'open-timesheet                    "timesheet")
   ("n" #'counsel-recentf                   "recent file")

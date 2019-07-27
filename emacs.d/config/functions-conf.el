@@ -76,6 +76,21 @@
                   (s-append ".org"))))
        (find-file path)))
 
+(defun open-dump ()
+  "Opens my brain dump"
+  (interactive)
+  (find-file "~/Dropbox/lxndr/ref/dump.org"))
+
+(defun open-inbox ()
+  "Opens my inbox"
+  (interactive)
+  (find-file "~/Dropbox/lxndr/inbox.org"))
+
+(defun open-queue ()
+  "Opens my queue"
+  (interactive)
+  (find-file "~/Dropbox/lxndr/queue.org"))
+
 (defun open-clubhouse ()
   "Clubhouse tix"
   (interactive)
