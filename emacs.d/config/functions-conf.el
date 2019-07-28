@@ -86,6 +86,11 @@
   (interactive)
   (find-file "~/Dropbox/lxndr/ref/dump.org"))
 
+(defun open-habits ()
+  "Opens my habits tracker"
+  (interactive)
+  (find-file "~/Dropbox/lxndr/habits.org"))
+
 (defun open-inbox ()
   "Opens my inbox"
   (interactive)
@@ -96,11 +101,6 @@
   (interactive)
   (find-file "~/Dropbox/lxndr/queue.org"))
 
-(defun open-clubhouse ()
-  "Clubhouse tix"
-  (interactive)
-  (find-file "~/clubhouse.org"))
-
 (defun open-tasks ()
   "Opens the generic tasks file"
   (interactive)
@@ -110,6 +110,11 @@
   "Opens the timesheet"
   (interactive)
   (find-file "~/Dropbox/lxndr/ref/time.org"))
+
+(defun open-clubhouse ()
+  "Clubhouse tix"
+  (interactive)
+  (find-file "~/clubhouse.org"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Spawn Functions
