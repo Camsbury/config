@@ -175,7 +175,7 @@
   "Spawns the emacs nix file to the right"
   (interactive)
   (spawn-right)
-  (find-file "~/projects/nix_dots/emacs.nix"))
+  (find-file "~/projects/Camsbury/config/packages/emacs.nix"))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
