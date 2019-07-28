@@ -30,6 +30,7 @@
 
 (defhydra hydra-spawn (:exit t)
   "spawn"
+  ("b" (spawnify #'open-books)                        "book notes")
   ("d" (spawnify #'open-queue)                        "queue org")
   ("D" (spawnify #'open-dump)                         "brain dump")
   ("e" (spawnify #'counsel-projectile-find-file)      "project file")
@@ -48,6 +49,7 @@
 
 (defhydra hydra-nav (:exit t)
   "nav to"
+  ("b" #'open-books                        "book notes")
   ("d" #'open-queue                        "queue org")
   ("D" #'open-dump                         "brain dump")
   ("e" #'counsel-projectile-find-file      "project file")

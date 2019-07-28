@@ -76,6 +76,11 @@
                   (s-append ".org"))))
        (find-file path)))
 
+(defun open-books ()
+  "Opens my book notes"
+  (interactive)
+  (find-file "~/Dropbox/lxndr/ref/books.org"))
+
 (defun open-dump ()
   "Opens my brain dump"
   (interactive)
