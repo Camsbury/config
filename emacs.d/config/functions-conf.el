@@ -81,6 +81,11 @@
   (interactive)
   (find-file "~/Dropbox/lxndr/ref/books.org"))
 
+(defun open-journal ()
+  "Opens my journal"
+  (interactive)
+  (find-file "~/Dropbox/lxndr/journal.org"))
+
 (defun open-dump ()
   "Opens my brain dump"
   (interactive)
@@ -91,11 +96,6 @@
   (interactive)
   (find-file "~/Dropbox/lxndr/habits.org"))
 
-(defun open-inbox ()
-  "Opens my inbox"
-  (interactive)
-  (find-file "~/Dropbox/lxndr/inbox.org"))
-
 (defun open-queue ()
   "Opens my queue"
   (interactive)
@@ -104,7 +104,7 @@
 (defun open-tasks ()
   "Opens the generic tasks file"
   (interactive)
-  (find-file "~/Dropbox/lxndr/ref/tasks.org"))
+  (find-file "~/Dropbox/lxndr/tasks.org"))
 
 (defun open-timesheet ()
   "Opens the timesheet"

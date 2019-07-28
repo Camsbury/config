@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# key: lxo
+# name: lxndr_org
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+* [ ] Set two minute timer
+* [ ] All inbox sent to backlog or done
+* [ ] Each timeframe of planning has at least 1 thing
+* [ ] Look at the coming week's calendar, schedule lunch/meditation breaks
+* [ ] Create cards in queue for unread pocket articles (links are nice)
+* [ ] Look at 1 undigested lxndr file
+* [ ] Continue if you so please

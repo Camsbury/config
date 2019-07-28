@@ -11,8 +11,11 @@
 
 (setq org-directory (expand-file-name "~/Dropbox/lxndr/")
       org-capture-templates
-        '(("n" "Place in the Inbox"
-           entry (file+headline "~/Dropbox/lxndr/inbox.org" "Inbox")
+        '(("n" "Enqueue"
+           entry (file+headline "~/Dropbox/lxndr/queue.org" "backlog")
+           "* [ ] %i%?")
+          ("t" "Add to Tasks"
+           entry (file+headline "~/Dropbox/lxndr/tasks.org" "backlog")
            "* [ ] %i%?"))
       org-agenda-files '("~/Dropbox/lxndr/store.org")
       org-refile-targets '(("~/Dropbox/lxndr/queue.org" :maxlevel . 3)

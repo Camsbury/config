@@ -1,0 +1,28 @@
+# -*- mode: snippet -*-
+# key: wu
+# name: wake_up
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+** [ ] [[https://www.wunderground.com/forecast/us/ny/new-york/KNYNEWYO595?cm_ven=localwx_10day][Weather]]
+** [ ] Contacts / Glasses
+** [ ] Floss
+** [ ] Brush
+** [ ] Run
+** [ ] Music
+** [ ] Shower
+** [ ] Hair
+** [ ] Deodorant
+** [ ] Cologne
+** [ ] Dress
+** [ ] check Oura
+** [ ] Meditate
+** [ ] Duolingo
+** [ ] Music
+** [ ] [[file:~/Dropbox/lxndr/journal.org][Journal]]
+** [ ] Day Planning
+*** [ ] Clarify expectation that things will go wrong, and that is fine
+*** [ ] Clarify intent to do mindffulnness checkins
+** [ ] Art for 5
+** [ ] Clean for 5
+** [ ] Collect garbage to take out

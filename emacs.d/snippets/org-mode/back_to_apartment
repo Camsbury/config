@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# key: apt
+# name: back_to_apartment
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+* [ ] Capture Floaters
+* [ ] Schedule
+* [ ] CFN
+* [ ] TSP
+* [ ] Re-engage

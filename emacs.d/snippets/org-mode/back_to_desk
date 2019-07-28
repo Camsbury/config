@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# key: desk
+# name: back_to_desk
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+* [ ] Capture Floaters
+* [ ] Calendar
+* [ ] Slack
+* [ ] CFN
+* [ ] TSP
+* [ ] Re-engage
