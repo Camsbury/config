@@ -4,8 +4,8 @@
 # expand-env: ((yas-indent-line 'fixed))
 # --
 
-* [ ] Capture Floaters
-* [ ] Schedule
-* [ ] CFN
-* [ ] TSP
-* [ ] Re-engage
+** [ ] Capture Floaters
+** [ ] Schedule
+** [ ] CFN
+** [ ] TSP
+** [ ] Re-engage
