@@ -81,6 +81,11 @@
   (interactive)
   (find-file "~/Dropbox/lxndr/ref/books.org"))
 
+(defun open-runs ()
+  "Opens my runs file"
+  (interactive)
+  (find-file "~/Dropbox/lxndr/ref/runs.org"))
+
 (defun open-links ()
   "Opens my links file"
   (interactive)
