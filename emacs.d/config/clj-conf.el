@@ -128,13 +128,14 @@ If invoked with a prefix ARG eval the expression after inserting it"
 
 (defhydra hydra-clj (:exit t)
   "clojure-mode"
+  ("a" #'cider-apropos               "apropos")
   ("d" #'cider-doc                   "documentation")
   ("D" #'cider-find-dwim             "jump to def")
   ("e" #'cider-inspect-last-result   "inspect last result")
   ("l" #'cider-load-buffer           "load buffer")
   ("n" #'cider-eval-ns-form          "eval ns")
   ("o" #'clj-narrow-defun            "focus on def")
-  ("j" #'hydra-clj-jack-in/body         "hydra cider-jack-in")
+  ("j" #'hydra-clj-jack-in/body      "hydra cider-jack-in")
   ("t" #'cider-switch-to-repl-buffer "repl")
   ("y" #'cider-copy-last-result      "copy last result"))
 ; cider-browse-spec
