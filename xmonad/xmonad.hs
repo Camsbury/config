@@ -30,6 +30,7 @@ myKeys = [ ("M1-M4-S-C-a", grabApp "anki" "Anki")
          , ("M1-c",        spawn   "sh ~/.scripts/check-time.sh")
          , ("M1-b",        spawn   "sh ~/.scripts/check-battery.sh")
          , ("M1-m",        spawn   "sh ~/.scripts/pomodoro.sh")
+         , ("M1-s",        spawn   "bash ~/.scripts/cycle-sound.sh")
          , ("C-<Space>",   spawn   "xkb-switch -n")
          , ( "<XF86MonBrightnessUp>"
            , spawn "sh ~/.scripts/brightness.sh +2"
