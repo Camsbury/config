@@ -488,6 +488,18 @@ alias ybwr='cd ~/projects/urbint/grid && rm -rf */node_modules && yarn install &
 # qmk keyboard camerak
 alias ezs='sudo teensy-loader-cli -vw --mcu atmega32u4'
 
+
+################################################################################
+# Productivity
+
+function timer() {
+  $(sleep "$1" && notify-send "$2" && espeak "$2" 2>/dev/null) &
+}
+
+
+################################################################################
+# Google Cloud
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/ckingsbury/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/ckingsbury/google-cloud-sdk/path.zsh.inc'; fi
 

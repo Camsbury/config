@@ -15,6 +15,7 @@
     docker
     docker_compose
     dropbox-cli
+    espeak # tts
     feh # wallpapers
     firefox
     fzf
