@@ -8,6 +8,9 @@ in
         pythonPackages: with pythonPackages;
           [ ipython
             pandas
+            jupyter
+            jupyter_core
+            jupyter_client
           ]
       );
   in
@@ -17,6 +20,6 @@ in
         myPython
       ];
       shellHook = ''
-        ipython
+        emacs
       '';
     }
