@@ -4,18 +4,19 @@
 # expand-env: ((yas-indent-line 'fixed))
 # --
 
-* [ ] Synchronize Config
-* [ ] Check Queue Backlog
-* [ ] Check Slack
-** [ ] Read Standups
-* [ ] Check [[https://calendar.google.com/calendar/b/1/r][Calendar]]
-* [ ] Check [[https://mail.google.com/mail/u/1/#inbox][Email]]
-* [ ] [[https://app.clubhouse.io/urbint/epic/14086/2019-q3-security][Create Tripwire Tickets]]
-* [ ] Create Tripwire Tasks
-* [ ] Correctly Status [[https://app.clubhouse.io/urbint/dashboard][Clubhouse Tickets]]
-* [ ] Check Clubhouse Notifications
-* [ ] Create Clubhouse Tasks
-* [ ] Check [[https://github.com/notifications][Github Notifications]]
-* [ ] Check [[https://github.com/urbint/grid/pulls][Github PRs]]
-* [ ] Create Github Tasks
-* [ ] 10 Min [[https://stackoverflow.com/c/urbint/questions][Stack Overflow exploration]]
+* [ ]Morning
+** [ ] Synchronize Config
+** [ ] Check Queue Backlog
+** [ ] Check Slack
+*** [ ] Read Standups
+** [ ] Check [[https://calendar.google.com/calendar/b/1/r][Calendar]]
+** [ ] Check [[https://mail.google.com/mail/u/1/#inbox][Email]]
+** [ ] [[https://app.clubhouse.io/urbint/epic/14086/2019-q3-security][Create Tripwire Tickets]]
+** [ ] Create Tripwire Tasks
+** [ ] Correctly Status [[https://app.clubhouse.io/urbint/dashboard][Clubhouse Tickets]]
+** [ ] Check Clubhouse Notifications
+** [ ] Create Clubhouse Tasks
+** [ ] Check [[https://github.com/notifications][Github Notifications]]
+** [ ] Check [[https://github.com/urbint/grid/pulls][Github PRs]]
+** [ ] Create Github Tasks
+** [ ] 10 Min [[https://stackoverflow.com/c/urbint/questions][Stack Overflow exploration]]
