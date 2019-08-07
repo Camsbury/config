@@ -147,6 +147,12 @@
           (org-cycle-internal-local)
           t)))))
 
+(defun org-sparse-tree-at-point ()
+  "Focus in on the current point"
+  (interactive)
+  (org-overview)
+  (org-show-context))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org bindings
 
@@ -206,14 +212,15 @@
 
 (defhydra hydra-org (:exit t)
   "org-mode"
- ("RET" #'org-sparse-tree      "sparse tree")
- ("a"   #'org-archive-subtree  "archive")
- ("d"   #'org-deadline         "deadline")
- ("l"   #'hydra-org-link/body  "org-links")
- ("o"   #'outline-show-all     "sparse tree")
- ("r"   #'org-refile           "refile")
- ("t"   #'org-set-tags-command "set tags")
- ("e"   #'org-edit-special     "edit src"))
+ ("RET" #'org-sparse-tree          "sparse tree")
+ ("a"   #'org-archive-subtree      "archive")
+ ("d"   #'org-deadline             "deadline")
+ ("l"   #'hydra-org-link/body      "org-links")
+ ("o"   #'org-sparse-tree-at-point "show all")
+ ("O"   #'outline-show-all         "show all")
+ ("r"   #'org-refile               "refile")
+ ("t"   #'org-set-tags-command     "set tags")
+ ("e"   #'org-edit-special         "edit src"))
 
 (defhydra hydra-visual-org (:exit t)
   "org-mode"
