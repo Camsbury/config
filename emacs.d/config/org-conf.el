@@ -201,7 +201,7 @@
 (defhydra hydra-org-link (:exit t)
   "org-mode links"
   ("e" #'org-store-link     "store a link")
-  ("n" #'org-insert-link    "insert a link")
+  ("n" #'org-append-link    "insert a link")
   ("t" #'org-open-at-point  "follow a link"))
 
 (defhydra hydra-org (:exit t)

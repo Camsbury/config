@@ -274,6 +274,12 @@
        (symbol-value it))
       minor-mode-list)))))
 
+(defun org-append-link ()
+  "Append link instead of replacing current point"
+  (interactive)
+  (insert " ")
+  (call-interactively #'org-insert-link))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; grfn utils
 
