@@ -210,12 +210,20 @@
   ("n" #'org-append-link    "insert a link")
   ("t" #'org-open-at-point  "follow a link"))
 
+(defhydra hydra-org-timer (:exit t)
+  "org-mode timers"
+  ("a" #'org-clock-goto   "goto timer")
+  ("o" #'org-clock-report "timer report")
+  ("s" #'org-clock-out    "stop timer")
+  ("t" #'org-clock-in     "start timer"))
+
 (defhydra hydra-org (:exit t)
   "org-mode"
  ("RET" #'org-sparse-tree          "sparse tree")
  ("a"   #'org-archive-subtree      "archive")
  ("d"   #'org-deadline             "deadline")
- ("l"   #'hydra-org-link/body      "org-links")
+ ("l"   #'hydra-org-link/body      "org links")
+ ("m"   #'hydra-org-timer/body     "org timer")
  ("o"   #'org-sparse-tree-at-point "show all")
  ("O"   #'outline-show-all         "show all")
  ("r"   #'org-refile               "refile")
