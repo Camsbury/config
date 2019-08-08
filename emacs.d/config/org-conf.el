@@ -14,6 +14,9 @@
         '(("n" "Enqueue"
            entry (file+headline "~/Dropbox/lxndr/queue.org" "backlog")
            "* [ ] %i%?")
+          ("i" "Add Insight"
+            entry (file+headline "~/Dropbox/lxndr/queue.org" "insights")
+            "* %i%?")
           ("t" "Add to Tasks"
            entry (file+headline "~/Dropbox/lxndr/tasks.org" "backlog")
            "* [ ] %i%?"))
