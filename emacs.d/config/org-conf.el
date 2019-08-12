@@ -158,6 +158,12 @@
   (org-overview)
   (org-show-context))
 
+(defun org-new-item ()
+  "Add a list item"
+  (interactive)
+  (call-interactively #'evil-open-below)
+  (call-interactively #'org-insert-item))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org bindings
 
@@ -227,6 +233,7 @@
  ("RET" #'org-sparse-tree          "sparse tree")
  ("a"   #'org-archive-subtree      "archive")
  ("d"   #'org-deadline             "deadline")
+ ("i"   #'org-new-item             "new item")
  ("l"   #'hydra-org-link/body      "org links")
  ("m"   #'hydra-org-timer/body     "org timer")
  ("o"   #'org-sparse-tree-at-point "show all")
