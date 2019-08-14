@@ -21,6 +21,7 @@ let
         cachix = cachixBall.cachix;
 
     } // (with unstablePkgs; {
+        inherit beam;
         inherit bat;
         inherit chromium;
         inherit dropbox;

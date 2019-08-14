@@ -7,6 +7,7 @@
     audacity
     autojump
     # autorandr # maybe for displays?
+    beam.packages.erlangR22.elixir_1_9
     binutils
     brave
     chromium
