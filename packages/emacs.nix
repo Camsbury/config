@@ -25,6 +25,7 @@ let
     doom-modeline
     dotenv-mode
     ein
+    elixir-mode # elixir
     emacsql
     emacsql-psql
     ess
@@ -41,6 +42,10 @@ let
     flycheck-haskell
     flycheck-irony
     flycheck-popup-tip
+    flycheck-credo # elixir
+    flycheck-dialyxir # elixir
+    flycheck-elixir # elixir
+    flycheck-mix # elixir
     forge
     format-all
     general
