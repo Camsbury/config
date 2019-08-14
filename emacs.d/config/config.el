@@ -18,6 +18,7 @@
          dashboard-conf
          docs-conf
          elisp-conf
+         elixir-conf
          env-conf
          epub-conf
          evil-conf
