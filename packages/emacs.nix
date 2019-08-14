@@ -72,6 +72,7 @@ let
     nix-mode
     nov
     ob-async
+    ob-elixir
     ob-http
     ob-ipython
     org-bullets
