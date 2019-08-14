@@ -12,7 +12,7 @@ import XMonad.Util.EZConfig
 import qualified XMonad.StackSet as W
 
 main = do
-  xmonad $ defaultConfig
+  xmonad $ def
          { layoutHook = smartBorders $
            ThreeCol 1 (3/100) (1/4) ||| noBorders Full ||| Tall 1 (3/100) (1/2)
          , focusFollowsMouse = False
