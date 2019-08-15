@@ -98,6 +98,7 @@ let
     visual-fill-column
     web
     wgrep
+    which-key
     yaml-mode
     yapfify # python-lsp
     yasnippet
