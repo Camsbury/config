@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# key: sqlite
+# name: sqlite
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+:PROPERTIES:
+:header-args: :dir "${1:~/}" :db "${2:example.db}" :colnames yes :async
+:END:
