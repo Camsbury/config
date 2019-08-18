@@ -60,6 +60,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org styling
 
+;; Don't use subpar references
+(setq org-table-use-standard-references nil)
 ;; Don't have lines get sucked into folds
 (setq org-cycle-separator-lines -1)
 ;; Allow letters for ordered lists
