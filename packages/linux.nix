@@ -28,6 +28,7 @@
     gnumake
     gnupg
     gnutls
+    inotify-tools
     irony-server
     keychain
     libnotify
