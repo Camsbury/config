@@ -4,20 +4,21 @@
 # expand-env: ((yas-indent-line 'fixed))
 # --
 
-** [ ] Turn off lights
-** [ ] Contacts out
-** [ ] Floss
-** [ ] Brush
-** [ ] Undress
-** [ ] Set out running clothes
-** [ ] Queue Review
-*** [ ] Values Review
-*** [ ] Purpose Review
-*** [ ] Day Review
-** [ ] Habits Review
-** [ ] Braindump
-** [ ] Journal
-** [ ] Meditate
-** [ ] Doodle
-** [ ] Music
-** [ ] Ask Questions for the Subconscious
+** [ ] Sleep
+*** [ ] Turn off lights
+*** [ ] Contacts out
+*** [ ] Floss
+*** [ ] Brush
+*** [ ] Undress
+*** [ ] Set out running clothes
+*** [ ] Queue Review
+**** [ ] Values Review
+**** [ ] Purpose Review
+**** [ ] Day Review
+*** [ ] Habits Review
+*** [ ] Braindump
+*** [ ] Journal
+*** [ ] Meditate
+*** [ ] Doodle
+*** [ ] Music
+*** [ ] Ask Questions for the Subconscious
