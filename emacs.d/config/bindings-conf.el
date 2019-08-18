@@ -3,11 +3,15 @@
 (require 'hydra)
 (require 'functions-conf)
 (require 'merge-conf)
+(require 'which-key)
 
 (setq x-super-keysym 'meta)
 (setq x-meta-keysym 'super)
 
+
 (general-evil-setup t)
+(which-key-mode)
+(setq which-key-max-display-columns 5)
 
 ;;; allows easy remapping in hydras
 (setq hydra-look-for-remap t)
