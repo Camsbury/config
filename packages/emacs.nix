@@ -27,6 +27,7 @@ let
     ein
     elixir-mode # elixir
     emacsql
+    emacsql-sqlite
     emacsql-psql
     ess
     evil

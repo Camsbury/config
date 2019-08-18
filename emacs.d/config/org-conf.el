@@ -44,6 +44,7 @@
     (elixir . t)
     (shell . t)
     (sql . t)
+    (sqlite . t)
     (R . t)
     (http . t)))
 
