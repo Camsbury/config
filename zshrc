@@ -498,6 +498,15 @@ function timer() {
 
 
 ################################################################################
+# Elixir
+
+alias mex='iex -S mix'
+alias mt='mix test'
+alias md='mix deps.get && mix deps.compile'
+alias mdi='mix deps'
+
+
+################################################################################
 # Google Cloud
 
 # The next line updates PATH for the Google Cloud SDK.
