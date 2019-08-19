@@ -96,6 +96,7 @@ let
     sqlup-mode
     tree-mode
     use-package
+    uuid
     visual-fill-column
     web
     wgrep
