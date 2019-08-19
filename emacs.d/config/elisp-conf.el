@@ -5,6 +5,7 @@
 (require 'functions-conf)
 (require 's)
 
+(eval-after-load 'dash '(dash-enable-font-lock))
 (general-add-hook 'emacs-lisp-mode-hook
                   (list 'paredit-mode
                         'paxedit-mode
