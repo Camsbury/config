@@ -27,6 +27,7 @@
     glibc
     gnumake
     gnupg
+    gnuplot
     gnutls
     inotify-tools
     irony-server

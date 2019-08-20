@@ -51,6 +51,8 @@ let
     format-all
     general
     git-timemachine
+    gnuplot
+    gnuplot-mode
     helm-dash
     hl-todo
     hlint-refactor
