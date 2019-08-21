@@ -4,13 +4,20 @@
 
 ;; /nix/store/4igq48l69gpfmjg0k2hjn5zk8iil6h7f-python3.6-yapf-0.27.0/bin/yapf
 
+(setq yapf-path
+      (if (string-equal system-type "gnu/linux")
+          "/nix/store/fdb72bl5kkb9x7pparpg2xkbvbz0zfwd-python3-3.6.8-env/bin/yapf"
+        "/nix/store/rqspbns7n6fgqxk2wdhai3waijx2xi0v-python3-3.6.8-env/bin/yapf"))
+
+
+
 (defun yapfify-call-bin (input-buffer output-buffer start-line end-line)
   "Call process yapf on INPUT-BUFFER saving the output to OUTPUT-BUFFER.
 
 Return the exit code.  START-LINE and END-LINE specify region to
 format."
   (with-current-buffer input-buffer
-    (call-process-region (point-min) (point-max) "/nix/store/rqspbns7n6fgqxk2wdhai3waijx2xi0v-python3-3.6.8-env/bin/yapf" nil output-buffer nil "-l" (concat (number-to-string start-line) "-" (number-to-string end-line)))))
+    (call-process-region (point-min) (point-max) yapf-path nil output-buffer nil "-l" (concat (number-to-string start-line) "-" (number-to-string end-line)))))
 
 (flycheck-define-checker
     python-mypy ""
