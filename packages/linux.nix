@@ -29,6 +29,7 @@
     gnupg
     gnuplot
     gnutls
+    google-cloud-sdk
     inotify-tools
     irony-server
     keychain
