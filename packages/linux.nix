@@ -40,6 +40,7 @@
     openssh
     openssl
     peek
+    postgresql_11
     (python36.withPackages (
       pythonPackages: with pythonPackages;
         [ isort
