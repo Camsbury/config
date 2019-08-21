@@ -36,8 +36,10 @@
     libnotify
     man-pages
     nix-index
+    nodejs-11_x
     notify-osd # to upgrade...
     oh-my-zsh
+    openjdk
     openssh
     openssl
     peek
@@ -76,6 +78,7 @@
     xorg.xmodmap
     xpdf
     xss-lock
+    yarn
     zip
     zsh
   ] else [])
