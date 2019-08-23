@@ -12,7 +12,7 @@
         useOSProber = true;
         version = 2;
       };
-      efi.canTouchEfiVariables = true;
+      # efi.canTouchEfiVariables = true;
     };
     kernelPackages = pkgs.linuxPackages_latest;
   };
