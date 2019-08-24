@@ -70,6 +70,9 @@ in
     # Enable CUPS to print documents.
     # services.printing.enable = true;
 
+    # Enable the keybase service
+    services.keybase.enable = true;
+
     # Enable sound.
     sound.enable = true;
     hardware.pulseaudio = {

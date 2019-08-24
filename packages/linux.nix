@@ -32,6 +32,8 @@
     google-cloud-sdk
     inotify-tools
     irony-server
+    keybase
+    keybase-gui
     keychain
     libnotify
     man-pages
