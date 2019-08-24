@@ -5,6 +5,7 @@
 let
   machine = import ./machine.nix;
   opSession = import ./op.nix;
+  hardwareImports = import ./hardware.nix;
 in
   {
     imports =
@@ -17,7 +18,7 @@ in
         ./networking.nix
         ./ui.nix
         ./users.nix
-      ];
+      ] ++ hardwareImports;
 
     nixpkgs.config = {
       allowUnfree = true;

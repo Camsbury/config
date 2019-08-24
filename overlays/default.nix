@@ -3,5 +3,6 @@ let
   darwin = import ./darwin.nix;
   linux  = import ./linux.nix;
   shared = import ./shared.nix;
+  xps    = import ./xps.nix;
 in
-  shared ++ darwin ++ linux ++ [emacs]
+  shared ++ darwin ++ linux ++ [xps] ++ [emacs]
