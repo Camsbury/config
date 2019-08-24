@@ -53,7 +53,7 @@ let
         name = "key-quiz.el";
         src = builtins.fetchurl {
           url = https://raw.githubusercontent.com/federicotdn/key-quiz/master/key-quiz.el;
-          sha256 = "1xqp76a5wld0ip7i6flxsjqjicdp3kgzgvlcvr1awd04ndq40wxh";
+          sha256 = "06v5l5nkzhxrxnmbc7vrmzmr9vwcqz68450gz3k6d2why3860cyf";
         };
       };
 
