@@ -20,6 +20,7 @@ let
     dash
     dash-functional
     define-word
+    docker
     dockerfile-mode
     doom-themes
     doom-modeline
