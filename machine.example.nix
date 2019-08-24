@@ -6,4 +6,5 @@
   gaming  = false;
   laptop  = false;
   nvidia  = false;
+  xps     = false;
 }

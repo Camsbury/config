@@ -24,6 +24,7 @@ in
       autoRepeatDelay = 250;
       autoRepeatInterval = 20;
 
+
       windowManager = {
         xmonad = {
           enable = true;
@@ -36,12 +37,21 @@ in
         };
         default = "xmonad";
       };
-    } // (if ! machine.ergodox
-        then {
-               xkbVariant = "colemak,";
-               xkbOptions = "caps:escape";
-             } else {
-               xkbVariant = ",colemak";
-             });
+    } // (
+      if ! machine.ergodox
+      then {
+        xkbVariant = "colemak,";
+        xkbOptions = "caps:escape";
+      } else {
+        xkbVariant = ",colemak";
+      }
+    ) // (
+      if machine.xps
+      then {
+        monitorSection = ''
+          DisplaySize 406 228
+        '';
+      } else {}
+    );
 
   }
