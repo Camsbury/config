@@ -12,6 +12,7 @@
     brave
     chromium
     curl
+    disper
     dmenu
     docker
     docker_compose
