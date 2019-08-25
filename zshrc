@@ -460,10 +460,13 @@ alias xmrg='xrdb -merge ~/.Xresources'
 function op-retrieve() {
   op get item "${1}" | jq '.details.password' | tr -d \" | tr -d '\n' | xclip -selection clipboard
 }
+function op-retrieve-vpn() {
+  op get item VPN | jq '.details.fields[0].value' | tr -d \" | tr -d '\n' | xclip -selection clipboard
+}
 
 alias opl="op list items | jq -c 'map(.overview.title) | sort'"
 alias opp='op-retrieve'
-alias opg="op get item GPG | jq '.details.password'"
+alias opv='op-retrieve-vpn'
 alias ops='eval $(op signin urbint)'
 
 
@@ -514,3 +517,14 @@ if [ -f '/Users/ckingsbury/google-cloud-sdk/path.zsh.inc' ]; then source '/Users
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/ckingsbury/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/ckingsbury/google-cloud-sdk/completion.zsh.inc'; fi
+
+################################################################################
+# Urbint VPN
+
+# come up with a nice way to put this in the bg while passing these args later
+function urbint-vpn() {
+  sudo openvpn --config ~/urbint.ovpn --auth-user-pass
+}
+
+alias uvpn='urbint-vpn'
+
