@@ -48,9 +48,19 @@ in
     ) // (
       if machine.xps
       then {
-        monitorSection = ''
-          DisplaySize 406 228
-        '';
+        xrandrHeads = [
+          { output = "eDP-1";
+            primary = true;
+            monitorConfig = ''
+              DisplaySize 406 228
+            '';
+          }
+          { output = "DP-3";
+            monitorConfig = ''
+              DisplaySize 406 228
+            '';
+          }
+        ];
       } else {}
     );
 
