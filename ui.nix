@@ -55,7 +55,7 @@ in
           }
           { output = "DP-3";
             monitorConfig = ''
-              DisplaySize 406 228
+              DisplaySize 508 285
             '';
           }
         ];
