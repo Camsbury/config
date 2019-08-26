@@ -11,7 +11,7 @@ in
       enable = true;
 
       # Set keyboard layout
-      layout = "us,us";
+      layout = "us";
 
       displayManager.slim = {
         enable = true;
@@ -30,9 +30,9 @@ in
           enable = true;
           enableContribAndExtras = true;
           extraPackages = haskellPackages: [
+            haskellPackages.xmonad
             haskellPackages.xmonad-contrib
             haskellPackages.xmonad-extras
-            haskellPackages.xmonad
           ];
         };
         default = "xmonad";
@@ -40,11 +40,9 @@ in
     } // (
       if ! machine.ergodox
       then {
-        xkbVariant = "colemak,";
+        xkbVariant = "colemak";
         xkbOptions = "caps:escape";
-      } else {
-        xkbVariant = ",colemak";
-      }
+      } else {}
     ) // (
       if machine.xps
       then {

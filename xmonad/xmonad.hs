@@ -11,6 +11,7 @@ import XMonad.Util.EZConfig
 
 import qualified XMonad.StackSet as W
 
+main :: IO ()
 main = do
   xmonad $ def
          { layoutHook = smartBorders $
@@ -19,6 +20,7 @@ main = do
          , startupHook = spawn "sh ~/.scripts/startup.sh"
          } `additionalKeysP` myKeys
 
+myKeys :: [(String, X ())]
 myKeys = [ ("M1-M4-S-C-a", grabApp "anki" "Anki")
          , ("M1-M4-S-C-c", grabApp "brave" "Brave-browser")
          , ("M1-M4-S-C-e", grabApp "emacs" "Emacs")
@@ -32,7 +34,7 @@ myKeys = [ ("M1-M4-S-C-a", grabApp "anki" "Anki")
          , ("M1-b",        spawn   "sh ~/.scripts/check-battery.sh")
          , ("M1-m",        spawn   "sh ~/.scripts/pomodoro.sh")
          , ("M1-s",        spawn   "bash ~/.scripts/cycle-sound.sh")
-         , ("C-<Space>",   spawn   "xkb-switch -n")
+         , ("C-<Space>",   spawn   "sh ~/.scripts/switch-keymap.sh")
          , ( "<XF86MonBrightnessUp>"
            , spawn "sh ~/.scripts/brightness.sh +2"
            )
