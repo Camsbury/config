@@ -36,6 +36,7 @@
     keybase
     keybase-gui
     keychain
+    kubectl
     libnotify
     man-pages
     nix-index
