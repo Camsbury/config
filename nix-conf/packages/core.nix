@@ -1,12 +1,14 @@
-{ pkgs }:
+{ config, pkgs, ... }:
 
-( with pkgs; if pkgs.stdenv.hostPlatform.system == "x86_64-linux" then [
+{
+  environment.systemPackages = with pkgs; [
     _1password
     ack
+    ag
     anki
     audacity
     autojump
-    # autorandr # maybe for displays?
+    bat
     beam.packages.erlangR22.elixir_1_9
     binutils
     brave
@@ -17,7 +19,10 @@
     docker
     docker_compose
     dropbox-cli
+    (emacsPackagesNg.emacsWithPackages (import ./emacs.nix))
     espeak # tts
+    exa
+    fd
     feh # wallpapers
     firefox
     fzf
@@ -25,19 +30,35 @@
     ghostscript # for viewing pdfs
     gimp
     git
+    gitAndTools.git-extras
+    gitAndTools.hub
     glibc
     gnumake
     gnupg
     gnuplot
     gnutls
     google-cloud-sdk
+    # (haskell.packages.ghc865.ghcWithPackages (
+    #   haskellPackages: with haskellPackages;
+    #   [ Agda
+    #     Cabal_2_4_1_0
+    #     apply-refact
+    #     ghcid
+    #     hlint
+    #   ]
+    # ))
+    htop
+    httpie
     inotify-tools
     irony-server
+    jq
     keybase
     keybase-gui
     keychain
     kubectl
+    leiningen
     libnotify
+    loc
     man-pages
     nix-index
     nodejs-11_x
@@ -63,20 +84,28 @@
         ]
     ))
     redshift
+    ripgrep
+    rural
+    shellcheck
     signal-desktop
     slack
+    sloccount
     slock
+    sourceHighlight
     spotify # non-free
-    # stack2nix
+    sqlite
     teensy-loader-cli # flash ergodox firmware (use zshrc alias for help)
+    tldr
     tmux
     transmission
+    tree
     typora
     udisks # manage drives
     unzip
     veracrypt
     vim
     vlc
+    wget
     xclip # copy paste stuff
     xkb-switch
     xorg.xbacklight
@@ -86,4 +115,5 @@
     yarn
     zip
     zsh
-  ] else [])
+  ];
+}

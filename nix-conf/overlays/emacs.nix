@@ -2,11 +2,8 @@ self: super:
 
 let
   basePkgs = (
-    if super.stdenv.hostPlatform.system == "x86_64-linux"
-    then import ../unstable.nix { config = {allowUnfree = true;}; }
-    else super
+    import ../utils/unstable.nix { config = {allowUnfree = true;}; }
   );
-  machine = import ../machine.nix;
   # Would be sweet to use the ones from nixpkgs instead
   compileEmacsFiles = basePkgs.callPackage ./emacsBuilder.nix;
   emacsOverrides = eSelf: eSuper:
