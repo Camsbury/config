@@ -7,6 +7,11 @@
 ;; (require 'ob-ipython)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; org todos
+
+(setq org-todo-keywords '((sequence "[ ]" "[x]")))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org capture
 
 (setq org-directory (expand-file-name "~/Dropbox/lxndr/")
@@ -24,8 +29,7 @@
       org-refile-targets '(("~/Dropbox/lxndr/queue.org" :maxlevel . 3)
                            ("~/Dropbox/lxndr/store.org" :level . 1)
                            ("~/Dropbox/lxndr/ref.org" :level . 1))
-      org-archive-location (concat "~/Dropbox/lxndr/archive/" (format-time-string "%Y-%m") ".org::")
-      org-todo-keywords '((sequence "[ ]" "[x]")))
+      org-archive-location (concat "~/Dropbox/lxndr/archive/" (format-time-string "%Y-%m") ".org::"))
 
 ;; auto save on refily
 (advice-add 'org-refile :after
