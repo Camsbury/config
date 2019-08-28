@@ -171,6 +171,12 @@ function op-retrieve() {
 function op-retrieve-vpn() {
   op get item VPN | jq '.details.fields[0].value' | tr -d \" | tr -d '\n' | xclip -selection clipboard
 }
+function op-list() {
+  op list "${1}" | jq -c 'map(.overview.title) | sort'
+}
+function op-retrieve-tripwire() {
+  op get item "Tripwire Local Passphrase" | jq '.details.password' | tr -d \" | tr -d '\n' | xclip -selection clipboard
+}
 
 ################################################################################
 # Productivity

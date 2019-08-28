@@ -175,10 +175,11 @@
       zz = "source $HOME/.zshrc";
       xmrg = "xrdb -merge ~/.Xresources";
       # 1Pass
-      opl = "op list items | jq -c 'map(.overview.title) | sort'";
+      opl = "op-list";
       opp = "op-retrieve";
-      opv = "op-retrieve-vpn";
       ops = ''eval $(op signin urbint)'';
+      opt = "op-retrieve-tripwire";
+      opv = "op-retrieve-vpn";
       # emacs
       emd = "emacs --debug-init";
       # yarn
