@@ -172,7 +172,7 @@
       la = "exa --long --all";
       lnf = "readlink -f";
       take = "take-dir";
-      zz = "source $HOME/.zshrc";
+      zz = "source /etc/zshenv; source /etc/zshrc; source $HOME/.zshrc";
       xmrg = "xrdb -merge ~/.Xresources";
       # 1Pass
       opl = "op-list";
