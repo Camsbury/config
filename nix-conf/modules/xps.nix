@@ -3,6 +3,9 @@
 {
   imports = [
     ../overlays/xps.nix
+    ./intel.nix
+    ./laptop.nix
+    ./ssd.nix
   ];
 
   hardware = {
