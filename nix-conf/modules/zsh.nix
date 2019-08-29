@@ -140,10 +140,12 @@
       dc = "docker-compose";
       dcub = "docker-compose up --build -d";
       dcr = "docker-compose restart";
+      dchr = "docker-compose-hard-restart";
+      dchrf = "docker-compose-hard-restart-and-log";
       dps = "docker ps";
       dsac = ''docker stop $(docker ps -aq)'';
       drac = ''docker rm $(docker ps -aq)'';
-      dcrf = "docker-restart-and-log";
+      dcrf = "docker-compose-restart-and-log";
       dk = "docker";
       drni = "docker rmi $(docker images | grep '^<none>' | awk '{print $3}')";
       drdi = ''docker rmi $(docker images -q -f "dangling=true")'';

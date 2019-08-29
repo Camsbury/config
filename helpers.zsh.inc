@@ -122,8 +122,16 @@ function uuid-gen-n() {
 ################################################################################
 # docker
 
-function docker-restart-and-log() {
+function docker-compose-restart-and-log() {
   docker-compose restart "$1" && docker-compose logs -f "$1"
+}
+
+function docker-compose-hard-restart() {
+  docker-compose stop "$1" && yes | docker-compose rm "$1" && docker-compose up -d "$1"
+}
+
+function docker-compose-hard-restart-and-log() {
+  docker-compose stop "$1" && yes | docker-compose rm "$1" && docker-compose up -d "$1" && docker-compose logs -f "$1"
 }
 
 
