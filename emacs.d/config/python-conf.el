@@ -5,9 +5,7 @@
 ;; /nix/store/4igq48l69gpfmjg0k2hjn5zk8iil6h7f-python3.6-yapf-0.27.0/bin/yapf
 
 (setq yapf-path
-      (if (string-equal system-type "gnu/linux")
-          "/nix/store/fdb72bl5kkb9x7pparpg2xkbvbz0zfwd-python3-3.6.8-env/bin/yapf"
-        "/nix/store/rqspbns7n6fgqxk2wdhai3waijx2xi0v-python3-3.6.8-env/bin/yapf"))
+      "/nix/store/nbfbyphfdx39k4dyiqs0ziq7ih79d8gs-python3-3.6.9-env/bin/yapf")
 
 
 
