@@ -62,6 +62,7 @@
     man-pages
     nix-index
     nodejs-11_x
+    nodePackages.prettier
     notify-osd # to upgrade...
     oh-my-zsh
     openjdk
