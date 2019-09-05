@@ -31,6 +31,7 @@
          lsp-conf
          merge-conf
          minibuffer-conf
+         nix-conf
          org-conf
          package-conf
          pdf-conf

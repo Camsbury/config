@@ -74,6 +74,7 @@ let
     mediawiki
     nav-flash
     nix-mode
+    nix-update
     nov
     ob-async
     ob-elixir

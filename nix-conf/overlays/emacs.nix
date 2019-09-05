@@ -54,6 +54,16 @@ let
         };
       };
 
+      nix-update = compileEmacsFiles {
+        name = "nix-update.el";
+        src = builtins.fetchurl {
+          url = https://raw.githubusercontent.com/jwiegley/nix-update-el/616b410ef577633b48747c134c1b89782a88f232/nix-update.el;
+          sha256 = "17i132sicf247c18i192nwk59fyqbxi4z5gzw5fnc49pmh2fpbj7";
+        };
+      };
+
+
+
       # cider = eSelf.melpaBuild {
       #   pname = "cider";
       #   version = "20190226.1059";
