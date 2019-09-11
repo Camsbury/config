@@ -7,5 +7,6 @@
     ../modules/intel.nix
     ../modules/nvidia.nix
     ../modules/ssd.nix
+    ../modules/music.nix
   ];
 }
