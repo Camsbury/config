@@ -2,6 +2,7 @@ epkgs:
 
 let
   melpas = with epkgs.melpaPackages; [
+    alda-mode
     avy
     benchmark-init
     buffer-move

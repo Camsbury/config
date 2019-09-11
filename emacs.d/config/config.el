@@ -8,6 +8,7 @@
          dockerfile-mode
          wgrep
 
+         alda-conf
          agda-conf
          autocomplete-conf
          bindings-conf
