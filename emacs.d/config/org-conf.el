@@ -244,6 +244,7 @@
  ("i"   #'org-new-item             "new item")
  ("l"   #'hydra-org-link/body      "org links")
  ("m"   #'hydra-org-timer/body     "org timer")
+ ("n"   #'org-narrow-to-subtree    "narrow")
  ("o"   #'org-sparse-tree-at-point "show all")
  ("O"   #'outline-show-all         "show all")
  ("r"   #'org-refile               "refile")
