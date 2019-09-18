@@ -82,6 +82,11 @@
   ("t" #'git-timemachine-toggle            "git time machine")
   ("l" #'github-clone                      "github clone"))
 
+(defhydra hydra-register (:exit t)
+  "set register"
+  ("p" #'point-to-register                "save point")
+  ("w" #'window-configuration-to-register "save window config"))
+
 (defhydra hydra-leader (:exit t :columns 5 :idle 1.5)
   "leader"
   ("[" #'hydra-describe/body          "describe")
@@ -153,7 +158,7 @@
   ("e" #'flycheck-previous-error          "previous error")
   ("t" #'evil-prev-buffer                 "previous buffer")
   ("f" #'text-scale-decrease              "zoom out")
-  ("r" #'point-to-register                "save point to register")
+  ("r" #'hydra-register/body              "save point to register")
   ;; ("r" #'undo-tree-save-state-to-register "mark undo tree")
   ("n" #'buf-move-left                    "move window left")
   ("x" #'org-previous-block))
