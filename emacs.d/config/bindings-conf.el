@@ -154,7 +154,7 @@
 
 (defhydra hydra-left-leader (:exit t)
   "left leader"
-  ("b" #'rename-buffer                    "rename buffer")
+  ("b" #'bookmark-set                     "set bookmark")
   ("e" #'flycheck-previous-error          "previous error")
   ("t" #'evil-prev-buffer                 "previous buffer")
   ("f" #'text-scale-decrease              "zoom out")
@@ -165,7 +165,7 @@
 
 (defhydra hydra-right-leader (:exit t)
   "right leader"
-  ("b" #'view-buffer                           "view buffer")
+  ("b" #'bookmark-jump                         "jump to bookmark")
   ("e" #'flycheck-next-error                   "next error")
   ("t" #'evil-next-buffer                      "next buffer")
   ("f" #'text-scale-increase                   "zoom in")
