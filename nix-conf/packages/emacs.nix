@@ -71,6 +71,7 @@ let
     lsp-mode
     lsp-ui
     magit
+    markdown-preview-eww
     markdown-preview-mode
     mediawiki
     nav-flash
