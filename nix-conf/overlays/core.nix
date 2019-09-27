@@ -77,6 +77,7 @@ in
           inherit chromium;
           inherit dropbox;
           inherit haskell;
+          inherit slack;
           inherit spotify; # non-free
           inherit steam;
         })
