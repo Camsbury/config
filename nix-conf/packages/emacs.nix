@@ -50,7 +50,6 @@ let
     flycheck-elixir # elixir
     flycheck-mix # elixir
     forge
-    format-all
     general
     git-timemachine
     gnuplot
