@@ -40,7 +40,8 @@
     google-cloud-sdk
     (haskell.packages.ghc864.ghcWithPackages (
       haskellPackages: with haskellPackages;
-      [ Agda
+      [
+      # Agda
         Cabal_2_4_1_0
         apply-refact
         ghcid

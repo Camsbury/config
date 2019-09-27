@@ -76,7 +76,7 @@ in
           inherit bat;
           inherit chromium;
           inherit dropbox;
-          inherit haskell;
+          # inherit haskell;
           inherit slack;
           inherit spotify; # non-free
           inherit steam;
