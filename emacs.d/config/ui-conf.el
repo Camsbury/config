@@ -1,18 +1,13 @@
-(require 'smartparens-config)
 (require 'general)
 
 (if (string-equal system-type "gnu/linux")
     (require 'doom-modeline))
 (column-number-mode)
 (show-paren-mode)
-;; (electric-pair-mode)
-(smartparens-global-mode)
+(electric-pair-mode)
 (global-auto-revert-mode)
 (global-hl-line-mode)
 (doom-modeline-init)
-
-;; who wants pairs of *?
-(sp-pair "*" nil :actions :rem)
 
 ;; open buffers in a vertical split!
 (setq split-height-threshold nil)
@@ -31,8 +26,7 @@
         'whitespace-mode
         'rainbow-delimiters-mode
         'rainbow-mode
-        'linum-mode
-        'evil-smartparens-mode))
+        'linum-mode))
 
 (general-add-hook 'yaml-mode-hook
                   (list 'linum-mode))

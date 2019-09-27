@@ -4,15 +4,11 @@
 
 (general-add-hook 'clojure-mode-hook
                   (list 'paredit-mode
-                        'paxedit-mode
-                        'smartparens-mode
-                        'evil-smartparens-mode))
+                        'lispyville-mode))
 
 (general-add-hook 'clojurescript-mode-hook
                   (list 'paredit-mode
-                        'paxedit-mode
-                        'smartparens-mode
-                        'evil-smartparens-mode))
+                        'lispyville-mode))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

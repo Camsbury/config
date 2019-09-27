@@ -8,8 +8,7 @@
 (eval-after-load 'dash '(dash-enable-font-lock))
 (general-add-hook 'emacs-lisp-mode-hook
                   (list 'paredit-mode
-                        'paxedit-mode
-                        'evil-smartparens-mode))
+                        'lispyville-mode))
 
 
 (general-def 'normal emacs-lisp-mode-map

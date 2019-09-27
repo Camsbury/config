@@ -1,82 +1,89 @@
 (require 'bindings-conf)
-(require 'paxedit)
+(require 'paredit)
+(require 'lispyville)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Lisp Functions
+;;; Hooks
 
-(defmacro define-move-and-insert
-    (name &rest body)
-  `(defun ,name (count &optional vcount skip-empty-lines)
-     ;; Following interactive form taken from the source for `evil-insert'
-     (interactive
-      (list (prefix-numeric-value current-prefix-arg)
-            (and (evil-visual-state-p)
-                 (memq (evil-visual-type) '(line block))
-                 (save-excursion
-                   (let ((m (mark)))
-                     ;; go to upper-left corner temporarily so
-                     ;; `count-lines' yields accurate results
-                     (evil-visual-rotate 'upper-left)
-                     (prog1 (count-lines evil-visual-beginning evil-visual-end)
-                       (set-mark m)))))
-            (evil-visual-state-p)))
-     (atomic-change-group
-       ,@body
-       (evil-insert count vcount skip-empty-lines))))
+(general-add-hook 'lisp-interaction-mode-hook
+                  (list 'paredit-mode
+                        'lispyville-mode))
 
-(define-move-and-insert grfn/insert-at-sexp-end
-  (when (not (equal (get-char) "("))
-    (backward-up-list))
-  (forward-sexp)
-  (backward-char))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Functions
 
-(define-move-and-insert grfn/insert-at-sexp-start
-  (backward-up-list)
-  (forward-char))
-
-(define-move-and-insert grfn/insert-at-form-start
-  (backward-sexp)
-  (backward-char)
-  (insert " "))
-
-(define-move-and-insert grfn/insert-at-form-end
-  (forward-sexp)
-  (insert " "))
+; straight outta smartparens
+(defun sp-forward-whitespace (&optional arg)
+  "Skip forward past the whitespace characters.
+With non-nil ARG return number of characters skipped."
+  (interactive "^P")
+  (let ((rel-move (skip-chars-forward " \t\n")))
+    (if arg rel-move (point))))
 
 (defun lisp-tree-forward ()
-  (interactive)
   "Move forward in the lisp tree"
+  (interactive)
   (paredit-forward)
-  (when (or (= #x20 (following-char)) (= #xa (following-char)))
+  (when (or (= 32 (following-char)) (= 10 (following-char)))
     (sp-forward-whitespace)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Paxedit mappings
+(defun lisp-tree-last ()
+  "Move to the last element of the list"
+  (interactive)
+  (paredit-backward-up)
+  (paredit-forward)
+  (paredit-backward-down))
 
-(general-evil-define-key 'normal lisp-interaction-mode-map
-  [remap eval-print-last-sexp] 'evil-window-down)
+(defun lisp-open-above ()
+  "Open above the current list"
+  (interactive)
+  (if (= 40 (following-char))
+      (progn
+        (call-interactively #'paredit-forward-down)
+        (call-interactively #'lispyville-open-above-list))
+    (call-interactively #'lispyville-open-above-list)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Bindings
+
+(general-evil-define-key 'normal 'paredit-mode-map
+  "j"   #'lisp-tree-forward
+  "l"   #'paredit-forward-down
+  "k"   #'paredit-backward
+  "h"   #'paredit-backward-up
+  "I"   #'lispyville-insert-at-beginning-of-list
+  "A"   #'lispyville-insert-at-end-of-list
+
+  "o"   #'lispyville-open-below-list
+  "O"   #'lisp-open-above)
 
 (general-define-key :keymaps 'paredit-mode-map
-  "C-h" #'evil-window-left
-  "C-j" #'evil-window-down
-  "C-k" #'evil-window-up
-  "C-l" #'evil-window-right
+  "C-h"     #'evil-window-left
+  "C-j"     #'evil-window-down
+  "C-k"     #'evil-window-up
+  "C-l"     #'evil-window-right
 
-  "M-j" #'lisp-tree-forward
-  "M-l" #'paredit-forward-down
-  "M-k" #'paredit-backward
-  "M-h" #'paredit-backward-up
-  "M-H" #'paredit-raise-sexp
+  "M-j"     #'evil-next-visual-line
+  "M-l"     #'evil-forward-char
+  "M-k"     #'evil-previous-visual-line
+  "M-h"     #'evil-backward-char
 
-  "M-s" #'paredit-forward-slurp-sexp
-  "M-t" #'paredit-forward-barf-sexp
-  "M-a" #'paredit-backward-barf-sexp
-  "M-r" #'paredit-backward-slurp-sexp
+  "M-o"     #'evil-open-below
+  "M-O"     #'evil-open-above
 
-  "M-f" #'paxedit-transpose-backward
-  "M-p" #'paxedit-transpose-forward)
+  "M-L"     #'lisp-tree-last
+  "M-H"     #'lispy-raise-sexp
 
-(general-evil-define-key 'normal paredit-mode-map
+  "M-s"     #'lispy-forward-slurp-sexp
+  "M-t"     #'lispy-forward-barf-sexp
+  "M-a"     #'lispy-backward-barf-sexp
+  "M-r"     #'lispy-backward-slurp-sexp
+
+  "M-f"     #'lispyville-drag-backward
+  "M-p"     #'lispyville-drag-forward
   "M-<RET>" #'eval-defun)
+
+
 
 (provide 'lisp-conf)

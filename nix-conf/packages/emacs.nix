@@ -36,7 +36,6 @@ let
     evil-commentary
     evil-magit
     evil-multiedit
-    evil-smartparens
     evil-surround
     evil-visualstar
     exec-path-from-shell
@@ -66,6 +65,7 @@ let
     json-navigator
     keychain-environment
     know-your-http-well
+    lispyville
     lsp-haskell
     lsp-mode
     lsp-ui
@@ -96,7 +96,6 @@ let
     rjsx-mode
     s
     slack
-    smartparens
     smex
     sqlup-mode
     tree-mode
