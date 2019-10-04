@@ -75,10 +75,10 @@ With non-nil ARG return number of characters skipped."
   "M-L"     #'lisp-tree-last
   "M-H"     #'lispy-raise-sexp
 
-  "M-s"     #'lispy-forward-slurp-sexp
-  "M-t"     #'lispy-forward-barf-sexp
-  "M-a"     #'lispy-backward-barf-sexp
-  "M-r"     #'lispy-backward-slurp-sexp
+  "M-s"     #'paredit-forward-slurp-sexp
+  "M-t"     #'paredit-forward-barf-sexp
+  "M-a"     #'paredit-backward-barf-sexp
+  "M-r"     #'paredit-backward-slurp-sexp
 
   "M-f"     #'lispyville-drag-backward
   "M-p"     #'lispyville-drag-forward

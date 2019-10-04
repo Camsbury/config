@@ -101,11 +101,10 @@ If invoked with a prefix ARG eval the expression after inserting it"
 ;; Bindings
 
 (general-def 'normal clojure-mode-map
- "M-o" #'hydra-clj/body
  [remap empty-mode-leader]    #'hydra-clj/body
  [remap evil-lookup]          #'cider-doc
  [remap evil-goto-definition] #'cider-find-dwim
- [remap cider-inspector-pop]  #'paredit-backward)
+ [remap cider-inspector-pop]  #'evil-previous-visual-line)
 
 (general-define-key :keymaps 'clojure-mode-map
   [remap paredit-raise-sexp] #'cljr-raise-sexp)
