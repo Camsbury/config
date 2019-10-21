@@ -48,15 +48,17 @@ With non-nil ARG return number of characters skipped."
 ;;; Bindings
 
 (general-evil-define-key 'normal 'paredit-mode-map
-  "j"   #'lisp-tree-forward
-  "l"   #'paredit-forward-down
-  "k"   #'paredit-backward
-  "h"   #'paredit-backward-up
-  "I"   #'lispyville-insert-at-beginning-of-list
-  "A"   #'lispyville-insert-at-end-of-list
+  "h"    #'evil-backward-char
+  "j"    #'evil-next-visual-line
+  "k"    #'evil-previous-visual-line
+  "l"    #'evil-forward-char
 
-  "o"   #'lispyville-open-below-list
-  "O"   #'lisp-open-above)
+  ;; "I"   #'lispyville-insert-at-beginning-of-list
+  ;; "A"   #'lispyville-insert-at-end-of-list
+
+  ;; "o"   #'lispyville-open-below-list
+  ;; "O"   #'lisp-open-above
+  )
 
 (general-define-key :keymaps 'paredit-mode-map
   "C-h"     #'evil-window-left
@@ -64,10 +66,10 @@ With non-nil ARG return number of characters skipped."
   "C-k"     #'evil-window-up
   "C-l"     #'evil-window-right
 
-  "M-j"     #'evil-next-visual-line
-  "M-l"     #'evil-forward-char
-  "M-k"     #'evil-previous-visual-line
-  "M-h"     #'evil-backward-char
+  "M-h"     #'paredit-backward-up
+  "M-j"     #'lisp-tree-forward
+  "M-k"     #'paredit-backward
+  "M-l"     #'paredit-forward-down
 
   "M-o"     #'evil-open-below
   "M-O"     #'evil-open-above
