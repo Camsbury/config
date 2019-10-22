@@ -1,5 +1,5 @@
 (setq blind-mode-on nil)
-(setq normal-font-height 80)
+(setq normal-font-height 60)
 (setq blind-mode-font-height 120)
 
 (define-minor-mode blind-mode
