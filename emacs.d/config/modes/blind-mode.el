@@ -1,6 +1,7 @@
+(require 'theme-conf)
+
 (setq blind-mode-on nil)
-(setq normal-font-height 60)
-(setq blind-mode-font-height 120)
+(setq blind-mode-font-height 100)
 
 (define-minor-mode blind-mode
   "Make it so blind people can see"
