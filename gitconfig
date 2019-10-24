@@ -7,6 +7,8 @@
         excludesfile = /home/monoid/.gitignore_global
 [commit]
         gpgsign = true
+[fetch]
+        prune = true
 [push]
         default = current
 [rebase]
