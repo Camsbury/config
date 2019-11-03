@@ -4,9 +4,9 @@
 
 (if (> (x-display-pixel-width) 1600)
     (progn
-      (set-default-font "Roboto Mono 6")
+      (set-default-font "Go Mono 6")
       (set-face-attribute 'default nil :height normal-font-height))
-  (set-default-font "Roboto Mono 8"))
+  (set-default-font "Go Mono 8"))
 
 
 (provide 'theme-conf)

@@ -23,4 +23,4 @@
 *xterm*Translations: #override\n\
  Shift Ctrl <KeyPress> v: insert-selection(CLIPBOARD)\n\
  Shift Ctrl <KeyPress> c: copy-selection(CLIPBOARD)\n
-*xterm*faceName: Roboto Mono:size=8
+*xterm*faceName: Go Mono:size=8

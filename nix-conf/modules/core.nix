@@ -31,6 +31,7 @@
   };
 
   fonts.fonts = with pkgs; [
+    go-font
     noto-fonts
     roboto-mono
   ];
@@ -46,7 +47,7 @@
   };
 
   i18n = {
-    consoleFont = "Roboto Mono";
+    consoleFont = "Go Mono";
     consoleUseXkbConfig = true;
     defaultLocale = "en_US.UTF-8";
   };
