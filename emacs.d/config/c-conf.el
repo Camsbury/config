@@ -2,12 +2,13 @@
 (setq c-basic-indent 2)
 
 (general-add-hook 'c-mode-hook
-  (list 'irony-mode
+  (list
+        ;; 'irony-mode
         'flycheck-mode
-        'flycheck-irony-setup
-        'irony-cdb-autosetup-compile-options
+        ;; 'flycheck-irony-setup
+        ;; 'irony-cdb-autosetup-compile-options
         'eldoc-mode
-        'irony-eldoc
+        ;; 'irony-eldoc
         'rainbow-delimiters-mode))
 
 (provide 'c-conf)

@@ -42,7 +42,7 @@ let
     f
     flycheck
     flycheck-haskell
-    flycheck-irony
+    # flycheck-irony
     flycheck-popup-tip
     flycheck-credo # elixir
     flycheck-dialyxir # elixir
@@ -57,8 +57,8 @@ let
     hl-todo
     hlint-refactor
     hydra
-    irony
-    irony-eldoc
+    # irony
+    # irony-eldoc
     ivy
     ivy-hydra
     js2-mode

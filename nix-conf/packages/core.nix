@@ -51,7 +51,7 @@
     htop
     httpie
     inotify-tools
-    irony-server
+    # irony-server
     jq
     keybase
     keybase-gui
