@@ -96,6 +96,7 @@ let
     rjsx-mode
     s
     slack
+    slime
     smex
     sqlup-mode
     tree-mode

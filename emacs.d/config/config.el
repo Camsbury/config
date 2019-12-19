@@ -14,6 +14,7 @@
          bindings-conf
          browser-conf
          c-conf
+         clisp-conf
          clj-conf
          counsel-conf
          dashboard-conf
