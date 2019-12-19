@@ -4,6 +4,9 @@
 
 (setq inferior-lisp-program "nix-shell -p sbcl --run sbcl")
 
+(general-add-hook 'lisp-mode-hook
+                  (list 'paredit-mode
+                        'lispyville-mode))
 
 (general-def 'normal lisp-mode-map
  [remap empty-mode-leader] #'hydra-clisp/body)
@@ -14,10 +17,6 @@
   ("E" #'slime-eval-buffer "eval buffer"))
 
 (nmap :states 'normal :keymaps 'lisp-mode-map
-  "M-<RET>" #'slime-eval-defun
-  "M-h"     #'paredit-backward-up
-  "M-j"     #'lisp-tree-forward
-  "M-k"     #'paredit-backward
-  "M-l"     #'paredit-forward-down)
+  "M-<RET>" #'slime-eval-defun)
 
 (provide 'clisp-conf)
