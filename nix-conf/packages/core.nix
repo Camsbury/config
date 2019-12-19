@@ -62,7 +62,8 @@
     loc
     man-pages
     nix-index
-    nodejs-11_x
+    nixfmt
+    nodejs-12_x
     nodePackages.prettier
     notify-osd # to upgrade...
     oh-my-zsh

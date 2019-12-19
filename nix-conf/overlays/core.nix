@@ -16,7 +16,7 @@ in
                 }/op_linux_amd64_v${
                   super._1password.version
                 }.zip";
-              sha256 = "1svic2b2msbwzfx3qxfglxp0jjzy3p3v78273wab942zh822ld8b";
+              sha256 = "03m0vxhghzf4zq7k2f1afkc5ixf0qwiiypqjfjgpqpfng7g9ang7";
               stripRoot = false;
             };
           }
@@ -48,9 +48,7 @@ in
             rev    = "be6f7ac7b4ea926d0c6085819d9b4189206914d9";
             sha256 = "1z87dlkvla1alf2whjllf999kl3z18kjjsl7pa5y68amwhd9f2sj";
           };
-          cargoSha256 = (if super.stdenv.hostPlatform.system == "x86_64-darwin"
-          then "1z4r50qvqzywdcn2wybrajdz7bdhwrbzpm072brhqm4vfxyf23rk"
-          else "1gwsynnh42byy9ls3zzi48mpz75l7zrvcdim6q4i8jvyj0h1lzx3");
+          cargoSha256 = "1z4r50qvqzywdcn2wybrajdz7bdhwrbzpm072brhqm4vfxyf23rk";
 
 
           propagatedBuildInputs = [
