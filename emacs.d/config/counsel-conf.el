@@ -1,3 +1,6 @@
+(require 'counsel)
+(require 'counsel-projectile)
+
 (ivy-mode)
 (recentf-mode)
 (projectile-mode)
