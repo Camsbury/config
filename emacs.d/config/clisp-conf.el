@@ -13,6 +13,7 @@
 
 (defhydra hydra-clisp (:exit t)
   "clisp-mode"
+  ("d" #'slime-edit-definition "jump to def")
   ("s" #'slime "start slime")
   ("E" #'slime-eval-buffer "eval buffer"))
 
