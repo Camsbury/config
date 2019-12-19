@@ -1,6 +1,6 @@
 (load-theme 'doom-molokai t)
 
-(setq normal-font-height 60)
+(setq normal-font-height 70)
 
 (if (> (x-display-pixel-width) 1600)
     (progn
