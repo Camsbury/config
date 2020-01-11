@@ -89,8 +89,8 @@
                  (-zip-pair
                    '(org-level-1 org-level-2 org-level-3 org-level-4 org-level-5
                      org-level-6 org-level-7 org-level-8)
-                   '( "#ceff52" "#fbae28" "#28fbae" "#ff52ce" "#ceff52"
-                      "#fbae28" "#28fbae" "#ff52ce"))) )
+                   '( "#7FB6FF" "#97D164" "#B9D6F2" "#62FCC4" "#5D85BA"
+                      "#618640" "#A9C3DC" "#368A6B"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-clubhouse
