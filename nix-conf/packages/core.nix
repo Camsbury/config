@@ -97,6 +97,7 @@
     sourceHighlight
     spotify # non-free
     sqlite
+    tdesktop # telegram
     teensy-loader-cli # flash ergodox firmware (use zshrc alias for help)
     tldr
     tmux
