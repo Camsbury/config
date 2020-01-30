@@ -72,6 +72,7 @@ in
         } // ( with unstablePkgs; {
           inherit beam;
           inherit bat;
+          inherit brave;
           inherit chromium;
           inherit dropbox;
           # inherit haskell;
