@@ -48,6 +48,12 @@
       (call-interactively #'global-command-log-mode)
       (clm/toggle-command-log-buffer))))
 
+(defun clean-quit-emacs ()
+  "Saves stuff before quitting"
+  (interactive)
+  (recentf-save-list)
+  (call-interactively #'save-buffers-kill-emacs))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Nav Functions

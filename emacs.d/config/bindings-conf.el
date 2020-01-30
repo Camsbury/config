@@ -119,7 +119,7 @@
   ;; ("p")
   ("P" #'projectile-invalidate-cache  "invalidate project cache")
   ("q" #'evil-save-modified-and-close "write quit")
-  ("Q" #'save-buffers-kill-emacs      "leave emacs")
+  ("Q" #'clean-quit-emacs             "leave emacs")
   ;; ("r")
   ("R" #'restart-emacs                "restart emacs")
   ("s" #'avy-goto-char-2              "avy jump to char")
