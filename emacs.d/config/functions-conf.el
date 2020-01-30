@@ -52,20 +52,61 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Nav Functions
 
+(defmacro open-file (name path &optional desc)
+  `(defun ,(intern (concat "open-" (symbol-name `,name))) ()
+     ,desc
+     (interactive)
+     (find-file ,path)))
+
+(open-file
+ se-principles
+ "~/Dropbox/lxndr/ref/software_engineering.org"
+ "Opens the SE principles file")
+
+(open-file
+ tmp-org
+ "/tmp/notes.org"
+ "opens a temporary org file")
+
+(open-file
+ books
+ "~/Dropbox/lxndr/ref/books.org"
+ "Opens my book notes")
+
+(open-file
+ runs
+ "~/Dropbox/lxndr/ref/runs.org"
+ "Opens my runs file")
+
+(open-file
+ links
+ "~/Dropbox/lxndr/ref/links.org"
+ "Opens my links file")
+
+(open-file
+ journal
+ "~/Dropbox/lxndr/journal.org"
+ "Opens my journal")
+
+(open-file
+ dump
+ "~/Dropbox/lxndr/ref/dump.org"
+ "Opens my brain dump")
+
+(open-file
+ habits
+ "~/Dropbox/lxndr/habits.org"
+ "Opens my habits tracker")
+
+(open-file
+ queue
+ "~/Dropbox/lxndr/queue.org"
+ "Opens my queue")
+
 (defun open-new-tmp (arg)
   "Opens a new tmp file"
   (interactive "sFile name: ")
   (find-file (concat "/tmp/" arg)))
-
-(defun open-se-principles ()
-  "Opens the SE principles file"
-  (interactive)
-  (find-file "~/Dropbox/lxndr/ref/software_engineering.org"))
-
-(defun open-tmp-org ()
-  "opens a temporary org file"
-  (interactive)
-  (find-file "/tmp/notes.org"))
 
 (defun open-project-tasks ()
   "Opens the project's tasks file"
@@ -76,55 +117,6 @@
                   (s-append ".org"))))
        (find-file path)))
 
-(defun open-books ()
-  "Opens my book notes"
-  (interactive)
-  (find-file "~/Dropbox/lxndr/ref/books.org"))
-
-(defun open-runs ()
-  "Opens my runs file"
-  (interactive)
-  (find-file "~/Dropbox/lxndr/ref/runs.org"))
-
-(defun open-links ()
-  "Opens my links file"
-  (interactive)
-  (find-file "~/Dropbox/lxndr/ref/links.org"))
-
-(defun open-journal ()
-  "Opens my journal"
-  (interactive)
-  (find-file "~/Dropbox/lxndr/journal.org"))
-
-(defun open-dump ()
-  "Opens my brain dump"
-  (interactive)
-  (find-file "~/Dropbox/lxndr/ref/dump.org"))
-
-(defun open-habits ()
-  "Opens my habits tracker"
-  (interactive)
-  (find-file "~/Dropbox/lxndr/habits.org"))
-
-(defun open-queue ()
-  "Opens my queue"
-  (interactive)
-  (find-file "~/Dropbox/lxndr/queue.org"))
-
-(defun open-tasks ()
-  "Opens the generic tasks file"
-  (interactive)
-  (find-file "~/Dropbox/lxndr/tasks.org"))
-
-(defun open-timesheet ()
-  "Opens the timesheet"
-  (interactive)
-  (find-file "~/Dropbox/lxndr/ref/time.org"))
-
-(defun open-clubhouse ()
-  "Clubhouse tix"
-  (interactive)
-  (find-file "~/clubhouse.org"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Spawn Functions

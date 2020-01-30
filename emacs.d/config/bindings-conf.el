@@ -35,7 +35,6 @@
 (defhydra hydra-spawn (:exit t)
   "spawn"
   ("b" (spawnify #'open-books)                        "book notes")
-  ("d" (spawnify #'open-tasks)                        "tasks org")
   ("D" (spawnify #'open-dump)                         "brain dump")
   ("e" (spawnify #'counsel-projectile-find-file)      "project file")
   ("h" (spawnify #'open-queue)                        "queue org")
@@ -43,8 +42,6 @@
   ("j" (spawnify #'open-journal)                      "journal org")
   ("k" (spawnify #'open-habits)                       "habits org")
   ("l" (spawnify #'open-links)                        "links org")
-  ("L" (spawnify #'open-clubhouse)                    "clubhouse org")
-  ("m" (spawnify #'open-timesheet)                    "timesheet")
   ("n" (spawnify #'counsel-recentf)                   "recent file")
   ("N" (spawnify #'open-new-tmp)                      "new file")
   ("o" (spawnify #'open-project-tasks)                "project tasks")
@@ -57,7 +54,6 @@
 (defhydra hydra-nav (:exit t)
   "nav to"
   ("b" #'open-books                        "book notes")
-  ("d" #'open-tasks                        "tasks org")
   ("D" #'open-dump                         "brain dump")
   ("e" #'counsel-projectile-find-file      "project file")
   ("h" #'open-queue                        "queue org")
@@ -65,8 +61,6 @@
   ("j" #'open-journal                      "journal org")
   ("k" #'open-habits                       "habits org")
   ("l" #'open-links                        "links org")
-  ("L" #'open-clubhouse                    "clubhouse org")
-  ("m" #'open-timesheet                    "timesheet")
   ("n" #'counsel-recentf                   "recent file")
   ("N" #'open-new-tmp                      "new file")
   ("p" #'counsel-projectile-switch-project "new project")
