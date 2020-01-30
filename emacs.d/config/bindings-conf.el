@@ -93,7 +93,7 @@
   ("c" #'hydra-config/body            "spawn config file")
   ("C" #'toggle-command-logging       "toggle command logging")
   ("d" #'evil-goto-definition         "evil jump to def")
-  ;; ("D")
+  ("D" #'dumb-jump-go                 "dumb jump")
   ;; ("e")
   ("E" #'etymology-of-word-at-point   "etymology of word at point")
   ("f" #'counsel-rg                   "find text in project")

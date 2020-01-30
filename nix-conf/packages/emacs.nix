@@ -27,6 +27,7 @@ let
     doom-themes
     doom-modeline
     dotenv-mode
+    dumb-jump
     ein
     elixir-mode # elixir
     emacsql
@@ -62,6 +63,7 @@ let
     # irony-eldoc
     ivy
     ivy-hydra
+    ivy-xref
     js2-mode
     json-navigator
     keychain-environment
