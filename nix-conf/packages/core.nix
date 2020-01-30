@@ -14,6 +14,7 @@
     brave
     chromium
     curl
+    direnv
     disper
     dmenu
     docker

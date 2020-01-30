@@ -26,7 +26,8 @@
         'whitespace-mode
         'rainbow-delimiters-mode
         'rainbow-mode
-        'linum-mode))
+        'linum-mode
+        'direnv-mode))
 
 (general-add-hook 'yaml-mode-hook
                   (list 'linum-mode))

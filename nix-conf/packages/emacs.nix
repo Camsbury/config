@@ -21,6 +21,7 @@ let
     dash
     dash-functional
     define-word
+    direnv
     docker
     dockerfile-mode
     doom-themes
@@ -86,6 +87,7 @@ let
     paxedit
     prettier-js
     projectile
+    projectile-direnv
     pylint
     py-isort
     racket-mode

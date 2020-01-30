@@ -73,6 +73,7 @@
   security.wrappers.slock.source = "${pkgs.slock.out}/bin/slock";
 
   services = {
+    lorri.enable = true;
     keybase.enable = true;
     logind.extraConfig = "HandlePowerKey=ignore";
     xserver = {
