@@ -1,37 +1,27 @@
 # -*- mode: snippet -*-
-# key: wur
-# name: wake_up_run
+# key: wuw
+# name: wake_up_workout
 # expand-env: ((yas-indent-line 'fixed))
 # --
 
 ** [ ] Wake Up
+*** [ ] Music
 *** [ ] Make Bed
 *** [ ] Scale measurements
 *** [ ] [[https://www.wunderground.com/forecast/us/ny/new-york/KNYNEWYO595?cm_ven=localwx_10day][Weather]]
 *** [ ] Contacts / Glasses
 *** [ ] Floss
 *** [ ] Brush
-*** [ ] Run
-*** [ ] Music
-*** [ ] Shower
-*** [ ] Hair
-*** [ ] Deodorant
-*** [ ] Cologne
 *** [ ] Dress
-*** [ ] check Oura
-*** [ ] enter run details
+*** [ ] Pack bag
+*** [ ] Check Oura
 *** [ ] Meditate
 *** [ ] Duolingo
 *** [ ] Music
 *** [ ] [[file:~/Dropbox/lxndr/journal.org][Journal]]
 *** [ ] Day Planning
-**** [ ] Clarify expectation that things will go wrong, and that is fine
-**** [ ] Clarify intent to do mindfulness checkins
-**** [ ] Clarify intent to use distractions as opportunities to come back to the present moment
 *** [ ] Art for 5
 *** [ ] Piano or Guitar for 5
 *** [ ] Principles Book for 5
 *** [ ] Read Docs for 5 (From current docs head)
 *** [ ] Clean for 5
-*** [ ] [[https://www.mentalmodelsbox.com/][Mental Model of the Day]]
-*** [ ] Collect garbage to take out
