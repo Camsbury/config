@@ -31,7 +31,7 @@
 
 (setq dante-methods-alist
       `((new-build "cabal.project.local" ("cabal" "new-repl" (or dante-target (dante-package-name) nil) "--builddir=dist/dante"))
-        (bare-cabal ,(lambda (d) (directory-files d t "..cabal$")) ("cabal" "new-repl"))
+        (bare-cabal ,(lambda (d) (directory-files d t "..cabal$")) ("cabal" "new-repl" (or dante-target (dante-package-name) nil) "--builddir=dist/dante"))
         (bare-ghci ,(lambda (_) t) ("ghci"))))
 
 ;; (setq-default
@@ -71,6 +71,6 @@
  ("r" #'dante-restart                    "dante restart")
  ("t" #'hlint-refactor-refactor-at-point "hlint point")
  ("T" #'hlint-refactor-refactor-buffer   "hlint buffer")
- ("y" #'dante-type-at))
+ ("y" #'dante-type-at                    "dante type"))
 
 (provide 'haskell-conf)
