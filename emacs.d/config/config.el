@@ -26,6 +26,7 @@
          evil-conf
          functions-conf
          git-conf
+         go-conf
          haskell-conf
          irc-conf
          js-conf

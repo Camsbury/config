@@ -13,6 +13,7 @@ let
     company
     company-cabal
     company-ghc
+    company-go
     company-jedi
     company-lsp
     counsel
@@ -55,6 +56,7 @@ let
     git-timemachine
     gnuplot
     gnuplot-mode
+    go-mode
     helm-dash
     hl-todo
     hlint-refactor
