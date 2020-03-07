@@ -74,19 +74,19 @@
     openvpn
     peek
     postgresql_11
-    (python36.withPackages (
-      pythonPackages: with pythonPackages;
-        [ isort
-          jedi
-          jupyter
-          jupyter_core
-          jupyter_client
-          mypy
-          pyflakes
-          pylint
-          yapf
-        ]
-    ))
+    # (python36.withPackages (
+    #   pythonPackages: with pythonPackages;
+    #     [ isort
+    #       jedi
+    #       jupyter
+    #       jupyter_core
+    #       jupyter_client
+    #       mypy
+    #       pyflakes
+    #       pylint
+    #       yapf
+    #     ]
+    # ))
     redshift
     ripgrep
     rural
