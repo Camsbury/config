@@ -1,0 +1,5 @@
+# name: unimplemented
+# key: b
+# expand-env: ((yas-indent-line 'fixed))
+# --
+unimplemented!($1)
