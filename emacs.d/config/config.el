@@ -42,6 +42,7 @@
          python-conf
          racket-conf
          rlang-conf
+         rust-conf
          scroll-conf
          search-conf
          shell-conf

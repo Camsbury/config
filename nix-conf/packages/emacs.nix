@@ -6,6 +6,7 @@ let
     avy
     benchmark-init
     buffer-move
+    cargo
     cider
     circe
     clj-refactor
@@ -51,6 +52,7 @@ let
     flycheck-dialyxir # elixir
     flycheck-elixir # elixir
     flycheck-mix # elixir
+    flycheck-rust
     forge
     general
     git-timemachine
@@ -94,12 +96,14 @@ let
     projectile-direnv
     pylint
     py-isort
+    racer
     racket-mode
     rainbow-delimiters
     rainbow-identifiers
     ranger
     restart-emacs
     rjsx-mode
+    rust-mode
     s
     slack
     slime

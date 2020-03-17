@@ -1,3 +1,5 @@
+(require 'bindings-conf)
+
 (general-def 'normal go-mode-map
  [remap empty-mode-leader] #'hydra-go/body
  )
