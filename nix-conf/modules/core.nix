@@ -43,7 +43,6 @@
       package = pkgs.pulseaudioFull;
     };
     bluetooth.enable = true;
-    opengl.driSupport32Bit = true;
   };
 
   i18n = {

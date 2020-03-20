@@ -5,4 +5,6 @@
     nvtop
     steam
   ];
+
+  hardware.opengl.driSupport32Bit = true;
 }
