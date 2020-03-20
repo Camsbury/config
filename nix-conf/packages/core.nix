@@ -39,16 +39,16 @@
     gnuplot
     gnutls
     google-cloud-sdk
-    (haskell.packages.ghc864.ghcWithPackages (
-      haskellPackages: with haskellPackages;
-      [
+    # (haskell.packages.ghc864.ghcWithPackages (
+    #   haskellPackages: with haskellPackages;
+    #   [
       # Agda
-        Cabal_2_4_1_0
-        apply-refact
-        ghcid
-        hlint
-      ]
-    ))
+    #     Cabal_2_4_1_0
+    #     apply-refact
+    #     ghcid
+    #     hlint
+    #   ]
+    # ))
     htop
     httpie
     inotify-tools
