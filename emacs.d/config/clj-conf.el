@@ -114,12 +114,13 @@ If invoked with a prefix ARG eval the expression after inserting it"
   ("a" #'cider-apropos               "apropos")
   ("d" #'cider-doc                   "documentation")
   ("D" #'cider-find-dwim             "jump to def")
-  ("e" #'cider-inspect-last-result   "inspect last result")
+  ("e" #'cider-switch-to-repl-buffer "repl")
+  ;; ("e" #'cider-inspect-last-result   "inspect last result")
   ("l" #'cider-load-buffer           "load buffer")
   ("n" #'cider-eval-ns-form          "eval ns")
   ("o" #'clj-narrow-defun            "focus on def")
   ("j" #'hydra-clj-jack-in/body      "hydra cider-jack-in")
-  ("t" #'cider-switch-to-repl-buffer "repl")
+  ("t" #'cider-test-run-ns-tests     "run repl tests")
   ("y" #'cider-copy-last-result      "copy last result"))
 ; cider-browse-spec
 ; cider-switch-to-repl-buffer
