@@ -10,6 +10,8 @@
   ];
 
   boot = {
+    cleanTmpDir = true;
+    kernelPackages = pkgs.linuxPackages_latest;
     loader = {
       grub = {
         device = "nodev";
@@ -20,7 +22,6 @@
       };
       # efi.canTouchEfiVariables = true;
     };
-    kernelPackages = pkgs.linuxPackages_latest;
   };
 
   environment = {

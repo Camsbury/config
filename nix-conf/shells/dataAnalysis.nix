@@ -6,11 +6,17 @@ in
     myPython =
       python3.withPackages (
         pythonPackages: with pythonPackages;
-          [ ipython
+          [ isort
+            ipython
+            mypy
             pandas
+            pyflakes
+            pylint
+            jedi
             jupyter
             jupyter_core
             jupyter_client
+            yapf
           ]
       );
   in

@@ -9,7 +9,6 @@
     audacity
     autojump
     bat
-    beam.packages.erlangR22.elixir_1_9
     binutils
     brave
     chromium
@@ -39,26 +38,15 @@
     gnuplot
     gnutls
     google-cloud-sdk
-    # (haskell.packages.ghc864.ghcWithPackages (
-    #   haskellPackages: with haskellPackages;
-    #   [
-      # Agda
-    #     Cabal_2_4_1_0
-    #     apply-refact
-    #     ghcid
-    #     hlint
-    #   ]
-    # ))
     htop
     httpie
     inotify-tools
-    # irony-server
     jq
     keybase
     keybase-gui
     keychain
     kubectl
-    leiningen
+    # leiningen
     libnotify
     loc
     man-pages
@@ -68,25 +56,12 @@
     nodePackages.prettier
     notify-osd # to upgrade...
     oh-my-zsh
-    openjdk
+    # openjdk
     openssh
     openssl
     openvpn
     peek
     postgresql_11
-    # (python36.withPackages (
-    #   pythonPackages: with pythonPackages;
-    #     [ isort
-    #       jedi
-    #       jupyter
-    #       jupyter_core
-    #       jupyter_client
-    #       mypy
-    #       pyflakes
-    #       pylint
-    #       yapf
-    #     ]
-    # ))
     redshift
     ripgrep
     rural
@@ -104,7 +79,7 @@
     tmux
     transmission
     tree
-    typora
+    typora # markdown
     udisks # manage drives
     unzip
     veracrypt
