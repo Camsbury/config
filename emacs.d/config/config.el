@@ -11,6 +11,7 @@
          alda-conf
          agda-conf
          autocomplete-conf
+         behavior-conf
          bindings-conf
          browser-conf
          c-conf
