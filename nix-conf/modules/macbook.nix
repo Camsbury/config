@@ -5,7 +5,10 @@ let
 in
   {
     imports = [
-      "${import ../utils/hardware.nix}/apple"
+      # "${import ../utils/hardware.nix}/apple/macbook-pro/11-5"
+      "${import ../utils/hardware.nix}/apple/macbook-pro"
+      "${import ../utils/hardware.nix}/common/pc/laptop/ssd"
+      <nixpkgs/nixos/modules/hardware/network/broadcom-43xx.nix>
     ];
 
     services = {
@@ -21,11 +24,9 @@ in
         }];
       };
 
-      udev.extraRules =
-        # Disable XHC1 wakeup signal to avoid resume getting triggered some time
-        # after suspend. Reboot required for this to take effect.
-        lib.optionalString
-          (lib.versionAtLeast kernelPackages.kernel.version "3.13")
-          ''SUBSYSTEM=="pci", KERNEL=="0000:00:14.0", ATTR{power/wakeup}="disabled"'';
+      # USB subsystem wakes up MBP right after suspend unless we disable it.
+      udev.extraRules = lib.mkDefault ''
+        SUBSYSTEM=="pci", KERNEL=="0000:00:14.0", ATTR{power/wakeup}="disabled"
+      '';
     };
   }
