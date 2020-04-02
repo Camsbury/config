@@ -1,0 +1,7 @@
+# name: for
+# key: for
+# expand-env: ((yas-indent-line 'fixed))
+# --
+for (${1:size_t} ${2:i} = ${3:0}; $4; ${5:++i}) {
+  $6
+}

@@ -13,6 +13,7 @@ let
     command-log-mode
     company
     company-cabal
+    company-c-headers
     company-ghc
     company-go
     company-jedi
