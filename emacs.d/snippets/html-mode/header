@@ -1,0 +1,7 @@
+# name: header
+# key: h
+# expand-env: ((yas-indent-line 'fixed))
+# --
+<h${1:1} $2>
+$3
+</h$1>

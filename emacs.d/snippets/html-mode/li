@@ -1,0 +1,7 @@
+# name: li
+# key: li
+# expand-env: ((yas-indent-line 'fixed))
+# --
+<li $1>
+$2
+</li>

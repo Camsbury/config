@@ -29,6 +29,7 @@
          git-conf
          go-conf
          haskell-conf
+         html-conf
          irc-conf
          js-conf
          lisp-conf

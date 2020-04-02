@@ -1,0 +1,5 @@
+# name: value
+# key: v
+# expand-env: ((yas-indent-line 'fixed))
+# --
+value="$1"

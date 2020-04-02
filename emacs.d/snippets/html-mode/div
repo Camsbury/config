@@ -1,0 +1,7 @@
+# name: div
+# key: d
+# expand-env: ((yas-indent-line 'fixed))
+# --
+<div $1>
+$2
+</div>

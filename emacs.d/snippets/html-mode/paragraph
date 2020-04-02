@@ -1,0 +1,7 @@
+# name: paragraph
+# key: p
+# expand-env: ((yas-indent-line 'fixed))
+# --
+<p $1>
+$2
+</p>

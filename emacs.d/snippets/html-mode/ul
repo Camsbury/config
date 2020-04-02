@@ -1,0 +1,7 @@
+# name: ul
+# key: ul
+# expand-env: ((yas-indent-line 'fixed))
+# --
+<ul $1>
+$2
+</ul>

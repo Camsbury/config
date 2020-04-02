@@ -1,0 +1,5 @@
+# name: class
+# key: cl
+# expand-env: ((yas-indent-line 'fixed))
+# --
+class="$1"
