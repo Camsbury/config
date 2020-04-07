@@ -1,7 +1,0 @@
-# name: if
-# key: if
-# expand-env: ((yas-indent-line 'fixed))
-# --
-if ($1) {
-  $2
-}
