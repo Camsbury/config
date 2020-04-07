@@ -4,16 +4,9 @@ in
   import (fetchFromGitHub {
     owner = "NixOS";
     repo  = "nixpkgs-channels";
-    # rev    = "2436c27541b2f52deea3a4c1691216a02152e729";
-    # sha256 = "0p98dwy3rbvdp6np596sfqnwlra11pif3rbdh02pwdyjmdvkmbvd";
-    # rev    = "f97746ba2726128dcf40134837ffd13b4042e95d";
-    # sha256 = "1ramsxyv4ajkc2jmk4cv8jnzlrbqq1hswigw9dv29hz60scfzv4m";
-    rev    = "d942688fc137169b577e7bf0c09e01a2ac919b73";
-    sha256 = "01072zihcgi0vwld69ffcr08na88703wy6plxp5cb3n1wysfx81g";
+    # nixos-unstable
+    # rev = "ae6bdcc53584aaf20211ce1814bea97ece08a248";
+    # sha256 = "0hjhznns1cxgl3hww2d5si6vhy36pnm53hms9h338v6r633dcy77";
+    rev = "05f0934825c2a0750d4888c4735f9420c906b388";
+    sha256 = "1g8c2w0661qn89ajp44znmwfmghbbiygvdzq0rzlvlpdiz28v6gy";
   })
-  # fetchFromGitHub {
-  #   owner = "NixOS";
-  #   repo  = "nixpkgs-channels";
-  #   rev    = "nixos-unstable";
-  #   sha256 = "?";
-  # }
