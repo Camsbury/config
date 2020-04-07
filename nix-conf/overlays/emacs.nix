@@ -8,6 +8,17 @@ let
   compileEmacsFiles = basePkgs.callPackage ./emacsBuilder.nix;
   emacsOverrides = eSelf: eSuper:
     {
+      astyle = compileEmacsFiles {
+        name = "astyle.el";
+        src = builtins.fetchurl {
+          url = https://raw.githubusercontent.com/storvik/emacs-astyle/04ff2941f08c4b731fe6a18ee1697436d1ca1cc0/astyle.el;
+          sha256 = "1gvgijb810n8p954zswqj6vcl746x4zmqq7gsw13wykf04aqppgf";
+        };
+        buildInputs = with eSelf.melpaPackages; [
+          reformatter
+        ];
+      };
+
       org-clubhouse = compileEmacsFiles {
         name = "org-clubhouse.el";
         src = builtins.fetchurl {

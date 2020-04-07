@@ -47,7 +47,6 @@ let
     f
     flycheck
     flycheck-haskell
-    # flycheck-irony
     flycheck-popup-tip
     flycheck-credo # elixir
     flycheck-dialyxir # elixir
@@ -64,8 +63,6 @@ let
     hl-todo
     hlint-refactor
     hydra
-    # irony
-    # irony-eldoc
     ivy
     ivy-hydra
     ivy-xref
@@ -102,6 +99,7 @@ let
     rainbow-delimiters
     rainbow-identifiers
     ranger
+    reformatter # astyle dep
     restart-emacs
     rjsx-mode
     rust-mode
@@ -127,6 +125,7 @@ let
   ];
   others = with epkgs; [
     agda2-mode
+    astyle
     company-postgresql
     etymology-of-word
     key-quiz

@@ -1,3 +1,5 @@
+(require 'astyle) ; ensure astyle is available
+
 (setq c-basic-offset 2)
 (setq c-basic-indent 2)
 
@@ -10,6 +12,7 @@
       (progn
         (setq company-backends (delete 'company-clang company-backends))
         (add-to-list 'company-backends 'company-c-headers)))
+    'astyle-on-save-mode
     'flycheck-mode
     'eldoc-mode
     'rainbow-delimiters-mode))
