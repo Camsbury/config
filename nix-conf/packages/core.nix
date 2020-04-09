@@ -45,7 +45,6 @@
     keybase-gui
     keychain
     kubectl
-    # leiningen
     libnotify
     loc
     man-pages
@@ -55,7 +54,6 @@
     nodePackages.prettier
     notify-osd # to upgrade...
     oh-my-zsh
-    # openjdk
     openssh
     openssl
     openvpn
@@ -63,7 +61,6 @@
     postgresql_11
     redshift
     ripgrep
-    rural
     shellcheck
     signal-desktop
     slack

@@ -19,19 +19,6 @@ let
         ];
       };
 
-      org-clubhouse = compileEmacsFiles {
-        name = "org-clubhouse.el";
-        src = builtins.fetchurl {
-          url = https://raw.githubusercontent.com/urbint/org-clubhouse/master/org-clubhouse.el;
-          sha256 = "1jckhdmq5jn95l0wyydj13k7c121yf921mm9k869ac8jsqrxpgz4";
-        };
-        buildInputs = with eSelf.melpaPackages; [
-          dash
-          dash-functional
-          s
-        ];
-      };
-
       company-postgresql = compileEmacsFiles {
         name = "company-postgresql.el";
         src = builtins.fetchurl {
@@ -57,14 +44,6 @@ let
         ];
       };
 
-      key-quiz = compileEmacsFiles {
-        name = "key-quiz.el";
-        src = builtins.fetchurl {
-          url = https://raw.githubusercontent.com/federicotdn/key-quiz/master/key-quiz.el;
-          sha256 = "1a7sgvzc72ab6gi9mlq8d0im09y4v2af5j58cpfa0npgfmp4rqw5";
-        };
-      };
-
       nix-update = compileEmacsFiles {
         name = "nix-update.el";
         src = builtins.fetchurl {
@@ -72,33 +51,6 @@ let
           sha256 = "17i132sicf247c18i192nwk59fyqbxi4z5gzw5fnc49pmh2fpbj7";
         };
       };
-
-
-
-      # cider = eSelf.melpaBuild {
-      #   pname = "cider";
-      #   version = "20190226.1059";
-      #   src = super.fetchFromGitHub {
-      #     owner = "clojure-emacs";
-      #     repo = "cider";
-      #     rev = "dafb08cd429e622fb49aaf84df8491d04d8512f8";
-      #     sha256 = "1sw16474i2kav2bvg9r7zpfwkcbj3paymxi0jn9pdhgjyfm9bssk";
-      #   };
-      #   recipe = super.fetchurl {
-      #     url = "https://github.com/melpa/melpa/blob/master/recipes/cider";
-      #     sha256 = "0si9yyxyb681v4lxxc789xwdvk55gallwxbv3ldqfq4vjf0di0im";
-      #     name = "recipe";
-      #   };
-      #   packageRequires = with eSelf; [
-      #     emacs
-      #     pkg-info
-      #     sesman
-      #   ];
-      #   meta = {
-      #     homepage = "https://melpa.org/#/cider";
-      #     license = super.stdenv.lib.licenses.free;
-      #   };
-      # };
 
       # slack = eSelf.melpaBuild {
       #   pname = "slack";

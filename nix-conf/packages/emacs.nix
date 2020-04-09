@@ -128,9 +128,6 @@ let
     astyle
     company-postgresql
     etymology-of-word
-    key-quiz
-    org-clubhouse
-    # slack
   ];
 in
   melpas ++ elpas ++ others
