@@ -2,21 +2,6 @@
 (require 'functions-conf)
 (require 'yapfify)
 
-;; /nix/store/4igq48l69gpfmjg0k2hjn5zk8iil6h7f-python3.6-yapf-0.27.0/bin/yapf
-
-(setq yapf-path
-      "/nix/store/nbfbyphfdx39k4dyiqs0ziq7ih79d8gs-python3-3.6.9-env/bin/yapf")
-
-
-
-(defun yapfify-call-bin (input-buffer output-buffer start-line end-line)
-  "Call process yapf on INPUT-BUFFER saving the output to OUTPUT-BUFFER.
-
-Return the exit code.  START-LINE and END-LINE specify region to
-format."
-  (with-current-buffer input-buffer
-    (call-process-region (point-min) (point-max) yapf-path nil output-buffer nil "-l" (concat (number-to-string start-line) "-" (number-to-string end-line)))))
-
 (flycheck-define-checker
     python-mypy ""
     :command ("mypy"
@@ -35,9 +20,8 @@ format."
                   (lambda ()
                     (make-local-variable 'hydra-leader/keymap)
                     (define-key hydra-leader/keymap (kbd "m") 'hydra-python/body)
-                    (setq py-indent-offset 4)
-                    (setq flycheck-python-pylint-executable "pylint")
-                    (setq flycheck-pylintrc "~/urbint/grid/backend/src/.pylintrc")))
+                    (setq python-indent-offset 4)
+                    (setq flycheck-python-pylint-executable "pylint")))
 
 
 (general-def 'normal python-mode-map
