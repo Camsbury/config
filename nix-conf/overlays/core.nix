@@ -16,28 +16,13 @@ in
                 }/op_linux_amd64_v${
                   super._1password.version
                 }.zip";
-              sha256 = "03m0vxhghzf4zq7k2f1afkc5ixf0qwiiypqjfjgpqpfng7g9ang7";
+              sha256 = "1sjv5qrc80fk9yz0cn2yj0cdm47ab3ch8n9hzj9hv9d64gjv4w8n";
               stripRoot = false;
             };
           }
         );
 
         cachix = cachixBall.cachix;
-
-        python36 = super.python36.override {
-          packageOverrides = (
-            pythonSelf: pythonSuper:
-              let
-                buildPythonPackage = pythonSuper.buildPythonPackage;
-                fetchPypi = pythonSuper.fetchPypi;
-              in
-                {
-                  pylint = pythonSuper.pylint.overridePythonAttrs (
-                    oldAttrs: { doCheck = false; }
-                  );
-                }
-          );
-        };
 
         xndr = super.callPackage (builtins.fetchTarball
           "https://github.com/Camsbury/xndr/archive/094be18.tar.gz") {pkgs = self;};
@@ -48,7 +33,7 @@ in
           inherit dropbox;
           inherit slack;
           inherit spotify; # non-free
-          inherit steam;
+          # inherit steam;
         })
       )
       (import ./emacs.nix)

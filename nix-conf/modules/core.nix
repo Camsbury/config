@@ -11,16 +11,15 @@
 
   boot = {
     cleanTmpDir = true;
-    kernelPackages = pkgs.linuxPackages_latest;
     loader = {
       grub = {
         device = "nodev";
         enable = true;
         efiSupport = true;
-        useOSProber = true;
+        # useOSProber = true;
         version = 2;
       };
-      # efi.canTouchEfiVariables = true;
+      efi.canTouchEfiVariables = true;
     };
   };
 
@@ -46,12 +45,16 @@
     bluetooth.enable = true;
   };
 
+  console = {
+    font = "Go Mono";
+    useXkbConfig = true;
+  };
+
   i18n = {
-    consoleFont = "Go Mono";
-    consoleUseXkbConfig = true;
     defaultLocale = "en_US.UTF-8";
   };
 
+  # networking.wireless.enable = true;
   networking.networkmanager.enable = true;
 
   nix.nixPath = [
@@ -61,8 +64,8 @@
     "/nix/var/nix/profiles/per-user/root/channels"
   ];
 
-  nixpkgs = {
-    config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
   };
 
   programs = {
@@ -81,12 +84,9 @@
 
       layout = "us";
 
-      displayManager.slim = {
-        enable = true;
-        theme = pkgs.fetchurl {
-          url = "https://github.com/edwtjo/nixos-black-theme/archive/v1.0.tar.gz";
-          sha256 = "13bm7k3p6k7yq47nba08bn48cfv536k4ipnwwp1q1l2ydlp85r9d";
-        };
+      displayManager = {
+        sddm.enable = true;
+        defaultSession = "none+xmonad";
       };
 
       autoRepeatDelay = 250;
@@ -103,7 +103,6 @@
             haskellPackages.xmonad-extras
           ];
         };
-        default = "xmonad";
       };
     };
   };

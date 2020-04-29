@@ -1,6 +1,11 @@
 { config, pkgs, ... }:
 
 {
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "xpdf-4.02"
+  ];
+
   environment.systemPackages = with pkgs; [
     _1password
     ack
@@ -84,6 +89,7 @@
     wget
     xclip # copy paste stuff
     xkb-switch
+    xorg.libXft # XMonad
     xorg.xbacklight
     xorg.xmodmap
     xpdf
