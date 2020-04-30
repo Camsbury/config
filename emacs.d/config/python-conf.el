@@ -4,9 +4,7 @@
 
 (flycheck-define-checker
     python-mypy ""
-    :command ("mypy"
-              "--python-version" "3.6"
-              source-original)
+    :command ("mypy" source-original)
     :error-patterns
     ((error line-start (file-name) ":" line ": error:" (message) line-end))
     :modes python-mode)

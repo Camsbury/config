@@ -1,7 +1,6 @@
 (require 'bindings-conf)
 ;; (require 'company-sql-conf)
 (require 'dash)
-;; (require 'org-clubhouse)
 (require 'ob-async)
 (require 'company-postgresql)
 ;; (require 'ob-ipython)
@@ -91,29 +90,6 @@
                      org-level-6 org-level-7 org-level-8)
                    '( "#7FB6FF" "#97D164" "#B9D6F2" "#62FCC4" "#5D85BA"
                       "#618640" "#A9C3DC" "#368A6B"))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; org-clubhouse
-
-;; (setq org-clubhouse-team-name "urbint"
-;;       org-clubhouse-state-alist
-;;         '(("SOMEDAY"   . "Some Day")
-;;           ("PROPOSED"  . "Proposed")
-;;           ("SCHEDULED" . "Scheduled")
-;;           ("ACTIVE"    . "In Development")
-;;           ("REVIEW"    . "Review")
-;;           ("DONE"      . "Ready for Testing")
-;;           ("DEPLOYED"  . "Deployed")
-;;           ("ABANDONED" . "Abandoned")))
-;; 
-;; (general-add-hook
-;;  'org-mode-hook
-;;  (list #'org-clubhouse-mode
-;;        'linum-mode
-;;        (lambda ()
-;;          ;; (add-to-list 'company-backends 'company-ob-postgresql)
-;;          (org-faces-init))))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org functions
