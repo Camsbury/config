@@ -10,6 +10,8 @@
                   (list 'paredit-mode
                         'lispyville-mode))
 
+(setq cider-repl-display-help-banner nil)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Functions
