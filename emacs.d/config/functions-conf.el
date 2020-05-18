@@ -109,6 +109,11 @@
  "~/Dropbox/lxndr/queue.org"
  "Opens my queue")
 
+(open-file
+ work
+ "~/Dropbox/lxndr/work.org"
+ "Opens my work org")
+
 (defun open-new-tmp (arg)
   "Opens a new tmp file"
   (interactive "sFile name: ")
