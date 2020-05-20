@@ -94,7 +94,6 @@
     xorg.xmodmap
     xpdf
     xss-lock
-    yarn
     zip
     zsh
   ];
