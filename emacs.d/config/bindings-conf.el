@@ -55,6 +55,7 @@
 (defhydra hydra-nav (:exit t)
   "nav to"
   ("b" #'open-books                        "book notes")
+  ("d" #'open-work                         "work org")
   ("D" #'open-dump                         "brain dump")
   ("e" #'counsel-projectile-find-file      "project file")
   ("h" #'open-queue                        "queue org")
