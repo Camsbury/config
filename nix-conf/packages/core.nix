@@ -49,6 +49,7 @@
     keybase
     keybase-gui
     keychain
+    killall
     kubectl
     libnotify
     loc
