@@ -96,7 +96,6 @@
     xss-lock
     yarn
     zip
-    zoom-us
     zsh
   ];
 }

@@ -7,5 +7,6 @@
     ../modules/laptop.nix
     ../modules/non-ergodox.nix
     ../modules/ssd.nix
+    ../modules/tract.nix
   ];
 }
