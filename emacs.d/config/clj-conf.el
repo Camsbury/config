@@ -1,14 +1,22 @@
 (require 'bindings-conf)
 (require 'evil)
 (require 'lisp-conf)
+(require 'flycheck-clj-kondo)
 
 (general-add-hook 'clojure-mode-hook
                   (list 'paredit-mode
-                        'lispyville-mode))
+                        'lispyville-mode
+                        'flycheck-mode))
+
+(general-add-hook 'clojurec-mode-hook
+                  (list 'paredit-mode
+                        'lispyville-mode
+                        'flycheck-mode))
 
 (general-add-hook 'clojurescript-mode-hook
                   (list 'paredit-mode
-                        'lispyville-mode))
+                        'lispyville-mode
+                        'flycheck-mode))
 
 (setq cider-repl-display-help-banner nil)
 

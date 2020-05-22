@@ -48,6 +48,7 @@ let
     flycheck
     flycheck-haskell
     flycheck-popup-tip
+    flycheck-clj-kondo
     flycheck-credo # elixir
     flycheck-dialyxir # elixir
     flycheck-elixir # elixir

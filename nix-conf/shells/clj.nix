@@ -6,5 +6,7 @@ in
     buildInputs = [
       pkgs.leiningen
       pkgs.openjdk
+      pkgs.clojure
+      pkgs.clj-kondo
     ];
   }
