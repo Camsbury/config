@@ -3,7 +3,6 @@
 (require 'dash)
 (require 'ob-async)
 (require 'company-postgresql)
-;; (require 'ob-ipython)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org todos
@@ -50,11 +49,6 @@
     (sqlite . t)
     (R . t)
     (http . t)))
-
-;; only enable ipython ob on linux for now
-(when (string-equal system-type "gnu/linux")
-    (setq org-babel-enabled-languages
-          (cons '(ipython . t) org-babel-enabled-languages)))
 
 ;; load the languages into org-babel
 (org-babel-do-load-languages
