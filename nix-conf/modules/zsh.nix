@@ -202,8 +202,8 @@
       mt = "mix test";
       md = "mix deps.get && mix deps.compile";
       mdi = "mix deps";
-      # urbint vpn
-      uvpn = "urbint-vpn";
+      # clojure
+      lrp = "lein release :patch";
     };
   };
 }
