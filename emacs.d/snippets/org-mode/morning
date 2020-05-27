@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# key: mr
+# name: morning
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+* [ ] Morning Routine
+** [ ] [[https://outlook.office.com/mail/inbox][Email]]
+** [ ] [[https://outlook.office.com/calendar/view/workweek][Calendar]]
+** [ ] Slack
+** [ ] [[https://tractsoft.atlassian.net/secure/RapidBoard.jspa?rapidView=71][JIRA]]
+** [ ] [[https://github.com/notifications?query=reason%3Aassign+reason%3Amention+reason%3Ateam-mention+reason%3Areview-requested+reason%3Aauthor+reason%3Aparticipating][Github]]
