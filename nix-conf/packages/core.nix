@@ -19,6 +19,7 @@
     chromium
     curl
     direnv
+    discord
     disper
     dmenu
     docker
