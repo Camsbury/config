@@ -1,0 +1,7 @@
+# name: defnp
+# key: fnp
+# expand-env: ((yas-indent-line 'fixed))
+# --
+(defn- ${1:f-name}
+  [$2]
+  $3)

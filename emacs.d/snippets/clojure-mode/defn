@@ -2,6 +2,7 @@
 # key: fn
 # expand-env: ((yas-indent-line 'fixed))
 # --
-(defn ${1:f-name} [$2]
+(defn ${1:f-name}
   "${3:Document me!}"
+  [$2]
   $4)

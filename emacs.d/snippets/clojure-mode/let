@@ -1,0 +1,6 @@
+# name: let
+# key: let
+# expand-env: ((yas-indent-line 'fixed))
+# --
+(let [$1]
+  $2)
