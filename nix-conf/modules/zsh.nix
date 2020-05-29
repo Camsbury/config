@@ -204,6 +204,9 @@
       mdi = "mix deps";
       # clojure
       lrp = "lein release :patch";
+      # foreman
+      fs = "foreman start";
+      fsu = ''foreman start -m "all=1,ui=0"'';
     };
   };
 }
