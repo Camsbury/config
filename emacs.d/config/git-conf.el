@@ -1,4 +1,5 @@
 (require 'bindings-conf)
+(require 'functions-conf)
 (require 'magit)
 
 (general-add-hook 'magit-mode-hook
@@ -13,7 +14,6 @@
    (concat "mkdir -p ~/projects/" user " && "
     "cd ~/projects/" user " && "
     "git clone git@github.com:" user "/" repo ".git")))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Add smart upstream

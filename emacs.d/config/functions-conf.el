@@ -56,6 +56,28 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Git Utils
+
+(defun reset-repo-master (repo-name)
+  "reset the repo's master branch to origin/master"
+  (shell-command
+   (concat
+    "cd \"$(git rev-parse --show-toplevel)\" &&"
+    "cd .. &&"
+    "cd " repo-name " &&"
+    "git add . &&"
+    "git stash &&"
+    "git checkout master &&"
+    "git fetch &&"
+    "git reset --hard origin/master")))
+
+(defun reset-working-repos ()
+  "reset all working repos to origin/master"
+  (interactive)
+  (-each working-repos #'reset-repo-master))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Nav Functions
 
 (defmacro open-file (name path &optional desc)
