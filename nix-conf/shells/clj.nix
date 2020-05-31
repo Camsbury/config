@@ -1,12 +1,19 @@
 let
   pkgs = import <nixpkgs> {};
+  kondoDer = import ../derivations/clj-kondo;
+  clj-kondo = with builtins; with pkgs; callPackage kondoDer {
+    inherit stdenv;
+    inherit fetchurl;
+    inherit pkgs;
+  };
 in
-  pkgs.mkShell {
+  with pkgs;
+  mkShell {
     name = "clojureShell";
     buildInputs = [
-      pkgs.leiningen
-      pkgs.openjdk
-      pkgs.clojure
-      pkgs.clj-kondo
+      leiningen
+      openjdk
+      clojure
+      clj-kondo
     ];
   }
