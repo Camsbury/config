@@ -13,6 +13,7 @@ emacs.d/transient/
 nov-places
 private.nix
 private-conf.el
+private-init.el
 result
 *xmonad-x86_64-linux
 *xmonad.errors

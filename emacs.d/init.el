@@ -17,6 +17,8 @@
 (scroll-bar-mode -1)
 
 (require 'benchmark-init)
+(when (load "private-init.el")
+  (require 'private-init))
 (add-hook 'after-init-hook
           (lambda () (require 'config))
           'benchmark-init/deactivate)
