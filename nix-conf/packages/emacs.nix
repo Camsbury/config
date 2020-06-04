@@ -3,6 +3,7 @@ epkgs:
 let
   melpas = with epkgs.melpaPackages; [
     alda-mode
+    all-the-icons-ivy-rich
     avy
     benchmark-init
     buffer-move
@@ -129,6 +130,7 @@ let
     astyle
     company-postgresql
     etymology-of-word
+    ivy-cider
   ];
 in
   melpas ++ elpas ++ others

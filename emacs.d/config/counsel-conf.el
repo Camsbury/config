@@ -2,6 +2,8 @@
 (require 'counsel-projectile)
 
 (ivy-mode)
+(all-the-icons-ivy-rich-mode 1)
+(ivy-rich-mode 1)
 (recentf-mode)
 (projectile-mode)
 (minibuffer-electric-default-mode)

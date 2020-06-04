@@ -1,9 +1,6 @@
 { lib, config, pkgs, ... }:
 
 {
-  # environment.variables = {
-    # FZF = [ "${pkgs.fzf}/share/fzf" ];
-  # };
   programs.zsh = {
     enable = true;
 
@@ -15,11 +12,6 @@
       source "${pkgs.google-cloud-sdk}/google-cloud-sdk/path.zsh.inc"
       source $HOME/.helpers.zsh.inc
       if [ -f "$HOME/.secrets.zsh.inc" ]; then source "$HOME/.secrets.zsh.inc" ; fi
-
-      ################################################################################
-      # drone env variables
-      export DRONE_TOKEN=$DRONE_TOKEN_PRIVATE
-      export DRONE_SERVER=https://ci.urbinternal.com
 
       ################################################################################
       # set up keychain

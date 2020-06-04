@@ -44,6 +44,20 @@ let
         ];
       };
 
+      ivy-cider = compileEmacsFiles {
+        name = "ivy-cider.el";
+        src = builtins.fetchurl {
+          url = https://raw.githubusercontent.com/rschmukler/ivy-cider/206e12f3c0892539de0ec91667863effe1da878b/ivy-cider.el;
+          sha256 = "0wiikh7l59c48bac6nlakai4p0dpi4qy7dlc6j2sr2gkznh5y5j0";
+        };
+        buildInputs = with eSelf.melpaPackages; [
+          all-the-icons
+          cider
+          ivy
+          ivy-rich
+        ];
+      };
+
       nix-update = compileEmacsFiles {
         name = "nix-update.el";
         src = builtins.fetchurl {
