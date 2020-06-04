@@ -3,10 +3,6 @@
 
 (setq load-path
       (cons "~/.emacs.d/config" load-path))
-(when (memq window-system '(ns))
-  (exec-path-from-shell-initialize)
-  (setq mac-command-modifier 'meta
-        mac-option-modifier 'super))
 (when (memq window-system '(x))
   (keychain-refresh-environment))
 
@@ -18,7 +14,7 @@
 
 (require 'benchmark-init)
 (when (load "private-init.el")
-  (require 'private-init))
+ (require 'private-init))
 (add-hook 'after-init-hook
           (lambda () (require 'config))
           'benchmark-init/deactivate)
