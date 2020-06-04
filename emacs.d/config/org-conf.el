@@ -48,7 +48,8 @@
     (sql . t)
     (sqlite . t)
     (R . t)
-    (http . t)))
+    (http . t)
+    (ein . t)))
 
 ;; load the languages into org-babel
 (org-babel-do-load-languages
