@@ -3,20 +3,23 @@
 (require 'lisp-conf)
 (require 'flycheck-clj-kondo)
 
-(general-add-hook 'clojure-mode-hook
-                  (list 'paredit-mode
-                        'lispyville-mode
-                        'flycheck-mode))
 
-(general-add-hook 'clojurec-mode-hook
-                  (list 'paredit-mode
-                        'lispyville-mode
-                        'flycheck-mode))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Setup
 
-(general-add-hook 'clojurescript-mode-hook
-                  (list 'paredit-mode
-                        'lispyville-mode
-                        'flycheck-mode))
+(-map
+ (lambda (mode)
+   (general-add-hook
+    mode
+    (list 'paredit-mode
+          'lispyville-mode
+          'flycheck-mode)))
+ '(clojure-mode-hook
+   clojurec-mode-hook
+   clojurescript-mode-hook))
+
+(with-eval-after-load 'cider-mode
+  (require 'ivy-cider))
 
 (setq cider-repl-display-help-banner nil)
 
@@ -112,8 +115,8 @@ If invoked with a prefix ARG eval the expression after inserting it"
 
 (general-def 'normal clojure-mode-map
  [remap empty-mode-leader]    #'hydra-clj/body
- [remap evil-lookup]          #'cider-doc
- [remap evil-goto-definition] #'cider-find-dwim
+ [remap evil-goto-definition] #'cider-doc
+ [remap dumb-jump-go]         #'cider-find-dwim
  [remap cider-inspector-pop]  #'evil-previous-visual-line)
 
 (general-define-key :keymaps 'clojure-mode-map
@@ -121,7 +124,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
 
 (defhydra hydra-clj (:exit t)
   "clojure-mode"
-  ("a" #'cider-apropos               "apropos")
+  ("a" #'ivy-cider-apropos           "apropos")
   ("d" #'cider-doc                   "documentation")
   ("D" #'cider-find-dwim             "jump to def")
   ("e" #'cider-switch-to-repl-buffer "repl")
@@ -130,6 +133,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
   ("n" #'cider-eval-ns-form          "eval ns")
   ("o" #'clj-narrow-defun            "focus on def")
   ("j" #'hydra-clj-jack-in/body      "hydra cider-jack-in")
+  ("k" #'clojure-move-to-let         "move to let")
   ("t" #'cider-test-run-ns-tests     "run repl tests")
   ("y" #'cider-copy-last-result      "copy last result"))
 ; cider-browse-spec
