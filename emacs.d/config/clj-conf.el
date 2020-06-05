@@ -22,6 +22,7 @@
   (require 'ivy-cider))
 
 (setq cider-repl-display-help-banner nil)
+(setq cljr-warn-on-eval nil)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -129,6 +130,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
   ("D" #'cider-find-dwim             "jump to def")
   ("e" #'cider-switch-to-repl-buffer "repl")
   ;; ("e" #'cider-inspect-last-result   "inspect last result")
+  ("f" #'cljr-find-usages            "find refs")
   ("l" #'cider-load-buffer           "load buffer")
   ("n" #'cider-eval-ns-form          "eval ns")
   ("o" #'clj-narrow-defun            "focus on def")
