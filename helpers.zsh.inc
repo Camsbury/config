@@ -192,11 +192,3 @@ function op-retrieve-tripwire() {
 function timer() {
   $(sleep "$1" && notify-send "$2" && espeak "$2" 2>/dev/null) &
 }
-
-################################################################################
-# Urbint VPN
-
-# come up with a nice way to put this in the bg while passing these args later
-function urbint-vpn() {
-  sudo openvpn --config ~/urbint.ovpn --auth-user-pass
-}

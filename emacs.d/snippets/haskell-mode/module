@@ -14,7 +14,7 @@
                              (car (last (split-string name "src")))))
                          (file-name-nondirectory name))))`}
 -- Description: $2
--- Maintainers: Cameron Kingsbury <cameron@urbint.com>
+-- Maintainers: Cameron Kingsbury <camsbury7@gmail.com>
 -- Maturity: Draft
 --
 --

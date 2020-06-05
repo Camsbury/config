@@ -8,20 +8,6 @@ in
   {
     nixpkgs.overlays = [
       (self: super: {
-        _1password = super._1password.overrideAttrs (
-          oldAttrs: {
-            src = super.fetchzip {
-              url = "https://cache.agilebits.com/dist/1P/op/pkg/v${
-                  super._1password.version
-                }/op_linux_amd64_v${
-                  super._1password.version
-                }.zip";
-              sha256 = "1sjv5qrc80fk9yz0cn2yj0cdm47ab3ch8n9hzj9hv9d64gjv4w8n";
-              stripRoot = false;
-            };
-          }
-        );
-
         cachix = cachixBall.cachix;
 
         xndr = super.callPackage (builtins.fetchTarball

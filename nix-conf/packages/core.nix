@@ -7,7 +7,6 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    _1password
     ack
     ag
     anki

@@ -173,19 +173,12 @@
       take = "take-dir";
       zz = "source /etc/zshenv; source /etc/zshrc; source $HOME/.zshrc";
       xmrg = "xrdb -merge ~/.Xresources";
-      # 1Pass
-      opl = "op-list";
-      opp = "op-retrieve";
-      ops = ''eval $(op signin urbint)'';
-      opt = "op-retrieve-tripwire";
-      opv = "op-retrieve-vpn";
       # emacs
       emd = "emacs --debug-init";
       # yarn
       yin = "yarn install";
       ybw = "yarn build:watch";
       nprm = "rm -rf */node_modules";
-      ybwr = "cd ~/projects/urbint/grid && rm -rf */node_modules && yarn install && cd urbint-components && yarn build:watch";
       # Ergodox Flashing
       # qmk keyboard camerak
       ezs = "sudo teensy-loader-cli -vw --mcu atmega32u4";

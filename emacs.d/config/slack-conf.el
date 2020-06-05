@@ -14,7 +14,7 @@
 
 (general-add-hook 'slack-mode-hook
                   (slack-register-team
-                   :name "Urbint"
+                   :name "Example"
                    :default t
                    :client-id slack-client-id-private
                    :client-secret slack-client-secret-private
