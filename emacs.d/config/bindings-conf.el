@@ -16,14 +16,14 @@
 ;;; allows easy remapping in hydras
 (setq hydra-look-for-remap t)
 
-(defhydra hydra-describe (:exit t)
+(defhydra hydra-describe (:exit t :columns 5)
   "describe"
   ("k" #'describe-key      "key")
   ("f" #'describe-function "function")
   ("m" #'describe-mode     "mode")
   ("v" #'describe-variable "variable"))
 
-(defhydra hydra-config (:exit t)
+(defhydra hydra-config (:exit t :columns 5)
   "spawn config"
   ("b" #'spawn-bindings  "bindings")
   ("c" #'spawn-config    "config")
@@ -32,7 +32,7 @@
   ("o" #'spawn-emacs-nix "emacs.nix")
   ("f" #'spawn-functions "functions"))
 
-(defhydra hydra-spawn (:exit t)
+(defhydra hydra-spawn (:exit t :columns 5)
   "spawn"
   ("b" (spawnify #'open-books)                        "book notes")
   ("d" (spawnify #'open-work)                         "work org")
@@ -52,7 +52,7 @@
   ("t" (spawnify #'counsel-find-file)                 "file in dir")
   ("w" (spawnify #'eww-new)                           "web browser"))
 
-(defhydra hydra-nav (:exit t)
+(defhydra hydra-nav (:exit t :columns 5)
   "nav to"
   ("b" #'open-books                        "book notes")
   ("d" #'open-work                         "work org")
@@ -71,14 +71,14 @@
   ("t" #'counsel-find-file                 "file in dir")
   ("w" #'eww-new                           "web browser"))
 
-(defhydra hydra-git (:exit t)
+(defhydra hydra-git (:exit t :columns 5)
   "git"
   ("b" #'magit-blame                       "magit blame")
   ("s" #'magit-status                      "magit status")
   ("t" #'git-timemachine-toggle            "git time machine")
   ("l" #'github-clone                      "github clone"))
 
-(defhydra hydra-register (:exit t)
+(defhydra hydra-register (:exit t :columns 5)
   "set register"
   ("p" #'point-to-register                "save point")
   ("w" #'window-configuration-to-register "save window config"))
@@ -142,45 +142,43 @@
   ;; ("Z")
   )
 
-(defhydra hydra-visual-leader (:exit t)
+(defhydra hydra-visual-leader (:exit t :columns 5)
   "visual leader"
   ("m" #'empty-visual-mode-leader  "visual mode leader")
   ("o" #'narrow-and-zoom-in "narrow and zoom in")
   ("s" #'sort-lines         "sort lines"))
 
-(defhydra hydra-left-leader (:exit t)
+(defhydra hydra-left-leader (:exit t :columns 5)
   "left leader"
-  ("b" #'bookmark-set                     "set bookmark")
-  ("e" #'flycheck-previous-error          "previous error")
-  ("t" #'evil-prev-buffer                 "previous buffer")
-  ("f" #'text-scale-decrease              "zoom out")
-  ("r" #'hydra-register/body              "save point to register")
-  ;; ("r" #'undo-tree-save-state-to-register "mark undo tree")
-  ("n" #'buf-move-left                    "move window left")
-  ("x" #'org-previous-block))
+  ("b" #'list-bookmarks          "list bookmarks")
+  ("e" #'flycheck-previous-error "previous error")
+  ("t" #'evil-prev-buffer        "previous buffer")
+  ("f" #'text-scale-decrease     "zoom out")
+  ("r" #'hydra-register/body     "save point to register")
+  ("n" #'buf-move-left           "move window left")
+  ("x" #'org-previous-block      "previous org block"))
 
-(defhydra hydra-right-leader (:exit t)
+(defhydra hydra-right-leader (:exit t :columns 5)
   "right leader"
-  ("b" #'bookmark-jump                         "jump to bookmark")
-  ("e" #'flycheck-next-error                   "next error")
-  ("t" #'evil-next-buffer                      "next buffer")
-  ("f" #'text-scale-increase                   "zoom in")
-  ("r" #'jump-to-register                      "jump to register")
-  ;; ("r" #'undo-tree-restore-state-from-register "goto undo tree mark")
-  ("n" #'buf-move-right                        "move window right")
-  ("x" #'org-next-block))
+  ("b" #'counsel-bookmark    "jump to bookmark")
+  ("e" #'flycheck-next-error "next error")
+  ("t" #'evil-next-buffer    "next buffer")
+  ("f" #'text-scale-increase "zoom in")
+  ("r" #'jump-to-register    "jump to register")
+  ("n" #'buf-move-right      "move window right")
+  ("x" #'org-next-block      "next org block"))
 
 (general-define-key
- "s-x"     #'counsel-M-x
- "M-n"     #'goto-address-at-point
- "M-x"     #'counsel-M-x
+ "s-x"        #'counsel-M-x
+ "M-n"        #'goto-address-at-point
+ "M-x"        #'counsel-M-x
  "<C-escape>" #'hydra-leader/body
- "C-h"     #'evil-window-left
- "C-j"     #'evil-window-down
- "C-k"     #'evil-window-up
- "C-l"     #'evil-window-right
- "C-u"     #'evil-scroll-up
- "C-S-p"   #'yank)
+ "C-h"        #'evil-window-left
+ "C-j"        #'evil-window-down
+ "C-k"        #'evil-window-up
+ "C-l"        #'evil-window-right
+ "C-u"        #'evil-scroll-up
+ "C-S-p"      #'yank)
 
 (general-def 'normal
   "SPC" #'hydra-leader/body
