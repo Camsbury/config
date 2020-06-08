@@ -115,7 +115,10 @@
 
   time.timeZone = "America/New_York";
 
-  users.mutableUsers = false;
+  users = {
+    mutableUsers = false;
+    groups.docker = {};
+  };
 
   virtualisation.docker = {
     enable = true;
