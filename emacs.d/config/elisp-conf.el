@@ -23,7 +23,7 @@
 
 (defhydra hydra-elisp (:exit t)
   "elisp-mode"
- ("E" #'eval-buffer        "eval buffer")
+ ("l" #'eval-buffer        "eval buffer")
  ("o" #'elisp-narrow-defun "focus on def"))
 
 (provide 'elisp-conf)
