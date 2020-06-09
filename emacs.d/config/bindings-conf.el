@@ -104,7 +104,7 @@
   ;; ("G")
   ("h" #'org-capture                  "capture")
   ;; ("H")
-  ("i" #'imenu                        "search with imenu")
+  ("i" #'counsel-imenu                "search with imenu")
   ;; ("I")
   ("j" #'spawn-below                  "spawn window below")
   ;; ("J")
