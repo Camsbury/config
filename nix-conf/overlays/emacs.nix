@@ -58,12 +58,15 @@ let
         ];
       };
 
-      nix-update = compileEmacsFiles {
-        name = "nix-update.el";
+      re-jump = compileEmacsFiles {
+        name = "re-jump.el";
         src = builtins.fetchurl {
-          url = https://raw.githubusercontent.com/jwiegley/nix-update-el/616b410ef577633b48747c134c1b89782a88f232/nix-update.el;
-          sha256 = "17i132sicf247c18i192nwk59fyqbxi4z5gzw5fnc49pmh2fpbj7";
+          url = https://raw.githubusercontent.com/oliyh/re-jump.el/443ddfa33dd2ae593cc0a013d16fff21f2afd925/re-jump.el;
+          sha256 = "003zvvdlx77ncjml09gayspsrwynyqvhaip3cgzvn2nd92fwh9wk";
         };
+        buildInputs = with eSelf.melpaPackages; [
+          cider
+        ];
       };
 
       # slack = eSelf.melpaBuild {

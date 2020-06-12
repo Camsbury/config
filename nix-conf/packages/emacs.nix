@@ -132,6 +132,7 @@ let
     company-postgresql
     etymology-of-word
     ivy-cider
+    re-jump
   ];
 in
   melpas ++ elpas ++ others
