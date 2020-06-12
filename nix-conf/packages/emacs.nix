@@ -24,6 +24,7 @@ let
     dante
     dash
     dash-functional
+    datomic-snippets
     define-word
     direnv
     docker

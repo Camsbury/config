@@ -125,24 +125,41 @@ If invoked with a prefix ARG eval the expression after inserting it"
 
 (defhydra hydra-clj (:exit t)
   "clojure-mode"
-  ("a" #'ivy-cider-apropos           "apropos")
-  ("d" #'cider-doc                   "documentation")
-  ("D" #'cider-find-dwim             "jump to def")
-  ("e" #'cider-switch-to-repl-buffer "repl")
-  ;; ("e" #'cider-inspect-last-result   "inspect last result")
-  ("f" #'cljr-find-usages            "find refs")
-  ("l" #'cider-load-buffer           "load buffer")
-  ("n" #'cider-eval-ns-form          "eval ns")
-  ("o" #'clj-narrow-defun            "focus on def")
-  ("j" #'hydra-clj-jack-in/body      "hydra cider-jack-in")
-  ("k" #'clojure-move-to-let         "move to let")
-  ("t" #'cider-test-run-ns-tests     "run repl tests")
-  ("y" #'cider-copy-last-result      "copy last result"))
-; cider-browse-spec
-; cider-switch-to-repl-buffer
-; clojure-move-to-let
-; clojure-introduce-let
-; cljr-add-require-to-ns
+  ("a" #'ivy-cider-apropos         "apropos")
+  ("e" #'cljr-move-to-let          "move to let")
+  ("f" #'cljr-find-usages          "find refs")
+  ("j" #'hydra-clj-jack-in/body    "hydra cider-jack-in")
+  ("l" #'cider-load-buffer         "load buffer")
+  ("m" #'hydra-cljr-help-menu/body "cljr hydra")
+  ("n" #'cljr-introduce-let        "introduce let")
+  ("o" #'clj-narrow-defun          "focus on def")
+  ("q" #'cljr-add-require-to-ns    "add require")
+  ("t" #'cider-test-run-ns-tests   "run repl tests")
+  ("y" #'cider-copy-last-result    "copy last result"))
+
+; clojure-thread-first-all
+; clojure-thread-last-all
+; clojure-unwind-all
+; clojure-cycle-privacy
+; cljr-cycle-thread
+; clojure-convert-collection-to...
+; cljr-rename-file-or-dir
+; cljr-rename-file
+; cljr-move-form
+; cljr-add-declaration
+; cljr-extract-constant
+; cljr-extract-def
+; cljr-expand-let --- HUGE
+; cljr-remove-let
+; cljr-add-project-dependency
+; cljr-update-project-dependency
+; cljr-promote-function
+; cljr-rename-symbol
+; cljr-clean-ns
+; cljr-add-missing-libspec
+; cljr-extract-function
+; cljr-add-stubs
+; cljr-inline-symbol
 
 (defhydra hydra-clj-jack-in (:exit t)
   "cider-jack-in"
@@ -172,7 +189,8 @@ If invoked with a prefix ARG eval the expression after inserting it"
 (nmap :states 'normal :keymaps 'cider-mode-map
   "<RET>"   #'cider-inspector-operate-on-point
   "M-k"     #'cider-inspector-pop
-  "M-<RET>" #'cider-eval-sexp-at-point)
+  "M-<RET>" #'cider-eval-sexp-at-point
+  "gh"     #'hydra-clj/hydra-cljr-help-menu/body)
 
 (general-define-key :keymaps 'cider-repl-mode-map
   "M-l" #'cider-repl-clear-buffer)
