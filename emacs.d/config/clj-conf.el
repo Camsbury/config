@@ -24,6 +24,13 @@
 (setq cider-repl-display-help-banner nil)
 (setq cljr-warn-on-eval nil)
 
+;; (defun jm/add-reframe-event-regex-to-imenu-expression ()
+;;    (add-to-list 'imenu-generic-expression
+;;                 '("Event" "reg-event-\\(db\\|fx\\)[[:blank:]\n]+::\\(.*\\)" 2))
+;;    (add-to-list 'imenu-generic-expression
+;;                 '("Sub" "reg-sub[[:blank:]\n]+::\\(.*\\)" 1)))
+;; (add-hook 'clojurescript-mode-hook 'jm/add-reframe-event-regex-to-imenu-expression)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Functions
@@ -135,6 +142,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
   ("o" #'clj-narrow-defun          "focus on def")
   ("q" #'cljr-add-require-to-ns    "add require")
   ("t" #'cider-test-run-ns-tests   "run repl tests")
+  ("w" #'cljr-add-missing-libspec  "figure out the require")
   ("y" #'cider-copy-last-result    "copy last result"))
 
 ; clojure-thread-first-all
