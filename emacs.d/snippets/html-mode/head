@@ -1,0 +1,7 @@
+# name: head
+# key: head
+# expand-env: ((yas-indent-line 'fixed))
+# --
+<head>
+$1
+</head>$2

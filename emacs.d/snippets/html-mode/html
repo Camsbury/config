@@ -1,0 +1,7 @@
+# name: html
+# key: html
+# expand-env: ((yas-indent-line 'fixed))
+# --
+<html>
+$1
+</html>$2

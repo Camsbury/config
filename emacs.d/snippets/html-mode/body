@@ -1,0 +1,7 @@
+# name: body
+# key: body
+# expand-env: ((yas-indent-line 'fixed))
+# --
+<body>
+$1
+</body>$2
