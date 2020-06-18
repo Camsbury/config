@@ -1,0 +1,25 @@
+[general]
+accounts = Personal
+maxsyncaccounts = 2
+pythonfile = /home/$USER/.offlineimap.py
+
+[Account Personal]
+localrepository = LocalPersonal
+remoterepository = RepositoryPersonal
+autorefresh = 1
+quick = 10
+postsynchook = mu index
+
+[Repository LocalPersonal]
+type = Maildir
+localfolders = /home/$USER/Maildir/personal
+nametrans = reverse_name_trans
+
+[Repository RepositoryPersonal]
+type = Gmail
+maxconnections = 2
+remoteuser = camsbury7@gmail.com
+remotepasseval = get_password("personal")
+folderfilter = folder_filter
+nametrans = name_trans
+sslcacertfile = OS-DEFAULT

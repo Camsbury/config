@@ -22,6 +22,7 @@
          docs-conf
          elisp-conf
          elixir-conf
+         email-conf
          env-conf
          epub-conf
          evil-conf

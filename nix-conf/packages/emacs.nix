@@ -42,6 +42,7 @@ let
     evil
     evil-commentary
     evil-magit
+    evil-mu4e
     evil-multiedit
     evil-surround
     evil-visualstar

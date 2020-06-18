@@ -8,6 +8,7 @@
     ../modules/non-ergodox.nix
     ../modules/ssd.nix
     ../modules/tract.nix
+    ../modules/email.nix
   ];
 
   services.xserver.xrandrHeads = [

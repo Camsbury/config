@@ -81,7 +81,7 @@
     tmux
     transmission
     tree
-    typora # markdown
+    # typora # markdown
     udisks # manage drives
     unzip
     veracrypt

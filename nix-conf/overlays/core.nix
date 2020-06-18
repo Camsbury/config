@@ -18,8 +18,6 @@ in
           inherit chromium;
           inherit dropbox;
           inherit slack;
-          # inherit spotify; # non-free
-          # inherit steam;
         })
       )
       (import ./emacs.nix)
