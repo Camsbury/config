@@ -3,8 +3,9 @@
 {
   imports = [
     /etc/nixos/hardware-configuration.nix
-    ../packages/core.nix
+    <home-manager/nixos>
     ../overlays/core.nix
+    ../packages/core.nix
     ../private.nix
     ./zsh.nix
   ];
@@ -59,12 +60,21 @@
     networkmanager.enable = true;
   };
 
-  nix.nixPath = [
-    "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs"
-    "nixpkgs-unstable=${../utils/unstable.nix}"
-    "nixos-config=/etc/nixos/configuration.nix"
-    "/nix/var/nix/profiles/per-user/root/channels"
-  ];
+  nix = {
+    binaryCaches = [
+      "https://cache.nixos.org/"
+      "https://hie-nix.cachix.org"
+    ];
+    binaryCachePublicKeys = [
+      "hie-nix.cachix.org-1:EjBSHzF7VmDnzqlldGXbi0RM3HdjfTU3yDRi9Pd0jTY="
+    ];
+    nixPath = [
+      "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs"
+      "nixpkgs-unstable=${../utils/unstable.nix}"
+      "nixos-config=/etc/nixos/configuration.nix"
+      "/nix/var/nix/profiles/per-user/root/channels"
+    ];
+  };
 
   nixpkgs.config = {
     allowUnfree = true;
