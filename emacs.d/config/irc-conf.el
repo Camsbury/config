@@ -12,17 +12,17 @@
          :sasl-password ,circe-sasl-password
          :channels ("#bash"
                     "##C"
-                    "#docker"
+                    ;; "#docker"
                     "#emacs"
                     "#emacs-circe"
                     "#git"
                     "#hardware"
                     "#haskell"
-                    "#javascript"
+                    ;; "#javascript"
                     "##math"
                     "##networking"
                     "#nixos"
-                    "#postgresql"
+                    ;; "#postgresql"
                     "#python"
                     "#security"))))
 
