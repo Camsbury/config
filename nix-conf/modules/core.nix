@@ -10,6 +10,8 @@
     ./zsh.nix
   ];
 
+  home-manager.useUserPackages = true;
+
   boot = {
     cleanTmpDir = true;
     loader = {
