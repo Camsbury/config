@@ -16,4 +16,6 @@
                    (mu4e-drafts-folder . "/personal/drafts")
                    (mu4e-trash-folder . "/personal/trash")))))
 
+(setq shr-color-visible-luminance-min 80)
+
 (provide 'email-conf)
