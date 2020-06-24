@@ -64,6 +64,7 @@ let
     gnuplot-mode
     go-mode
     helm-dash
+    idris-mode
     hl-todo
     hlint-refactor
     hydra
