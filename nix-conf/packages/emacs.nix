@@ -10,6 +10,7 @@ let
     cargo
     cider
     circe
+    circe-notifications
     clj-refactor
     command-log-mode
     company

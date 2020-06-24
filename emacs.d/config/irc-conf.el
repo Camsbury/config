@@ -10,20 +10,22 @@
          :nick "camsbury"
          :sasl-username ,circe-sasl-username
          :sasl-password ,circe-sasl-password
-         :channels ("#bash"
-                    "##C"
+         :channels (
+                    ;; "#bash"
+                    ;; "##c"
                     ;; "#docker"
-                    "#emacs"
-                    "#emacs-circe"
-                    "#git"
-                    "#hardware"
-                    "#haskell"
+                    ;; "#emacs"
+                    ;; "#emacs-circe"
+                    ;; "#git"
+                    ;; "#hardware"
+                    ;; "#haskell"
                     ;; "#javascript"
-                    "##math"
-                    "##networking"
+                    ;; "##math"
+                    ;; "##networking"
                     "#nixos"
                     ;; "#postgresql"
-                    "#python"
-                    "#security"))))
+                    ;; "#python"
+                    ;; "##security"
+                    "##tvl"))))
 
 (provide 'irc-conf)
