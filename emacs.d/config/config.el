@@ -31,6 +31,7 @@
          go-conf
          haskell-conf
          html-conf
+         idris-conf
          irc-conf
          js-conf
          lisp-conf
