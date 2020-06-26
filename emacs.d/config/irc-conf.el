@@ -3,6 +3,14 @@
 (setq circe-sasl-username circe-sasl-username-private)
 (setq circe-sasl-password circe-sasl-password-private)
 (setq irc-debug-log t)
+
+(autoload 'enable-circe-notifications "circe-notifications" nil t)
+
+(eval-after-load "circe-notifications"
+  '(setq circe-notifications-watch-strings '()))
+
+(add-hook 'circe-server-connected-hook 'enable-circe-notifications)
+
 (setq circe-network-options
       `(("Freenode"
          :tls t
