@@ -13,6 +13,7 @@ in
             pylint
             jedi
             yapf
+            numpy
           ]
       );
   in
