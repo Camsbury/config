@@ -58,7 +58,8 @@
     nixfmt
     nodejs-12_x
     nodePackages.prettier
-    notify-osd # to upgrade...
+    # notify-osd # to upgrade...
+    dunst
     oh-my-zsh
     openssh
     openssl
