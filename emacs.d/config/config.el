@@ -54,6 +54,7 @@
          snippet-conf
          style-conf
          theme-conf
+         tractsoft-conf
          ui-conf
 
          modes))
