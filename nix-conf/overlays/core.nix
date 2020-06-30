@@ -8,6 +8,10 @@ in
   {
     nixpkgs.overlays = [
       (self: super: {
+
+        alias-tips = with builtins; with pkgs;
+          callPackage (import ../derivations/alias-tips) {};
+
         cachix = cachixBall.cachix;
 
         xndr = super.callPackage (builtins.fetchTarball

@@ -4,8 +4,14 @@
   programs.zsh = {
     enable = true;
 
+    autosuggestions = {
+      enable = true;
+      highlightStyle = "fg=7";
+    };
+
     interactiveShellInit =
       ''
+      export TERM=xterm-256color # needed for autocompletions
       export FZF="${pkgs.fzf}/share/fzf" # this doesn't work until after omz is loaded
       source "${pkgs.autojump}/share/autojump/autojump.zsh"
       source "${pkgs.google-cloud-sdk}/google-cloud-sdk/completion.zsh.inc"
@@ -32,12 +38,11 @@
         "docker-compose"
         "git"
         "kubectl"
-        "kubetail"
         "tmux"
         "yarn"
-        "zsh-autosuggestions"
       ];
       customPkgs = with pkgs; [
+        alias-tips
         nix-zsh-completions
       ];
 
@@ -94,7 +99,7 @@
       blue = "redshift -x";
       # nix
       npk= '';
-        sudo nixos-option environment.systemPackages | head -2 | tail -1 |;
+        sudo nixos-option environment.systemPackages | head -n -2 | tail -n -1 |;
         sed -e 's/ /\n/g' | cut -d- -f2- | sort | uniq;
       '';
       npka = "sudo nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq";
@@ -113,6 +118,7 @@
       nq = "nix-query";
       nqu = "NIXPKGS_ALLOW_UNFREE=1 nix-env -qaP";
       nr = "nix repl";
+      nrn = ''nix repl "<nixpkgs/nixos>"'';
       nrp = ''nix repl "<nixpkgs>"'';
       ns = "nix-shell";
       nsp = "nix-shell --pure";
