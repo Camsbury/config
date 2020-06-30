@@ -1,6 +1,6 @@
 (require 'bindings-conf)
 (require 'evil)
-(require 'lisp-conf)
+(require 'langs/lisp-conf)
 
 (setq inferior-lisp-program "nix-shell -p sbcl --run sbcl")
 
@@ -20,4 +20,4 @@
 (nmap :states 'normal :keymaps 'lisp-mode-map
   "M-<RET>" #'slime-eval-defun)
 
-(provide 'clisp-conf)
+(provide 'langs/clisp-conf)

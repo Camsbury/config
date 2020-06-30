@@ -11,4 +11,4 @@
  ("r" 'racket-run-and-switch-to-repl "run and repl")
  ("t" 'racket-test                   "test"))
 
-(provide 'racket-conf)
+(provide 'langs/racket-conf)

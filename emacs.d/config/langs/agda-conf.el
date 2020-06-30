@@ -1,3 +1,3 @@
 (require 'agda2-mode)
 
-(provide 'agda-conf)
+(provide 'langs/agda-conf)

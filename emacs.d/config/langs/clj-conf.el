@@ -1,6 +1,6 @@
 (require 'bindings-conf)
 (require 'evil)
-(require 'lisp-conf)
+(require 'langs/lisp-conf)
 (require 'flycheck-clj-kondo)
 
 
@@ -204,4 +204,4 @@ If invoked with a prefix ARG eval the expression after inserting it"
 (general-define-key :keymaps 'cider-repl-mode-map
   "M-l" #'cider-repl-clear-buffer)
 
-(provide 'clj-conf)
+(provide 'langs/clj-conf)

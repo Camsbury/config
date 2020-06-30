@@ -36,4 +36,4 @@
   "python-mode"
  ("o" #'python-narrow-defun         "focus on def"))
 
-(provide 'python-conf)
+(provide 'langs/python-conf)

@@ -3,4 +3,4 @@
                   (list 'flycheck-mode
                         'prettier-js-mode))
 
-(provide 'html-conf)
+(provide 'langs/html-conf)

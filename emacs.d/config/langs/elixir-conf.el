@@ -23,4 +23,4 @@
                          #'flycheck-mode
                          (lambda () (add-hook 'before-save-hook 'elixir-format nil t))))))
 
-(provide 'elixir-conf)
+(provide 'langs/elixir-conf)

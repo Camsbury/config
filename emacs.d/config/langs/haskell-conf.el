@@ -1,6 +1,6 @@
 (require 'bindings-conf)
 (require 'lsp-haskell)
-(require 'lsp-conf)
+(require 'services/lsp-conf)
 (require 'haskell-font-lock)
 
 (setq haskell-process-use-presentation-mode t)
@@ -73,4 +73,4 @@
  ("T" #'hlint-refactor-refactor-buffer   "hlint buffer")
  ("y" #'dante-type-at                    "dante type"))
 
-(provide 'haskell-conf)
+(provide 'langs/haskell-conf)

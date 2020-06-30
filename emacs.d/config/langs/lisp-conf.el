@@ -88,4 +88,4 @@ With non-nil ARG return number of characters skipped."
 
 
 
-(provide 'lisp-conf)
+(provide 'langs/lisp-conf)

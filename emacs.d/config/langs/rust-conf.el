@@ -29,4 +29,4 @@
   "rust-mode"
   ("l" #'rust-run "run buffer"))
 
-(provide 'rust-conf)
+(provide 'langs/rust-conf)

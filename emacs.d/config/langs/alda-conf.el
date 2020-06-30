@@ -8,4 +8,4 @@
   ("l" #'alda-play-line "play line")
   ("f" #'alda-play-file "play file"))
 
-(provide 'alda-conf)
+(provide 'langs/alda-conf)

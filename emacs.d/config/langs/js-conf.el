@@ -20,4 +20,4 @@
                   (list 'flycheck-mode
                         'prettier-js-mode))
 
-(provide 'js-conf)
+(provide 'langs/js-conf)

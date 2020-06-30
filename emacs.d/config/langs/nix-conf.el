@@ -8,4 +8,4 @@
   "wnix-mode"
  ("f" #'nix-update-fetch "fetch correct SHA"))
 
-(provide 'nix-conf)
+(provide 'langs/nix-conf)

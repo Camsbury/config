@@ -26,4 +26,4 @@
  ("l" #'eval-buffer        "eval buffer")
  ("o" #'elisp-narrow-defun "focus on def"))
 
-(provide 'elisp-conf)
+(provide 'langs/elisp-conf)

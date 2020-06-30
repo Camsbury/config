@@ -4,4 +4,4 @@
                   (lambda ()
                     (set (make-local-variable 'comment-start) "#")))
 
-(provide 'env-conf)
+(provide 'langs/env-conf)

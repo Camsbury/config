@@ -11,4 +11,4 @@
   ("l" #'ess-eval-line   "eval line")
   ("r" #'ess-eval-region "eval region"))
 
-(provide 'rlang-conf)
+(provide 'langs/rlang-conf)

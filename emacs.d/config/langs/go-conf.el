@@ -18,4 +18,4 @@
   ("d" #'godef-jump "jump to def"))
 
 
-(provide 'go-conf)
+(provide 'langs/go-conf)

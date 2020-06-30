@@ -21,4 +21,4 @@
   "c-mode"
   ("m" #'man "man page"))
 
-(provide 'c-conf)
+(provide 'langs/c-conf)

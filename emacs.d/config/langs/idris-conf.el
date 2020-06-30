@@ -16,4 +16,4 @@
   ("o" #'idris-repl            "repl")
   ("w" #'idris-make-with-block "put into with"))
 
-(provide 'idris-conf)
+(provide 'langs/idris-conf)

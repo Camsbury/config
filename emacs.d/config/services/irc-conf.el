@@ -36,4 +36,4 @@
                     ;; "##security"
                     "##tvl"))))
 
-(provide 'irc-conf)
+(provide 'services/irc-conf)
