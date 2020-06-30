@@ -2,4 +2,4 @@
 
 (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
 
-(provide 'modes)
+(provide 'mode-conf)

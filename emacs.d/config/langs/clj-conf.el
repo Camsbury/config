@@ -24,12 +24,13 @@
 (setq cider-repl-display-help-banner nil)
 (setq cljr-warn-on-eval nil)
 
-;; (defun jm/add-reframe-event-regex-to-imenu-expression ()
-;;    (add-to-list 'imenu-generic-expression
-;;                 '("Event" "reg-event-\\(db\\|fx\\)[[:blank:]\n]+::\\(.*\\)" 2))
-;;    (add-to-list 'imenu-generic-expression
-;;                 '("Sub" "reg-sub[[:blank:]\n]+::\\(.*\\)" 1)))
-;; (add-hook 'clojurescript-mode-hook 'jm/add-reframe-event-regex-to-imenu-expression)
+(general-add-hook
+ 'clojurescript-mode-hook
+ (lambda ()
+   (add-to-list 'imenu-generic-expression
+                '("Event" "reg-event-\\(db\\|fx\\)[[:blank:]\n]+::\\(.*\\)" 2))
+   (add-to-list 'imenu-generic-expression
+                '("Sub" "reg-sub[[:blank:]\n]+::\\(.*\\)" 1))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -123,8 +124,8 @@ If invoked with a prefix ARG eval the expression after inserting it"
 
 (general-def 'normal clojure-mode-map
  [remap empty-mode-leader]    #'hydra-clj/body
- [remap evil-goto-definition] #'cider-doc
- [remap dumb-jump-go]         #'cider-find-dwim
+ [remap evil-goto-definition] #'cider-find-dwim
+ [remap dumb-jump-go]         #'cider-doc
  [remap cider-inspector-pop]  #'evil-previous-visual-line)
 
 (general-define-key :keymaps 'clojure-mode-map
@@ -196,7 +197,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
 
 (nmap :states 'normal :keymaps 'cider-mode-map
   "<RET>"   #'cider-inspector-operate-on-point
-  "M-k"     #'cider-inspector-pop
+  ;; "M-k"     #'cider-inspector-pop
   "M-<RET>" #'cider-eval-sexp-at-point
   "gh"     #'hydra-clj/hydra-cljr-help-menu/body)
 

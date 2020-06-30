@@ -4,60 +4,41 @@
   (require 'private-conf))
 
 (-map 'require
-      '( buffer-move
-         dockerfile-mode
-         wgrep
+      '(buffer-move
+        dockerfile-mode
+        wgrep
 
-         alda-conf
-         agda-conf
-         autocomplete-conf
-         behavior-conf
-         bindings-conf
-         browser-conf
-         c-conf
-         clisp-conf
-         clj-conf
-         counsel-conf
-         dashboard-conf
-         docs-conf
-         elisp-conf
-         elixir-conf
-         email-conf
-         env-conf
-         epub-conf
-         evil-conf
-         functions-conf
-         git-conf
-         go-conf
-         haskell-conf
-         html-conf
-         idris-conf
-         irc-conf
-         js-conf
-         lisp-conf
-         lsp-conf
-         merge-conf
-         minibuffer-conf
-         nix-conf
-         org-conf
-         package-conf
-         pdf-conf
-         project-conf
-         python-conf
-         racket-conf
-         rlang-conf
-         rust-conf
-         scroll-conf
-         search-conf
-         shell-conf
-         ;; slack-conf
-         snippet-conf
-         style-conf
-         theme-conf
-         tractsoft-conf
-         ui-conf
-
-         modes))
+        autocomplete-conf
+        behavior-conf
+        bindings-conf
+        browser-conf
+        counsel-conf
+        dashboard-conf
+        ;; dired-conf
+        docs-conf
+        email-conf
+        epub-conf
+        evil-conf
+        functions-conf
+        git-conf
+        irc-conf
+        lang-conf
+        lsp-conf
+        merge-conf
+        minibuffer-conf
+        mode-conf
+        org-conf
+        package-conf
+        pdf-conf
+        project-conf
+        scroll-conf
+        search-conf
+        ;; slack-conf
+        snippet-conf
+        style-conf
+        theme-conf
+        tractsoft-conf
+        ui-conf))
 
 
 (provide 'config)
