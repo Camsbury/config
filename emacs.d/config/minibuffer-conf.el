@@ -1,7 +1,6 @@
 (require 'bindings-conf)
 
 (general-emacs-define-key ivy-minibuffer-map
-  [escape] 'minibuffer-keyboard-quit
-  )
+  [escape] 'minibuffer-keyboard-quit)
 
 (provide 'minibuffer-conf)

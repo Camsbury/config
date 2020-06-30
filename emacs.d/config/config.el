@@ -16,14 +16,11 @@
         dashboard-conf
         ;; dired-conf
         docs-conf
-        email-conf
         epub-conf
         evil-conf
         functions-conf
         git-conf
-        irc-conf
         lang-conf
-        lsp-conf
         merge-conf
         minibuffer-conf
         mode-conf
@@ -33,6 +30,7 @@
         project-conf
         scroll-conf
         search-conf
+        service-conf
         ;; slack-conf
         snippet-conf
         style-conf
