@@ -1,5 +1,9 @@
 (use-package general)
 (use-package doom-modeline)
+(use-package direnv)
+(use-package rainbow-mode)
+(use-package rainbow-delimiters)
+(use-package hl-todo)
 
 (column-number-mode)
 (show-paren-mode)

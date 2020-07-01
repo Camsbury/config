@@ -1,3 +1,5 @@
+(use-package doom-themes)
+
 (load-theme 'doom-molokai t)
 
 (setq normal-font-height 70)

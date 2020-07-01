@@ -1,5 +1,6 @@
 (use-package bindings-conf)
 (use-package rust-mode)
+(use-package flycheck-rust)
 
 (general-def 'normal rust-mode-map
  [remap empty-mode-leader] #'hydra-rust/body)

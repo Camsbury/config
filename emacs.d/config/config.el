@@ -1,5 +1,4 @@
-(use-package dash)
-;; (use-package dash)
+(use-package startup-conf)
 
 (when (load "private-conf.el")
   (use-package private-conf))
@@ -34,9 +33,8 @@
 (use-package theme-conf)
 (use-package tractsoft-conf)
 (use-package ui-conf)
-
-        ;; dired-conf
-        ;; slack-conf
+;; dired-conf
+;; slack-conf
 
 
 (provide 'config)

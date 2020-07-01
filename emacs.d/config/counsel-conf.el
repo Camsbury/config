@@ -1,5 +1,6 @@
 (use-package counsel)
 (use-package counsel-projectile)
+(use-package all-the-icons-ivy-rich)
 
 (ivy-mode)
 (all-the-icons-ivy-rich-mode 1)

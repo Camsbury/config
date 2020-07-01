@@ -1,5 +1,9 @@
 ;; initialize installed packages for configuration
+(setq package-load-list '((bind-key t)
+                          (use-package t)))
 (package-initialize)
+(require 'use-package)
+(use-package keychain-environment)
 
 (setq load-path
       (cons "~/.emacs.d/config" load-path))

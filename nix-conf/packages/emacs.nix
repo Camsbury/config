@@ -6,6 +6,7 @@ let
     all-the-icons-ivy-rich
     avy
     benchmark-init
+    bind-key # use package
     buffer-move
     cargo
     cider

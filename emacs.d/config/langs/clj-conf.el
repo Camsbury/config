@@ -2,6 +2,8 @@
 (use-package evil)
 (use-package langs/lisp-conf)
 (use-package flycheck-clj-kondo)
+(use-package clojure-mode)
+(use-package cider)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

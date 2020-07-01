@@ -1,8 +1,8 @@
 (use-package bindings-conf)
-;; (use-package company-sql-conf)
 (use-package dash)
 (use-package ob-async)
 (use-package company-postgresql)
+(use-package org-bullets)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org todos
