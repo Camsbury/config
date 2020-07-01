@@ -1,16 +1,18 @@
 (use-package langs/lisp-conf)
 (use-package clojure-mode
-  :defer t)
+  :mode (("\\.clj\\'" . clojure-mode)
+         ("\\.cljc\\'" . clojurec-mode)
+         ("\\.cljs\\'" . clojurescript-mode)))
 (use-package clj-refactor
-  :defer t)
+  :after (clojure-mode))
 (use-package flycheck-clj-kondo
-  :defer t)
+  :after (clojure-mode))
 (use-package cider
-  :defer t)
+  :after (clojure-mode))
 (use-package ivy-cider
-  :defer t)
+  :after (clojure-mode))
 (use-package datomic-snippets
-  :defer t)
+  :after (clojure-mode))
 (use-package re-jump
   :after (clojure-mode))
 
