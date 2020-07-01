@@ -1,4 +1,6 @@
-(use-package alda-mode)
+(use-package alda-mode
+  :mode "\\.alda\\'"
+  :interpreter "alda")
 
 (general-def 'normal alda-mode-map
  [remap empty-mode-leader] #'hydra-alda/body)

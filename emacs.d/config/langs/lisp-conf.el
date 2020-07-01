@@ -1,4 +1,3 @@
-(use-package bindings-conf)
 (use-package paredit)
 (use-package lispyville)
 

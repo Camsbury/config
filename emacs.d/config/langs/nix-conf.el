@@ -1,4 +1,7 @@
-(use-package nix-update)
+(use-package nix-mode
+  :mode "\\.nix\\'")
+(use-package nix-update
+  :after (nix-mode))
 (use-package bindings-conf)
 
 (general-def 'normal nix-mode-map

@@ -1,20 +1,21 @@
-(use-package bindings-conf)
-(use-package lsp-haskell)
-(use-package services/lsp-conf)
-(use-package haskell-font-lock)
+(use-package haskell-font-lock
+  :after (haskell-mode)
+  :config
+  (setq haskell-font-lock-symbols-alist (-reject
+                                         (lambda (elem)
+                                           (string-equal "()" (car elem)))
+                                         haskell-font-lock-symbols-alist))
+  (setq haskell-font-lock-symbols-alist (cons '("^." "⌾" haskell-font-lock-dot-is-not-composition) haskell-font-lock-symbols-alist))
+  (setq haskell-font-lock-symbols-alist (cons '("<>" "⊕" haskell-font-lock-dot-is-not-composition) haskell-font-lock-symbols-alist))
+  (setq haskell-font-lock-symbols-alist (cons '("->" "⟶" haskell-font-lock-dot-is-not-composition) haskell-font-lock-symbols-alist))
+  (setq haskell-font-lock-symbols-alist (cons '("<-" "⟵" haskell-font-lock-dot-is-not-composition) haskell-font-lock-symbols-alist))
+  (setq haskell-font-lock-symbols t))
+(use-package dante
+  :after (haskell-mode))
 
 (setq haskell-process-use-presentation-mode t)
 (setq haskell-interactive-mode-scroll-to-bottom t)
 (setq haskell-process-type 'cabal-repl)
-(setq haskell-font-lock-symbols-alist (-reject
-                                       (lambda (elem)
-                                         (string-equal "()" (car elem)))
-                                       haskell-font-lock-symbols-alist))
-(setq haskell-font-lock-symbols-alist (cons '("^." "⌾" haskell-font-lock-dot-is-not-composition) haskell-font-lock-symbols-alist))
-(setq haskell-font-lock-symbols-alist (cons '("<>" "⊕" haskell-font-lock-dot-is-not-composition) haskell-font-lock-symbols-alist))
-(setq haskell-font-lock-symbols-alist (cons '("->" "⟶" haskell-font-lock-dot-is-not-composition) haskell-font-lock-symbols-alist))
-(setq haskell-font-lock-symbols-alist (cons '("<-" "⟵" haskell-font-lock-dot-is-not-composition) haskell-font-lock-symbols-alist))
-(setq haskell-font-lock-symbols t)
 
 
 (setq flymake-no-changes-timeout nil)

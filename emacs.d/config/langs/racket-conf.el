@@ -1,5 +1,5 @@
-(use-package racket-mode)
-(use-package bindings-conf)
+(use-package racket-mode
+  :defer t)
 
 (general-def 'normal racket-mode-map
  [remap empty-mode-leader] #'hydra-racket/body

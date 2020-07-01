@@ -41,6 +41,7 @@ let
     emacsql-sqlite
     emacsql-psql
     ess
+    esup
     evil
     evil-commentary
     evil-magit
@@ -76,7 +77,7 @@ let
     js2-mode
     json-navigator
     keychain-environment
-    know-your-http-well
+    # know-your-http-well
     lispyville
     lsp-haskell
     lsp-mode
@@ -111,7 +112,7 @@ let
     rjsx-mode
     rust-mode
     s
-    slack
+    # slack
     slime
     smex
     sqlup-mode

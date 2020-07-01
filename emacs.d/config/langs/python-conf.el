@@ -1,6 +1,11 @@
-(use-package bindings-conf)
-(use-package functions-conf)
-(use-package yapfify)
+(use-package python
+  :defer t)
+(use-package yapfify
+  :after (python-mode))
+(use-package pylint
+  :after (python-mode))
+(use-package py-isort
+  :after (python-mode))
 
 (flycheck-define-checker
     python-mypy ""

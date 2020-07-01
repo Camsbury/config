@@ -1,9 +1,11 @@
+!offlineimap/decrypt.py
 *#*
 *.swp
 *archives/
 *auto-save-list/
 *bookmarks*
 *cache
+*forge-database.sqlite
 *passwords/
 *recentf*
 *tramp*
@@ -17,9 +19,8 @@
 emacs.d/smex-items
 emacs.d/transient/
 nov-places
+offlineimap/*
 private-conf.el
 private-init.el
 private.nix
 result
-offlineimap/*
-!offlineimap/decrypt.py

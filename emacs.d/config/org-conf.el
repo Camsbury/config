@@ -1,6 +1,8 @@
 (use-package bindings-conf)
 (use-package dash)
 (use-package ob-async)
+(use-package ob-elixir)
+(use-package ob-http)
 (use-package company-postgresql)
 (use-package org-bullets)
 

@@ -1,9 +1,18 @@
-(use-package bindings-conf)
-(use-package evil)
 (use-package langs/lisp-conf)
-(use-package flycheck-clj-kondo)
-(use-package clojure-mode)
-(use-package cider)
+(use-package clojure-mode
+  :defer t)
+(use-package clj-refactor
+  :defer t)
+(use-package flycheck-clj-kondo
+  :defer t)
+(use-package cider
+  :defer t)
+(use-package ivy-cider
+  :defer t)
+(use-package datomic-snippets
+  :defer t)
+(use-package re-jump
+  :after (clojure-mode))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -19,9 +28,6 @@
  '(clojure-mode-hook
    clojurec-mode-hook
    clojurescript-mode-hook))
-
-(with-eval-after-load 'cider-mode
-  (use-package ivy-cider))
 
 (setq cider-repl-display-help-banner nil)
 (setq cljr-warn-on-eval nil)
