@@ -1,6 +1,6 @@
-(require 'bindings-conf)
-(require 'functions-conf)
-(require 'magit)
+(use-package bindings-conf)
+(use-package functions-conf)
+(use-package magit)
 
 (general-add-hook 'magit-mode-hook
                   (list 'evil-magit-init))

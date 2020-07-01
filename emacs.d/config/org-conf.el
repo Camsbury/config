@@ -1,8 +1,8 @@
-(require 'bindings-conf)
-;; (require 'company-sql-conf)
-(require 'dash)
-(require 'ob-async)
-(require 'company-postgresql)
+(use-package bindings-conf)
+;; (use-package company-sql-conf)
+(use-package dash)
+(use-package ob-async)
+(use-package company-postgresql)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org todos

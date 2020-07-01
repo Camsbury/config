@@ -1,4 +1,4 @@
-(require 'alda-mode)
+(use-package alda-mode)
 
 (general-def 'normal alda-mode-map
  [remap empty-mode-leader] #'hydra-alda/body)

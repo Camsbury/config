@@ -1,5 +1,5 @@
-(require 'bindings-conf)
-(require 'rust-mode)
+(use-package bindings-conf)
+(use-package rust-mode)
 
 (general-def 'normal rust-mode-map
  [remap empty-mode-leader] #'hydra-rust/body)

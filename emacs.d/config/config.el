@@ -1,42 +1,42 @@
-(require 'dash)
+(use-package dash)
+;; (use-package dash)
 
 (when (load "private-conf.el")
-  (require 'private-conf))
+  (use-package private-conf))
 
-(-map 'require
-      '(buffer-move
-        dockerfile-mode
-        wgrep
+(use-package buffer-move)
+(use-package dockerfile-mode)
+(use-package wgrep)
+(use-package autocomplete-conf)
+(use-package behavior-conf)
+(use-package bindings-conf)
+(use-package browser-conf)
+(use-package counsel-conf)
+(use-package dashboard-conf)
+(use-package docs-conf)
+(use-package epub-conf)
+(use-package evil-conf)
+(use-package functions-conf)
+(use-package git-conf)
+(use-package lang-conf)
+(use-package merge-conf)
+(use-package minibuffer-conf)
+(use-package mode-conf)
+(use-package org-conf)
+(use-package package-conf)
+(use-package pdf-conf)
+(use-package project-conf)
+(use-package scroll-conf)
+(use-package search-conf)
+(use-package service-conf)
+(use-package snippet-conf)
+(use-package style-conf)
+(use-package theme-conf)
+(use-package tractsoft-conf)
+(use-package ui-conf)
 
-        autocomplete-conf
-        behavior-conf
-        bindings-conf
-        browser-conf
-        counsel-conf
-        dashboard-conf
         ;; dired-conf
-        docs-conf
-        epub-conf
-        evil-conf
-        functions-conf
-        git-conf
-        lang-conf
-        merge-conf
-        minibuffer-conf
-        mode-conf
-        org-conf
-        package-conf
-        pdf-conf
-        project-conf
-        scroll-conf
-        search-conf
-        service-conf
         ;; slack-conf
-        snippet-conf
-        style-conf
-        theme-conf
-        tractsoft-conf
-        ui-conf))
 
 
 (provide 'config)

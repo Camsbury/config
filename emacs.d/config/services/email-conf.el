@@ -2,8 +2,8 @@
   (when mu-path
     (add-to-list 'load-path
                  (concat (getenv "MU_PATH") "/share/emacs/site-lisp/mu4e"))
-    (require 'mu4e)
-    (require 'evil-mu4e)))
+    (use-package mu4e)
+    (use-package evil-mu4e)))
 
 (setq mu4e-contexts
       `( ,(make-mu4e-context

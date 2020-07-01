@@ -1,8 +1,8 @@
-(require 'slack)
-(require 'alert)
-(require 'emojify)
-(require 'company-emoji)
-(require 'private-conf)
+(use-package slack)
+(use-package alert)
+(use-package emojify)
+(use-package company-emoji)
+(use-package private-conf)
 
 ;; (setq slack-buffer-emojify t) ;; if you want to enable emoji, default nil
 (setq slack-prefer-current-team t)

@@ -1,6 +1,6 @@
-(require 'wgrep)
-(require 'avy)
-(require 'dumb-jump)
+(use-package wgrep)
+(use-package avy)
+(use-package dumb-jump)
 
 (defun wgrep-save-and-quit ()
   "things"

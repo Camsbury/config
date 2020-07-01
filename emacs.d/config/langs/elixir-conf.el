@@ -1,9 +1,9 @@
 (when (string-equal system-type "gnu/linux")
     (progn
-      (require 'flycheck-credo)
-      (require 'flycheck-dialyxir)
-      (require 'flycheck-elixir)
-      (require 'flycheck-mix)
+      (use-package flycheck-credo)
+      (use-package flycheck-dialyxir)
+      (use-package flycheck-elixir)
+      (use-package flycheck-mix)
 
       ;;; flycheck setup
       (add-to-list 'flycheck-checkers 'elixir t)

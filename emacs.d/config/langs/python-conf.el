@@ -1,6 +1,6 @@
-(require 'bindings-conf)
-(require 'functions-conf)
-(require 'yapfify)
+(use-package bindings-conf)
+(use-package functions-conf)
+(use-package yapfify)
 
 (flycheck-define-checker
     python-mypy ""

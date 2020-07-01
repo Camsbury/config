@@ -1,6 +1,6 @@
-(require 'private-conf)
-(require 'json)
-(require 'web)
+(use-package private-conf)
+(use-package json)
+(use-package web)
 
 (setq dashboard-tickers
       '(("SPY" . 5)

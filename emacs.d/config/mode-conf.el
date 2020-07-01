@@ -1,4 +1,4 @@
-(require 'modes/blind-mode)
+(use-package modes/blind-mode)
 
 (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
 

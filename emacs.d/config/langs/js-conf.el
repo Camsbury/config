@@ -1,4 +1,4 @@
-(require 'prettier-js)
+(use-package prettier-js)
 
 (setq js-indent-level 2)
 (setq js2-basic-offset 2)

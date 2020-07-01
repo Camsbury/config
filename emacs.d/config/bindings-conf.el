@@ -1,9 +1,9 @@
 ;; Bindings for my emacs config
 
-(require 'hydra)
-(require 'functions-conf)
-(require 'merge-conf)
-(require 'which-key)
+(use-package hydra)
+(use-package functions-conf)
+(use-package merge-conf)
+(use-package which-key)
 
 (setq x-super-keysym 'meta)
 (setq x-meta-keysym 'super)

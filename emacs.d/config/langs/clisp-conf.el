@@ -1,6 +1,6 @@
-(require 'bindings-conf)
-(require 'evil)
-(require 'langs/lisp-conf)
+(use-package bindings-conf)
+(use-package evil)
+(use-package langs/lisp-conf)
 
 (setq inferior-lisp-program "nix-shell -p sbcl --run sbcl")
 

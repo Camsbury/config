@@ -1,7 +1,7 @@
-(require 'bindings-conf)
-(require 'lsp-haskell)
-(require 'services/lsp-conf)
-(require 'haskell-font-lock)
+(use-package bindings-conf)
+(use-package lsp-haskell)
+(use-package services/lsp-conf)
+(use-package haskell-font-lock)
 
 (setq haskell-process-use-presentation-mode t)
 (setq haskell-interactive-mode-scroll-to-bottom t)

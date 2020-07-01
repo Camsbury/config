@@ -1,4 +1,4 @@
-(require 'dash)
+(use-package dash)
 
 (-map 'require
       '(langs/alda-conf

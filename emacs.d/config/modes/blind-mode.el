@@ -1,4 +1,4 @@
-(require 'theme-conf)
+(use-package theme-conf)
 
 (setq blind-mode-on nil)
 (setq blind-mode-font-height 100)

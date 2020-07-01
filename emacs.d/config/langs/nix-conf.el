@@ -1,5 +1,5 @@
-(require 'nix-update)
-(require 'bindings-conf)
+(use-package nix-update)
+(use-package bindings-conf)
 
 (general-def 'normal nix-mode-map
  [remap empty-mode-leader] #'hydra-nix/body)

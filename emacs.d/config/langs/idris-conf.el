@@ -1,5 +1,5 @@
-(require 'bindings-conf)
-(require 'functions-conf)
+(use-package bindings-conf)
+(use-package functions-conf)
 
 (general-def 'normal idris-mode-map
   [remap empty-mode-leader]    #'hydra-idris/body

@@ -1,7 +1,7 @@
-(require 'bindings-conf)
-(require 'evil)
-(require 'langs/lisp-conf)
-(require 'flycheck-clj-kondo)
+(use-package bindings-conf)
+(use-package evil)
+(use-package langs/lisp-conf)
+(use-package flycheck-clj-kondo)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -19,7 +19,7 @@
    clojurescript-mode-hook))
 
 (with-eval-after-load 'cider-mode
-  (require 'ivy-cider))
+  (use-package ivy-cider))
 
 (setq cider-repl-display-help-banner nil)
 (setq cljr-warn-on-eval nil)

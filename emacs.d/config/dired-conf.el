@@ -1,4 +1,4 @@
-(require 'ranger)
+(use-package ranger)
 
 (provide 'dired-conf)
 
