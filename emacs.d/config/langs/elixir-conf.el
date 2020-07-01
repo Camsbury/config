@@ -1,26 +1,29 @@
-(when (string-equal system-type "gnu/linux")
-    (progn
-      (use-package flycheck-credo)
-      (use-package flycheck-dialyxir)
-      (use-package flycheck-elixir)
-      (use-package flycheck-mix)
-
-      ;;; flycheck setup
-      (add-to-list 'flycheck-checkers 'elixir t)
-      (add-to-list 'flycheck-checkers 'elixir-credo t)
-      (add-to-list 'flycheck-checkers 'elixir-dialyxir t)
-      (add-to-list 'flycheck-checkers 'elixir-mix t)
-
-      (setq flycheck-elixir-credo-strict t)
-      (eval-after-load 'flycheck
-        '(flycheck-credo-setup))
-      (eval-after-load 'flycheck
-        '(flycheck-dialyxir-setup))
-
-      ;;; mode hooks
-      (general-add-hook 'elixir-mode-hook
-                        (list
-                         #'flycheck-mode
-                         (lambda () (add-hook 'before-save-hook 'elixir-format nil t))))))
+(use-package elixir-mode
+  :defer t
+  :config
+  (general-add-hook 'elixir-mode-hook
+   (list
+    #'flycheck-mode
+    (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))))
+(use-package flycheck-elixir
+  :after (elixir-mode)
+  :config
+  (add-to-list 'flycheck-checkers 'elixir t))
+(use-package flycheck-credo
+  :after (elixir-mode)
+  :config
+  (add-to-list 'flycheck-checkers 'elixir-credo t)
+  (setq flycheck-elixir-credo-strict t)
+  (eval-after-load 'flycheck
+    '(flycheck-credo-setup)))
+(use-package flycheck-dialyxir
+  :after (elixir-mode)
+  (add-to-list 'flycheck-checkers 'elixir-dialyxir t)
+  (eval-after-load 'flycheck
+    '(flycheck-dialyxir-setup)))
+(use-package flycheck-mix
+  :after (elixir-mode)
+  :config
+  (add-to-list 'flycheck-checkers 'elixir-mix t))
 
 (provide 'langs/elixir-conf)

@@ -1,8 +1,12 @@
 ;; setup use-package
-(setq package-load-list '((bind-key t)
+(setq package-load-list '((benchmark-init t)
+                          (bind-key t)
                           (use-package t)))
 (package-initialize)
 (require 'use-package)
+
+(require 'benchmark-init)
+(benchmark-init/activate)
 
 ;; use keychain env
 (use-package keychain-environment
@@ -24,4 +28,6 @@
 (when (load "private-init.el")
  (use-package private-init))
 (add-hook 'after-init-hook
-          (lambda () (use-package config)))
+          (lambda ()
+            (use-package config)
+            (benchmark-init/deactivate)))

@@ -1,6 +1,7 @@
-(use-package bindings-conf)
-(use-package functions-conf)
+(use-package git-timemachine)
 (use-package magit)
+(use-package evil-magit)
+(use-package forge)
 
 (general-add-hook 'magit-mode-hook
                   (list 'evil-magit-init))

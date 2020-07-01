@@ -10,6 +10,9 @@
   (setq haskell-font-lock-symbols-alist (cons '("->" "⟶" haskell-font-lock-dot-is-not-composition) haskell-font-lock-symbols-alist))
   (setq haskell-font-lock-symbols-alist (cons '("<-" "⟵" haskell-font-lock-dot-is-not-composition) haskell-font-lock-symbols-alist))
   (setq haskell-font-lock-symbols t))
+
+(use-package flycheck-haskell :after (haskell-mode))
+
 (use-package dante
   :after (haskell-mode))
 

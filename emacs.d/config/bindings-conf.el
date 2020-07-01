@@ -1,10 +1,7 @@
 ;; Bindings for my emacs config
 
-(use-package hydra)
 (use-package functions-conf)
 (use-package merge-conf)
-(use-package which-key)
-(use-package general)
 
 (setq x-super-keysym 'meta)
 (setq x-meta-keysym 'super)
