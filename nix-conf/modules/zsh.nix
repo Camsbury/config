@@ -200,6 +200,9 @@
       cc = "circusd circus.ini";
       # keycloak
       kcl = "docker run -p 8099:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=password jboss/keycloak";
+      # ssh
+      # copy public key
+      csh = "xclip -sel clip < ~/.ssh/id_rsa.pub";
     };
   };
 }
