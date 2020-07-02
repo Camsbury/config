@@ -98,8 +98,9 @@
       orng = "redshift -PO 2000k -b 0.6";
       blue = "redshift -x";
       # nix
-      npk= '';
-        sudo nixos-option environment.systemPackages | head -n -2 | tail -n -1 |;
+      ncu = "sudo nix-channel --update";
+      npk = ''
+        sudo nixos-option environment.systemPackages | head -n -2 | tail -n -1 |
         sed -e 's/ /\n/g' | cut -d- -f2- | sort | uniq;
       '';
       npka = "sudo nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq";
@@ -195,9 +196,10 @@
       mdi = "mix deps";
       # clojure
       lrp = "lein release :patch";
-      # foreman
-      fs = "foreman start";
-      fsu = ''foreman start -m "all=1,ui=0"'';
+      # circus
+      cc = "circusd circus.ini";
+      # keycloak
+      kcl = "docker run -p 8099:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=password jboss/keycloak";
     };
   };
 }
