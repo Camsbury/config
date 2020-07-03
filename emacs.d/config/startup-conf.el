@@ -75,6 +75,7 @@
 (use-package tree-mode)
 (use-package undo-tree)
 (use-package uuid)
+(use-package vega-view)
 (use-package visual-fill-column)
 (use-package web)
 (use-package wgrep)

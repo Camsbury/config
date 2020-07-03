@@ -119,6 +119,7 @@ let
     tree-mode
     use-package
     uuid
+    vega-view
     visual-fill-column
     web
     wgrep
