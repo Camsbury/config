@@ -122,6 +122,7 @@
       nrn = ''nix repl "<nixpkgs/nixos>"'';
       nrp = ''nix repl "<nixpkgs>"'';
       ns = "nix-shell";
+      nsd = "nix show-derivation";
       nsp = "nix-shell --pure";
       nsref = "nix-store-references";
       nsrefr = "nix-store-referrers";
