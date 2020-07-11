@@ -27,5 +27,6 @@
     };
   };
 
- systemd.services.offlineimap.enable = true;
+ systemd.user.services.offlineimap.enable = true;
+ systemd.user.timers.offlineimap.enable = true;
 }

@@ -15,6 +15,7 @@
     bat
     binutils
     brave
+    check-low-battery
     chromium
     curl
     direnv

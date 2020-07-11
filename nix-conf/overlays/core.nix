@@ -12,6 +12,9 @@ in
         alias-tips = with builtins; with pkgs;
           callPackage (import ../derivations/alias-tips) {};
 
+        check-low-battery = with builtins; with pkgs;
+          callPackage (import ../derivations/check-low-battery) {};
+
         cachix = cachixBall.cachix;
 
         xndr = super.callPackage (builtins.fetchTarball

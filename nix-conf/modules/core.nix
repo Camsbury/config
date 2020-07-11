@@ -8,6 +8,7 @@
     ../packages/core.nix
     ../private.nix
     ./zsh.nix
+    ./check-battery.nix
   ];
 
   home-manager.useUserPackages = true;
