@@ -33,18 +33,4 @@
     shell = pkgs.zsh;
   };
   home-manager.users.camsbury = import ../modules/home.nix;
-
-  # services.xserver.xrandrHeads = [
-  #   { output = "eDP-1";
-  #     primary = true;
-  #     monitorConfig = ''
-  #       DisplaySize 406 228
-  #     '';
-  #   }
-  #   { output = "DP-3";
-  #     monitorConfig = ''
-  #       DisplaySize 508 285
-  #     '';
-  #   }
-  # ];
 }
