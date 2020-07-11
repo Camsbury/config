@@ -38,9 +38,13 @@
  'clojurescript-mode-hook
  (lambda ()
    (add-to-list 'imenu-generic-expression
-                '("Event" "reg-event-\\(db\\|fx\\)[[:blank:]\n]+::\\(.*\\)" 2))
+                '("Effect" "reg-fx[[:blank:]\n]+:+\\(.*\\)" 1))
    (add-to-list 'imenu-generic-expression
-                '("Sub" "reg-sub[[:blank:]\n]+::\\(.*\\)" 1))))
+                '("Coeffect" "reg-cofx[[:blank:]\n]+:+\\(.*\\)" 1))
+   (add-to-list 'imenu-generic-expression
+                '("Event" "reg-event-\\(db\\|fx\\)[[:blank:]\n]+:+\\(.*\\)" 2))
+   (add-to-list 'imenu-generic-expression
+                '("Sub" "reg-sub[[:blank:]\n]+:+\\(.*\\)" 1))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
