@@ -10,3 +10,4 @@
 ** [ ] Slack
 ** [ ] [[https://tractsoft.atlassian.net/secure/RapidBoard.jspa?rapidView=71][JIRA]]
 ** [ ] [[https://github.com/notifications?query=reason%3Aassign+reason%3Amention+reason%3Ateam-mention+reason%3Areview-requested+reason%3Aauthor+reason%3Aparticipating][Github]]
+** [ ] [[https://github.com/pulls?q=is%3Aopen+is%3Apr+archived%3Afalse+user%3Atractsoft+draft%3Afalse+review%3Arequired][PRs]]
