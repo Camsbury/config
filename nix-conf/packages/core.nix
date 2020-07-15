@@ -13,6 +13,7 @@
     audacity
     autojump
     bat
+    babashka
     binutils
     brave
     check-low-battery
