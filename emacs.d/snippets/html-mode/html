@@ -2,6 +2,12 @@
 # key: html
 # expand-env: ((yas-indent-line 'fixed))
 # --
+<!DOCTYPE html>
 <html>
-$1
-</html>$2
+  <head>
+    $1
+  </head>
+  <body>
+    $2
+  </body>
+</html>

@@ -1,0 +1,5 @@
+# name: title
+# key: title
+# expand-env: ((yas-indent-line 'fixed))
+# --
+<title>$1</title>$2
