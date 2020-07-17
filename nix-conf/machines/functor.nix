@@ -8,16 +8,24 @@
     ../modules/nvidia.nix
     ../modules/ssd.nix
     ../modules/music.nix
+    ../modules/email.nix
   ];
 
   networking.hostName = "functor";
 
-  nix.trustedUsers = [ "root" "monoid" ];
+  nix.trustedUsers = [
+    "root"
+    "monoid"
+  ];
 
   users.users.monoid = {
-    isNormalUser = true;
     home = "/home/monoid";
-    extraGroups = ["wheel" "networkmanager" "docker"];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "docker"
+    ];
+    isNormalUser = true;
     shell = pkgs.zsh;
   };
 

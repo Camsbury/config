@@ -23,10 +23,12 @@
     "root"
     "camsbury"
   ];
+
   users.users.camsbury = {
     home = "/home/camsbury";
     extraGroups = [
       "wheel"
+      "networkmanager"
       "docker"
     ];
     isNormalUser = true;
