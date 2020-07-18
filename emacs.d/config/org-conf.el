@@ -216,6 +216,7 @@
  ("d"   #'org-deadline             "deadline")
  ("i"   #'org-new-item             "new item")
  ("l"   #'hydra-org-link/body      "org links")
+ ("L"   #'org-append-link          "add link")
  ("m"   #'hydra-org-timer/body     "org timer")
  ("n"   #'org-narrow-to-subtree    "narrow")
  ("o"   #'org-sparse-tree-at-point "show all")
