@@ -86,8 +86,9 @@
 (defhydra hydra-link (:exit t :columns 5)
   "set register"
   ("q" (xdg-open 'gh-nots)  "github notifications")
-  ("w" (xdg-open 'weather)  "save window config")
-  ("z" (xdg-open 'q-course) "quantopian"))
+  ("w" (xdg-open 'weather)  "weather")
+  ("z" (xdg-open 'q-course) "quantopian")
+  ("n" (xdg-open 'shows)    "shows"))
 
 (defhydra hydra-leader (:exit t :columns 5 :idle 1.5)
   "leader"
@@ -117,14 +118,14 @@
   ("k" #'pretty-delete-window         "delete window")
   ("K" #'kill-this-buffer             "kill buffer")
   ("l" #'spawn-right                  "spawn window right")
-  ("L" #'org-todo-list                "see org todo list")
+  ;; ("L")
   ("m" #'empty-mode-leader            "mode leader")
   ("M" #'hydra-merge/body             "merge")
   ("n" #'hydra-spawn/body             "spawn")
   ;; ("N")
   ("o" #'widen-and-zoom-out           "widen")
   ;; ("O")
-  ;; ("p")
+  ("p" #'org-todo-list                "see org todo list")
   ("P" #'projectile-invalidate-cache  "invalidate project cache")
   ("q" #'evil-save-modified-and-close "write quit")
   ("Q" #'clean-quit-emacs             "leave emacs")
