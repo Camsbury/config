@@ -3,6 +3,11 @@
 (use-package dash)
 (use-package etymology-of-word)
 
+(setq my-links
+      '((weather . "https://www.wunderground.com/forecast/us/ny/new-york/KNYNEWYO595?cm_ven=localwx_10day")
+        (gh-nots . "https://github.com/notifications?query=reason%3Aassign+reason%3Amention+reason%3Ateam-mention+reason%3Areview-requested+reason%3Aauthor+reason%3Aparticipating")))
+
+
 (defun eww-new (buff-name)
   "opens a new eww buffer"
   (interactive "sBuffer name: ")
@@ -10,6 +15,12 @@
     (switch-to-buffer (generate-new-buffer buff-name))
     (eww-mode)
     (eww url)))
+
+(defun xdg-open (l-name)
+  "Open a link interactively"
+  (interactive)
+  (shell-command
+   (concat "xdg-open \"" (alist-get l-name my-links) "\"")))
 
 (defun set-window-width (count)
   "Set the selected window's width."
@@ -249,8 +260,10 @@
   (when (s-contains? ".hs" buffer-file-name)
     (toggle-test-haskell)))
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Utility Functions
+
 (defun increment-number-at-point ()
   (interactive)
   (skip-chars-backward "0-9")
@@ -305,8 +318,9 @@
   (insert " ")
   (call-interactively #'org-insert-link))
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; grfn utils
+;; lisp utils
 
 (defmacro comment (&rest _body)
   "Comment out one or more s-expressions"
@@ -316,8 +330,8 @@
 (defun dec (x) "Returns x - 1" (- x 1))
 
 
-;;
-;; Text editing utils
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; grfn utils
 ;;
 
 ;; Reading strings

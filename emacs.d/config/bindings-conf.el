@@ -83,6 +83,11 @@
   ("p" #'point-to-register                "save point")
   ("w" #'window-configuration-to-register "save window config"))
 
+(defhydra hydra-link (:exit t :columns 5)
+  "set register"
+  ("q" (xdg-open 'gh-nots) "github notifications")
+  ("w" (xdg-open 'weather) "save window config"))
+
 (defhydra hydra-leader (:exit t :columns 5 :idle 1.5)
   "leader"
   ("[" #'hydra-describe/body          "describe")
@@ -91,7 +96,7 @@
   ;; ("a")
   ("A" #'org-agenda-list              "org agenda list")
   ("b" #'blind-mode                   "blind mode")
-  ;; ("B")
+  ("B" #'hydra-link/body              "weblinks")
   ("c" #'hydra-config/body            "spawn config file")
   ("C" #'toggle-command-logging       "toggle command logging")
   ("d" #'evil-goto-definition         "evil jump to def")
