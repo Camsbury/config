@@ -3,13 +3,6 @@
 (use-package dash)
 (use-package etymology-of-word)
 
-(setq my-links
-      '((weather . "https://www.wunderground.com/forecast/us/ny/new-york/KNYNEWYO595?cm_ven=localwx_10day")
-        (gh-nots . "https://github.com/notifications?query=reason%3Aassign+reason%3Amention+reason%3Ateam-mention+reason%3Areview-requested+reason%3Aauthor+reason%3Aparticipating")
-        (q-course . "https://www.quantopian.com/lectures")
-        (shows . "https://www.bestfreestreaming.com/")))
-
-
 (defun eww-new (buff-name)
   "opens a new eww buffer"
   (interactive "sBuffer name: ")
