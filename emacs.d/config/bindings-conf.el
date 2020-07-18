@@ -85,8 +85,9 @@
 
 (defhydra hydra-link (:exit t :columns 5)
   "set register"
-  ("q" (xdg-open 'gh-nots) "github notifications")
-  ("w" (xdg-open 'weather) "save window config"))
+  ("q" (xdg-open 'gh-nots)  "github notifications")
+  ("w" (xdg-open 'weather)  "save window config")
+  ("z" (xdg-open 'q-course) "quantopian"))
 
 (defhydra hydra-leader (:exit t :columns 5 :idle 1.5)
   "leader"
