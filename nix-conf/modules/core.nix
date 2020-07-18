@@ -34,11 +34,19 @@
     };
   };
 
-  fonts.fonts = with pkgs; [
-    go-font
-    noto-fonts
-    roboto-mono
-  ];
+  fonts = {
+    enableFontDir = true;
+    enableGhostscriptFonts = true;
+    fonts = with pkgs; [
+      corefonts
+      dejavu_fonts
+      go-font
+      noto-fonts
+      powerline-fonts
+      roboto-mono
+      ubuntu_font_family
+    ];
+  };
 
   hardware = {
     pulseaudio = {
