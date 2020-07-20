@@ -38,6 +38,7 @@
 (use-package flycheck-rust :after (rust-mode))
 (use-package general)
 (use-package go-mode :defer t)
+(use-package haskell-mode)
 (use-package helm-dash)
 (use-package hl-todo)
 (use-package hlint-refactor :after (haskell-mode))
