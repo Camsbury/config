@@ -1,6 +1,6 @@
-(use-package doom-themes)
-
-(load-theme 'doom-molokai t)
+(use-package doom-themes
+  :config
+  (load-theme 'doom-molokai t))
 
 (set-default-font "Go Mono 10")
 
