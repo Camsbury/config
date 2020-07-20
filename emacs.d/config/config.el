@@ -12,6 +12,7 @@
 (use-package browser-conf)
 (use-package counsel-conf)
 (use-package dashboard-conf)
+(use-package debug-conf)
 (use-package docs-conf)
 (use-package epub-conf)
 (use-package evil-conf)

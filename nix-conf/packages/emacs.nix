@@ -137,6 +137,7 @@ let
     astyle
     company-postgresql
     etymology-of-word
+    explain-pause-mode
     ivy-cider
     re-jump
   ];

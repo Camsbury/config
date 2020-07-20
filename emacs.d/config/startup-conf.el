@@ -32,6 +32,7 @@
 (use-package evil-surround)
 (use-package evil-visualstar)
 (use-package exec-path-from-shell)
+(use-package explain-pause-mode)
 (use-package f)
 (use-package flycheck)
 (use-package flycheck-popup-tip)

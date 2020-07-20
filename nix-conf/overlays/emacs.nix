@@ -69,6 +69,23 @@ let
         ];
       };
 
+      explain-pause-mode = eSelf.melpaBuild {
+        pname = "explain-pause-mode";
+        version = "0.1";
+
+        recipe = builtins.toFile "recipe.el" ''
+          (explain-pause-mode :fetcher github
+                              :repo "lastquestion/explain-pause-mode")
+        '';
+
+        src = super.fetchFromGitHub {
+          owner = "lastquestion";
+          repo = "explain-pause-mode";
+          rev = "35f7d780a9c164b5c502023746473b1de3857904";
+          sha256 = "0d9lwzqqwmz0n94i7959rj7m24265yf3825a5g8cd7fyzxznl1pc";
+        };
+      };
+
       # slack = eSelf.melpaBuild {
       #   pname = "slack";
       #   version = "20190303.1037";
