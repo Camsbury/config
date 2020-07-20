@@ -33,6 +33,7 @@
 (use-package theme-conf)
 (use-package tractsoft-conf)
 (use-package ui-conf)
+(use-package wm-conf)
 ;; dired-conf
 ;; slack-conf
 

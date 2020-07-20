@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [
@@ -110,6 +110,7 @@
       displayManager = {
         sddm.enable = true;
         defaultSession = "none+xmonad";
+        sessionCommands = "${pkgs.xorg.xhost}/bin/xhost +SI:localuser:$USER";
       };
 
       autoRepeatDelay = 250;
@@ -126,9 +127,17 @@
             haskellPackages.xmonad-extras
           ];
         };
+        session = lib.singleton {
+          name = "exwm";
+          start = ''
+            ${pkgs.emacs}/bin/emacs --daemon -f exwm-enable
+            ${pkgs.emacs}/bin/emacsclient -c
+          '';
+        };
       };
     };
   };
+
 
   sound.enable = true;
 
