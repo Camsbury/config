@@ -6,9 +6,11 @@ in
   nixpkgs.config.allowUnfree = true;
   programs.home-manager.enable = true;
 
-  # home.packages = [ unstable.hello ];
   home.file = {
     ".Xresources".source = ../../Xresources;
+    ".emacs.d/init.el".source = ../../emacs.d/init.el;
+    ".emacs.d/config".source = ../../emacs.d/config;
+    ".emacs.d/snippets".source = ../../emacs.d/snippets;
     ".gitconfig".source = ../../gitconfig;
     ".gnupg/gpg-agent.conf".source = ../../gpg-agent.conf;
     ".gnupg/gpg.conf".source = ../../gpg.conf;
@@ -18,6 +20,7 @@ in
     ".scripts".source = ../../scripts;
     ".shells".source = ../shells;
     ".tmux.conf".source = ../../tmux.conf;
+    ".xmonad/xmonad.hs".source = ../../xmonad.hs;
     ".zshrc".source = ../../zshrc;
   };
 }
