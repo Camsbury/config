@@ -6,7 +6,7 @@
 
 (if (> (x-display-pixel-width) 1600)
     (setq normal-font-height 90)
-  (setq normal-font-height 70))
+  (setq normal-font-height 100))
 
 (set-face-attribute 'default nil :height normal-font-height)
 
