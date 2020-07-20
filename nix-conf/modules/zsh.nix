@@ -204,6 +204,8 @@
       # ssh
       # copy public key
       csh = "xclip -sel clip < ~/.ssh/id_rsa.pub";
+      # systemd
+      rsys = "systemctl --user daemon-reload";
     };
   };
 }
