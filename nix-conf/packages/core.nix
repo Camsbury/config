@@ -34,6 +34,7 @@
     feh # wallpapers
     firefox
     fzf
+    gdb
     ghostscript # for viewing pdfs
     gimp
     git
