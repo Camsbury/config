@@ -8,9 +8,7 @@ in
 
   home.file = {
     ".Xresources".source = ../../Xresources;
-    ".emacs.d/init.el".source = ../../emacs.d/init.el;
-    ".emacs.d/config".source = ../../emacs.d/config;
-    ".emacs.d/snippets".source = ../../emacs.d/snippets;
+    ".emacs.d/init.el".source = ../../emacs-conf/init.el;
     ".gitconfig".source = ../../gitconfig;
     ".gnupg/gpg-agent.conf".source = ../../gpg-agent.conf;
     ".gnupg/gpg.conf".source = ../../gpg.conf;

@@ -18,6 +18,7 @@
     brave
     check-low-battery
     chromium
+    cmacs
     curl
     direnv
     discord

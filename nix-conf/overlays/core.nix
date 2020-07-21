@@ -20,6 +20,9 @@ in
 
         cachix = cachixBall.cachix;
 
+        cmacs = with builtins; with pkgs;
+          callPackage (import ../derivations/cmacs) {};
+
         xndr = super.callPackage (builtins.fetchTarball
           "https://github.com/Camsbury/xndr/archive/094be18.tar.gz") {pkgs = self;};
         } // ( with unstablePkgs; {

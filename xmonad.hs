@@ -23,7 +23,7 @@ main = do
 myKeys :: [(String, X ())]
 myKeys = [ ("M1-M4-S-C-a", grabApp "anki" "Anki")
          , ("M1-M4-S-C-c", grabApp "brave" "Brave-browser")
-         , ("M1-M4-S-C-e", grabApp "emacs" "Emacs")
+         , ("M1-M4-S-C-e", grabApp "cmacs" "Emacs")
          , ("M1-M4-S-C-f", grabApp "firefox" "Firefox")
          -- , ("M1-M4-S-C-g", grabApp "signal-desktop" "Signal")
          , ("M1-M4-S-C-g", grabApp "telegram-desktop" "TelegramDesktop")
