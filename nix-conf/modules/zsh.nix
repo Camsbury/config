@@ -50,13 +50,35 @@
     };
 
     shellAliases = {
+      # shell
+      apr = "apropos";
+      cat = "bat";
+      cclip = "xclip -selection clipboard";
+      la = "exa --long --all";
+      ll = "exa --long --all";
+      lnf = "readlink -f";
+      ls = "exa --long";
+      psu = "ps -u";
+      take = "take-dir";
+      xmrg = "xrdb -merge ~/.Xresources";
+      zz = "source /etc/zshenv; source /etc/zshrc; source $HOME/.zshrc";
+
       # gpg
       pgz = "gpg --list-secret-keys --keyid-format LONG";
       pgr = "gpg --recv-keys";
       pgl = "gpg --list-keys";
       pgs = "sign-and-send";
+
+      # ssh
+      # copy public key
+      csh = "xclip -sel clip < ~/.ssh/id_rsa.pub";
+
+      # systemd
+      rsys = "systemctl --user daemon-reload";
+
       # tmux
       tls = "tmux list-sessions";
+
       # git
       git = "hub";
       gb = "git branch | cat";
@@ -86,17 +108,21 @@
       pulls = '''open "https://github.com:/$(git remote -v | /usr/bin/grep -oP "(?< = git@github.com:).+(? = \.git)" | HEAD -n 1)/pulls"'';
       cdg = "cd-git-head";
       ghsh = "git rev-parse --short head";
+
       # python
       auh = ''nix-shell --run "alembic upgrade head"'';
       adw = ''nix-shell --run "alembic downgrade -1"'';
       grev = "grid-create-revision";
+
       # C
       gseg = "gdb --batch --ex run --ex bt --ex q --args";
       bam = "bear -a make";
+
       # redshift
       red = "redshift -PO 1000k -b 0.3";
       orng = "redshift -PO 2000k -b 0.6";
       blue = "redshift -x";
+
       # nix
       ncu = "sudo nix-channel --update";
       npk = ''
@@ -135,10 +161,12 @@
       ipy = "nix-shell -p python36Packages.ipython --run ipython";
       ugen = "uuid-gen-n";
       nsr = "nix-shell ~/projects/Camsbury/config/rSetup.nix --run emacs";
+
       # cabal
       cbw = ''ghcid -c "cabal repl lib:bobby" | source-highlight -s haskell -f esc'';
       ctw = ''ghcid -c "cabal repl test:bobby-tests" --warnings --test "Main.main" | source-highlight -s haskell -f esc'';
       cbi = "cabal build --ghc-option=-ddump-minimal-imports";
+
       # docker
       dcud = "docker-compose up -d";
       dclf = "docker-compose logs -f";
@@ -155,6 +183,7 @@
       drni = "docker rmi $(docker images | grep '^<none>' | awk '{print $3}')";
       drdi = ''docker rmi $(docker images -q -f "dangling=true")'';
       drmc = "docker rm $(docker ps -q -f 'status=exited')";
+
       # kubernetes
       kc = "kubectl";
       kt = "kubetail";
@@ -167,45 +196,29 @@
       kpw = "kubectl get pods -w";
       klf = "kubectl logs -f";
       gclc = "gcloud container clusters get-credentials"; # followed by the cluster name
+
       # stackdriver
       lglg = "google-logs";
       lgl = "gcloud logging read --format json";
-      # shell
-      apr = "apropos";
-      cat = "bat";
-      cclip = "xclip -selection clipboard";
-      ls = "exa --long";
-      ll = "exa --long --all";
-      la = "exa --long --all";
-      lnf = "readlink -f";
-      take = "take-dir";
-      zz = "source /etc/zshenv; source /etc/zshrc; source $HOME/.zshrc";
-      xmrg = "xrdb -merge ~/.Xresources";
-      # emacs
-      emd = "emacs --debug-init";
-      # yarn
-      yin = "yarn install";
-      ybw = "yarn build:watch";
-      nprm = "rm -rf */node_modules";
+
       # Ergodox Flashing
       # qmk keyboard camerak
       ezs = "sudo teensy-loader-cli -vw --mcu atmega32u4";
+
       # elixir
       mex = "iex -S mix";
       mt = "mix test";
       md = "mix deps.get && mix deps.compile";
       mdi = "mix deps";
+
       # clojure
       lrp = "lein release :patch";
+
       # circus
       cc = "circusd circus.ini";
+
       # keycloak
       kcl = "docker run -p 8099:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=password jboss/keycloak";
-      # ssh
-      # copy public key
-      csh = "xclip -sel clip < ~/.ssh/id_rsa.pub";
-      # systemd
-      rsys = "systemctl --user daemon-reload";
     };
   };
 }
