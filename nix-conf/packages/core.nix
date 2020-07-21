@@ -57,6 +57,7 @@
     kubectl
     libnotify
     loc
+    lsof
     man-pages
     nix-index
     nixfmt
