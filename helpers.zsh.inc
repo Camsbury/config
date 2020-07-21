@@ -1,6 +1,21 @@
 # -*- shell-script -*-
 
 ################################################################################
+# Hooks
+
+function local_zsh() {
+  if [ -r $OLDPWD/.zsh_config ]; then
+    on_exit
+  fi
+  if [ -r $PWD/.zsh_config ]; then
+    source $PWD/.zsh_config
+    on_entry
+  fi
+}
+
+chpwd_functions+=local_zsh
+
+################################################################################
 # gpg
 
 function sign-and-send {

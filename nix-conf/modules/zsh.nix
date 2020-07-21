@@ -16,8 +16,7 @@
       source "${pkgs.autojump}/share/autojump/autojump.zsh"
       source "${pkgs.google-cloud-sdk}/google-cloud-sdk/completion.zsh.inc"
       source "${pkgs.google-cloud-sdk}/google-cloud-sdk/path.zsh.inc"
-      source $HOME/.helpers.zsh.inc
-      if [ -f "$HOME/.secrets.zsh.inc" ]; then source "$HOME/.secrets.zsh.inc" ; fi
+      source "${../../helpers.zsh.inc}"
 
       ################################################################################
       # set up keychain
