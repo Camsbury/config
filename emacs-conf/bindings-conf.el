@@ -157,7 +157,7 @@
 
 (defhydra hydra-left-leader (:exit t :columns 5)
   "left leader"
-  ("b" #'list-bookmarks          "list bookmarks")
+  ("b" #'bookmark-set            "create bookmark at point")
   ("e" #'flycheck-previous-error "previous error")
   ("t" #'evil-prev-buffer        "previous buffer")
   ("f" #'text-scale-decrease     "zoom out")
@@ -167,7 +167,7 @@
 
 (defhydra hydra-right-leader (:exit t :columns 5)
   "right leader"
-  ("b" #'counsel-bookmark    "jump to bookmark")
+  ("b" #'counsel-bookmark    "open/create bookmark")
   ("e" #'flycheck-next-error "next error")
   ("t" #'evil-next-buffer    "next buffer")
   ("f" #'text-scale-increase "zoom in")
