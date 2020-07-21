@@ -210,15 +210,6 @@
       mt = "mix test";
       md = "mix deps.get && mix deps.compile";
       mdi = "mix deps";
-
-      # clojure
-      lrp = "lein release :patch";
-
-      # circus
-      cc = "circusd circus.ini";
-
-      # keycloak
-      kcl = "docker run -p 8099:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=password jboss/keycloak";
     };
   };
 }
