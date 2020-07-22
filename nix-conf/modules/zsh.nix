@@ -118,8 +118,8 @@
       bam = "bear -a make";
 
       # redshift
-      red = "redshift -PO 1000k -b 0.3";
-      orng = "redshift -PO 2000k -b 0.6";
+      red = "redshift -PO 1000k";
+      orng = "redshift -PO 2000k";
       blue = "redshift -x";
 
       # nix
