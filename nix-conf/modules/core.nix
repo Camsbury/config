@@ -48,6 +48,8 @@
     ];
   };
 
+  documentation.dev.enable = true;
+
   hardware = {
     pulseaudio = {
       enable = true;
