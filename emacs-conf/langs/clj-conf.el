@@ -187,6 +187,8 @@ If invoked with a prefix ARG eval the expression after inserting it"
 (defhydra hydra-clj-jack-in (:exit t)
   "cider-jack-in"
   ("q" #'sesman-quit            "Quit cider session")
+  ("r" #'sesman-restart         "Restart cider session")
+  ("c" #'cider-connect          "Connect to running nREPL")
   ("j" #'cider-jack-in-clj      "Jack in clj")
   ("s" #'cider-jack-in-cljs     "Jack in cljs")
   ("b" #'cider-jack-in-clj&cljs "Jack in both"))
