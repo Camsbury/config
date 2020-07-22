@@ -25,9 +25,6 @@
   "spawn config"
   ("b" #'spawn-bindings  "bindings")
   ("c" #'spawn-config    "config")
-  ("n" #'spawn-zshrc     "zshrc")
-  ("x" #'spawn-xmonad    "xmonad")
-  ("o" #'spawn-emacs-nix "emacs.nix")
   ("f" #'spawn-functions "functions"))
 
 (defhydra hydra-spawn (:exit t :columns 5)

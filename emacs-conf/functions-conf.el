@@ -192,41 +192,23 @@
   (spawn-right)
   (switch-to-buffer (generate-new-buffer arg)))
 
+(defun spawn-functions ()
+  "Spawns the functions file to the right"
+  (interactive)
+  (spawn-right)
+  (find-file (concat (getenv "CONFIG_PATH") "/functions-conf.el")))
+
 (defun spawn-bindings ()
   "Spawns the bindings file to the right"
   (interactive)
   (spawn-right)
-  (find-file "~/.emacs.d/config/bindings-conf.el"))
+  (find-file (concat (getenv "CONFIG_PATH") "/bindings-conf.el")))
 
 (defun spawn-config ()
   "Spawns the config file to the right"
   (interactive)
   (spawn-right)
-  (find-file "~/.emacs.d/config/config.el"))
-
-(defun spawn-functions ()
-  "Spawns the functions file to the right"
-  (interactive)
-  (spawn-right)
-  (find-file "~/.emacs.d/config/functions-conf.el"))
-
-(defun spawn-zshrc ()
-  "Spawns the zshrc file to the right"
-  (interactive)
-  (spawn-right)
-  (find-file "~/.zshrc"))
-
-(defun spawn-xmonad ()
-  "Spawns the XMonad conf file to the right"
-  (interactive)
-  (spawn-right)
-  (find-file "~/.xmonad/xmonad.hs"))
-
-(defun spawn-emacs-nix ()
-  "Spawns the emacs nix file to the right"
-  (interactive)
-  (spawn-right)
-  (find-file "~/projects/Camsbury/config/packages/emacs.nix"))
+  (find-file (concat (getenv "CONFIG_PATH") "/core.el")))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
