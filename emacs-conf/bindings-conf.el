@@ -32,6 +32,7 @@
 
 (defhydra hydra-spawn (:exit t :columns 5)
   "spawn"
+  ("a" (spawnify #'open-daybook)                      "daybook")
   ("b" (spawnify #'open-books)                        "book notes")
   ("d" (spawnify #'open-work)                         "work org")
   ("D" (spawnify #'open-dump)                         "brain dump")
@@ -53,6 +54,7 @@
 
 (defhydra hydra-nav (:exit t :columns 5)
   "nav to"
+  ("a" #'open-daybook                      "daybook")
   ("b" #'open-books                        "book notes")
   ("d" #'open-work                         "work org")
   ("D" #'open-dump                         "brain dump")

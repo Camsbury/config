@@ -103,6 +103,11 @@
  "opens a temporary org file")
 
 (open-file
+ daybook
+ "~/Dropbox/lxndr/daybook.org"
+ "Opens daybook")
+
+(open-file
  books
  "~/Dropbox/lxndr/ref/books.org"
  "Opens my book notes")
