@@ -5,6 +5,7 @@
 
 function local_zsh() {
   if [ -r $OLDPWD/.zsh_config ]; then
+    source $OLDPWD/.zsh_config
     on_exit
   fi
   if [ -r $PWD/.zsh_config ]; then
