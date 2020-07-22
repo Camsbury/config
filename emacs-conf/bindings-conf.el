@@ -136,7 +136,7 @@
   ("s" #'avy-goto-char-2              "avy jump to char")
   ;; ("S")
   ("t" #'hydra-nav/body               "nav")
-  ;; ("T")
+  ("T" #'explain-pause-top            "emacs top")
   ("u" #'prettify-windows             "prettify")
   ;; ("U")
   ;; ("v")
