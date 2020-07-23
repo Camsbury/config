@@ -138,8 +138,8 @@ If invoked with a prefix ARG eval the expression after inserting it"
 
 (general-def 'normal clojure-mode-map
  [remap empty-mode-leader]    #'hydra-clj/body
- [remap evil-goto-definition] #'cider-find-dwim
- [remap dumb-jump-go]         #'cider-doc
+ [remap evil-goto-definition] (lambda () (interactive) (cider-find-var (point)))
+ [remap dumb-jump-go] (lambda () (interactive) (cider-doc (point)))
  [remap cider-inspector-pop]  #'evil-previous-visual-line)
 
 (general-define-key :keymaps 'clojure-mode-map
