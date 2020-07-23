@@ -16,6 +16,12 @@
     "cd ~/projects/" user " && "
     "git clone git@github.com:" user "/" repo ".git")))
 
+(defun kill-magit-buffer ()
+  "Kills a magit buffer"
+  (interactive)
+  (let ((current-prefix-arg t))
+    (call-interactively #'magit-mode-bury-buffer)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Add smart upstream
 
@@ -37,6 +43,9 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
+
+(general-define-key
+ [remap magit-mode-bury-buffer] #'kill-magit-buffer)
 
 (general-define-key
  :states  'normal
