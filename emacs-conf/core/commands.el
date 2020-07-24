@@ -1,8 +1,3 @@
-;; Functions for my emacs config
-
-(use-package dash)
-(use-package etymology-of-word)
-
 (defun eww-new (buff-name)
   "opens a new eww buffer"
   (interactive "sBuffer name: ")
@@ -196,13 +191,13 @@
   "Spawns the functions file to the right"
   (interactive)
   (spawn-right)
-  (find-file (concat (getenv "CONFIG_PATH") "/functions-conf.el")))
+  (find-file (concat (getenv "CONFIG_PATH") "/core/commands.el")))
 
 (defun spawn-bindings ()
   "Spawns the bindings file to the right"
   (interactive)
   (spawn-right)
-  (find-file (concat (getenv "CONFIG_PATH") "/bindings-conf.el")))
+  (find-file (concat (getenv "CONFIG_PATH") "/core/bindings.el")))
 
 (defun spawn-config ()
   "Spawns the config file to the right"
@@ -302,17 +297,6 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; lisp utils
-
-(defmacro comment (&rest _body)
-  "Comment out one or more s-expressions"
-  nil)
-
-(defun inc (x) "Returns x + 1" (+ 1 x))
-(defun dec (x) "Returns x - 1" (- x 1))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; grfn utils
 ;;
 
@@ -392,4 +376,4 @@ Returns nil if the regex did not match, non-nil otherwise"
         (evil-indent beg (+ (line-end-position) 1))))
      (goto-line-char orig-line-char)))
 
-(provide 'functions-conf)
+(provide 'core/commands)

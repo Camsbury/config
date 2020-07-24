@@ -1,8 +1,5 @@
-(use-package bindings-conf)
-
 (general-def 'normal go-mode-map
- [remap empty-mode-leader] #'hydra-go/body
- )
+ [remap empty-mode-leader] #'hydra-go/body)
 
 (setq gofmt-command "goimports")
 

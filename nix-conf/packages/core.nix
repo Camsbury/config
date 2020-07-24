@@ -28,6 +28,7 @@
     docker_compose
     dropbox-cli
     (emacsPackagesNg.emacsWithPackages (import ./emacs.nix))
+    entr
     espeak # tts
     exa
     fd

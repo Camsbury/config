@@ -1,7 +1,11 @@
+(use-package doom-modeline
+  :config (doom-modeline-init))
 (use-package doom-themes
-  :config
-  (load-theme 'doom-molokai t))
+  :config (load-theme 'doom-molokai t))
+(use-package rainbow-delimiters)
+(use-package rainbow-mode)
 
+;; theme
 (set-default-font "Go Mono 10")
 
 (if (> (x-display-pixel-width) 1600)
@@ -10,6 +14,4 @@
 
 (set-face-attribute 'default nil :height normal-font-height)
 
-(add-to-list 'after-make-frame-functions #'my-theme)
-
-(provide 'theme-conf)
+(provide 'core/theme)

@@ -3,6 +3,7 @@
 
 (setq c-basic-offset 2)
 (setq c-basic-indent 2)
+(setq c-default-style "linux")
 
 (general-def 'normal c-mode-map
  [remap empty-mode-leader] #'hydra-c/body)

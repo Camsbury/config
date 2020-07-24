@@ -1,10 +1,3 @@
-(use-package bindings-conf)
-(use-package dash)
-(use-package dash-functional)
-(use-package f)
-(use-package functions-conf)
-(use-package s)
-
 (eval-after-load 'dash '(dash-enable-font-lock))
 (general-add-hook 'emacs-lisp-mode-hook
                   (list 'paredit-mode

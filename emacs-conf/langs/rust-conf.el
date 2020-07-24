@@ -1,4 +1,3 @@
-(use-package bindings-conf)
 (use-package rust-mode)
 (use-package flycheck-rust)
 

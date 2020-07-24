@@ -1,3 +1,4 @@
+(use-package haskell-mode)
 (use-package haskell-font-lock
   :after (haskell-mode)
   :config

@@ -5,8 +5,8 @@ let
     alda-mode
     all-the-icons-ivy-rich
     avy
-    benchmark-init
-    bind-key # use package
+    # benchmark-init
+    bind-key # use package dep
     buffer-move
     cargo
     cider
@@ -63,13 +63,12 @@ let
     forge
     general
     git-timemachine
-    gnuplot
-    gnuplot-mode
     go-mode
     helm-dash
     idris-mode
     hl-todo
     hlint-refactor
+    html-to-hiccup
     hydra
     ivy
     ivy-hydra
@@ -96,16 +95,14 @@ let
     ob-ipython
     org-bullets
     paredit
-    paxedit
+    parseedn
     prettier-js
     projectile
-    projectile-direnv
     pylint
     py-isort
     racer
     racket-mode
     rainbow-delimiters
-    rainbow-identifiers
     ranger
     reformatter # astyle dep
     restart-emacs
@@ -120,8 +117,7 @@ let
     use-package
     uuid
     vega-view
-    visual-fill-column
-    web
+    # visual-fill-column
     wgrep
     which-key
     yaml-mode

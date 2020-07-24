@@ -1,7 +1,9 @@
-(require 'use-package)
-
-;; use keychain env
-(use-package keychain-environment
-  :config (keychain-refresh-environment))
+(require 'core/bindings)
+(require 'core/commands)
+(require 'core/navigation)
+(require 'core/theme)
+(require 'core/debug)
+(require 'core/env)
+(require 'core/prog)
 
 (provide 'core)

@@ -1,11 +1,18 @@
 (use-package company)
-(use-package company-cabal)
-(use-package company-c-headers)
-(use-package company-ghc)
-(use-package company-go)
-(use-package company-jedi)
-(use-package company-lsp)
-(use-package company-postgresql)
+(use-package company-cabal
+  :after (company))
+(use-package company-c-headers
+  :after (company))
+(use-package company-ghc
+  :after (company))
+(use-package company-go
+  :after (company))
+(use-package company-jedi
+  :after (company))
+(use-package company-lsp
+  :after (company))
+(use-package company-postgresql
+  :after (company))
 (global-company-mode)
 
 (provide 'autocomplete-conf)

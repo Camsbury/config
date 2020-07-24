@@ -1,4 +1,4 @@
-(use-package dash)
+
 
 (-map 'require
       '(langs/alda-conf
@@ -21,5 +21,10 @@
         langs/rlang-conf
         langs/rust-conf
         langs/shell-conf))
+
+(use-package dockerfile-mode)
+(use-package yaml-mode
+  :init (general-add-hook 'yaml-mode-hook
+                          (list 'linum-mode)))
 
 (provide 'lang-conf)

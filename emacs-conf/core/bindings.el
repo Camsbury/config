@@ -1,7 +1,8 @@
 ;; Bindings for my emacs config
 
-(use-package functions-conf)
-(use-package merge-conf)
+(use-package general)
+(use-package which-key)
+(use-package hydra)
 
 (setq x-super-keysym 'meta)
 (setq x-meta-keysym 'super)
@@ -210,4 +211,4 @@
 (general-def 'operator
   "s" #'evil-surround-edit)
 
-(provide 'bindings-conf)
+(provide 'core/bindings)

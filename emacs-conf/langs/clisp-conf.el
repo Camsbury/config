@@ -1,4 +1,3 @@
-(use-package bindings-conf)
 (use-package evil)
 (use-package langs/lisp-conf)
 

@@ -1,5 +1,4 @@
-(use-package bindings-conf)
-(use-package dash)
+
 (use-package ob-async)
 (use-package ob-elixir)
 (use-package ob-http)
