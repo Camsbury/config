@@ -1,7 +1,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; EXWM
 
-(use-package exwm)
+(use-package exwm
+  :config (general-define-key :keymaps 'exwm-mode-map
+                              "s-SPC" #'hydra-leader/body))
 (use-package exwm-config
   :after (exwm)
   :config (exwm-config-default))
