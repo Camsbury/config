@@ -6,6 +6,12 @@
     (eww-mode)
     (eww url)))
 
+(defun exwm-run-command ()
+  "Ivy reads available commands and runs one"
+  (interactive)
+  (ivy-read "Run command: " (s-lines (shell-command-to-string "bash -c \"compgen -c\""))
+            :action (lambda (command) (interactive (list (read-shell-command "$ "))) (start-process-shell-command command nil command))))
+
 (defun xdg-open (l-name)
   "Open a link interactively"
   (interactive)

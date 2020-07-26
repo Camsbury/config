@@ -3,7 +3,8 @@
 
 (use-package exwm
   :config (general-define-key :keymaps 'exwm-mode-map
-                              "s-SPC" #'hydra-leader/body))
+                              "s-SPC" #'hydra-leader/body
+                              "s-c"   #'exwm-run-command))
 (use-package exwm-config
   :after (exwm)
   :config (exwm-config-default))
