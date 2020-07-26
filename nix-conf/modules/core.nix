@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [
@@ -111,6 +111,7 @@
 
       displayManager = {
         lightdm.enable = true;
+        sessionCommands = "${pkgs.xorg.xhost}/bin/xhost +SI:localuser:$USER";
         defaultSession = "none+xmonad";
       };
 
@@ -119,6 +120,10 @@
 
 
       windowManager = {
+        session = lib.singleton {
+          name = "exwm";
+          start = "${pkgs.cmacs}/bin/cmacs";
+        };
         xmonad = {
           enable = true;
           enableContribAndExtras = true;
