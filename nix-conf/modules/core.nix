@@ -9,6 +9,7 @@
     ../private.nix
     ./zsh.nix
     ./check-battery.nix
+    ./dropbox.nix
   ];
 
   home-manager.useUserPackages = true;
