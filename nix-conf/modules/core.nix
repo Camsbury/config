@@ -113,7 +113,7 @@
       displayManager = {
         lightdm.enable = true;
         sessionCommands = "${pkgs.xorg.xhost}/bin/xhost +SI:localuser:$USER";
-        defaultSession = "none+xmonad";
+        defaultSession = "none+exwm";
       };
 
       autoRepeatDelay = 250;
