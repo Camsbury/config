@@ -43,12 +43,14 @@
 (defun raise-brightness ()
   "raises brightness"
   (interactive)
-  (shell-command "sh ~/.scripts/brightness.sh +2"))
+  (let ((default-directory "/sudo::"))
+    (shell-command (concat "sh /home/" (getenv "USER") "/.scripts/brightness.sh +20"))))
 
 (defun lower-brightness ()
   "lowers brightness"
   (interactive)
-  (shell-command "sh ~/.scripts/brightness.sh -2"))
+  (let ((default-directory "/sudo::"))
+    (shell-command (concat "sh /home/" (getenv "USER") "/.scripts/brightness.sh -20"))))
 
 (defun raise-volume ()
   "raises volume"
@@ -80,10 +82,25 @@
   (interactive)
   (shell-command "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"))
 
+(defun redshift-blue ()
+  "Turns the screen normal"
+  (interactive)
+  (shell-command "redshift -x"))
+
+(defun redshift-orange ()
+  "Turns the screen orange"
+  (interactive)
+  (shell-command "redshift -PO 2000k"))
+
+(defun redshift-red ()
+  "Turns the screen red"
+  (interactive)
+  (shell-command "redshift -PO 1000k"))
+
 (defun exwm-run-command ()
   "Ivy reads available commands and runs one"
   (interactive)
-  (ivy-read "Run command: " (s-lines (shell-command-to-string "bash -c \"compgen -c\""))
+  (ivy-read "Run command: " (s-lines (shell-command-to-string "sh -c \"compgen -c\""))
             :action (lambda (command) (interactive (list (read-shell-command "$ "))) (start-process-shell-command command nil command))))
 
 (general-define-key
