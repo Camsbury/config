@@ -22,11 +22,14 @@
   (global-exwm-key "s-["                     #'hydra-left-leader/body)
   (global-exwm-key "s-]"                     #'hydra-right-leader/body)
   (global-exwm-key "s-c"                     #'exwm-run-command)
-  (global-exwm-key "s-y"                     #'evil-yank)
   (global-exwm-key "s-b"                     #'check-battery)
   (global-exwm-key "s-t"                     #'check-time)
   (global-exwm-key "s-L"                     #'lock-screen)
-  (global-exwm-key "C-SPC"                   #'switch-keymap))
+  (global-exwm-key "C-SPC"                   #'switch-keymap)
+  (global-exwm-key "M-C-s-R"                 #'reboot)
+  (exwm-input-set-simulation-keys
+   '(([?\s-Y] . ?\C-C)
+     ([?\s-y] . ?\C-c))))
 
 (use-package exwm-config
   :after (exwm)
@@ -120,6 +123,11 @@
   "Turns the screen red"
   (interactive)
   (shell-command "redshift -PO 1000k"))
+
+(defun reboot ()
+  "Reboot the system"
+  (interactive)
+  (shell-command "reboot"))
 
 (defun exwm-run-command ()
   "Ivy reads available commands and runs one"
