@@ -124,7 +124,7 @@
 (defun exwm-run-command ()
   "Ivy reads available commands and runs one"
   (interactive)
-  (ivy-read "Run command: " (s-lines (shell-command-to-string "sh -c \"compgen -c\""))
+  (ivy-read "Run command: " (s-lines (shell-command-to-string "print -rC1 -- ${(ko)commands}"))
             :action (lambda (command) (interactive (list (read-shell-command "$ "))) (start-process-shell-command command nil command))))
 
 (provide 'core/window_manager)
