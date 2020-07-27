@@ -176,11 +176,9 @@
   ("x" #'org-next-block      "next org block"))
 
 (general-define-key
- "s-c"        #'exwm-run-command
  "s-x"        #'counsel-M-x
  "M-n"        #'goto-address-at-point
  "M-x"        #'counsel-M-x
- "<C-escape>" #'hydra-leader/body
  "C-h"        #'evil-window-left
  "C-j"        #'evil-window-down
  "C-k"        #'evil-window-up

@@ -17,7 +17,6 @@ main = do
          { layoutHook = smartBorders $
            ThreeCol 1 (3/100) (1/4) ||| noBorders Full ||| Tall 1 (3/100) (1/2)
          , focusFollowsMouse = False
-         , startupHook = spawn "sh ~/.scripts/startup.sh"
          } `additionalKeysP` myKeys
 
 myKeys :: [(String, X ())]
@@ -35,7 +34,6 @@ myKeys = [ ("M1-M4-S-C-a", grabApp "anki" "Anki")
          , ("M1-d",        spawn   "disper -d eDP-1,DP-3 -r auto --cycle-stages=\"-s:-c:-e\" --cycle -t right")
          , ("M1-b",        spawn   "sh ~/.scripts/check-battery.sh")
          , ("M1-S-l",      spawn   "slock")
-         , ("M1-m",        spawn   "sh ~/.scripts/pomodoro.sh")
          , ("M1-s",        spawn   "bash ~/.scripts/cycle-sound.sh")
          , ("C-<Space>",   spawn   "sh ~/.scripts/switch-keymap.sh")
          , ( "<XF86MonBrightnessUp>"

@@ -1,5 +1,6 @@
 (require 'core/bindings)
 (require 'core/commands)
+(require 'core/window_manager)
 (require 'core/navigation)
 (require 'core/theme)
 (require 'core/debug)

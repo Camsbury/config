@@ -1,19 +1,4 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; EXWM
-
-(use-package exwm
-  :config (general-define-key :keymaps 'exwm-mode-map
-                              "s-SPC" #'hydra-leader/body
-                              "s-c"   #'exwm-run-command))
-(use-package exwm-config
-  :after (exwm)
-  :config (exwm-config-default))
-(use-package exwm-randr
-  :after (exwm))
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Counsel
 
 (use-package counsel
