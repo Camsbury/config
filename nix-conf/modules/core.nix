@@ -10,6 +10,7 @@
     ./zsh.nix
     ./check-battery.nix
     ./dropbox.nix
+    ./screen_lock.nix
   ];
 
   home-manager.useUserPackages = true;
@@ -98,8 +99,6 @@
     bash.enableCompletion = true;
     gnupg.agent = { enable = true; enableSSHSupport = true; };
   };
-
-  security.wrappers.slock.source = "${pkgs.slock.out}/bin/slock";
 
   services = {
     lorri.enable = true;

@@ -75,7 +75,6 @@
     signal-desktop
     slack
     sloccount
-    slock
     sourceHighlight
     spotify # non-free
     sqlite
@@ -98,7 +97,6 @@
     xorg.xbacklight
     xorg.xmodmap
     xpdf
-    xss-lock
     zip
     zsh
   ];
