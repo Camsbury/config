@@ -108,11 +108,6 @@
       cdg = "cd-git-head";
       ghsh = "git rev-parse --short head";
 
-      # python
-      auh = ''nix-shell --run "alembic upgrade head"'';
-      adw = ''nix-shell --run "alembic downgrade -1"'';
-      grev = "grid-create-revision";
-
       # C
       gseg = "gdb --batch --ex run --ex bt --ex q --args";
       bam = "bear -a make";
