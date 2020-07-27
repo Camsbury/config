@@ -16,8 +16,6 @@ in
     ".offlineimaprc".source = ../../offlineimaprc;
     ".scripts".source = ../../scripts;
     ".shells".source = ../shells;
-    ".tmux.conf".source = ../../tmux.conf;
-    ".xmonad/xmonad.hs".source = ../../xmonad.hs;
     ".zshrc".source = ../../zshrc;
   };
 }

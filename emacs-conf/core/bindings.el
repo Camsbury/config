@@ -179,10 +179,6 @@
  "s-x"        #'counsel-M-x
  "M-n"        #'goto-address-at-point
  "M-x"        #'counsel-M-x
- "C-h"        #'evil-window-left
- "C-j"        #'evil-window-down
- "C-k"        #'evil-window-up
- "C-l"        #'evil-window-right
  "C-u"        #'evil-scroll-up
  "C-S-p"      #'yank)
 

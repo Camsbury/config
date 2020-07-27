@@ -23,7 +23,6 @@
     direnv
     discord
     disper
-    dmenu
     docker
     docker_compose
     (emacsPackagesNg.emacsWithPackages (import ./emacs.nix))
@@ -81,7 +80,6 @@
     tdesktop # telegram
     teensy-loader-cli # flash ergodox firmware (use zshrc alias for help)
     tldr
-    tmux
     transmission
     tree
     # typora # markdown
@@ -93,7 +91,6 @@
     wget
     xclip # copy paste stuff
     xkb-switch
-    xorg.libXft # XMonad
     xorg.xbacklight
     xorg.xmodmap
     xpdf

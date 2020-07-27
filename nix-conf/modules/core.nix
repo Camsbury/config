@@ -124,15 +124,6 @@
           name = "exwm";
           start = "${pkgs.cmacs}/bin/cmacs";
         };
-        xmonad = {
-          enable = true;
-          enableContribAndExtras = true;
-          extraPackages = haskellPackages: [
-            haskellPackages.xmonad
-            haskellPackages.xmonad-contrib
-            haskellPackages.xmonad-extras
-          ];
-        };
       };
     };
   };

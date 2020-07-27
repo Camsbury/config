@@ -10,17 +10,8 @@
 *recentf*
 *tramp*
 *url/
-*xmonad-x86_64-linux
-*xmonad.errors
-*xmonad.hi
-*xmonad.o
-*xmonad.state
 *~
-emacs.d/smex-items
-emacs.d/transient/
 nov-places
 offlineimap/*
-private-conf.el
-private-init.el
 private.nix
 result

@@ -37,7 +37,6 @@
         "docker-compose"
         "git"
         "kubectl"
-        "tmux"
         "yarn"
       ];
       customPkgs = with pkgs; [
@@ -74,9 +73,6 @@
 
       # systemd
       rsys = "systemctl --user daemon-reload";
-
-      # tmux
-      tls = "tmux list-sessions";
 
       # git
       git = "hub";

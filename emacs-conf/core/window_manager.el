@@ -1,9 +1,33 @@
+(defun global-exwm-key (key cmd)
+  "bind key for use across all exwm buffers"
+  (general-define-key :keymaps 'exwm-mode-map key cmd)
+  (exwm-input-set-key (kbd key) cmd))
+
 (use-package exwm
-  :config (general-define-key :keymaps 'exwm-mode-map
-                              "s-SPC" #'hydra-leader/body
-                              "s-["   #'hydra-left-leader/body
-                              "s-]"   #'hydra-right-leader/body
-                              "s-c"   #'exwm-run-command))
+  :config
+  (global-exwm-key "<XF86MonBrightnessUp>"   #'raise-brightness)
+  (global-exwm-key "<XF86MonBrightnessDown>" #'lower-brightness)
+  (global-exwm-key "<XF86Display>"           #'lock-screen)
+  (global-exwm-key "<XF86AudioRaiseVolume>"  #'raise-volume)
+  (global-exwm-key "<XF86AudioLowerVolume>"  #'lower-volume)
+  (global-exwm-key "<XF86AudioMute>"         #'toggle-mute)
+  (global-exwm-key "<XF86AudioPlay>"         #'spotify-toggle-play)
+  (global-exwm-key "<XF86AudioPrev>"         #'spotify-prev)
+  (global-exwm-key "<XF86AudioNext>"         #'spotify-next)
+  (global-exwm-key "s-k"                     #'evil-window-up)
+  (global-exwm-key "s-j"                     #'evil-window-down)
+  (global-exwm-key "s-h"                     #'evil-window-left)
+  (global-exwm-key "s-l"                     #'evil-window-right)
+  (global-exwm-key "s-SPC"                   #'hydra-leader/body)
+  (global-exwm-key "s-["                     #'hydra-left-leader/body)
+  (global-exwm-key "s-]"                     #'hydra-right-leader/body)
+  (global-exwm-key "s-c"                     #'exwm-run-command)
+  (global-exwm-key "s-y"                     #'evil-yank)
+  (global-exwm-key "s-b"                     #'check-battery)
+  (global-exwm-key "s-t"                     #'check-time)
+  (global-exwm-key "s-L"                     #'lock-screen)
+  (global-exwm-key "C-SPC"                   #'switch-keymap))
+
 (use-package exwm-config
   :after (exwm)
   :config (exwm-config-default))
@@ -102,21 +126,5 @@
   (interactive)
   (ivy-read "Run command: " (s-lines (shell-command-to-string "sh -c \"compgen -c\""))
             :action (lambda (command) (interactive (list (read-shell-command "$ "))) (start-process-shell-command command nil command))))
-
-(general-define-key
- "<XF86MonBrightnessUp>"   #'raise-brightness
- "<XF86MonBrightnessDown>" #'lower-brightness
- "<XF86Display>"           #'lock-screen
- "<XF86AudioRaiseVolume>"  #'raise-volume
- "<XF86AudioLowerVolume>"  #'lower-volume
- "<XF86AudioMute>"         #'toggle-mute
- "<XF86AudioPlay>"         #'spotify-toggle-play
- "<XF86AudioPrev>"         #'spotify-prev
- "<XF86AudioNext>"         #'spotify-next
- "s-b"                     #'check-battery
- "s-c"                     #'exwm-run-command
- "s-t"                     #'check-time
- "s-L"                     #'lock-screen
- "C-SPC"                   #'switch-keymap)
 
 (provide 'core/window_manager)
