@@ -4,6 +4,9 @@
   (exwm-input-set-key (kbd key) cmd))
 
 (use-package exwm
+  :init
+  (setq exwm-workspace-show-all-buffers t)
+  (setq exwm-layout-show-all-buffers t)
   :config
   (global-exwm-key "<XF86MonBrightnessUp>"   #'raise-brightness)
   (global-exwm-key "<XF86MonBrightnessDown>" #'lower-brightness)
@@ -129,10 +132,50 @@
   (interactive)
   (shell-command "reboot"))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; open apllications
+
+(defun -run-shell-command (command)
+  "run a shell command"
+  (start-process-shell-command command nil command))
+
+(defun find-or-open-application (command name)
+  "Finds or opens the application"
+  (let* ((buffers (-map #'buffer-name (buffer-list)))
+         (match (-first (lambda (buffer) (s-match name buffer)) buffers)))
+    (if match
+        (switch-to-buffer match)
+      (-run-shell-command command))))
+
+(defun open-brave ()
+  "Opens the brave browser"
+  (interactive)
+  (find-or-open-application "brave" "Brave-browser"))
+
+(defun open-spotify ()
+  "Opens Spotify"
+  (interactive)
+  (find-or-open-application "spotify" "Spotify"))
+
+(defun open-slack ()
+  "Opens Slack"
+  (interactive)
+  (find-or-open-application "slack" "Slack"))
+
+(defun open-telegram ()
+  "Opens Telegram"
+  (interactive)
+  (find-or-open-application "telegram-desktop" "TelegramDesktop"))
+
+(defun open-xterm ()
+  "Opens the terminal"
+  (interactive)
+  (find-or-open-application "xterm" "XTerm"))
+
 (defun exwm-run-command ()
   "Ivy reads available commands and runs one"
   (interactive)
   (ivy-read "Run command: " (s-lines (shell-command-to-string "print -rC1 -- ${(ko)commands}"))
-            :action (lambda (command) (interactive (list (read-shell-command "$ "))) (start-process-shell-command command nil command))))
+            :action #'-run-shell-command))
 
 (provide 'core/window_manager)
