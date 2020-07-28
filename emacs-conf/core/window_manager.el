@@ -6,8 +6,11 @@
 (use-package exwm
   :init
   (setq exwm-workspace-show-all-buffers t)
-  (setq exwm-layout-show-all-buffers t)
-  :config
+  (setq exwm-layout-show-all-buffers t))
+
+(use-package exwm-config
+  :after (exwm)
+  :config (exwm-config-default)
   (global-exwm-key "<XF86MonBrightnessUp>"   #'raise-brightness)
   (global-exwm-key "<XF86MonBrightnessDown>" #'lower-brightness)
   (global-exwm-key "<XF86Display>"           #'lock-screen)
@@ -31,12 +34,11 @@
   (global-exwm-key "C-SPC"                   #'switch-keymap)
   (global-exwm-key "M-C-s-R"                 #'reboot)
   (exwm-input-set-simulation-keys
-   '(([?\s-Y] . ?\C-C)
-     ([?\s-y] . ?\C-c))))
-
-(use-package exwm-config
-  :after (exwm)
-  :config (exwm-config-default))
+   '(([?\s-a] . ?\C-a)
+     ([?\s-Y] . ?\C-C)
+     ([?\s-y] . ?\C-c)
+     ([?\s-P] . ?\C-V)
+     ([?\s-p] . ?\C-v))))
 (use-package exwm-randr
   :after (exwm))
 
