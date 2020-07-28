@@ -20,7 +20,7 @@
 (setq split-height-threshold nil)
 (setq split-width-threshold 160)
 (setq
- find-function-C-source-dir "<some-dir>/emacs/src"
+ find-function-C-source-directory (getenv "EMACS_C_SOURCE_PATH")
  whitespace-line-column 80
  whitespace-style '(face trailing lines-tail))
 
