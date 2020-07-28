@@ -14,12 +14,7 @@ enum custom_keycodes {
   EPRM,
   VRSN,
   RGB_SLD,
-  /* QMK_LAYOUT, */
-  /* EMACS_BINDINGS, */
-  /* EMACS_CONFIG, */
-  /* ZSHRC, */
-  /* KHDRC, */
-  /* CHUNKRC, */
+  /* EXAMPLE, */
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -31,7 +26,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TAB,            KC_Q,           KC_W,              KC_F,                KC_P,                KC_G,                LGUI(KC_X),
       LT(1,KC_LBRACKET), KC_A,           KC_R,              KC_S,                KC_T,                KC_D,
       KC_LSPO,           KC_Z,           KC_X,              KC_C,                KC_V,                KC_B,                KC_CAPSLOCK,
-      MEH_T(KC_NO),      ALL_T(KC_NO),   LSFT(LALT(KC_NO)), KC_LALT,             KC_LGUI,
+      ALL_T(KC_NO),      KC_LALT,        LSFT(LALT(KC_NO)), MEH_T(KC_NO),        KC_LGUI,
 
                                                                                  KC_NO,               KC_NO,
                                                                                                                            KC_NO,
@@ -39,15 +34,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
       //RIGHT HAND
-      KC_NO,             KC_AUDIO_MUTE,  KC_AUDIO_VOL_UP,   KC_AUDIO_VOL_DOWN,   LGUI(KC_KP_PLUS),    LGUI(KC_MINUS),      KC_NO,
-      LGUI(KC_SPACE),    KC_J,           KC_L,              KC_U,                KC_Y,                KC_COLN,             KC_DELETE,
-                         KC_H,           KC_N,              KC_E,                KC_I,                KC_O,                LT(1,KC_RBRACKET),
-      KC_NO,             KC_K,           KC_M,              KC_COMMA,            KC_DOT,              KC_SLASH,            KC_RSPC,
-                         KC_LGUI,        KC_LALT,           LSFT(LALT(KC_NO)),   ALL_T(KC_NO),        MEH_T(KC_NO),
+      KC_NO,              KC_AUDIO_MUTE, KC_AUDIO_VOL_UP,   KC_AUDIO_VOL_DOWN,   LGUI(KC_KP_PLUS),    LGUI(KC_MINUS),      KC_NO,
+      LGUI(KC_SPACE),     KC_J,          KC_L,              KC_U,                KC_Y,                KC_COLN,             KC_DELETE,
+                          KC_H,          KC_N,              KC_E,                KC_I,                KC_O,                LT(1,KC_RBRACKET),
+      KC_NO,              KC_K,          KC_M,              KC_COMMA,            KC_DOT,              KC_SLASH,            KC_RSPC,
+                                         KC_LGUI,           MEH_T(KC_NO),        LSFT(LALT(KC_NO)),   KC_LALT,             ALL_T(KC_NO),
 
-      KC_NO,
-                         KC_NO,          KC_NO,
-      CTL_T(KC_NO),      LT(2,KC_ENTER), KC_BSPACE),
+      KC_BRIGHTNESS_DOWN,
+                          KC_NO,              KC_BRIGHTNESS_UP,
+      CTL_T(KC_NO),       LT(2,KC_ENTER),     KC_BSPACE),
 
   // SYMBOL LAYER
   [1] = LAYOUT_ergodox(
@@ -77,23 +72,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // NUMBER LAYER
   [2] = LAYOUT_ergodox(
       //LEFT HAND
-      CHROME_INSPECT_L, KC_F1,              KC_F2,              KC_F3,            KC_F4,                KC_F5,              CHROME_INSPECT_M,
-      KC_NO,            LALT(KC_1),         LALT(KC_2),         LALT(KC_3),       LALT(KC_4),           LALT(KC_5),         KC_NO,
-      KC_NO,            KC_1,               KC_2,               KC_3,             KC_4,                 KC_5,
-      KC_LCTL,          LSFT(LALT(KC_1)),   LSFT(LALT(KC_2)),   LSFT(LALT(KC_3)), LSFT(LALT(KC_4)),     LSFT(LALT(KC_5)),   KC_NO,
-      KC_NO,            ALL_T(KC_NO),       MEH_T(KC_NO),       KC_LALT,          KC_LGUI,
+      CHROME_INSPECT_L, KC_F1,              KC_F2,            KC_F3,            KC_F4,            KC_F5,            CHROME_INSPECT_M,
+      KC_NO,            LALT(KC_1),         LALT(KC_2),       LALT(KC_3),       LALT(KC_4),       LALT(KC_5),       KC_NO,
+      KC_NO,            KC_1,               KC_2,             KC_3,             KC_4,             KC_5,
+      KC_LCTL,          LSFT(LALT(KC_1)),   LSFT(LALT(KC_2)), LSFT(LALT(KC_3)), LSFT(LALT(KC_4)), LSFT(LALT(KC_5)), KC_NO,
+      KC_NO,            KC_LALT,            KC_NO,            KC_NO,            KC_NO,
 
-                                                                                  KC_NO,                KC_NO,
-                                                                                                                            KC_NO,
-                                                                                  KC_NO,                KC_TRNS,            KC_NO,
+                                                                                KC_NO,            KC_NO,
+                                                                                                                    KC_NO,
+                                                                                KC_NO,            KC_TRNS,          KC_NO,
 
 
       //RIGHT HAND
-      KC_NO,            KC_F6,              KC_F7,              KC_F8,            KC_F9,                KC_F10,             KC_F11,
-      KC_NO,            LALT(KC_6),         LALT(KC_7),         LALT(KC_8),       LALT(KC_9),           LALT(KC_0),         KC_F12,
-                        KC_6,               KC_7,               KC_8,             KC_9,                 KC_0,               KC_NO,
-      KC_NO,            LSFT(LALT(KC_6)),   LSFT(LALT(KC_7)),   LSFT(LALT(KC_8)), LSFT(LALT(KC_9)),     LSFT(LALT(KC_0)),   KC_LCTL,
-                                            KC_LGUI,            KC_LALT,          MEH_T(KC_NO),         ALL_T(KC_NO),       KC_NO,
+      KC_NO,            KC_F6,              KC_F7,            KC_F8,            KC_F9,            KC_F10,           KC_F11,
+      KC_NO,            LALT(KC_6),         LALT(KC_7),       LALT(KC_8),       LALT(KC_9),       LALT(KC_0),       KC_F12,
+                        KC_6,               KC_7,             KC_8,             KC_9,             KC_0,             KC_NO,
+      KC_NO,            LSFT(LALT(KC_6)),   LSFT(LALT(KC_7)), LSFT(LALT(KC_8)), LSFT(LALT(KC_9)), LSFT(LALT(KC_0)), KC_LCTL,
+                                            KC_NO,            KC_NO,            KC_NO,            KC_LALT,          KC_NO,
 
       KC_NO,
                         KC_NO,              KC_NO,
@@ -269,39 +264,9 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     // dynamically generate these.
-    /* case QMK_LAYOUT: */
+    /* case EXAMPLE: */
     /*   if (record->event.pressed) { */
     /*       SEND_STRING("  ce"); */
-    /*   } */
-    /*   return false; */
-    /*   break; */
-    /* case EMACS_BINDINGS: */
-    /*   if (record->event.pressed) { */
-    /*       SEND_STRING("  cb"); */
-    /*   } */
-    /*   return false; */
-    /*   break; */
-    /* case EMACS_CONFIG: */
-    /*   if (record->event.pressed) { */
-    /*       SEND_STRING("  cc"); */
-    /*   } */
-    /*   return false; */
-    /*   break; */
-    /* case ZSHRC: */
-    /*   if (record->event.pressed) { */
-    /*       SEND_STRING("  cn"); */
-    /*   } */
-    /*   return false; */
-    /*   break; */
-    /* case KHDRC: */
-    /*   if (record->event.pressed) { */
-    /*       SEND_STRING("  ci"); */
-    /*   } */
-    /*   return false; */
-    /*   break; */
-    /* case CHUNKRC: */
-    /*   if (record->event.pressed) { */
-    /*       SEND_STRING("  cI"); */
     /*   } */
     /*   return false; */
     /*   break; */
