@@ -8,6 +8,7 @@
     ../modules/nvidia.nix
     ../modules/ssd.nix
     ../modules/music.nix
+    ../modules/tract.nix
     ../modules/email.nix
   ];
 
