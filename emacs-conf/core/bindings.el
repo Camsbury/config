@@ -52,7 +52,8 @@
   ("S" (spawnify #'open-se-principles)                "SE principles")
   ("t" (spawnify #'counsel-find-file)                 "file in dir")
   ("w" (spawnify #'eww-new)                           "web browser")
-  ("x" (spawnify #'open-xterm)                        "xterm"))
+  ("x" (spawnify #'open-xterm)                        "xterm")
+  ("z" (spawnify #'open-zoom)                         "zoom"))
 
 (defhydra hydra-nav (:exit t :columns 5)
   "nav to"
@@ -78,7 +79,8 @@
   ("S" #'open-se-principles                "SE principles")
   ("t" #'counsel-find-file                 "file in dir")
   ("w" #'eww-new                           "web browser")
-  ("x" #'open-xterm                        "xterm"))
+  ("x" #'open-xterm                        "xterm")
+  ("z" #'open-zoom                         "zoom"))
 
 (defhydra hydra-git (:exit t :columns 5)
   "git"

@@ -174,6 +174,11 @@
   (interactive)
   (find-or-open-application "xterm" "XTerm"))
 
+(defun open-zoom ()
+  "Opens the terminal"
+  (interactive)
+  (find-or-open-application "zoom-us" "zoom"))
+
 (defun exwm-run-command ()
   "Ivy reads available commands and runs one"
   (interactive)
