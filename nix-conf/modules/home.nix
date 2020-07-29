@@ -14,8 +14,8 @@ in
     ".helpers.zsh.inc".source = ../../helpers.zsh.inc;
     ".offlineimap.py".source = ../../offlineimap.py;
     ".offlineimaprc".source = ../../offlineimaprc;
-    ".scripts".source = ../../scripts;
-    ".shells".source = ../shells;
+    ".scripts".source = toString ../../scripts;
+    ".shells".source = toString ../shells;
     ".zshrc".source = ../../zshrc;
   };
 }
