@@ -10,7 +10,21 @@
 
 (use-package exwm-config
   :after (exwm)
-  :config (exwm-config-default)
+  :config
+  (setq exmw-workspace-number 1)
+  (add-hook 'exwm-update-class-hook
+            (lambda ()
+              (exwm-workspace-rename-buffer exwm-class-name)))
+  (setq exwm-input-global-keys
+        `(([?\s-r] . exwm-reset)
+          ([?\s-w] . exwm-workspace-switch)
+          ,@(mapcar (lambda (i)
+                      `(,(kbd (format "s-%d" i)) .
+                        (lambda ()
+                          (interactive)
+                          (exwm-workspace-switch-create ,i))))
+                    (number-sequence 0 9))))
+  (exwm-enable) ; assuming this needs to be done before setters are enabled
   (global-exwm-key "<XF86MonBrightnessUp>"   #'raise-brightness)
   (global-exwm-key "<XF86MonBrightnessDown>" #'lower-brightness)
   (global-exwm-key "<XF86Display>"           #'lock-screen)
@@ -35,10 +49,10 @@
   (global-exwm-key "M-C-s-R"                 #'reboot)
   (exwm-input-set-simulation-keys
    '(([?\s-a] . ?\C-a)
-     ([?\s-Y] . ?\C-C)
-     ([?\s-y] . ?\C-c)
-     ([?\s-P] . ?\C-V)
-     ([?\s-p] . ?\C-v))))
+     ([?\s-C] . ?\C-C)
+     ([?\s-c] . ?\C-c)
+     ([?\s-V] . ?\C-V)
+     ([?\s-v] . ?\C-v))))
 (use-package exwm-randr
   :after (exwm))
 
