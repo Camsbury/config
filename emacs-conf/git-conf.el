@@ -1,10 +1,11 @@
 (use-package git-timemachine)
 (use-package magit)
-(use-package evil-magit)
+(use-package evil-magit
+  :after (magit)
+  :config
+  (general-add-hook 'magit-mode-hook (list 'evil-magit-init)))
 (use-package forge)
 
-(general-add-hook 'magit-mode-hook
-                  (list 'evil-magit-init))
 
 (defun github-clone (user repo)
   "clones a repo from github to the obvious path"
