@@ -3,7 +3,7 @@
 {
   imports = [
     /etc/nixos/hardware-configuration.nix
-    <home-manager/nixos>
+    (import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-20.03.tar.gz}/nixos")
     ../overlays/core.nix
     ../packages/core.nix
     ../private.nix
