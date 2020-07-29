@@ -97,6 +97,7 @@ let
     paredit
     parseedn
     prettier-js
+    prodigy
     projectile
     pylint
     py-isort
