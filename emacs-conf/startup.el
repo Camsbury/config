@@ -37,4 +37,4 @@
 (use-package vega-view)
 (use-package yasnippet)
 
-(provide 'startup-conf)
+(provide 'startup)

@@ -3,7 +3,7 @@
 (use-package emojify)
 (use-package company-emoji)
 
-;; (setq slack-buffer-emojify t) ;; if you want to enable emoji, default nil
+(setq slack-buffer-emojify t)
 (setq slack-prefer-current-team t)
 (if (string-equal system-type "gnu/linux")
     (setq alert-default-style 'notifier))

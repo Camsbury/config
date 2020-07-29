@@ -1,4 +1,4 @@
-(use-package startup-conf)
+(use-package startup)
 
 (require 'autocomplete-conf)
 (require 'browser-conf)
@@ -12,7 +12,7 @@
 (require 'package-conf)
 (require 'pdf-conf)
 (require 'project-conf)
-(require 'service-conf)
+(require 'services)
 (require 'snippet-conf)
 (require 'tractsoft-conf)
 ;; slack-conf

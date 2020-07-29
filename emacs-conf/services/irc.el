@@ -35,4 +35,4 @@
     '(setq circe-notifications-watch-strings '()))
   (add-hook 'circe-server-connected-hook 'enable-circe-notifications))
 
-(provide 'services/irc-conf)
+(provide 'services/irc)

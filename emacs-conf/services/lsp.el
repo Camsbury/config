@@ -19,4 +19,4 @@
  :keymaps 'lsp-ui-imenu-mode-map
  "q" 'lsp-ui-imenu--kill)
 
-(provide 'services/lsp-conf)
+(provide 'services/lsp)

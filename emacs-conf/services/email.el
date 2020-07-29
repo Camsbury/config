@@ -20,4 +20,4 @@
 
 (setq shr-color-visible-luminance-min 80)
 
-(provide 'services/email-conf)
+(provide 'services/email)
