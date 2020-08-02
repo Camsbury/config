@@ -16,13 +16,10 @@
 (setq org-directory (expand-file-name "~/Dropbox/lxndr/")
       org-capture-templates
         '(("n" "Enqueue"
-           entry (file+headline "~/Dropbox/lxndr/queue.org" "backlog")
+           entry (file+headline "~/Dropbox/lxndr/queue.org" "raw")
            "* [ ] %i%?")
-          ("i" "Add Insight"
-            entry (file+headline "~/Dropbox/lxndr/queue.org" "insights")
-            "* %i%?")
-          ("t" "Add to Tasks"
-           entry (file+headline "~/Dropbox/lxndr/tasks.org" "backlog")
+          ("f" "Add to Frustrations"
+           entry (file+headline "~/Dropbox/lxndr/queue.org" "frustrations")
            "* [ ] %i%?"))
       org-agenda-files '("~/Dropbox/lxndr/store.org")
       org-refile-targets '(("~/Dropbox/lxndr/queue.org" :maxlevel . 3)
@@ -30,7 +27,7 @@
                            ("~/Dropbox/lxndr/ref.org" :level . 1))
       org-archive-location (concat "~/Dropbox/lxndr/archive/" (format-time-string "%Y-%m") ".org::"))
 
-;; auto save on refily
+;; auto save on refile
 (advice-add 'org-refile :after
         (lambda (&rest _)
         (org-save-all-org-buffers)))
