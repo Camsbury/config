@@ -22,6 +22,11 @@
   (shell-command
    (concat "xdg-open \"" (alist-get l-name my-links) "\"")))
 
+(defun lorri-init ()
+  "initialize lorri"
+  (interactive)
+  (shell-command "lorri init && direnv allow"))
+
 (defun set-window-width (count)
   "Set the selected window's width."
   (adjust-window-trailing-edge (selected-window) (- count (window-width)) t))

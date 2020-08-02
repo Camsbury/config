@@ -1,6 +1,4 @@
 (use-package command-log-mode)
-(use-package explain-pause-mode
-  :config (explain-pause-mode))
-;; can use benchmark-init & esup for profiling
+;; can use explain-pause-mode, benchmark-init & esup for profiling - add when you want to!
 
 (provide 'core/debug)

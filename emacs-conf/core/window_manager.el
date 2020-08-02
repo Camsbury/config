@@ -11,11 +11,12 @@
 (use-package exwm-config
   :after (exwm)
   :config
-  (setq exmw-workspace-number 1)
   (add-hook 'exwm-update-class-hook
             (lambda ()
               (exwm-workspace-rename-buffer exwm-class-name)))
-  (setq exwm-input-global-keys
+  (setq exwm-workspace-number 5
+        exwm-workspace-current-index 1
+        exwm-input-global-keys
         `(([?\s-r] . exwm-reset)
           ([?\s-w] . exwm-workspace-switch)
           ,@(mapcar (lambda (i)
@@ -46,7 +47,7 @@
   (global-exwm-key "s-t"                     #'check-time)
   (global-exwm-key "s-L"                     #'lock-screen)
   (global-exwm-key "C-SPC"                   #'switch-keymap)
-  (global-exwm-key "M-C-s-R"                 #'reboot)
+  (global-exwm-key "M-C-s-R"                 #'restart-display-manager)
   (exwm-input-set-simulation-keys
    '(([?\s-a] . ?\C-a)
      ([?\s-C] . ?\C-C)
@@ -142,6 +143,18 @@
   "Turns the screen red"
   (interactive)
   (shell-command "redshift -PO 1000k"))
+
+(defun nixos-rebuild-switch ()
+  "Rebuild nixos"
+  (interactive)
+  (let ((default-directory "/sudo::"))
+    (shell-command "nixos-rebuild switch")))
+
+(defun restart-display-manager ()
+  "Restart the display manager"
+  (interactive)
+  (let ((default-directory "/sudo::"))
+    (shell-command "systemctl restart display-manager.service")))
 
 (defun reboot ()
   "Reboot the system"
