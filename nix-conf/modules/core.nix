@@ -11,6 +11,7 @@
     ./check-battery.nix
     ./dropbox.nix
     ./screen_lock.nix
+    ./exwm.nix
   ];
 
   home-manager.useUserPackages = true;
@@ -71,8 +72,8 @@
     defaultLocale = "en_US.UTF-8";
   };
 
-  # networking.wireless.enable = true;
   networking = {
+    # wireless.enable = true;
     networkmanager.enable = true;
   };
 
@@ -92,9 +93,7 @@
     ];
   };
 
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
+  nixpkgs.config.allowUnfree = true;
 
   programs = {
     bash.enableCompletion = true;
@@ -104,28 +103,13 @@
   services = {
     lorri.enable = true;
     keybase.enable = true;
-    logind.extraConfig = "HandlePowerKey=ignore";
+    trezord.enable = true;
     xserver = {
+      autoRepeatDelay = 220;
+      autoRepeatInterval = 15;
       enable = true;
-
       layout = "us";
-
-      displayManager = {
-        lightdm.enable = true;
-        sessionCommands = "${pkgs.xorg.xhost}/bin/xhost +SI:localuser:$USER";
-        defaultSession = "none+exwm";
-      };
-
-      autoRepeatDelay = 250;
-      autoRepeatInterval = 20;
-
-
-      windowManager = {
-        session = lib.singleton {
-          name = "exwm";
-          start = "${pkgs.cmacs}/bin/cmacs";
-        };
-      };
+      displayManager.lightdm.enable = true;
     };
   };
 
