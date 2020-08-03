@@ -44,6 +44,7 @@
   (global-exwm-key "s-]"                     #'hydra-right-leader/body)
   (global-exwm-key "s-c"                     #'exwm-run-command)
   (global-exwm-key "s-b"                     #'check-battery)
+  (global-exwm-key "s-s"                     #'cycle-sound)
   (global-exwm-key "s-t"                     #'check-time)
   (global-exwm-key "s-L"                     #'lock-screen)
   (global-exwm-key "C-SPC"                   #'switch-keymap)
