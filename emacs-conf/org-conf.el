@@ -20,6 +20,9 @@
            "* [ ] %i%?")
           ("f" "Add to Frustrations"
            entry (file+headline "~/Dropbox/lxndr/queue.org" "frustrations")
+           "* [ ] %i%?")
+          ("h" "Add to Questions"
+           entry (file+headline "~/Dropbox/lxndr/queue.org" "questions")
            "* [ ] %i%?"))
       org-agenda-files '("~/Dropbox/lxndr/store.org")
       org-refile-targets '(("~/Dropbox/lxndr/queue.org" :maxlevel . 3)
