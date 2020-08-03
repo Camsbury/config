@@ -144,6 +144,12 @@
   (interactive)
   (shell-command "redshift -PO 1000k"))
 
+(defun nix-channel-update ()
+  "Rebuild nixos"
+  (interactive)
+  (let ((default-directory "/sudo::"))
+    (shell-command "nix-channel --update")))
+
 (defun nixos-rebuild-switch ()
   "Rebuild nixos"
   (interactive)
