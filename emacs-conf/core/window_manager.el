@@ -168,6 +168,11 @@
   (interactive)
   (shell-command "reboot"))
 
+(defun shutdown ()
+  "Shut down the system"
+  (interactive)
+  (shell-command "shutdown now"))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; open apllications
 
