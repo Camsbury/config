@@ -34,15 +34,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
       //RIGHT HAND
-      KC_NO,              KC_AUDIO_MUTE, KC_AUDIO_VOL_UP,   KC_AUDIO_VOL_DOWN,   LGUI(KC_KP_PLUS),    LGUI(KC_MINUS),      KC_NO,
-      LGUI(KC_SPACE),     KC_J,          KC_L,              KC_U,                KC_Y,                KC_COLN,             KC_DELETE,
-                          KC_H,          KC_N,              KC_E,                KC_I,                KC_O,                LT(1,KC_RBRACKET),
-      KC_NO,              KC_K,          KC_M,              KC_COMMA,            KC_DOT,              KC_SLASH,            KC_RSPC,
-                                         KC_LGUI,           MEH_T(KC_NO),        LSFT(LALT(KC_NO)),   KC_LALT,             ALL_T(KC_NO),
+      KC_NO,          KC_AUDIO_MUTE,  KC_AUDIO_VOL_UP, KC_AUDIO_VOL_DOWN,   LGUI(KC_KP_PLUS),    LGUI(KC_MINUS),      KC_NO,
+      LGUI(KC_SPACE), KC_J,           KC_L,            KC_U,                KC_Y,                KC_COLN,             KC_DELETE,
+                      KC_H,           KC_N,            KC_E,                KC_I,                KC_O,                LT(1,KC_RBRACKET),
+      KC_NO,          KC_K,           KC_M,            KC_COMMA,            KC_DOT,              KC_SLASH,            KC_RSPC,
+                                      KC_LGUI,         MEH_T(KC_NO),        LSFT(LALT(KC_NO)),   KC_LALT,             ALL_T(KC_NO),
 
-      KC_BRIGHTNESS_DOWN,
-                          KC_NO,              KC_BRIGHTNESS_UP,
-      CTL_T(KC_NO),       LT(2,KC_ENTER),     KC_BSPACE),
+      KC_NO,
+                      KC_NO,          KC_NO,
+      CTL_T(KC_NO),   LT(2,KC_ENTER), KC_BSPACE),
 
   // SYMBOL LAYER
   [1] = LAYOUT_ergodox(
