@@ -47,7 +47,6 @@
   (global-exwm-key "s-s"                     #'cycle-sound)
   (global-exwm-key "s-t"                     #'check-time)
   (global-exwm-key "s-L"                     #'lock-screen)
-  (global-exwm-key "C-SPC"                   #'switch-keymap)
   (global-exwm-key "M-C-s-R"                 #'restart-display-manager)
   (exwm-input-set-simulation-keys
    '(([?\s-a] . ?\C-a)
@@ -184,7 +183,7 @@
   (shell-command "shutdown now"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; open apllications
+;; open applications
 
 (defun -run-shell-command (command)
   "run a shell command"
