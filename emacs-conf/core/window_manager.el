@@ -58,6 +58,16 @@
 (use-package exwm-randr
   :after (exwm))
 
+(defun ssh-keychain ()
+  "Adds the ssh key to the keychain"
+  (interactive)
+  (shell-command "eval $(keychain --eval --agents ssh id_rsa)"))
+
+(defun gpg-keychain ()
+  "Adds the gpg key to the keychain"
+  (interactive)
+  (shell-command "eval $(keychain --eval --agents gpg D3F6CEF58C6E0F38)"))
+
 (defun lock-screen ()
   "Locks the screen"
   (interactive)
