@@ -105,7 +105,7 @@
     keybase.enable = true;
     trezord.enable = true;
     xserver = {
-      autoRepeatDelay = 250;
+      autoRepeatDelay = 300;
       autoRepeatInterval = 15;
       enable = true;
       layout = "us";
