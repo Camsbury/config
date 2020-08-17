@@ -84,7 +84,6 @@ let
     magit
     markdown-preview-eww
     markdown-preview-mode
-    mediawiki
     nav-flash
     nix-mode
     nix-update

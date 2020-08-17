@@ -18,7 +18,6 @@
 (use-package json-navigator)
 (use-package markdown-preview-eww)
 (use-package markdown-preview-mode)
-(use-package mediawiki)
 (use-package nav-flash)
 (use-package nov)
 (use-package parseedn)
