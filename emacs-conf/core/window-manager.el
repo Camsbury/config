@@ -60,12 +60,12 @@
 (defun ssh-keychain ()
   "Adds the ssh key to the keychain"
   (interactive)
-  (shell-command "eval $(keychain --eval --agents ssh id_rsa)"))
+  (shell-command "keychain --eval --agents ssh id_rsa"))
 
 (defun gpg-keychain ()
   "Adds the gpg key to the keychain"
   (interactive)
-  (shell-command "eval $(keychain --eval --agents gpg D3F6CEF58C6E0F38)"))
+  (shell-command "keychain --eval --agents gpg D3F6CEF58C6E0F38"))
 
 (defun lock-screen ()
   "Locks the screen"
@@ -233,4 +233,4 @@
   (ivy-read "Run command: " (s-lines (shell-command-to-string "print -rC1 -- ${(ko)commands}"))
             :action #'-run-shell-command))
 
-(provide 'core/window_manager)
+(provide 'core/window-manager)
