@@ -86,33 +86,47 @@ let
         };
       };
 
-      # slack = eSelf.melpaBuild {
-      #   pname = "slack";
-      #   version = "20190303.1037";
-      #   src = super.fetchFromGitHub {
-      #     owner = "yuya373";
-      #     repo = "slack";
-      #     rev = "5d37cb4aa8f1e100e2b0bed6193bd9d7df549637";
-      #     sha256 = "1sw16474i2kav2bvg9r7zpfwkcbj3paymxi0jn9pdhgjyfm9bssk";
-      #   };
-      #   recipe = super.fetchurl {
-      #     url = "https://github.com/melpa/melpa/blob/master/recipes/slack";
-      #     sha256 = "0si9yyxyb681v4lxxc789xwdvk55gallwxbv3ldqfq4vjf0di0im";
-      #     name = "recipe";
-      #   };
-      #   packageRequires = with eSelf.melpaPackages; [
-      #     alert
-      #     circe
-      #     emojify
-      #     eSelf.elpaPackages.oauth2
-      #     request
-      #     websocket
-      #   ];
-      #   meta = {
-      #     homepage = "https://melpa.org/#/slack";
-      #     license = super.stdenv.lib.licenses.free;
-      #   };
-      # };
+      clojure-essential-ref = eSelf.melpaBuild rec {
+        pname = "clojure-essential-ref";
+        version = "20200719.608";
+        src = super.fetchFromGitHub {
+          owner = "p3r7";
+          repo = "clojure-essential-ref";
+          rev = "3787300a2f6100d1a20b1259b488256f3a840fa6";
+          sha256 = "08r5whs39r2fscicjzvmdfj7s7f49afhiz4i2i05ps1f1545569d";
+        };
+        packageRequires = with eSelf.melpaPackages; [
+          cider
+        ];
+        recipe = builtins.toFile "recipe" # taken from the recipe link on melpa
+          ''(clojure-essential-ref :repo "p3r7/clojure-essential-ref"
+                       :fetcher github
+                       :files (:defaults
+                               (:exclude "clojure-essential-ref-nov.el")))
+          '';
+      };
+
+      clojure-essential-ref-nov = eSelf.melpaBuild rec {
+        pname = "clojure-essential-ref-nov";
+        version = "20200719.608";
+        src = super.fetchFromGitHub {
+          owner = "p3r7";
+          repo = "clojure-essential-ref";
+          rev = "3787300a2f6100d1a20b1259b488256f3a840fa6";
+          sha256 = "08r5whs39r2fscicjzvmdfj7s7f49afhiz4i2i05ps1f1545569d";
+        };
+        packageRequires = with eSelf.melpaPackages; [
+          dash
+          nov
+          eSelf.clojure-essential-ref
+        ];
+        recipe = builtins.toFile "recipe" # taken from the recipe link on melpa
+          ''(clojure-essential-ref-nov :repo "p3r7/clojure-essential-ref"
+                           :fetcher github
+                           :files (:defaults
+                                   (:exclude "clojure-essential-ref.el")))
+          '';
+      };
     };
 in
   {

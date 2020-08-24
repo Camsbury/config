@@ -75,6 +75,7 @@ let
     ivy-xref
     js2-mode
     json-navigator
+    kaocha-runner
     keychain-environment
     # know-your-http-well
     lispyville
@@ -132,6 +133,7 @@ let
   others = with epkgs; [
     agda2-mode
     astyle
+    clojure-essential-ref-nov
     company-postgresql
     etymology-of-word
     explain-pause-mode
