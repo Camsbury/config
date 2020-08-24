@@ -25,6 +25,7 @@
     disper
     docker
     docker_compose
+    dunst
     (emacsPackagesNg.emacsWithPackages (import ./emacs.nix))
     entr
     espeak # tts
@@ -61,11 +62,11 @@
     nix-index
     nixfmt
     nodePackages.prettier
-    dunst
     oh-my-zsh
     openssh
     openssl
     openvpn
+    patchelf # patch dynamic libs/bins
     peek
     postgresql_11
     redshift
