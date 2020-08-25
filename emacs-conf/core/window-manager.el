@@ -57,16 +57,6 @@
 (use-package exwm-randr
   :after (exwm))
 
-(defun ssh-keychain ()
-  "Adds the ssh key to the keychain"
-  (interactive)
-  (shell-command "keychain --eval --agents ssh id_rsa"))
-
-(defun gpg-keychain ()
-  "Adds the gpg key to the keychain"
-  (interactive)
-  (shell-command "keychain --eval --agents gpg D3F6CEF58C6E0F38"))
-
 (defun lock-screen ()
   "Locks the screen"
   (interactive)
@@ -196,6 +186,16 @@
     (if match
         (switch-to-buffer match)
       (-run-shell-command command))))
+
+(defun ssh-keychain ()
+  "Adds the ssh key to the keychain"
+  (interactive)
+  (-run-shell-command "keychain --eval --agents ssh id_rsa"))
+
+(defun gpg-keychain ()
+  "Adds the gpg key to the keychain"
+  (interactive)
+  (-run-shell-command "keychain --eval --agents gpg D3F6CEF58C6E0F38"))
 
 (defun open-brave ()
   "Opens the brave browser"
