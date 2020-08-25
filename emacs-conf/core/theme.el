@@ -6,7 +6,7 @@
 (use-package rainbow-mode)
 
 ;; theme
-(set-frame-font "Go Mono 10")
+(set-frame-font "Go Mono 10" nil t)
 
 (if (> (x-display-pixel-width) 1600)
     (setq normal-font-height 90)
