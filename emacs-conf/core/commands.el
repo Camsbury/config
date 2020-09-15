@@ -64,6 +64,11 @@
       (call-interactively #'global-command-log-mode)
       (clm/toggle-command-log-buffer))))
 
+(defun copy-buffer-path ()
+  "Copies the path of the current buffer"
+  (interactive)
+  (kill-new (buffer-file-name)))
+
 (defun clean-quit-emacs ()
   "Saves stuff before quitting"
   (interactive)
