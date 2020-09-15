@@ -83,7 +83,7 @@ With non-nil ARG return number of characters skipped."
 
   "M-f"     #'lispyville-drag-backward
   "M-p"     #'lispyville-drag-forward
-  "M-<RET>" #'eval-defun)
+  "M-<RET>" #'lispy-eval)
 
 
 
