@@ -57,6 +57,10 @@
 (use-package exwm-randr
   :after (exwm))
 
+(defun -run-shell-command (command)
+  "run a shell command"
+  (start-process-shell-command command nil command))
+
 (defun lock-screen ()
   "Locks the screen"
   (interactive)
@@ -129,6 +133,11 @@
   (interactive)
   (shell-command "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"))
 
+(defun screenshot-to-file (filename)
+  "Saves a screenshot to a file"
+  (interactive "sFile Name:")
+  (-run-shell-command (concat "nix-shell -p imagemagick --run \"import " filename "\"")))
+
 (defun redshift-blue ()
   "Turns the screen normal"
   (interactive)
@@ -174,10 +183,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; open applications
-
-(defun -run-shell-command (command)
-  "run a shell command"
-  (start-process-shell-command command nil command))
 
 (defun find-or-open-application (command name)
   "Finds or opens the application"
