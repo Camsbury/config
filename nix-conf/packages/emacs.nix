@@ -58,7 +58,7 @@ let
     flycheck-credo # elixir
     flycheck-dialyxir # elixir
     flycheck-elixir # elixir
-    flycheck-mix # elixir
+    # flycheck-mix # elixir
     flycheck-rust
     forge
     general
