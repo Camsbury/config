@@ -1,5 +1,3 @@
-(use-package lsp-clients
-  :after (lsp-mode))
 (use-package lsp-ui
   :after (lsp-mode))
 (use-package lsp-ui-flycheck
