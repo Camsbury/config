@@ -106,6 +106,7 @@ let
     rainbow-delimiters
     ranger
     reformatter # astyle dep
+    request
     restart-emacs
     rjsx-mode
     rust-mode
