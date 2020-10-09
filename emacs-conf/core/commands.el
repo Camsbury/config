@@ -167,14 +167,13 @@
   (interactive "sFile name: ")
   (find-file (concat "/tmp/" arg)))
 
-(defun open-project-tasks ()
-  "Opens the project's tasks file"
+(defun open-project-summary ()
+  "Opens the project's summary file"
   (interactive)
-  (let ((path (->> (projectile-project-root)
-                  f-filename
-                  (f-join "~/Dropbox/lxndr/tasks")
-                  (s-append ".org"))))
-       (find-file path)))
+  (->> (f-relative (projectile-project-root) "~")
+       (f-join "~/Dropbox/lxndr/summaries")
+       (s-append "summary.org")
+       (find-file)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
