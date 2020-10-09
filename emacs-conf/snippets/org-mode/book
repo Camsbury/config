@@ -1,0 +1,45 @@
+# -*- mode: snippet -*-
+# key: book
+# name: book
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+#+TITLE: ${1:title}
+
+* $1
+** start from
+*** beginning
+** book type
+*** fictional
+*** expository
+**** practical
+**** theoretical
+***** history
+***** science
+***** philosophy
+** theme hierarchy
+** terms
+** main ideas
+** assertions
+** arguments
+** judgement of the above
+** reasons to understand
+** implications
+** chronology
+** [ ] todos
+*** [ ] read TOC
+*** [ ] pre-read
+**** [ ] do I want to read this?
+**** [ ] does this deserve an analytical reading?
+**** [ ] read the title page
+**** [ ] read the preface
+**** [ ] what pigeonhole does this book belong in
+**** [ ] study the table of contents
+**** [ ] check the index if it has one
+**** [ ] estimate the range of topics covered
+**** [ ] what kinds of books is the author referring to?
+**** [ ] look at the most crucial passages cited
+**** [ ] read the blurb on the back
+**** [ ] read any summary statements for chapters
+**** [ ] turn pages, reading a paragraph or two, looking for important points
+**** [ ] read the last few pages in full - usually where the good summaries are
