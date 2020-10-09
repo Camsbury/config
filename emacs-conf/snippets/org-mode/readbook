@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# key: book
-# name: book
+# key: rbook
+# name: readbook
 # expand-env: ((yas-indent-line 'fixed))
 # --
 

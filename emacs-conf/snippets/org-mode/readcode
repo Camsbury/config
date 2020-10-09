@@ -1,0 +1,40 @@
+# -*- mode: snippet -*-
+# key: rcode
+# name: readcode
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+#+TITLE: ${1:title}
+
+* $1
+** continue from
+*** find the entry!
+** code type
+*** [ ] library
+*** [ ] executable
+** purpose hierarchy
+** dependencies
+** theory
+*** main ideas
+*** assertions
+*** arguments
+*** judgement of the above
+*** reasons to understand
+*** implications
+** module structure
+** functions
+** entities
+** mappings
+** terms
+** [ ] todos
+*** [ ] find entrypoint/usage examples
+*** [ ] pre-read
+**** [ ] read the README
+**** [ ] am I already using this?
+**** [ ] do I want to use this?
+**** [ ] does this deserve an analytical reading?
+**** [ ] what pigeonhole does this code belong in?
+**** [ ] read the code hierarchy
+**** [ ] read the dependencies
+**** [ ] look at the most external libraries used
+**** [ ] read any READMEs for the spine
