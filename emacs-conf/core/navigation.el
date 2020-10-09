@@ -5,7 +5,7 @@
   :init (setq counsel-find-file-ignore-regexp "[~\#]$")
   :config
   (setq counsel-rg-base-command
-        "rg -S -g !'*.lock' -g !.git -g !node_modules -g !yarn --no-heading --line-number --hidden --color never %s ."))
+        "rg -S -g !'*.lock' -g !'.git' -g !'node_modules' -g !'yarn' --no-heading --line-number --hidden --color never %s ."))
 (use-package projectile
   :config (projectile-mode))
 (use-package counsel-projectile
