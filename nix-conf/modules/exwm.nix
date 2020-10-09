@@ -1,6 +1,9 @@
 { config, pkgs, lib, ... }:
 
 {
+  environment.variables = {
+    EMACSLOADPATH = "${(pkgs.emacsPackagesNg.emacsWithPackages (import ../packages/emacs.nix)).deps}/share/emacs/site-lisp";
+  };
   services.xserver = {
     displayManager = {
       sessionCommands = "${pkgs.xorg.xhost}/bin/xhost +SI:localuser:$USER";

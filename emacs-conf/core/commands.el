@@ -6,15 +6,18 @@
     (eww-mode)
     (eww url)))
 
+;;; TODO: actually add the paths manually because this function isn't working
 (defun latest-loadpath ()
   "Gets the latest loadpath (useful after a rebuild switch)"
   (interactive)
-  (let ((default-directory
-         (shell-command-to-string
-          "nix-shell --run 'echo $LOADPATH' ~/.shells/edeps.nix"))
-        (base-path (-remove (lambda (path) (s-match "site-lisp" path)) load-path)))
+  (let ((edeps
+          (->> "echo $EMACSLOADPATH"
+               (shell-command-to-string)
+               (replace-regexp-in-string "\n$" "")))
+        (base-path (-remove (lambda (path) (s-match "emacs-packages-deps" path)) load-path)))
     (setq load-path base-path)
-    (normal-top-level-add-subdirs-to-load-path)))
+    (let ((default-directory edeps))
+      (normal-top-level-add-subdirs-to-load-path))))
 
 (defun xdg-open (l-name)
   "Open a link interactively"
