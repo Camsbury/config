@@ -12,7 +12,6 @@
 (use-package flycheck-rust :after (rust-mode))
 (use-package go-mode :defer t)
 (use-package helm-dash)
-(use-package hlint-refactor :after (haskell-mode))
 (use-package html-to-hiccup)
 (use-package js2-mode :defer t)
 (use-package json-navigator)

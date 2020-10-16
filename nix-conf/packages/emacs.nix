@@ -5,6 +5,7 @@ let
     alarm-clock
     alda-mode
     all-the-icons-ivy-rich
+    attrap
     avy
     # benchmark-init
     bind-key # use package dep
