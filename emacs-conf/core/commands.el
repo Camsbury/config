@@ -30,6 +30,11 @@
   (interactive)
   (shell-command "lorri init && direnv allow"))
 
+(defun lorri-watch ()
+  "initialize lorri"
+  (interactive)
+  (shell-command "lorri watch &"))
+
 (defun set-window-width (count)
   "Set the selected window's width."
   (adjust-window-trailing-edge (selected-window) (- count (window-width)) t))
