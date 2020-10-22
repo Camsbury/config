@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # key: frf
-# name: foreign_key_refs
+# name: sql_foreign_key_refs
 # expand-env: ((yas-indent-line 'fixed))
 # --
 

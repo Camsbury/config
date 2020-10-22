@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# key: m
+# key: mdl
 # name: module
 # expand-env: ((yas-indent-line 'fixed))
 # --

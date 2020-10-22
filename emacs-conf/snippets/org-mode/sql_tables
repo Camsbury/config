@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # key: tbls
-# name: tables
+# name: sql_tables
 # expand-env: ((yas-indent-line 'fixed))
 # --
 
