@@ -195,7 +195,6 @@
   ("x" #'org-next-block      "next org block"))
 
 (general-define-key
- "s-x"        #'counsel-M-x
  "M-n"        #'goto-address-at-point
  "M-x"        #'counsel-M-x
  "C-u"        #'evil-scroll-up

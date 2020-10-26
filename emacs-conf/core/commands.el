@@ -31,7 +31,7 @@
   (shell-command "lorri init && direnv allow"))
 
 (defun lorri-watch ()
-  "initialize lorri"
+  "lorri watcher for nix changes"
   (interactive)
   (shell-command "lorri watch &"))
 
