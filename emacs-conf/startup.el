@@ -1,3 +1,4 @@
+(use-package alarm-clock)
 (use-package cargo :defer t)
 (use-package define-word)
 (use-package docker :bind ("C-c d" . docker))
