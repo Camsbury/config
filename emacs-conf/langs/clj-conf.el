@@ -45,6 +45,8 @@
  'clojurescript-mode-hook
  (lambda ()
    (add-to-list 'imenu-generic-expression
+                '("Spec" "s/def[[:blank:]\n]+:+\\(.*\\)" 1))
+   (add-to-list 'imenu-generic-expression
                 '("Effect" "reg-fx[[:blank:]\n]+:+\\(.*\\)" 1))
    (add-to-list 'imenu-generic-expression
                 '("Coeffect" "reg-cofx[[:blank:]\n]+:+\\(.*\\)" 1))
