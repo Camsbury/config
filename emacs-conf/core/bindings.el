@@ -105,6 +105,14 @@
   ("z" (xdg-open 'q-course) "quantopian")
   ("n" (xdg-open 'shows)    "shows"))
 
+(defhydra hydra-radio (:exit t :columns 5)
+  "radio"
+  ("o" #'open-radio    "open radio playlist")
+  ("p" #'emms-pause    "pause/play")
+  ("s" #'emms-random   "random station/track")
+  ("[" #'emms-previous "previous station/track")
+  ("]" #'emms-next     "next station/track"))
+
 (defhydra hydra-leader (:exit t :columns 5 :idle 1.5)
   "leader"
   ("[" #'hydra-describe/body          "describe")
@@ -148,7 +156,7 @@
   ("P" #'projectile-invalidate-cache  "invalidate project cache")
   ("q" #'evil-save-modified-and-close "write quit")
   ("Q" #'clean-quit-emacs             "leave emacs")
-  ;; ("r")
+  ("r" #'hydra-radio/body             "radio commands")
   ("R" #'restart-emacs                "restart emacs")
   ("s" #'avy-goto-char-2              "avy jump to char")
   ;; ("S")

@@ -129,6 +129,7 @@ let
     yasnippet
   ];
   elpas = with epkgs.elpaPackages; [
+    emms
     exwm
     rainbow-mode
     undo-tree
