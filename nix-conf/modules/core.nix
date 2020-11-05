@@ -3,7 +3,7 @@
 {
   imports = [
     /etc/nixos/hardware-configuration.nix
-    (import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-20.03.tar.gz}/nixos")
+    (import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-20.09.tar.gz}/nixos")
     ../overlays/core.nix
     ../packages/core.nix
     ../private.nix
@@ -49,7 +49,7 @@
   };
 
   fonts = {
-    enableFontDir = true;
+    fontDir.enable = true;
     enableGhostscriptFonts = true;
     fonts = with pkgs; [
       corefonts

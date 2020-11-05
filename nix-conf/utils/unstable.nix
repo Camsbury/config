@@ -3,7 +3,7 @@ let
 in
   import (fetchFromGitHub {
     owner = "NixOS";
-    repo  = "nixpkgs-channels";
+    repo  = "nixpkgs";
     # nixos-unstable
     # rev = "ae6bdcc53584aaf20211ce1814bea97ece08a248";
     # sha256 = "0hjhznns1cxgl3hww2d5si6vhy36pnm53hms9h338v6r633dcy77";
@@ -17,6 +17,8 @@ in
     # sha256 = "0qw1jpdfih9y0dycslapzfp8bl4z7vfg9c7qz176wghwybm4sx0a";
     # rev = "1179840f9a88b8a548f4b11d1a03aa25a790c379";
     # sha256 = "00jy37wj04bvh299xgal2iik2my9l0nq6cw50r1b2kdfrji8d563";
-    rev = "5aba0fe9766a7201a336249fd6cb76e0d7ba2faf";
-    sha256 = "05gawlhizp85agdpw3kpjn41vggdiywbabsbmk76r2dr513188jz";
+    # rev = "5aba0fe9766a7201a336249fd6cb76e0d7ba2faf";
+    # sha256 = "05gawlhizp85agdpw3kpjn41vggdiywbabsbmk76r2dr513188jz";
+    rev = "0da76dab4c2acce5ebf404c400d38ad95c52b152";
+    sha256 = "1lj3h4hg3cnxl3avbg9089wd8c82i6sxhdyxfy99l950i78j0gfg";
   })
