@@ -165,8 +165,7 @@
   ("y" #'nav-flash-line               "flash line")
   ;; ("Y")
   ;; ("z")
-  ;; ("Z")
-  )
+  ("Z" #'projectile-kill-buffers      "kill all project buffers"))
 
 (defhydra hydra-visual-leader (:exit t :columns 5)
   "visual leader"
