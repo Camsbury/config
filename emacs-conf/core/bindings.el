@@ -107,11 +107,11 @@
 
 (defhydra hydra-radio (:exit t :columns 5)
   "radio"
-  ("o" #'open-radio    "open radio playlist")
-  ("p" #'emms-pause    "pause/play")
-  ("s" #'emms-random   "random station/track")
-  ("[" #'emms-previous "previous station/track")
-  ("]" #'emms-next     "next station/track"))
+  ("SPC" #'emms-pause    "pause/play")
+  ("o"   #'open-radio    "open radio playlist")
+  ("s"   #'emms-random   "random station/track")
+  ("["   #'emms-previous "previous station/track")
+  ("]"   #'emms-next     "next station/track"))
 
 (defhydra hydra-leader (:exit t :columns 5 :idle 1.5)
   "leader"
