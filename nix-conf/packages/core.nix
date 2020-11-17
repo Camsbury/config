@@ -69,8 +69,10 @@
     patchelf # patch dynamic libs/bins
     peek
     postgresql_11
+    python3
     redshift
     ripgrep
+    scid-vs-pc
     shellcheck
     signal-desktop
     slack
