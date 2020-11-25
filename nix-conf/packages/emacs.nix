@@ -129,6 +129,7 @@ let
     yasnippet
   ];
   elpas = with epkgs.elpaPackages; [
+    chess
     emms
     exwm
     rainbow-mode
