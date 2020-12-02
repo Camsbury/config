@@ -25,6 +25,11 @@
   (shell-command
    (concat "xdg-open \"" (alist-get l-name my-links) "\"")))
 
+(defun git-init ()
+  "initialize git"
+  (interactive)
+  (shell-command "git init && touch .gitignore"))
+
 (defun lorri-init ()
   "initialize lorri"
   (interactive)
