@@ -18,9 +18,9 @@
 (defhydra hydra-describe (:exit t :columns 5)
   "describe"
   ("k" #'describe-key      "key")
-  ("f" #'describe-function "function")
+  ("f" #'counsel-describe-function "function")
   ("m" #'describe-mode     "mode")
-  ("v" #'describe-variable "variable"))
+  ("v" #'counsel-describe-variable "variable"))
 
 (defhydra hydra-config (:exit t :columns 5)
   "spawn config"
