@@ -113,6 +113,14 @@
   ("["   #'emms-previous "previous station/track")
   ("]"   #'emms-next     "next station/track"))
 
+(defhydra hydra-window (:exit nil :columns 5)
+  "window manipulation"
+  ("h" #'evil-window-decrease-width)
+  ("l" #'evil-window-increase-width)
+  ("j" #'evil-window-decrease-height)
+  ("k" #'evil-window-increase-height)
+  ("q" nil))
+
 (defhydra hydra-leader (:exit t :columns 5 :idle 1.5)
   "leader"
   ("[" #'hydra-describe/body          "describe")
@@ -164,7 +172,7 @@
   ("T" #'explain-pause-top            "emacs top")
   ("u" #'prettify-windows             "prettify")
   ;; ("U")
-  ;; ("v")
+  ("v" #'hydra-window/body            "window")
   ;; ("V")
   ("w" #'evil-write                   "write file")
   ("W" #'evil-save-as                 "save file as")
