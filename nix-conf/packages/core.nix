@@ -63,6 +63,7 @@
     nixfmt
     nodePackages.prettier
     oh-my-zsh
+    okular
     openssh
     openssl
     openvpn
