@@ -85,6 +85,7 @@ let
     lsp-mode
     lsp-ui
     magit
+    magit-todos
     markdown-preview-eww
     markdown-preview-mode
     nav-flash

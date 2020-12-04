@@ -1,5 +1,9 @@
 (use-package git-timemachine)
 (use-package magit)
+(use-package magit-todos
+  :after (magit)
+  :config
+  (magit-todos-mode))
 (use-package evil-magit
   :after (magit)
   :config
