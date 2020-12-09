@@ -6,6 +6,7 @@
     "xpdf-4.02"
   ];
 
+  # TODO: break these into modules by function... this is cray
   environment.systemPackages = with pkgs; [
     ack
     ag
