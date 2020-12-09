@@ -30,6 +30,7 @@ in
           inherit brave;
           inherit chromium;
           inherit dropbox;
+          inherit discord;
         })
       )
       (import ./emacs.nix)
