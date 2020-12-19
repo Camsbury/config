@@ -163,6 +163,7 @@
   ("p" #'org-todo-list                "see org todo list")
   ("P" #'projectile-invalidate-cache  "invalidate project cache")
   ("q" #'evil-save-modified-and-close "write quit")
+  ("s-q" #'killall-java               "killall java")
   ("Q" #'clean-quit-emacs             "leave emacs")
   ("r" #'hydra-radio/body             "radio commands")
   ("R" #'restart-emacs                "restart emacs")

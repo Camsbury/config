@@ -40,6 +40,11 @@
   (interactive)
   (shell-command "lorri watch &"))
 
+(defun killall-java ()
+  "killall java - if clojure is killing everything"
+  (interactive)
+  (shell-command "killall java"))
+
 (defun set-window-width (count)
   "Set the selected window's width."
   (adjust-window-trailing-edge (selected-window) (- count (window-width)) t))
