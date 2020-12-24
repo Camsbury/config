@@ -40,6 +40,7 @@
 
 (setq cider-repl-display-help-banner nil)
 (setq cljr-warn-on-eval nil)
+(setq cider-auto-select-error-buffer nil)
 
 (general-add-hook
  'clojurescript-mode-hook
