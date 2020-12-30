@@ -97,6 +97,7 @@ let
     ob-http
     ob-ipython
     org-bullets
+    origami
     paredit
     parseedn
     prettier-js

@@ -20,6 +20,7 @@
 (use-package markdown-preview-mode)
 (use-package nav-flash)
 (use-package nov)
+(use-package origami)
 (use-package parseedn)
 (use-package prettier-js)
 (use-package racer)
