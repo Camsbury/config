@@ -4,7 +4,7 @@
 	name = Cameron Kingsbury
 [core]
         editor = /run/current-system/sw/bin/vim
-        excludesfile = /home/monoid/.gitignore_global
+        excludesfile = ~/.gitignore
 [commit]
         gpgsign = true
 [fetch]
