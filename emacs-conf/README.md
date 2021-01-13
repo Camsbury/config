@@ -29,11 +29,12 @@
 ## My Emacs Architecture
 - Nix to build dependencies
   - __../emacs.nix__ describes the packages to be built in a [nix](https://nixos.org/nix/) expression
-  - Most people will imperatively install these packages using [emacs commands](http://ergoemacs.org/emacs/emacs_package_system.html), or [use-package](https://github.com/jwiegley/use-package)
-  - `(require '<package-name>)` to import!
+  - These are then made available on the `$EMACSLOADPATH`
 - Minimal true dependencies
   - [general](https://github.com/noctuid/general.el)
   Allows for clean bindings and mode hooks
+  - [use-package](https://github.com/jwiegley/use-package)
+  Allows for encapsulated package configuration
   - [dash](https://github.com/magnars/dash.el)
   Allows for functional elisp
   - [hydra](https://github.com/abo-abo/hydra)
