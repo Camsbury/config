@@ -34,7 +34,7 @@
 (use-package tree-mode)
 (use-package undo-tree
   :config
-  (setq evil-undo-system 'undo-tree)
+  (customize-set-variable 'evil-undo-system 'undo-tree)
   (global-undo-tree-mode))
 (use-package uuid)
 (use-package vega-view)
