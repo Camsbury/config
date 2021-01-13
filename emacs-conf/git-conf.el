@@ -9,6 +9,14 @@
   :config
   (general-add-hook 'magit-mode-hook (list 'evil-magit-init)))
 (use-package forge)
+(let ((token (getenv "GH_NOTIF_TOKEN")))
+  (when token
+    (use-package github-notifier
+      :init
+      (customize-set-variable 'github-notifier-token token)
+      :config
+      (github-notifier-mode 1))))
+
 
 
 (defun github-clone (user repo)

@@ -65,6 +65,7 @@ let
     forge
     general
     git-timemachine
+    github-notifier
     go-mode
     helm-dash
     idris-mode
