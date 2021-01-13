@@ -44,7 +44,6 @@
     variables = {
       EDITOR = "vim";
       HISTCONTROL = "ignorespace";
-      EMACS_C_SOURCE_PATH = "${pkgs.emacs}/share/emacs/${pkgs.emacs.version}/src";
     };
   };
 
