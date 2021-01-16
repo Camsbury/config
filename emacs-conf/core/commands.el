@@ -6,18 +6,21 @@
     (eww-mode)
     (eww url)))
 
-;;; TODO: actually add the paths manually because this function isn't working
 (defun latest-loadpath ()
   "Gets the latest loadpath (useful after a rebuild switch)"
   (interactive)
-  (let ((edeps
-          (->> "echo $EMACSLOADPATH"
+  (let* ((edeps-root
+          (->> "cmacs-load-path"
                (shell-command-to-string)
                (replace-regexp-in-string "\n$" "")))
-        (base-path (-remove (lambda (path) (s-match "emacs-packages-deps" path)) load-path)))
-    (setq load-path base-path)
-    (let ((default-directory edeps))
-      (normal-top-level-add-subdirs-to-load-path))))
+         (base-path
+          (-remove
+           (lambda (path) (s-match "emacs-packages-deps" path))
+           load-path))
+         (edeps
+          (cons edeps-root
+                (f-directories edeps-root nil t))))
+    (setq load-path (-concat base-path edeps))))
 
 (defun xdg-open (l-name)
   "Open a link interactively"
@@ -39,11 +42,6 @@
   "lorri watcher for nix changes"
   (interactive)
   (shell-command "lorri watch &"))
-
-(defun killall-java ()
-  "killall java - if clojure is killing everything"
-  (interactive)
-  (shell-command "killall java"))
 
 (defun set-window-width (count)
   "Set the selected window's width."

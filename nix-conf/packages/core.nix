@@ -20,6 +20,7 @@
     check-low-battery
     chromium
     cmacs
+    cmacs-load-path
     curl
     direnv
     discord
