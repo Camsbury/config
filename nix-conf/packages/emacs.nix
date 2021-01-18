@@ -92,6 +92,7 @@ let
     nav-flash
     nix-mode
     nix-update
+    nlinum-hl
     nov
     ob-async
     ob-elixir
@@ -135,6 +136,7 @@ let
     chess
     emms
     exwm
+    nlinum
     rainbow-mode
     undo-tree
   ];

@@ -1,5 +1,3 @@
-
-
 (-map 'require
       '(langs/alda-conf
         langs/agda-conf
@@ -25,6 +23,6 @@
 (use-package dockerfile-mode)
 (use-package yaml-mode
   :init (general-add-hook 'yaml-mode-hook
-                          (list 'linum-mode)))
+                          (list 'nlinum-mode)))
 
 (provide 'lang-conf)

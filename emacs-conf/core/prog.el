@@ -1,3 +1,5 @@
+(use-package nlinum)
+(use-package nlinum-hl)
 (use-package hl-todo
   :init
   (setq hl-todo-keyword-faces
@@ -29,6 +31,6 @@
         'whitespace-mode
         'rainbow-delimiters-mode
         'rainbow-mode
-        'linum-mode))
+        'nlinum-mode))
 
 (provide 'core/prog)
