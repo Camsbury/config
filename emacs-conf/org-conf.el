@@ -60,6 +60,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org styling
 
+;; Open folded
+(setq org-startup-folded 'fold)
 ;; Don't use subpar references
 (setq org-table-use-standard-references nil)
 ;; Don't have lines get sucked into folds
