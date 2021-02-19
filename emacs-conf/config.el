@@ -1,4 +1,5 @@
 (use-package startup)
+(use-package evil-collection)
 
 (require 'autocomplete-conf)
 (require 'browser-conf)

@@ -2,9 +2,9 @@
 
 {
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "xpdf-4.02"
-  ];
+  # nixpkgs.config.permittedInsecurePackages = [
+  #   "xpdf-4.02"
+  # ];
 
   # TODO: break these into modules by function... this is cray
   environment.systemPackages = with pkgs; [
@@ -99,7 +99,7 @@
     xkb-switch
     xorg.xbacklight
     xorg.xmodmap
-    xpdf
+    # xpdf
     zip
     zsh
   ];

@@ -6,7 +6,7 @@ stdenv.mkDerivation (rec {
   name = "${pname}-${version}";
   src = fetchurl {
     url = https://github.com/djui/alias-tips/archive/master.zip;
-    sha256 = "02z70g083izrh1zcfp58m7ggz16cqaag06cs0q6hyalbldbhxnfs";
+    sha256 = "03rn2723mp5d851bgdbxp4na10fwcbb40h5630h5z6dg0kz84db0";
   };
   nativeBuildInputs = [ pkgs.unzip ];
   buildInputs = [ pkgs.unzip ];

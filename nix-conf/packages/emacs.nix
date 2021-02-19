@@ -19,7 +19,6 @@ let
     company
     company-cabal
     company-c-headers
-    company-ghc
     company-go
     company-jedi
     company-lsp
@@ -45,8 +44,9 @@ let
     ess
     esup
     evil
+    evil-collection
     evil-commentary
-    evil-magit
+    # evil-magit
     evil-mu4e
     evil-multiedit
     evil-surround
@@ -141,7 +141,7 @@ let
     undo-tree
   ];
   others = with epkgs; [
-    agda2-mode
+    # agda2-mode
     astyle
     clojure-essential-ref-nov
     company-postgresql

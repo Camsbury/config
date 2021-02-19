@@ -53,7 +53,7 @@
   (let ((my-window (selected-window)))
     (select-window (frame-first-window))
     (while (window-next-sibling)
-      (set-window-width 81)
+      (set-window-width 85)
       (evil-beginning-of-line)
       (select-window (window-next-sibling)))
     (select-window my-window)))

@@ -3,8 +3,6 @@
   :after (company))
 (use-package company-c-headers
   :after (company))
-(use-package company-ghc
-  :after (company))
 (use-package company-go
   :after (company))
 (use-package company-jedi
