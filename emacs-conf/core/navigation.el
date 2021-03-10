@@ -55,6 +55,8 @@
 (use-package evil-visualstar
   :after (evil)
   :config (evil-visualstar-mode))
+;; (use-package evil-collection
+;;   :after (evil))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

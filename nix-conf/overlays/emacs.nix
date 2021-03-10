@@ -69,6 +69,18 @@ let
         ];
       };
 
+      evil-magit = compileEmacsFiles {
+        name = "evil-magit.el";
+        src = builtins.fetchurl {
+          url = https://raw.githubusercontent.com/emacs-evil/evil-magit/04a4580c6eadc0e2b821a3525687e74aefc30e84/evil-magit.el;
+          sha256 = "06cymwwd4i0rbgqr4i1naymwrynjnbw4s7l2vl9lz2kc9ydm97xl";
+        };
+        buildInputs = with eSelf.melpaPackages; [
+          evil
+          magit
+        ];
+      };
+
       explain-pause-mode = eSelf.melpaBuild {
         pname = "explain-pause-mode";
         version = "0.1";

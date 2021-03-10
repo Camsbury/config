@@ -46,7 +46,6 @@ let
     evil
     evil-collection
     evil-commentary
-    # evil-magit
     evil-mu4e
     evil-multiedit
     evil-surround
@@ -149,6 +148,7 @@ let
     explain-pause-mode
     ivy-cider
     re-jump
+    evil-magit
   ];
 in
   melpas ++ elpas ++ others
