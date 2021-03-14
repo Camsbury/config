@@ -91,6 +91,7 @@
     # typora # markdown
     udisks # manage drives
     unzip
+    usbutils
     veracrypt
     vim
     vlc
