@@ -107,7 +107,6 @@
   services = {
     lorri.enable = true;
     keybase.enable = true;
-    trezord.enable = true;
     xserver = {
       autoRepeatDelay = 300;
       autoRepeatInterval = 15;

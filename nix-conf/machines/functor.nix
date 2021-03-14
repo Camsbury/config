@@ -3,6 +3,7 @@
 {
   imports = [
     ../modules/core.nix
+    ../modules/crypto.nix
     ../modules/cuda.nix
     ../modules/gaming.nix
     ../modules/intel.nix
