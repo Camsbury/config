@@ -61,6 +61,7 @@
     loc
     lsof
     man-pages
+    mpg123 # used in emacs and other quick mp3 playing
     nix-index
     nixfmt
     nodePackages.prettier

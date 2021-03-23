@@ -63,7 +63,7 @@
   };
 
   console = {
-    font = "Go Mono";
+    # font = "Go Mono";
     useXkbConfig = true;
   };
 
