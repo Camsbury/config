@@ -1,7 +1,11 @@
 (eval-after-load 'dash '(dash-enable-font-lock))
 (general-add-hook 'emacs-lisp-mode-hook
                   (list 'paredit-mode
-                        'lispyville-mode))
+                        'lispyville-mode
+                        (lambda ()
+                          (add-to-list
+                           'imenu-generic-expression
+                           '("Hydra" "defhydra[[:blank:]\n]+\\([^ ^\n]+\\)" 1)))))
 
 
 (general-def 'normal emacs-lisp-mode-map
