@@ -1,5 +1,4 @@
 (use-package dash)
-(use-package dash-functional)
 (use-package f)
 (use-package s)
 

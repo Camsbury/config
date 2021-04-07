@@ -21,12 +21,10 @@ let
     company-c-headers
     company-go
     company-jedi
-    company-lsp
     counsel
     counsel-projectile
     dante
     dash
-    dash-functional
     datomic-snippets
     define-word
     direnv
@@ -41,6 +39,7 @@ let
     emacsql
     emacsql-sqlite
     emacsql-psql
+    emms
     ess
     esup
     evil
@@ -80,6 +79,7 @@ let
     kaocha-runner
     keychain-environment
     # know-your-http-well
+    lispy
     lispyville
     lsp-haskell
     lsp-mode
@@ -133,7 +133,6 @@ let
   ];
   elpas = with epkgs.elpaPackages; [
     chess
-    emms
     exwm
     nlinum
     rainbow-mode

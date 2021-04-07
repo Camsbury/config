@@ -7,8 +7,6 @@
   :after (company))
 (use-package company-jedi
   :after (company))
-(use-package company-lsp
-  :after (company))
 (use-package company-postgresql
   :after (company))
 (global-company-mode)
