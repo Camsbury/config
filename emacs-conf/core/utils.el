@@ -7,4 +7,9 @@
       (shell-command-to-string)
       (kill-new)))
 
+(defun file-to-string (file-name)
+  (with-temp-buffer
+    (insert-file-contents file-name)
+    (buffer-string)))
+
 (provide 'core/utils)

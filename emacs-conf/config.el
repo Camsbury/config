@@ -15,6 +15,7 @@
 (require 'services)
 (require 'snippet-conf)
 (require 'tractsoft-conf)
+(require 'shah)
 ;; slack-conf
 
 

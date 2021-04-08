@@ -72,6 +72,7 @@
     openvpn
     patchelf # patch dynamic libs/bins
     peek
+    pgn-extract
     postgresql_11
     python3
     redshift

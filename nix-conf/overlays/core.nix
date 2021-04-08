@@ -23,6 +23,9 @@ in
         cmacs-load-path = with builtins; with pkgs;
           callPackage (import ../derivations/cmacs-load-path) {};
 
+        pgn-extract = with builtins; with pkgs;
+          callPackage (import ../derivations/pgn-extract) {};
+
         xndr = super.callPackage (builtins.fetchTarball
           "https://github.com/Camsbury/xndr/archive/094be18.tar.gz") {pkgs = self;};
         } // ( with unstablePkgs; {
