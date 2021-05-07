@@ -150,7 +150,7 @@
   ("s-k" (lambda ()
            (interactive)
            (kill-this-buffer)
-           (pretty-delete-window))       "kill buffer and delete window")
+           (pretty-delete-window))    "kill buffer and delete window")
   ("K" #'kill-this-buffer             "kill buffer")
   ("l" #'spawn-right                  "spawn window right")
   ;; ("L")
