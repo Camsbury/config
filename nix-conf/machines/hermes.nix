@@ -45,5 +45,7 @@
     }
   ];
 
+  hardware.bluetooth.enable = true;
+
   home-manager.users.camsbury = import ../modules/home.nix;
 }
