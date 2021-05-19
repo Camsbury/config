@@ -1,0 +1,7 @@
+*#*
+*~
+*.cpcache
+*.nrepl-port
+*.cache
+es-replicator/.clj-kondo/
+tenant-synchronizer/.clj-kondo/
