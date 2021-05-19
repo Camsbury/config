@@ -12,6 +12,7 @@
     ../modules/music.nix
     ../modules/tract.nix
     ../modules/email.nix
+    ../modules/windows.nix
   ];
 
   networking.hostName = "functor";
