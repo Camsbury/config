@@ -8,7 +8,9 @@
 (use-package flycheck-clj-kondo
   :after (clojure-mode))
 (use-package cider
-  :after (clojure-mode))
+  :after (clojure-mode)
+  :config
+  (setq cider-clojure-cli-aliases "global"))
 (use-package ivy-cider
   :after (clojure-mode))
 (use-package datomic-snippets

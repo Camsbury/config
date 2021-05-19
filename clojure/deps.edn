@@ -1,0 +1,3 @@
+{:aliases
+ {:global
+  {:extra-deps {wing/wing {:mvn/version "0.1.4"}}}}}

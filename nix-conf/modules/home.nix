@@ -1,6 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 let
-  unstable = import ../utils/unstable.nix {};
+  sym = config.lib.file.mkOutOfStoreSymlink;
 in
 {
   nixpkgs.config.allowUnfree = true;
@@ -8,14 +8,15 @@ in
 
   home.file = {
     ".Xresources".source = ../../Xresources;
+    ".clojure".source = sym ../../clojure;
     ".gitconfig".source = ../../gitconfig;
     ".gnupg/gpg-agent.conf".source = ../../gpg-agent.conf;
     ".gnupg/gpg.conf".source = ../../gpg.conf;
     ".helpers.zsh.inc".source = ../../helpers.zsh.inc;
     ".offlineimap.py".source = ../../offlineimap.py;
     ".offlineimaprc".source = ../../offlineimaprc;
-    ".scripts".source = toString ../../scripts;
-    ".shells".source = toString ../shells;
+    ".scripts".source = ../../scripts;
+    ".shells".source = ../shells;
     ".zshrc".source = ../../zshrc;
   };
 }
