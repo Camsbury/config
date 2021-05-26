@@ -1,3 +1,10 @@
+(defun run-shell-command-in-background (buff-name command)
+  "runs a shell command async in a background buffer"
+  (interactive "sBuffer name: \nsCommand: ")
+  (async-shell-command
+   command
+   (generate-new-buffer (concat "*" buff-name "*"))))
+
 (defun eww-new (buff-name)
   "opens a new eww buffer"
   (interactive "sBuffer name: ")
@@ -41,7 +48,7 @@
 (defun lorri-watch ()
   "lorri watcher for nix changes"
   (interactive)
-  (shell-command "lorri watch &"))
+  (async-shell-command "lorri watch"))
 
 (defun set-window-width (count)
   "Set the selected window's width."
@@ -95,9 +102,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Git Utils
 
-(defun reset-repo-master (repo-name)
+(defun reset-repo-master (repo-name output-buffer)
   "reset the repo's master branch to origin/master"
-  (shell-command
+  (async-shell-command
    (concat
     "cd \"$(git rev-parse --show-toplevel)\" &&"
     "cd .. &&"
@@ -106,12 +113,16 @@
     "git stash &&"
     "git checkout master &&"
     "git fetch &&"
-    "git reset --hard origin/master")))
+    "git reset --hard origin/master")
+   output-buffer))
 
 (defun reset-working-repos ()
   "reset all working repos to origin/master"
   (interactive)
-  (-each working-repos #'reset-repo-master))
+  (-each working-repos (lambda (repo)
+                         (reset-repo-master
+                          repo
+                          (generate-new-buffer "*Reset Working Repos*")))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
