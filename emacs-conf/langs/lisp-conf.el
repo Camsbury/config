@@ -7,6 +7,8 @@
 (general-add-hook 'lisp-interaction-mode-hook
                   (list 'paredit-mode
                         'lispyville-mode))
+(with-current-buffer "*scratch*"
+  (call-interactively #'lisp-interaction-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Functions
@@ -41,6 +43,14 @@ With non-nil ARG return number of characters skipped."
         (call-interactively #'paredit-forward-down)
         (call-interactively #'lispyville-open-above-list))
     (call-interactively #'lispyville-open-above-list)))
+
+
+(defun lisp-eval-sexp-at-point ()
+  "Evaluate the expression around point, like CIDER does."
+  (interactive)
+  (save-excursion
+    (goto-char (cadr (cider-sexp-at-point 'bounds)))
+    (call-interactively #'eval-last-sexp)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -83,7 +93,7 @@ With non-nil ARG return number of characters skipped."
 
   "M-f"     #'lispyville-drag-backward
   "M-p"     #'lispyville-drag-forward
-  "M-<RET>" #'lispy-eval)
+  "M-<RET>" #'lisp-eval-sexp-at-point)
 
 
 
