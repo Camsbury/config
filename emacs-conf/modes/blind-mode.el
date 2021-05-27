@@ -1,5 +1,5 @@
 (setq blind-mode-on nil)
-(setq blind-mode-font-height 110)
+(setq blind-mode-font-height 130)
 
 (define-minor-mode blind-mode
   "Make it so blind people can see"
