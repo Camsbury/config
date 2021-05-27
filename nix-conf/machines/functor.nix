@@ -5,7 +5,7 @@
     ../modules/core.nix
     ../modules/crypto.nix
     ../modules/cuda.nix
-    # ../modules/gaming.nix
+    ../modules/gaming.nix
     ../modules/intel.nix
     ../modules/nvidia.nix
     ../modules/ssd.nix
