@@ -5,7 +5,9 @@
   (setq hl-todo-keyword-faces
         `(("TODO"  . ,(face-foreground 'warning))
           ("FIXME" . ,(face-foreground 'error))
-          ("NOTE"  . ,(face-foreground 'success)))))
+          ("NOTE"  . ,(face-foreground 'success))
+          ("CLEAN" . "#7cb8bb")
+          ("USEIT" . "#dc8cc3"))))
 
 (setq tab-width 2)
 (setq-default indent-tabs-mode nil)

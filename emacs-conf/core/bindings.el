@@ -22,12 +22,14 @@
   ("m" #'describe-mode     "mode")
   ("v" #'counsel-describe-variable "variable"))
 
+;; CLEAN: do I even use these? Should I?
 (defhydra hydra-config (:exit t :columns 5)
   "spawn config"
   ("b" #'spawn-bindings  "bindings")
   ("c" #'spawn-config    "config")
   ("f" #'spawn-functions "functions"))
 
+;; CLEAN: remove stuff I never use, or shove behind another hydra
 (defhydra hydra-spawn (:exit t :columns 5)
   "spawn"
   ("a" (spawnify #'open-daybook)                        "daybook")
@@ -57,6 +59,7 @@
   ("x" (spawnify #'open-xterm)                          "xterm")
   ("z" (spawnify #'open-zoom)                           "zoom"))
 
+;; CLEAN: remove stuff I never use, or shove behind another hydra
 (defhydra hydra-nav (:exit t :columns 5)
   "nav to"
   ("a" #'open-daybook                        "daybook")
@@ -94,12 +97,14 @@
   ("l" #'github-clone                      "github clone")
   ("q" nil))
 
+;; USEIT: need to try these out and ese how they compare to bookmarks
 (defhydra hydra-register (:exit t :columns 5)
   "set register"
   ("p" #'point-to-register                "save point")
   ("w" #'window-configuration-to-register "save window config")
   ("q" nil))
 
+;; USEIT: would probably be extremely useful if refactored a bit
 (defhydra hydra-link (:exit t :columns 5)
   "set register"
   ("q" (xdg-open 'gh-nots)  "github notifications")
@@ -108,6 +113,7 @@
   ("n" (xdg-open 'shows)    "shows")
   ("q" nil))
 
+;; USEIT
 (defhydra hydra-radio (:exit t :columns 5)
   "radio"
   ("SPC" #'emms-pause    "pause/play")
@@ -125,12 +131,14 @@
   ("k" #'evil-window-increase-height "increase height")
   ("q" nil))
 
+;; USEIT
 (defhydra hydra-nix (:exit nil :columns 5)
   "nix commands"
   ("u" #'nix-channel-update "update channel")
   ("x" #'nixos-rebuild-switch "update nixos")
   ("q" nil))
 
+;; USEIT
 (defhydra hydra-project (:exit nil :columns 5)
   "project commands"
   ("g" #'git-init "initialize git")
@@ -138,6 +146,7 @@
   ("L" #'lorri-init "initialize lorri")
   ("q" nil))
 
+;; CLEAN: reorganize and get rid of things you never use
 (defhydra hydra-leader (:exit t :columns 5 :idle 1.5)
   "leader"
   ("[" #'hydra-describe/body          "describe")
@@ -207,6 +216,7 @@
   ("o" #'narrow-and-zoom-in "narrow and zoom in")
   ("s" #'sort-lines         "sort lines"))
 
+;; CLEAN: reorganize and get rid of things you never use
 (defhydra hydra-left-leader (:exit t :columns 5)
   "left leader"
   ("b" #'bookmark-set            "create bookmark at point")
@@ -217,6 +227,7 @@
   ("n" #'buf-move-left           "move window left")
   ("x" #'org-previous-block      "previous org block"))
 
+;; CLEAN: reorganize and get rid of things you never use
 (defhydra hydra-right-leader (:exit t :columns 5)
   "right leader"
   ("b" #'counsel-bookmark    "open/create bookmark")
@@ -227,6 +238,7 @@
   ("n" #'buf-move-right      "move window right")
   ("x" #'org-next-block      "next org block"))
 
+;; CLEAN: reorganize and get rid of things you never use
 (general-define-key
  "M-n"        #'goto-address-at-point
  "M-x"        #'counsel-M-x
@@ -244,6 +256,7 @@
   "M-d" #'evil-multiedit-match-symbol-and-next
   "M-D" #'evil-multiedit-match-symbol-and-prev)
 
+;; CLEAN: reorganize and get rid of things you never use
 (general-def '(normal visual)
   "gt" #'toggle-test
   "gc" #'evil-commentary)
