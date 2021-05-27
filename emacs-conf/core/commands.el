@@ -6,7 +6,7 @@
   (interactive "sBuffer name: \nsCommand: ")
   (async-shell-command
    command
-   (generate-new-buffer (concat "*" buff-name "*"))))
+   (generate-new-buffer-name (concat "*" buff-name "*"))))
 
 ;; derived from https://gist.github.com/PhilHudson/cf882c673599221d42b2
 (defun rafd--shell-escaper (matched-text)
@@ -56,7 +56,7 @@ See `shell-escape'."
     (if (and name command)
         (async-shell-command
          (rafd--build-command dir nix command)
-         (generate-new-buffer (concat "*" name "*")))
+         (generate-new-buffer-name (concat "*" name "*")))
       (message "Pease call `run-async-from-desc` with an plist containing the \
 `:name` and `:command` keys."))))
 
@@ -180,7 +180,8 @@ See `shell-escape'."
   (-each working-repos (lambda (repo)
                          (reset-repo-master
                           repo
-                          (generate-new-buffer "*Reset Working Repos*")))))
+                          (generate-new-buffer-name
+                           (concat "*Reset " repo " to origin/master*"))))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -289,7 +290,7 @@ See `shell-escape'."
   "Spawns a new fundamental buffer"
   (interactive "sBuffer name: ")
   (spawn-right)
-  (switch-to-buffer (generate-new-buffer arg)))
+  (switch-to-buffer (generate-new-buffer-name arg)))
 
 (defun spawn-functions ()
   "Spawns the functions file to the right"
