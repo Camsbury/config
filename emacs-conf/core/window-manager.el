@@ -157,13 +157,17 @@
   "Rebuild nixos"
   (interactive)
   (let ((default-directory "/sudo::"))
-    (shell-command "nix-channel --update")))
+    (async-shell-command
+     "nix-channel --update"
+     (generate-new-buffer "*Nix Update Channels*"))))
 
 (defun nixos-rebuild-switch ()
   "Rebuild nixos"
   (interactive)
   (let ((default-directory "/sudo::"))
-    (shell-command "nixos-rebuild switch")))
+    (async-shell-command
+     "nixos-rebuild switch"
+     (generate-new-buffer "*Nix Rebuild Switch*"))))
 
 (defun restart-display-manager ()
   "Restart the display manager"

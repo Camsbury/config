@@ -91,19 +91,22 @@
   ("b" #'magit-blame                       "magit blame")
   ("s" #'magit-status                      "magit status")
   ("t" #'git-timemachine-toggle            "git time machine")
-  ("l" #'github-clone                      "github clone"))
+  ("l" #'github-clone                      "github clone")
+  ("q" nil))
 
 (defhydra hydra-register (:exit t :columns 5)
   "set register"
   ("p" #'point-to-register                "save point")
-  ("w" #'window-configuration-to-register "save window config"))
+  ("w" #'window-configuration-to-register "save window config")
+  ("q" nil))
 
 (defhydra hydra-link (:exit t :columns 5)
   "set register"
   ("q" (xdg-open 'gh-nots)  "github notifications")
   ("w" (xdg-open 'weather)  "weather")
   ("z" (xdg-open 'q-course) "quantopian")
-  ("n" (xdg-open 'shows)    "shows"))
+  ("n" (xdg-open 'shows)    "shows")
+  ("q" nil))
 
 (defhydra hydra-radio (:exit t :columns 5)
   "radio"
@@ -111,14 +114,28 @@
   ("o"   #'open-radio    "open radio playlist")
   ("s"   #'emms-random   "random station/track")
   ("["   #'emms-previous "previous station/track")
-  ("]"   #'emms-next     "next station/track"))
+  ("]"   #'emms-next     "next station/track")
+  ("q" nil))
 
 (defhydra hydra-window (:exit nil :columns 5)
   "window manipulation"
-  ("h" #'evil-window-decrease-width)
-  ("l" #'evil-window-increase-width)
-  ("j" #'evil-window-decrease-height)
-  ("k" #'evil-window-increase-height)
+  ("h" #'evil-window-decrease-width "decrease width")
+  ("l" #'evil-window-increase-width "increase width")
+  ("j" #'evil-window-decrease-height "decrease height")
+  ("k" #'evil-window-increase-height "increase height")
+  ("q" nil))
+
+(defhydra hydra-nix (:exit nil :columns 5)
+  "nix commands"
+  ("u" #'nix-channel-update "update channel")
+  ("x" #'nixos-rebuild-switch "update nixos")
+  ("q" nil))
+
+(defhydra hydra-project (:exit nil :columns 5)
+  "project commands"
+  ("g" #'git-init "initialize git")
+  ("l" #'lorri-watch "watch lorri")
+  ("L" #'lorri-init "initialize lorri")
   ("q" nil))
 
 (defhydra hydra-leader (:exit t :columns 5 :idle 1.5)
@@ -157,11 +174,11 @@
   ("m" #'empty-mode-leader            "mode leader")
   ("M" #'hydra-merge/body             "merge")
   ("n" #'hydra-spawn/body             "spawn")
-  ;; ("N")
+  ("N" #'hydra-nix/body               "nix")
   ("o" #'widen-and-zoom-out           "widen")
   ;; ("O")
   ("p" #'org-todo-list                "see org todo list")
-  ("P" #'projectile-invalidate-cache  "invalidate project cache")
+  ("P" #'hydra-project/body           "project")
   ("q" #'evil-save-modified-and-close "write quit")
   ("s-q" #'killall-java               "killall java")
   ("Q" #'clean-quit-emacs             "leave emacs")
