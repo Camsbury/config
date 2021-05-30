@@ -132,8 +132,8 @@
   ("q" nil))
 
 ;; USEIT
-(defhydra hydra-nix (:exit nil :columns 5)
-  "nix commands"
+(defhydra hydra-nixos (:exit nil :columns 5)
+  "nixos commands"
   ("u" #'nix-channel-update "update channel")
   ("x" #'nixos-rebuild-switch "update nixos")
   ("q" nil))
@@ -183,7 +183,7 @@
   ("m" #'empty-mode-leader            "mode leader")
   ("M" #'hydra-merge/body             "merge")
   ("n" #'hydra-spawn/body             "spawn")
-  ("N" #'hydra-nix/body               "nix")
+  ("N" #'hydra-nixos/body               "nix")
   ("o" #'widen-and-zoom-out           "widen")
   ;; ("O")
   ("p" #'org-todo-list                "see org todo list")

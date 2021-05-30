@@ -7,7 +7,7 @@
  [remap empty-mode-leader] #'hydra-nix/body)
 
 (defhydra hydra-nix (:exit t)
-  "wnix-mode"
+  "nix-mode"
  ("f" #'nix-update-fetch "fetch correct SHA"))
 
 (provide 'langs/nix-conf)
