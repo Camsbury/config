@@ -4,6 +4,7 @@
         langs/c-conf
         langs/clisp-conf
         langs/clj-conf
+        langs/csharp-conf
         langs/elisp-conf
         langs/elixir-conf
         langs/env-conf

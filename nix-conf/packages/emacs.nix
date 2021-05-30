@@ -23,6 +23,7 @@ let
     company-jedi
     counsel
     counsel-projectile
+    csharp-mode
     dante
     dash
     datomic-snippets
