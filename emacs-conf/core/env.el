@@ -9,7 +9,7 @@
     [remap evil-replace]           #'prodigy-restart
     [remap evil-set-marker]        #'prodigy-mark
     [remap evil-window-middle]     #'prodigy-mark-all
-    [remap undo-tree-undo]         #'prodigy-unmark
+    [remap evil-undo]              #'prodigy-unmark
     [remap undo-tree-visualize]    #'prodigy-unmark-all
     [remap evil-change-whole-line] #'prodigy-stop))
 
