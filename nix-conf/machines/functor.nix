@@ -27,7 +27,7 @@
     extraGroups = [
       "wheel"
       "networkmanager"
-      "docker"
+      # "docker"
     ];
     isNormalUser = true;
     shell = pkgs.zsh;
