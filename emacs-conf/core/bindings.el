@@ -138,6 +138,7 @@
   "radio"
   ("SPC" #'emms-pause    "pause/play")
   ("o"   #'open-radio    "open radio playlist")
+  ("v"   (switch-to-buffer "*Radio*")    "open radio playlist")
   ("s"   #'emms-random   "random station/track")
   ("["   #'emms-previous "previous station/track")
   ("]"   #'emms-next     "next station/track")
