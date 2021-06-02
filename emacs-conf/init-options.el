@@ -20,8 +20,10 @@
 ;; enable narrowing
 (put 'narrow-to-region 'disabled nil)
 
-;; don't pollute this file with custom values
+;; save custom values
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file 'noerror)
+(defun custom-file (&optional no-error)
+  (file-chase-links custom-file))
 
 (provide 'init-options)
