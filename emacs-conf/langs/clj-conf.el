@@ -160,6 +160,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
 
 (defhydra hydra-clj (:exit t)
   "clojure-mode"
+  ("=" #'clojure-align                 "align")
   ("a" #'ivy-cider-apropos             "apropos")
   ("e" #'cljr-move-to-let              "move to let")
   ("f" #'cljr-find-usages              "find refs")
