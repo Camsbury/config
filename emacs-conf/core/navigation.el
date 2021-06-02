@@ -66,11 +66,6 @@
  "~/Dropbox/lxndr/queue.org"
  "Opens my queue")
 
-(open-file
- work
- "~/Dropbox/lxndr/work.org"
- "Opens my work org")
-
 (defun open-new-tmp (arg)
   "Opens a new tmp file"
   (interactive "sFile name: ")
@@ -115,22 +110,10 @@
   (spawn-right)
   (switch-to-buffer (generate-new-buffer-name arg)))
 
-(defun spawn-functions ()
-  "Spawns the functions file to the right"
-  (interactive)
-  (spawn-right)
-  (find-file (concat (getenv "CONFIG_PATH") "/core/commands.el")))
-
 (defun spawn-bindings ()
   "Spawns the bindings file to the right"
   (interactive)
   (spawn-right)
   (find-file (concat (getenv "CONFIG_PATH") "/core/bindings.el")))
-
-(defun spawn-config ()
-  "Spawns the config file to the right"
-  (interactive)
-  (spawn-right)
-  (find-file (concat (getenv "CONFIG_PATH") "/core.el")))
 
 (provide 'core/navigation)

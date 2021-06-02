@@ -1,4 +1,3 @@
-
 (use-package ob-async)
 (use-package ob-elixir)
 (use-package ob-http)
@@ -16,13 +15,13 @@
 (setq org-directory (expand-file-name "~/Dropbox/lxndr/")
       org-capture-templates
         '(("n" "Enqueue"
-           entry (file+headline "~/Dropbox/lxndr/queue.org" "raw")
+           entry (file+headline "~/Dropbox/lxndr/raw.org" "raw")
            "* [ ] %i%?")
           ("f" "Add to Frustrations"
-           entry (file+headline "~/Dropbox/lxndr/queue.org" "frustrations")
+           entry (file+headline "~/Dropbox/lxndr/frustrations.org" "frustrations")
            "* [ ] %i%?")
           ("h" "Add to Questions"
-           entry (file+headline "~/Dropbox/lxndr/queue.org" "questions")
+           entry (file+headline "~/Dropbox/lxndr/questions.org" "questions")
            "* [ ] %i%?"))
       org-agenda-files '("~/Dropbox/lxndr/store.org")
       org-refile-targets '(("~/Dropbox/lxndr/queue.org" :maxlevel . 3)

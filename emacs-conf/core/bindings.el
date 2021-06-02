@@ -30,12 +30,9 @@
   ("m" #'describe-mode     "mode")
   ("v" #'counsel-describe-variable "variable"))
 
-;; CLEAN: do I even use these? Should I?
 (defhydra hydra-config (:exit t :columns 5)
-  "spawn config"
-  ("b" #'spawn-bindings  "bindings")
-  ("c" #'spawn-config    "config")
-  ("f" #'spawn-functions "functions"))
+  "spawn config file"
+  ("b" #'spawn-bindings  "bindings"))
 
 ;; CLEAN: remove stuff I never use, or shove behind another hydra
 (defhydra hydra-spawn (:exit t :columns 5)
@@ -43,7 +40,6 @@
   ("a" (spawnify #'open-daybook)                        "daybook")
   ("b" (spawnify #'open-books)                          "book notes")
   ("c" (spawnify #'open-brave)                          "brave browser")
-  ("d" (spawnify #'open-work)                           "work org")
   ("D" (spawnify #'open-dump)                           "brain dump")
   ("e" (spawnify #'counsel-projectile-find-file)        "project file")
   ("E" (spawnify #'counsel-projectile-switch-to-buffer) "project open buffer")
@@ -73,7 +69,6 @@
   ("a" #'open-daybook                        "daybook")
   ("b" #'open-books                          "book notes")
   ("c" #'open-brave                          "brave browser")
-  ("d" #'open-work                           "work org")
   ("D" #'open-dump                           "brain dump")
   ("e" #'counsel-projectile-find-file        "project file")
   ("E" #'counsel-projectile-switch-to-buffer "project open buffer")

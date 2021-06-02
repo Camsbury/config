@@ -2,6 +2,7 @@
 ;; Test Jumping
 
 ;; CLEAN: get multimethods and just dispatch per mode...
+;; https://github.com/skeeto/predd
 ;; (also have some kind of local config in dir-locals)
 
 ;; (defun jump-to-test-haskell ()
