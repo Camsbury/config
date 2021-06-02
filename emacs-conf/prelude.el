@@ -1,6 +1,12 @@
+(use-package asoc)
+(use-package async)
 (use-package dash)
 (use-package f)
+(use-package ht)
+(use-package ls)
 (use-package s)
+(use-package ts)
+(use-package with-simulated-input)
 
 (defmacro comment (&rest _body)
   "Comment out one or more s-expressions"

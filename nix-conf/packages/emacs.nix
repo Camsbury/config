@@ -5,6 +5,7 @@ let
     alarm-clock
     alda-mode
     all-the-icons-ivy-rich
+    async
     attrap
     avy
     # benchmark-init
@@ -27,6 +28,7 @@ let
     dante
     dash
     datomic-snippets
+    deadgrep
     define-word
     direnv
     docker
@@ -67,9 +69,11 @@ let
     github-notifier
     go-mode
     helm-dash
+    helpful
     idris-mode
     hl-todo
     hlint-refactor
+    ht
     html-to-hiccup
     hydra
     ivy
@@ -120,14 +124,17 @@ let
     # slack
     slime
     smex
+    string-edit
     sqlup-mode
     tree-mode
+    ts
     use-package
     uuid
     vega-view
     # visual-fill-column
     wgrep
     which-key
+    with-simulated-input
     yaml-mode
     yapfify # python-lsp
     yasnippet
@@ -142,11 +149,13 @@ let
   others = with epkgs; [
     # agda2-mode
     astyle
+    asoc-el
     clojure-essential-ref-nov
     company-postgresql
     etymology-of-word
     explain-pause-mode
     ivy-cider
+    ls-el
     re-jump
     evil-magit
   ];

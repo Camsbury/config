@@ -19,82 +19,11 @@ let
         ];
       };
 
-      company-postgresql = compileEmacsFiles {
-        name = "company-postgresql.el";
+      asoc-el = compileEmacsFiles {
+        name = "asoc.el";
         src = builtins.fetchurl {
-          url = https://raw.githubusercontent.com/urbint/emacs-postgresql-interactive/0c26f9cb4a7784c1eac121c30c557a70bff9b85e/company-postgresql.el;
-          sha256 = "1znqdnz5dx2cil7pilpggl18jkalys0923k26iabqlab9apygi0z";
-        };
-        buildInputs = with eSelf.melpaPackages; [
-          dash
-          emacsql
-          emacsql-psql
-          s
-        ];
-      };
-
-      etymology-of-word = compileEmacsFiles {
-        name = "etymology-of-word.el";
-        src = builtins.fetchurl {
-          url = https://raw.githubusercontent.com/Camsbury/etymology-of-word/master/etymology-of-word.el;
-          sha256 = "09yk4qrk3k5ygdqlj3ksdqzxh5532ychs4msphqrw3nim5dxhklw";
-        };
-        buildInputs = with eSelf.melpaPackages; [
-          dash
-        ];
-      };
-
-      ivy-cider = compileEmacsFiles {
-        name = "ivy-cider.el";
-        src = builtins.fetchurl {
-          url = https://raw.githubusercontent.com/rschmukler/ivy-cider/206e12f3c0892539de0ec91667863effe1da878b/ivy-cider.el;
-          sha256 = "0wiikh7l59c48bac6nlakai4p0dpi4qy7dlc6j2sr2gkznh5y5j0";
-        };
-        buildInputs = with eSelf.melpaPackages; [
-          all-the-icons
-          cider
-          ivy
-          ivy-rich
-        ];
-      };
-
-      re-jump = compileEmacsFiles {
-        name = "re-jump.el";
-        src = builtins.fetchurl {
-          url = https://raw.githubusercontent.com/oliyh/re-jump.el/443ddfa33dd2ae593cc0a013d16fff21f2afd925/re-jump.el;
-          sha256 = "003zvvdlx77ncjml09gayspsrwynyqvhaip3cgzvn2nd92fwh9wk";
-        };
-        buildInputs = with eSelf.melpaPackages; [
-          cider
-        ];
-      };
-
-      evil-magit = compileEmacsFiles {
-        name = "evil-magit.el";
-        src = builtins.fetchurl {
-          url = https://raw.githubusercontent.com/emacs-evil/evil-magit/04a4580c6eadc0e2b821a3525687e74aefc30e84/evil-magit.el;
-          sha256 = "06cymwwd4i0rbgqr4i1naymwrynjnbw4s7l2vl9lz2kc9ydm97xl";
-        };
-        buildInputs = with eSelf.melpaPackages; [
-          evil
-          magit
-        ];
-      };
-
-      explain-pause-mode = eSelf.melpaBuild {
-        pname = "explain-pause-mode";
-        version = "0.1";
-
-        recipe = builtins.toFile "recipe.el" ''
-          (explain-pause-mode :fetcher github
-                              :repo "lastquestion/explain-pause-mode")
-        '';
-
-        src = super.fetchFromGitHub {
-          owner = "lastquestion";
-          repo = "explain-pause-mode";
-          rev = "35f7d780a9c164b5c502023746473b1de3857904";
-          sha256 = "0d9lwzqqwmz0n94i7959rj7m24265yf3825a5g8cd7fyzxznl1pc";
+          url = https://raw.githubusercontent.com/troyp/asoc.el/4a3309a9f250656da6f4a9d34feedf4f5666b17a/asoc.el;
+          sha256 = "1fdynjy8xmx4a41982793z9329121k2bzigpm4vljx1yflq52v2b";
         };
       };
 
@@ -138,6 +67,96 @@ let
                            :files (:defaults
                                    (:exclude "clojure-essential-ref.el")))
           '';
+      };
+
+      company-postgresql = compileEmacsFiles {
+        name = "company-postgresql.el";
+        src = builtins.fetchurl {
+          url = https://raw.githubusercontent.com/urbint/emacs-postgresql-interactive/0c26f9cb4a7784c1eac121c30c557a70bff9b85e/company-postgresql.el;
+          sha256 = "1znqdnz5dx2cil7pilpggl18jkalys0923k26iabqlab9apygi0z";
+        };
+        buildInputs = with eSelf.melpaPackages; [
+          dash
+          emacsql
+          emacsql-psql
+          s
+        ];
+      };
+
+      etymology-of-word = compileEmacsFiles {
+        name = "etymology-of-word.el";
+        src = builtins.fetchurl {
+          url = https://raw.githubusercontent.com/Camsbury/etymology-of-word/master/etymology-of-word.el;
+          sha256 = "09yk4qrk3k5ygdqlj3ksdqzxh5532ychs4msphqrw3nim5dxhklw";
+        };
+        buildInputs = with eSelf.melpaPackages; [
+          dash
+        ];
+      };
+
+      evil-magit = compileEmacsFiles {
+        name = "evil-magit.el";
+        src = builtins.fetchurl {
+          url = https://raw.githubusercontent.com/emacs-evil/evil-magit/04a4580c6eadc0e2b821a3525687e74aefc30e84/evil-magit.el;
+          sha256 = "06cymwwd4i0rbgqr4i1naymwrynjnbw4s7l2vl9lz2kc9ydm97xl";
+        };
+        buildInputs = with eSelf.melpaPackages; [
+          evil
+          magit
+        ];
+      };
+
+      explain-pause-mode = eSelf.melpaBuild {
+        pname = "explain-pause-mode";
+        version = "0.1";
+
+        recipe = builtins.toFile "recipe.el" ''
+          (explain-pause-mode :fetcher github
+                              :repo "lastquestion/explain-pause-mode")
+        '';
+
+        src = super.fetchFromGitHub {
+          owner = "lastquestion";
+          repo = "explain-pause-mode";
+          rev = "35f7d780a9c164b5c502023746473b1de3857904";
+          sha256 = "0d9lwzqqwmz0n94i7959rj7m24265yf3825a5g8cd7fyzxznl1pc";
+        };
+      };
+
+      ivy-cider = compileEmacsFiles {
+        name = "ivy-cider.el";
+        src = builtins.fetchurl {
+          url = https://raw.githubusercontent.com/rschmukler/ivy-cider/206e12f3c0892539de0ec91667863effe1da878b/ivy-cider.el;
+          sha256 = "0wiikh7l59c48bac6nlakai4p0dpi4qy7dlc6j2sr2gkznh5y5j0";
+        };
+        buildInputs = with eSelf.melpaPackages; [
+          all-the-icons
+          cider
+          ivy
+          ivy-rich
+        ];
+      };
+
+      ls-el = compileEmacsFiles {
+        name = "ls.el";
+        src = builtins.fetchurl {
+          url = https://raw.githubusercontent.com/troyp/ls.el/acdfbd9ee65ef03d3f226c2006091fe756910694/ls.el;
+          sha256 = "0ad6bpd9kbkwlix2w5prqnswx8c4h7yzv4dwq4i8wkwfdmkhbn3l";
+        };
+        buildInputs = with eSelf.melpaPackages; [
+          dash-functional
+        ];
+      };
+
+      re-jump = compileEmacsFiles {
+        name = "re-jump.el";
+        src = builtins.fetchurl {
+          url = https://raw.githubusercontent.com/oliyh/re-jump.el/443ddfa33dd2ae593cc0a013d16fff21f2afd925/re-jump.el;
+          sha256 = "003zvvdlx77ncjml09gayspsrwynyqvhaip3cgzvn2nd92fwh9wk";
+        };
+        buildInputs = with eSelf.melpaPackages; [
+          cider
+        ];
       };
     };
 in
