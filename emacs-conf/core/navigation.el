@@ -10,61 +10,29 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Nav Functions
 
-(defmacro open-file (name path &optional desc)
-  `(defun ,(intern (concat "open-" (symbol-name `,name))) ()
-     ,desc
-     (interactive)
-     (find-file ,path)))
+;; CLEAN: just replace these with a simple lookup on a map
 
-(open-file
- se-principles
- "~/Dropbox/lxndr/ref/software_engineering.org"
- "Opens the SE principles file")
+(setq file-links
+      '(:books         "~/Dropbox/lxndr/ref/books.org"
+        :brain-dump    "~/Dropbox/lxndr/ref/dump.org"
+        :daybook       "~/Dropbox/lxndr/daybook.org"
+        :frustrations  "~/Dropbox/lxndr/frustrations.org"
+        :habits        "~/Dropbox/lxndr/habits.org"
+        :journal       "~/Dropbox/lxndr/journal.org"
+        :links         "~/Dropbox/lxndr/ref/links.org"
+        :notes         "/tmp/notes.org"
+        :questions     "~/Dropbox/lxndr/questions.org"
+        :queue         "~/Dropbox/lxndr/queue.org"
+        :raw           "~/Dropbox/lxndr/raw.org"
+        :runs          "~/Dropbox/lxndr/ref/runs.org"
+        :se-principles "~/Dropbox/lxndr/ref/software_engineering.org"))
 
-(open-file
- tmp-org
- "/tmp/notes.org"
- "opens a temporary org file")
-
-(open-file
- daybook
- "~/Dropbox/lxndr/daybook.org"
- "Opens daybook")
-
-(open-file
- books
- "~/Dropbox/lxndr/ref/books.org"
- "Opens my book notes")
-
-(open-file
- runs
- "~/Dropbox/lxndr/ref/runs.org"
- "Opens my runs file")
-
-(open-file
- links
- "~/Dropbox/lxndr/ref/links.org"
- "Opens my links file")
-
-(open-file
- journal
- "~/Dropbox/lxndr/journal.org"
- "Opens my journal")
-
-(open-file
- dump
- "~/Dropbox/lxndr/ref/dump.org"
- "Opens my brain dump")
-
-(open-file
- habits
- "~/Dropbox/lxndr/habits.org"
- "Opens my habits tracker")
-
-(open-file
- queue
- "~/Dropbox/lxndr/queue.org"
- "Opens my queue")
+(defun open-file-link (file-key)
+  "Open a file link interactively"
+  (interactive)
+  (->> file-key
+    (plist-get file-links)
+    find-file))
 
 (defun open-new-tmp (arg)
   "Opens a new tmp file"
@@ -94,6 +62,14 @@
   (interactive)
   (split-window-right)
   (windmove-right)
+  (prettify-windows))
+
+(defun spawn-file-link (file-key)
+  "Spawn a window to the right before calling a function"
+  (interactive)
+  (split-window-right)
+  (windmove-right)
+  (open-file-link file-key)
   (prettify-windows))
 
 (defun spawnify (f)
