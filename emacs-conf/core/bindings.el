@@ -25,7 +25,7 @@
 
 (defhydra hydra-describe (:exit t :columns 5)
   "describe"
-  ("k" #'describe-key      "key")
+  ("k" #'helpful-key      "key")
   ("f" #'counsel-describe-function "function")
   ("m" #'describe-mode     "mode")
   ("v" #'counsel-describe-variable "variable"))
@@ -187,7 +187,8 @@
   ("g" #'hydra-git/body               "git tasks")
   ;; ("G")
   ("h" #'org-capture                  "capture")
-  ;; ("H")
+  ;; USEIT
+  ("H" #'helpful-at-point             "helpful at point")
   ("i" #'counsel-imenu                "search with imenu")
   ;; ("I")
   ("j" #'spawn-below                  "spawn window below")
