@@ -136,12 +136,12 @@
 ;; USEIT
 (defhydra hydra-radio (:exit t :columns 5)
   "radio"
-  ("SPC" #'emms-pause    "pause/play")
-  ("o"   #'open-radio    "open radio playlist")
-  ("v"   (switch-to-buffer "*Radio*")    "open radio playlist")
-  ("s"   #'emms-random   "random station/track")
-  ("["   #'emms-previous "previous station/track")
-  ("]"   #'emms-next     "next station/track")
+  ("SPC" #'emms-strong-pause          "pause/play")
+  ("o"   #'open-radio                 "open radio playlist")
+  ("v"   (switch-to-buffer "*Radio*") "open radio playlist")
+  ("s"   #'emms-random                "random station/track")
+  ("["   #'emms-previous              "previous station/track")
+  ("]"   #'emms-next                  "next station/track")
   ("q" nil))
 
 (defhydra hydra-window (:exit nil :columns 5)

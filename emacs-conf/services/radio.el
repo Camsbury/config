@@ -12,6 +12,13 @@
 ;; emms-source-playlist-parse-pls
 ;; emms-source-playlist-pls-files
 
+(defun emms-strong-pause ()
+  "Stops playlists that pause won't stop"
+  (interactive)
+  (if emms-player-playing-p
+      (emms-stop)
+    (emms-start)))
+
 (defun open-radio ()
   "Play my custom radio"
   (interactive)
