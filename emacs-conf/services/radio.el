@@ -23,6 +23,6 @@
   "Play my custom radio"
   (interactive)
   (emms-play-pls-playlist "~/Dropbox/lxndr/music/radio.pls")
-  (emms-toggle-repeat-playlist))
+  (setq emms-repeat-playlist t))
 
 (provide 'services/radio)
