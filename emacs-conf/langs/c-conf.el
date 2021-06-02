@@ -1,3 +1,5 @@
+(use-package company-c-headers
+  :after (company))
 (use-package reformatter)
 (use-package astyle) ; ensure astyle is available
 

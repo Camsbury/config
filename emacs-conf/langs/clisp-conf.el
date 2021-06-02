@@ -1,5 +1,6 @@
 (use-package evil)
 (use-package langs/lisp-conf)
+(use-package slime)
 
 (setq inferior-lisp-program "nix-shell -p sbcl --run sbcl")
 

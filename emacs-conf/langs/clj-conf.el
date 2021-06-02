@@ -17,6 +17,7 @@
   :after (clojure-mode))
 (use-package re-jump
   :after (clojure-mode))
+(use-package html-to-hiccup)
 
 (use-package clojure-essential-ref-nov
   :init
@@ -159,18 +160,20 @@ If invoked with a prefix ARG eval the expression after inserting it"
 
 (defhydra hydra-clj (:exit t)
   "clojure-mode"
-  ("a" #'ivy-cider-apropos         "apropos")
-  ("e" #'cljr-move-to-let          "move to let")
-  ("f" #'cljr-find-usages          "find refs")
-  ("j" #'hydra-clj-jack-in/body    "hydra cider-jack-in")
-  ("l" #'cider-load-buffer         "load buffer")
-  ("m" #'hydra-cljr-help-menu/body "cljr hydra")
-  ("n" #'cljr-introduce-let        "introduce let")
-  ("o" #'clj-narrow-defun          "focus on def")
-  ("q" #'cljr-add-require-to-ns    "add require")
-  ("t" #'cider-test-run-ns-tests   "run repl tests")
-  ("w" #'cljr-add-missing-libspec  "figure out the require")
-  ("y" #'cider-copy-last-result    "copy last result"))
+  ("a" #'ivy-cider-apropos             "apropos")
+  ("e" #'cljr-move-to-let              "move to let")
+  ("f" #'cljr-find-usages              "find refs")
+  ;; USEIT
+  ("H" #'html-to-hiccup-convert-region "convert HTML to hiccup")
+  ("j" #'hydra-clj-jack-in/body        "hydra cider-jack-in")
+  ("l" #'cider-load-buffer             "load buffer")
+  ("m" #'hydra-cljr-help-menu/body     "cljr hydra")
+  ("n" #'cljr-introduce-let            "introduce let")
+  ("o" #'clj-narrow-defun              "focus on def")
+  ("q" #'cljr-add-require-to-ns        "add require")
+  ("t" #'cider-test-run-ns-tests       "run repl tests")
+  ("w" #'cljr-add-missing-libspec      "figure out the require")
+  ("y" #'cider-copy-last-result        "copy last result"))
 
 ; clojure-thread-first-all
 ; clojure-thread-last-all

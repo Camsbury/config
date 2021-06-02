@@ -1,4 +1,8 @@
 (use-package prettier-js)
+(use-package rjsx-mode)
+(use-package js2-mode)
+(use-package tree-mode) ;; for json navigator
+(use-package json-navigator)
 
 (setq js-indent-level 2)
 (setq js2-basic-offset 2)

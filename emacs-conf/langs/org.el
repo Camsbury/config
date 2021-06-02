@@ -92,6 +92,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org functions
 
+(defun org-append-link ()
+  "Append link instead of replacing current point"
+  (interactive)
+  (insert " ")
+  (call-interactively #'org-insert-link))
+
 (defun org-table-clear-and-align ()
   "Clear a cell, then align the table."
   (interactive)
@@ -241,4 +247,4 @@
 (general-add-hook 'org-mode-hook
   (list 'org-bullets-mode 'org-indent-mode 'visual-line-mode))
 
-(provide 'org-conf)
+(provide 'langs/org)

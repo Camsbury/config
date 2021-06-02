@@ -1,5 +1,6 @@
 (-map 'require
-      '(services/email
+      '(services/docker
+        services/email
         services/irc
         services/lsp
         services/radio

@@ -1,5 +1,7 @@
-;; (use-package nlinum)
-;; (use-package nlinum-hl)
+(use-package flycheck)
+(use-package flycheck-popup-tip)
+(use-package origami)
+
 (use-package hl-todo
   :init
   (setq hl-todo-keyword-faces
@@ -21,10 +23,10 @@
 (global-hl-line-mode)
 
 ;; open buffers in a vertical split!
-(setq split-height-threshold nil)
-(setq split-width-threshold 160)
+(setq split-height-threshold nil
+      split-width-threshold 160)
+
 (setq
- find-function-C-source-directory (getenv "EMACS_C_SOURCE_PATH")
  whitespace-line-column 80
  whitespace-style '(face trailing lines-tail))
 
@@ -33,7 +35,6 @@
         'whitespace-mode
         'rainbow-delimiters-mode
         'rainbow-mode
-        ;'nlinum-mode
         'display-line-numbers-mode))
 
 (provide 'core/prog)

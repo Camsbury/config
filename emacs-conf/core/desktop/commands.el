@@ -1,61 +1,5 @@
-(defun global-exwm-key (key cmd)
-  "bind key for use across all exwm buffers"
-  (general-define-key :keymaps 'exwm-mode-map key cmd)
-  (exwm-input-set-key (kbd key) cmd))
-
-(use-package exwm
-  :init
-  (setq exwm-workspace-show-all-buffers t)
-  (setq exwm-layout-show-all-buffers t))
-
-(use-package exwm-config
-  :after (exwm)
-  :config
-  (add-hook 'exwm-update-class-hook
-            (lambda ()
-              (exwm-workspace-rename-buffer exwm-class-name)))
-  (setq exwm-workspace-number 5
-        exwm-workspace-current-index 1
-        exwm-input-global-keys
-        `(([?\s-r] . exwm-reset)
-          ([?\s-w] . exwm-workspace-switch)
-          ,@(mapcar (lambda (i)
-                      `(,(kbd (format "s-%d" i)) .
-                        (lambda ()
-                          (interactive)
-                          (exwm-workspace-switch-create ,i))))
-                    (number-sequence 0 9))))
-  (exwm-enable) ; assuming this needs to be done before setters are enabled
-  (global-exwm-key "<XF86MonBrightnessUp>"   #'raise-brightness)
-  (global-exwm-key "<XF86MonBrightnessDown>" #'lower-brightness)
-  (global-exwm-key "<XF86Display>"           #'lock-screen)
-  (global-exwm-key "<XF86AudioRaiseVolume>"  #'raise-volume)
-  (global-exwm-key "<XF86AudioLowerVolume>"  #'lower-volume)
-  (global-exwm-key "<XF86AudioMute>"         #'toggle-mute)
-  (global-exwm-key "<XF86AudioPlay>"         #'spotify-toggle-play)
-  (global-exwm-key "<XF86AudioPrev>"         #'spotify-prev)
-  (global-exwm-key "<XF86AudioNext>"         #'spotify-next)
-  (global-exwm-key "s-k"                     #'evil-window-up)
-  (global-exwm-key "s-j"                     #'evil-window-down)
-  (global-exwm-key "s-h"                     #'evil-window-left)
-  (global-exwm-key "s-l"                     #'evil-window-right)
-  (global-exwm-key "s-SPC"                   #'hydra-leader/body)
-  (global-exwm-key "s-["                     #'hydra-left-leader/body)
-  (global-exwm-key "s-]"                     #'hydra-right-leader/body)
-  (global-exwm-key "s-x"                     #'exwm-run-command)
-  (global-exwm-key "s-b"                     #'check-battery)
-  (global-exwm-key "s-s"                     #'cycle-sound)
-  (global-exwm-key "s-t"                     #'check-time)
-  (global-exwm-key "s-L"                     #'lock-screen)
-  (global-exwm-key "M-C-s-R"                 #'restart-display-manager)
-  (exwm-input-set-simulation-keys
-   '(([?\s-a] . ?\C-a)
-     ([?\s-C] . ?\C-C)
-     ([?\s-c] . ?\C-c)
-     ([?\s-V] . ?\C-V)
-     ([?\s-v] . ?\C-v))))
-(use-package exwm-randr
-  :after (exwm))
+(use-package alarm-clock)
+(use-package deadgrep)
 
 (defun -run-shell-command (command)
   "run a shell command"
@@ -178,12 +122,25 @@
 (defun reboot ()
   "Reboot the system"
   (interactive)
+  (recentf-save-list)
   (shell-command "reboot"))
 
 (defun shutdown ()
   "Shut down the system"
   (interactive)
+  (recentf-save-list)
   (shell-command "shutdown now"))
+
+(defun ssh-keychain ()
+  "Adds the ssh key to the keychain"
+  (interactive)
+  (-run-shell-command "keychain --eval --agents ssh id_rsa"))
+
+(defun gpg-keychain ()
+  "Adds the gpg key to the keychain"
+  (interactive)
+  (-run-shell-command "keychain --eval --agents gpg D3F6CEF58C6E0F38"))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; open applications
@@ -195,16 +152,6 @@
     (if match
         (switch-to-buffer match)
       (-run-shell-command command))))
-
-(defun ssh-keychain ()
-  "Adds the ssh key to the keychain"
-  (interactive)
-  (-run-shell-command "keychain --eval --agents ssh id_rsa"))
-
-(defun gpg-keychain ()
-  "Adds the gpg key to the keychain"
-  (interactive)
-  (-run-shell-command "keychain --eval --agents gpg D3F6CEF58C6E0F38"))
 
 (defun open-brave ()
   "Opens the brave browser"
@@ -242,4 +189,67 @@
   (ivy-read "Run command: " (s-lines (shell-command-to-string "print -rC1 -- ${(ko)commands}"))
             :action #'-run-shell-command))
 
-(provide 'core/window-manager)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Running Shell Commands in Buffers
+
+(defun run-shell-command-in-background (buff-name command)
+  "runs a shell command async in a background buffer"
+  (interactive "sBuffer name: \nsCommand: ")
+  (async-shell-command
+   command
+   (generate-new-buffer-name (concat "*" buff-name "*"))))
+
+;; derived from https://gist.github.com/PhilHudson/cf882c673599221d42b2
+(defun rafd--shell-escaper (matched-text)
+    "Return replacement text for MATCHED-TEXT when shell-escaping.
+See `shell-escape'."
+    (cond
+        ((string= matched-text "'")
+            "\\\\'")
+        ((string-match "\\(.\\)'" matched-text)
+            (concat
+                (match-string 1 matched-text)
+                "\\\\'"))
+        (t matched-text)))
+
+;; derived from https://gist.github.com/PhilHudson/cf882c673599221d42b2
+(defun rafd--shell-escape (string)
+    "Make STRING safe to pass to a shell command."
+    (->> string
+      (replace-regexp-in-string "\n" " ")
+      (replace-regexp-in-string
+       ".?'"
+       #'rafd--shell-escaper)))
+
+
+(defun rafd--build-command (dir nix command)
+  (concat
+   (when dir
+     (concat "cd " dir " && "))
+   (if nix
+       (concat "nix-shell --run '"
+               (rafd--shell-escape command)
+               "'"))))
+
+(defun run-async-from-desc ()
+  "run a shell command async in a background buffer from a description in the
+   form of an plist in the form of:
+     :name    - name of the buffer
+     :dir     - (optional) path to run command from
+     :nix     - (optional) `t` if should run in nix-shell
+     :command - content of the shell command to run"
+  (interactive)
+  (let* ((desc    (call-interactively #'lisp-eval-sexp-at-point))
+         (name    (plist-get desc :name))
+         (dir     (plist-get desc :dir))
+         (nix     (plist-get desc :nix))
+         (command (plist-get desc :command)))
+    (if (and name command)
+        (async-shell-command
+         (rafd--build-command dir nix command)
+         (generate-new-buffer-name (concat "*" name "*")))
+      (message "Pease call `run-async-from-desc` with an plist containing the \
+`:name` and `:command` keys."))))
+
+(provide 'core/desktop/commands)

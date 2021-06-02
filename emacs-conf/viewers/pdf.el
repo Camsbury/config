@@ -8,4 +8,4 @@
  "p"                   #'doc-view-search-previous-match
  "/"                   #'doc-view-search)
 
-(provide 'pdf-conf)
+(provide 'viewers/pdf)

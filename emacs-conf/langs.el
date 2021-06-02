@@ -5,6 +5,7 @@
         langs/clisp-conf
         langs/clj-conf
         langs/csharp-conf
+        langs/dockerfile
         langs/elisp-conf
         langs/elixir-conf
         langs/env-conf
@@ -15,15 +16,12 @@
         langs/js-conf
         langs/lisp-conf
         langs/nix-conf
+        langs/org
         langs/python-conf
         langs/racket-conf
         langs/rlang-conf
         langs/rust-conf
-        langs/shell-conf))
+        langs/shell-conf
+        langs/yaml))
 
-(use-package dockerfile-mode)
-(use-package yaml-mode
-  :init (general-add-hook 'yaml-mode-hook
-                          (list 'nlinum-mode)))
-
-(provide 'lang-conf)
+(provide 'langs)

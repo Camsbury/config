@@ -1,3 +1,4 @@
+(use-package nov)
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
 (setq nov-text-width 80)
@@ -17,4 +18,4 @@
   ("h" #'nov-previous-document "back")
   ("l" #'nov-next-document     "next"))
 
-(provide 'epub-conf)
+(provide 'viewers/epub)

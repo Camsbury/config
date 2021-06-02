@@ -1,5 +1,7 @@
 (use-package nix-mode
   :mode "\\.nix\\'")
+;; CLEAN: maybe don't need
+(add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
 (use-package nix-update
   :after (nix-mode))
 

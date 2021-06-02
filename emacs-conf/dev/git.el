@@ -1,9 +1,5 @@
 (use-package git-timemachine)
-(use-package magit
-  ;; :after (evil-collection)
-  ;; :config
-  ;; (evil-collection-init 'magit)
-  )
+(use-package magit)
 (use-package magit-todos
   :after (magit)
   :config
@@ -38,6 +34,33 @@
   (interactive)
   (let ((current-prefix-arg t))
     (call-interactively #'magit-mode-bury-buffer)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Multi Repo Utils
+
+(defun reset-repo-master (repo-name output-buffer)
+  "reset the repo's master branch to origin/master"
+  (async-shell-command
+   (concat
+    "cd \"$(git rev-parse --show-toplevel)\" &&"
+    "cd .. &&"
+    "cd " repo-name " &&"
+    "git add . &&"
+    "git stash &&"
+    "git checkout master &&"
+    "git fetch &&"
+    "git reset --hard origin/master")
+   output-buffer))
+
+(defun reset-working-repos ()
+  "reset all working repos to origin/master"
+  (interactive)
+  (-each working-repos (lambda (repo)
+                         (reset-repo-master
+                          repo
+                          (generate-new-buffer-name
+                           (concat "*Reset " repo " to origin/master*"))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Add smart upstream
@@ -102,4 +125,4 @@
  [remap scroll-up]               #'hydra-leader-body)
 
 
-(provide 'git-conf)
+(provide 'dev/git)

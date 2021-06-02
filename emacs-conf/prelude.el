@@ -3,9 +3,10 @@
 (use-package dash)
 (use-package f)
 (use-package ht)
-(use-package ls)
+(use-package parseedn)
 (use-package s)
 (use-package ts)
+(use-package uuid)
 (use-package with-simulated-input)
 
 (defmacro comment (&rest _body)

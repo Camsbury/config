@@ -2,6 +2,14 @@
                   'visual-line-mode
                   (lambda () (call-interactively (buffer-face-set 'hl-line))))
 
+(defun eww-new (buff-name)
+  "opens a new eww buffer"
+  (interactive "sBuffer name: ")
+  (let ((url (read-from-minibuffer "Enter URL or keywords: ")))
+    (switch-to-buffer (generate-new-buffer buff-name))
+    (eww-mode)
+    (eww url)))
+
 (general-def 'normal eww-mode-map
  [remap empty-mode-leader] #'hydra-eww/body)
 
@@ -12,4 +20,4 @@
   ("y" #'eww-copy-page-url "copy url"))
 
 
-(provide 'browser-conf)
+(provide 'viewers/browser)

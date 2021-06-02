@@ -1,3 +1,7 @@
+(use-package go-mode)
+(use-package company-go
+  :after (company))
+
 (general-def 'normal go-mode-map
  [remap empty-mode-leader] #'hydra-go/body)
 

@@ -137,17 +137,6 @@ let
         ];
       };
 
-      ls-el = compileEmacsFiles {
-        name = "ls.el";
-        src = builtins.fetchurl {
-          url = https://raw.githubusercontent.com/troyp/ls.el/acdfbd9ee65ef03d3f226c2006091fe756910694/ls.el;
-          sha256 = "0ad6bpd9kbkwlix2w5prqnswx8c4h7yzv4dwq4i8wkwfdmkhbn3l";
-        };
-        buildInputs = with eSelf.melpaPackages; [
-          dash-functional
-        ];
-      };
-
       re-jump = compileEmacsFiles {
         name = "re-jump.el";
         src = builtins.fetchurl {

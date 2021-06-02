@@ -7,6 +7,8 @@
                            'imenu-generic-expression
                            '("Hydra" "defhydra[[:blank:]\n]+\\([^ ^\n]+\\)" 1)))))
 
+(setq find-function-C-source-directory (getenv "EMACS_C_SOURCE_PATH"))
+
 
 (general-def 'normal emacs-lisp-mode-map
  [remap empty-mode-leader] #'hydra-elisp/body)

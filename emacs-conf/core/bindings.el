@@ -1,19 +1,27 @@
-;; Bindings for my emacs config
+;; swapping alt and windows for meta/super
+(setq x-super-keysym 'meta
+      x-meta-keysym 'super)
 
-(use-package general)
-(use-package which-key)
-(use-package hydra)
+(use-package general
+  :config
+  (general-evil-setup t))
+(use-package which-key
+  :config
+  (which-key-mode)
+  (setq which-key-max-display-columns 5))
+(use-package hydra
+  :config
+  ;;; allows easy remapping in hydras
+  (setq hydra-look-for-remap t))
 
-(setq x-super-keysym 'meta)
-(setq x-meta-keysym 'super)
+;; nice tooltip for unbound mode hydras
+(defun empty-mode-leader ()
+  (interactive)
+  (message "current mode hydra is unbound"))
 
-
-(general-evil-setup t)
-(which-key-mode)
-(setq which-key-max-display-columns 5)
-
-;;; allows easy remapping in hydras
-(setq hydra-look-for-remap t)
+(defun empty-visual-mode-leader ()
+  (interactive)
+  (message "current visual mode hydra is unbound"))
 
 (defhydra hydra-describe (:exit t :columns 5)
   "describe"
@@ -106,12 +114,23 @@
 
 ;; USEIT: would probably be extremely useful if refactored a bit
 (defhydra hydra-link (:exit t :columns 5)
-  "set register"
+  "visit link"
   ("q" (xdg-open 'gh-nots)  "github notifications")
   ("w" (xdg-open 'weather)  "weather")
   ("z" (xdg-open 'q-course) "quantopian")
   ("n" (xdg-open 'shows)    "shows")
   ("q" nil))
+
+;;; TODO: find out how to make this mode aware??
+(defhydra hydra-merge ()
+  "merge"
+  ("a" #'smerge-keep-all "keep all")
+  ("u" #'smerge-keep-upper "keep upper")
+  ("l" #'smerge-keep-lower "keep lower")
+  ("p" #'smerge-prev "previous")
+  ("n" #'smerge-next "next")
+  ("z" #'evil-scroll-line-to-center "center")
+  ("q" nil "quit" :color red))
 
 ;; USEIT
 (defhydra hydra-radio (:exit t :columns 5)
@@ -152,6 +171,7 @@
   ("[" #'hydra-describe/body          "describe")
   ("]" #'switch-to-buffer             "switch to buffer")
   (")" #'eval-defun                   "eval outer sexp")
+  ("+" #'increment-number-at-point    "increment number")
   ;; ("a")
   ("A" #'org-agenda-list              "org agenda list")
   ("b" #'blind-mode                   "blind mode")
@@ -177,22 +197,21 @@
            (interactive)
            (kill-this-buffer)
            (pretty-delete-window))    "kill buffer and delete window")
+  ;; USEIT
+  ("S" #'string-edit-at-point         "edit string")
   ("K" #'kill-this-buffer             "kill buffer")
   ("l" #'spawn-right                  "spawn window right")
   ;; ("L")
   ("m" #'empty-mode-leader            "mode leader")
   ("M" #'hydra-merge/body             "merge")
   ("n" #'hydra-spawn/body             "spawn")
-  ("N" #'hydra-nixos/body               "nix")
+  ("N" #'hydra-nixos/body             "nixos")
   ("o" #'widen-and-zoom-out           "widen")
   ;; ("O")
   ("p" #'org-todo-list                "see org todo list")
   ("P" #'hydra-project/body           "project")
   ("q" #'evil-save-modified-and-close "write quit")
-  ("s-q" #'killall-java               "killall java")
-  ("Q" #'clean-quit-emacs             "leave emacs")
   ("r" #'hydra-radio/body             "radio commands")
-  ("R" #'restart-emacs                "restart emacs")
   ("s" #'avy-goto-char-2              "avy jump to char")
   ;; ("S")
   ("t" #'hydra-nav/body               "nav")
@@ -206,7 +225,8 @@
   ;; ("x")
   ("X" #'toggle-debug-on-error        "toggle debug on error")
   ("y" #'nav-flash-line               "flash line")
-  ;; ("Y")
+  ;; USEIT
+  ("Y" #'copy-buffer-path             "copy buffer path")
   ;; ("z")
   ("Z" #'projectile-kill-buffers      "kill all project buffers"))
 

@@ -6,6 +6,8 @@
   :after (python-mode))
 (use-package py-isort
   :after (python-mode))
+(use-package company-jedi
+  :after (company))
 
 (flycheck-define-checker
     python-mypy ""

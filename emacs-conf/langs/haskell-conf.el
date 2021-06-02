@@ -48,6 +48,10 @@
         flymake-start-syntax-check-on-newline nil
         flycheck-check-syntax-automatically '(save mode-enabled)))
 
+
+(use-package company-cabal
+  :after (company))
+
 (use-package dante
   :after (haskell-mode)
   :commands 'dante-mode

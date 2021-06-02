@@ -44,7 +44,7 @@ let
     emacsql-psql
     emms
     ess
-    esup
+    # esup
     evil
     evil-collection
     evil-commentary
@@ -96,7 +96,6 @@ let
     nav-flash
     nix-mode
     nix-update
-    nlinum-hl
     nov
     ob-async
     ob-elixir
@@ -117,7 +116,7 @@ let
     ranger
     reformatter # astyle dep
     request
-    restart-emacs
+    # restart-emacs
     rjsx-mode
     rust-mode
     s
@@ -142,7 +141,6 @@ let
   elpas = with epkgs.elpaPackages; [
     chess
     exwm
-    nlinum
     rainbow-mode
     undo-tree
   ];
@@ -153,9 +151,7 @@ let
     clojure-essential-ref-nov
     company-postgresql
     etymology-of-word
-    explain-pause-mode
     ivy-cider
-    ls-el
     re-jump
     evil-magit
   ];
