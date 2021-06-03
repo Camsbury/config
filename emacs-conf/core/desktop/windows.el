@@ -59,6 +59,16 @@
 
 (use-package buffer-move)
 
+(defun windows-undedicate-workspace-buffer (dedicated-workspace)
+  (interactive
+   (list
+    (exwm-workspace--prompt-for-workspace
+     "Pick dedicated workspace [+/-]: ")))
+  (-> dedicated-workspace
+    exwm-workspace--workspace-from-frame-or-index
+    frame-selected-window
+    (set-window-dedicated-p nil)))
+
 (defun windows-fix-broken-workspace (broken-workspace)
   "Place a new frame in the given frame/index, without affecting other frames"
   (interactive
