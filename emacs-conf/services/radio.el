@@ -14,52 +14,35 @@
     (emms-start)))
 
 (setq radio-playlists
-      '(:rock "~/Dropbox/lxndr/music/rock.pls"
-        :hits "~/Dropbox/lxndr/music/hits.pls"))
+      (-> "~/Dropbox/lxndr/music/radio.edn"
+        (f-read 'utf-8)
+        parseedn-read-str))
 
-(setq radio-current-playlist-info '())
-
-(defun -get-playlist-info ()
-  (interactive)
-  (let ((name-by-file '())
-        (nums-and-files  '()))
-    (save-excursion
-      (goto-char (point-min))
-      (while (re-search-forward "^File\\([0-9]*\\)=\\(.+\\)$" nil t)
-        (setq nums-and-files
-              (cons (vector (match-string 1) (match-string 2)) nums-and-files)))
-      (goto-char (point-min))
-      (dolist (num-and-file nums-and-files)
-        (re-search-forward
-         (concat "^Title" (aref num-and-file 0) "=\\(.+\\)$")
-         nil t)
-        (setq name-by-file
-              (->> name-by-file
-                (cons (match-string 1))
-                (cons (aref num-and-file 1))))
-        (goto-char (point-min))))
-    name-by-file))
-
-(defun get-playlist-info (playlist-key)
-  "get the info for a playlist"
-  (with-temp-buffer
-    (emms-insert-file-contents (plist-get radio-playlists playlist-key))
-    (goto-char (point-min))
-    (when (not (emms-source-playlist-pls-p))
-      (error "Not a pls playlist file."))
-    (-get-playlist-info)))
-
-(customize-set-variable
- 'emms-track-description-function
- (lambda (track)
-   "describe the current track"
-   (lax-plist-get radio-current-playlist-info (emms-track-name track))))
+(define-emms-source radio-playlist (playlist-key)
+  ;; set the description function
+  (customize-set-variable
+   'emms-track-description-function
+   (lambda (track)
+     (->> radio-playlists
+       (gethash current-radio-playlist)
+       (gethash (emms-track-name track)))))
+  ;; build the playlist
+  (maphash
+   (lambda (track-url _title)
+     (let ((track
+            (if (string-match "\\`\\(http[s]?\\|mms\\)://" track-url)
+                (emms-track 'url track-url)
+              (if (string-match "\\`file://" track-url) ;; handle file:// uris
+                  (let ((track-url (url-unhex-string (substring track-url 7))))
+                    (emms-track 'track-url track-url))
+                (emms-track 'track-url (expand-file-name track-url dir))))))
+       (emms-playlist-insert-track track)))
+   (gethash playlist-key radio-playlists)))
 
 (defun open-playlist (playlist-key)
   "Play my playlist by name"
   (interactive)
-  (setq radio-current-playlist-info (get-playlist-info playlist-key))
-  (emms-play-pls-playlist (plist-get radio-playlists playlist-key))
+  (emms-play-radio-playlist playlist-key)
   (setq emms-repeat-playlist t)
   (emms-random))
 
