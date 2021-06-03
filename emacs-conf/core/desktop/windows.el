@@ -14,7 +14,7 @@
   (add-hook 'exwm-update-class-hook
             (lambda ()
               (exwm-workspace-rename-buffer exwm-class-name)))
-  (setq exwm-workspace-number 5
+  (setq exwm-workspace-number 10
         exwm-workspace-current-index 1
         exwm-input-global-keys
         `(([?\s-r] . exwm-reset)
@@ -26,6 +26,7 @@
                           (exwm-workspace-switch-create ,i))))
                     (number-sequence 0 9))))
   (exwm-enable) ; assuming this needs to be done before setters are enabled
+  (exwm-init)
   (global-exwm-key "<XF86MonBrightnessUp>"   #'raise-brightness)
   (global-exwm-key "<XF86MonBrightnessDown>" #'lower-brightness)
   (global-exwm-key "<XF86Display>"           #'lock-screen)
