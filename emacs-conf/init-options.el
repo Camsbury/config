@@ -23,7 +23,8 @@
 ;; save custom values
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file 'noerror)
-(defun custom-file (&optional no-error)
+(defun force-custom-file (&optional no-error)
   (file-chase-links custom-file))
+(advice-add #'custom-file :override #'force-custom-file)
 
 (provide 'init-options)
