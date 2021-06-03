@@ -19,10 +19,18 @@
       (emms-stop)
     (emms-start)))
 
-(defun open-radio ()
-  "Play my custom radio"
+(defun open-rock ()
+  "Play my rock radio"
   (interactive)
-  (emms-play-pls-playlist "~/Dropbox/lxndr/music/radio.pls")
-  (setq emms-repeat-playlist t))
+  (emms-play-pls-playlist "~/Dropbox/lxndr/music/rock.pls")
+  (setq emms-repeat-playlist t)
+  (emms-random))
+
+(defun open-hits ()
+  "Play my hits radio"
+  (interactive)
+  (emms-play-pls-playlist "~/Dropbox/lxndr/music/hits.pls")
+  (setq emms-repeat-playlist t)
+  (emms-random))
 
 (provide 'services/radio)

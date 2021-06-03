@@ -137,8 +137,9 @@
 (defhydra hydra-radio (:exit t :columns 5)
   "radio"
   ("SPC" #'emms-strong-pause          "pause/play")
-  ("o"   #'open-radio                 "open radio playlist")
-  ("v"   (switch-to-buffer "*Radio*") "open radio playlist")
+  ("h"   #'open-hits                  "open hits playlist")
+  ("r"   #'open-rock                  "open rock playlist")
+  ("v"   (switch-to-buffer "*Radio*") "view radio playlist")
   ("s"   #'emms-random                "random station/track")
   ("["   #'emms-previous              "previous station/track")
   ("]"   #'emms-next                  "next station/track")
