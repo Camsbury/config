@@ -101,6 +101,7 @@ let
     ob-elixir
     ob-http
     ob-ipython
+    org-alert
     org-bullets
     origami
     paredit

@@ -1,8 +1,15 @@
+;; USEIT
 (use-package ob-async)
 (use-package ob-elixir)
 (use-package ob-http)
-(use-package company-postgresql)
 (use-package org-bullets)
+(use-package org-alert)
+(require 'langs/sql-conf)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; org alert
+
+(setq alert-default-style 'libnotify)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org todos
@@ -14,16 +21,17 @@
 
 (setq org-directory (expand-file-name "~/Dropbox/lxndr/")
       org-capture-templates
-        '(("n" "Enqueue"
-           entry (file+headline "~/Dropbox/lxndr/raw.org" "raw")
-           "* [ ] %i%?")
-          ("f" "Add to Frustrations"
-           entry (file+headline "~/Dropbox/lxndr/frustrations.org" "frustrations")
-           "* [ ] %i%?")
-          ("h" "Add to Questions"
-           entry (file+headline "~/Dropbox/lxndr/questions.org" "questions")
-           "* [ ] %i%?"))
-      org-agenda-files '("~/Dropbox/lxndr/store.org")
+      '(("n" "Enqueue"
+         entry (file+headline "~/Dropbox/lxndr/raw.org" "raw")
+         "* [ ] %i%?")
+        ("f" "Add to Frustrations"
+         entry (file+headline "~/Dropbox/lxndr/frustrations.org" "frustrations")
+         "* [ ] %i%?")
+        ("h" "Add to Questions"
+         entry (file+headline "~/Dropbox/lxndr/questions.org" "questions")
+         "* [ ] %i%?"))
+      org-agenda-files '("~/Dropbox/lxndr/daybook.org"
+                         "~/Dropbox/lxndr/store.org")
       org-refile-targets '(("~/Dropbox/lxndr/queue.org" :maxlevel . 3)
                            ("~/Dropbox/lxndr/store.org" :level . 1)
                            ("~/Dropbox/lxndr/ref.org" :level . 1))
