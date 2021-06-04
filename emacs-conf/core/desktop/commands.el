@@ -123,7 +123,7 @@
   (let ((default-directory "/sudo::"))
     (async-shell-command
      "nixos-rebuild switch"
-     (generate-new-buffer-name "*Nix Rebuild Switch*"))))
+     (generate-new-buffer-name "*NixOS Rebuild Switch*"))))
 
 (defun nix-collect-garbage ()
   "Collect garbage"
