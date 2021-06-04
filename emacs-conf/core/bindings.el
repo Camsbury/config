@@ -156,14 +156,14 @@
   ("q" nil))
 
 ;; USEIT
-(defhydra hydra-nixos (:exit nil :columns 5)
+(defhydra hydra-nixos (:exit t :columns 5)
   "nixos commands"
   ("u" #'nix-channel-update "update channel")
   ("x" #'nixos-rebuild-switch "update nixos")
   ("q" nil))
 
 ;; USEIT
-(defhydra hydra-project (:exit nil :columns 5)
+(defhydra hydra-project (:exit t :columns 5)
   "project commands"
   ("g" #'git-init "initialize git")
   ("l" #'lorri-watch "watch lorri")
