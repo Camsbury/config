@@ -64,6 +64,7 @@
   ("t" (spawnify #'counsel-find-file)                   "file in dir")
   ("w" (spawnify #'eww-new)                             "web browser")
   ("x" (spawnify #'open-xterm)                          "xterm")
+  ("y" (spawn-file-link :systems)                       "systems")
   ("z" (spawnify #'open-zoom)                           "zoom"))
 
 ;; CLEAN: remove stuff I never use, or shove behind another hydra
@@ -96,6 +97,7 @@
   ("t" #'counsel-find-file                   "file in dir")
   ("w" #'eww-new                             "web browser")
   ("x" #'open-xterm                          "xterm")
+  ("y" (open-file-link :systems)             "systems")
   ("z" #'open-zoom                           "zoom"))
 
 (defhydra hydra-git (:exit t :columns 5)

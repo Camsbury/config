@@ -25,7 +25,8 @@
         :queue         "~/Dropbox/lxndr/queue.org"
         :raw           "~/Dropbox/lxndr/raw.org"
         :runs          "~/Dropbox/lxndr/ref/runs.org"
-        :se-principles "~/Dropbox/lxndr/ref/software_engineering.org"))
+        :se-principles "~/Dropbox/lxndr/ref/software_engineering.org"
+        :systems       "~/Dropbox/lxndr/systems.org"))
 
 (defun open-file-link (file-key)
   "Open a file link interactively"
