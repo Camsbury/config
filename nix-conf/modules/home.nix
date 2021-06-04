@@ -9,6 +9,7 @@ in
   home.file = {
     ".Xresources".source = ../../Xresources;
     ".clojure".source = sym ../../clojure;
+    ".config/dunst/dunstrc".source = sym ../../dunstrc;
     ".gitconfig".source = sym ../../gitconfig;
     ".gitignore".source = sym ../../global-gitignore;
     ".gnupg/gpg-agent.conf".source = ../../gpg-agent.conf;
