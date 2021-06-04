@@ -24,7 +24,7 @@
    'emms-track-description-function
    (lambda (track)
      (->> radio-playlists
-       (gethash current-radio-playlist)
+       (gethash playlist-key)
        (gethash (emms-track-name track)))))
   ;; build the playlist
   (maphash
