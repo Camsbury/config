@@ -158,8 +158,11 @@
 ;; USEIT
 (defhydra hydra-nixos (:exit t :columns 5)
   "nixos commands"
-  ("u" #'nix-channel-update "update channel")
-  ("x" #'nixos-rebuild-switch "update nixos")
+  ("g" #'nix-collect-garbage     "clean nix store")
+  ("o" #'nixos-channel-version   "copy nixos channel version")
+  ("p" #'nixpkgs-channel-version "copy nixpkgs channel version")
+  ("u" #'nix-channel-update      "update channels")
+  ("x" #'nixos-rebuild-switch    "update nixos")
   ("q" nil))
 
 ;; USEIT

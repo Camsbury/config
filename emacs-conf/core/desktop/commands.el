@@ -105,6 +105,18 @@
      "nix-channel --update"
      (generate-new-buffer-name "*Nix Update Channels*"))))
 
+(defun nixos-channel-version ()
+  "Get the nixos channel version"
+  (interactive)
+  (kill-new
+   (shell-command-to-string "nix-instantiate --eval -E '(import <nixos> {}).lib.version'")))
+
+(defun nixpkgs-channel-version ()
+  "Get the nixpkgs channel version"
+  (interactive)
+  (kill-new
+   (shell-command-to-string "nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'")))
+
 (defun nixos-rebuild-switch ()
   "Rebuild nixos"
   (interactive)
@@ -112,6 +124,13 @@
     (async-shell-command
      "nixos-rebuild switch"
      (generate-new-buffer-name "*Nix Rebuild Switch*"))))
+
+(defun nix-collect-garbage ()
+  "Collect garbage"
+  (interactive)
+  (async-shell-command
+   "nixos-collect-garbage -d"
+   (generate-new-buffer-name "*Nix Collect Garbage*")))
 
 (defun restart-display-manager ()
   "Restart the display manager"
