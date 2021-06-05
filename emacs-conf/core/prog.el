@@ -35,6 +35,7 @@
         'whitespace-mode
         'rainbow-delimiters-mode
         'rainbow-mode
-        'display-line-numbers-mode))
+        'display-line-numbers-mode
+        'prettify-mode))
 
 (provide 'core/prog)

@@ -90,17 +90,6 @@
   "Set the selected window's width."
   (adjust-window-trailing-edge (selected-window) (- count (window-width)) t))
 
-(defun prettify-windows ()
-  "Set the windows all to have 81 chars of length"
-  (interactive)
-  (let ((my-window (selected-window)))
-    (select-window (frame-first-window))
-    (while (window-next-sibling)
-      (set-window-width 85)
-      (evil-beginning-of-line)
-      (select-window (window-next-sibling)))
-    (select-window my-window)))
-
 (defun pretty-delete-window ()
   "Cleans up after itself after deleting current window"
   (interactive)

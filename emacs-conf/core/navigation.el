@@ -10,8 +10,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Nav Functions
 
-;; CLEAN: just replace these with a simple lookup on a map
-
 (setq file-links
       '(:books         "~/Dropbox/lxndr/ref/books.org"
         :brain-dump    "~/Dropbox/lxndr/ref/dump.org"
