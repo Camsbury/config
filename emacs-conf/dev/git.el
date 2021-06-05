@@ -35,6 +35,14 @@
   (let ((current-prefix-arg t))
     (call-interactively #'magit-mode-bury-buffer)))
 
+;; USEIT
+(defun gitgrep-history (regex)
+  "grep through git history"
+  (interactive)
+  (shell-command-to-string
+   (concat
+    "git log -S " regex " --pickaxe-regex -p --branches --all | rg " regex)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Multi Repo Utils
