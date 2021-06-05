@@ -4,7 +4,7 @@
 (use-package ob-http)
 (use-package org-bullets)
 (use-package org-alert)
-(require 'langs/sql-conf)
+(require 'langs/sql)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org alert

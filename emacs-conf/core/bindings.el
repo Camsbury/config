@@ -198,7 +198,7 @@
   ;; USEIT
   ("H" #'helpful-at-point             "helpful at point")
   ("i" #'counsel-imenu                "search with imenu")
-  ;; ("I")
+  ("I" #'join-irc                     "join IRCs")
   ("j" #'spawn-below                  "spawn window below")
   ;; ("J")
   ("k" #'pretty-delete-window         "delete window")
