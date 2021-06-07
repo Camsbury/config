@@ -1,6 +1,7 @@
 (require 'config/theme)
 (require 'config/search)
 (require 'config/navigation)
+(require 'config/env)
 (require 'config/text)
 (require 'config/prog)
 (require 'config/info)
