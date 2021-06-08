@@ -129,7 +129,7 @@
   "Collect garbage"
   (interactive)
   (async-shell-command
-   "nixos-collect-garbage -d"
+   "nix-collect-garbage -d"
    (generate-new-buffer-name "*Nix Collect Garbage*")))
 
 (defun restart-display-manager ()
