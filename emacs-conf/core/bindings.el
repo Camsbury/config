@@ -271,7 +271,6 @@
 (general-define-key
  "M-n"        #'goto-address-at-point
  "M-x"        #'counsel-M-x
- "C-u"        #'evil-scroll-up
  "C-S-p"      #'yank)
 
 (general-def 'normal
@@ -287,8 +286,9 @@
 
 ;; CLEAN: reorganize and get rid of things you never use
 (general-def '(normal visual)
-  "gt" #'toggle-test
-  "gc" #'evil-commentary)
+  "C-u" #'evil-scroll-up
+  "gt"  #'toggle-test
+  "gc"  #'evil-commentary)
 
 (general-def 'visual
   "SPC" #'hydra-visual-leader/body
