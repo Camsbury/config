@@ -252,6 +252,9 @@
   ("k" #'org-edit-src-abort "quit without saving"))
 
 (general-add-hook 'org-mode-hook
-  (list 'org-bullets-mode 'org-indent-mode 'visual-line-mode))
+  (list 'org-bullets-mode
+        'org-indent-mode
+        'visual-line-mode
+        'prettify-mode))
 
 (provide 'config/langs/org)
