@@ -31,4 +31,7 @@
   "Set the selected window's width."
   (adjust-window-trailing-edge (selected-window) (- count (window-width)) t))
 
+;; manage windows
+(setq exwm-manage-configurations '((t managed t)))
+
 (provide 'config/desktop/windows)
