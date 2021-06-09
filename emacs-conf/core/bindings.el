@@ -180,6 +180,7 @@
   ("]" #'switch-to-buffer             "switch to buffer")
   (")" #'eval-defun                   "eval outer sexp")
   ("+" #'increment-number-at-point    "increment number")
+  ("M-x" #'counsel-M-x                "M-x")
   ;; ("a")
   ("A" #'org-agenda-list              "org agenda list")
   ("b" #'blind-mode                   "blind mode")
