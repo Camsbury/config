@@ -98,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [3] = LAYOUT_ergodox(
       //LEFT HAND
       TO(0), TO(3),   TO(4),   KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK, KC_MEDIA_PLAY_PAUSE, KC_NO,
-      KC_NO, KC_NO,   KC_NO,   KC_NO,               KC_NO,               KC_NO,               KC_NO,
+      TO(5), KC_NO,   KC_NO,   KC_NO,               KC_NO,               KC_NO,               KC_NO,
       KC_NO, KC_LEFT, KC_DOWN, KC_UP,               KC_RIGHT,            KC_NO,
       KC_NO, KC_NO,   KC_NO,   KC_NO,               KC_NO,               KC_NO,               KC_NO,
       KC_NO, KC_NO,   KC_NO,   KC_NO,               KC_NO,
@@ -170,53 +170,53 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   /*     KC_NO,          KC_ENTER,       KC_BSPACE), */
 
   /* // WC3 LAYER */
-  /* [4] = LAYOUT_ergodox( */
-  /*     //BATTLE HAND */
-  /*     CTL_T(KC_NO),      KC_1,           KC_2,            KC_3,               KC_4,             KC_5,            KC_6, */
-  /*     KC_TAB,            KC_Q,           KC_W,            KC_F,               KC_P,             KC_G,            KC_7, */
-  /*     LT(1,KC_LBRACKET), KC_A,           KC_R,            KC_S,               KC_T,             KC_D, */
-  /*     KC_LSPO,           KC_Z,           KC_X,            KC_C,               KC_V,             KC_B,            KC_8, */
-  /*     KC_F1,             KC_F2,          KC_F3,           KC_LALT,            CTL_T(KC_NO), */
+  [5] = LAYOUT_ergodox(
+      //BATTLE HAND
+      CTL_T(KC_NO),      KC_1,           KC_2,            KC_3,               KC_4,             KC_5,            KC_6,
+      KC_TAB,            KC_Q,           KC_W,            KC_F,               KC_P,             KC_G,            KC_7,
+      LT(1,KC_LBRACKET), KC_A,           KC_R,            KC_S,               KC_T,             KC_D,
+      KC_LSPO,           KC_Z,           KC_X,            KC_C,               KC_V,             KC_B,            KC_8,
+      KC_F1,             KC_F2,          KC_F3,           KC_LALT,            CTL_T(KC_NO),
 
-  /*                                                                             KC_9,             KC_0, */
-  /*                                                                                                                KC_NO, */
-  /*                                                                             KC_SPACE,         LT(5,KC_ESCAPE), KC_LSFT, */
+                                                                              KC_9,             KC_0,
+                                                                                                                 KC_NO,
+                                                                              KC_SPACE,         LT(6,KC_ESCAPE), KC_LSFT,
 
 
-  /*     //AUXILIARY HAND */
-  /*     KC_NO,             KC_AUDIO_MUTE,  KC_AUDIO_VOL_UP, KC_AUDIO_VOL_DOWN,  LGUI(KC_PLUS), LGUI(KC_MINUS),  TO(0), */
-  /*     LGUI(KC_SPACE),    KC_J,           KC_L,            KC_U,               KC_Y,             KC_COLN,         KC_DELETE, */
-  /*                        KC_H,           KC_N,            KC_E,               KC_I,             KC_O,            LT(1,KC_RBRACKET), */
-  /*     KC_NO,             KC_K,           KC_M,            KC_COMMA,           KC_DOT,           KC_SLASH,        KC_RSPC, */
-  /*                                        KC_LGUI,         KC_LALT,            MEH_T(KC_NO),     ALL_T(KC_NO),    KC_NO, */
+      //AUXILIARY HAND
+      KC_NO,             KC_AUDIO_MUTE,  KC_AUDIO_VOL_UP, KC_AUDIO_VOL_DOWN,  LGUI(KC_PLUS),    LGUI(KC_MINUS),  TO(0),
+      LGUI(KC_SPACE),    KC_J,           KC_L,            KC_U,               KC_Y,             KC_COLN,         KC_DELETE,
+                         KC_H,           KC_N,            KC_E,               KC_I,             KC_O,            LT(1,KC_RBRACKET),
+      KC_NO,             KC_K,           KC_M,            KC_COMMA,           KC_DOT,           KC_SLASH,        KC_RSPC,
+                                         KC_LGUI,         KC_LALT,            MEH_T(KC_NO),     ALL_T(KC_NO),    KC_NO,
 
-  /*     KC_NO, */
-  /*                        KC_NO,          KC_NO, */
-  /*     CTL_T(KC_NO),      LT(2,KC_ENTER), KC_BSPACE), */
+      KC_NO,
+                         KC_NO,          KC_NO,
+      CTL_T(KC_NO),      LT(2,KC_ENTER), KC_BSPACE),
 
   /* // WC3 LAYER 2 */
-  /* [5] = LAYOUT_ergodox( */
-  /*     //LEFT HAND */
-  /*     KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, */
-  /*     KC_NO, KC_NO, KC_NO, KC_P7, KC_P8, KC_P9, KC_NO, */
-  /*     KC_NO, KC_NO, KC_NO, KC_P4, KC_P5, KC_P6, */
-  /*     KC_NO, KC_NO, KC_NO, KC_P1, KC_P2, KC_P3, KC_NO, */
-  /*     KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, */
+  [6] = LAYOUT_ergodox(
+      //LEFT HAND
+      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+      KC_NO, KC_NO, KC_NO, KC_P7, KC_P8, KC_P9, KC_NO,
+      KC_NO, KC_NO, KC_NO, KC_P4, KC_P5, KC_P6,
+      KC_NO, KC_NO, KC_NO, KC_P1, KC_P2, KC_P3, KC_NO,
+      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
 
-  /*                                 KC_NO, KC_NO, */
-  /*                                               KC_NO, */
-  /*                                 KC_NO, KC_NO, KC_NO, */
+                                  KC_NO, KC_NO,
+                                                KC_NO,
+                                  KC_NO, KC_NO, KC_NO,
 
 
-  /*     KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, */
-  /*     KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, */
-  /*            KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, */
-  /*     KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, */
-  /*                   KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, */
+      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+             KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+                    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
 
-  /*     KC_NO, */
-  /*            KC_NO, KC_NO, */
-  /*     KC_NO, KC_NO, KC_NO), */
+      KC_NO,
+             KC_NO, KC_NO,
+      KC_NO, KC_NO, KC_NO),
 
   // NO LAYER
   /* [#] = LAYOUT_ergodox( */
