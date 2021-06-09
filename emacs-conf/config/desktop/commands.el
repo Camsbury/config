@@ -138,6 +138,15 @@
   (let ((default-directory "/sudo::"))
     (shell-command "systemctl restart display-manager.service")))
 
+(defun nix-derivation-is-cached? (derivation)
+  "Sees if the derivation is cached on the nixos cache"
+  (interactive "sDerivation Path: ")
+  (shell-command
+   (concat
+    "nix path-info -r "
+    derivation
+    " --store https://cache.nixos.org/")))
+
 (defun reboot ()
   "Reboot the system"
   (interactive)
