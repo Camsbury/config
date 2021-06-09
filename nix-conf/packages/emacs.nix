@@ -129,7 +129,7 @@ let
     tree-mode
     ts
     use-package
-    uuid
+    uuidgen
     vega-view
     # visual-fill-column
     wgrep

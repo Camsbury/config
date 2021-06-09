@@ -6,7 +6,7 @@
 (use-package parseedn)
 (use-package s)
 (use-package ts)
-(use-package uuid)
+(use-package uuidgen)
 (use-package with-simulated-input)
 
 (defmacro comment (&rest _body)
