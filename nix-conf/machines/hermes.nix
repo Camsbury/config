@@ -3,33 +3,23 @@
 {
   imports = [
     ../modules/core.nix
+
+    # hardware
+    "${import ../utils/hardware.nix}/dell/xps/13-9310"
     ../modules/intel.nix
+    ../modules/ssd.nix
     ../modules/laptop.nix
     ../modules/non-ergodox.nix
-    ../modules/ssd.nix
+
+    #functionality
     ../modules/tract.nix
-    "${import ../utils/hardware.nix}/dell/xps/13-9310"
+    ../modules/email.nix
   ];
 
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/559bcebb-ef43-4d84-8550-8b371bfb6aa6";
 
   networking.hostName = "hermes";
-
-  nix.trustedUsers = [
-    "root"
-    "camsbury"
-  ];
-
-  users.users.camsbury = {
-    home = "/home/camsbury";
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "docker"
-    ];
-    isNormalUser = true;
-    shell = pkgs.zsh;
-  };
+  users.users.default.name = "camsbury";
 
   services.xserver.xrandrHeads = [
     { output = "eDP-1";
@@ -47,5 +37,5 @@
 
   hardware.bluetooth.enable = true;
 
-  home-manager.users.camsbury = import ../modules/home.nix;
+  system.stateVersion = "20.03";
 }

@@ -3,12 +3,16 @@
 {
   imports = [
     ../modules/core.nix
-    ../modules/crypto.nix
-    ../modules/cuda.nix
-    ../modules/gaming.nix
+
+    # hardware
     ../modules/intel.nix
     ../modules/nvidia.nix
     ../modules/ssd.nix
+
+    #functionality
+    ../modules/crypto.nix
+    ../modules/cuda.nix
+    ../modules/gaming.nix
     ../modules/music.nix
     ../modules/tract.nix
     ../modules/email.nix
@@ -16,22 +20,7 @@
   ];
 
   networking.hostName = "functor";
+  users.users.default.name = "monoid";
 
-  nix.trustedUsers = [
-    "root"
-    "monoid"
-  ];
-
-  users.users.monoid = {
-    home = "/home/monoid";
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      # "docker"
-    ];
-    isNormalUser = true;
-    shell = pkgs.zsh;
-  };
-
-  home-manager.users.monoid = import ../modules/home.nix;
+  system.stateVersion = "20.03";
 }

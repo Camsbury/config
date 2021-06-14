@@ -3,6 +3,7 @@
 {
   imports = [
     "${import ../utils/hardware.nix}/common/pc/laptop"
+    ./check-battery.nix
   ];
   services = {
     xserver.libinput = {
@@ -12,4 +13,7 @@
     };
     upower.enable = true;
   };
+  environment.systemPackages = with pkgs; [
+    check-low-battery
+  ];
 }
