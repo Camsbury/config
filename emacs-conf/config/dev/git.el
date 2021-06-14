@@ -38,7 +38,7 @@
 ;; USEIT
 (defun gitgrep-history (regex)
   "grep through git history"
-  (interactive)
+  (interactive "s")
   (shell-command-to-string
    (concat
     "git log -S " regex " --pickaxe-regex -p --branches --all | rg " regex)))
