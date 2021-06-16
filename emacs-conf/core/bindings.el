@@ -283,7 +283,7 @@
   "M-D" #'evil-multiedit-match-symbol-and-prev)
 
 ;; CLEAN: reorganize and get rid of things you never use
-(general-def '(normal visual)
+(general-def '(normal visual) '(text-mode-map prog-mode-map)
   "C-u" #'evil-scroll-up
   "gt"  #'toggle-test
   "gc"  #'evil-commentary)
