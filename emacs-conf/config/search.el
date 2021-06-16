@@ -65,7 +65,6 @@
   (setq dumb-jump-selector        'ivy
         dumb-jump-prefer-searcher 'rg))
 
-
 (recentf-mode)
 (minibuffer-electric-default-mode)
 

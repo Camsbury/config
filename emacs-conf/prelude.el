@@ -16,4 +16,9 @@
 (defun inc (x) "Returns x + 1" (+ 1 x))
 (defun dec (x) "Returns x - 1" (- x 1))
 
+(defun unadvise (sym)
+  "Remove all advice from symbol SYM."
+  (interactive "aFunction symbol: ")
+  (advice-mapc (lambda (advice _props) (advice-remove sym advice)) sym))
+
 (provide 'prelude)

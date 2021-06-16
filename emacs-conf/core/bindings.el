@@ -202,11 +202,8 @@
   ("I" #'join-irc                     "join IRCs")
   ("j" #'spawn-below                  "spawn window below")
   ;; ("J")
-  ("k" #'pretty-delete-window         "delete window")
-  ("s-k" (lambda ()
-           (interactive)
-           (kill-this-buffer)
-           (pretty-delete-window))    "kill buffer and delete window")
+  ("k" #'delete-window                "delete window")
+  ("s-k" #'kill-buffer-and-window     "kill buffer and delete window")
   ;; USEIT
   ("S" #'string-edit-at-point         "edit string")
   ("K" #'kill-this-buffer             "kill buffer")

@@ -150,13 +150,13 @@
 (defun reboot ()
   "Reboot the system"
   (interactive)
-  (recentf-save-list)
+  (run-hooks 'kill-emacs-hook)
   (shell-command "reboot"))
 
 (defun shutdown ()
   "Shut down the system"
   (interactive)
-  (recentf-save-list)
+  (run-hooks 'kill-emacs-hook)
   (shell-command "shutdown now"))
 
 (defun ssh-keychain ()

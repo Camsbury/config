@@ -27,11 +27,32 @@
      (exwm-workspace--workspace-from-frame-or-index default-limit))
     (customize-set-variable 'exwm-workspace-switch-create-limit default-limit)))
 
-(defun set-window-width (count)
+(defun set-window-width (window count)
   "Set the selected window's width."
-  (adjust-window-trailing-edge (selected-window) (- count (window-width)) t))
+  (when (and (window-combined-p window t)
+             (window-right window))
+    (adjust-window-trailing-edge
+     window
+     (- count (window-width))
+     t)))
 
-;; manage windows
+;; EXWM manage windows
 (setq exwm-manage-configurations '((t managed t)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; hooks
+
+(defvar after-delete-window-hook nil
+  "Functions run after a window is deleted")
+(defun run-after-delete-window-hook (&rest _)
+  (run-hooks 'after-delete-window-hook))
+(advice-add #'delete-window :after #'run-after-delete-window-hook)
+
+(defvar after-split-window-hook nil
+  "Functions run after a window is split")
+(defun run-after-split-window-hook (&rest _)
+  (run-hooks 'after-split-window-hook))
+(advice-add #'split-window :after #'run-after-split-window-hook)
 
 (provide 'config/desktop/windows)

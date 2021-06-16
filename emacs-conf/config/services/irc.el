@@ -70,6 +70,7 @@
   (add-hook 'circe-server-connected-hook 'enable-circe-notifications))
 
 (defun join-irc ()
+  "Jump into all your favorite channels"
   (interactive)
   (circe "HackInt")
   (circe "Libera"))

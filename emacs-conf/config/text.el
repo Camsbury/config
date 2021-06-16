@@ -69,7 +69,7 @@
   (call-interactively 'text-scale-increase)
   (call-interactively 'text-scale-increase)
   (call-interactively 'text-scale-increase)
-  (set-window-width 130))
+  (set-window-width (selected-window) 130))
 
 (defun widen-and-zoom-out ()
   "Widen the buffer and set zoom to normal"
