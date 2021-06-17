@@ -7,8 +7,6 @@
 (general-add-hook 'lisp-interaction-mode-hook
                   (list 'paredit-mode
                         'lispyville-mode))
-(with-current-buffer "*scratch*"
-  (call-interactively #'lisp-interaction-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Functions

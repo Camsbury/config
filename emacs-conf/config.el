@@ -11,6 +11,7 @@
 (require 'config/modes)
 (require 'config/services)
 (require 'config/viewers)
+(require 'config/scratch)
 (require 'config/shah)
 (require 'config/utils)
 
