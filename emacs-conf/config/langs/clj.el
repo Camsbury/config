@@ -150,15 +150,22 @@ If invoked with a prefix ARG eval the expression after inserting it"
 ;; Bindings
 
 (general-def 'normal clojure-mode-map
- [remap empty-mode-leader]    #'hydra-clj/body
- [remap evil-goto-definition] (lambda () (interactive) (cider-find-var (point)))
- [remap dumb-jump-go] (lambda () (interactive) (cider-doc (point)))
- [remap cider-inspector-pop]  #'evil-previous-visual-line)
+  [remap empty-mode-leader]    #'hydra-clj/body
+  [remap evil-goto-definition] (lambda ()
+                                 (interactive)
+                                 (cider-find-var (point)))
+  [remap dumb-jump-go] (lambda ()
+                         (interactive)
+                         (cider-doc (point)))
+  [remap cider-inspector-pop]  #'evil-previous-visual-line
+  "M-n"     #'clojure-unwind-all
+  "M-e"     #'clojure-thread-first-all
+  "M-i"     #'clojure-thread-last-all)
 
 (general-define-key :keymaps 'clojure-mode-map
   [remap paredit-raise-sexp] #'cljr-raise-sexp)
 
-(defhydra hydra-clj (:exit t)
+(defhydra hydra-clj (:exit t :columns 5)
   "clojure-mode"
   ("=" #'clojure-align                 "align")
   ("a" #'ivy-cider-apropos             "apropos")
