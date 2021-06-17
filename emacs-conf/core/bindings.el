@@ -265,7 +265,10 @@
   ("n" #'buf-move-right      "move window right")
   ("x" #'org-next-block      "next org block"))
 
-;; CLEAN: reorganize and get rid of things you never use
+;;Unbinds annoying accidental commands
+(general-define-key :keymaps 'global-map
+ "M-ESC ESC" nil)
+
 (general-define-key
  "M-n"        #'goto-address-at-point
  "M-x"        #'counsel-M-x
