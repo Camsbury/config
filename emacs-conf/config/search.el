@@ -15,7 +15,12 @@
 (use-package counsel-projectile
   :after (counsel projectile))
 
-(projectile-discover-projects-in-directory "~/projects")
+;; discover all the git repos
+(->> (directory-files "~/projects")
+  (--remove (s-starts-with? "." it))
+  (--map (projectile-discover-projects-in-directory
+          (concat "~/projects/" it))))
+
 (setq projectile-globally-ignored-file-suffixes '("~" "#"))
 ;; required to use counsel-projectile
 (setq projectile-keymap-prefix (kbd "C-c C-p"))
