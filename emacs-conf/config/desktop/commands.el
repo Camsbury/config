@@ -1,4 +1,11 @@
-(use-package alarm-clock)
+(use-package alarm-clock
+  :init
+  (defun alarm-message-espeak (title msg)
+    (shell-command (concat "espeak \"" msg "\"")))
+  :config
+  (setq alarm-clock-play-sound nil)
+  (advice-add #'alarm-clock--system-notify :after #'alarm-message-espeak))
+
 (use-package deadgrep)
 
 (defun -run-shell-command (command)
