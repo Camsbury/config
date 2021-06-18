@@ -15,3 +15,7 @@
 (set-face-attribute 'default nil :height normal-font-height)
 
 (provide 'config/theme)
+
+(comment
+ (load-theme 'doom-molokai t)
+ (load-theme 'doom-acario-dark t))
