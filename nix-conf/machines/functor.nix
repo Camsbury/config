@@ -8,6 +8,7 @@
     ../modules/intel.nix
     ../modules/nvidia.nix
     ../modules/ssd.nix
+    ../modules/slimblade.nix
 
     #functionality
     ../modules/crypto.nix
