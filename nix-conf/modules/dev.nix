@@ -20,6 +20,7 @@
     kubectl
     loc
     nixfmt
+    update-nix-fetchgit
     nodePackages.prettier
     patchelf # patch dynamic libs/bins
     postgresql_11

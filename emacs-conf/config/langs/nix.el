@@ -10,6 +10,16 @@
 
 (defhydra hydra-nix (:exit t)
   "nix-mode"
- ("f" #'nix-update-fetch "fetch correct SHA"))
+  ("f" #'nix-update-fetch "fetch correct SHA")
+  ("F" #'update-nix-fetchgit "update to latest fetch SHAs, unless #pin"))
+
+(defun update-nix-fetchgit ()
+  "Update all fetch shas in the current nix file"
+  (interactive)
+  (shell-command
+   (format "update-nix-fetchgit %s"
+           (shell-quote-argument (buffer-file-name)))))
 
 (provide 'config/langs/nix)
+
+
