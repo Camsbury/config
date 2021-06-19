@@ -31,10 +31,11 @@
   "Set the selected window's width."
   (when (and (window-combined-p window t)
              (window-right window))
-    (adjust-window-trailing-edge
-     window
-     (- count (window-width))
-     t)))
+    (ignore-errors
+      (adjust-window-trailing-edge
+       window
+       (- count (window-width))
+       t))))
 
 ;; EXWM manage windows
 (setq exwm-manage-configurations '((t managed t)))
