@@ -195,7 +195,8 @@
   ;; ("e")
   ("E" #'etymology-of-word-at-point   "etymology of word at point")
   ("f" #'counsel-rg                   "find text in project")
-  ;; ("F")
+  ;; USEIT
+  ("F" #'swiper-thing-at-point        "find uses of the thing at point")
   ("g" #'hydra-git/body               "git tasks")
   ;; ("G")
   ("h" #'org-capture                  "capture")
@@ -211,7 +212,8 @@
   ("S" #'string-edit-at-point         "edit string")
   ("K" #'kill-this-buffer             "kill buffer")
   ("l" #'spawn-right                  "spawn window right")
-  ;; ("L")
+  ;; USEIT
+  ("L" #'list-buffers                 "list buffers")
   ("m" #'empty-mode-leader            "mode leader")
   ("M" #'hydra-merge/body             "merge")
   ("n" #'hydra-spawn/body             "spawn")
