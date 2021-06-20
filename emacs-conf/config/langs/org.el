@@ -20,6 +20,7 @@
 ;;; org capture
 
 (setq org-directory (expand-file-name "~/Dropbox/lxndr/")
+      org-refile-use-outline-path t
       org-capture-templates
       '(("n" "Enqueue"
          entry (file+headline "~/Dropbox/lxndr/raw.org" "raw")
@@ -29,10 +30,15 @@
          "* [ ] %i%?")
         ("h" "Add to Questions"
          entry (file+headline "~/Dropbox/lxndr/questions.org" "questions")
-         "* [ ] %i%?"))
+         "* [ ] %i%?")
+        ("l" "Log action"
+         entry (file+headline "~/Dropbox/lxndr/daybook.org" "log")
+         "* %i%?"))
       org-agenda-files '("~/Dropbox/lxndr/daybook.org"
                          "~/Dropbox/lxndr/store.org")
-      org-refile-targets '(("~/Dropbox/lxndr/queue.org" :maxlevel . 3)
+      org-refile-targets '(("~/Dropbox/lxndr/daybook-log.org" :maxlevel . 3)
+                           ("~/Dropbox/lxndr/daybook.org" :maxlevel . 3)
+                           ("~/Dropbox/lxndr/queue.org" :maxlevel . 3)
                            ("~/Dropbox/lxndr/store.org" :level . 1)
                            ("~/Dropbox/lxndr/ref.org" :level . 1))
       org-archive-location (concat "~/Dropbox/lxndr/archive/" (format-time-string "%Y-%m") ".org::"))
@@ -159,6 +165,83 @@
   (call-interactively #'evil-open-below)
   (call-interactively #'org-insert-item))
 
+(defun find-or-create-olp
+    (path)
+  (condition-case err
+      (goto-char (org-find-olp path t))
+    (t
+     (let ((err-msg (error-message-string err)))
+       (string-match "Heading not found on level \\([0-9]+\\).*" err-msg)
+       (let* ((level (string-to-number (match-string 1 err-msg)))
+              (start-point (-take (dec level) path))
+              (write-path (-drop (dec level) path))
+              (demote? nil)
+              (make-toplevel? nil))
+         (if start-point
+             (progn
+               (goto-char (org-find-olp start-point t))
+               (org-end-of-subtree)
+               (when (string=
+                      (-last-item start-point)
+                      (nth 4 (org-heading-components)))
+                 (setq demote? t)))
+           (progn
+             (setq make-toplevel? t)
+             (end-of-buffer)))
+         (dolist (heading write-path)
+           (end-of-line)
+           (comment-indent-new-line)
+           (outline-insert-heading)
+           (end-of-line)
+           (insert heading)
+           (when make-toplevel?
+             (while (not (= (org-current-level) 1))
+               (org-promote-subtree))
+             (setq make-toplevel? nil))
+           (if demote?
+               (org-demote-subtree)
+             (setq demote? t)))
+         (save-buffer)
+         (beginning-of-line))))))
+
+(defun grab-daybook ()
+  "If the daybook is outdated, log the old one, and generate a new one.
+   Otherwise just go to the file"
+  (interactive)
+  (let ((workday (f-read-text "~/Dropbox/lxndr/ref/workday.org")))
+    (find-file "~/Dropbox/lxndr/daybook.org")
+    (beginning-of-buffer)
+    (outline-next-heading)
+    (let ((current-date (shell-command-to-string
+                         "echo -n $(date '+%Y-%-m-%-d')"))
+          (daybook-date (nth 4 (org-heading-components))))
+      (when (not (string= daybook-date current-date))
+        (org-demote-subtree)
+        (org-demote-subtree)
+        (next-line)
+        (beginning-of-line)
+        ;; TODO: set string to variable instead
+        (evil-yank-characters (point) (point-max))
+        ;; TODO: keep around uncompleted tasks under "goals"
+        (evil-delete (point) (point-max))
+        (beginning-of-buffer)
+        (outline-next-heading)
+        (org-promote-subtree)
+        (org-promote-subtree)
+        (org-edit-headline current-date)
+        (end-of-line)
+        (comment-indent-new-line)
+        ;; TODO: have this dispatch on the day of the week
+        (insert workday)
+        (save-buffer)
+        (find-file "~/Dropbox/lxndr/daybook-log.org")
+        (find-or-create-olp (s-split "-" daybook-date))
+        (end-of-line)
+        (comment-indent-new-line)
+        ;; TODO: insert from variable instead
+        (yank)
+        (save-buffer)))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org bindings
 
@@ -181,6 +264,7 @@
   [remap evil-save-modified-and-close] #'org-capture-finalize
   [remap evil-quit]                    #'org-capture-kill)
 
+;; FIXME: conflicts below
 (general-emacs-define-key org-mode-map
   [remap org-meta-return]   #'org-todo
   [remap org-return-indent] #'evil-window-down
