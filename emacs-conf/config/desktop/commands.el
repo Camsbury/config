@@ -132,6 +132,17 @@
      "nixos-rebuild switch"
      (generate-new-buffer-name "*NixOS Rebuild Switch*"))))
 
+(defun ergodox-rebuild-switch ()
+  "Rebuild ergodox"
+  (interactive)
+  (let ((default-directory "/sudo::"))
+    (async-shell-command
+     (concat
+      "nix-shell /home/"
+      (user-login-name)
+      "/projects/Camsbury/config/camerak/shell.nix --run exit")
+     (generate-new-buffer-name "*NixOS Rebuild Switch*"))))
+
 (defun nix-collect-garbage ()
   "Collect garbage"
   (interactive)
