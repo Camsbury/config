@@ -12,10 +12,6 @@
 
 enum custom_keycodes {
   PLACEHOLDER = SAFE_RANGE, // can always be here
-  EPRM,
-  VRSN,
-  RGB_SLD,
-  /* EXAMPLE, */
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -54,7 +50,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_LCBR, KC_LEFT, KC_DOWN,     KC_UP,    KC_RIGHT, KC_NO,     KC_NO,
       KC_NO,   KC_NO,   KC_NO,       KC_NO,    KC_NO,
 
-                                               KC_NO,    KC_NO,
+                                               KC_NO,    RESET,
                                                                     KC_NO,
                                                KC_NO,    KC_NO,     KC_NO,
 
@@ -116,7 +112,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_NO, KC_NO,         KC_NO,           KC_NO,             KC_NO, KC_NO, KC_NO,
                             KC_NO,           KC_NO,             KC_NO, KC_NO, KC_NO,
 
-      KC_NO,
+ KC_NO,
              KC_NO,         KC_NO,
       KC_NO, KC_TRNS,       KC_SPACE),
 
@@ -262,34 +258,15 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
     return MACRO_NONE;
 };
 
+// Where you put your custom commands
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    // dynamically generate these.
-    /* case EXAMPLE: */
+    /* case EPRM: */
     /*   if (record->event.pressed) { */
-    /*       SEND_STRING("  ce"); */
+    /*     eeconfig_init(); */
     /*   } */
     /*   return false; */
     /*   break; */
-    case EPRM:
-      if (record->event.pressed) {
-        eeconfig_init();
-      }
-      return false;
-      break;
-    /* case VRSN: */
-    /*   if (record->event.pressed) { */
-    /*     SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION); */
-    /*   } */
-    /*   return false; */
-    /*   break; */
-    /* case RGB_SLD: */
-    /*   if (record->event.pressed) { */
-    /*     rgblight_mode(1); */
-    /*   } */
-    /*   return false; */
-    /*   break; */
-
   }
   return true;
 }
