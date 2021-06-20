@@ -132,7 +132,28 @@
      "nixos-rebuild switch"
      (generate-new-buffer-name "*NixOS Rebuild Switch*"))))
 
-(defun ergodox-rebuild-switch ()
+(defun nix-search-update-cache ()
+  "Update nix search cache"
+  (interactive)
+  (async-shell-command
+   (concat "nix search -u")
+   (generate-new-buffer-name (concat "*Updating Nix Search Cache*"))))
+
+(defun nix-search (pkg)
+  "search nixpkgs for pkg"
+  (interactive "sPackage: ")
+  (async-shell-command
+   (concat "nix search " pkg)
+   (generate-new-buffer-name (concat "*Searching for package: " pkg "*"))))
+
+(defun nixos-option (option)
+  "Determine attributes of an option in current nixos expression"
+  (interactive "sOption: ")
+  (async-shell-command
+   (concat "nixos-option " option)
+   (generate-new-buffer-name (concat  "*Describing Option: " option "*"))))
+
+(defun ergodox-build-and-flash ()
   "Rebuild ergodox"
   (interactive)
   (let ((default-directory "/sudo::"))
@@ -141,7 +162,7 @@
       "nix-shell /home/"
       (user-login-name)
       "/projects/Camsbury/config/camerak/shell.nix --run exit")
-     (generate-new-buffer-name "*NixOS Rebuild Switch*"))))
+     (generate-new-buffer-name "*Build and Flash Ergodox*"))))
 
 (defun nix-collect-garbage ()
   "Collect garbage"

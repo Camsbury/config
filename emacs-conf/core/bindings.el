@@ -159,10 +159,13 @@
 (defhydra hydra-nixos (:exit t :columns 5)
   "nixos commands"
   ("g" #'nix-collect-garbage     "clean nix store")
-  ("o" #'nixos-channel-version   "copy nixos channel version")
+  ("o" #'nixos-option            "inspect a configuration.nix option")
+  ("O" #'nixos-channel-version   "copy nixos channel version")
   ("p" #'nixpkgs-channel-version "copy nixpkgs channel version")
   ("u" #'nix-channel-update      "update channels")
   ("x" #'nixos-rebuild-switch    "update nixos")
+  ("f" #'nix-search              "search nixpkgs")
+  ("F" #'nix-search-update-cache "update search cache")
   ("q" nil))
 
 ;; USEIT
