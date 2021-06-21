@@ -13,7 +13,6 @@
 (setq file-links
       '(:books         "~/Dropbox/lxndr/ref/books.org"
         :brain-dump    "~/Dropbox/lxndr/ref/dump.org"
-        :daybook       "~/Dropbox/lxndr/daybook.org"
         :frustrations  "~/Dropbox/lxndr/frustrations.org"
         :habits        "~/Dropbox/lxndr/habits.org"
         :journal       "~/Dropbox/lxndr/journal.org"
