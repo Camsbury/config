@@ -38,6 +38,9 @@ let
     dotenv-mode
     dumb-jump
     ein
+    elfeed
+    elfeed-org
+    elfeed-score
     elixir-mode # elixir
     emacsql
     emacsql-sqlite
