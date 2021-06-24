@@ -185,9 +185,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       LGUI(KC_SPACE),    KC_J,           KC_L,            KC_U,               KC_Y,             KC_COLN,         KC_DELETE,
                          KC_H,           KC_N,            KC_E,               KC_I,             KC_O,            LT(1,KC_RBRACKET),
       KC_NO,             KC_K,           KC_M,            KC_COMMA,           KC_DOT,           KC_SLASH,        KC_RSPC,
-                                         KC_LGUI,         KC_LALT,            MEH_T(KC_NO),     ALL_T(KC_NO),    KC_NO,
+                                         KC_LGUI,         KC_LALT,            MEH_T(KC_NO),     ALL_T(KC_NO),    KC_F13,
 
-      KC_NO,
+      KC_F14,
                          KC_NO,          KC_NO,
       CTL_T(KC_NO),      LT(2,KC_ENTER), KC_BSPACE),
 

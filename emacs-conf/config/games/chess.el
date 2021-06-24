@@ -160,4 +160,4 @@
    openings
    :action #'--ivy-similar-position-copy-eco-pgn))
 
-(provide 'config/shah)
+(provide 'config/games/chess)

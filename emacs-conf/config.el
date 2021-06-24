@@ -12,7 +12,7 @@
 (require 'config/services)
 (require 'config/viewers)
 (require 'config/scratch)
-(require 'config/shah)
+(require 'config/games)
 (require 'config/utils)
 
 (provide 'config)
