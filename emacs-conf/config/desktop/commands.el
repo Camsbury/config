@@ -136,7 +136,7 @@
   "Update nix search cache"
   (interactive)
   (async-shell-command
-   (concat "nix search -u")
+   "nix search -u"
    (generate-new-buffer-name (concat "*Updating Nix Search Cache*"))))
 
 (defun nix-search (pkg)

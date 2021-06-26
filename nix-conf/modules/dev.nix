@@ -28,7 +28,6 @@
     shellcheck
     sloccount
     sqlite
-    teensy-loader-cli # flash ergodox firmware (use zshrc alias for help)
   ];
   services.lorri.enable = true;
 }

@@ -208,8 +208,6 @@
   ;; ("J")
   ("k" #'delete-window                "delete window")
   ("s-k" #'kill-buffer-and-window     "kill buffer and delete window")
-  ;; USEIT
-  ("S" #'string-edit-at-point         "edit string")
   ("K" #'kill-this-buffer             "kill buffer")
   ("l" #'spawn-right                  "spawn window right")
   ;; USEIT
@@ -225,7 +223,8 @@
   ("q" #'evil-save-modified-and-close "write quit")
   ("r" #'hydra-radio/body             "radio commands")
   ("s" #'avy-goto-char-2              "avy jump to char")
-  ;; ("S")
+  ;; USEIT
+  ("S" #'string-edit-at-point         "edit string")
   ("t" #'hydra-nav/body               "nav")
   ("T" #'explain-pause-top            "emacs top")
   ("u" #'prettify-windows             "prettify")

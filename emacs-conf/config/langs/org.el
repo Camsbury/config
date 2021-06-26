@@ -240,7 +240,8 @@
         (comment-indent-new-line)
         ;; TODO: insert from variable instead
         (yank)
-        (save-buffer)))))
+        (save-buffer)
+        (find-file "~/Dropbox/lxndr/daybook.org")))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org bindings

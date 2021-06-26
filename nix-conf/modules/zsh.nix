@@ -191,10 +191,6 @@
       lglg = "google-logs";
       lgl = "gcloud logging read --format json";
 
-      # Ergodox Flashing
-      # qmk keyboard camerak
-      ezs = "sudo teensy-loader-cli -vw --mcu atmega32u4";
-
       # elixir
       mex = "iex -S mix";
       mt = "mix test";
