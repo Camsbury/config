@@ -1,11 +1,10 @@
-(use-package python
-  :defer t)
+(use-package python)
 (use-package yapfify
-  :after (python-mode))
+  :after (python))
 (use-package pylint
-  :after (python-mode))
+  :after (python))
 (use-package py-isort
-  :after (python-mode))
+  :after (python))
 (use-package company-jedi
   :after (company))
 
