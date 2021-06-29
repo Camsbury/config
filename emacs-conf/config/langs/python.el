@@ -40,6 +40,9 @@
 
 (defhydra hydra-python (:exit t)
   "python-mode"
- ("o" #'python-narrow-defun         "focus on def"))
+  ("o" #'python-narrow-defun      "focus on def")
+  ("r" #'run-python               "python repl")
+  ("l" #'python-shell-send-buffer "run buffer in repl")
+  ("L" #'python-shell-send-region "run region in repl"))
 
 (provide 'config/langs/python)
