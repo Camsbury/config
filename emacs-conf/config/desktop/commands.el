@@ -104,6 +104,10 @@
   (interactive)
   (shell-command "redshift -PO 1000k"))
 
+(defun nixos-man ()
+  (interactive)
+  (man "configuration.nix"))
+
 (defun nix-channel-update ()
   "Rebuild nixos"
   (interactive)
