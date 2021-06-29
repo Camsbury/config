@@ -1,6 +1,6 @@
 
 ;; set the build order to use!
-(setq build-order-file "~/Dropbox/lxndr/wc3/build-orders/_004.edn"
+(setq build-order-file "~/Dropbox/lxndr/wc3/build-orders/_003.edn"
       build-order-steps nil)
 
 (defun run-build-order-step (tm msg)
