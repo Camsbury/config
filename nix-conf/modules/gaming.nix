@@ -13,9 +13,10 @@ let
   };
 in
 {
+  programs.steam.enable = true;
+
   environment.systemPackages = with pkgs; [
     nvtop
-    steamPkgs.steam
     (winePkgs.wineWowPackages.full.override {
       wineRelease = "staging";
       mingwSupport = true;
@@ -24,6 +25,13 @@ in
       wine = wineWowPackages.staging;
     })
     xorg.xgamma
+  ];
+
+
+  nixpkgs.overlays = [
+    (self: super: {
+      steam = steamPkgs.steam;
+    })
   ];
 
   hardware.opengl.driSupport32Bit = true;
