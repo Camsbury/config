@@ -12,6 +12,12 @@
   "run a shell command"
   (start-process-shell-command command nil command))
 
+(defun espeak (msg)
+  (interactive "sText to speak: ")
+  (make-process
+   :name "espeak"
+   :command `("espeak" ,msg)))
+
 (defun lock-screen ()
   "Locks the screen"
   (interactive)
