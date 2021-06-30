@@ -38,10 +38,17 @@
     (python-mark-defun)
     (call-interactively 'narrow-and-zoom-in)))
 
+(defun create-or-restart-python ()
+  (interactive)
+  (when (get-buffer "*Python*")
+      (let ((kill-buffer-query-functions nil))
+        (kill-buffer "*Python*")))
+  (run-python))
+
 (defhydra hydra-python (:exit t)
   "python-mode"
   ("o" #'python-narrow-defun      "focus on def")
-  ("r" #'run-python               "python repl")
+  ("r" #'create-or-restart-python "python repl")
   ("l" #'python-shell-send-buffer "run buffer in repl")
   ("L" #'python-shell-send-region "run region in repl"))
 
