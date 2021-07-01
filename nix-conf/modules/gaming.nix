@@ -15,18 +15,25 @@ in
 {
   programs.steam.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    nvtop
-    (winePkgs.wineWowPackages.full.override {
-      wineRelease = "staging";
-      mingwSupport = true;
-    })
-    (winePkgs.winetricks.override {
-      wine = wineWowPackages.staging;
-    })
-    xorg.xgamma
-  ];
+  # run winetricks dxvk
 
+  environment = {
+    variables = {
+      WINEARCH = "win64";
+      WINEPREFIX = "$HOME/.wine";
+    };
+    systemPackages = with pkgs; [
+      nvtop
+      (winePkgs.wineWowPackages.full.override {
+        wineRelease = "staging";
+        mingwSupport = true;
+      })
+      (winePkgs.winetricks.override {
+        wine = wineWowPackages.staging;
+      })
+      xorg.xgamma
+    ];
+  };
 
   nixpkgs.overlays = [
     (self: super: {
