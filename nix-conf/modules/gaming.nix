@@ -18,10 +18,6 @@ in
   # run winetricks dxvk
 
   environment = {
-    variables = {
-      WINEARCH = "win64";
-      WINEPREFIX = "$HOME/.wine";
-    };
     systemPackages = with pkgs; [
       nvtop
       (winePkgs.wineWowPackages.full.override {
