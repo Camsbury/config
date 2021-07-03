@@ -1,10 +1,17 @@
 (require 'config/utils)
 
-(defun view-fen-on-lichess (fen)
-  "View FEN on lichess.org"
+(defun edit-fen-on-lichess (fen)
+  "Edit FEN on lichess.org"
   (interactive "sFEN: ")
   (-> "https://lichess.org/editor?fen="
       (concat (url-hexify-string fen))
+      browse-url))
+
+(defun view-fen-on-lichess (fen)
+  "View FEN on lichess.org"
+  (interactive "sFEN: ")
+  (-> "https://lichess.org/analysis/"
+    (concat (replace-regexp-in-string " " "_" fen))
       browse-url))
 
  (defun extract-eco-and-detail (line)
