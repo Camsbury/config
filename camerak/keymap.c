@@ -62,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_NO,   KC_NO,   KC_AMPR,     KC_LABK,  KC_RABK,  KC_BSLASH, KC_RCBR,
                         KC_NO,       KC_NO,    KC_NO,    KC_NO,     KC_NO,
 
-      KC_NO,
+      KC_F16,
                KC_NO,   KC_NO,
       KC_NO,   TO(3),   KC_NO),
 
@@ -175,7 +175,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_LSPO,           KC_Z,           KC_X,            KC_C,               KC_V,             KC_B,            KC_8,
       KC_F1,             KC_F2,          KC_F3,           KC_LALT,            CTL_T(KC_NO),
 
-                                                                              KC_9,             KC_0,
+                                                                              KC_9,             KC_F10,
                                                                                                                  KC_NO,
                                                                               KC_SPACE,         LT(6,KC_ESCAPE), KC_LSFT,
 
