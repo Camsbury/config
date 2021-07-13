@@ -18,6 +18,7 @@
     ../modules/tract.nix
     ../modules/email.nix
     ../modules/windows.nix
+    ../modules/htb.nix
   ];
 
   networking.hostName = "functor";
