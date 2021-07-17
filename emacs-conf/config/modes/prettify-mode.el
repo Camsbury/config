@@ -15,6 +15,12 @@
             (minor-mode-active-p 'prettify-mode)
           (set-window-width w 85))))))
 
+;; non-prog modes
+(general-add-hook
+ '(nxml-mode-hook)
+ #'prettify-mode)
+
+;; when to run
 (general-add-hook
  '(find-file-hook after-delete-window-hook after-split-window-hook)
  #'prettify-windows)
