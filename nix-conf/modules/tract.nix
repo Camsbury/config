@@ -5,5 +5,4 @@
     zoom-us
     teams
   ];
-  virtualisation.virtualbox.host.enable = true;
 }

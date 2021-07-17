@@ -1,7 +1,20 @@
 { config, pkgs, ... }:
 
+let
+  vboxPkgs = import ../pins/vbox.nix {
+    config = {
+      allowUnfree = true;
+    };
+  };
+in
 {
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.overlays = [
+    (self: super: {
+      virtualbox = vboxPkgs.virtualbox;
+    })
+  ];
+
+
   users.extraGroups.vboxusers.members = [
     "${toString config.users.users.default.name}"
   ];
