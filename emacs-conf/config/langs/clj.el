@@ -13,11 +13,14 @@
   (setq cider-clojure-cli-aliases "global"))
 (use-package ivy-cider
   :after (clojure-mode))
+(use-package ivy-clojuredocs
+  :after (clojure-mode))
 (use-package datomic-snippets
   :after (clojure-mode))
 (use-package re-jump
   :after (clojure-mode))
 (use-package html-to-hiccup)
+(use-package clojars)
 
 (use-package clojure-essential-ref-nov
   :init
@@ -158,6 +161,8 @@ If invoked with a prefix ARG eval the expression after inserting it"
                          (interactive)
                          (cider-doc (point)))
   [remap cider-inspector-pop]  #'evil-previous-visual-line
+  "M-<RET>" #'cider-eval-sexp-at-point
+  ;; USEIT
   "M-n"     #'clojure-unwind-all
   "M-e"     #'clojure-thread-first-all
   "M-i"     #'clojure-thread-last-all)
@@ -174,6 +179,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
   ;; USEIT
   ("H" #'html-to-hiccup-convert-region "convert HTML to hiccup")
   ("j" #'hydra-clj-jack-in/body        "hydra cider-jack-in")
+  ("J" #'clojars                       "search in clojars")
   ("l" #'cider-load-buffer             "load buffer")
   ("m" #'hydra-cljr-help-menu/body     "cljr hydra")
   ("n" #'cljr-introduce-let            "introduce let")
