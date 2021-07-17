@@ -7,6 +7,12 @@
 (require 'config/langs/sql)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; org modules
+
+(add-to-list 'org-modules 'org-habit t)
+(add-to-list 'org-modules 'org-id t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org alert
 
 (setq alert-default-style 'libnotify)
@@ -31,11 +37,13 @@
         ("h" "Add to Questions"
          entry (file+headline "~/Dropbox/lxndr/questions.org" "questions")
          "* [ ] %i%?")
+        ;; USEIT
         ("l" "Log action"
          entry (file+headline "~/Dropbox/lxndr/daybook.org" "log")
          "* %i%?"))
       org-agenda-files '("~/Dropbox/lxndr/daybook.org"
-                         "~/Dropbox/lxndr/store.org")
+                         "~/Dropbox/lxndr/store.org"
+                         "~/Dropbox/lxndr/habit-list.org")
       org-refile-targets '(("~/Dropbox/lxndr/daybook-log.org" :maxlevel . 3)
                            ("~/Dropbox/lxndr/daybook.org" :maxlevel . 3)
                            ("~/Dropbox/lxndr/queue.org" :maxlevel . 3)
@@ -269,8 +277,8 @@
 (general-emacs-define-key org-mode-map
   [remap org-meta-return]   #'org-todo
   [remap org-return-indent] #'evil-window-down
-  "M-t"                     #'hydra-org-table/body
   "M-h"                     #'outline-up-heading
+  "M-i"                     #'org-id-get-create
   "M-j"                     #'org-forward-heading-same-level
   "M-k"                     #'org-backward-heading-same-level
   "M-l"                     #'org-next-visible-heading
@@ -322,6 +330,7 @@
  ("O"   #'outline-show-all         "show all")
  ("r"   #'org-refile               "refile")
  ("t"   #'org-set-tags-command     "set tags")
+ ("T"   #'hydra-org-table/body     "org table")
  ("e"   #'org-edit-special         "edit src"))
 
 (defhydra hydra-visual-org (:exit t)
