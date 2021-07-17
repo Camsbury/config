@@ -5,6 +5,7 @@ let
     alarm-clock
     alda-mode
     all-the-icons-ivy-rich
+    astyle
     async
     attrap
     avy
@@ -16,6 +17,8 @@ let
     circe
     circe-notifications
     clj-refactor
+    clojars
+    clojure-essential-ref-nov
     command-log-mode
     company
     company-cabal
@@ -80,6 +83,7 @@ let
     html-to-hiccup
     hydra
     ivy
+    ivy-clojuredocs
     ivy-hydra
     ivy-xref
     js2-mode
@@ -150,9 +154,7 @@ let
   ];
   others = with epkgs; [
     # agda2-mode
-    astyle
     asoc-el
-    clojure-essential-ref-nov
     company-postgresql
     etymology-of-word
     ivy-cider

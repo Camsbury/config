@@ -8,17 +8,6 @@ let
   compileEmacsFiles = basePkgs.callPackage ./emacsBuilder.nix;
   emacsOverrides = eSelf: eSuper:
     {
-      astyle = compileEmacsFiles {
-        name = "astyle.el";
-        src = builtins.fetchurl {
-          url = https://raw.githubusercontent.com/storvik/emacs-astyle/04ff2941f08c4b731fe6a18ee1697436d1ca1cc0/astyle.el;
-          sha256 = "1gvgijb810n8p954zswqj6vcl746x4zmqq7gsw13wykf04aqppgf";
-        };
-        buildInputs = with eSelf.melpaPackages; [
-          reformatter
-        ];
-      };
-
       asoc-el = compileEmacsFiles {
         name = "asoc.el";
         src = builtins.fetchurl {
@@ -27,47 +16,47 @@ let
         };
       };
 
-      clojure-essential-ref = eSelf.melpaBuild rec {
-        pname = "clojure-essential-ref";
-        version = "20200719.608";
-        src = super.fetchFromGitHub {
-          owner = "p3r7";
-          repo = "clojure-essential-ref";
-          rev = "3787300a2f6100d1a20b1259b488256f3a840fa6";
-          sha256 = "08r5whs39r2fscicjzvmdfj7s7f49afhiz4i2i05ps1f1545569d";
-        };
-        packageRequires = with eSelf.melpaPackages; [
-          cider
-        ];
-        recipe = builtins.toFile "recipe" # taken from the recipe link on melpa
-          ''(clojure-essential-ref :repo "p3r7/clojure-essential-ref"
-                       :fetcher github
-                       :files (:defaults
-                               (:exclude "clojure-essential-ref-nov.el")))
-          '';
-      };
+      # clojure-essential-ref = eSelf.melpaBuild rec {
+      #   pname = "clojure-essential-ref";
+      #   version = "20200719.608";
+      #   src = super.fetchFromGitHub {
+      #     owner = "p3r7";
+      #     repo = "clojure-essential-ref";
+      #     rev = "3787300a2f6100d1a20b1259b488256f3a840fa6";
+      #     sha256 = "08r5whs39r2fscicjzvmdfj7s7f49afhiz4i2i05ps1f1545569d";
+      #   };
+      #   packageRequires = with eSelf.melpaPackages; [
+      #     cider
+      #   ];
+      #   recipe = builtins.toFile "recipe" # taken from the recipe link on melpa
+      #     ''(clojure-essential-ref :repo "p3r7/clojure-essential-ref"
+      #                  :fetcher github
+      #                  :files (:defaults
+      #                          (:exclude "clojure-essential-ref-nov.el")))
+      #     '';
+      # };
 
-      clojure-essential-ref-nov = eSelf.melpaBuild rec {
-        pname = "clojure-essential-ref-nov";
-        version = "20200719.608";
-        src = super.fetchFromGitHub {
-          owner = "p3r7";
-          repo = "clojure-essential-ref";
-          rev = "3787300a2f6100d1a20b1259b488256f3a840fa6";
-          sha256 = "08r5whs39r2fscicjzvmdfj7s7f49afhiz4i2i05ps1f1545569d";
-        };
-        packageRequires = with eSelf.melpaPackages; [
-          dash
-          nov
-          eSelf.clojure-essential-ref
-        ];
-        recipe = builtins.toFile "recipe" # taken from the recipe link on melpa
-          ''(clojure-essential-ref-nov :repo "p3r7/clojure-essential-ref"
-                           :fetcher github
-                           :files (:defaults
-                                   (:exclude "clojure-essential-ref.el")))
-          '';
-      };
+      # clojure-essential-ref-nov = eSelf.melpaBuild rec {
+      #   pname = "clojure-essential-ref-nov";
+      #   version = "20200719.608";
+      #   src = super.fetchFromGitHub {
+      #     owner = "p3r7";
+      #     repo = "clojure-essential-ref";
+      #     rev = "3787300a2f6100d1a20b1259b488256f3a840fa6";
+      #     sha256 = "08r5whs39r2fscicjzvmdfj7s7f49afhiz4i2i05ps1f1545569d";
+      #   };
+      #   packageRequires = with eSelf.melpaPackages; [
+      #     dash
+      #     nov
+      #     eSelf.clojure-essential-ref
+      #   ];
+      #   recipe = builtins.toFile "recipe" # taken from the recipe link on melpa
+      #     ''(clojure-essential-ref-nov :repo "p3r7/clojure-essential-ref"
+      #                      :fetcher github
+      #                      :files (:defaults
+      #                              (:exclude "clojure-essential-ref.el")))
+      #     '';
+      # };
 
       company-postgresql = compileEmacsFiles {
         name = "company-postgresql.el";
@@ -148,6 +137,7 @@ let
         ];
       };
     };
+
 in
   {
     emacsPackagesNg = basePkgs.emacsPackagesNg.overrideScope' emacsOverrides;

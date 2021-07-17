@@ -15,8 +15,6 @@ in
 {
   programs.steam.enable = true;
 
-  # run winetricks dxvk
-
   environment = {
     systemPackages = with pkgs; [
       nvtop

@@ -34,6 +34,7 @@ in
           inherit chromium;
           inherit dropbox;
           inherit discord;
+          inherit emacs;
         })
       )
       (import ./emacs.nix)
