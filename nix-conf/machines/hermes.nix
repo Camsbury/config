@@ -14,6 +14,7 @@
     #functionality
     ../modules/tract.nix
     ../modules/email.nix
+    ../modules/htb.nix
   ];
 
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/559bcebb-ef43-4d84-8550-8b371bfb6aa6";

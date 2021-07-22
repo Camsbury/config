@@ -11,6 +11,7 @@ in
   nixpkgs.overlays = [
     (self: super: {
       virtualbox = vboxPkgs.virtualbox;
+      virtualboxExtpack = vboxPkgs.virtualboxExtpack;
     })
   ];
 
