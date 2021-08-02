@@ -35,6 +35,7 @@ in
           inherit dropbox;
           inherit discord;
           inherit emacs;
+          inherit update-nix-fetchgit;
         })
       )
       (import ./emacs.nix)
