@@ -16,6 +16,7 @@
       (customize-set-variable 'github-notifier-token token)
       :config
       (github-notifier-mode 1))))
+(use-package browse-at-remote)
 
 
 
@@ -91,6 +92,15 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings
+
+(defhydra hydra-git (:exit t :columns 5)
+  "git"
+  ("b" #'magit-blame                       "magit blame")
+  ("r" #'browse-at-remote                  "browse at remote")
+  ("s" #'magit-status                      "magit status")
+  ("t" #'git-timemachine-toggle            "git time machine")
+  ("l" #'github-clone                      "github clone")
+  ("q" nil))
 
 (general-define-key
  [remap magit-mode-bury-buffer] #'kill-magit-buffer)

@@ -100,14 +100,6 @@
   ("y" (open-file-link :systems)             "systems")
   ("z" #'open-zoom                           "zoom"))
 
-(defhydra hydra-git (:exit t :columns 5)
-  "git"
-  ("b" #'magit-blame                       "magit blame")
-  ("s" #'magit-status                      "magit status")
-  ("t" #'git-timemachine-toggle            "git time machine")
-  ("l" #'github-clone                      "github clone")
-  ("q" nil))
-
 ;; USEIT: need to try these out and ese how they compare to bookmarks
 (defhydra hydra-register (:exit t :columns 5)
   "set register"

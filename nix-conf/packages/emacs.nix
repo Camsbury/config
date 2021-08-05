@@ -11,6 +11,7 @@ let
     avy
     # benchmark-init
     bind-key # use package dep
+    browse-at-remote
     buffer-move
     cargo
     cider
