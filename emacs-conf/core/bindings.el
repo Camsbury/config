@@ -83,7 +83,7 @@
   ("j" (open-file-link :journal)             "journal org")
   ("s-k" (open-file-link :habits)            "habits org")
   ("k" #'open-slack                          "slack")
-  ("l" (open-file-link :links)               "links org")
+  ("l" #'exwm-browser-link-visit             "visit browser link")
   ("m" #'mu4e                                "email")
   ("n" #'counsel-recentf                     "recent file")
   ("N" #'open-new-tmp                        "new file")

@@ -1,0 +1,23 @@
+{
+  "name": "Copy URL",
+  "description": "Copy URL to clipboard.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["activeTab", "scripting"],
+  "commands": {
+    "copy-url": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+U"
+      },
+      "description": "Copy URL of current page."
+    },
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+U"
+      }
+    }
+  }
+}

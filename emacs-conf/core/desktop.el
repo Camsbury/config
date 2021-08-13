@@ -48,12 +48,13 @@
   (global-exwm-key "s-t"                     #'check-time)
   (global-exwm-key "s-L"                     #'lock-screen)
   (global-exwm-key "<XF86Launch7>"           #'restart-display-manager)
-  (exwm-input-set-simulation-keys
-   '(([?\s-a] . ?\C-a)
-     ([?\s-C] . ?\C-C)
-     ([?\s-c] . ?\C-c)
-     ([?\s-V] . ?\C-V)
-     ([?\s-v] . ?\C-v))))
+  (customize-set-variable 'exwm-input-simulation-keys
+                          '(([?\s-a] . ?\C-a)
+                            ([?\s-x] . ?\C-x)
+                            ([?\s-C] . ?\C-C)
+                            ([?\s-c] . ?\C-c)
+                            ([?\s-V] . ?\C-V)
+                            ([?\s-v] . ?\C-v))))
 (use-package exwm-randr
   :after (exwm))
 
