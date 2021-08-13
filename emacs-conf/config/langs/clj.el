@@ -21,6 +21,7 @@
   :after (clojure-mode))
 (use-package html-to-hiccup)
 (use-package clojars)
+(use-package kaocha-runner)
 
 (use-package clojure-essential-ref-nov
   :init
@@ -179,13 +180,15 @@ If invoked with a prefix ARG eval the expression after inserting it"
   ;; USEIT
   ("H" #'html-to-hiccup-convert-region "convert HTML to hiccup")
   ("j" #'hydra-clj-jack-in/body        "hydra cider-jack-in")
+  ;; USEIT
   ("J" #'clojars                       "search in clojars")
   ("l" #'cider-load-buffer             "load buffer")
   ("m" #'hydra-cljr-help-menu/body     "cljr hydra")
   ("n" #'cljr-introduce-let            "introduce let")
   ("o" #'clj-narrow-defun              "focus on def")
   ("q" #'cljr-add-require-to-ns        "add require")
-  ("t" #'cider-test-run-ns-tests       "run repl tests")
+  ("t" #'cider-test-run-ns-tests       "run ns tests")
+  ("T" #'kaocha-runner-run-all-tests   "run project tests")
   ("w" #'cljr-add-missing-libspec      "figure out the require")
   ("y" #'cider-copy-last-result        "copy last result"))
 
