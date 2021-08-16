@@ -28,6 +28,7 @@ let
     company-jedi
     counsel
     counsel-projectile
+    counsel-pydoc
     csharp-mode
     dante
     dash
@@ -87,6 +88,7 @@ let
     ivy-clojuredocs
     ivy-hydra
     ivy-xref
+    jedi
     js2-mode
     json-navigator
     kaocha-runner
@@ -117,8 +119,11 @@ let
     prettier-js
     prodigy
     projectile
-    pylint
     py-isort
+    pydoc
+    pylint
+    pytest
+    python-pytest
     racer
     racket-mode
     rainbow-delimiters
