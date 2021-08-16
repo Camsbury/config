@@ -5,7 +5,7 @@
   (interactive "sName: \nsTags (space-separated): ")
   (list link-name tags))
 
-;;; TODO: add tag, remove, and "get tagged" actions
+;;; TODO: implement other functions
 
 (defun exwm-browser-link--visit-tagged (tag)
   "Select a link to visit in the browser"
@@ -20,7 +20,7 @@
      (lambda (n)
        (->> links (gethash n) (gethash :url) browse-url)))))
 
-(defun exwm-browser-link-visit-tagged ()
+(defun exwm-browser-link-visit-tagged () ;; TODO: edit to take multiple tags
   "list tags for browser links"
   (interactive)
   (let ((tags
@@ -77,6 +77,11 @@ create a bookmark at the current url"
 
 (general-define-key :keymaps 'exwm-mode-map
                     "s-d" #'exwm-browser-link-create)
+
+(defhydra hydra-exwm-browser-link (:exit t :columns 5)
+  "exwm browser links"
+  ("e" #'exwm-browser-link-visit        "visit link")
+  ("t" #'exwm-browser-link-visit-tagged "visit tagged link"))
 
 
 (provide 'config/desktop/browser-links)

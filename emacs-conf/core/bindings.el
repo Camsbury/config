@@ -83,7 +83,6 @@
   ("j" (open-file-link :journal)             "journal org")
   ("s-k" (open-file-link :habits)            "habits org")
   ("k" #'open-slack                          "slack")
-  ("l" #'exwm-browser-link-visit             "visit browser link")
   ("m" #'mu4e                                "email")
   ("n" #'counsel-recentf                     "recent file")
   ("N" #'open-new-tmp                        "new file")
@@ -105,15 +104,6 @@
   "set register"
   ("p" #'point-to-register                "save point")
   ("w" #'window-configuration-to-register "save window config")
-  ("q" nil))
-
-;; USEIT: would probably be extremely useful if refactored a bit
-(defhydra hydra-link (:exit t :columns 5)
-  "visit link"
-  ("q" (xdg-open 'gh-nots)  "github notifications")
-  ("w" (xdg-open 'weather)  "weather")
-  ("z" (xdg-open 'q-course) "quantopian")
-  ("n" (xdg-open 'shows)    "shows")
   ("q" nil))
 
 ;;; TODO: find out how to make this mode aware??
@@ -180,12 +170,11 @@
   ;; ("a")
   ("A" #'org-agenda-list              "org agenda list")
   ("b" #'blind-mode                   "blind mode")
-  ("B" #'hydra-link/body              "weblinks")
   ("c" #'hydra-config/body            "spawn config file")
   ("C" #'toggle-command-logging       "toggle command logging")
   ("d" #'evil-goto-definition         "evil jump to def")
   ("D" #'dumb-jump-go                 "dumb jump")
-  ;; ("e")
+  ("e" #'hydra-exwm-browser-link/body "browser links")
   ("E" #'etymology-of-word-at-point   "etymology of word at point")
   ("f" #'counsel-rg                   "find text in project")
   ;; USEIT
