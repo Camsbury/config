@@ -8,6 +8,27 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Bookmarks
+
+;; stop annoying prompts about reloading bookmarks
+(customize-set-variable 'bookmark-watch-bookmark-file nil)
+
+(defun bookmark-set-and-save ()
+  "set and save bookmark"
+  (interactive)
+  (bookmark-set)
+  (bookmark-save))
+
+(defun bookmark-clear ()
+  "clear all bookmarks"
+  (interactive)
+  (-> bookmark-end-of-version-stamp-marker
+      (concat "()")
+      (f-write-text 'utf-8 bookmark-default-file))
+  (bookmark-load bookmark-default-file))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Nav Functions
 
 (setq file-links

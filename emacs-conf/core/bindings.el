@@ -232,7 +232,7 @@
 ;; CLEAN: reorganize and get rid of things you never use
 (defhydra hydra-left-leader (:exit t :columns 5)
   "left leader"
-  ("b" #'bookmark-set            "create bookmark at point")
+  ("b" #'bookmark-set-and-save   "create bookmark at point")
   ("e" #'flycheck-previous-error "previous error")
   ("t" #'evil-prev-buffer        "previous buffer")
   ("f" #'text-scale-decrease     "zoom out")
