@@ -2,7 +2,11 @@
 (general-add-hook 'emacs-lisp-mode-hook
                   (list 'paredit-mode
                         'lispyville-mode
+                        'flycheck-mode
                         (lambda ()
+                          (add-to-list
+                           'flycheck-disabled-checkers
+                           'emacs-lisp-checkdoc)
                           (add-to-list
                            'imenu-generic-expression
                            '("Hydra" "defhydra[[:blank:]\n]+\\([^ ^\n]+\\)" 1)))))
