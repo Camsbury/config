@@ -21,7 +21,7 @@
        (->> links (gethash n) (gethash :url) browse-url)))))
 
 (defun exwm-browser-link-visit-tagged () ;; TODO: edit to take multiple tags
-  "list tags for browser links"
+  "choose tags to filter by"
   (interactive)
   (let ((tags
          (parseedn-read-str
@@ -33,6 +33,31 @@
      :action
      (lambda (tag)
        (exwm-browser-link--visit-tagged tag)))))
+
+(defun exwm-browser-link--visit-all-tagged (tag)
+  "visit all links for given tag"
+  (let ((links
+         (parseedn-read-str
+          (shell-command-to-string
+           (concat "bb -f " exwm-browser-set-link-script " list-tagged " tag)))))
+    (->> links
+         ht-values
+         (--map (gethash :url it))
+         (-map #'browse-url))))
+
+(defun exwm-browser-link-visit-all-tagged ()
+  "choose tag to visit"
+  (interactive)
+  (let ((tags
+         (parseedn-read-str
+          (shell-command-to-string
+           (concat "bb -f " exwm-browser-set-link-script " list-tags")))))
+    (ivy-read
+     "Tag: "
+     (append tags nil)
+     :action
+     (lambda (tag)
+       (exwm-browser-link--visit-all-tagged tag)))))
 
 (defun exwm-browser-link-visit ()
   "Select a link to visit in the browser"
