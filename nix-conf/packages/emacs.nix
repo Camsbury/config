@@ -25,7 +25,6 @@ let
     company-cabal
     company-c-headers
     company-go
-    company-jedi
     counsel
     counsel-projectile
     counsel-pydoc
@@ -88,7 +87,6 @@ let
     ivy-clojuredocs
     ivy-hydra
     ivy-xref
-    jedi
     js2-mode
     json-navigator
     kaocha-runner
