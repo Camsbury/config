@@ -1,4 +1,5 @@
 (require '[clojure.edn :as edn])
+(require '[clojure.set :as set])
 (require '[clojure.string :as str])
 (require '[clojure.pprint :as pprint])
 
@@ -22,7 +23,6 @@
          :url  url
          :tags
          (->>  (str/split tags #" ")
-               sort
                (into #{} (map keyword)))}]
     (back-up-links links)
     (->> entry
@@ -54,14 +54,16 @@
 
 (defn list-tagged
   "list links by tag"
-  [tag]
-  (->> browser-links
-       slurp
-       edn/read-string
-       (into {}
-             (comp
-              (filter #(contains? (into #{} (:tags %)) (keyword tag)))
-              (map entry->name->entry)))))
+  [tags]
+  (let [tags (->>  (str/split tags #" ")
+               (into #{} (map keyword)))]
+    (->> browser-links
+         slurp
+         edn/read-string
+         (into {}
+               (comp
+                (filter #(set/subset? tags (into #{} (:tags %))))
+                (map entry->name->entry))))))
 
 ;;; TODO: implement nils
 (case (first *command-line-args*)
