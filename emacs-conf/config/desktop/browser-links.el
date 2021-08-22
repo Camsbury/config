@@ -1,3 +1,7 @@
+(require 'ht)
+(require 'hydra)
+
+(defvar exwm-browser-set-link-script)
 (setq exwm-browser-set-link-script
       "~/projects/Camsbury/config/manage_browser_links.clj")
 
@@ -40,9 +44,7 @@
    :action
    (lambda (tag)
      (if (string= "DONE" tag)
-         (progn
-           (print selected)
-           (exwm-browser-link--visit-tagged selected visit-all?))
+         (exwm-browser-link--visit-tagged selected visit-all?)
        (let ((tags (remove tag tags))
              (selected (cons tag selected)))
          (exwm-browser-link--build-tags tags selected visit-all?))))))
@@ -87,7 +89,7 @@ create a bookmark at the current url"
          (progn
            (exwm-input--fake-key ?\C-\S-u)
            (sleep-for 1)
-           (setq url (current-kill 0)))))
+           (current-kill 0))))
     (if (s-starts-with? "http" url)
         (let* ((meta (call-interactively #'exwm-browser-link--grab-meta))
                (link-name (car meta))
