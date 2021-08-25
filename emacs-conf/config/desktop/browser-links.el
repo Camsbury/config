@@ -11,6 +11,21 @@
 
 ;; TODO: select tags filtered by where they intersect with others!!
 
+(defun exwm-browser-link-visit ()
+  "Select a link to visit in the browser"
+  (interactive)
+  (let ((links
+         (parseedn-read-str
+          (shell-command-to-string
+           (concat "bb -f " exwm-browser-set-link-script " list-all")))))
+    (ivy-read
+     "Link: "
+     links
+     :action
+     (lambda (n)
+       (open-brave)
+       (->> links (gethash n) (gethash :url) browse-url)))))
+
 (defun exwm-browser-link--grab-meta (link-name tags)
   (interactive "sName: \nsTags (space-separated): ")
   (list link-name tags))
@@ -48,7 +63,9 @@
    :action
    (lambda (tag)
      (if (string= "DONE" tag)
-         (exwm-browser-link--visit-tagged selected visit-all?)
+         (if selected
+             (exwm-browser-link--visit-tagged selected visit-all?)
+           (exwm-browser-link-visit))
        (let ((tags (remove tag tags))
              (selected (cons tag selected)))
          (exwm-browser-link--build-tags tags selected visit-all?))))))
@@ -69,21 +86,6 @@
   (interactive)
   (let ((tags (exwm-browser-link--get-tags)))
     (exwm-browser-link--build-tags tags '() t)))
-
-(defun exwm-browser-link-visit ()
-  "Select a link to visit in the browser"
-  (interactive)
-  (let ((links
-         (parseedn-read-str
-          (shell-command-to-string
-           (concat "bb -f " exwm-browser-set-link-script " list-all")))))
-    (ivy-read
-     "Link: "
-     links
-     :action
-     (lambda (n)
-       (open-brave)
-       (->> links (gethash n) (gethash :url) browse-url)))))
 
 (defun exwm-browser-link-create ()
   "with a brave browser selected and my extension installed, fire this off to
