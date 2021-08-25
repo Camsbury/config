@@ -1,5 +1,9 @@
 (require 'ht)
 (require 'hydra)
+(require 'use-package)
+(require 'browse-url)
+;; NOTE: fixes autoload issues with browse-url
+(use-package browse-url :demand)
 
 (defvar exwm-browser-set-link-script)
 (setq exwm-browser-set-link-script
