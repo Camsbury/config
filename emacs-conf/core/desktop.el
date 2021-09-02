@@ -42,7 +42,7 @@
   (global-exwm-key "s-SPC"                   #'hydra-leader/body)
   (global-exwm-key "s-["                     #'hydra-left-leader/body)
   (global-exwm-key "s-]"                     #'hydra-right-leader/body)
-  (global-exwm-key "s-x"                     #'exwm-run-command)
+  (global-exwm-key "s-X"                     #'exwm-run-command)
   (global-exwm-key "s-b"                     #'check-battery)
   (global-exwm-key "s-s"                     #'cycle-sound)
   (global-exwm-key "s-t"                     #'check-time)
