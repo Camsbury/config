@@ -3,7 +3,7 @@
 (require '[clojure.string :as str])
 (require '[clojure.pprint :as pprint])
 
-(def browser-links-path   "/home/monoid/Dropbox/lxndr/ref/")
+(def browser-links-path   (str (System/getenv "HOME") "/Dropbox/lxndr/ref/"))
 (def browser-links        (str browser-links-path "browser-links.edn"))
 (def browser-links-backup (str browser-links-path "browser-links-bak.edn"))
 
