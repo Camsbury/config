@@ -132,6 +132,8 @@ let
     rjsx-mode
     rust-mode
     s
+    sbt-mode
+    scala-mode
     # slack
     slime
     smex

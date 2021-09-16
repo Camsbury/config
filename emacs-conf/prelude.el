@@ -1,3 +1,5 @@
+(require 'use-package)
+
 (use-package asoc)
 (use-package async)
 (use-package dash)

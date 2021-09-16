@@ -1,3 +1,4 @@
+(require 'prelude)
 (-map 'require
       '(config/langs/alda
         config/langs/agda
@@ -21,6 +22,7 @@
         config/langs/racket
         config/langs/rlang
         config/langs/rust
+        config/langs/scala
         config/langs/shell
         config/langs/sql
         config/langs/yaml))
