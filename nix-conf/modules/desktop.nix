@@ -12,6 +12,7 @@
     inotify-tools
     libnotify
     redshift
+    speechd # tts
     xkb-switch
     xorg.xbacklight
     xorg.xmodmap

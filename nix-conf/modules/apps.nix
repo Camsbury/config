@@ -13,10 +13,11 @@
       discord
       firefox
       gimp
+      google-chrome # for certain features
       okular
       peek # screen recorder
       pgn-extract # chess utils
-      scid-vs-pc #chess
+      scid-vs-pc # chess
       signal-desktop
       slack
       spotify # non-free
