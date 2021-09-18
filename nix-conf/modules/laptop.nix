@@ -5,6 +5,9 @@
     "${import ../utils/hardware.nix}/common/pc/laptop"
     ./check-battery.nix
   ];
+  boot.kernelParams = [
+    "mem_sleep_default=deep"
+  ];
   services = {
     xserver.libinput = {
       enable = true;
