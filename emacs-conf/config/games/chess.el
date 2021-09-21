@@ -15,19 +15,21 @@
       browse-url))
 
  (defun extract-eco-and-detail (line)
-   (string-match "\\(.*\t.*\\)\t\\(.*\\)\t\\(.*\\)" line)
+   (string-match "\\(.*\t.*\\)\t\\(.*\\)\t.*\t\\(.*\\)" line)
    (list (match-string 1 line)
          (match-string 2 line)
          (match-string 3 line)))
 
 (defun extract-openings ()
-  "extract openings from website"
+  "extract openings from website
+   (as of `1cfaa067727a9a2ffe94820c31392d806dc9f409')"
   (interactive)
   (->> '("a" "b" "c" "d" "e")
        (-map  (lambda (s)
-                (concat "https://raw.githubusercontent.com/niklasf/eco/master/"
-                        s
-                        ".tsv")))
+                (concat
+                 "https://raw.githubusercontent.com/niklasf/eco/master/dist/"
+                 s
+                 ".tsv")))
        (-map #'url-file-local-copy)
        (-map #'file-to-string)
        (-map (lambda (s) (split-string s "\n" t)))
@@ -95,11 +97,7 @@
   (ivy-read
    "Opening: "
    openings
-   :action (lambda (x)
-             (->
-              (concat "echo \"" (caddr x) " *\" | pgn-extract -s")
-              (shell-command-to-string)
-              (kill-new)))))
+   :action (lambda (x) (kill-new (cadr x)))))
 
 
 (defun ivy-copy-eco-fen ()
@@ -109,16 +107,16 @@
   (ivy-read
    "Opening: "
    openings
-   :action (lambda (x) (kill-new (cadr x)))))
+   :action (lambda (x) (kill-new (caddr x)))))
 
 (defun --ivy-similar-position-copy-eco-fen (chosen)
   (let* ((min-distance 12)
-         (chosen (expand-fen (cadr chosen)))
+         (chosen (expand-fen (caddr chosen)))
          (openings (->> openings
                      (-map
                       (lambda (opening)
                         (list
-                         (expanded-fen-distance chosen (expand-fen (cadr opening)))
+                         (expanded-fen-distance chosen (expand-fen (caddr opening)))
                          opening)))
                      (-filter (lambda (x) (< (car x) min-distance)))
                      (-sort (lambda (a b) (< (car a) (car b))))
@@ -126,7 +124,7 @@
     (ivy-read
      "Opening: "
      openings
-     :action (lambda (x) (kill-new (cadr x))))))
+     :action (lambda (x) (kill-new (caddr x))))))
 
 (defun ivy-similar-position-copy-eco-fen ()
   "Find a similar ECO opening, then copy the FEN"
@@ -139,12 +137,12 @@
 
 (defun --ivy-similar-position-copy-eco-pgn (chosen)
   (let* ((min-distance 12)
-         (chosen (expand-fen (cadr chosen)))
+         (chosen (expand-fen (caddr chosen)))
          (openings (->> openings
                      (-map
                       (lambda (opening)
                         (list
-                         (expanded-fen-distance chosen (expand-fen (cadr opening)))
+                         (expanded-fen-distance chosen (expand-fen (caddr opening)))
                          opening)))
                      (-filter (lambda (x) (< (car x) min-distance)))
                      (-sort (lambda (a b) (< (car a) (car b))))
@@ -152,11 +150,7 @@
     (ivy-read
      "Opening: "
      openings
-     :action (lambda (x)
-               (->
-                   (concat "echo \"" (caddr x) " *\" | pgn-extract -s")
-                 (shell-command-to-string)
-                 (kill-new))))))
+     :action (lambda (x) (kill-new (cadr x))))))
 
 (defun ivy-similar-position-copy-eco-pgn ()
   "Find a similar ECO opening, then copy the PGN"
@@ -166,5 +160,6 @@
    "Opening: "
    openings
    :action #'--ivy-similar-position-copy-eco-pgn))
+
 
 (provide 'config/games/chess)
