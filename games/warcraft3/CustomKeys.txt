@@ -1680,9 +1680,6 @@ Hotkey=T
 [acfb]
 Hotkey=T
 
-[hotkeyeditorpreferences]
-Spiritlink=false
-
 [acfr]
 Hotkey=S
 
@@ -1712,6 +1709,8 @@ Hotkey=T
 
 [aufn]
 Hotkey=T
+Researchhotkey=T
 
 [aufu]
 Hotkey=S
+Researchhotkey=S
