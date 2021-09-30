@@ -17,7 +17,7 @@
   (setq exwm-workspace-number 10
         exwm-workspace-current-index 1
         exwm-input-global-keys
-        `(([?\s-r] . exwm-reset)
+        `(([?\s-,] . exwm-reset)
           ,@(mapcar (lambda (i)
                       `(,(kbd (format "s-%d" i)) .
                         (lambda ()
