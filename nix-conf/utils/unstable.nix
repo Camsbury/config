@@ -13,6 +13,8 @@ in
     # sha256 = "1vrhwlwc7x3f0xn6cgckrfp8vky0yws30d52hq3miy122d03gcc0";
     # rev = "0dde1033180";
     # sha256 = "1p8d5dfia1sfrc43iyr4b9l43hgmf36f5piz4lgrm9drvl16s333";
-    rev = "8d8a28b47b7";
-    sha256 = "1s29nc3ppsjdq8kgbh8pc26xislkv01yph58xv2vjklkvsmz5pzm";
+    # rev = "8d8a28b47b7";
+    # sha256 = "1s29nc3ppsjdq8kgbh8pc26xislkv01yph58xv2vjklkvsmz5pzm";
+    rev = "31ffc50c571";
+    sha256 = "1gg87k49rmdylmzxjzmllng78qr6wmssnci05z1kij3715wkqc5j";
 })
