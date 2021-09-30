@@ -1,5 +1,12 @@
 { config, pkgs, ... }:
 
+let
+  discordPkgs = import ../pins/discord.nix {
+    config = {
+      allowUnfree = true;
+    };
+  };
+in
 {
   environment = {
     variables = {
@@ -10,7 +17,7 @@
       audacity
       brave
       chromium
-      discord
+      discordPkgs.discord
       firefox
       gimp
       google-chrome # for certain features

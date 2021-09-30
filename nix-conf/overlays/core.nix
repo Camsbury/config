@@ -33,7 +33,6 @@ in
           inherit brave;
           inherit chromium;
           inherit dropbox;
-          inherit discord;
           inherit emacs;
           # inherit update-nix-fetchgit;
         })
