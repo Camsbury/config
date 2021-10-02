@@ -1,7 +1,4 @@
-(defun global-exwm-key (key cmd)
-  "bind key for use across all exwm buffers"
-  (general-define-key :keymaps 'exwm-mode-map key cmd)
-  (exwm-input-set-key (kbd key) cmd))
+(require 'use-package)
 
 (use-package exwm
   :init
@@ -11,21 +8,25 @@
 (use-package exwm-config
   :after (exwm)
   :config
+  (defun global-exwm-key (key cmd)
+    "bind key for use across all exwm buffers"
+    (customize-set-variable 'exwm-input-global-keys
+                            (add-to-list
+                             'exwm-input-global-keys
+                             `(,(kbd key) . ,cmd))))
+
   (add-hook 'exwm-update-class-hook
             (lambda ()
               (exwm-workspace-rename-buffer exwm-class-name)))
-  (setq exwm-workspace-number 10
-        exwm-workspace-current-index 1
-        exwm-input-global-keys
-        `(([?\s-,] . exwm-reset)
-          ,@(mapcar (lambda (i)
-                      `(,(kbd (format "s-%d" i)) .
-                        (lambda ()
-                          (interactive)
-                          (exwm-workspace-switch-create ,i))))
-                    (number-sequence 0 9))))
-  (exwm-enable) ; assuming this needs to be done before setters are enabled
-  (exwm-init)
+  (customize-set-variable 'exwm-workspace-number 10)
+  (customize-set-variable 'exwm-workspace-current-index 1)
+  (global-exwm-key "s-," #'exwm-reset)
+  (dolist (i (number-sequence 0 9))
+    (global-exwm-key
+     (format "s-%d" i)
+     `(lambda ()
+        (interactive)
+        (exwm-workspace-switch-create ,i))))
   (global-exwm-key "<XF86MonBrightnessUp>"   #'raise-brightness)
   (global-exwm-key "<XF86MonBrightnessDown>" #'lower-brightness)
   (global-exwm-key "<XF86Display>"           #'lock-screen)
@@ -54,7 +55,9 @@
                             ([?\s-C] . ?\C-C)
                             ([?\s-c] . ?\C-c)
                             ([?\s-V] . ?\C-V)
-                            ([?\s-v] . ?\C-v))))
+                            ([?\s-v] . ?\C-v)))
+  (exwm-enable) ; assuming this needs to be done before setters are enabled
+  (exwm-init))
 (use-package exwm-randr
   :after (exwm))
 

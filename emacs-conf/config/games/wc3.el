@@ -1,3 +1,6 @@
+(require 'prelude)
+(require 'exwm)
+(require 'exwm-config)
 
 (setq wbo-path  "~/Dropbox/lxndr/wc3/build-orders/"
       wbo-file "builds.edn"
@@ -33,22 +36,31 @@
   (interactive)
   (wbo-clear t)
   (->> wbos
-    car
-    (gethash :name)
-    (concat "Starting ")
-    espeak)
+       car
+       (gethash :name)
+       (concat "Starting ")
+       espeak)
   (setq wbo-steps
         (->> wbos
-          car
-          (gethash :file)
-          (concat wbo-path)
-          ((lambda (x) (f-read x 'utf-8)))
-          parseedn-read-str
-          (--map (run-at-time (aref it 0) nil #'espeak (aref it 1)))
-          (append wbo-steps))))
+             car
+             (gethash :file)
+             (concat wbo-path)
+             ((lambda (x) (f-read x 'utf-8)))
+             parseedn-read-str
+             (--map (run-at-time (aref it 0) nil #'espeak (aref it 1)))
+             (append wbo-steps))))
 
-(global-exwm-key "<XF86Tools>"   #'wbo-initiate)
-(global-exwm-key "<XF86Launch5>" #'wbo-clear)
-(global-exwm-key "<XF86Launch6>" #'wbo-cycle)
+(customize-set-variable 'exwm-input-global-keys
+                          (add-to-list
+                           'exwm-input-global-keys
+                           `(,(kbd "<XF86Launch7>") . wbo-initiate)))
+(customize-set-variable 'exwm-input-global-keys
+                          (add-to-list
+                           'exwm-input-global-keys
+                           `(,(kbd "<XF86Launch5>") . wbo-clear)))
+(customize-set-variable 'exwm-input-global-keys
+                          (add-to-list
+                           'exwm-input-global-keys
+                           `(,(kbd "<XF86Launch6>") . wbo-cycle)))
 
 (provide 'config/games/wc3)

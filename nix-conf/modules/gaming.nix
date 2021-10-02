@@ -17,7 +17,9 @@ in
 
   environment = {
     systemPackages = with pkgs; [
+      lutris
       nvtop
+      vulkan-tools
       (winePkgs.wineWowPackages.full.override {
         wineRelease = "staging";
         mingwSupport = true;
