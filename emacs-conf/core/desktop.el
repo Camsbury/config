@@ -1,4 +1,4 @@
-(require 'use-package)
+(require 'prelude)
 
 (use-package exwm
   :init

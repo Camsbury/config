@@ -1,6 +1,5 @@
-(require 'ht)
+(require 'prelude)
 (require 'hydra)
-(require 'use-package)
 (require 'browse-url)
 ;; NOTE: fixes autoload issues with browse-url
 (use-package browse-url :demand)

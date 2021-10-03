@@ -1,5 +1,5 @@
+(require 'prelude)
 (require 'flycheck)
-(require 'use-package)
 (require 'general)
 (require 'hydra)
 
