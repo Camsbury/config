@@ -5,6 +5,7 @@ let
     alarm-clock
     alda-mode
     all-the-icons-ivy-rich
+    ammonite-term-repl # scala
     astyle
     async
     attrap
@@ -105,6 +106,7 @@ let
     nix-mode
     nix-update
     nov
+    ob-ammonite # scala
     ob-async
     ob-elixir
     ob-http

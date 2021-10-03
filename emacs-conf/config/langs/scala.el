@@ -1,5 +1,7 @@
 (require 'prelude)
 
+(use-package ammonite-term-repl)
+
 (use-package scala-mode
   :interpreter
     ("scala" . scala-mode))
@@ -12,5 +14,6 @@
    'minibuffer-complete-word
    'self-insert-command
    minibuffer-local-completion-map))
+
 
 (provide 'config/langs/scala)
