@@ -62,21 +62,17 @@
 ;; don't ask for confirmation on org-babel evaluation
 (setq org-confirm-babel-evaluate nil)
 
-;; languages to support in org-babel
-(setq org-babel-enabled-languages
-  '((emacs-lisp . t)
-    (elixir . t)
-    (shell . t)
-    (sql . t)
-    (sqlite . t)
-    (R . t)
-    (http . t)
-    (ein . t)))
-
-;; load the languages into org-babel
-(org-babel-do-load-languages
+(customize-set-variable
  'org-babel-load-languages
- org-babel-enabled-languages)
+ '((ammonite . t)
+   (emacs-lisp . t)
+   (elixir . t)
+   (shell . t)
+   (sql . t)
+   (sqlite . t)
+   (R . t)
+   (http . t)
+   (ein . t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org styling
@@ -94,7 +90,7 @@
 (defun org-faces-init ()
   "Initialize org faces"
   (set-face-attribute 'org-level-1 nil :height 1.0)
-  (-map (lambda (x) (set-face-bold-p x nil))
+  (-map (lambda (x) (set-face-bold x nil))
                  '( org-level-1
                     org-level-2
                     org-level-3
