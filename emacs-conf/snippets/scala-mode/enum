@@ -1,0 +1,6 @@
+# name: enum
+# key: enum
+# expand-env: ((yas-indent-line 'fixed))
+# --
+sealed trait ${1:EnumName}
+case object ${2:Example} extends $1

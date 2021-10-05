@@ -3,7 +3,6 @@
 
 ;; USEIT
 (use-package ob-ammonite
-  ;; currently just freezes even though the code is evaluated in the *Ammonite* buffer
   :config
   (require 'ammonite-term-repl)
   (setq ammonite-term-repl-auto-detect-predef-file nil))

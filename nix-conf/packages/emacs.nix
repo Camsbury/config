@@ -31,6 +31,7 @@ let
     counsel-pydoc
     csharp-mode
     dante
+    dap-mode
     dash
     datomic-snippets
     deadgrep
@@ -96,6 +97,7 @@ let
     lispy
     lispyville
     lsp-haskell
+    lsp-metals
     lsp-mode
     lsp-ui
     magit
@@ -116,6 +118,7 @@ let
     origami
     paredit
     parseedn
+    posframe
     prettier-js
     prodigy
     projectile

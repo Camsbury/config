@@ -6,6 +6,12 @@
   :interpreter
     ("scala" . scala-mode))
 
+(use-package lsp-metals
+  :after (lsp-mode)
+  :custom
+  (lsp-metals-server-args '("-J-Dmetals.allow-multiline-string-formatting=off"))
+  :hook (scala-mode . lsp))
+
 (use-package sbt-mode
   :commands sbt-start sbt-command
   :config

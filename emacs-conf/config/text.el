@@ -1,3 +1,5 @@
+(require 'prelude)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Evil
 
@@ -44,6 +46,7 @@
   (setq yas-triggers-in-field t))
 (use-package company
   :config
+  (setq lsp-completion-provider :capf)
   (global-company-mode))
 
 

@@ -1,3 +1,5 @@
+(require 'prelude)
+
 ;; swapping alt and windows for meta/super
 (setq x-super-keysym 'meta
       x-meta-keysym 'super)
