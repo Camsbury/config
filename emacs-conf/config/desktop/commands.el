@@ -189,6 +189,7 @@
 (defun restart-display-manager ()
   "Restart the display manager"
   (interactive)
+  (run-hooks 'kill-emacs-hook)
   (let ((default-directory "/sudo::"))
     (shell-command "systemctl restart display-manager.service")))
 
