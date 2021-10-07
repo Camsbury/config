@@ -15,6 +15,8 @@
 (use-package counsel-projectile
   :after (counsel projectile))
 
+(customize-set-variable 'projectile-project-search-path '(("~/projects" . 2)))
+
 ;; discover all the git repos
 (->> (directory-files "~/projects")
   (--remove (s-starts-with? "." it))
