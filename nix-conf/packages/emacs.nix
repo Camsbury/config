@@ -99,6 +99,7 @@ let
     lsp-haskell
     lsp-metals
     lsp-mode
+    lsp-treemacs
     lsp-ui
     magit
     magit-todos
@@ -145,6 +146,9 @@ let
     string-edit
     sqlup-mode
     tree-mode
+    treemacs
+    treemacs-evil
+    treemacs-projectile
     ts
     typescript-mode
     use-package
