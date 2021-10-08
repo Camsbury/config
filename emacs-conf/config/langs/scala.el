@@ -1,19 +1,25 @@
 (require 'prelude)
 
 (use-package ammonite-term-repl)
+(use-package scala-mode)
+(general-add-hook
+ 'scala-mode-hook
+ (lambda ()
+   (progn
+     (lsp-register-custom-settings
+      `(("metals.java-home" ,(getenv "JAVA_HOME"))))
+     (lsp-dependency
+      'metals
+      `(:system ,(concat (getenv "METALS_PATH") "/metals-emacs"))
+      '(:system "metals"))
+     (lsp-deferred))))
 
-(use-package scala-mode
-  :interpreter
-    ("scala" . scala-mode))
+(use-package lsp-metals)
+(customize-set-variable 'lsp-metals-server-args
+                        '("-J-Dmetals.allow-multiline-string-formatting=off"))
 
-(use-package lsp-metals
-  :after (lsp-mode)
-  :custom
-  (lsp-metals-server-args '("-J-Dmetals.allow-multiline-string-formatting=off"))
-  :hook (scala-mode . lsp))
 
 (use-package sbt-mode
-  :commands sbt-start sbt-command
   :config
   ;; WORKAROUND: allows using SPACE when in the minibuffer
   (substitute-key-definition
