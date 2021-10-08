@@ -43,7 +43,10 @@
   ("b" (spawn-file-link :books)                         "book notes")
   ("c" (spawnify #'open-brave)                          "brave browser")
   ("D" (spawn-file-link :brain-dump)                    "brain dump")
-  ("e" (spawnify #'counsel-projectile-find-file)        "project file")
+  ("e" (spawnify
+        (ignorify
+         projectile-ignores
+         #'counsel-projectile-find-file))               "project file")
   ("E" (spawnify #'counsel-projectile-switch-to-buffer) "project open buffer")
   ("f" (spawn-file-link :frustrations)                  "view frustrations")
   ("g" (spawnify #'open-telegram)                       "telegram")
@@ -57,13 +60,19 @@
   ("n" (spawnify #'counsel-recentf)                     "recent file")
   ("N" (spawnify #'open-new-tmp)                        "new file")
   ("o" (spawnify #'open-project-summary)                "project summary")
-  ("p" (spawnify #'projectile-switch-project)           "open project")
+  ("p" (spawnify
+        (ignorify
+         projectile-ignores
+         #'counsel-projectile-switch-project))          "open project")
   ("q" (spawn-file-link :questions)                     "view questions")
   ("r" (spawn-file-link :runs)                          "runs tracker")
   ("R" (spawn-file-link :raw)                           "raw queue")
   ("s" (spawnify #'open-spotify)                        "spotify")
   ("S" (spawn-file-link :se-principles)                 "SE principles")
-  ("t" (spawnify #'counsel-find-file)                   "file in dir")
+  ("t" (spawnify
+        (ignorify
+         find-file-ignores
+         #'counsel-find-file))                          "file in dir")
   ("w" (spawnify #'eww-new)                             "web browser")
   ("x" (spawnify #'open-xterm)                          "xterm")
   ("y" (spawn-file-link :systems)                       "systems")
@@ -76,7 +85,10 @@
   ("b" (open-file-link :books)               "book notes")
   ("c" #'open-brave                          "brave browser")
   ("D" (open-file-link :brain-dump)          "brain dump")
-  ("e" #'counsel-projectile-find-file        "project file")
+  ("e"
+   (ignorify
+    projectile-ignores
+    #'counsel-projectile-find-file)          "project file")
   ("E" #'counsel-projectile-switch-to-buffer "project open buffer")
   ("f" (open-file-link :frustrations)        "view frustrations")
   ("g" #'open-telegram                       "telegram")
@@ -89,13 +101,17 @@
   ("n" #'counsel-recentf                     "recent file")
   ("N" #'open-new-tmp                        "new file")
   ("o" #'open-project-summary                "project summary")
-  ("p" #'projectile-switch-project           "open project")
+  ("p" (ignorify
+        projectile-ignores
+        #'counsel-projectile-switch-project) "open project")
   ("q" (open-file-link :questions)           "view questions")
   ("r" (open-file-link :runs)                "runs tracker")
   ("R" (open-file-link :raw)                 "raw queue")
   ("s" #'open-spotify                        "spotify")
   ("S" (open-file-link :se-principles)       "SE principles")
-  ("t" #'counsel-find-file                   "file in dir")
+  ("t" (ignorify
+        find-file-ignores
+        #'counsel-find-file)                 "file in dir")
   ("w" #'eww-new                             "web browser")
   ("x" #'open-xterm                          "xterm")
   ("y" (open-file-link :systems)             "systems")

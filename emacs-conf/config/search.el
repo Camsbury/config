@@ -19,7 +19,30 @@
 
 (customize-set-variable 'projectile-project-search-path '(("~/projects" . 2)))
 
-(setq projectile-globally-ignored-file-suffixes '("~" "#"))
+(setq projectile-ignores
+      (rx (or
+           ".metals"
+           (seq bos (any "#."))
+           (seq
+            (or
+             (any "#~")
+             ".class"
+             ".png"
+             ".svg")
+            eos))))
+(setq find-file-ignores
+      (rx (or
+           (seq bos (any "#."))
+           (seq (any "#~") eos))))
+
+(defun ignorify (file-ignore-regexp f)
+  "add local ignores to function"
+  (let ((counsel-find-file-ignore-regexp file-ignore-regexp))
+    (call-interactively f)))
+
+;; (setq projectile-globally-ignored-file-suffixes '("~" "#"))
+;; (customize-set-variable 'projectile-globally-ignored-directories
+;;                         (add-to-list 'projectile-globally-ignored-directories ".github"))
 ;; required to use counsel-projectile
 (setq projectile-keymap-prefix (kbd "C-c C-p"))
 
