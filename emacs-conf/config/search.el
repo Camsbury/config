@@ -90,6 +90,9 @@
   :init
   (setq dumb-jump-selector        'ivy
         dumb-jump-prefer-searcher 'rg))
+(general-emacs-define-key xref--button-map
+  "q"   #'quit-window
+  "RET" #'xref-goto-xref)
 
 (recentf-mode)
 (minibuffer-electric-default-mode)

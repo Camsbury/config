@@ -7,7 +7,7 @@
           (lsp-log-io       t)         ;; log more!
           (lsp-lens-enable  t))) ;; do cool stuff!
 
-  ;; hack to get rid of the annoying command map, which seems broken currently
+  ;; NOTE: hack to get rid of the annoying command map, which seems broken currently
   (let ((lsp-mode-map
          (let ((map (make-sparse-keymap)))
            (define-key map (kbd "C-<down-mouse-1>") #'lsp-find-definition-mouse)
