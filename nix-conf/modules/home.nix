@@ -17,6 +17,7 @@ in
     ".helpers.zsh.inc".source = ../../helpers.zsh.inc;
     ".offlineimap.py".source = ../../offlineimap.py;
     ".offlineimaprc".source = ../../offlineimaprc;
+    ".rgignore".source = sym ../../rgignore;
     ".scripts".source = ../../scripts;
     ".shells".source = ../shells;
     ".zshrc".source = ../../zshrc;

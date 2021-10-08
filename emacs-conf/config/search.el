@@ -5,8 +5,8 @@
   :init (setq counsel-find-file-ignore-regexp "[~\#]$")
   :config
   (setq counsel-rg-base-command
-        "rg -S -g !'*.lock' -g !'.git' -g !'node_modules' -g !'yarn' \
---no-heading --line-number --hidden --color never %s ."
+        "rg -S --ignore-file $HOME/.rgignore --no-heading --line-number \
+--hidden --color never %s ."
         counsel-describe-function-function #'helpful-callable
         counsel-describe-variable-function #'helpful-variable))
 

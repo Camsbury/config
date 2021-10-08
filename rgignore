@@ -1,0 +1,7 @@
+.class
+*.lock
+**/.git/
+**/node_modules/
+**/yarn/
+**/dist/
+**/dist_newstyle/
