@@ -146,6 +146,7 @@ let
     sqlup-mode
     tree-mode
     ts
+    typescript-mode
     use-package
     uuidgen
     vega-view

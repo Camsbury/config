@@ -25,6 +25,7 @@
         config/langs/scala
         config/langs/shell
         config/langs/sql
+        config/langs/ts
         config/langs/yaml))
 
 (provide 'config/langs)
