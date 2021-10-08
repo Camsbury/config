@@ -1,3 +1,5 @@
+(require 'prelude)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Counsel
 
@@ -16,12 +18,6 @@
   :after (counsel projectile))
 
 (customize-set-variable 'projectile-project-search-path '(("~/projects" . 2)))
-
-;; discover all the git repos
-(->> (directory-files "~/projects")
-  (--remove (s-starts-with? "." it))
-  (--map (projectile-discover-projects-in-directory
-          (concat "~/projects/" it))))
 
 (setq projectile-globally-ignored-file-suffixes '("~" "#"))
 ;; required to use counsel-projectile
