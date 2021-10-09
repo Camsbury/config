@@ -35,7 +35,7 @@
       "dist-newstyle"))
     project)))
 
-(defvar projectile-ignores
+(defvar projectile-ignores nil
   "stuff to ignore in a project setting")
 (setq projectile-ignores
       (rx (or
@@ -48,7 +48,8 @@
              ".png"
              ".svg")
             eos))))
-(defvar projectile-ignores
+
+(defvar find-file-ignores nil
   "stuff to ignore when calling find-file derivatives")
 (setq find-file-ignores
       (rx (or
@@ -60,11 +61,8 @@
   (let ((counsel-find-file-ignore-regexp file-ignore-regexp))
     (call-interactively f)))
 
-;; (setq projectile-globally-ignored-file-suffixes '("~" "#"))
-;; (customize-set-variable 'projectile-globally-ignored-directories
-;;                         (add-to-list 'projectile-globally-ignored-directories ".github"))
-;; required to use counsel-projectile
-(setq projectile-keymap-prefix (kbd "C-c C-p"))
+(customize-set-variable
+ 'projectile-keymap-prefix (kbd "C-c C-p"))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -98,7 +96,7 @@
 (use-package wgrep
   :config
   (defun wgrep-save-and-quit ()
-    "wgrep save everything and quet the window"
+    "wgrep save everything and quit the window"
     (interactive)
     (wgrep-finish-edit)
     (wgrep-save-all-buffers)

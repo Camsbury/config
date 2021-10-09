@@ -1,8 +1,8 @@
 # My Emacs Config
 
 ## My Emacs Philosophy
-- Emacs is simply a text editing application with a decent programming language dedicated to it
-- Functions are more important than hotkeys -> you can write one if you need one, then bind it to whatever
+- Emacs is a manager and runner of blocks of text via text with some extra features
+- Functions are more important than hotkeys -> you have the power to customize those yourself
 - You must understand the basic vocabulary for [describing emacs](https://www.gnu.org/software/emacs/manual/html_node/emacs/index.html#Top)
 - Be aware of
   - [Major Modes](https://www.gnu.org/software/emacs/manual/html_node/emacs/Major-Modes.html)
