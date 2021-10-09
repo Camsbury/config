@@ -1,3 +1,6 @@
+(require 'prelude)
+(require 'core/env)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun xdg-open (l-name)
@@ -32,19 +35,19 @@
 ;; Nav Functions
 
 (setq file-links
-      '(:books         "~/Dropbox/lxndr/ref/books.org"
-        :brain-dump    "~/Dropbox/lxndr/ref/dump.org"
-        :frustrations  "~/Dropbox/lxndr/frustrations.org"
-        :habits        "~/Dropbox/lxndr/habits.org"
-        :journal       "~/Dropbox/lxndr/journal.org"
-        :links         "~/Dropbox/lxndr/ref/links.org"
+      `(:books         ,(concat cmacs-share-path  "/ref/books.org")
+        :brain-dump    ,(concat cmacs-share-path  "/ref/dump.org")
+        :frustrations  ,(concat cmacs-share-path  "/frustrations.org")
+        :habits        ,(concat cmacs-share-path  "/habits.org")
+        :journal       ,(concat cmacs-share-path  "/journal.org")
+        :links         ,(concat cmacs-share-path  "/ref/links.org")
         :notes         "/tmp/notes.org"
-        :questions     "~/Dropbox/lxndr/questions.org"
-        :queue         "~/Dropbox/lxndr/queue.org"
-        :raw           "~/Dropbox/lxndr/raw.org"
-        :runs          "~/Dropbox/lxndr/ref/runs.org"
-        :se-principles "~/Dropbox/lxndr/ref/software_engineering.org"
-        :systems       "~/Dropbox/lxndr/systems.org"))
+        :questions     ,(concat cmacs-share-path  "/questions.org")
+        :queue         ,(concat cmacs-share-path  "/queue.org")
+        :raw           ,(concat cmacs-share-path  "/raw.org")
+        :runs          ,(concat cmacs-share-path  "/ref/runs.org")
+        :se-principles ,(concat cmacs-share-path  "/ref/software_engineering.org")
+        :systems       ,(concat cmacs-share-path  "/systems.org")))
 
 (defun open-file-link (file-key)
   "Open a file link interactively"
@@ -62,7 +65,7 @@
   "Opens the project's summary file"
   (interactive)
   (->> (f-relative (projectile-project-root) "~")
-       (f-join "~/Dropbox/lxndr/summaries")
+       (f-join (concat cmacs-share-path "/summaries"))
        (s-append "summary.org")
        (find-file)))
 
@@ -101,11 +104,5 @@
   (interactive "sBuffer name: ")
   (spawn-right)
   (switch-to-buffer (generate-new-buffer-name arg)))
-
-(defun spawn-bindings ()
-  "Spawns the bindings file to the right"
-  (interactive)
-  (spawn-right)
-  (find-file (concat (getenv "CONFIG_PATH") "/core/bindings.el")))
 
 (provide 'config/navigation)

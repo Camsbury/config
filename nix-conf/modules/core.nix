@@ -20,6 +20,11 @@
     ./utils.nix
   ];
 
+  environment.variables = {
+    SHAREPATH =
+      "/home/${toString config.users.users.default.name}/Dropbox/lxndr";
+  };
+
   networking.networkmanager.enable = true;
 
   nix = {

@@ -2,7 +2,7 @@
 (require 'exwm)
 (require 'exwm-config)
 
-(setq wbo-path  "~/Dropbox/lxndr/wc3/build-orders/"
+(setq wbo-path  (concat cmacs-share-path "/wc3/build-orders/")
       wbo-file "builds.edn"
       wbos      (--> (concat wbo-path wbo-file)
                   (f-read it 'utf-8)

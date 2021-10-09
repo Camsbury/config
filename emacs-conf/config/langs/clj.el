@@ -28,7 +28,8 @@
   (setq clojure-essential-ref-default-browse-fn
         #'clojure-essential-ref-nov-browse
         clojure-essential-ref-nov-epub-path
-        "~/Dropbox/lxndr/books/Clojure_The_Essential_Reference_v29.epub"))
+        (concat cmacs-share-path
+                "/books/Clojure_The_Essential_Reference_v29.epub")))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

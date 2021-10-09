@@ -1,3 +1,6 @@
+(require 'prelude)
+(require 'core/env)
+
 (use-package emms-setup
   :init
   (setq emms-player-list '(emms-player-vlc))
@@ -14,7 +17,7 @@
     (emms-start)))
 
 (setq radio-playlists
-      (-> "~/Dropbox/lxndr/music/radio.edn"
+      (-> (concat cmacs-share-path "/music/radio.edn")
         (f-read 'utf-8)
         parseedn-read-str))
 

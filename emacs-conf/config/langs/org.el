@@ -1,5 +1,6 @@
 (require 'prelude)
 (require 'hydra)
+(require 'core/env)
 
 ;; USEIT
 (use-package ob-ammonite
@@ -32,31 +33,31 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org capture
 
-(setq org-directory (expand-file-name "~/Dropbox/lxndr/")
+(setq org-directory cmacs-share-path
       org-refile-use-outline-path t
       org-capture-templates
-      '(("n" "Enqueue"
-         entry (file+headline "~/Dropbox/lxndr/raw.org" "raw")
+      `(("n" "Enqueue"
+         entry (file+headline ,(concat cmacs-share-path "/raw.org") "raw")
          "* [ ] %i%?")
         ("f" "Add to Frustrations"
-         entry (file+headline "~/Dropbox/lxndr/frustrations.org" "frustrations")
+         entry (file+headline ,(concat cmacs-share-path "/frustrations.org") "frustrations")
          "* [ ] %i%?")
         ("h" "Add to Questions"
-         entry (file+headline "~/Dropbox/lxndr/questions.org" "questions")
+         entry (file+headline ,(concat cmacs-share-path "/questions.org") "questions")
          "* [ ] %i%?")
         ;; USEIT
         ("l" "Log action"
-         entry (file+headline "~/Dropbox/lxndr/daybook.org" "log")
+         entry (file+headline ,(concat cmacs-share-path "/daybook.org") "log")
          "* %i%?"))
-      org-agenda-files '("~/Dropbox/lxndr/daybook.org"
-                         "~/Dropbox/lxndr/store.org"
-                         "~/Dropbox/lxndr/habit-list.org")
-      org-refile-targets '(("~/Dropbox/lxndr/daybook-log.org" :maxlevel . 3)
-                           ("~/Dropbox/lxndr/daybook.org" :maxlevel . 3)
-                           ("~/Dropbox/lxndr/queue.org" :maxlevel . 3)
-                           ("~/Dropbox/lxndr/store.org" :level . 1)
-                           ("~/Dropbox/lxndr/ref.org" :level . 1))
-      org-archive-location (concat "~/Dropbox/lxndr/archive/" (format-time-string "%Y-%m") ".org::"))
+      org-agenda-files `(,(concat cmacs-share-path "/daybook.org")
+                         ,(concat cmacs-share-path "/store.org")
+                         ,(concat cmacs-share-path "/habit-list.org"))
+      org-refile-targets `((,(concat cmacs-share-path "/daybook-log.org") :maxlevel . 3)
+                           (,(concat cmacs-share-path "/daybook.org") :maxlevel . 3)
+                           (,(concat cmacs-share-path "/queue.org") :maxlevel . 3)
+                           (,(concat cmacs-share-path "/store.org") :level . 1)
+                           (,(concat cmacs-share-path "/ref.org") :level . 1))
+      org-archive-location (concat cmacs-share-path "/archive/" (format-time-string "%Y-%m") ".org::"))
 
 ;; auto save on refile
 (advice-add 'org-refile :after
@@ -219,8 +220,8 @@
   "If the daybook is outdated, log the old one, and generate a new one.
    Otherwise just go to the file"
   (interactive)
-  (let ((workday (f-read-text "~/Dropbox/lxndr/ref/workday.org")))
-    (find-file "~/Dropbox/lxndr/daybook.org")
+  (let ((workday (f-read-text (concat cmacs-share-path "/ref/workday.org"))))
+    (find-file (concat cmacs-share-path "/daybook.org"))
     (beginning-of-buffer)
     (outline-next-heading)
     (let ((current-date (shell-command-to-string
@@ -245,14 +246,14 @@
         ;; TODO: have this dispatch on the day of the week
         (insert workday)
         (save-buffer)
-        (find-file "~/Dropbox/lxndr/daybook-log.org")
+        (find-file (concat cmacs-share-path "/daybook-log.org"))
         (find-or-create-olp (s-split "-" daybook-date))
         (end-of-line)
         (comment-indent-new-line)
         ;; TODO: insert from variable instead
         (yank)
         (save-buffer)
-        (find-file "~/Dropbox/lxndr/daybook.org")))))
+        (find-file (concat cmacs-share-path "/daybook.org"))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org bindings
