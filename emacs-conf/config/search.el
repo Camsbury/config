@@ -93,6 +93,7 @@
 ;;; Others
 
 (use-package smex)
+
 (use-package wgrep
   :config
   (defun wgrep-save-and-quit ()
@@ -104,12 +105,14 @@
   (general-define-key
    :keymaps 'wgrep-mode-map
    [remap evil-save-modified-and-close] #'wgrep-save-and-quit))
+
 (use-package dumb-jump
   :init
   (setq dumb-jump-selector        'ivy
         dumb-jump-prefer-searcher 'rg))
+
 (general-emacs-define-key xref--button-map
-  "q"   #'quit-window
+  "q"   #'kill-buffer-and-window
   "RET" #'xref-goto-xref)
 
 (customize-set-variable

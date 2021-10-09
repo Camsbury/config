@@ -25,17 +25,6 @@
   (interactive)
   (message "current visual mode hydra is unbound"))
 
-(defhydra hydra-describe (:exit t :columns 5)
-  "describe"
-  ("k" #'helpful-key      "key")
-  ("f" #'counsel-describe-function "function")
-  ("m" #'describe-mode     "mode")
-  ("v" #'counsel-describe-variable "variable"))
-
-(defhydra hydra-config (:exit t :columns 5)
-  "spawn config file"
-  ("b" #'spawn-bindings  "bindings"))
-
 ;; CLEAN: remove stuff I never use, or shove behind another hydra
 (defhydra hydra-spawn (:exit t :columns 5)
   "spawn"
@@ -188,7 +177,7 @@
   ;; ("a")
   ("A" #'org-agenda-list              "org agenda list")
   ("b" #'blind-mode                   "blind mode")
-  ("c" #'hydra-config/body            "spawn config file")
+  ;; ("c")
   ("C" #'toggle-command-logging       "toggle command logging")
   ("d" #'evil-goto-definition         "evil jump to def")
   ("D" #'dumb-jump-go                 "dumb jump")
@@ -222,6 +211,7 @@
   ("P" #'hydra-project/body           "project")
   ("q" #'evil-save-modified-and-close "write quit")
   ("r" #'hydra-radio/body             "radio commands")
+  ;; USEIT
   ("s" #'avy-goto-char-2              "avy jump to char")
   ;; USEIT
   ("S" #'string-edit-at-point         "edit string")
