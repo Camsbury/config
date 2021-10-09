@@ -1,10 +1,12 @@
-(-map 'require
-      '(config/services/docker
-        config/services/email
-        config/services/feeds
-        config/services/irc
-        config/services/lsp
-        config/services/radio
-        config/services/spotify))
+(require 'prelude)
+
+(m-require config/services
+  docker
+  email
+  feeds
+  irc
+  lsp
+  radio
+  spotify)
 
 (provide 'config/services)

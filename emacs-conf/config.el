@@ -1,18 +1,21 @@
-(require 'config/theme)
-(require 'config/search)
-(require 'config/navigation)
-(require 'config/env)
-(require 'config/text)
-(require 'config/prog)
-(require 'config/info)
-(require 'config/desktop)
-(require 'config/dev)
-(require 'config/langs)
-(require 'config/modes)
-(require 'config/services)
-(require 'config/viewers)
-(require 'config/scratch)
-(require 'config/games)
-(require 'config/utils)
+(require 'prelude)
+
+(m-require config
+  theme
+  search
+  navigation
+  env
+  text
+  prog
+  info
+  desktop
+  dev
+  langs
+  modes
+  services
+  viewers
+  scratch
+  games
+  utils)
 
 (provide 'config)

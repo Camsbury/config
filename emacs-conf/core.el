@@ -1,5 +1,8 @@
-(require 'core/bindings)
-(require 'core/desktop)
-(require 'core/text)
+(require 'prelude)
+
+(m-require core
+  bindings
+  desktop
+  text)
 
 (provide 'core)
