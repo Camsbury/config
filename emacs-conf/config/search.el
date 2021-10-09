@@ -17,8 +17,26 @@
 (use-package counsel-projectile
   :after (counsel projectile))
 
-(customize-set-variable 'projectile-project-search-path '(("~/projects" . 2)))
+(customize-set-variable
+ 'projectile-project-search-path '(("~/projects" . 2)))
 
+(customize-set-variable
+ 'projectile-ignored-project-function
+ (lambda (project)
+   (string-match
+    (rx
+     (or
+      (seq bos "/nix")
+      (seq "/."
+           (one-or-more (not (any "/.")))
+           eos)
+      ".git"
+      "dist"
+      "dist-newstyle"))
+    project)))
+
+(defvar projectile-ignores
+  "stuff to ignore in a project setting")
 (setq projectile-ignores
       (rx (or
            ".metals"
@@ -30,6 +48,8 @@
              ".png"
              ".svg")
             eos))))
+(defvar projectile-ignores
+  "stuff to ignore when calling find-file derivatives")
 (setq find-file-ignores
       (rx (or
            (seq bos (any "#."))
@@ -94,6 +114,17 @@
   "q"   #'quit-window
   "RET" #'xref-goto-xref)
 
+(customize-set-variable
+ 'recentf-max-saved-items 100)
+(customize-set-variable
+ 'recentf-exclude
+ (list
+  (rx
+   (or ".metals"
+       ".m2"
+       ".emacs.d/emms"
+       ".elfeed"
+       (seq bos "/nix")))))
 (recentf-mode)
 (minibuffer-electric-default-mode)
 

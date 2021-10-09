@@ -41,10 +41,11 @@
 (require 'lsp-modeline)
 (require 'lsp-completion)
 (require 'lsp-diagnostics)
-(use-package posframe)
 (use-package dap-mode)
-(use-package dap-mouse)
 (use-package dap-ui)
+(use-package dap-mouse)
+(add-hook 'dap-stopped-hook
+          (lambda (arg) (call-interactively #'dap-hydra)))
 (use-package lsp-treemacs
   :after
   (lsp-mode treemacs)
