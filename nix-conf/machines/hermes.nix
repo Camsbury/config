@@ -37,6 +37,7 @@
   ];
 
   hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
 
   system.stateVersion = "20.03";
 }
