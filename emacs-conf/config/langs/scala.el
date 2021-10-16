@@ -12,7 +12,10 @@
       'metals
       `(:system ,(concat (getenv "METALS_PATH") "/metals-emacs"))
       '(:system "metals"))
-     (lsp-deferred))))
+     (lsp-deferred)
+     (flycheck-add-next-checker 'lsp 'scala))))
+
+
 
 (use-package lsp-metals)
 (customize-set-variable 'lsp-metals-server-args
