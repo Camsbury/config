@@ -108,12 +108,12 @@
 (defun redshift-orange ()
   "Turns the screen orange"
   (interactive)
-  (shell-command "redshift -PO 2000k"))
+  (shell-command "redshift -PO 2000k -b 0.75"))
 
 (defun redshift-red ()
   "Turns the screen red"
   (interactive)
-  (shell-command "redshift -PO 1000k"))
+  (shell-command "redshift -PO 1000k -b 0.5"))
 
 (defun nixos-man ()
   (interactive)
