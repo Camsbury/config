@@ -1,4 +1,12 @@
+(require 'prelude)
+(require 'core/env)
 (require 'config/utils)
+
+(defvar puzzle-themes
+  (--> (concat cmacs-share-path "/puzzle-themes.edn")
+       (f-read it 'utf-8)
+       (parseedn-read-str it)
+       (append it nil)))
 
 (defun edit-fen-on-lichess (fen)
   "Edit FEN on lichess.org"
@@ -13,6 +21,17 @@
   (-> "https://lichess.org/analysis/"
     (concat (replace-regexp-in-string " " "_" fen))
       browse-url))
+
+(defun play-puzzle-theme (theme)
+  (-> "https://lichess.org/training"
+      (concat "/" theme)
+      browse-url))
+
+(defun play-random-puzzle-theme ()
+  (interactive)
+  (-> puzzle-themes
+      random-choice
+      play-puzzle-theme))
 
  (defun extract-eco-and-detail (line)
    (string-match "\\(.*\t.*\\)\t\\(.*\\)\t.*\t\\(.*\\)" line)
@@ -160,6 +179,14 @@
    "Opening: "
    openings
    :action #'--ivy-similar-position-copy-eco-pgn))
+
+(defun ivy-play-puzzle-theme ()
+  "Open a puzzle theme on lichess"
+  (interactive)
+  (ivy-read
+   "Puzzle theme: "
+   puzzle-themes
+   :action #'play-puzzle-theme-on-lichess))
 
 
 (provide 'config/games/chess)

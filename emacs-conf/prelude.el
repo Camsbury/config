@@ -46,6 +46,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Etc.
 
+(defun random-choice (items)
+  (let* ((size (length items))
+         (index (random size)))
+    (nth index items)))
 
 (defun unadvise (sym)
   "Remove all advice from symbol SYM."
