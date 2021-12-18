@@ -74,6 +74,8 @@
   :config (ivy-mode)
   (general-emacs-define-key ivy-minibuffer-map
     [escape] 'minibuffer-keyboard-quit)
+  (general-emacs-define-key ivy-occur-mode-map
+    [evil-ret] #'ivy-occur-click)
   (custom-set-faces
    '(ivy-current-match ((t (:background "#3a403a"))))))
 (use-package ivy-hydra
