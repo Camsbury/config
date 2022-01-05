@@ -10,22 +10,22 @@
 
         haskell-font-lock-symbols-alist
         (cons
-         '("^." "⌾" haskell-font-lock-dot-is-not-composition)
+         '("^." . "⌾")
          haskell-font-lock-symbols-alist)
 
         haskell-font-lock-symbols-alist
         (cons
-         '("<>" "⊕" haskell-font-lock-dot-is-not-composition)
+         '("<>" . "⊕")
          haskell-font-lock-symbols-alist)
 
         haskell-font-lock-symbols-alist
         (cons
-         '("->" "⟶" haskell-font-lock-dot-is-not-composition)
+         '("->" . "⟶")
          haskell-font-lock-symbols-alist)
 
         haskell-font-lock-symbols-alist
         (cons
-         '("<-" "⟵" haskell-font-lock-dot-is-not-composition)
+         '("<-" . "⟵")
          haskell-font-lock-symbols-alist)
 
         haskell-font-lock-symbols t
