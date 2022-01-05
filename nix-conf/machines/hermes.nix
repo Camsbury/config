@@ -12,6 +12,7 @@
     ../modules/non-ergodox.nix
 
     #functionality
+    ../modules/bluetooth.nix
     ../modules/tract.nix
     ../modules/email.nix
     ../modules/htb.nix
@@ -35,9 +36,6 @@
       '';
     }
   ];
-
-  hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
 
   system.stateVersion = "20.03";
 }
