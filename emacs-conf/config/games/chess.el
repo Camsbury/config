@@ -1,4 +1,5 @@
 (require 'prelude)
+(require 'browse-url)
 (require 'core/env)
 (require 'config/utils)
 
