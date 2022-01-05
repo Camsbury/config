@@ -15,6 +15,7 @@ in
     # sha256 = "1p8d5dfia1sfrc43iyr4b9l43hgmf36f5piz4lgrm9drvl16s333";
     # rev = "8d8a28b47b7";
     # sha256 = "1s29nc3ppsjdq8kgbh8pc26xislkv01yph58xv2vjklkvsmz5pzm";
-    rev = "31ffc50c571";
-    sha256 = "1gg87k49rmdylmzxjzmllng78qr6wmssnci05z1kij3715wkqc5j";
+    # rev = "31ffc50c571";
+    rev = "ac169ec6371f0d835542db654a65e0f2feb07838"; # pin
+    sha256 = "0bwjyz15sr5f7z0niwls9127hikp2b6fggisysk0cnk3l6fa8abh";
 })
