@@ -11,6 +11,8 @@
     ../modules/slimblade.nix
 
     #functionality
+    ../modules/android.nix
+    ../modules/bluetooth.nix
     ../modules/crypto.nix
     ../modules/cuda.nix
     ../modules/gaming.nix
