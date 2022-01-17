@@ -14,7 +14,6 @@
       export TERM=xterm-256color # needed for autocompletions
       export FZF="${pkgs.fzf}/share/fzf" # this doesn't work until after omz is loaded
       source "${pkgs.autojump}/share/autojump/autojump.zsh"
-      source "${pkgs.google-cloud-sdk}/google-cloud-sdk/completion.zsh.inc"
       source "${pkgs.google-cloud-sdk}/google-cloud-sdk/path.zsh.inc"
       source "${../../helpers.zsh.inc}"
 
