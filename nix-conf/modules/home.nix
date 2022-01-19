@@ -18,7 +18,7 @@ in
     ".offlineimap.py".source = ../../offlineimap.py;
     ".offlineimaprc".source = ../../offlineimaprc;
     ".rgignore".source = sym ../../rgignore;
-    ".scripts".source = ../../scripts;
+    ".scripts".source = sym ../../scripts;
     ".shells".source = ../shells;
     ".zshrc".source = ../../zshrc;
   };
