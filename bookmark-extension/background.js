@@ -1,5 +1,5 @@
 chrome.commands.onCommand.addListener((command) => {
-  if ((command.name = "copy-url")) {
+  if (command == "copy-url") {
     chrome.tabs.query({ active: true, currentWindow: true }).then(([tab]) => {
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
