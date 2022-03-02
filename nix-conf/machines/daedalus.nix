@@ -19,11 +19,6 @@
 
   networking.hostName = "daedalus";
 
-  nix.trustedUsers = [
-    "root"
-    "camsbury"
-  ];
-
   users.users.camsbury = {
     home = "/home/camsbury";
     extraGroups = [

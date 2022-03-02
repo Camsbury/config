@@ -1,6 +1,6 @@
 (require 'prelude)
 
-(use-package ammonite-term-repl)
+;; (use-package ammonite-term-repl)
 (use-package scala-mode)
 (general-add-hook
  'scala-mode-hook

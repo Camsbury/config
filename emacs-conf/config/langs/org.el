@@ -3,10 +3,10 @@
 (require 'core/env)
 
 ;; USEIT
-(use-package ob-ammonite
-  :config
-  (require 'ammonite-term-repl)
-  (setq ammonite-term-repl-auto-detect-predef-file nil))
+;; (use-package ob-ammonite
+;;   :config
+;;   (require 'ammonite-term-repl)
+;;   (setq ammonite-term-repl-auto-detect-predef-file nil))
 (use-package ob-async)
 (use-package ob-elixir)
 (use-package ob-http)
