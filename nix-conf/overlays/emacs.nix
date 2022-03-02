@@ -2,7 +2,7 @@ self: super:
 
 let
   basePkgs = (
-    import ../utils/unstable.nix { config = {allowUnfree = true;}; }
+    import ../pins/emacs.nix { config = {allowUnfree = true;}; }
   );
   # Would be sweet to use the ones from nixpkgs instead
   compileEmacsFiles = basePkgs.callPackage ./emacsBuilder.nix;
