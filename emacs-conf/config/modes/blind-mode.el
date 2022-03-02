@@ -1,6 +1,6 @@
 (require 'config/modes/utils)
 
-(setq blind-mode-font-height 130)
+(setq blind-mode-font-height 150)
 
 (define-minor-mode blind-mode
   "Make it so blind people can see"
