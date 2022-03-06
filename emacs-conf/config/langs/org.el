@@ -72,7 +72,8 @@
 
 (customize-set-variable
  'org-babel-load-languages
- '((ammonite . t)
+ '(
+   ;; (ammonite . t)
    (emacs-lisp . t)
    (elixir . t)
    (shell . t)

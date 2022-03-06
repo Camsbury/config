@@ -12,14 +12,14 @@
       'metals
       `(:system ,(concat (getenv "METALS_PATH") "/metals-emacs"))
       '(:system "metals"))
-     (lsp-deferred)
-     (flycheck-add-next-checker 'lsp 'scala))))
+     (lsp-deferred))))
 
+     ;; (flycheck-add-next-checker 'lsp 'scala)
 
 
 (use-package lsp-metals)
-(customize-set-variable 'lsp-metals-server-args
-                        '("-J-Dmetals.allow-multiline-string-formatting=off"))
+;; (customize-set-variable 'lsp-metals-server-args
+;;                         '("-J-Dmetals.allow-multiline-string-formatting=off"))
 
 
 (use-package sbt-mode
