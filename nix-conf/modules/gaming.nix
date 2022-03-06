@@ -27,6 +27,7 @@ in
       (winePkgs.winetricks.override {
         wine = wineWowPackages.staging;
       })
+      xdg-user-dirs
       xorg.xgamma
     ];
   };
@@ -37,5 +38,6 @@ in
     })
   ];
 
+  hardware.opengl.enable = true;
   hardware.opengl.driSupport32Bit = true;
 }

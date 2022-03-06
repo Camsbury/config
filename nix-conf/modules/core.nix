@@ -29,6 +29,10 @@
 
   nix = {
     settings = {
+      extra-experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       substituters = [
         "https://hydra.iohk.io"
       ];
