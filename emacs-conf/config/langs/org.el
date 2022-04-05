@@ -42,6 +42,12 @@
       `(("n" "Enqueue"
          entry (file+headline ,(concat cmacs-share-path "/raw.org") "raw")
          "* [ ] %i%?")
+        ("o" "Add to Observations"
+         entry (file+headline ,(concat cmacs-share-path "/observations.org") "observations")
+         "* [ ] %i%?")
+        ("p" "Add to Open-ended Problems"
+         entry (file+headline ,(concat cmacs-share-path "/oe-problems.org") "problems")
+         "* [ ] %i%?")
         ("f" "Add to Frustrations"
          entry (file+headline ,(concat cmacs-share-path "/frustrations.org") "frustrations")
          "* [ ] %i%?")
