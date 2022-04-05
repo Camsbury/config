@@ -18,6 +18,7 @@ in
       brave
       chromium
       discordPkgs.discord
+      element-desktop
       firefox
       gimp
       google-chrome # for certain features
