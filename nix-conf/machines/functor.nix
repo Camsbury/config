@@ -19,7 +19,6 @@
     ../modules/music.nix
     ../modules/tract.nix
     ../modules/email.nix
-    ../modules/windows.nix
     ../modules/htb.nix
   ];
 
