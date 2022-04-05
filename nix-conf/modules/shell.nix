@@ -23,6 +23,7 @@
       man-pages
       nix-index
       oh-my-zsh
+      pciutils
       sourceHighlight
       tldr
       tree
