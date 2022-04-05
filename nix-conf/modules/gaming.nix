@@ -18,6 +18,8 @@ in
   xdg.portal.enable = true;
   services.flatpak.enable = true;
 
+  hardware.steam-hardware.enable = true;
+
   environment = {
     systemPackages = with pkgs; [
       lutris
