@@ -1,9 +1,9 @@
 (require 'prelude)
 
 (m-require core
-  bindings
   desktop
   env
-  text)
+  text
+  bindings)
 
 (provide 'core)
