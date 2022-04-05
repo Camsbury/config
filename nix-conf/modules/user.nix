@@ -2,7 +2,7 @@
 
 {
   imports = [
-    (import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-21.05.tar.gz}/nixos")
+    (import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-21.11.tar.gz}/nixos")
   ];
 
   users = {
@@ -22,8 +22,12 @@
     users.default = import ../modules/home.nix;
   };
 
-  nix.settings.trusted-users = [
+  nix.trustedUsers = [
     "root"
     "${toString config.users.users.default.name}"
   ];
+  # nix.settings.trusted-users = [
+  #   "root"
+  #   "${toString config.users.users.default.name}"
+  # ];
 }
