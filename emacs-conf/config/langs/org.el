@@ -12,6 +12,9 @@
 (use-package ob-http)
 (use-package org-bullets)
 (use-package org-alert)
+(use-package org-journal
+  :config
+  (customize-set-variable 'org-journal-dir "~/Dropbox/lxndr/journal/"))
 (require 'config/langs/sql)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

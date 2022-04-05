@@ -116,6 +116,7 @@ let
     ob-ipython
     org-alert
     org-bullets
+    org-journal
     origami
     paredit
     parseedn
