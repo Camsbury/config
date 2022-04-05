@@ -216,6 +216,7 @@
   ;; USEIT
   ("S" #'string-edit-at-point         "edit string")
   ("t" #'hydra-nav/body               "nav")
+  ("s-t" #'cycle-theme                "cycle theme")
   ("T" #'explain-pause-top            "emacs top")
   ("u" #'prettify-windows             "prettify")
   ;; ("U")
