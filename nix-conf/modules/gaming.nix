@@ -1,11 +1,11 @@
 { config, pkgs, ... }:
 
 let
-  steamPkgs = import ../pins/steam.nix {
-    config = {
-      allowUnfree = true;
-    };
-  };
+  # steamPkgs = import ../pins/steam.nix {
+  #   config = {
+  #     allowUnfree = true;
+  #   };
+  # };
   winePkgs  = import ../pins/wine.nix {
     config = {
       allowUnfree = true;
@@ -13,12 +13,17 @@ let
   };
 in
 {
-  programs.steam.enable = true;
+  # programs.steam.enable = true;
+
+  xdg.portal.enable = true;
+  services.flatpak.enable = true;
 
   environment = {
     systemPackages = with pkgs; [
       lutris
       nvtop
+      # steam
+      sc-controller
       vulkan-tools
       (winePkgs.wineWowPackages.full.override {
         wineRelease = "staging";
@@ -32,12 +37,12 @@ in
     ];
   };
 
-  nixpkgs.overlays = [
-    (self: super: {
-      steam = steamPkgs.steam;
-    })
-  ];
+  # nixpkgs.overlays = [
+  #   (self: super: {
+  #     steam = steamPkgs.steam;
+  #   })
+  # ];
 
-  hardware.opengl.enable = true;
-  hardware.opengl.driSupport32Bit = true;
+  # hardware.opengl.enable = true;
+  # hardware.opengl.driSupport32Bit = true;
 }
