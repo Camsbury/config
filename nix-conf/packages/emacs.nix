@@ -173,9 +173,9 @@ let
     asoc-el
     company-postgresql
     etymology-of-word
+    evil-magit
     ivy-cider
     re-jump
-    evil-magit
   ];
 in
   melpas ++ elpas ++ others
