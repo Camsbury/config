@@ -1,6 +1,8 @@
 (require 'prelude)
 (require 'hydra)
 (require 'core/env)
+;; TODO: https://stackoverflow.com/questions/17478260/completely-hide-the-properties-drawer-in-org-mode
+(require 'org-id)
 
 ;; USEIT
 ;; (use-package ob-ammonite
@@ -15,6 +17,12 @@
 (use-package org-journal
   :config
   (customize-set-variable 'org-journal-dir "~/Dropbox/lxndr/journal/"))
+;; USEIT
+(use-package org-ml)
+;; USEIT
+(use-package org-parser)
+;; USEIT
+(use-package org-ql)
 (require 'config/langs/sql)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -107,6 +115,7 @@
 (setq org-bullets-bullet-list '("•"))
 (defun org-faces-init ()
   "Initialize org faces"
+  (interactive)
   (set-face-attribute 'org-level-1 nil :height 1.0)
   (-map (lambda (x) (set-face-bold x nil))
                  '( org-level-1
@@ -123,6 +132,7 @@
                      org-level-6 org-level-7 org-level-8)
                    '( "#7FB6FF" "#97D164" "#B9D6F2" "#62FCC4" "#5D85BA"
                       "#618640" "#A9C3DC" "#368A6B"))))
+(org-faces-init)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org functions

@@ -117,6 +117,9 @@ let
     org-alert
     org-bullets
     org-journal
+    org-ml
+    org-parser
+    org-ql
     origami
     paredit
     parseedn
