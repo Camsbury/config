@@ -68,6 +68,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Functions
 
+(defun clerk-show ()
+  (interactive)
+  (save-buffer)
+  (let
+      ((filename
+        (buffer-file-name)))
+    (when filename
+      (cider-interactive-eval
+       (concat "(nextjournal.clerk/show! \"" filename "\")")))))
+
 (defun cider-copy-last-result ()
   (interactive)
   (cider-interactive-eval
@@ -188,6 +198,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
   ("n" #'cljr-introduce-let            "introduce let")
   ("o" #'clj-narrow-defun              "focus on def")
   ("q" #'cljr-add-require-to-ns        "add require")
+  ("s" #'clerk-show                    "show clerk notebook")
   ("t" #'cider-test-run-ns-tests       "run ns tests")
   ("T" #'kaocha-runner-run-all-tests   "run project tests")
   ("w" #'cljr-add-missing-libspec      "figure out the require")
