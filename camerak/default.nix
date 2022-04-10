@@ -2,10 +2,6 @@ let
   pkgs = import ./pinned.nix {
     overlays = [(import ./overlays.nix)];
   };
-  python-custom = (pkgs.python3.withPackages (
-    pythonPackages: with pythonPackages; [
-      qmk
-    ]));
 in
 
 with pkgs;
@@ -30,7 +26,6 @@ rec {
       pkgsCross.avr.buildPackages.binutils
       pkgsCross.avr.buildPackages.gcc8
       pkgsCross.arm-embedded.buildPackages.gcc
-      python-custom
       which
     ];
 
@@ -44,7 +39,7 @@ rec {
       export LD_LIBRARY_PATH=${hidapi}/lib:$LD_LIBRARY_PATH
     '';
 
-    buildPhase = "${python3Packages.qmk}/bin/qmk compile -kb ergodox_ez -km camerak";
+    buildPhase = "${qmk}/bin/qmk compile -kb ergodox_ez -km camerak";
 
     installPhase = "cp *.hex $out";
   };
