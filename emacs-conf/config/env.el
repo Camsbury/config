@@ -19,5 +19,8 @@
                 (f-directories edeps-root nil t))))
     (setq load-path (-concat base-path edeps))))
 
+;; give option to remember local "risky" variables
+(advice-add 'risky-local-variable-p :override #'ignore)
+
 
 (provide 'config/env)
