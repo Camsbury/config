@@ -118,20 +118,26 @@
   (interactive)
   (set-face-attribute 'org-level-1 nil :height 1.0)
   (-map (lambda (x) (set-face-bold x nil))
-                 '( org-level-1
-                    org-level-2
-                    org-level-3
-                    org-level-4
-                    org-level-5
-                    org-level-6
-                    org-level-7
-                    org-level-8))
- (-map (lambda (pair) (set-face-foreground (car pair) (cdr pair)))
-                 (-zip-pair
-                   '(org-level-1 org-level-2 org-level-3 org-level-4 org-level-5
-                     org-level-6 org-level-7 org-level-8)
-                   '( "#7FB6FF" "#97D164" "#B9D6F2" "#62FCC4" "#5D85BA"
-                      "#618640" "#A9C3DC" "#368A6B"))))
+        '( org-level-1
+           org-level-2
+           org-level-3
+           org-level-4
+           org-level-5
+           org-level-6
+           org-level-7
+           org-level-8))
+  (-map (lambda (pair) (set-face-foreground (car pair) (cdr pair)))
+        (-zip-pair
+         '(org-level-1 org-level-2 org-level-3 org-level-4 org-level-5
+                       org-level-6 org-level-7 org-level-8)
+         '("#abbdff"
+           "#ffff55"
+           "#90d6ff"
+           "#ffc9e7"
+           "#f1bc5c"
+           "#62FCC4"
+           "#cbc284"
+           "#b9fc6d"))))
 (org-faces-init)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
