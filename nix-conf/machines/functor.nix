@@ -20,6 +20,7 @@
     ../modules/tract.nix
     ../modules/email.nix
     ../modules/htb.nix
+    ../modules/razer.nix
   ];
 
   networking.hostName = "functor";
