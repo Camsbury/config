@@ -6,6 +6,6 @@ in
     repo  = "nixpkgs";
     # rev = "51bcdc4cdaa";
     # sha256 = "0zpf159nlpla6qgxfgb2m3c2v09fz8jilc21zwymm59qrq6hxscm";
-    rev = "7f9b6e2babf"; # pin
-    sha256 = "03nb8sbzgc3c0qdr1jbsn852zi3qp74z4qcy7vrabvvly8rbixp2";
+    rev = "72b1ec0a79b1"; # pin
+    sha256 = "05r9dp15q6n6wxp37d81x31j5m5qpwcj23y2pfvaybcrdayg4x8x";
 })
