@@ -361,7 +361,8 @@
  ("r"   #'org-refile               "refile")
  ("t"   #'org-set-tags-command     "set tags")
  ("T"   #'hydra-org-table/body     "org table")
- ("e"   #'org-edit-special         "edit src"))
+ ("e"   #'org-edit-special         "edit src")
+ ("x"   #'org-latex-preview        "latex preview"))
 
 (defhydra hydra-visual-org (:exit t)
   "org-mode"
