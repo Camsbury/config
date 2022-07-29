@@ -14,6 +14,7 @@
       autojump
       bat
       curl
+      dua
       exa
       fzf
       htop

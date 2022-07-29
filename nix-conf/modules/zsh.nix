@@ -51,6 +51,7 @@
       apr = "apropos";
       cat = "bat";
       cclip = "xclip -selection clipboard";
+      du = "dua";
       la = "exa --long --all";
       ll = "exa --long --all";
       lnf = "readlink -f";
