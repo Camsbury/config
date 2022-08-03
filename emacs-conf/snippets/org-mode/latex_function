@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# key: ll
+# name: latex_function
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+\begin{equation}
+$1
+\end{equation}

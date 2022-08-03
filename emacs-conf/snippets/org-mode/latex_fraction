@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# key: lf
+# name: latex_fraction
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+\frac{$1}{$2}$3

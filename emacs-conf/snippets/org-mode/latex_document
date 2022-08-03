@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# key: ld
+# name: latex_document
+# expand-env: ((yas-indent-line 'fixed))
+# --
+
+\begin{document}
+$1
+\end{document}
