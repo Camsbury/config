@@ -141,6 +141,12 @@
 (org-faces-init)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; org latex
+(customize-set-variable
+ 'org-format-latex-options
+ (plist-put org-format-latex-options :scale 1.5))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org functions
 
 (defun org-append-link ()
