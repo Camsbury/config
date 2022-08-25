@@ -196,6 +196,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
   ("l" #'cider-load-buffer             "load buffer")
   ("m" #'hydra-cljr-help-menu/body     "cljr hydra")
   ("n" #'cljr-introduce-let            "introduce let")
+  ("N" #'clojure-sort-ns               "sort ns")
   ("o" #'clj-narrow-defun              "focus on def")
   ("q" #'cljr-add-require-to-ns        "add require")
   ("s" #'clerk-show                    "show clerk notebook")
