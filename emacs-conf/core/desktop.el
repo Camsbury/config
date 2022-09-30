@@ -48,7 +48,7 @@
   (global-exwm-key "s-s"                     #'cycle-sound)
   (global-exwm-key "s-t"                     #'check-time)
   (global-exwm-key "s-L"                     #'lock-screen)
-  (global-exwm-key "<XF86Tools>"                   #'kill-emacs)
+  (global-exwm-key "<XF86Tools>"             #'restart-display-manager)
   (customize-set-variable 'exwm-input-simulation-keys
                           '(([?\s-a] . ?\C-a)
                             ([?\s-x] . ?\C-x)

@@ -187,9 +187,8 @@
 (defun restart-display-manager ()
   "Restart the display manager"
   (interactive)
-  (run-hooks 'kill-emacs-hook)
-  (let ((default-directory "/sudo::"))
-    (shell-command "systemctl restart display-manager.service")))
+  ;; (run-hooks 'kill-emacs-hook)
+  (shell-command "sudo /usr/bin/env systemctl restart display-manager.service"))
 
 (defun nix-derivation-is-cached? (derivation)
   "Sees if the derivation is cached on the nixos cache"
