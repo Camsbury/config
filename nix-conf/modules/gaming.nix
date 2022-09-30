@@ -15,7 +15,16 @@ in
 {
   # programs.steam.enable = true;
 
-  xdg.portal.enable = true;
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+      ];
+      gtkUsePortal = true;
+    };
+  };
   services.flatpak.enable = true;
 
   hardware.steam-hardware.enable = true;
