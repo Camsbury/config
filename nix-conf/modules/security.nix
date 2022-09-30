@@ -19,4 +19,13 @@
     openvpn
     veracrypt
   ];
+
+  security.sudo.extraRules = [{
+    users = ["ALL"];
+    commands = [{
+      # maybe set this more intelligently
+      command = "/usr/bin/env tee /sys/class/backlight/intel_backlight/brightness";
+      options = ["NOPASSWD"];
+    }];
+  }];
 }

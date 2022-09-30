@@ -56,14 +56,12 @@
 (defun raise-brightness ()
   "raises brightness"
   (interactive)
-  (let ((default-directory "/sudo::"))
-    (shell-command (concat "sh /home/" (getenv "USER") "/.scripts/brightness.sh +20"))))
+  (shell-command "sh ~/.scripts/brightness.sh +20"))
 
 (defun lower-brightness ()
   "lowers brightness"
   (interactive)
-  (let ((default-directory "/sudo::"))
-    (shell-command (concat "sh /home/" (getenv "USER") "/.scripts/brightness.sh -20"))))
+  (shell-command "sh ~/.scripts/brightness.sh -20"))
 
 (defun raise-volume ()
   "raises volume"
