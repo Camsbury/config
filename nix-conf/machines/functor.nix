@@ -21,6 +21,7 @@
     ../modules/email.nix
     ../modules/htb.nix
     ../modules/razer.nix
+    ../modules/foreign.nix
   ];
 
   networking.hostName = "functor";
