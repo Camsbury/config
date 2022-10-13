@@ -22,12 +22,8 @@
     users.default = import ../modules/home.nix;
   };
 
-  nix.trustedUsers = [
+  nix.settings.trusted-users = [
     "root"
     "${toString config.users.users.default.name}"
   ];
-  # nix.settings.trusted-users = [
-  #   "root"
-  #   "${toString config.users.users.default.name}"
-  # ];
 }

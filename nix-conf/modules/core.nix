@@ -28,30 +28,21 @@
   networking.networkmanager.enable = true;
 
   nix = {
-    binaryCaches = [
-      "https://hydra.iohk.io"
-    ];
-    trustedBinaryCaches = [
-      "https://hydra.iohk.io"
-    ];
-    binaryCachePublicKeys = [
-      "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
-    ];
-    # settings = {
-    #   extra-experimental-features = [
-    #     "nix-command"
-    #     "flakes"
-    #   ];
-    #   substituters = [
-    #     "https://hydra.iohk.io"
-    #   ];
-    #   trusted-substituters = [
-    #     "https://hydra.iohk.io"
-    #   ];
-    #   trusted-public-keys = [
-    #     "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
-    #   ];
-    # };
+    settings = {
+      # extra-experimental-features = [
+      #   "nix-command"
+      #   "flakes"
+      # ];
+      substituters = [
+        "https://hydra.iohk.io"
+      ];
+      trusted-substituters = [
+        "https://hydra.iohk.io"
+      ];
+      trusted-public-keys = [
+        "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+      ];
+    };
     nixPath = [
       "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
       "nixpkgs-unstable=${../utils/unstable.nix}"

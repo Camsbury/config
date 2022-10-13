@@ -23,6 +23,9 @@ in
         cmacs-load-path = with builtins; with pkgs;
           callPackage (import ../derivations/cmacs-load-path) {};
 
+        disper = with builtins; with pkgs;
+          callPackage (import ../derivations/disper) {};
+
         pgn-extract = with builtins; with pkgs;
           callPackage (import ../derivations/pgn-extract) {};
 

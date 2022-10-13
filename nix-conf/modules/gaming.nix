@@ -22,7 +22,6 @@ in
         xdg-desktop-portal-wlr
         xdg-desktop-portal-gtk
       ];
-      gtkUsePortal = true;
     };
   };
   services.flatpak.enable = true;

@@ -1,12 +1,12 @@
 {stdenv, fetchurl}:
 
 stdenv.mkDerivation (rec {
-  version = "21-02";
+  version = "22-11";
   pname = "pgn-extract";
   name = "${pname}-${version}";
   src = fetchurl {
     url = "https://www.cs.kent.ac.uk/~djb/${pname}/${pname}-${version}.tgz";
-    sha256 = "0fslk6mnmk8asp746zzy7xd44pzqgdvslp01zcfv58j2j004469i";
+    hash = "sha256-Mx6E1VKZmH3CfxWSkuo7WblMR+3JcvMulvTmwMhiHAs=";
   };
   installPhase =
     ''
