@@ -35,14 +35,20 @@
 
 (defn list-tags
   "list link tags"
-  []
-  (->> browser-links
-       slurp
-       edn/read-string
-       (mapcat :tags)
-       (into #{})
-       sort
-       (into [] (map name))))
+  [selected]
+  (let [selected
+        (if (seq selected)
+          (->> (str/split selected #" ")
+               (into #{} (map keyword)))
+          #{})]
+    (->> browser-links
+         slurp
+         edn/read-string
+         (filter #(set/subset? selected (into #{} (:tags %))))
+         (mapcat :tags)
+         (into #{})
+         sort
+         (into [] (map name)))))
 
 (defn list-all
   "list all links"
@@ -55,8 +61,8 @@
 (defn list-tagged
   "list links by tag"
   [tags]
-  (let [tags (->>  (str/split tags #" ")
-               (into #{} (map keyword)))]
+  (let [tags (->> (str/split tags #" ")
+                  (into #{} (map keyword)))]
     (->> browser-links
          slurp
          edn/read-string
@@ -74,7 +80,7 @@
   (list-all)
 
   "list-tags"
-  (list-tags)
+  (list-tags (second *command-line-args*))
 
   "list-tagged"
   (list-tagged (second *command-line-args*))

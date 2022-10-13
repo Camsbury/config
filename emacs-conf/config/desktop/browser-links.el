@@ -54,6 +54,16 @@
              (->> links (gethash n) (gethash :url) browse-url))))
       (message "No links with this tag set!"))))
 
+(defun exwm-browser-link--get-tags (selected)
+  (parseedn-read-str
+   (shell-command-to-string
+    (concat
+     "bb -f "
+     exwm-browser-set-link-script
+     " list-tags '"
+     (s-join " " selected)
+     "'"))))
+
 (defun exwm-browser-link--build-tags (tags selected &optional visit-all?)
   (ivy-read
    "Tag: "
@@ -65,25 +75,25 @@
          (if selected
              (exwm-browser-link--visit-tagged selected visit-all?)
            (exwm-browser-link-visit))
-       (let ((tags (remove tag tags))
-             (selected (cons tag selected)))
+       (let* ((selected (cons tag selected))
+              (tags
+               (->> selected
+                    exwm-browser-link--get-tags
+                    (remove tag)
+                    )))
+         (print selected)
          (exwm-browser-link--build-tags tags selected visit-all?))))))
-
-(defun exwm-browser-link--get-tags ()
-  (parseedn-read-str
-   (shell-command-to-string
-    (concat "bb -f " exwm-browser-set-link-script " list-tags"))))
 
 (defun exwm-browser-link-visit-tagged ()
   "choose tags to filter by"
   (interactive)
-  (let ((tags (exwm-browser-link--get-tags)))
+  (let ((tags (exwm-browser-link--get-tags '())))
     (exwm-browser-link--build-tags tags '())))
 
 (defun exwm-browser-link-visit-all-tagged ()
   "choose tag to visit"
   (interactive)
-  (let ((tags (exwm-browser-link--get-tags)))
+  (let ((tags (exwm-browser-link--get-tags '())))
     (exwm-browser-link--build-tags tags '() t)))
 
 (defun exwm-browser-link-create ()
