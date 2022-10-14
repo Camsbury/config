@@ -25,9 +25,10 @@
 
 (defvar normal-font-height)
 ;; FIXME: run only once
-(if (> (x-display-pixel-width) 1600)
-    (setq normal-font-height 85)
-  (setq normal-font-height 110))
+;; (if (> (x-display-pixel-width) 1600)
+;;     (setq normal-font-height 85)
+;;   (setq normal-font-height 110))
+(setq normal-font-height 110)
 
 ;; FIXME: run only once
 (set-face-attribute 'default nil :height normal-font-height)
