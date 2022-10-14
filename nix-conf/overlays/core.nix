@@ -12,6 +12,9 @@ in
         alias-tips = with builtins; with pkgs;
           callPackage (import ../derivations/alias-tips) {};
 
+        babashka = with builtins; with pkgs;
+          callPackage (import ../derivations/babashka) {};
+
         check-low-battery = with builtins; with pkgs;
           callPackage (import ../derivations/check-low-battery) {};
 
