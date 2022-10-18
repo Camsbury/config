@@ -6,10 +6,17 @@
  [remap empty-mode-leader] #'hydra-racket/body
  )
 
+(general-add-hook
+ 'racket-mode-hook
+ (list
+  'paredit-mode
+  'lispyville-mode
+  'flycheck-mode))
+
 (defhydra hydra-racket (:exit t)
   "racket-mode"
- ("l" #'racket-repl                   "repl")
- ("r" #'racket-run-and-switch-to-repl "run and repl")
+ ("r" #'racket-repl                   "repl")
+ ("l" #'racket-run-and-switch-to-repl "run and repl")
  ("t" #'racket-test                   "test"))
 
 (provide 'config/langs/racket)
