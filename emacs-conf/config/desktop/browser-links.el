@@ -1,14 +1,11 @@
 (require 'prelude)
 (require 'hydra)
 (require 'browse-url)
-;; NOTE: fixes autoload issues with browse-url
-(use-package browse-url :demand)
+
 
 (defvar exwm-browser-set-link-script)
 (setq exwm-browser-set-link-script
       "~/projects/Camsbury/config/manage_browser_links.clj")
-
-;; TODO: select tags filtered by where they intersect with others!!
 
 (defun exwm-browser-link-visit ()
   "Select a link to visit in the browser"

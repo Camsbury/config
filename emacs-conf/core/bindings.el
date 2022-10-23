@@ -28,7 +28,7 @@
 ;; CLEAN: remove stuff I never use, or shove behind another hydra
 (defhydra hydra-spawn (:exit t :columns 5)
   "spawn"
-  ("a" (spawnify #'grab-daybook)                        "daybook")
+  ("a" (spawnify #'org-roam-dailies-goto-today)         "daybook")
   ("b" (spawn-file-link :books)                         "book notes")
   ("c" (spawnify #'open-brave)                          "brave browser")
   ("D" (spawn-file-link :brain-dump)                    "brain dump")
@@ -71,7 +71,7 @@
 ;; CLEAN: remove stuff I never use, or shove behind another hydra
 (defhydra hydra-nav (:exit t :columns 5)
   "nav to"
-  ("a" #'grab-daybook                          "daybook")
+  ("a" #'org-roam-dailies-goto-today           "daybook")
   ("b" (open-file-link :books)                 "book notes")
   ("c" #'open-brave                            "brave browser")
   ("D" (open-file-link :brain-dump)            "brain dump")

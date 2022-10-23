@@ -116,10 +116,12 @@ let
     ob-ipython
     org-alert
     org-bullets
+    org-download
     org-journal
     org-ml
     org-parser
     org-ql
+    org-roam
     origami
     paredit
     parseedn

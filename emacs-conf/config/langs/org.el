@@ -14,9 +14,17 @@
 (use-package ob-http)
 (use-package org-bullets)
 (use-package org-alert)
+;; FIXME
+(use-package org-download
+  :config
+  (customize-set-variable
+   'org-download-screenshot-method
+   "imagemagick/import"))
 (use-package org-journal
   :config
-  (customize-set-variable 'org-journal-dir "~/Dropbox/lxndr/journal/"))
+  (customize-set-variable
+   'org-journal-dir
+   (concat cmacs-share-path "/journal/")))
 ;; USEIT
 (use-package org-ml)
 ;; USEIT
@@ -66,12 +74,9 @@
         ("l" "Log action"
          entry (file+headline ,(concat cmacs-share-path "/daybook.org") "log")
          "* %i%?"))
-      org-agenda-files `(,(concat cmacs-share-path "/daybook.org")
-                         ,(concat cmacs-share-path "/store.org")
+      org-agenda-files `(,(concat cmacs-share-path "/store.org")
                          ,(concat cmacs-share-path "/habit-list.org"))
-      org-refile-targets `((,(concat cmacs-share-path "/daybook-log.org") :maxlevel . 3)
-                           (,(concat cmacs-share-path "/daybook.org") :maxlevel . 3)
-                           (,(concat cmacs-share-path "/queue.org") :maxlevel . 3)
+      org-refile-targets `((,(concat cmacs-share-path "/queue.org") :maxlevel . 3)
                            (,(concat cmacs-share-path "/store.org") :level . 1)
                            (,(concat cmacs-share-path "/ref.org") :level . 1))
       org-archive-location (concat cmacs-share-path "/archive/" (format-time-string "%Y-%m") ".org::"))
@@ -140,8 +145,42 @@
            "#b9fc6d"))))
 (org-faces-init)
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; org roam
+
+(use-package org-roam
+  :config
+  (customize-set-variable
+   'org-roam-directory
+   (concat cmacs-share-path "/org-roam"))
+  (customize-set-variable
+   'org-roam-capture-templates
+   '(("n" "default" plain "%?"
+      :target (file+head "${slug}.org.gpg"
+                         "#+title: ${title}\n")
+      :unnarrowed t)))
+  (customize-set-variable 'epa-file-select-keys 1)
+  (setq epa-file-encrypt-to '("camsbury7@gmail.com"))
+  (org-roam-db-autosync-mode))
+
+(use-package org-roam-dailies
+  :after (org-roam)
+  :config
+  (customize-set-variable
+   'org-roam-dailies-directory
+   "daily/")
+  (customize-set-variable
+   'org-roam-dailies-capture-templates
+   '(("d" "default" entry
+      "* %?"
+      :target (file+head "%<%Y-%m-%d>.org"
+                         "#+title: %<%Y-%m-%d>\n")))))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org latex
+
 (customize-set-variable
  'org-format-latex-options
  (plist-put org-format-latex-options :scale 1.5))
@@ -208,84 +247,6 @@
   (interactive)
   (call-interactively #'evil-open-below)
   (call-interactively #'org-insert-item))
-
-(defun find-or-create-olp
-    (path)
-  (condition-case err
-      (goto-char (org-find-olp path t))
-    (t
-     (let ((err-msg (error-message-string err)))
-       (string-match "Heading not found on level \\([0-9]+\\).*" err-msg)
-       (let* ((level (string-to-number (match-string 1 err-msg)))
-              (start-point (-take (dec level) path))
-              (write-path (-drop (dec level) path))
-              (demote? nil)
-              (make-toplevel? nil))
-         (if start-point
-             (progn
-               (goto-char (org-find-olp start-point t))
-               (org-end-of-subtree)
-               (when (string=
-                      (-last-item start-point)
-                      (nth 4 (org-heading-components)))
-                 (setq demote? t)))
-           (progn
-             (setq make-toplevel? t)
-             (end-of-buffer)))
-         (dolist (heading write-path)
-           (end-of-line)
-           (comment-indent-new-line)
-           (outline-insert-heading)
-           (end-of-line)
-           (insert heading)
-           (when make-toplevel?
-             (while (not (= (org-current-level) 1))
-               (org-promote-subtree))
-             (setq make-toplevel? nil))
-           (if demote?
-               (org-demote-subtree)
-             (setq demote? t)))
-         (save-buffer)
-         (beginning-of-line))))))
-
-(defun grab-daybook ()
-  "If the daybook is outdated, log the old one, and generate a new one.
-   Otherwise just go to the file"
-  (interactive)
-  (let ((workday (f-read-text (concat cmacs-share-path "/ref/workday.org"))))
-    (find-file (concat cmacs-share-path "/daybook.org"))
-    (beginning-of-buffer)
-    (outline-next-heading)
-    (let ((current-date (shell-command-to-string
-                         "echo -n $(date '+%Y-%-m-%-d')"))
-          (daybook-date (nth 4 (org-heading-components))))
-      (when (not (string= daybook-date current-date))
-        (org-demote-subtree)
-        (org-demote-subtree)
-        (next-line)
-        (beginning-of-line)
-        ;; TODO: set string to variable instead
-        (evil-yank-characters (point) (point-max))
-        ;; TODO: keep around uncompleted tasks under "goals"
-        (evil-delete (point) (point-max))
-        (beginning-of-buffer)
-        (outline-next-heading)
-        (org-promote-subtree)
-        (org-promote-subtree)
-        (org-edit-headline current-date)
-        (end-of-line)
-        (comment-indent-new-line)
-        ;; TODO: have this dispatch on the day of the week
-        (insert workday)
-        (save-buffer)
-        (find-file (concat cmacs-share-path "/daybook-log.org"))
-        (find-or-create-olp (s-split "-" daybook-date))
-        (end-of-line)
-        (comment-indent-new-line)
-        ;; TODO: insert from variable instead
-        (yank)
-        (save-buffer)
-        (find-file (concat cmacs-share-path "/daybook.org"))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org bindings
@@ -357,7 +318,8 @@
  ("RET" #'org-sparse-tree          "sparse tree")
  ("a"   #'org-archive-subtree      "archive")
  ("d"   #'org-deadline             "deadline")
- ("i"   #'org-new-item             "new item")
+ ("i"   #'org-roam-node-insert     "new roam node")
+ ("I"   #'org-new-item             "new item")
  ("l"   #'hydra-org-link/body      "org links")
  ("L"   #'org-append-link          "add link")
  ("m"   #'hydra-org-timer/body     "org timer")
