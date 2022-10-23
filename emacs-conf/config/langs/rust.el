@@ -17,14 +17,13 @@
   #'cargo-minor-mode
   #'racer-mode
   ;; #'flycheck-mode
+  ;; this is running for EVERYTHING
   (lambda () (add-hook 'before-save-hook #'rust-format-buffer))))
 ;; `(
 ;; ,(lambda () (call-interactively #'cargo-minor-mode))
 ;; ,(lambda () (call-interactively #'racer-mode))
 ;; ,(lambda () (call-interactively #'flycheck-mode))
 ;; ,(lambda () (add-hook 'before-save-hook #'rust-format-buffer)))
-
-
 
 
 (defhydra hydra-rust (:exit t)

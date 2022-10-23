@@ -23,6 +23,8 @@
 (defun github-clone (user repo)
   "clones a repo from github to the obvious path"
   (interactive "sUser name: \nsRepo name: ")
+  (call-interactively #'gpg-keychain)
+  (call-interactively #'ssh-keychain)
   (start-process-shell-command
    (concat "clone " user "/" repo)
    nil
