@@ -318,7 +318,7 @@
  ("RET" #'org-sparse-tree          "sparse tree")
  ("a"   #'org-archive-subtree      "archive")
  ("d"   #'org-deadline             "deadline")
- ("i"   #'org-roam-node-insert     "new roam node")
+ ("i"   #'org-roam-node-insert     "insert roam node")
  ("I"   #'org-new-item             "new item")
  ("l"   #'hydra-org-link/body      "org links")
  ("L"   #'org-append-link          "add link")

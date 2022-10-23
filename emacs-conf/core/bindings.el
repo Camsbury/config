@@ -49,7 +49,7 @@
   ("m" (spawnify #'mu4e)                                "email")
   ("n" (spawnify #'counsel-recentf)                     "recent file")
   ("N" (spawnify #'open-new-tmp)                        "new file")
-  ("o" (spawnify #'open-project-summary)                "project summary")
+  ("O" (spawnify #'open-project-summary)                "project summary")
   ("p" (spawnify
         (ignorify
          projectile-ignores
@@ -91,7 +91,8 @@
   ("m" #'mu4e                                  "email")
   ("n" #'counsel-recentf                       "recent file")
   ("N" #'open-new-tmp                          "new file")
-  ("o" #'open-project-summary                  "project summary")
+  ("o" #'org-roam-node-find                    "org-roam node")
+  ("O" #'open-project-summary                  "project summary")
   ("p" (ignorify
         projectile-ignores
         #'counsel-projectile-switch-project)   "open project")
