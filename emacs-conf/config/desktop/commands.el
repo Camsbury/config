@@ -12,6 +12,10 @@
   "run a shell command"
   (start-process-shell-command command nil command))
 
+(defun mtgo ()
+  (interactive)
+  (-run-shell-command "~/projects/pauleve/docker-mtgo/run-mtgo"))
+
 (defun espeak (msg)
   (interactive "sText to speak: ")
   (make-process
