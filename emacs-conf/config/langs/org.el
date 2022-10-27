@@ -174,7 +174,7 @@
    'org-roam-dailies-capture-templates
    '(("d" "default" entry
       "* %?"
-      :target (file+head "%<%Y-%m-%d>.org"
+      :target (file+head "%<%Y-%m-%d>.org.gpg"
                          "#+title: %<%Y-%m-%d>\n")))))
 
 
@@ -330,7 +330,9 @@
  ("t"   #'org-set-tags-command     "set tags")
  ("T"   #'hydra-org-table/body     "org table")
  ("e"   #'org-edit-special         "edit src")
- ("x"   #'org-latex-preview        "latex preview"))
+ ("x"   #'org-latex-preview        "latex preview")
+ ("y"   #'org-roam-dailies-find-previous-note)
+ ("Y"   #'org-roam-dailies-find-next-note))
 
 (defhydra hydra-visual-org (:exit t)
   "org-mode"
