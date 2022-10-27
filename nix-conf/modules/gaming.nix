@@ -32,16 +32,17 @@ in
     systemPackages = with pkgs; [
       lutris
       nvtop
-      # steam
       sc-controller
       vulkan-tools
       (winePkgs.wineWowPackages.full.override {
         wineRelease = "staging";
         mingwSupport = true;
       })
-      (winePkgs.winetricks.override {
-        wine = wineWowPackages.staging;
-      })
+      # was used for wc3
+      # (winePkgs.winetricks.override {
+      #   wine = wineWowPackages.staging;
+      # })
+      winePkgs.winetricks
       xdg-user-dirs
       xorg.xgamma
     ];
@@ -54,5 +55,5 @@ in
   # ];
 
   # hardware.opengl.enable = true;
-  # hardware.opengl.driSupport32Bit = true;
+  hardware.opengl.driSupport32Bit = true;
 }
