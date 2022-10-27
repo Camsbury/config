@@ -14,6 +14,7 @@
     keybase
     keybase-gui
     keychain
+    lastpass-cli
     openssh
     openssl
     openvpn
