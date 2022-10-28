@@ -14,7 +14,6 @@
   modes
   services
   viewers
-  scratch
   games
   utils)
 
