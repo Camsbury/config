@@ -16,7 +16,7 @@
 
 (defun mtgo ()
   (interactive)
-  (-run-shell-command "~/projects/pauleve/docker-mtgo/run-mtgo"))
+  (-run-shell-command "~/projects/pauleve/docker-mtgo/run-mtgo -- --cpuset-cpus 0-3 panard/mtgo:latest"))
 
 (defun espeak (msg)
   (interactive "sText to speak: ")
