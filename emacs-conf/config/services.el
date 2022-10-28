@@ -5,6 +5,7 @@
   email
   feeds
   irc
+  lastpass
   lsp
   radio
   spotify)
