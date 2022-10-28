@@ -21,6 +21,7 @@
   ];
 
   environment.variables = {
+    USER_EMAIL = "camsbury7@gmail.com";
     SHAREPATH =
       "/home/${toString config.users.users.default.name}/Dropbox/lxndr";
   };

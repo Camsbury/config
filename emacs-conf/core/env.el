@@ -16,4 +16,16 @@
   :type 'string
   :group 'cmacs)
 
+(defcustom user-email
+  (getenv "USER_EMAIL")
+  "user's email address"
+  :type 'string
+  :group 'cmacs)
+
+(defcustom user-gpg-id
+  (getenv "USER_GPG_ID")
+  "user's gpg id"
+  :type 'string
+  :group 'cmacs)
+
 (provide 'core/env)

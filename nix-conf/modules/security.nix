@@ -8,6 +8,9 @@
 
   services.keybase.enable = true;
 
+  environment.variables = {
+    USER_GPG_ID = "D3F6CEF58C6E0F38";
+  };
   environment.systemPackages = with pkgs; [
     gnupg
     gnutls

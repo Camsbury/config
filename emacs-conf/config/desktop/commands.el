@@ -1,3 +1,5 @@
+(require 'core/env)
+
 (use-package alarm-clock
   :init
   (defun alarm-message-espeak (title msg)
@@ -223,7 +225,8 @@
 (defun gpg-keychain ()
   "Adds the gpg key to the keychain"
   (interactive)
-  (-run-shell-command "keychain --eval --agents gpg D3F6CEF58C6E0F38"))
+  (-run-shell-command
+   (concat "keychain --eval --agents gpg " user-gpg-id)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
