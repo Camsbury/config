@@ -17,8 +17,9 @@
   #'cargo-minor-mode
   #'racer-mode
   ;; #'flycheck-mode
-  ;; this is running for EVERYTHING
-  (lambda () (add-hook 'before-save-hook #'rust-format-buffer))))
+  ;; this is running for EVERYTHING - make it only for rust-mode
+  ;; (lambda () (add-hook 'before-save-hook #'rust-format-buffer))
+  ))
 ;; `(
 ;; ,(lambda () (call-interactively #'cargo-minor-mode))
 ;; ,(lambda () (call-interactively #'racer-mode))
