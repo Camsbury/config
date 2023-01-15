@@ -180,7 +180,7 @@
   ;; ("a")
   ("A" #'org-agenda-list              "org agenda list")
   ("b" #'blind-mode                   "blind mode")
-  ;; ("c")
+  ("c" #'org-roam-capture             "org roam capture")
   ("C" #'toggle-command-logging       "toggle command logging")
   ("d" #'evil-goto-definition         "evil jump to def")
   ("D" #'dumb-jump-go                 "dumb jump")
