@@ -26,6 +26,10 @@
       "/home/${toString config.users.users.default.name}/Dropbox/lxndr";
   };
 
+  systemd.extraConfig = ''
+    DefaultTimeoutStopSec=10s
+  '';
+
   networking.networkmanager.enable = true;
 
   nix = {
