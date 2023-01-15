@@ -209,7 +209,7 @@
   ("n" #'hydra-spawn/body             "spawn")
   ("N" #'hydra-nixos/body             "nixos")
   ("o" #'widen-and-zoom-out           "widen")
-  ;; ("O")
+  ("O" #'hide/show-comments-toggle    "toggle hiding comments")
   ("p" #'org-todo-list                "see org todo list")
   ("P" #'hydra-project/body           "project")
   ("q" #'evil-save-modified-and-close "write quit")

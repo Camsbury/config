@@ -1,3 +1,4 @@
+(require 'hide-comnt)
 
 (defun git-init ()
   "initialize git"

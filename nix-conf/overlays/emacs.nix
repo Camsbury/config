@@ -112,6 +112,14 @@ let
         };
       };
 
+      hide-comnt = compileEmacsFiles {
+        name = "hide-comnt.el";
+        src = builtins.fetchurl {
+          url = https://raw.githubusercontent.com/emacsmirror/emacswiki.org/601b51e25e758083e66fab433cf61d22713fed51/hide-comnt.el;
+          sha256 = "0v3wgl9r9w0qbvs1cxgl7am9hvpy6hyhvfbsjqix5n0zmdg68s4n";
+        };
+      };
+
       ivy-cider = compileEmacsFiles {
         name = "ivy-cider.el";
         src = builtins.fetchurl {
