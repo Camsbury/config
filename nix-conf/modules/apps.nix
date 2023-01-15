@@ -14,6 +14,7 @@ in
     };
     systemPackages = with pkgs; [
       anki
+      aria2
       audacity
       brave
       chromium
