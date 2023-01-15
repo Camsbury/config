@@ -31,6 +31,7 @@ in
   environment = {
     systemPackages = with pkgs; [
       lutris
+      mesa
       nvtop
       sc-controller
       vulkan-tools
@@ -56,4 +57,5 @@ in
 
   hardware.opengl.enable = true;
   hardware.opengl.driSupport32Bit = true;
+  hardware.pulseaudio.support32Bit = true;
 }
