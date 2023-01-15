@@ -3,7 +3,9 @@
 (use-package exwm
   :init
   (setq exwm-workspace-show-all-buffers t)
-  (setq exwm-layout-show-all-buffers t))
+  (setq exwm-layout-show-all-buffers t)
+  :config
+  (customize-set-variable 'exwm-replace nil))
 
 (use-package exwm-config
   :after (exwm)
