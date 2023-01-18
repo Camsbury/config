@@ -255,6 +255,11 @@
   (interactive)
   (find-or-open-application "slack" "Slack"))
 
+(defun open-steam ()
+  "Opens Steam"
+  (interactive)
+  (find-or-open-application "steam" "Steam"))
+
 (defun open-telegram ()
   "Opens Telegram"
   (interactive)
