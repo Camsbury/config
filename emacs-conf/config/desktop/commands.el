@@ -275,6 +275,25 @@
   (interactive)
   (find-or-open-application "zoom-us" "zoom"))
 
+(defun open-all-applications ()
+  (interactive)
+  (open-brave)
+  (open-xterm)
+  (open-slack)
+  (open-telegram)
+  (open-spotify))
+
+(defun align-all-applications ()
+  (interactive)
+  (dolist (i '((2 "Brave-browser")
+               (4 "XTerm")
+               (8 "Slack")
+               (9 "TelegramDesktop")
+               (0 "Spotify")))
+    (exwm-workspace-switch (car i))
+    (exwm-workspace-switch-to-buffer (cadr i)))
+  (exwm-workspace-switch 1))
+
 (defun exwm-run-command ()
   "Ivy reads available commands and runs one"
   (interactive)
