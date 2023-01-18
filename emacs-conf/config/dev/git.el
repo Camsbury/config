@@ -3,6 +3,9 @@
 (use-package magit-todos
   :after (magit)
   :config
+  (customize-set-variable
+   'magit-todos-keywords
+   '("TODO" "FIXME" "NOTE" "CLEAN" "USEIT"))
   (magit-todos-mode))
 (use-package evil-magit
   :after (magit)
