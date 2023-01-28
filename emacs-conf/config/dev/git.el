@@ -6,6 +6,9 @@
   (customize-set-variable
    'magit-todos-keywords
    '("TODO" "FIXME" "NOTE" "CLEAN" "USEIT"))
+  (customize-set-variable
+   'magit-todos-ignored-keywords
+   '("DONE"))
   (magit-todos-mode))
 (use-package evil-magit
   :after (magit)
