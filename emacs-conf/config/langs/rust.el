@@ -1,9 +1,23 @@
-(use-package rust-mode)
-(use-package flycheck-rust :after (rust-mode))
-(use-package cargo)
-(use-package racer
+(use-package rust-mode
+  :custom
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-rust-analyzer-server-display-inlay-hints t)
+  (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
+  (lsp-rust-analyzer-display-chaining-hints t)
+  (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
+  (lsp-rust-analyzer-display-closure-return-type-hints t)
+  (lsp-rust-analyzer-display-parameter-hints nil)
+  (lsp-rust-analyzer-display-reborrow-hints nil))
+(use-package flycheck-rust
+  :after (rust-mode))
+(use-package rustic
+  :after (rust-mode)
+  :custom (rustic-format-on-save t)
   :config
-  (setq racer-cmd "racer"))
+  (add-to-list 'flycheck-checkers 'rustic-clippy t))
+(use-package cargo
+  :config
+  (setq exec-path (append exec-path '("~/.cargo/bin"))))
 
 (general-def 'normal rust-mode-map
  [remap empty-mode-leader] #'hydra-rust/body)
@@ -13,22 +27,37 @@
 
 (general-add-hook
  'rust-mode-hook
- (list
-  #'cargo-minor-mode
-  #'racer-mode
-  ;; #'flycheck-mode
-  ;; this is running for EVERYTHING - make it only for rust-mode
-  ;; (lambda () (add-hook 'before-save-hook #'rust-format-buffer))
-  ))
-;; `(
-;; ,(lambda () (call-interactively #'cargo-minor-mode))
-;; ,(lambda () (call-interactively #'racer-mode))
-;; ,(lambda () (call-interactively #'flycheck-mode))
-;; ,(lambda () (add-hook 'before-save-hook #'rust-format-buffer)))
+ (lambda ()
+   (progn
+     (setq rustic-cargo-bin (getenv "CARGO_PATH"))
+     (lsp-dependency
+      'rust-analyzer
+      `(:system ,(getenv "RUST_ANALYZER"))
+      '(:system "rust-analyzer"))
+     ;; (cargo-minor-mode)
+     (lsp-deferred)
+     (flycheck-add-next-checker
+      'lsp
+      '(info . rustic-clippy))
+     (flycheck-mode))))
+
+(comment
+ lsp-format-buffer)
+
+;; (dap-register-debug-template
+;;  "Rust::GDB Run Configuration"
+;;  (list :type "gdb"
+;;        :request "launch"
+;;        :name "GDB::Run"
+;;        :gdbpath "rust-gdb"
+;;        :target nil
+;;        :cwd nil))
 
 
 (defhydra hydra-rust (:exit t)
   "rust-mode"
-  ("l" #'rust-run "run buffer"))
+  ("l" #'rust-run                    "run buffer")
+  ("m" #'rust-toggle-mutability      "toggle mutability")
+  ("d" #'lsp-describe-thing-at-point "describe thing"))
 
 (provide 'config/langs/rust)

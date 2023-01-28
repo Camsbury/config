@@ -135,7 +135,6 @@ let
     pylint
     pytest
     python-pytest
-    racer
     racket-mode
     rainbow-delimiters
     ranger
@@ -144,6 +143,7 @@ let
     # restart-emacs
     rjsx-mode
     rust-mode
+    rustic
     s
     sbt-mode
     scala-mode
