@@ -1,3 +1,4 @@
+(use-package pkg-info)
 (use-package flycheck)
 (use-package flycheck-popup-tip)
 (use-package origami)
