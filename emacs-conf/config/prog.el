@@ -11,7 +11,9 @@
           ("FIXME" . ,(face-foreground 'error))
           ("NOTE"  . ,(face-foreground 'success))
           ("CLEAN" . "#7cb8bb")
-          ("USEIT" . "#dc8cc3"))))
+          ("USEIT" . "#dc8cc3")
+          ("DEBUG" . "#ff9333")
+          ("IMPL"  . "#c833ff"))))
 
 (setq tab-width 2)
 (setq-default indent-tabs-mode nil)

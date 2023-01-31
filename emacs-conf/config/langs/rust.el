@@ -51,6 +51,11 @@
 ;;        :target nil
 ;;        :cwd nil))
 
+(defun rustic-cargo-run-with-args ()
+  (interactive)
+  (let ((current-prefix-arg t))
+    (call-interactively #'rustic-cargo-run)))
+
 
 (defhydra hydra-rust (:exit t)
   "rust-mode"
@@ -58,8 +63,9 @@
   ("C" #'rust-compile-release        "compile-release")
   ("d" #'lsp-describe-thing-at-point "describe thing")
   ("g" #'rust-dbg-wrap-or-unwrap     "wrap debug")
-  ;; ("l" #'rustic                    "run buffer")
+  ("r" #'rustic-cargo-run            "run project")
+  ("R" #'rustic-cargo-run-with-args  "run project with args")
   ("m" #'rust-toggle-mutability      "toggle mutability")
-  ("m" #'rust-test                   "run tests"))
+  ("t" #'rustic-cargo-test           "run tests"))
 
 (provide 'config/langs/rust)
