@@ -30,6 +30,7 @@
  (lambda ()
    (progn
      (setq rustic-cargo-bin (getenv "CARGO_PATH"))
+     (setq rustic-rustfmt-bin (getenv "RUSTFMT_PATH"))
      (lsp-dependency
       'rust-analyzer
       `(:system ,(getenv "RUST_ANALYZER"))
@@ -40,9 +41,6 @@
       'lsp
       '(info . rustic-clippy))
      (flycheck-mode))))
-
-(comment
- lsp-format-buffer)
 
 ;; (dap-register-debug-template
 ;;  "Rust::GDB Run Configuration"
@@ -56,8 +54,12 @@
 
 (defhydra hydra-rust (:exit t)
   "rust-mode"
-  ("l" #'rust-run                    "run buffer")
+  ("c" #'rust-compile                "compile")
+  ("C" #'rust-compile-release        "compile-release")
+  ("d" #'lsp-describe-thing-at-point "describe thing")
+  ("g" #'rust-dbg-wrap-or-unwrap     "wrap debug")
+  ;; ("l" #'rustic                    "run buffer")
   ("m" #'rust-toggle-mutability      "toggle mutability")
-  ("d" #'lsp-describe-thing-at-point "describe thing"))
+  ("m" #'rust-test                   "run tests"))
 
 (provide 'config/langs/rust)
