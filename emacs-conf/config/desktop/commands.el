@@ -14,6 +14,26 @@
   "run a shell command"
   (start-process-shell-command command nil command))
 
+(defun set-brightness (brightness)
+  (shell-command
+   (concat "sh ~/.scripts/set-brightness.sh " (number-to-string brightness))))
+
+(defun set-high-brightness ()
+  (interactive)
+  (set-brightness 1))
+
+(defun set-normal-brightness ()
+  (interactive)
+  (set-brightness 0.9))
+
+(defun set-medium-brightness ()
+  (interactive)
+  (set-brightness 0.8))
+
+(defun set-low-brightness ()
+  (interactive)
+  (set-brightness 0.6))
+
 (defun mtgo ()
   (interactive)
   (-run-shell-command "~/projects/pauleve/docker-mtgo/run-mtgo -- --cpuset-cpus 0-3 panard/mtgo:latest"))
