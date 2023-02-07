@@ -12,8 +12,11 @@
   :after (rust-mode))
 (use-package rustic
   :after (rust-mode)
-  :custom (rustic-format-on-save t)
+  :custom
+  (rustic-format-on-save t)
+  (rustic-default-clippy-arguments "--benches --tests --all-features -- -W clippy::pedantic")
   :config
+  (setq rustic-clippy-arguments "--benches --tests --all-features -- -W clippy::pedantic")
   (add-to-list 'flycheck-checkers 'rustic-clippy t))
 (use-package cargo
   :config
@@ -28,19 +31,18 @@
 (general-add-hook
  'rust-mode-hook
  (lambda ()
-   (progn
-     (setq rustic-cargo-bin (getenv "CARGO_PATH"))
-     (setq rustic-rustfmt-bin (getenv "RUSTFMT_PATH"))
-     (lsp-dependency
-      'rust-analyzer
-      `(:system ,(getenv "RUST_ANALYZER"))
-      '(:system "rust-analyzer"))
-     ;; (cargo-minor-mode)
-     (lsp-deferred)
-     (flycheck-add-next-checker
-      'lsp
-      '(info . rustic-clippy))
-     (flycheck-mode))))
+   (setq rustic-cargo-bin (getenv "CARGO_PATH"))
+   (setq rustic-rustfmt-bin (getenv "RUSTFMT_PATH"))
+   (lsp-dependency
+    'rust-analyzer
+    `(:system ,(getenv "RUST_ANALYZER"))
+    '(:system "rust-analyzer"))
+   ;; (cargo-minor-mode)
+   (lsp-deferred)
+   (flycheck-add-next-checker
+    'lsp
+    '(info . rustic-clippy))
+   (flycheck-mode)))
 
 ;; (dap-register-debug-template
 ;;  "Rust::GDB Run Configuration"
