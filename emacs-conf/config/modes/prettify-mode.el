@@ -17,7 +17,8 @@
 
 ;; non-prog modes
 (general-add-hook
- '(nxml-mode-hook)
+ '(nxml-mode-hook
+   haskell-cabal-mode-hook)
  #'prettify-mode)
 
 ;; when to run
