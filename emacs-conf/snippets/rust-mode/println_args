@@ -1,0 +1,5 @@
+# name: println_args
+# key: par
+# expand-env: ((yas-indent-line 'fixed))
+# --
+println!("$1", $2);
