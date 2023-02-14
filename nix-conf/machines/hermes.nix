@@ -20,6 +20,7 @@
   ];
 
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/559bcebb-ef43-4d84-8550-8b371bfb6aa6";
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "hermes";
   users.users.default.name = "camsbury";
