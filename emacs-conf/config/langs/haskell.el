@@ -15,6 +15,21 @@
 
         haskell-font-lock-symbols-alist
         (cons
+         '("^?" . "⍉")
+         haskell-font-lock-symbols-alist)
+
+        haskell-font-lock-symbols-alist
+        (cons
+         '(".~" . "≃")
+         haskell-font-lock-symbols-alist)
+
+        haskell-font-lock-symbols-alist
+        (cons
+         '(".=" . "≗")
+         haskell-font-lock-symbols-alist)
+
+        haskell-font-lock-symbols-alist
+        (cons
          '("<>" . "⊕")
          haskell-font-lock-symbols-alist)
 
@@ -26,6 +41,31 @@
         haskell-font-lock-symbols-alist
         (cons
          '("<-" . "⟵")
+         haskell-font-lock-symbols-alist)
+
+        haskell-font-lock-symbols-alist
+        (cons
+         '("^.." . "⁞")
+         haskell-font-lock-symbols-alist)
+
+        haskell-font-lock-symbols-alist
+        (cons
+         '("<=<" . "↢")
+         haskell-font-lock-symbols-alist)
+
+        haskell-font-lock-symbols-alist
+        (cons
+         '(">=>" . "↣")
+         haskell-font-lock-symbols-alist)
+
+        haskell-font-lock-symbols-alist
+        (cons
+         '("=<<" . "⇤")
+         haskell-font-lock-symbols-alist)
+
+        haskell-font-lock-symbols-alist
+        (cons
+         '(">>=" . "⇥")
          haskell-font-lock-symbols-alist)
 
         haskell-font-lock-symbols t
