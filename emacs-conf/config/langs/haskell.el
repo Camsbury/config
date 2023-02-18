@@ -1,3 +1,4 @@
+(require 'use-package)
 (use-package haskell)
 (use-package haskell-mode
   :config
@@ -63,7 +64,6 @@
         flymake-start-syntax-check-on-newline nil
         flycheck-check-syntax-automatically '(save mode-enabled)))
 
-
 (use-package company-cabal
   :after (company))
 
@@ -79,22 +79,29 @@
          "cabal run"))
     (haskell-compile)))
 
+(defun haskell-ghcid ()
+  (interactive)
+  (let ((haskell-compile-cabal-build-command
+         "ghcid --command=\"cabal new-repl\""))
+    (haskell-compile)))
+
 (general-def 'normal haskell-mode-map
   [remap empty-mode-leader] #'hydra-haskell/body)
 
 (defhydra hydra-haskell (:exit t)
   "haskell-mode"
-  ("a" #'lsp-execute-code-action          "execute code action")
-  ("c" #'haskell-compile                  "compile!")
   ("C" #'haskell-clean-and-compile        "clean and compile!")
   ("R" #'haskell-run                      "run!")
+  ("T" #'hlint-refactor-refactor-buffer   "hlint buffer")
+  ("a" #'lsp-execute-code-action          "execute code action")
+  ("c" #'haskell-compile                  "compile!")
   ("d" #'lsp-doc-show                     "show docs")
   ("e" #'haskell-align-imports            "align imports")
-  ("s" #'haskell-sort-imports             "sort imports")
+  ("g" #'haskell-ghcid                    "ghcid imports")
+  ("i" #'lsp-describe-thing-at-point      "describe at point")
   ("l" #'lsp-lens-mode                    "toggle lenses")
-  ("r" #'lsp-restart-workspace            "restart lsp workspace")
-  ("t" #'hlint-refactor-refactor-at-point "hlint point")
-  ("T" #'hlint-refactor-refactor-buffer   "hlint buffer")
-  )
+  ("r" #'lsp-workspace-restart            "restart lsp workspace")
+  ("s" #'haskell-sort-imports             "sort imports")
+  ("t" #'hlint-refactor-refactor-at-point "hlint point"))
 
 (provide 'config/langs/haskell)
