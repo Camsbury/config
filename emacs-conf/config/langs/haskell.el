@@ -2,9 +2,7 @@
 (use-package haskell-mode
   :config
   (setq haskell-compile-cabal-build-command
-        "cabal new-build --ghc-option=-ferror-spans")
-  (setq haskell-compile-cabal-build-alt-command
-        "cabal clean && cabal new-build --ghc-option=-ferror-spans"))
+        "cabal new-build --ghc-option=-ferror-spans"))
 (use-package haskell-font-lock
   :after (haskell-mode)
   :config
@@ -69,47 +67,34 @@
 (use-package company-cabal
   :after (company))
 
-;; (use-package dante
-;;   :after (haskell-mode)
-;;   :commands 'dante-mode
-;;   :hook  (haskell-mode . dante-mode)
-;;   :init
-;;   (setq dante-tap-type-time 1)
-;;   :config
-;;   (general-add-hook 'dante-mode-hook
-;;                     (list
-;;                      '(lambda ()
-;;                         (flycheck-add-next-checker
-;;                          'lsp
-;;                          '(error . haskell-dante))
-;;                         (flycheck-add-next-checker
-;;                          'haskell-dante
-;;                          '(info . haskell-hlint)))
-;;                      '(lambda ()
-;;                         (eldoc-mode -1)))))
+(defun haskell-clean-and-compile ()
+  (interactive)
+  (let ((haskell-compile-cabal-build-command
+         "cabal clean && cabal new-build --ghc-option=-ferror-spans"))
+    (haskell-compile)))
 
-;; (use-package attrap
-;;   :after (dante))
-
-
+(defun haskell-run ()
+  (interactive)
+  (let ((haskell-compile-cabal-build-command
+         "cabal run"))
+    (haskell-compile)))
 
 (general-def 'normal haskell-mode-map
   [remap empty-mode-leader] #'hydra-haskell/body)
 
 (defhydra hydra-haskell (:exit t)
   "haskell-mode"
- ("a" #'lsp-execute-code-action          "execute code action")
- ("c" #'haskell-compile                  "compile!")
- ("C" (lambda ()
-        (interactive)
-        (haskell-compile '-))             "clean and compile!")
- ("d" #'lsp-doc-show                     "show docs")
- ("e" #'haskell-align-imports            "align imports")
- ("s" #'haskell-sort-imports             "sort imports")
- ("l" #'lsp-lens-mode                    "toggle lenses")
- ("r" #'lsp-restart-workspace            "restart lsp workspace")
- ("t" #'hlint-refactor-refactor-at-point "hlint point")
- ("T" #'hlint-refactor-refactor-buffer   "hlint buffer")
- )
+  ("a" #'lsp-execute-code-action          "execute code action")
+  ("c" #'haskell-compile                  "compile!")
+  ("C" #'haskell-clean-and-compile        "clean and compile!")
+  ("R" #'haskell-run                      "run!")
+  ("d" #'lsp-doc-show                     "show docs")
+  ("e" #'haskell-align-imports            "align imports")
+  ("s" #'haskell-sort-imports             "sort imports")
+  ("l" #'lsp-lens-mode                    "toggle lenses")
+  ("r" #'lsp-restart-workspace            "restart lsp workspace")
+  ("t" #'hlint-refactor-refactor-at-point "hlint point")
+  ("T" #'hlint-refactor-refactor-buffer   "hlint buffer")
+  )
 
 (provide 'config/langs/haskell)
