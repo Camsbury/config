@@ -1,9 +1,14 @@
 (require 'use-package)
+(require 'hydra)
+
 (use-package haskell)
 (use-package haskell-mode
   :config
   (setq haskell-compile-cabal-build-command
-        "cabal new-build --ghc-option=-ferror-spans"))
+        "cabal new-build --ghc-option=-ferror-spans"
+        haskell-process-use-presentation-mode t
+        haskell-interactive-mode-scroll-to-bottom t
+        haskell-process-type 'cabal-repl))
 (use-package haskell-font-lock
   :after (haskell-mode)
   :config
@@ -40,10 +45,7 @@
           ("undefined" . "⊥")
           ("||" . "∨")
           ("~>" . "⇝"))
-        haskell-font-lock-symbols t
-        haskell-process-use-presentation-mode t
-        haskell-interactive-mode-scroll-to-bottom t
-        haskell-process-type 'cabal-repl))
+        haskell-font-lock-symbols t))
 
 (use-package lsp-haskell
   :after lsp-mode
