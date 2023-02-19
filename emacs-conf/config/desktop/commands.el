@@ -52,7 +52,7 @@
 (defun conf-mouse ()
   "configures the mouse"
   (interactive)
-  (shell-command "xinput set-button-map 'Kensington Slimblade Trackball' 1 2 3 4 5 0 0 3; xinput --set-prop \"Kensington Slimblade Trackball\" \"Device Accel Constant Deceleration\" 0.6"))
+  (shell-command "xinput set-button-map 'Kensington Slimblade Trackball' 1 2 3 4 5 0 0 3; xinput --set-prop \"Kensington Slimblade Trackball\" \"Device Accel Constant Deceleration\" 0.5"))
 
 (defun check-time ()
   "checks the time"
