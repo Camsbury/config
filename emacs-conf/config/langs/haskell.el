@@ -91,7 +91,8 @@
 (defhydra hydra-haskell (:exit t)
   "haskell-mode"
   ("C" #'haskell-clean-and-compile        "clean and compile!")
-  ("R" #'haskell-run                      "run!")
+  ("L" #'flycheck-list-errors             "list errors")
+  ("R" #'lsp-workspace-restart            "restart lsp workspace")
   ("T" #'hlint-refactor-refactor-buffer   "hlint buffer")
   ("a" #'lsp-execute-code-action          "execute code action")
   ("c" #'haskell-compile                  "compile!")
@@ -100,7 +101,7 @@
   ("g" #'haskell-ghcid                    "ghcid imports")
   ("i" #'lsp-describe-thing-at-point      "describe at point")
   ("l" #'lsp-lens-mode                    "toggle lenses")
-  ("r" #'lsp-workspace-restart            "restart lsp workspace")
+  ("r" #'haskell-run                      "run!")
   ("s" #'haskell-sort-imports             "sort imports")
   ("t" #'hlint-refactor-refactor-at-point "hlint point"))
 
