@@ -20,6 +20,7 @@ in
     ".rgignore".source = sym ../../rgignore;
     ".scripts".source = sym ../../scripts;
     ".shells".source = ../shells;
+    ".tmux.conf".source = ../../tmux.conf;
     ".zshrc".source = ../../zshrc;
   };
 }
