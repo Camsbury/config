@@ -252,13 +252,20 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; open applications
 
-(defun find-or-open-application (command name)
+;; default-directory
+;; projectile-project-p
+
+(defun find-or-open-application (command name &optional projectp)
   "Finds or opens the application"
   (let* ((buffers (-map #'buffer-name (buffer-list)))
          (match (-first (lambda (buffer) (s-match name buffer)) buffers)))
     (if match
         (switch-to-buffer match)
-      (-run-shell-command command))))
+      (let ((default-directory
+              (if projectp
+                  (or  (projectile-project-root) "~")
+                  "~")))
+        (-run-shell-command command)))))
 
 (defun open-brave ()
   "Opens the brave browser"
@@ -288,7 +295,7 @@
 (defun open-xterm ()
   "Opens the terminal"
   (interactive)
-  (find-or-open-application "xterm" "XTerm"))
+  (find-or-open-application "xterm" "XTerm" t))
 
 (defun open-zoom ()
   "Opens the terminal"
