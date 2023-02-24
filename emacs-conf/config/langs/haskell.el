@@ -17,14 +17,12 @@
           ("&&" . "∧")
           ("-<" . "↢")
           ("->" . "→")
-          ("->" . "⟶")
           ("." "∘" haskell-font-lock-dot-is-not-composition)
           (".=" . "≗")
           (".~" . "≃")
           ("/=" . "≢")
           ("::" . "∷")
           ("<-" . "←")
-          ("<-" . "⟵")
           ("<=" . "≤")
           ("<=<" . "↢")
           ("<>" . "⊕")
@@ -90,21 +88,47 @@
 (general-def 'normal haskell-mode-map
   [remap empty-mode-leader] #'hydra-haskell/body)
 
+(defun haskell-toggle-type-nav ()
+  (interactive)
+  (let* ((path (buffer-file-name))
+         (type-file-p
+          (string-match
+           (rx (seq bos (one-or-more any) "/Type.hs" eos))
+           path))
+         (base
+          (if type-file-p
+              (progn
+                (string-match
+                 (rx (seq bos (group (one-or-more any)) "/Type.hs" eos))
+                 path)
+                (match-string 1 path))
+            (progn
+              (string-match
+               (rx (seq bos (group (one-or-more any)) ".hs" eos))
+               path)
+              (match-string 1 path))))
+         (suffix
+          (if type-file-p ".hs" "/Type.hs"))
+         (alt-file (concat base suffix)))
+    (if (file-exists-p alt-file)
+      (find-file alt-file)
+      (message "No corresponding type module"))))
+
 (defhydra hydra-haskell (:exit t)
   "haskell-mode"
-  ("C" #'haskell-clean-and-compile        "clean and compile!")
-  ("L" #'flycheck-list-errors             "list errors")
-  ("R" #'lsp-workspace-restart            "restart lsp workspace")
-  ("T" #'hlint-refactor-refactor-buffer   "hlint buffer")
-  ("a" #'lsp-execute-code-action          "execute code action")
-  ("c" #'haskell-compile                  "compile!")
-  ("d" #'lsp-doc-show                     "show docs")
-  ("e" #'haskell-align-imports            "align imports")
-  ("g" #'haskell-ghcid                    "ghcid imports")
-  ("i" #'lsp-describe-thing-at-point      "describe at point")
-  ("l" #'lsp-lens-mode                    "toggle lenses")
-  ("r" #'haskell-run                      "run!")
-  ("s" #'haskell-sort-imports             "sort imports")
-  ("t" #'hlint-refactor-refactor-at-point "hlint point"))
+  ("C" #'haskell-clean-and-compile      "clean and compile!")
+  ("L" #'flycheck-list-errors           "list errors")
+  ("R" #'lsp-workspace-restart          "restart lsp workspace")
+  ("T" #'hlint-refactor-refactor-buffer "hlint buffer")
+  ("a" #'lsp-execute-code-action        "execute code action")
+  ("c" #'haskell-compile                "compile!")
+  ("d" #'lsp-doc-show                   "show docs")
+  ("e" #'haskell-align-imports          "align imports")
+  ("g" #'haskell-ghcid                  "ghcid imports")
+  ("i" #'lsp-describe-thing-at-point    "describe at point")
+  ("l" #'lsp-lens-mode                  "toggle lenses")
+  ("r" #'haskell-run                    "run!")
+  ("s" #'haskell-sort-imports           "sort imports")
+  ("t" #'haskell-toggle-type-nav        "hlint point"))
 
 (provide 'config/langs/haskell)
