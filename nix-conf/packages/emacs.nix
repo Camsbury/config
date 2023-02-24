@@ -150,7 +150,7 @@ let
     # slack
     slime
     smex
-    string-edit
+    string-edit-at-point
     sqlup-mode
     tree-mode
     treemacs

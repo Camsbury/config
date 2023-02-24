@@ -28,6 +28,7 @@
     shellcheck
     sloccount
     sqlite
+    tmux
   ];
   services.lorri.enable = true;
 }

@@ -82,7 +82,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Add smart upstream
 
-(define-suffix-command magit-push-smart-upstream (args)
+(transient-define-suffix magit-push-smart-upstream (args)
   "Push the current branch to its smart upstream branch."
   :if 'magit-get-current-branch
   :description 'magit-push--upstream-description

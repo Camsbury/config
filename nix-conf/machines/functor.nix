@@ -17,9 +17,9 @@
     ../modules/cuda.nix
     ../modules/gaming.nix
     ../modules/music.nix
-    ../modules/tract.nix
+    # ../modules/tract.nix
     ../modules/email.nix
-    ../modules/htb.nix
+    # ../modules/htb.nix
     ../modules/razer.nix
     ../modules/foreign.nix
   ];

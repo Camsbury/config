@@ -32,7 +32,7 @@
     (nav-flash-show)))
 (use-package define-word)
 (use-package etymology-of-word)
-(use-package string-edit)
+(use-package string-edit-at-point)
 (use-package undo-tree
   :config
   (customize-set-variable 'evil-undo-system 'undo-tree)
