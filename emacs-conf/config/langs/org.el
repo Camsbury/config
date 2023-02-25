@@ -1,6 +1,7 @@
 (require 'prelude)
 (require 'hydra)
 (require 'core/env)
+(require 'config/langs/sql)
 ;; TODO: https://stackoverflow.com/questions/17478260/completely-hide-the-properties-drawer-in-org-mode
 (require 'org-id)
 

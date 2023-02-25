@@ -1,6 +1,6 @@
-(use-package emacsql :defer t)
-(use-package emacsql-psql :defer t)
-(use-package emacsql-sqlite :defer t)
+(use-package emacsql)
+(use-package emacsql-psql)
+(use-package emacsql-sqlite)
 (use-package sqlup-mode)
 (use-package company-postgresql
   :after (company))
