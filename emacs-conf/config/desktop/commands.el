@@ -295,7 +295,14 @@
 (defun open-xterm ()
   "Opens the terminal"
   (interactive)
-  (find-or-open-application "xterm" "XTerm" t))
+  (find-or-open-application "xterm -e tmux" "XTerm" t))
+
+(defun force-open-xterm ()
+  "Opens the terminal"
+  (interactive)
+  (let ((default-directory
+          (or  (projectile-project-root) "~")))
+    (-run-shell-command "xterm -e tmux")))
 
 (defun open-zoom ()
   "Opens the terminal"

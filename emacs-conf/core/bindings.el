@@ -66,6 +66,7 @@
          #'counsel-find-file))                          "file in dir")
   ("w" (spawnify #'eww-new)                             "web browser")
   ("x" (spawnify #'open-xterm)                          "xterm")
+  ("X" (spawnify #'force-open-xterm)                    "xterm")
   ("y" (spawn-file-link :systems)                       "systems")
   ("z" (spawnify #'open-zoom)                           "zoom"))
 
@@ -108,6 +109,7 @@
         #'counsel-find-file)                   "file in dir")
   ("w" #'eww-new                               "web browser")
   ("x" #'open-xterm                            "xterm")
+  ("X" #'force-open-xterm                      "xterm")
   ("y" (open-file-link :systems)               "systems")
   ("z" #'open-zoom                             "zoom"))
 
