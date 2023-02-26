@@ -5,14 +5,10 @@
 ;; TODO: https://stackoverflow.com/questions/17478260/completely-hide-the-properties-drawer-in-org-mode
 (require 'org-id)
 
-;; USEIT
-;; (use-package ob-ammonite
-;;   :config
-;;   (require 'ammonite-term-repl)
-;;   (setq ammonite-term-repl-auto-detect-predef-file nil))
 (use-package ob-async)
 (use-package ob-elixir)
 (use-package ob-http)
+
 (use-package org-bullets)
 (use-package org-alert)
 ;; FIXME
