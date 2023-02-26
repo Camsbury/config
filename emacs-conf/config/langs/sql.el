@@ -22,3 +22,4 @@
 (use-package company-postgresql
   :after (company))
 
+(provide 'config/langs/sql)
