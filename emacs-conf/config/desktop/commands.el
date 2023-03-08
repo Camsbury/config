@@ -1,4 +1,6 @@
 (require 'core/env)
+(require 'projectile)
+(require 'exwm)
 
 (use-package alarm-clock
   :init
@@ -252,9 +254,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; open applications
 
-;; default-directory
-;; projectile-project-p
-
 (defun find-or-open-application (command name &optional projectp)
   "Finds or opens the application"
   (let* ((buffers (-map #'buffer-name (buffer-list)))
@@ -264,7 +263,7 @@
       (let ((default-directory
               (if projectp
                   (or  (projectile-project-root) "~")
-                  "~")))
+                "~")))
         (-run-shell-command command)))))
 
 (defun open-brave ()
@@ -295,22 +294,31 @@
 (defun open-xterm ()
   "Opens the terminal"
   (interactive)
-  (find-or-open-application "xterm -e tmux" "XTerm" t))
+  (let* ((p-name (when (stringp (projectile-project-root))
+                   (car (last (f-split (projectile-project-root))))))
+         (xterm-name (concat "XTerm - " p-name)))
+    (if (stringp p-name)
+        (progn
+          (find-or-open-application
+           (concat "xterm -e 'tmux new -s " p-name "'")
+           xterm-name
+           t)
+          (sleep-for 0.3)
+          (when (-first (lambda (buffer) (s-match "XTerm" buffer)) (-map #'buffer-name (buffer-list)))
+            (with-current-buffer "XTerm"
+              (exwm-workspace-rename-buffer xterm-name)))
+          (exwm-workspace-switch-to-buffer xterm-name))
+      (open-global-xterm))))
 
-(defun force-open-xterm ()
+(defun open-global-xterm ()
   "Opens the terminal"
   (interactive)
-  (let ((default-directory
-          (or  (projectile-project-root) "~")))
-    (-run-shell-command "xterm -e tmux")))
-
-(defun open-project-xterm ()
-  "Opens the terminal for a project"
-  (interactive)
-  (let ((p-name            (car (last (f-split (projectile-project-root)))))
-        (default-directory (projectile-project-root)))
-    (-run-shell-command
-     (concat "xterm -e 'tmux new -s " p-name "'"))))
+  (find-or-open-application "xterm -e 'tmux new -s global'" "XTerm - global")
+  (sleep-for 0.3)
+  (when (-first (lambda (buffer) (s-match "XTerm" buffer)) (-map #'buffer-name (buffer-list)))
+      (with-current-buffer "XTerm"
+        (exwm-workspace-rename-buffer "XTerm - global")))
+  (exwm-workspace-switch-to-buffer "XTerm - global"))
 
 (defun open-zoom ()
   "Opens the terminal"

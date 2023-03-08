@@ -65,8 +65,8 @@
          find-file-ignores
          #'counsel-find-file))                          "file in dir")
   ("w" (spawnify #'eww-new)                             "web browser")
-  ("x" (spawnify #'open-xterm)                          "xterm")
-  ("X" (spawnify #'force-open-xterm)                    "xterm")
+  ("x" (spawnify #'open-xterm)                          "project xterm")
+  ("X" (spawnify #'open-global-xterm)                   "global xterm")
   ("y" (spawn-file-link :systems)                       "systems")
   ("z" (spawnify #'open-zoom)                           "zoom"))
 
@@ -109,8 +109,8 @@
         #'counsel-find-file)                   "file in dir")
   ("T" #'open-project-xterm                    "project xterm")
   ("w" #'eww-new                               "web browser")
-  ("x" #'open-xterm                            "xterm")
-  ("X" #'force-open-xterm                      "xterm")
+  ("x" #'open-xterm                            "project xterm")
+  ("X" #'open-global-xterm                     "global xterm")
   ("y" (open-file-link :systems)               "systems")
   ("z" #'open-zoom                             "zoom"))
 
