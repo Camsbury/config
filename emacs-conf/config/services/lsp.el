@@ -6,6 +6,7 @@
   (lsp-log-io       t)         ;; log more!
   (lsp-lens-enable  t) ;; do cool stuff!
   (lsp-idle-delay 0.6)
+  (lsp-keep-workspace-alive nil)
   :config
   ;; NOTE: hack to get rid of the annoying command map, which seems broken currently
   (let ((lsp-mode-map
@@ -27,7 +28,7 @@
       :group 'lsp-mode)))
 
 ;; lsp perf
-(setq gc-cons-threshold       100000000      ;; 100mb
+(setq gc-cons-threshold       100000000      ;; 100mb - maybe move this last in init
       read-process-output-max (* 1024 1024)) ;; 1mb
 
 (use-package lsp-ui)
