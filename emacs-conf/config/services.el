@@ -8,6 +8,7 @@
   lastpass
   lsp
   radio
-  spotify)
+  spotify
+  tmux)
 
 (provide 'config/services)
