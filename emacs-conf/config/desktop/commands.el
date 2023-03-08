@@ -304,6 +304,14 @@
           (or  (projectile-project-root) "~")))
     (-run-shell-command "xterm -e tmux")))
 
+(defun open-project-xterm ()
+  "Opens the terminal for a project"
+  (interactive)
+  (let ((p-name            (car (last (f-split (projectile-project-root)))))
+        (default-directory (projectile-project-root)))
+    (-run-shell-command
+     (concat "xterm -e 'tmux new -s " p-name "'"))))
+
 (defun open-zoom ()
   "Opens the terminal"
   (interactive)

@@ -107,6 +107,7 @@
   ("t" (ignorify
         find-file-ignores
         #'counsel-find-file)                   "file in dir")
+  ("T" #'open-project-xterm                    "project xterm")
   ("w" #'eww-new                               "web browser")
   ("x" #'open-xterm                            "xterm")
   ("X" #'force-open-xterm                      "xterm")
