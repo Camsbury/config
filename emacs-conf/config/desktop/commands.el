@@ -300,25 +300,25 @@
     (if (stringp p-name)
         (progn
           (find-or-open-application
-           (concat "xterm -e 'tmux new -s " p-name "'")
+           (concat "xterm -e 'tmux new -A -s " p-name "'")
            xterm-name
            t)
           (sleep-for 0.3)
-          (when (-first (lambda (buffer) (s-match "XTerm" buffer)) (-map #'buffer-name (buffer-list)))
+          (when (-first (lambda (buffer) (s-match "XTerm$" buffer)) (-map #'buffer-name (buffer-list)))
             (with-current-buffer "XTerm"
-              (exwm-workspace-rename-buffer xterm-name)))
-          (exwm-workspace-switch-to-buffer xterm-name))
+              (exwm-workspace-rename-buffer xterm-name))
+            (exwm-workspace-switch-to-buffer xterm-name)))
       (open-global-xterm))))
 
 (defun open-global-xterm ()
   "Opens the terminal"
   (interactive)
-  (find-or-open-application "xterm -e 'tmux new -s global'" "XTerm - global")
+  (find-or-open-application "xterm -e 'tmux new -A -s global'" "XTerm - global")
   (sleep-for 0.3)
-  (when (-first (lambda (buffer) (s-match "XTerm" buffer)) (-map #'buffer-name (buffer-list)))
+  (when (-first (lambda (buffer) (s-match "XTerm$" buffer)) (-map #'buffer-name (buffer-list)))
       (with-current-buffer "XTerm"
-        (exwm-workspace-rename-buffer "XTerm - global")))
-  (exwm-workspace-switch-to-buffer "XTerm - global"))
+        (exwm-workspace-rename-buffer "XTerm - global"))
+      (exwm-workspace-switch-to-buffer "XTerm - global")))
 
 (defun open-zoom ()
   "Opens the terminal"
