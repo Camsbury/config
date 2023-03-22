@@ -28,7 +28,6 @@
       sourceHighlight
       tldr
       tree
-      udisks # manage drives
       unzip
       usbutils
       vim
@@ -38,6 +37,8 @@
       zsh
     ];
   };
+
+  services.udisks2.enable = true;
 
   console = {
     # font = "Go Mono";
