@@ -8,7 +8,7 @@
   hardware.pulseaudio = {
     enable = true;
     support32Bit = true;
-    # package = pkgs.pulseaudioFull;
+    package = pkgs.pulseaudioFull;
   };
 
   sound.enable = true;

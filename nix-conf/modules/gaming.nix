@@ -55,7 +55,14 @@ in
   #   })
   # ];
 
-  hardware.opengl.enable = true;
-  hardware.opengl.driSupport32Bit = true;
+  boot.kernel.sysctl = {
+    "vm.max_map_count" = 1000000;
+  };
+
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+  };
   hardware.pulseaudio.support32Bit = true;
 }
