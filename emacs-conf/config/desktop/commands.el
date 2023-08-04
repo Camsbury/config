@@ -54,7 +54,7 @@
 (defun conf-mouse ()
   "configures the mouse"
   (interactive)
-  (shell-command "xinput set-button-map 'Kensington Slimblade Trackball' 1 2 3 4 5 0 0 3; xinput --set-prop \"Kensington Slimblade Trackball\" \"Device Accel Constant Deceleration\" 0.55"))
+  (shell-command "xinput set-button-map 'Kensington Slimblade Trackball' 1 2 3 4 5 0 0 3; xinput --set-prop \"Kensington Slimblade Trackball\" \"Device Accel Constant Deceleration\" 0.6"))
 
 (defun check-time ()
   "checks the time"
@@ -157,13 +157,15 @@
   "Get the nixos channel version"
   (interactive)
   (kill-new
-   (shell-command-to-string "nix-instantiate --eval -E '(import <nixos> {}).lib.version'")))
+   ;; (shell-command-to-string "nix-instantiate --eval -E '(import <nixos> {}).lib.version'")
+   (shell-command-to-string "cat /nix/var/nix/profiles/per-user/root/channels/nixos/svn-revision")))
 
 (defun nixpkgs-channel-version ()
   "Get the nixpkgs channel version"
   (interactive)
   (kill-new
-   (shell-command-to-string "nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'")))
+   ;; (shell-command-to-string "nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'")
+   (shell-command-to-string "cat /nix/var/nix/profiles/per-user/root/channels/nixpkgs/svn-revision")))
 
 (defun nixos-rebuild-switch ()
   "Rebuild nixos"
@@ -307,6 +309,7 @@
           (when (-first (lambda (buffer) (s-match "XTerm$" buffer)) (-map #'buffer-name (buffer-list)))
             (with-current-buffer "XTerm"
               (exwm-workspace-rename-buffer xterm-name))
+            ;; FIXME: switching to the buffers old window - maybe remove the exwm-workspace prefix here, but then the cursor isn't in the terminal
             (exwm-workspace-switch-to-buffer xterm-name)))
       (open-global-xterm))))
 
