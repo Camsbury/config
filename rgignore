@@ -5,3 +5,5 @@
 **/yarn/
 **/dist/
 **/dist_newstyle/
+!*scratch*
+!*todo.org
