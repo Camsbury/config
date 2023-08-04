@@ -1,4 +1,7 @@
 (require 'core/env)
+(require 'auth-source)
+(require 'general)
+(require 'ivy)
 
 (use-package lastpass
   :config
@@ -34,8 +37,6 @@
               (s-chomp
                (shell-command-to-string
                 (concat  "lpass show --password " x)))))))
-
-
 
 (provide 'config/services/lastpass)
 

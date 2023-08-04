@@ -174,7 +174,6 @@ If invoked with a prefix ARG eval the expression after inserting it"
                          (cider-doc (point)))
   [remap cider-inspector-pop]  #'evil-previous-visual-line
   "M-<RET>" #'cider-eval-sexp-at-point
-  ;; USEIT
   "M-n"     #'clojure-unwind-all
   "M-e"     #'clojure-thread-first-all
   "M-i"     #'clojure-thread-last-all)
