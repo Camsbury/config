@@ -16,6 +16,7 @@
     ../modules/tract.nix
     ../modules/email.nix
     ../modules/gaming.nix
+    ../modules/art.nix
     # ../modules/htb.nix
   ];
 
