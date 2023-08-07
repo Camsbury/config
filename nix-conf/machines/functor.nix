@@ -12,6 +12,7 @@
 
     #functionality
     ../modules/android.nix
+    ../modules/art.nix
     ../modules/bluetooth.nix
     ../modules/crypto.nix
     ../modules/cuda.nix
