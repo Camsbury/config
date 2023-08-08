@@ -53,29 +53,26 @@
       org-refile-use-outline-path t
       org-capture-templates
       `(("n" "Enqueue"
-         entry (file+headline ,(concat cmacs-share-path "/raw.org") "raw")
+         entry (file+headline ,(concat cmacs-share-path "/org-roam/raw.org.gpg") "raw")
          "* [ ] %i%?")
         ("o" "Add to Observations"
-         entry (file+headline ,(concat cmacs-share-path "/observations.org") "observations")
-         "* [ ] %i%?")
-        ("p" "Add to Open-ended Problems"
-         entry (file+headline ,(concat cmacs-share-path "/oe-problems.org") "problems")
+         entry (file+headline ,(concat cmacs-share-path "/org-roam/observations.org.gpg") "observations")
          "* [ ] %i%?")
         ("f" "Add to Frustrations"
-         entry (file+headline ,(concat cmacs-share-path "/frustrations.org") "frustrations")
+         entry (file+headline ,(concat cmacs-share-path "/org-roam/frustrations.org.gpg") "frustrations")
          "* [ ] %i%?")
         ("h" "Add to Questions"
-         entry (file+headline ,(concat cmacs-share-path "/questions.org") "questions")
+         entry (file+headline ,(concat cmacs-share-path "/org-roam/questions.org.gpg") "questions")
          "* [ ] %i%?")
         ;; USEIT
         ("l" "Log action"
-         entry (file+headline ,(concat cmacs-share-path "/daybook.org") "log")
+         entry (file+headline ,(concat cmacs-share-path "/org-roam/daybook.org.gpg") "log")
          "* %i%?"))
-      org-agenda-files `(,(concat cmacs-share-path "/store.org")
-                         ,(concat cmacs-share-path "/habit-list.org"))
-      org-refile-targets `((,(concat cmacs-share-path "/queue.org") :maxlevel . 3)
-                           (,(concat cmacs-share-path "/store.org") :level . 1)
-                           (,(concat cmacs-share-path "/ref.org") :level . 1))
+      org-agenda-files `(,(concat cmacs-share-path "/org-roam/store.org.gpg")
+                         ,(concat cmacs-share-path "/org-roam/habit-list.org.gpg"))
+      org-refile-targets `((,(concat cmacs-share-path "/org-roam/queue.org.gpg") :maxlevel . 3)
+                           (,(concat cmacs-share-path "/org-roam/store.org.gpg") :level . 1)
+                           (,(concat cmacs-share-path "/org-roam/ref.org.gpg") :level . 1))
       org-archive-location (concat cmacs-share-path "/archive/" (format-time-string "%Y-%m") ".org::"))
 
 ;; auto save on refile
