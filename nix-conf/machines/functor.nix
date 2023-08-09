@@ -23,6 +23,7 @@
     # ../modules/htb.nix
     ../modules/razer.nix
     ../modules/foreign.nix
+    ../modules/printing.nix
   ];
 
   networking.hostName = "functor";
