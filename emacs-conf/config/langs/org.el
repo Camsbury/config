@@ -61,10 +61,12 @@
          "* %i%?"))
       org-agenda-files `(,(concat cmacs-share-path "/org-roam/store.org.gpg")
                          ,(concat cmacs-share-path "/org-roam/habit-list.org.gpg"))
-      org-refile-targets `((,(concat cmacs-share-path "/org-roam/queue.org.gpg") :maxlevel . 3)
-                           (,(concat cmacs-share-path "/org-roam/projects.org.gpg") :level . 1)
-                           (,(concat cmacs-share-path "/org-roam/store.org.gpg") :level . 1)
-                           (,(concat cmacs-share-path "/org-roam/ref.org.gpg") :level . 1))
+      org-refile-targets `((,(concat cmacs-share-path "/org-roam/projects.org.gpg") :level . 1)
+                           (,(concat cmacs-share-path "/org-roam/tickler_list.org.gpg") :level . 1)
+                           (,(concat cmacs-share-path "/org-roam/someday_maybe.org.gpg") :level . 1)
+                           (,(concat cmacs-share-path "/org-roam/awaiting_action.org.gpg") :level . 1)
+                           (,(concat cmacs-share-path "/org-roam/reference.org.gpg") :level . 1)
+                           (,(concat cmacs-share-path "/org-roam/next_actions.org.gpg") :level . 1))
       org-archive-location (concat cmacs-share-path "/archive/" (format-time-string "%Y-%m") ".org::"))
 
 ;; auto save on refile
