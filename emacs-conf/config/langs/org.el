@@ -55,22 +55,14 @@
       `(("n" "Enqueue"
          entry (file+headline ,(concat cmacs-share-path "/org-roam/raw.org.gpg") "raw")
          "* [ ] %i%?")
-        ("o" "Add to Observations"
-         entry (file+headline ,(concat cmacs-share-path "/org-roam/observations.org.gpg") "observations")
-         "* [ ] %i%?")
-        ("f" "Add to Frustrations"
-         entry (file+headline ,(concat cmacs-share-path "/org-roam/frustrations.org.gpg") "frustrations")
-         "* [ ] %i%?")
-        ("h" "Add to Questions"
-         entry (file+headline ,(concat cmacs-share-path "/org-roam/questions.org.gpg") "questions")
-         "* [ ] %i%?")
-        ;; USEIT
+        ;; FIXME: change to today's date
         ("l" "Log action"
          entry (file+headline ,(concat cmacs-share-path "/org-roam/daybook.org.gpg") "log")
          "* %i%?"))
       org-agenda-files `(,(concat cmacs-share-path "/org-roam/store.org.gpg")
                          ,(concat cmacs-share-path "/org-roam/habit-list.org.gpg"))
       org-refile-targets `((,(concat cmacs-share-path "/org-roam/queue.org.gpg") :maxlevel . 3)
+                           (,(concat cmacs-share-path "/org-roam/projects.org.gpg") :level . 1)
                            (,(concat cmacs-share-path "/org-roam/store.org.gpg") :level . 1)
                            (,(concat cmacs-share-path "/org-roam/ref.org.gpg") :level . 1))
       org-archive-location (concat cmacs-share-path "/archive/" (format-time-string "%Y-%m") ".org::"))
