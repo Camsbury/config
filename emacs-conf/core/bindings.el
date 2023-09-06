@@ -31,21 +31,15 @@
   ("a" (spawnify #'org-roam-dailies-goto-today)         "daybook")
   ("b" (spawn-file-link :books)                         "book notes")
   ("c" (spawnify #'open-brave)                          "brave browser")
-  ("D" (spawn-file-link :brain-dump)                    "brain dump")
   ("e" (spawnify
         (ignorify
          projectile-ignores
          #'counsel-projectile-find-file))               "project file")
   ("E" (spawnify #'counsel-projectile-switch-to-buffer) "project open buffer")
-  ("f" (spawn-file-link :frustrations)                  "view frustrations")
   ("g" (spawnify #'open-telegram)                       "telegram")
-  ("h" (spawn-file-link :queue)                         "queue org")
   ("H" (spawn-file-link :notes)                         "tmp org")
-  ("j" (spawn-file-link :journal)                       "journal org")
   ("J" #'org-journal-open-current-journal-file          "org-journal")
-  ("s-k" (spawn-file-link :habits)                      "habits org")
   ("k" (spawnify #'open-slack)                          "slack")
-  ("l" (spawn-file-link :links)                         "links org")
   ("m" (spawnify #'mu4e)                                "email")
   ("M" (spawnify #'open-steam)                          "steam")
   ("n" (spawnify #'counsel-recentf)                     "recent file")
@@ -55,11 +49,8 @@
         (ignorify
          projectile-ignores
          #'counsel-projectile-switch-project))          "open project")
-  ("q" (spawn-file-link :questions)                     "view questions")
-  ("r" (spawn-file-link :runs)                          "runs tracker")
-  ("R" (spawn-file-link :raw)                           "raw queue")
+  ("r" (spawn-file-link :review)                        "review")
   ("s" (spawnify #'open-spotify)                        "spotify")
-  ("S" (spawn-file-link :se-principles)                 "SE principles")
   ("t" (spawnify
         (ignorify
          find-file-ignores
@@ -67,7 +58,6 @@
   ("w" (spawnify #'eww-new)                             "web browser")
   ("x" (spawnify #'open-xterm)                          "project xterm")
   ("X" (spawnify #'open-global-xterm)                   "global xterm")
-  ("y" (spawn-file-link :systems)                       "systems")
   ("z" (spawnify #'open-zoom)                           "zoom"))
 
 ;; CLEAN: remove stuff I never use, or shove behind another hydra
@@ -76,19 +66,13 @@
   ("a" #'org-roam-dailies-goto-today           "daybook")
   ("b" (open-file-link :books)                 "book notes")
   ("c" #'open-brave                            "brave browser")
-  ("D" (open-file-link :brain-dump)            "brain dump")
   ("e"
    (ignorify
     projectile-ignores
     #'counsel-projectile-find-file)            "project file")
   ("E" #'counsel-projectile-switch-to-buffer   "project open buffer")
-  ("f" (open-file-link :frustrations)          "view frustrations")
   ("g" #'open-telegram                         "telegram")
-  ("h" (open-file-link :queue)                 "queue org")
-  ("H" (open-file-link :notes)                 "tmp org")
-  ("j" (open-file-link :journal)               "journal org")
   ("J" #'org-journal-open-current-journal-file "org-journal")
-  ("s-k" (open-file-link :habits)              "habits org")
   ("k" #'open-slack                            "slack")
   ("m" #'mu4e                                  "email")
   ("M" #'open-steam                            "steam")
@@ -99,11 +83,8 @@
   ("p" (ignorify
         projectile-ignores
         #'counsel-projectile-switch-project)   "open project")
-  ("q" (open-file-link :questions)             "view questions")
-  ("r" (open-file-link :runs)                  "runs tracker")
-  ("R" (open-file-link :raw)                   "raw queue")
+  ("r" (open-file-link :review)                "review")
   ("s" #'open-spotify                          "spotify")
-  ("S" (open-file-link :se-principles)         "SE principles")
   ("t" (ignorify
         find-file-ignores
         #'counsel-find-file)                   "file in dir")
@@ -111,7 +92,6 @@
   ("w" #'eww-new                               "web browser")
   ("x" #'open-xterm                            "project xterm")
   ("X" #'open-global-xterm                     "global xterm")
-  ("y" (open-file-link :systems)               "systems")
   ("z" #'open-zoom                             "zoom"))
 
 ;; USEIT: need to try these out and ese how they compare to bookmarks
@@ -188,6 +168,7 @@
   ("c" #'org-roam-capture             "org roam capture")
   ("C" #'toggle-command-logging       "toggle command logging")
   ("d" #'evil-goto-definition         "evil jump to def")
+  ("s-d" #'delete-file-and-buffer     "delete current file")
   ("D" #'dumb-jump-go                 "dumb jump")
   ("e" #'hydra-exwm-browser-link/body "browser links")
   ("E" #'etymology-of-word-at-point   "etymology of word at point")

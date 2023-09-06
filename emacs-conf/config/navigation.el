@@ -34,17 +34,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Nav Functions
 
+;; TODO: review these for useful info
 (setq file-links
-      `(:books         ,(concat cmacs-share-path  "/ref/books.org")
+      `(:books         ,(concat cmacs-share-path  "/org-roam/books.org.gpg")
         :brain-dump    ,(concat cmacs-share-path  "/ref/dump.org")
-        :frustrations  ,(concat cmacs-share-path  "/frustrations.org")
         :habits        ,(concat cmacs-share-path  "/habits.org")
         :journal       ,(concat cmacs-share-path  "/journal.org")
         :links         ,(concat cmacs-share-path  "/ref/links.org")
         :notes         "/tmp/notes.org"
-        :questions     ,(concat cmacs-share-path  "/questions.org")
-        :queue         ,(concat cmacs-share-path  "/queue.org")
-        :raw           ,(concat cmacs-share-path  "/raw.org")
+        :review        ,(concat cmacs-share-path  "/org-roam/review.org.gpg")
         :runs          ,(concat cmacs-share-path  "/ref/runs.org")
         :se-principles ,(concat cmacs-share-path  "/ref/software_engineering.org")
         :systems       ,(concat cmacs-share-path  "/systems.org")))
