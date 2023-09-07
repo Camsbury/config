@@ -5,7 +5,7 @@
   :config
   (customize-set-variable
    'magit-todos-keywords
-   '("TODO" "FIXME" "NOTE" "CLEAN" "USEIT"))
+   '("TODO" "FIXME" "NOTE" "CLEAN" "USEIT" "IMPL"))
   (customize-set-variable
    'magit-todos-ignored-keywords
    '("DONE"))
