@@ -151,6 +151,7 @@ let
     slime
     smex
     string-edit-at-point
+    sqlite3
     sqlup-mode
     tree-mode
     treemacs
