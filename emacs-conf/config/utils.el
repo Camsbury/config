@@ -20,4 +20,9 @@
               (kill-buffer)))
       (message "Not a file visiting buffer!"))))
 
+(defun shuffle-selection (beginning end)
+  "Shuffle the current selection"
+  (interactive "r")
+  (shell-command-on-region beginning end "shuf" nil t))
+
 (provide 'config/utils)

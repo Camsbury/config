@@ -10,4 +10,10 @@
     null
     not))
 
+(defun unescape-clipboard-string ()
+  "Unescape the current clipboard string and replace it back onto the clipboard."
+  (interactive)
+  (let ((current-clipboard (current-kill 0 t)))
+    (kill-new (read current-clipboard))))
+
 (provide 'config/modes/utils)

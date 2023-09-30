@@ -50,6 +50,9 @@
 (setq cljr-warn-on-eval nil)
 (setq cider-auto-select-error-buffer nil)
 
+;; systemic nice to haves
+(put 'defsys 'clojure-doc-string-elt 2)
+
 (general-add-hook
  'clojurescript-mode-hook
  (lambda ()

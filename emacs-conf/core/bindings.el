@@ -204,6 +204,7 @@
   ("s" #'avy-goto-char-2              "avy jump to char")
   ;; USEIT
   ("S" #'string-edit-at-point         "edit string")
+  ("s-s" #'unescape-clipboard-string  "unescape clipboard string")
   ("t" #'hydra-nav/body               "nav")
   ("s-t" #'cycle-theme                "cycle theme")
   ("T" #'explain-pause-top            "emacs top")
@@ -218,14 +219,14 @@
   ("y" #'nav-flash-line               "flash line")
   ;; USEIT
   ("Y" #'copy-buffer-path             "copy buffer path")
-  ;; ("z")
   ("Z" #'projectile-kill-buffers      "kill all project buffers"))
 
 (defhydra hydra-visual-leader (:exit t :columns 5)
   "visual leader"
   ("m" #'empty-visual-mode-leader  "visual mode leader")
   ("o" #'narrow-and-zoom-in "narrow and zoom in")
-  ("s" #'sort-lines         "sort lines"))
+  ("s" #'sort-lines         "sort lines")
+  ("S" #'shuffle-selection            "shuffle selection"))
 
 ;; CLEAN: reorganize and get rid of things you never use
 (defhydra hydra-left-leader (:exit t :columns 5)
