@@ -34,20 +34,20 @@
       random-choice
       play-puzzle-theme))
 
- (defun extract-eco-and-detail (line)
-   (string-match "\\(.*\t.*\\)\t\\(.*\\)\t.*\t\\(.*\\)" line)
-   (list (match-string 1 line)
-         (match-string 2 line)
-         (match-string 3 line)))
+;; TODO: used to include fen, very sad.
+;; let's grab them interactively as we need them!
+(defun extract-eco-and-detail (line)
+  (string-match "\\(.*\t.*\\)\t\\(.*\\)" line)
+  (list (match-string 1 line)
+        (match-string 2 line)))
 
 (defun extract-openings ()
-  "extract openings from website
-   (as of `1cfaa067727a9a2ffe94820c31392d806dc9f409')"
+  "extract openings from website"
   (interactive)
   (->> '("a" "b" "c" "d" "e")
        (-map  (lambda (s)
                 (concat
-                 "https://raw.githubusercontent.com/niklasf/eco/master/dist/"
+                 "https://raw.githubusercontent.com/lichess-org/chess-openings/master/"
                  s
                  ".tsv")))
        (-map #'url-file-local-copy)
@@ -62,7 +62,7 @@
   (let ((fen (car (split-string fen " " t)))
         (blank-replacements
          (->> (number-sequence 1 8)
-           (-map (lambda (n) (list n (make-string n ?x))))))
+              (-map (lambda (n) (list n (make-string n ?x))))))
         (replace-blank
          (lambda (ac rep)
            (let ((n (number-to-string (car rep)))
@@ -120,66 +120,66 @@
    :action (lambda (x) (kill-new (cadr x)))))
 
 
-(defun ivy-copy-eco-fen ()
-  "copy FEN for ECO opening"
-  (interactive)
-  (defvar openings (extract-openings))
-  (ivy-read
-   "Opening: "
-   openings
-   :action (lambda (x) (kill-new (caddr x)))))
+;; (defun ivy-copy-eco-fen ()
+;;   "copy FEN for ECO opening"
+;;   (interactive)
+;;   (defvar openings (extract-openings))
+;;   (ivy-read
+;;    "Opening: "
+;;    openings
+;;    :action (lambda (x) (kill-new (caddr x)))))
 
-(defun --ivy-similar-position-copy-eco-fen (chosen)
-  (let* ((min-distance 12)
-         (chosen (expand-fen (caddr chosen)))
-         (openings (->> openings
-                     (-map
-                      (lambda (opening)
-                        (list
-                         (expanded-fen-distance chosen (expand-fen (caddr opening)))
-                         opening)))
-                     (-filter (lambda (x) (< (car x) min-distance)))
-                     (-sort (lambda (a b) (< (car a) (car b))))
-                     (-map #'cadr))))
-    (ivy-read
-     "Opening: "
-     openings
-     :action (lambda (x) (kill-new (caddr x))))))
+;; (defun --ivy-similar-position-copy-eco-fen (chosen)
+;;   (let* ((min-distance 12)
+;;          (chosen (expand-fen (caddr chosen)))
+;;          (openings (->> openings
+;;                      (-map
+;;                       (lambda (opening)
+;;                         (list
+;;                          (expanded-fen-distance chosen (expand-fen (caddr opening)))
+;;                          opening)))
+;;                      (-filter (lambda (x) (< (car x) min-distance)))
+;;                      (-sort (lambda (a b) (< (car a) (car b))))
+;;                      (-map #'cadr))))
+;;     (ivy-read
+;;      "Opening: "
+;;      openings
+;;      :action (lambda (x) (kill-new (caddr x))))))
 
-(defun ivy-similar-position-copy-eco-fen ()
-  "Find a similar ECO opening, then copy the FEN"
-  (interactive)
-  (defvar openings (extract-openings))
-  (ivy-read
-   "Opening: "
-   openings
-   :action #'--ivy-similar-position-copy-eco-fen))
+;; (defun ivy-similar-position-copy-eco-fen ()
+;;   "Find a similar ECO opening, then copy the FEN"
+;;   (interactive)
+;;   (defvar openings (extract-openings))
+;;   (ivy-read
+;;    "Opening: "
+;;    openings
+;;    :action #'--ivy-similar-position-copy-eco-fen))
 
-(defun --ivy-similar-position-copy-eco-pgn (chosen)
-  (let* ((min-distance 12)
-         (chosen (expand-fen (caddr chosen)))
-         (openings (->> openings
-                     (-map
-                      (lambda (opening)
-                        (list
-                         (expanded-fen-distance chosen (expand-fen (caddr opening)))
-                         opening)))
-                     (-filter (lambda (x) (< (car x) min-distance)))
-                     (-sort (lambda (a b) (< (car a) (car b))))
-                     (-map #'cadr))))
-    (ivy-read
-     "Opening: "
-     openings
-     :action (lambda (x) (kill-new (cadr x))))))
+;; (defun --ivy-similar-position-copy-eco-pgn (chosen)
+;;   (let* ((min-distance 12)
+;;          (chosen (expand-fen (caddr chosen)))
+;;          (openings (->> openings
+;;                      (-map
+;;                       (lambda (opening)
+;;                         (list
+;;                          (expanded-fen-distance chosen (expand-fen (caddr opening)))
+;;                          opening)))
+;;                      (-filter (lambda (x) (< (car x) min-distance)))
+;;                      (-sort (lambda (a b) (< (car a) (car b))))
+;;                      (-map #'cadr))))
+;;     (ivy-read
+;;      "Opening: "
+;;      openings
+;;      :action (lambda (x) (kill-new (cadr x))))))
 
-(defun ivy-similar-position-copy-eco-pgn ()
-  "Find a similar ECO opening, then copy the PGN"
-  (interactive)
-  (defvar openings (extract-openings))
-  (ivy-read
-   "Opening: "
-   openings
-   :action #'--ivy-similar-position-copy-eco-pgn))
+;; (defun ivy-similar-position-copy-eco-pgn ()
+;;   "Find a similar ECO opening, then copy the PGN"
+;;   (interactive)
+;;   (defvar openings (extract-openings))
+;;   (ivy-read
+;;    "Opening: "
+;;    openings
+;;    :action #'--ivy-similar-position-copy-eco-pgn))
 
 (defun ivy-play-puzzle-theme ()
   "Open a puzzle theme on lichess"
