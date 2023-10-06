@@ -53,7 +53,7 @@
       org-refile-use-outline-path t
       org-capture-templates
       `(("n" "Enqueue"
-         entry (file+headline ,(concat cmacs-share-path "/org-roam/raw.org.gpg") "raw")
+         entry (file+headline ,(concat cmacs-share-path "/org-roam/review.org.gpg") "inbox")
          "* [ ] %i%?")
         ;; FIXME: change to today's date
         ("l" "Log action"
