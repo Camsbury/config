@@ -2,7 +2,7 @@
 
 {
   environment.variables = {
-    EMACSLOADPATH = "${(pkgs.emacsPackagesNg.emacsWithPackages (import ../packages/emacs.nix)).deps}/share/emacs/site-lisp";
+    EMACSLOADPATH = "${(pkgs.emacsPackages.emacsWithPackages (import ../packages/emacs.nix)).deps}/share/emacs/site-lisp";
   };
   services.xserver = {
     displayManager = {

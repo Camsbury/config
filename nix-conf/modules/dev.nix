@@ -7,7 +7,7 @@
   environment.systemPackages = with pkgs; [
     babashka
     binutils
-    (emacsPackagesNg.emacsWithPackages (import ../packages/emacs.nix))
+    (emacsPackages.emacsWithPackages (import ../packages/emacs.nix))
     entr
     direnv
     gdb

@@ -3,7 +3,7 @@
 with pkgs;
 with builtins;
 let
-  custom-emacs = emacsPackagesNg.emacsWithPackages (import ../../packages/emacs.nix);
+  custom-emacs = emacsPackages.emacsWithPackages (import ../../packages/emacs.nix);
   config-path = ../../../emacs-conf;
   init-file = ../../../emacs-conf/init.el;
 in

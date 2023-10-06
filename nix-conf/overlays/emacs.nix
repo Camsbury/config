@@ -148,5 +148,5 @@ let
 
 in
   {
-    emacsPackagesNg = basePkgs.emacsPackagesNg.overrideScope' emacsOverrides;
+    emacsPackages = basePkgs.emacsPackages.overrideScope' emacsOverrides;
   }
