@@ -90,6 +90,9 @@
   :after (ivy-rich)
   :config (all-the-icons-ivy-rich-mode 1))
 
+(general-def :keymaps 'ivy-occur-grep-mode-map
+  "D" #'ivy-occur-delete-candidate)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Others
