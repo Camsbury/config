@@ -59,11 +59,7 @@
         ("l" "Log action"
          entry (file+headline ,(concat cmacs-share-path "/org-roam/daybook.org.gpg") "log")
          "* %i%?"))
-      org-agenda-files `(,(concat cmacs-share-path "/org-roam/next_actions.org.gpg")
-                         ,(concat cmacs-share-path "/org-roam/programming_actions.org.gpg")
-                         ,(concat cmacs-share-path "/org-roam/bored_and_curious.org.gpg")
-                         ,(concat cmacs-share-path "/org-roam/clarify.org.gpg")
-                         ,(concat cmacs-share-path "/org-roam/at_the_store.org.gpg"))
+      org-agenda-files `(,(concat cmacs-share-path "/org-roam/projects.org.gpg"))
       org-refile-targets `((,(concat cmacs-share-path "/org-roam/projects.org.gpg") :level . 1)
                            (,(concat cmacs-share-path "/org-roam/tickler_list.org.gpg") :level . 1)
                            (,(concat cmacs-share-path "/org-roam/someday_maybe.org.gpg") :level . 1)
@@ -79,14 +75,7 @@
 
 (setq org-agenda-custom-commands
       '(("n" "next actions" tags-todo "nextactions")
-
-        ("b" "next actions" tags-todo "nextactions&curious")
-        ("c" "next actions" tags-todo "nextactions&clarify")
-        ("d" "next actions" tags-todo "nextactions&today")
-        ("l" "next actions" tags-todo "nextactions&lowbrainpower")
-        ("o" "next actions" tags-todo "nextactions&organizational")
-        ("p" "next actions" tags-todo "nextactions&programming")
-        ("r" "next actions" tags-todo "nextactions&reading")))
+        ("o" "next actions" tags-todo "nextactions&qol")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-babel
