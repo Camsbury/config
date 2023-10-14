@@ -163,7 +163,7 @@
   ("+" #'increment-number-at-point    "increment number")
   ("M-x" #'counsel-M-x                "M-x")
   ("a" #'alarm-clock-set              "set an alarm")
-  ("A" #'org-agenda-list              "org agenda list")
+  ("A" #'org-agenda                   "org agenda")
   ("b" #'blind-mode                   "blind mode")
   ("c" #'org-roam-capture             "org roam capture")
   ("C" #'toggle-command-logging       "toggle command logging")
