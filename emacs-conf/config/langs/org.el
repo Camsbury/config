@@ -54,7 +54,7 @@
       org-capture-templates
       `(("n" "Enqueue"
          entry (file+headline ,(concat cmacs-share-path "/org-roam/review.org.gpg") "inbox")
-         "* [ ] %i%?")
+         "* [ ] %i%? %T")
         ;; FIXME: change to today's date
         ("l" "Log action"
          entry (file+headline ,(concat cmacs-share-path "/org-roam/daybook.org.gpg") "log")
