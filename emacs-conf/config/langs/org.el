@@ -135,6 +135,10 @@
   ("p" #'gtd-projects->next-actions "projects->next-actions")
   ("P" #'gtd-projects               "projects list")
   ("x" #'gtd-topics->next-actions   "topics->next-actions")
+  ("o" (lambda ()
+         (interactive)
+         (spawn-right)
+         (find-file (concat cmacs-config-path "/config/langs/org.el"))))
   ("q" nil))
 
 (general-define-key :keymaps 'org-agenda-mode-map
