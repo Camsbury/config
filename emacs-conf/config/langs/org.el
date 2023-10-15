@@ -59,12 +59,11 @@
         ("l" "Log action"
          entry (file+headline ,(concat cmacs-share-path "/org-roam/daybook.org.gpg") "log")
          "* %i%? %T"))
-      org-refile-targets `((,(concat cmacs-share-path "/org-roam/projects.org.gpg") :level . 1)
+      org-refile-targets `((,(concat cmacs-share-path "/org-roam/projects.org.gpg") :level . 3)
                            (,(concat cmacs-share-path "/org-roam/tickler_list.org.gpg") :level . 1)
                            (,(concat cmacs-share-path "/org-roam/someday_maybe.org.gpg") :level . 1)
                            (,(concat cmacs-share-path "/org-roam/awaiting_action.org.gpg") :level . 1)
-                           (,(concat cmacs-share-path "/org-roam/reference.org.gpg") :level . 1)
-                           (,(concat cmacs-share-path "/org-roam/next_actions.org.gpg") :level . 1))
+                           (,(concat cmacs-share-path "/org-roam/reference.org.gpg") :level . 1))
       org-archive-location (concat cmacs-share-path "/archive/" (format-time-string "%Y-%m") ".org::"))
 
 ;; auto save on refile
@@ -134,11 +133,13 @@
   ("t" #'gtd-tags->next-actions     "tags->next-actions")
   ("n" #'gtd-contexts->next-actions "contexts->next-actions")
   ("p" #'gtd-projects->next-actions "projects->next-actions")
+  ("P" #'gtd-projects               "projects list")
   ("x" #'gtd-topics->next-actions   "topics->next-actions")
   ("q" nil))
 
-;; TODO: do the above for projects, contexts, and topics
-;; TODO: then bindings for all
+(general-define-key :keymaps 'org-agenda-mode-map
+  "j" #'org-agenda-next-line
+  "k" #'org-agenda-previous-line)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-babel
