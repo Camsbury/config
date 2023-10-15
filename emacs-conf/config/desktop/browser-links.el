@@ -78,7 +78,6 @@
                     exwm-browser-link--get-tags
                     (remove tag)
                     )))
-         (print selected)
          (exwm-browser-link--build-tags tags selected visit-all?))))))
 
 (defun exwm-browser-link-visit-tagged ()

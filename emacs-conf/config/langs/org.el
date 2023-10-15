@@ -1,6 +1,7 @@
 (require 'prelude)
 (require 'hydra)
 (require 'core/env)
+(require 'config/search)
 (require 'config/langs/sql)
 ;; TODO: https://stackoverflow.com/questions/17478260/completely-hide-the-properties-drawer-in-org-mode
 (require 'org-id)
@@ -55,11 +56,9 @@
       `(("n" "Enqueue"
          entry (file+headline ,(concat cmacs-share-path "/org-roam/review.org.gpg") "inbox")
          "* [ ] %i%? %T")
-        ;; FIXME: change to today's date
         ("l" "Log action"
          entry (file+headline ,(concat cmacs-share-path "/org-roam/daybook.org.gpg") "log")
-         "* %i%?"))
-      org-agenda-files `(,(concat cmacs-share-path "/org-roam/projects.org.gpg"))
+         "* %i%? %T"))
       org-refile-targets `((,(concat cmacs-share-path "/org-roam/projects.org.gpg") :level . 1)
                            (,(concat cmacs-share-path "/org-roam/tickler_list.org.gpg") :level . 1)
                            (,(concat cmacs-share-path "/org-roam/someday_maybe.org.gpg") :level . 1)
@@ -73,9 +72,73 @@
         (lambda (&rest _)
         (org-save-all-org-buffers)))
 
-(setq org-agenda-custom-commands
-      '(("n" "next actions" tags-todo "nextactions")
-        ("o" "next actions" tags-todo "nextactions&qol")))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; gtd
+
+(setq org-tags-exclude-from-inheritance '("project")
+      org-agenda-files `(,(concat cmacs-share-path "/org-roam/projects.org.gpg")))
+
+(defun gtd--build-tags (tags selected fn)
+  (ivy-read
+   "Tag: "
+   (append tags '("DONE"))
+   :preselect "DONE"
+   :action
+   (lambda (tag)
+     (if (string= "DONE" tag)
+         (funcall fn selected)
+       (let* ((selected (cons tag selected))
+              (tags     (remove tag tags)))
+         (gtd--build-tags tags selected fn))))))
+
+(defun gtd--tagged-next-actions-view
+    (tags)
+  (org-tags-view t (s-join "|" tags)))
+
+(defun gtd-projects ()
+  (interactive)
+  (org-tags-view nil "project"))
+
+(defun gtd--tags->next-actions
+    (filter-regex)
+  (let* ((filter-fn (if filter-regex
+                        (lambda (x) (s-matches? filter-regex x))
+                      #'identity))
+         (tags (->>
+                (with-current-buffer
+                    (find-file-noselect (car org-agenda-files))
+                  (org-get-buffer-tags))
+                (-map #'car)
+                (-filter filter-fn))))
+    (gtd--build-tags tags '() #'gtd--tagged-next-actions-view)))
+
+(defun gtd-tags->next-actions ()
+  (interactive)
+  (gtd--tags->next-actions nil))
+
+(defun gtd-contexts->next-actions ()
+  (interactive)
+  (gtd--tags->next-actions "c@"))
+
+(defun gtd-projects->next-actions ()
+  (interactive)
+  (gtd--tags->next-actions "p@"))
+
+(defun gtd-topics->next-actions ()
+  (interactive)
+  (gtd--tags->next-actions "t@"))
+
+(defhydra hydra-gtd (:exit t :columns 5)
+  "set register"
+  ("a" #'org-agenda-list            "calendar")
+  ("t" #'gtd-tags->next-actions     "tags->next-actions")
+  ("n" #'gtd-contexts->next-actions "contexts->next-actions")
+  ("p" #'gtd-projects->next-actions "projects->next-actions")
+  ("x" #'gtd-topics->next-actions   "topics->next-actions")
+  ("q" nil))
+
+;; TODO: do the above for projects, contexts, and topics
+;; TODO: then bindings for all
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-babel
@@ -270,7 +333,8 @@
   "M-j"                     #'org-forward-heading-same-level
   "M-k"                     #'org-backward-heading-same-level
   "M-l"                     #'org-next-visible-heading
-  "M-o"                     #'org-cycle-shallow
+   ;; NOTE: trying this out instead of shallow to see how annoying it is
+  "M-o"                     #'org-cycle
   "M-O"                     #'org-show-subtree)
 ;;; #-org-forward-element - needed on M-l?
 ;;; #'org-clock-in
@@ -318,7 +382,7 @@
  ("o"   #'org-sparse-tree-at-point "show all")
  ("O"   #'outline-show-all         "show all")
  ("r"   #'org-refile               "refile")
- ("t"   #'org-set-tags-command     "set tags")
+ ("t"   #'counsel-org-tag          "set tags")
  ("T"   #'hydra-org-table/body     "org table")
  ("e"   #'org-edit-special         "edit src")
  ("x"   #'org-latex-preview        "latex preview")
