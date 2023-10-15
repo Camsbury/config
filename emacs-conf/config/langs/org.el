@@ -307,6 +307,18 @@
   (call-interactively #'evil-open-below)
   (call-interactively #'org-insert-item))
 
+(defun org-add-extant-tags ()
+  "Add tags based on those that already exist"
+  (interactive)
+  (let* ((selected (org-get-tags nil t))
+         (tags (->>
+                (with-current-buffer
+                    (find-file-noselect (car org-agenda-files))
+                  (org-get-buffer-tags))
+                (-map #'car)
+                (-remove (lambda (x) (-contains? selected x))))))
+    (gtd--build-tags tags selected #'org-set-tags)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org bindings
 
@@ -376,23 +388,24 @@
 (defhydra hydra-org (:exit t)
   "org-mode"
  ("RET" #'org-sparse-tree          "sparse tree")
+ ("I"   #'org-new-item             "new item")
+ ("L"   #'org-append-link          "add link")
+ ("O"   #'outline-show-all         "show all")
+ ("T"   #'hydra-org-table/body     "org table")
+ ("Y"   #'org-roam-dailies-find-next-note)
  ("a"   #'org-archive-subtree      "archive")
  ("d"   #'org-deadline             "deadline")
+ ("e"   #'org-edit-special         "edit src")
+ ("g"   #'org-add-extant-tags      "add extant tags")
  ("i"   #'org-roam-node-insert     "insert roam node")
- ("I"   #'org-new-item             "new item")
  ("l"   #'hydra-org-link/body      "org links")
- ("L"   #'org-append-link          "add link")
  ("m"   #'hydra-org-timer/body     "org timer")
  ("n"   #'org-narrow-to-subtree    "narrow")
  ("o"   #'org-sparse-tree-at-point "show all")
- ("O"   #'outline-show-all         "show all")
  ("r"   #'org-refile               "refile")
  ("t"   #'counsel-org-tag          "set tags")
- ("T"   #'hydra-org-table/body     "org table")
- ("e"   #'org-edit-special         "edit src")
  ("x"   #'org-latex-preview        "latex preview")
- ("y"   #'org-roam-dailies-find-previous-note)
- ("Y"   #'org-roam-dailies-find-next-note))
+ ("y"   #'org-roam-dailies-find-previous-note))
 
 (defhydra hydra-visual-org (:exit t)
   "org-mode"
