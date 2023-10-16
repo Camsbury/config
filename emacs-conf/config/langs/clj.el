@@ -94,10 +94,24 @@
                  (format "%d chars" (length value)))))
     nil nil nil)))
 
-(defun cider-copy-last-result-as-string ()
+(defun cider-copy-last-result-dwim ()
   (interactive)
   (cider-interactive-eval
-   "*1"
+   "(if (string? *1) *1 (clojure.string/replace (with-out-str (clojure.pprint/pprint *1)) #\",\" \"\"))"
+   (nrepl-make-response-handler
+    (current-buffer)
+    (lambda (_ value)
+      (kill-new value)
+      (unescape-clipboard-string)
+      (message "Copied last result (%s) to clipboard"
+               (if (= (length value) 1) "1 char"
+                 (format "%d chars" (length value)))))
+    nil nil nil)))
+
+(defun cider-copy-last-result-as-edn ()
+  (interactive)
+  (cider-interactive-eval
+   "(clojure.string/replace (with-out-str (clojure.pprint/pprint *1)) #\",\" \"\")"
    (nrepl-make-response-handler
     (current-buffer)
     (lambda (_ value)
@@ -220,7 +234,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
   ("T" #'kaocha-runner-run-all-tests      "run project tests")
   ("w" #'cljr-add-missing-libspec         "figure out the require")
   ("y" #'cider-copy-last-result           "copy last result")
-  ("Y" #'cider-copy-last-result-as-string "copy last result as string"))
+  ("Y" #'cider-copy-last-result-dwim      "copy last result dwim"))
 
 ; clojure-thread-first-all
 ; clojure-thread-last-all
