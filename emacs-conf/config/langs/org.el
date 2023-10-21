@@ -11,7 +11,6 @@
 (use-package ob-http)
 
 (use-package org-bullets)
-(use-package org-alert)
 ;; FIXME
 (use-package org-download
   :config
@@ -36,15 +35,29 @@
 (require 'config/langs/sql)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; org alert
+
+(use-package org-alert
+  :config
+  (setq
+   alert-fade-time 300
+   alert-default-style 'libnotify
+   org-alert-interval 180
+   org-alert-notify-cutoff 10
+   org-alert-notify-after-event-cutoff 10)
+  (org-alert-enable))
+
+(defun toggle-org-alerts ()
+  (interactive)
+  (org-alert-disable)
+  (org-alert-enable))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org modules
 
 (add-to-list 'org-modules 'org-habit t)
 (add-to-list 'org-modules 'org-id t)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; org alert
-
-(setq alert-default-style 'libnotify)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org todos
@@ -134,6 +147,7 @@
 
 (defhydra hydra-gtd (:exit t :columns 5)
   "set register"
+  ("SPC" #'toggle-org-alerts        "toggle org alerts")
   ("a" #'org-agenda-list            "calendar")
   ("t" #'gtd-tags->next-actions     "tags->next-actions")
   ("c" #'gtd-contexts->next-actions "contexts->next-actions")
