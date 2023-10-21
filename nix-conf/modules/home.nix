@@ -6,6 +6,8 @@ in
   nixpkgs.config.allowUnfree = true;
   programs.home-manager.enable = true;
 
+  home.stateVersion = "22.05";
+
   home.file = {
     ".Xresources".source = ../../Xresources;
     ".clojure".source = sym ../../clojure;

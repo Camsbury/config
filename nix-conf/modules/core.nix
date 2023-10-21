@@ -34,10 +34,6 @@
 
   nix = {
     settings = {
-      # extra-experimental-features = [
-      #   "nix-command"
-      #   "flakes"
-      # ];
       substituters = [
         "https://hydra.iohk.io"
         "https://cache.iog.io"
@@ -61,5 +57,10 @@
     ];
   };
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    permittedInsecurePackages = [
+      "python-2.7.18.6"
+    ];
+  };
 }
