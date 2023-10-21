@@ -40,9 +40,9 @@
 (use-package org-alert
   :config
   (setq
-   alert-fade-time 300
+   alert-fade-time 180
    alert-default-style 'libnotify
-   org-alert-interval 180
+   org-alert-interval 300
    org-alert-notify-cutoff 10
    org-alert-notify-after-event-cutoff 10)
   (org-alert-enable))
