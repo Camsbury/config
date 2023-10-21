@@ -22,7 +22,11 @@
   :config
   (customize-set-variable
    'org-journal-dir
-   (concat cmacs-share-path "/journal/")))
+   (concat cmacs-share-path "/journal/"))
+  (customize-set-variable
+   'org-journal-encrypt-journal
+   t)
+  )
 ;; USEIT
 (use-package org-ml)
 ;; USEIT
@@ -75,7 +79,8 @@
 ;;; gtd
 
 (setq org-tags-exclude-from-inheritance '("project")
-      org-agenda-files `(,(concat cmacs-share-path "/org-roam/projects.org.gpg")))
+      org-agenda-files `(,(concat cmacs-share-path "/org-roam/projects.org.gpg")
+                         ,(concat cmacs-share-path "/org-roam/habit_tracker.org.gpg")))
 
 (defun gtd--build-tags (tags selected fn)
   (ivy-read
@@ -131,10 +136,10 @@
   "set register"
   ("a" #'org-agenda-list            "calendar")
   ("t" #'gtd-tags->next-actions     "tags->next-actions")
-  ("n" #'gtd-contexts->next-actions "contexts->next-actions")
+  ("c" #'gtd-contexts->next-actions "contexts->next-actions")
   ("p" #'gtd-projects->next-actions "projects->next-actions")
   ("P" #'gtd-projects               "projects list")
-  ("x" #'gtd-topics->next-actions   "topics->next-actions")
+  ("n" #'gtd-topics->next-actions   "topics->next-actions")
   ("o" (lambda ()
          (interactive)
          (spawn-right)

@@ -72,6 +72,7 @@
     #'counsel-projectile-find-file)            "project file")
   ("E" #'counsel-projectile-switch-to-buffer   "project open buffer")
   ("g" #'open-telegram                         "telegram")
+  ("j" #'org-journal-new-entry                 "org-journal entry")
   ("J" #'org-journal-open-current-journal-file "org-journal")
   ("k" #'open-slack                            "slack")
   ("m" #'mu4e                                  "email")
