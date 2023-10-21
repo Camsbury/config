@@ -12,4 +12,5 @@
   users.extraGroups.openrazer.members = [
     "${toString config.users.users.default.name}"
   ];
+  environment.systemPackages = [pkgs.razergenie];
 }
