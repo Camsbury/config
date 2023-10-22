@@ -72,22 +72,23 @@
                 (map entry->name->entry))))))
 
 ;;; TODO: implement nils
-(case (first *command-line-args*)
-  "append-link"
-  (apply append-link *command-line-args*)
+(prn
+ (case (first *command-line-args*)
+   "append-link"
+   (apply append-link *command-line-args*)
 
-  "list-all"
-  (list-all)
+   "list-all"
+   (list-all)
 
-  "list-tags"
-  (list-tags (second *command-line-args*))
+   "list-tags"
+   (list-tags (second *command-line-args*))
 
-  "list-tagged"
-  (list-tagged (second *command-line-args*))
+   "list-tagged"
+   (list-tagged (second *command-line-args*))
 
-  "remove-link"
-  nil
+   "remove-link"
+   nil
 
-  "tag-link"
-  nil)
+   "tag-link"
+   nil))
 
