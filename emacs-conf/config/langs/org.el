@@ -44,13 +44,21 @@
    alert-default-style 'libnotify
    org-alert-interval 300
    org-alert-notify-cutoff 10
-   org-alert-notify-after-event-cutoff 10)
+   org-alert-notify-after-event-cutoff 10
+   org-alert-active-p t)
   (org-alert-enable))
 
 (defun toggle-org-alerts ()
   (interactive)
-  (org-alert-disable)
-  (org-alert-enable))
+  (if org-alert-active-p
+      (progn
+        (setq org-alert-active-p nil)
+        (org-alert-disable)
+        (message "org alerts disabled"))
+      (progn
+        (setq org-alert-active-p t)
+        (org-alert-enable)
+        (message "org alerts enabled"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org modules
