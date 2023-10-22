@@ -164,7 +164,7 @@
   ("+" #'increment-number-at-point    "increment number")
   ("M-x" #'counsel-M-x                "M-x")
   ;; ("a" #'hydra-gtd/body               "GTD")
-  ("A" #'alarm-clock-set              "set an alarm")
+  ("a" #'alarm-clock-set              "set an alarm")
   ("b" #'blind-mode                   "blind mode")
   ("c" #'org-roam-capture             "org roam capture")
   ("C" #'toggle-command-logging       "toggle command logging")

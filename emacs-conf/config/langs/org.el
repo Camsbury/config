@@ -181,9 +181,9 @@
   "set register"
   ("SPC" #'toggle-org-alerts        "toggle org alerts")
   ("P" #'gtd-projects               "projects list")
-  ("a" #'org-agenda-list            "calendar")
   ("c" #'gtd-contexts->next-actions "contexts->next-actions")
   ("e" #'gtd-search-mark-done       "search and mark done")
+  ("l" #'org-agenda-list            "calendar")
   ("n" #'gtd-topics->next-actions   "topics->next-actions")
   ("o" (lambda ()
          (interactive)
