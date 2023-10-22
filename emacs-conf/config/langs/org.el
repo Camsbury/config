@@ -153,19 +153,45 @@
   (interactive)
   (gtd--tags->next-actions "t@"))
 
+(defun gtd-search-mark-done ()
+  (interactive)
+  (let ((tasks (ht-create)))
+    (org-map-entries
+     (lambda ()
+       (let ((pom (point)))
+         (ht-set!
+          tasks
+          (buffer-substring pom (line-end-position))
+          (copy-marker pom))))
+     nil
+     'agenda)
+    (ivy-read
+     "Completed Task: "
+     (ht-keys tasks)
+     :action
+     (lambda (task)
+       (let ((m (ht-get tasks task)))
+         (save-excursion
+           (with-current-buffer (marker-buffer m)
+             (goto-char m)
+             (org-todo)
+             (save-buffer))))))))
+
 (defhydra hydra-gtd (:exit t :columns 5)
   "set register"
   ("SPC" #'toggle-org-alerts        "toggle org alerts")
-  ("a" #'org-agenda-list            "calendar")
-  ("t" #'gtd-tags->next-actions     "tags->next-actions")
-  ("c" #'gtd-contexts->next-actions "contexts->next-actions")
-  ("p" #'gtd-projects->next-actions "projects->next-actions")
   ("P" #'gtd-projects               "projects list")
+  ("a" #'org-agenda-list            "calendar")
+  ("c" #'gtd-contexts->next-actions "contexts->next-actions")
+  ("e" #'gtd-search-mark-done       "search and mark done")
   ("n" #'gtd-topics->next-actions   "topics->next-actions")
   ("o" (lambda ()
          (interactive)
          (spawn-right)
          (find-file (concat cmacs-config-path "/config/langs/org.el"))))
+  ("p" #'gtd-projects->next-actions "projects->next-actions")
+  ("t" #'gtd-tags->next-actions     "tags->next-actions")
+
   ("q" nil))
 
 (general-define-key :keymaps 'org-agenda-mode-map
