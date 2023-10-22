@@ -158,11 +158,12 @@
   (let ((tasks (ht-create)))
     (org-map-entries
      (lambda ()
-       (let ((pom (point)))
-         (ht-set!
-          tasks
-          (buffer-substring pom (line-end-position))
-          (copy-marker pom))))
+       (when (org-get-todo-state)
+           (let ((pom (point)))
+             (ht-set!
+              tasks
+              (buffer-substring pom (line-end-position))
+              (copy-marker pom)))))
      nil
      'agenda)
     (ivy-read
