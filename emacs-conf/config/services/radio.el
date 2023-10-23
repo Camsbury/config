@@ -1,5 +1,6 @@
 (require 'prelude)
 (require 'core/env)
+(require 'hydra)
 
 (use-package emms-setup
   :init
@@ -44,9 +45,23 @@
 
 (defun open-playlist (playlist-key)
   "Play my playlist by name"
-  (interactive)
   (emms-play-radio-playlist playlist-key)
   (setq emms-repeat-playlist t)
   (emms-random))
+
+(defhydra hydra-radio (:exit t :columns 5)
+  "radio"
+  ("SPC" #'emms-strong-pause          "pause/play")
+  ("h"   (lambda ()
+           (interactive)
+           (open-playlist :hits))        "open hits playlist")
+  ("r"   (lambda ()
+           (interactive)
+           (open-playlist :rock))        "open rock playlist")
+  ("v"   (switch-to-buffer "*Radio*") "view radio playlist")
+  ("s"   #'emms-random                "random station/track")
+  ("["   #'emms-previous              "previous station/track")
+  ("]"   #'emms-next                  "next station/track")
+  ("q" nil))
 
 (provide 'config/services/radio)

@@ -113,18 +113,6 @@
   ("z" #'evil-scroll-line-to-center "center")
   ("q" nil "quit" :color red))
 
-;; USEIT
-(defhydra hydra-radio (:exit t :columns 5)
-  "radio"
-  ("SPC" #'emms-strong-pause          "pause/play")
-  ("h"   (open-playlist :hits)        "open hits playlist")
-  ("r"   (open-playlist :rock)        "open rock playlist")
-  ("v"   (switch-to-buffer "*Radio*") "view radio playlist")
-  ("s"   #'emms-random                "random station/track")
-  ("["   #'emms-previous              "previous station/track")
-  ("]"   #'emms-next                  "next station/track")
-  ("q" nil))
-
 (defhydra hydra-window (:exit nil :columns 5)
   "window manipulation"
   ("h" #'evil-window-decrease-width "decrease width")
