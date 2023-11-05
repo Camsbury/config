@@ -13,7 +13,7 @@
 
     #functionality
     ../modules/bluetooth.nix
-    ../modules/tract.nix
+    # ../modules/tract.nix
     ../modules/email.nix
     ../modules/gaming.nix
     ../modules/art.nix
