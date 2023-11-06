@@ -214,9 +214,9 @@
 (defhydra hydra-visual-leader (:exit t :columns 5)
   "visual leader"
   ("m" #'empty-visual-mode-leader  "visual mode leader")
-  ("o" #'narrow-and-zoom-in "narrow and zoom in")
+  ;; ("o" #'narrow-and-zoom-in "narrow and zoom in")
   ("s" #'sort-lines         "sort lines")
-  ("S" #'shuffle-selection            "shuffle selection"))
+  ("S" #'shuffle-selection  "shuffle selection"))
 
 ;; CLEAN: reorganize and get rid of things you never use
 (defhydra hydra-left-leader (:exit t :columns 5)
