@@ -11,6 +11,14 @@
 (use-package ob-http)
 
 (use-package org-bullets)
+
+;; org hooks
+(general-add-hook 'org-mode-hook
+  (list 'org-bullets-mode
+        'org-indent-mode
+        'visual-line-mode
+        'prettify-mode))
+
 ;; FIXME
 (use-package org-download
   :config
@@ -24,8 +32,8 @@
    (concat cmacs-share-path "/journal/"))
   (customize-set-variable
    'org-journal-encrypt-journal
-   t)
-  )
+   t))
+
 ;; USEIT
 (use-package org-ml)
 ;; USEIT
@@ -177,6 +185,11 @@
              (goto-char m)
              (org-todo)
              (save-buffer))))))))
+
+;; TODO: implement completing read like the above that just takes you to the project
+(defun gtd-jump-to-project ()
+  (interactive)
+  )
 
 (defhydra hydra-gtd (:exit t :columns 5)
   "set register"
@@ -472,11 +485,5 @@
   "org-src-mode"
   ("q" #'org-edit-src-exit "write and quit")
   ("k" #'org-edit-src-abort "quit without saving"))
-
-(general-add-hook 'org-mode-hook
-  (list 'org-bullets-mode
-        'org-indent-mode
-        'visual-line-mode
-        'prettify-mode))
 
 (provide 'config/langs/org)
