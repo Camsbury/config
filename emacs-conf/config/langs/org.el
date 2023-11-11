@@ -235,9 +235,15 @@
 
   ("q" nil))
 
+(advice-add
+ #'org-agenda-todo
+ :after
+ (lambda (&rest _)
+   (org-save-all-org-buffers)))
+
 (general-define-key :keymaps 'org-agenda-mode-map
-  "j" #'org-agenda-next-line
-  "k" #'org-agenda-previous-line)
+                    "j" #'org-agenda-next-line
+                    "k" #'org-agenda-previous-line)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-babel
