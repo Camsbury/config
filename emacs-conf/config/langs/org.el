@@ -213,11 +213,14 @@
      (lambda (p)
        (let ((m (ht-get projects p)))
          (switch-to-buffer (marker-buffer m))
-         (goto-char m))))))
+         (goto-char m)
+         (evil-scroll-line-to-center)
+         (org-show-subtree))))))
 
 (defhydra hydra-gtd (:exit t :columns 5)
   "set register"
   ("SPC" #'toggle-org-alerts        "toggle org alerts")
+  ;; ("P" #'gtd-projects->next-actions "projects->next-actions")
   ("P" #'gtd-projects               "projects list")
   ("c" #'gtd-contexts->next-actions "contexts->next-actions")
   ("e" #'gtd-search-mark-done       "search and mark done")
@@ -227,7 +230,7 @@
          (interactive)
          (spawn-right)
          (find-file (concat cmacs-config-path "/config/langs/org.el"))))
-  ("p" #'gtd-projects->next-actions "projects->next-actions")
+  ("p" #'gtd-jump-to-project        "jump to project")
   ("t" #'gtd-tags->next-actions     "tags->next-actions")
 
   ("q" nil))
