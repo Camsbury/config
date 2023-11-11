@@ -186,10 +186,34 @@
              (org-todo)
              (save-buffer))))))))
 
-;; TODO: implement completing read like the above that just takes you to the project
+(defun gtd--get-org-mode-link-label (str)
+  "Return the label of an org-mode link, or the string itself if it's not a link."
+  (if (string-match "\\[\\[.*\\]\\[\\(.*\\)\\]\\]" str)
+      (match-string 1 str)
+    str))
+
 (defun gtd-jump-to-project ()
   (interactive)
-  )
+  (let ((projects (ht-create)))
+    (org-map-entries
+     (lambda ()
+       (let ((pom (point)))
+         (ht-set!
+          projects
+          (substring-no-properties
+           (gtd--get-org-mode-link-label
+            (org-get-heading t t)))
+          (copy-marker pom))))
+     "project"
+     'agenda)
+    (ivy-read
+     "Project: "
+     (ht-keys projects)
+     :action
+     (lambda (p)
+       (let ((m (ht-get projects p)))
+         (switch-to-buffer (marker-buffer m))
+         (goto-char m))))))
 
 (defhydra hydra-gtd (:exit t :columns 5)
   "set register"
