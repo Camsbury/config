@@ -14,6 +14,8 @@ in
     # hash = "sha256-gBlBtk+KrezFkfMrZw6uwTuA7YWtbFciiS14mEoTCo0=";
     # rev = "844ffa82bbe2";
     # hash = "sha256-D21ctOBjr2Y3vOFRXKRoFr6uNBvE8q5jC4RrMxRZXTM=";
-    rev = "fdd898f8f79e";
-    hash = "sha256-mnQjUcYgp9Guu3RNVAB2Srr1TqKcPpRXmJf4LJk6KRY=";
+    # rev = "fdd898f8f79e";
+    # hash = "sha256-mnQjUcYgp9Guu3RNVAB2Srr1TqKcPpRXmJf4LJk6KRY=";
+    rev = "5a09cb4b393d";
+    hash = "sha256-RyJTnTNKhO0yqRpDISk03I/4A67/dp96YRxc86YOPgU=";
 })
