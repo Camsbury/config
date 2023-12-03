@@ -11,5 +11,6 @@
   :config
   (evil-mode)
   (add-to-list 'evil-emacs-state-modes 'dired-mode))
+(use-package evil-collection)
 
 (provide 'core/text)

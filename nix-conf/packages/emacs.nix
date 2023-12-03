@@ -181,7 +181,6 @@ let
     asoc-el
     company-postgresql
     etymology-of-word
-    evil-magit
     hide-comnt
     ivy-cider
     re-jump

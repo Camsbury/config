@@ -1,5 +1,13 @@
 (use-package git-timemachine)
-(use-package magit)
+
+(use-package magit
+  :init
+  ;; NOTE: deal with seq issues temporarily (probably can remove later)
+  (defun seq-keep (function sequence)
+    "Apply FUNCTION to SEQUENCE and return the list of all the non-nil results."
+    (delq nil (seq-map function sequence)))
+  :config
+  (evil-collection-init 'magit))
 (use-package magit-todos
   :after (magit)
   :config
@@ -10,10 +18,10 @@
    'magit-todos-ignored-keywords
    '("DONE"))
   (magit-todos-mode))
-(use-package evil-magit
-  :after (magit)
-  :config
-  (general-add-hook 'magit-mode-hook (list 'evil-magit-init)))
+;; (use-package evil-magit
+;;   :after (magit)
+;;   :config
+;;   (general-add-hook 'magit-mode-hook (list 'evil-magit-init)))
 (use-package forge)
 ;; (let ((token (getenv "GH_NOTIF_TOKEN")))
 ;;   (when token
