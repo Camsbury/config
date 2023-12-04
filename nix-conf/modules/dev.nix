@@ -1,5 +1,12 @@
 { config, pkgs, ... }:
 
+let
+  codeMaatDer = import ../derivations/code-maat/default.nix;
+  code-maat = with builtins; with pkgs; callPackage codeMaatDer {
+    inherit stdenvNoCC;
+    inherit fetchurl;
+  };
+in
 {
   imports = [
     ./docker.nix
@@ -7,9 +14,10 @@
   environment.systemPackages = with pkgs; [
     babashka
     binutils
+    code-maat
+    direnv
     (emacsPackages.emacsWithPackages (import ../packages/emacs.nix))
     entr
-    direnv
     gdb
     git
     gitAndTools.git-extras
