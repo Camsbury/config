@@ -7,7 +7,8 @@
     "Apply FUNCTION to SEQUENCE and return the list of all the non-nil results."
     (delq nil (seq-map function sequence)))
   :config
-  (evil-collection-init 'magit))
+  (with-eval-after-load 'magit
+    (evil-collection-magit-setup)))
 (use-package magit-todos
   :after (magit)
   :config
