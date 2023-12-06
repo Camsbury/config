@@ -242,8 +242,10 @@
    (org-save-all-org-buffers)))
 
 (general-define-key :keymaps 'org-agenda-mode-map
+                    "h" #'evil-backward-char
                     "j" #'org-agenda-next-line
-                    "k" #'org-agenda-previous-line)
+                    "k" #'org-agenda-previous-line
+                    "l" #'evil-forward-char)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-babel
