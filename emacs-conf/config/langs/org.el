@@ -184,6 +184,7 @@
            (with-current-buffer (marker-buffer m)
              (goto-char m)
              (org-todo)
+             ;; FIXME: this is too fast for some reason for the habit hooks
              (save-buffer))))))))
 
 (defun gtd--get-org-mode-link-label (str)
@@ -506,6 +507,9 @@
  ("o"   #'org-sparse-tree-at-point "show all")
  ("r"   #'org-refile               "refile")
  ("t"   #'counsel-org-tag          "set tags")
+ ("v"   (lambda ()
+          (interactive)
+          (org-cycle-set-startup-visibility)) "reset viz")
  ("x"   #'org-latex-preview        "latex preview")
  ("y"   #'org-roam-dailies-find-previous-note))
 
