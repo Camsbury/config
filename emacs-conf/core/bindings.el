@@ -65,6 +65,7 @@
   "nav to"
   ("a" #'org-roam-dailies-goto-today           "daybook")
   ("b" (open-file-link :books)                 "book notes")
+  ("B" #'list-bookmarks                        "list bookmarks")
   ("c" #'open-brave                            "brave browser")
   ("e"
    (ignorify

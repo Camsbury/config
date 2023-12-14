@@ -495,7 +495,7 @@
  ("L"   #'org-append-link          "add link")
  ("O"   #'outline-show-all         "show all")
  ("T"   #'hydra-org-table/body     "org table")
- ("Y"   #'org-roam-dailies-find-next-note)
+ ("Y"   #'org-roam-dailies-find-next-note "next note")
  ("a"   #'org-archive-subtree      "archive")
  ("d"   #'org-deadline             "deadline")
  ("e"   #'org-edit-special         "edit src")
