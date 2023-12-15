@@ -109,7 +109,8 @@
 
 (setq org-tags-exclude-from-inheritance '("project")
       org-agenda-files `(,(concat cmacs-share-path "/org-roam/projects.org.gpg")
-                         ,(concat cmacs-share-path "/org-roam/habit_tracker.org.gpg")))
+                         ,(concat cmacs-share-path "/org-roam/habit_tracker.org.gpg"))
+      org-habit-graph-column 60)
 
 (defun gtd--build-tags (tags selected fn)
   (ivy-read
