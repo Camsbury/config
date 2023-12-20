@@ -36,9 +36,7 @@
 
 ;; TODO: review these for useful info
 (setq file-links
-      `(:books         ,(concat cmacs-share-path  "/org-roam/books.org.gpg")
-        :brain-dump    ,(concat cmacs-share-path  "/ref/dump.org")
-        :habits        ,(concat cmacs-share-path  "/habits.org")
+      `(:habits        ,(concat cmacs-share-path  "/habits.org")
         :journal       ,(concat cmacs-share-path  "/journal.org")
         :links         ,(concat cmacs-share-path  "/ref/links.org")
         :notes         "/tmp/notes.org"
