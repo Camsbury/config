@@ -41,7 +41,6 @@
         :links         ,(concat cmacs-share-path  "/ref/links.org")
         :notes         "/tmp/notes.org"
         :review        ,(concat cmacs-share-path  "/org-roam/review.org.gpg")
-        :runs          ,(concat cmacs-share-path  "/ref/runs.org")
         :se-principles ,(concat cmacs-share-path  "/ref/software_engineering.org")
         :systems       ,(concat cmacs-share-path  "/systems.org")))
 
