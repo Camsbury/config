@@ -22,9 +22,28 @@
        (open-brave)
        (->> links (gethash n) (gethash :url) browse-url)))))
 
-(defun exwm-browser-link--grab-meta (link-name tags)
-  (interactive "sName: \nsTags (space-separated): ")
-  (list link-name tags))
+(defun exwm-browser-link--build-new-tags (tags selected fn)
+  (ivy-read
+   "Tag: "
+   (append tags '("DONE"))
+   :preselect "DONE"
+   :action
+   (lambda (tag)
+     (if (string= "DONE" tag)
+         (funcall fn selected)
+       (let* ((selected (cons tag selected))
+              (tags     (remove tag tags)))
+         (exwm-browser-link--build-new-tags tags selected fn))))))
+
+(defun exwm-browser-link--grab-meta (link-name)
+  (interactive "sName: ")
+  ;; this needs to take space separated tags...
+  (let ((exwm-browser-link--new-tags '()))
+    (exwm-browser-link--build-new-tags
+     (exwm-browser-link--get-tags nil)
+     nil
+     (lambda (to-add) (setq exwm-browser-link--new-tags (append to-add nil))))
+    (list link-name (s-join " " exwm-browser-link--new-tags))))
 
 (defun exwm-browser-link--visit-tagged (tags visit-all?)
   "Select a link to visit in the browser"
