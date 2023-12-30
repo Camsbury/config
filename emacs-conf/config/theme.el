@@ -7,6 +7,8 @@
 (use-package rainbow-delimiters)
 (use-package rainbow-mode)
 
+(add-to-list 'custom-theme-load-path (concat cmacs-config-path "/config/theme/") t)
+
 (defvar themes)
 (setq themes
       '(doom-molokai
@@ -48,5 +50,6 @@
 (provide 'config/theme)
 
 (comment
+ (set-theme 'doom-molokam)
  (set-theme 'doom-material)
  (set-theme 'doom-Iosvkem))
