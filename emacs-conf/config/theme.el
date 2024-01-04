@@ -51,5 +51,6 @@
 
 (comment
  (set-theme 'doom-molokam)
- (set-theme 'doom-material)
+ (set-theme 'doom-molokai)
+ (set-theme 'doom-material-dark)
  (set-theme 'doom-Iosvkem))
