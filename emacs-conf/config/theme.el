@@ -27,7 +27,17 @@
 
 (defvar normal-font-height)
 ;; FIXME: run only once
-(if (> (x-display-pixel-width) 1600)
+
+
+(defun laptop-p ()
+  (= 10
+     (-> "cat /sys/class/dmi/id/chassis_type"
+         shell-command-to-string
+         s-trim
+         string-to-number)))
+
+;; smaller font for laptop
+(if (laptop-p)
     (setq normal-font-height 90)
   (setq normal-font-height 110))
 
