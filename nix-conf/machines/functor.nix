@@ -20,7 +20,7 @@
     ../modules/music.nix
     # ../modules/tract.nix
     ../modules/email.nix
-    # ../modules/htb.nix
+    ../modules/htb.nix
     ../modules/razer.nix
     ../modules/foreign.nix
     ../modules/printing.nix
