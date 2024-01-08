@@ -36,8 +36,7 @@
 
 ;; TODO: review these for useful info
 (setq file-links
-      `(:habits        ,(concat cmacs-share-path  "/habits.org")
-        :journal       ,(concat cmacs-share-path  "/journal.org")
+      `(:journal       ,(concat cmacs-share-path  "/journal.org")
         :links         ,(concat cmacs-share-path  "/ref/links.org")
         :notes         "/tmp/notes.org"
         :review        ,(concat cmacs-share-path  "/org-roam/review.org.gpg")
