@@ -5,7 +5,6 @@
         config/langs/c
         config/langs/clisp
         config/langs/clj
-        config/langs/csharp
         config/langs/dockerfile
         config/langs/elisp
         config/langs/elixir

@@ -29,7 +29,6 @@ let
     counsel
     counsel-projectile
     counsel-pydoc
-    csharp-mode
     dante
     dap-mode
     dash
