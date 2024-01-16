@@ -10,6 +10,7 @@ in
 {
   imports = [
     ./docker.nix
+    ./postgres.nix
   ];
   environment.systemPackages = with pkgs; [
     babashka
@@ -31,7 +32,6 @@ in
     update-nix-fetchgit
     nodePackages.prettier
     patchelf # patch dynamic libs/bins
-    postgresql_11
     python3
     shellcheck
     sloccount
