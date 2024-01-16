@@ -120,6 +120,10 @@
   ("l" #'evil-window-increase-width "increase width")
   ("j" #'evil-window-decrease-height "decrease height")
   ("k" #'evil-window-increase-height "increase height")
+  ("y" (lambda () (interactive)
+         (evil-window-set-width 190)) "most width")
+  ("H" (lambda () (interactive)
+         (evil-window-set-width 150)) "half width")
   ("q" nil))
 
 ;; USEIT
