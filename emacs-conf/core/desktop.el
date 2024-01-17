@@ -63,4 +63,7 @@
 (use-package exwm-randr
   :after (exwm))
 
+; fix for weird cursor stuff going on in emacs 29
+(setq x-no-window-manager t)
+
 (provide 'core/desktop)
