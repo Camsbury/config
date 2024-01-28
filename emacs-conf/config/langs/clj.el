@@ -87,7 +87,7 @@
          (buffer-file-name)))
     (when filename
       (cider-interactive-eval
-       "(clerk/show! 'nextjournal.clerk.tap)"))))
+       "(nextjournal.clerk/show! 'nextjournal.clerk.tap)"))))
 
 (defun cider-copy-last-result ()
   (interactive)
