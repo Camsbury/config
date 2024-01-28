@@ -512,7 +512,7 @@
           (interactive)
           (org-cycle-set-startup-visibility)) "reset viz")
  ("x"   #'org-latex-preview        "latex preview")
- ("y"   #'org-roam-dailies-find-previous-note))
+ ("y"   #'org-roam-dailies-find-previous-note "find previous daily note"))
 
 (defhydra hydra-visual-org (:exit t)
   "org-mode"
