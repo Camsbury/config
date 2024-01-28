@@ -28,6 +28,7 @@ in
     gnumake
     google-cloud-sdk
     kubectl
+    nodePackages.livedown
     loc
     nixfmt
     update-nix-fetchgit
