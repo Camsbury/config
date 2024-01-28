@@ -24,6 +24,7 @@ in
     gitAndTools.git-extras
     gitAndTools.hub
     glibc
+    grip
     gnumake
     google-cloud-sdk
     kubectl
@@ -31,6 +32,7 @@ in
     nixfmt
     update-nix-fetchgit
     nodePackages.prettier
+    pandoc
     patchelf # patch dynamic libs/bins
     python3
     shellcheck
