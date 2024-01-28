@@ -34,15 +34,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Nav Functions
 
-;; TODO: review these for useful info
-(setq file-links
-      `(:journal       ,(concat cmacs-share-path  "/journal.org")
-        :links         ,(concat cmacs-share-path  "/ref/links.org")
-        :notes         "/tmp/notes.org"
-        :review        ,(concat cmacs-share-path  "/org-roam/review.org.gpg")
-        :se-principles ,(concat cmacs-share-path  "/ref/software_engineering.org")
-        :systems       ,(concat cmacs-share-path  "/systems.org")))
-
 (defun open-file-link (file-key)
   "Open a file link interactively"
   (interactive)
