@@ -34,6 +34,8 @@
 
   nix = {
     settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+
       substituters = [
         "https://hydra.iohk.io"
         "https://cache.iog.io"
