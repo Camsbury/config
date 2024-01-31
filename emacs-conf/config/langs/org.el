@@ -112,6 +112,11 @@
                          ,(concat cmacs-share-path "/org-roam/habit_tracker.org.gpg"))
       org-habit-graph-column 60)
 
+(defun gtd--show-hidden-habits ()
+  (interactive)
+  (let ((current-prefix-arg t))
+    (call-interactively #'org-habit-toggle-display-in-agenda)))
+
 (defun gtd--build-tags (tags selected fn)
   (ivy-read
    "Tag: "
@@ -244,6 +249,8 @@
    (org-save-all-org-buffers)))
 
 (general-define-key :keymaps 'org-agenda-mode-map
+                    "H" #'org-habit-toggle-display-in-agenda
+                    "K" #'gtd--show-hidden-habits
                     "h" #'evil-backward-char
                     "j" #'org-agenda-next-line
                     "k" #'org-agenda-previous-line
