@@ -49,7 +49,7 @@
         (ignorify
          projectile-ignores
          #'counsel-projectile-switch-project))          "open project")
-  ("r" (spawn-file-link :review)                        "review")
+  ("r" (gtd--visit-roam-node "review")                  "review")
   ("s" (spawnify #'open-spotify)                        "spotify")
   ("t" (spawnify
         (ignorify
@@ -85,7 +85,7 @@
   ("p" (ignorify
         projectile-ignores
         #'counsel-projectile-switch-project)   "open project")
-  ("r" (open-file-link :review)                "review")
+  ("r" (gtd--visit-roam-node "review")         "review")
   ("s" #'open-spotify                          "spotify")
   ("t" (ignorify
         find-file-ignores

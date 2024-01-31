@@ -334,6 +334,12 @@
   (setq epa-file-encrypt-to '("camsbury7@gmail.com"))
   (org-roam-db-autosync-mode))
 
+(defun gtd--visit-roam-node (node-name)
+  (interactive)
+  (let ((node (org-roam-node-from-title-or-alias node-name)))
+    (when node
+      (org-roam-node-visit node))))
+
 (use-package org-roam-dailies
   :after (org-roam)
   :config
