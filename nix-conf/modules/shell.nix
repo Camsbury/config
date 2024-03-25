@@ -15,6 +15,7 @@
       bat
       curl
       dua
+      du-dust
       exa
       fzf
       htop
