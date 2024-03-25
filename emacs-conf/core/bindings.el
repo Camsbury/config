@@ -85,6 +85,7 @@
   ("p" (ignorify
         projectile-ignores
         #'counsel-projectile-switch-project)   "open project")
+  ("P" (gtd--visit-roam-node "projects")       "gtd projects")
   ("r" (gtd--visit-roam-node "review")         "review")
   ("s" #'open-spotify                          "spotify")
   ("t" (ignorify
