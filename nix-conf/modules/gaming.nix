@@ -30,7 +30,7 @@ in
 
   environment = {
     systemPackages = with pkgs; [
-      lutris
+      winePkgs.lutris
       mesa
       nvtop
       sc-controller
