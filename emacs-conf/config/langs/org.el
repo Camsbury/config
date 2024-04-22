@@ -236,7 +236,8 @@
   ("o" (lambda ()
          (interactive)
          (spawn-right)
-         (find-file (concat cmacs-config-path "/config/langs/org.el"))))
+         (find-file (concat cmacs-config-path "/config/langs/org.el")))
+       "org.el")
   ("p" #'gtd-jump-to-project        "jump to project")
   ("t" #'gtd-tags->next-actions     "tags->next-actions")
 
