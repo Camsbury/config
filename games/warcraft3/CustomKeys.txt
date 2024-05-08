@@ -1714,3 +1714,17 @@ Researchhotkey=T
 [aufu]
 Hotkey=S
 Researchhotkey=S
+
+[aosh]
+Hotkey=T
+Researchhotkey=T
+
+[aoae]
+Researchhotkey=R
+
+[aore]
+Researchhotkey=D
+
+[aows]
+Hotkey=S
+Researchhotkey=S

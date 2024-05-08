@@ -146,12 +146,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       //BATTLE HAND
       CTL_T(KC_NO),      KC_1,           KC_2,            KC_3,               KC_4,             KC_5,            KC_6,
       KC_TAB,            KC_Q,           KC_W,            KC_F,               KC_P,             KC_G,            KC_7,
-      LT(1,KC_LBRACKET), KC_A,           KC_R,            KC_S,               KC_T,             KC_D,
+      KC_BSPACE,         KC_A,           KC_R,            KC_S,               KC_T,             KC_D,
       KC_LSPO,           KC_Z,           KC_X,            KC_C,               KC_V,             KC_B,            KC_8,
       KC_F1,             KC_F2,          KC_F3,           KC_LALT,            CTL_T(KC_NO),
 
                                                                               KC_9,             KC_F10,
-                                                                                                                 KC_NO,
+                                                                                                                 KC_BSPACE,
                                                                               KC_SPACE,         LT(6,KC_ESCAPE), KC_LSFT,
 
 
