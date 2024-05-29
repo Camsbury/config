@@ -20,4 +20,6 @@ in
     # hash = "sha256-RyJTnTNKhO0yqRpDISk03I/4A67/dp96YRxc86YOPgU=";
     rev = "eabe8d3eface";
     hash = "sha256-OTeQA+F8d/Evad33JMfuXC89VMetQbsU4qcaePchGr4=";
+    # rev = "e2dd4e18cc1c";
+    # hash = "sha256-usk0vE7VlxPX8jOavrtpOqphdfqEQpf9lgedlY/r66c=";
 })
