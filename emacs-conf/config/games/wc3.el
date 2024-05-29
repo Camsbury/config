@@ -4,21 +4,28 @@
 
 (setq wbo-path  (concat cmacs-share-path "/wc3/build-orders/")
       wbo-file "builds.edn"
-      wbos      (--> (concat wbo-path wbo-file)
-                  (f-read it 'utf-8)
-                  (parseedn-read-str it)
-                  (append it nil)
-                  (nconc it it))
       wbo-steps nil)
+
+;; NOTE: call this to refresh from `builds.edn'
+(defun wbo-get-wbos ()
+  (interactive)
+  (setq wbos
+   (--> (concat wbo-path wbo-file)
+        (f-read it 'utf-8)
+        (parseedn-read-str it)
+        (append it nil)
+        (nconc it it))))
+
+(wbo-get-wbos)
 
 (defun wbo-cycle ()
   (interactive)
   (setq wbos (cdr wbos))
   (->> wbos
-    car
-    (gethash :name)
-    (concat "Loading ")
-    espeak))
+       car
+       (gethash :name)
+       (concat "Loading ")
+       espeak))
 
 (defun wbo-clear (&rest silent)
   (interactive)
