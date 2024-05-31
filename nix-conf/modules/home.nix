@@ -6,6 +6,8 @@ in
   nixpkgs.config.allowUnfree = true;
   programs.home-manager.enable = true;
 
+  xsession.numlock.enable = true;
+
   home.stateVersion = "22.05";
 
   home.file = {
