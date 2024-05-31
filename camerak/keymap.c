@@ -169,15 +169,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   /* // WC3 LAYER 2 */
   [6] = LAYOUT_ergodox(
       //LEFT HAND
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-      KC_NO, KC_NO, KC_NO, KC_P7, KC_P8, KC_P9, KC_NO,
-      KC_NO, KC_NO, KC_NO, KC_P4, KC_P5, KC_P6,
-      KC_NO, KC_NO, KC_NO, KC_P1, KC_P2, KC_P3, KC_NO,
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+      KC_NO,  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+      KC_NO,  KC_NO, KC_NO, KC_P7, KC_P8, KC_P9, KC_NO,
+      KC_DEL, KC_NO, KC_NO, KC_P4, KC_P5, KC_P6,
+      KC_INS, KC_NO, KC_NO, KC_P1, KC_P2, KC_P3, KC_NO,
+      KC_NO,  KC_NO, KC_NO, KC_NO, KC_NO,
 
-                                  KC_NO, KC_NO,
-                                                KC_NO,
-                                  KC_NO, KC_NO, KC_NO,
+                                   KC_NO, KC_NO,
+                                                 KC_NO,
+                                   KC_NO, KC_NO, KC_NO,
 
 
       KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
