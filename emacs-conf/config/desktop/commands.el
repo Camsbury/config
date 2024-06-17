@@ -273,6 +273,11 @@
   (interactive)
   (find-or-open-application "brave" "Brave-browser"))
 
+(defun open-lutris ()
+  "Opens Lutris"
+  (interactive)
+  (find-or-open-application "lutris" "Lutris"))
+
 (defun open-spotify ()
   "Opens Spotify"
   (interactive)
