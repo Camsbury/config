@@ -68,7 +68,7 @@
   ("b" (open-file-link :books)                 "book notes")
   ("B" #'list-bookmarks                        "list bookmarks")
   ("c" #'open-brave                            "brave browser")
-  ("C" #'open-local-blitz-tactics              "blitz tactics")
+  ("C" #'open-chess-practice                   "chess practice")
   ("e"
    (ignorify
     projectile-ignores

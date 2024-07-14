@@ -200,8 +200,19 @@
       (async-shell-command
        "export NIXPKGS_ALLOW_INSECURE=1 && cd ~/projects/Camsbury/blitz-tactics && nix-shell --run 'yarn drun'"
        (generate-new-buffer-name "*Blitz Tactics Server*"))))
-  (browse-url "http://localhost:3000")
-  (call-interactively #'open-brave))
+  (browse-url "http://localhost:3000"))
+
+(defun open-chess-practice ()
+  "open all the things you need to practice"
+  (interactive)
+  (call-interactively #'open-brave)
+  (browse-url "https://chessable.com/")
+  ;; B sticking points
+  (browse-url "https://lichess.org/study/IOxNYOVr")
+  ;; W sticking points
+  (browse-url "https://lichess.org/study/WRVjuRIP")
+  (browse-url "https://chessbook.com/")
+  (open-local-blitz-tactics))
 
 
 (provide 'config/games/chess)
