@@ -189,7 +189,7 @@
    puzzle-themes
    :action #'play-puzzle-theme-on-lichess))
 
-(defun open-local-blitz-tactics ()
+(defun open-local-blitz-tactics (&optional browse-p)
   "opens a local blitz tactics instance"
   (interactive)
   (when (not (get-buffer "*Blitz Tactics Server*"))
@@ -200,11 +200,13 @@
       (async-shell-command
        "export NIXPKGS_ALLOW_INSECURE=1 && cd ~/projects/Camsbury/blitz-tactics && nix-shell --run 'yarn drun'"
        (generate-new-buffer-name "*Blitz Tactics Server*"))))
-  (browse-url "http://localhost:3000"))
+  (when browse-p
+    (browse-url "http://localhost:3000")))
 
 (defun open-chess-practice ()
   "open all the things you need to practice"
   (interactive)
+  (open-local-blitz-tactics)
   (call-interactively #'open-brave)
   (browse-url "https://chessable.com/")
   ;; B sticking points
@@ -212,7 +214,8 @@
   ;; W sticking points
   (browse-url "https://lichess.org/study/WRVjuRIP")
   (browse-url "https://chessbook.com/")
-  (open-local-blitz-tactics))
+  ;; warm up puzzles
+  (browse-url "http://localhost:3000/ps/27"))
 
 
 (provide 'config/games/chess)
