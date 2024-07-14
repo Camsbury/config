@@ -201,21 +201,28 @@
        "export NIXPKGS_ALLOW_INSECURE=1 && cd ~/projects/Camsbury/blitz-tactics && nix-shell --run 'yarn drun'"
        (generate-new-buffer-name "*Blitz Tactics Server*"))))
   (when browse-p
+    (open-brave)
     (browse-url "http://localhost:3000")))
+
+(defun browse-in-order (urls)
+  (dolist (url urls)
+    (sleep-for 0.01)
+    (browse-url url)))
 
 (defun open-chess-practice ()
   "open all the things you need to practice"
   (interactive)
   (open-local-blitz-tactics)
-  (call-interactively #'open-brave)
-  (browse-url "https://chessable.com/")
-  ;; B sticking points
-  (browse-url "https://lichess.org/study/IOxNYOVr")
-  ;; W sticking points
-  (browse-url "https://lichess.org/study/WRVjuRIP")
-  (browse-url "https://chessbook.com/")
-  ;; warm up puzzles
-  (browse-url "http://localhost:3000/ps/27"))
+  (open-brave)
+  (browse-in-order
+   '("https://chessable.com/"
+      ;; B sticking points
+     "https://lichess.org/study/IOxNYOVr"
+     ;; W sticking points
+     "https://lichess.org/study/WRVjuRIP"
+     "https://chessbook.com/"
+     ;; warm up puzzles
+     "http://localhost:3000/ps/27")))
 
 
 (provide 'config/games/chess)
