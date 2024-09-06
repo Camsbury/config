@@ -18,6 +18,8 @@
     ../modules/cuda.nix
     ../modules/gaming.nix
     ../modules/music.nix
+    ../modules/influxdb.nix
+
     # ../modules/tract.nix
     ../modules/email.nix
     ../modules/htb.nix
