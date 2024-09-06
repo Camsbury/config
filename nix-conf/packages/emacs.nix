@@ -122,6 +122,7 @@ let
     org-parser
     org-ql
     org-roam
+    org-roam-ui
     origami
     paredit
     parseedn
