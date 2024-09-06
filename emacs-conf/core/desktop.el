@@ -23,6 +23,7 @@
   (customize-set-variable 'exwm-workspace-number 10)
   (customize-set-variable 'exwm-workspace-current-index 1)
   (global-exwm-key "s-," #'exwm-reset)
+  (global-exwm-key "s-." #'exwm-layout-set-fullscreen)
   (dolist (i (number-sequence 0 9))
     (global-exwm-key
      (format "s-%d" i)
