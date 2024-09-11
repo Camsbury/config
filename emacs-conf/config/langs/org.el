@@ -110,7 +110,16 @@
 (setq org-tags-exclude-from-inheritance '("project")
       org-agenda-files `(,(concat cmacs-share-path "/org-roam/projects.org.gpg")
                          ,(concat cmacs-share-path "/org-roam/habit_tracker.org.gpg"))
-      org-habit-graph-column 60)
+      org-habit-graph-column 60
+      org-agenda-start-on-weekday nil
+      org-agenda-custom-commands
+      '(("d" "Default Agenda"
+         ((agenda ""
+                  ((org-agenda-span 'day)
+                   (org-deadline-warning-days 0)))
+          (todo ""
+                ((org-agenda-skip-function
+                  '(org-agenda-skip-entry-if 'scheduled 'deadline 'timestamp))))))))
 
 (defun gtd--show-hidden-habits ()
   (interactive)
@@ -231,7 +240,10 @@
   ("P" #'gtd-projects               "projects list")
   ("c" #'gtd-contexts->next-actions "contexts->next-actions")
   ("e" #'gtd-search-mark-done       "search and mark done")
-  ("l" #'org-agenda-list            "calendar")
+  ;; ("l" #'org-agenda-list            "calendar")
+  ("l" (lambda ()
+         (interactive)
+         (org-agenda nil "d")) "next actions")
   ("n" #'gtd-topics->next-actions   "topics->next-actions")
   ("o" (lambda ()
          (interactive)
@@ -240,6 +252,7 @@
        "org.el")
   ("p" #'gtd-jump-to-project        "jump to project")
   ("t" #'gtd-tags->next-actions     "tags->next-actions")
+  ("g" #'org-roam-ui-open           "open org graph")
 
   ("q" nil))
 
@@ -255,7 +268,8 @@
                     "h" #'evil-backward-char
                     "j" #'org-agenda-next-line
                     "k" #'org-agenda-previous-line
-                    "l" #'evil-forward-char)
+                    "l" #'evil-forward-char
+                    "o" #'org-agenda)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-babel
