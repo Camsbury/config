@@ -1728,3 +1728,9 @@ Researchhotkey=D
 [aows]
 Hotkey=S
 Researchhotkey=S
+
+[aloa]
+Hotkey=T
+
+[adro]
+Hotkey=S
