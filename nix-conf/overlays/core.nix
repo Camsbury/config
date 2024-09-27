@@ -43,6 +43,8 @@ in
           inherit bat;
           inherit dropbox;
           inherit emacs;
+          inherit ollama;
+          inherit lmstudio;
           # inherit update-nix-fetchgit;
         })
       )
