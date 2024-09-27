@@ -7,5 +7,6 @@ in
   {
     environment.systemPackages = [
       alda
+      pkgs.lmms
     ];
   }
