@@ -1,11 +1,22 @@
 { config, pkgs, ... }:
 
-{
+let
+  pins = import ../pins.nix;
+  cudaPkgs = import (
+    pkgs.fetchFromGitHub {
+      owner = "NixOS";
+      repo  = "nixpkgs";
+      rev = pins.cuda.rev;
+      hash = pins.cuda.hash;
+    }
+  ) { config = { allowUnfree = true; }; };
+in
+  {
 
-  hardware.opengl.enable = true;
-  hardware.opengl.setLdLibraryPath = true;
+    hardware.opengl.enable = true;
+    hardware.opengl.setLdLibraryPath = true;
 
-  environment.systemPackages = with pkgs; [
-    cudatoolkit
-  ];
-}
+    environment.systemPackages = [
+      cudaPkgs.cudatoolkit
+    ];
+  }

@@ -21,7 +21,7 @@
   fonts = {
     fontDir.enable = true;
     enableGhostscriptFonts = true;
-    fonts = with pkgs; [
+    packages = with pkgs; [
       corefonts
       dejavu_fonts
       go-font
@@ -40,7 +40,7 @@
     autoRepeatDelay = 300;
     autoRepeatInterval = 15;
     enable = true;
-    layout = "us";
+    xkb.layout = "us";
     displayManager.lightdm.enable = true;
   };
 

@@ -24,7 +24,7 @@ in
       ];
     };
   };
-  services.flatpak.enable = true;
+  # services.flatpak.enable = true;
 
   hardware.steam-hardware.enable = true;
 
@@ -32,7 +32,7 @@ in
     systemPackages = with pkgs; [
       winePkgs.lutris
       mesa
-      nvtop
+      nvtopPackages.full
       sc-controller
       vulkan-tools
       (winePkgs.wineWowPackages.full.override {

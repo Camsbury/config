@@ -136,5 +136,5 @@ let
 
 in
   {
-    emacsPackages = basePkgs.emacsPackages.overrideScope' emacsOverrides;
+    emacsPackages = basePkgs.emacsPackages.overrideScope emacsOverrides;
   }

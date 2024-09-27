@@ -2,6 +2,6 @@
 
 {
   services.xserver = {
-    xkbOptions = "compose:menu";
+    xkb.options = "compose:menu";
   };
 }

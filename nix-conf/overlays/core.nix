@@ -3,7 +3,7 @@
 
 let
   unstablePkgs = import ../utils/unstable.nix { config = { allowUnfree = true; }; };
-  bravePkgs = import ../pins/brave.nix {};
+  bravePkgs = import ../pins/brave.nix { config = { allowUnfree = true; }; };
   cachixBall = import (builtins.fetchTarball "https://github.com/NixOS/nixpkgs/tarball/1d4de0d552ae9aa66a5b8dee5fb0650a4372d148") {};
 in
   {
@@ -17,6 +17,8 @@ in
         #   callPackage (import ../derivations/babashka) {};
 
         brave = bravePkgs.brave;
+        chromium = bravePkgs.chromium;
+        google-chrome = bravePkgs.google-chrome;
 
         check-low-battery = with builtins; with pkgs;
           callPackage (import ../derivations/check-low-battery) {};
@@ -39,8 +41,6 @@ in
           "https://github.com/Camsbury/xndr/archive/094be18.tar.gz") {pkgs = self;};
         } // ( with unstablePkgs; {
           inherit bat;
-          # inherit brave;
-          inherit chromium;
           inherit dropbox;
           inherit emacs;
           # inherit update-nix-fetchgit;

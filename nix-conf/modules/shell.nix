@@ -16,7 +16,7 @@
       curl
       dua
       du-dust
-      exa
+      eza
       fzf
       htop
       httpie

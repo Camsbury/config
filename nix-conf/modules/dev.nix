@@ -30,7 +30,7 @@ in
     kubectl
     nodePackages.livedown
     loc
-    nixfmt
+    nixfmt-rfc-style
     update-nix-fetchgit
     nodePackages.prettier
     pandoc

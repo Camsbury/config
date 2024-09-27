@@ -14,7 +14,7 @@ in
     services = {
       xserver = {
         xkbVariant = "colemak";
-        xkbOptions = "caps:escape";
+        xkb.options = "caps:escape";
         xrandrHeads = [{
           output = "eDP-1";
           primary = true;

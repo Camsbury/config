@@ -19,7 +19,7 @@ in
       brave
       chromium
       discordPkgs.discord
-      element-desktop
+      # element-desktop
       firefox
       gimp
       google-chrome # for certain features
