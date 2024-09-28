@@ -1,4 +1,5 @@
 let
+  # nixos channel pinned to 24.05 - https://github.com/NixOS/nixpkgs/archive/759537f0.tar.gz
   last-unstable = {
     rev = "eabe8d3eface";
     hash = "sha256-OTeQA+F8d/Evad33JMfuXC89VMetQbsU4qcaePchGr4=";
