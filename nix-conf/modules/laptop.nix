@@ -9,7 +9,7 @@
     "mem_sleep_default=deep"
   ];
   services = {
-    xserver.libinput = {
+    libinput = {
       enable = true;
       touchpad.naturalScrolling = true;
       touchpad.tapping = false;
