@@ -41,7 +41,7 @@ in
           "https://github.com/Camsbury/xndr/archive/094be18.tar.gz") {pkgs = self;};
         } // ( with unstablePkgs; {
           inherit bat;
-          inherit dropbox;
+          # inherit dropbox;
           inherit emacs;
           inherit ollama;
           inherit lmstudio;
