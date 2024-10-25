@@ -19,27 +19,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // MAIN LAYER
   [0] = LAYOUT_ergodox(
       //LEFT HAND
-      KC_NO,             KC_PGDOWN,      KC_PGUP,           KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK, KC_MEDIA_PLAY_PAUSE, LCTL(KC_Q),
-      KC_TAB,            KC_Q,           KC_W,              KC_F,                KC_P,                KC_G,                LGUI(KC_X),
-      LT(1,KC_LBRACKET), KC_A,           KC_R,              KC_S,                KC_T,                KC_D,
-      KC_LSPO,           KC_Z,           KC_X,              KC_C,                KC_V,                KC_B,                KC_CAPSLOCK,
-      ALL_T(KC_NO),      KC_LALT,        LSFT(LALT(KC_NO)), MEH_T(KC_NO),        KC_LGUI,
+      KC_NO,             KC_PGDOWN,      KC_PGUP,       KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK, KC_MEDIA_PLAY_PAUSE, LCTL(KC_Q),
+      KC_TAB,            KC_Q,           KC_W,          KC_F,                KC_P,                KC_G,                LGUI(KC_X),
+      LT(1,KC_LBRACKET), KC_A,           KC_R,          KC_S,                KC_T,                KC_D,
+      KC_LSPO,           KC_Z,           KC_X,          KC_C,                KC_V,                KC_B,                KC_CAPSLOCK,
+      KC_HYPR,           KC_LALT,        LSFT(KC_LALT), KC_MEH,              KC_LGUI,
 
-                                                                                 KC_NO,               KC_NO,
-                                                                                                                           KC_NO,
-                                                                                 KC_SPACE,            LT(2,KC_ESCAPE),     CTL_T(KC_NO),
+                                                                             KC_NO,               KC_NO,
+                                                                                                                       KC_NO,
+                                                                             KC_SPACE,            LT(2,KC_ESCAPE),     KC_LCTL,
 
 
       //RIGHT HAND
-      KC_NO,          KC_AUDIO_MUTE,  KC_AUDIO_VOL_UP, KC_AUDIO_VOL_DOWN,   LGUI(KC_KP_PLUS),    LGUI(KC_MINUS),      KC_NO,
-      KC_APP,         KC_J,           KC_L,            KC_U,                KC_Y,                KC_COLN,             KC_DELETE,
-                      KC_H,           KC_N,            KC_E,                KC_I,                KC_O,                LT(1,KC_RBRACKET),
-      KC_NO,          KC_K,           KC_M,            KC_COMMA,            KC_DOT,              KC_SLASH,            KC_RSPC,
-                                      KC_LGUI,         MEH_T(KC_NO),        LSFT(LALT(KC_NO)),   KC_LALT,             ALL_T(KC_NO),
+      KC_NO,   KC_AUDIO_MUTE,  KC_AUDIO_VOL_UP, KC_AUDIO_VOL_DOWN,   LGUI(KC_KP_PLUS), LGUI(KC_MINUS),      KC_NO,
+      KC_APP,  KC_J,           KC_L,            KC_U,                KC_Y,             KC_COLN,             KC_DELETE,
+               KC_H,           KC_N,            KC_E,                KC_I,             KC_O,                LT(1,KC_RBRACKET),
+      KC_NO,   KC_K,           KC_M,            KC_COMMA,            KC_DOT,           KC_SLASH,            KC_RSPC,
+                               KC_LGUI,         KC_MEH,              LSFT(KC_LALT),    KC_LALT,             KC_HYPR,
 
       KC_NO,
-                      KC_NO,          KC_NO,
-      CTL_T(KC_NO),   LT(2,KC_ENTER), KC_BSPACE),
+               KC_NO,          KC_NO,
+      KC_LCTL, LT(2,KC_ENTER), KC_BSPACE),
 
   // SYMBOL LAYER
   [1] = LAYOUT_ergodox(
@@ -91,83 +91,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                         KC_NO,              KC_NO,
       KC_NO,            KC_TRNS,            KC_NO),
 
-  /* // BRAID LAYER */
-  [3] = LAYOUT_ergodox(
-      //LEFT HAND
-      TO(0), TO(3),   TO(4),   KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK, KC_MEDIA_PLAY_PAUSE, KC_NO,
-      TO(5), KC_NO,   KC_NO,   KC_NO,               KC_NO,               KC_NO,               KC_NO,
-      TO(7), KC_LEFT, KC_DOWN, KC_UP,               KC_RIGHT,            KC_NO,
-      KC_NO, KC_NO,   KC_NO,   KC_NO,               KC_NO,               KC_NO,               KC_NO,
-      KC_NO, KC_NO,   KC_NO,   KC_NO,               KC_NO,
-
-                                                    KC_NO,               KC_NO,
-                                                                                              KC_NO,
-                                                    KC_NO,               KC_TRNS,             KC_NO,
-
-
-      //RIGHT HAND
-      KC_NO, KC_AUDIO_MUTE, KC_AUDIO_VOL_UP, KC_AUDIO_VOL_DOWN, KC_NO, KC_NO, KC_NO,
-      KC_NO, KC_NO,         KC_NO,           KC_NO,             KC_NO, KC_NO, KC_NO,
-             KC_LSFT,       KC_NO,           KC_NO,             KC_NO, KC_NO, KC_NO,
-      KC_NO, KC_NO,         KC_NO,           KC_NO,             KC_NO, KC_NO, KC_NO,
-                            KC_NO,           KC_NO,             KC_NO, KC_NO, KC_NO,
-
- KC_NO,
-             KC_NO,         KC_NO,
-      KC_NO, KC_TRNS,       KC_SPACE),
-
-  /* // CUPHEAD LAYER */
-  [4] = LAYOUT_ergodox(
-      //LEFT HAND
-      TO(0), TO(3),   TO(4),   KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK, KC_MEDIA_PLAY_PAUSE, KC_NO,
-      KC_NO, KC_NO,   KC_NO,   KC_NO,               KC_NO,               KC_NO,               KC_NO,
-      KC_NO, KC_LEFT, KC_DOWN, KC_UP,               KC_RIGHT,            KC_NO,
-      KC_NO, KC_NO,   KC_NO,   KC_NO,               KC_NO,               KC_NO,               KC_NO,
-      KC_NO, KC_NO,   KC_NO,   KC_NO,               KC_NO,
-
-                                                    KC_NO,               KC_NO,
-                                                                                              KC_NO,
-                                                    KC_NO,               KC_ESCAPE,           KC_NO,
-
-
-      //RIGHT HAND
-      KC_NO, KC_AUDIO_MUTE, KC_AUDIO_VOL_UP, KC_AUDIO_VOL_DOWN, KC_NO,   KC_NO, KC_NO,
-      KC_NO, KC_NO,         KC_NO,           KC_NO,             KC_NO,   KC_NO, KC_NO,
-             KC_NO,         KC_X,            KC_V,              KC_LSFT, KC_C,  KC_TAB,
-      KC_NO, KC_NO,         KC_NO,           KC_NO,             KC_NO,   KC_NO, KC_NO,
-                            KC_NO,           KC_NO,             KC_NO,   KC_NO, KC_NO,
-
-      KC_NO,
-             KC_NO,         KC_NO,
-      KC_NO, KC_TRNS,       KC_Z),
-
   /* // WC3 LAYER */
-  [5] = LAYOUT_ergodox(
+  [3] = LAYOUT_ergodox(
       //BATTLE HAND
-      CTL_T(KC_NO),      KC_1,           KC_2,            KC_3,               KC_4,             KC_5,            KC_6,
-      KC_TAB,            KC_Q,           KC_W,            KC_F,               KC_P,             KC_G,            KC_7,
-      KC_BSPACE,         KC_A,           KC_R,            KC_S,               KC_T,             KC_D,
-      KC_LSPO,           KC_Z,           KC_X,            KC_C,               KC_V,             KC_B,            KC_8,
-      KC_F1,             KC_F2,          KC_F3,           KC_LALT,            CTL_T(KC_NO),
+      KC_LCTL,   KC_1,           KC_2,            KC_3,               KC_4,     KC_5,            KC_6,
+      KC_TAB,    KC_Q,           KC_W,            KC_F,               KC_P,     KC_G,            KC_7,
+      KC_BSPACE, KC_A,           KC_R,            KC_S,               KC_T,     KC_D,
+      KC_LSPO,   KC_Z,           KC_X,            KC_C,               KC_V,     KC_B,            KC_8,
+      KC_F1,     KC_F2,          KC_F3,           KC_LALT,            KC_LCTL,
 
-                                                                              KC_9,             KC_F10,
-                                                                                                                 KC_BSPACE,
-                                                                              KC_SPACE,         LT(6,KC_ESCAPE), KC_LSFT,
+                                                                      KC_9,     KC_0,
+                                                                                                 KC_BSPACE,
+                                                                      KC_SPACE, LT(4,KC_ESCAPE), KC_LSFT,
 
 
       //AUXILIARY HAND
-      KC_NO,             KC_AUDIO_MUTE,  KC_AUDIO_VOL_UP, KC_AUDIO_VOL_DOWN,  LGUI(KC_PLUS),    LGUI(KC_MINUS),  TO(0),
-      LGUI(KC_SPACE),    KC_J,           KC_L,            KC_U,               KC_Y,             KC_COLN,         KC_DELETE,
-                         KC_H,           KC_N,            KC_E,               KC_I,             KC_O,            LT(1,KC_RBRACKET),
-      KC_NO,             KC_K,           KC_M,            KC_COMMA,           KC_DOT,           KC_SLASH,        KC_F15,
-                                         KC_LGUI,         KC_LALT,            MEH_T(KC_NO),     ALL_T(KC_NO),    KC_F16,
+      TO(5),          KC_AUDIO_MUTE,  KC_AUDIO_VOL_UP, KC_AUDIO_VOL_DOWN,  LGUI(KC_PLUS), LGUI(KC_MINUS), TO(0),
+      LGUI(KC_SPACE), KC_J,           KC_L,            KC_U,               KC_Y,          KC_COLN,        KC_DELETE,
+                      KC_H,           KC_N,            KC_E,               KC_I,          KC_O,           LT(1,KC_RBRACKET),
+      KC_NO,          KC_K,           KC_M,            KC_COMMA,           KC_DOT,        KC_SLASH,       KC_F15,
+                                      KC_LGUI,         KC_LALT,            KC_MEH,        KC_HYPR,        KC_F16,
 
       KC_F14,
-                         KC_NO,          KC_NO,
-      CTL_T(KC_NO),      LT(2,KC_ENTER), KC_BSPACE),
+                      KC_NO,          KC_NO,
+      KC_LCTL,        LT(2,KC_ENTER), KC_BSPACE),
 
   /* // WC3 LAYER 2 */
-  [6] = LAYOUT_ergodox(
+  [4] = LAYOUT_ergodox(
       //LEFT HAND
       KC_NO,  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
       KC_NO,  KC_NO, KC_P1, KC_P4, KC_P7, KC_NO, KC_NO,
@@ -192,25 +142,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
   // SC2 LAYER
-  [7] = LAYOUT_ergodox(
+  [5] = LAYOUT_ergodox(
       //BATTLE HAND
-      KC_ESCAPE,      KC_1,           KC_2,           KC_3,                KC_4,             KC_5,           KC_6,
-      KC_TAB,         KC_Q,           KC_W,           KC_F,                KC_P,             KC_G,           KC_HOME,
-      KC_LBRACKET,    KC_A,           KC_R,           KC_S,                KC_T,             KC_D,
-      KC_RBRACKET,    KC_Z,           KC_X,           KC_C,                KC_V,             KC_B,           KC_QUOTE,
-      LCA(KC_NO),     MEH(KC_NO),     KC_8,           KC_9,                S(C(KC_NO)),
+      KC_ESCAPE,      KC_1,   KC_2, KC_3, KC_4,       KC_5, KC_6,
+      KC_TAB,         KC_Q,   KC_W, KC_F, KC_P,       KC_G, KC_HOME,
+      KC_LBRACKET,    KC_A,   KC_R, KC_S, KC_T,       KC_D,
+      KC_RBRACKET,    KC_Z,   KC_X, KC_C, KC_V,       KC_B, KC_QUOTE,
+      LCA(KC_NO),     KC_MEH, KC_8, KC_9, S(KC_LCTL),
 
-                                                                           MEH(KC_NO),       LCA(KC_NO),
-                                                                                                             LSA(KC_NO),
-                                                                           S(KC_NO),         C(KC_NO),       A(KC_NO),
+                                                            KC_MEH,   LCA(KC_NO),
+                                                                                  LSA(KC_NO),
+                                                            KC_LSFT,  KC_LCTL,    KC_LALT,
 
 
       //AUXILIARY HAND
-      KC_NO,          KC_AUDIO_MUTE,  KC_AUDIO_VOL_UP, KC_AUDIO_VOL_DOWN,  LGUI(KC_PLUS),    LGUI(KC_MINUS), TO(0),
-      LGUI(KC_SPACE), KC_J,           KC_L,            KC_U,               KC_Y,             KC_COLN,        KC_DELETE,
-                      KC_H,           KC_N,            KC_E,               KC_I,             KC_O,           KC_RBRACKET,
-      KC_NO,          KC_K,           KC_M,            KC_COMMA,           KC_DOT,           KC_SLASH,       KC_RSPC,
-                                      KC_LGUI,         KC_LALT,            MEH_T(KC_NO),     ALL_T(KC_NO),   KC_NO,
+      KC_NO,          KC_AUDIO_MUTE,  KC_AUDIO_VOL_UP, KC_AUDIO_VOL_DOWN,  LGUI(KC_PLUS), LGUI(KC_MINUS), TO(0),
+      LGUI(KC_SPACE), KC_J,           KC_L,            KC_U,               KC_Y,          KC_COLN,        KC_DELETE,
+                      KC_H,           KC_N,            KC_E,               KC_I,          KC_O,           KC_RBRACKET,
+      KC_NO,          KC_K,           KC_M,            KC_COMMA,           KC_DOT,        KC_SLASH,       KC_RSPC,
+                                      KC_LGUI,         KC_LALT,            KC_MEH,        KC_HYPR,        KC_NO,
 
       KC_NO,
                       KC_NO,          KC_NO,
