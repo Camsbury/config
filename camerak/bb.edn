@@ -1,0 +1,8 @@
+ {:paths ["bb"]
+  :deps {camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.2"}}
+  :tasks
+  {transpile {:doc "transpile edn keymap to C"
+              :task transpile/execute!}
+   flash     {:depends [transpile]
+              :doc "flash to the keyboard"
+              :task (shell "sudo nix-shell")}}}

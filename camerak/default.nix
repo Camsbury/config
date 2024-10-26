@@ -48,7 +48,7 @@ rec {
     ${teensy-loader-cli}/bin/teensy-loader-cli \
       -v \
       --mcu=atmega32u4 \
-      -w ${layout}
+      -w ${layout} && exit
   '';
 
   meta.targets = [ "layout" ];
