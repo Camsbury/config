@@ -1,0 +1,11 @@
+{
+ :mute          :kc-audio-mute
+ :next          :kc-media-next-track
+ :none          :kc-no
+ :pl-ps         :kc-media-play-pause
+ :prev          :kc-media-prev-track
+ :vol-down      :kc-audio-vol-down
+ :vol-up        :kc-audio-vol-up
+ :inspect-linux [:lctl [:lsft :kc-j]]
+ :inspect-mac   [:lgui [:lsft :kc-c]]
+ }

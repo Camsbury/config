@@ -4,6 +4,11 @@
    [clojure.string :as str]
    [clojure.edn :as edn]))
 
+(def aliases
+  (->> "./aliases.edn"
+       slurp
+       edn/read-string))
+
 (def translation-map
   (let [hash "6dfe915e26d7147e6c2bed495d3b01cf5b21e6ec"
         raw-md
@@ -50,6 +55,11 @@
 
       (contains? layer-map kc)
       (get layer-map kc)
+
+      (contains? aliases kc)
+      (->> kc
+           (get aliases)
+           (map-it))
 
       :else
       (get translation-map kc))))

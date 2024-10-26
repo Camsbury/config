@@ -3,72 +3,72 @@
   :layout
   {:left
    {:main
-    [[:kc-pgdn :kc-pgup :kc-media-prev-track :kc-media-next-track :kc-media-play-pause]
+    [[:kc-pgdn :kc-pgup :prev :next :pl-ps]
      [:kc-q :kc-w :kc-f :kc-p :kc-g]
      [:kc-a :kc-r :kc-s :kc-t :kc-d]
      [:kc-z :kc-x :kc-c :kc-v :kc-b]]
     :outer
-    [:kc-no :kc-tab [:lt :symbol-lay :kc-lbracket] :kc-lspo]
+    [:none :kc-tab [:lt :symbol-lay :kc-lbracket] :kc-lspo]
     :inner
     [[:lctl :kc-q] [:lgui :kc-x] :kc-capslock]
     :bottom
     [:kc-hypr :kc-lalt [:lsft :kc-lalt] :kc-meh :kc-lgui]
     :thumb
-    {:top   [:kc-no :kc-no]
+    {:top   [:none :none]
      :main  [:kc-space [:lt :number-lay :kc-esc]]
-     :inner [:kc-no :kc-lctl]}}
+     :inner [:none :kc-lctl]}}
    :right
    {:main
-    [[:kc-audio-mute :kc-audio-vol-up :kc-audio-vol-down [:lgui :kc-kp-plus] [:lgui :kc-minus]]
+    [[:mute :vol-up :vol-down [:lgui :kc-kp-plus] [:lgui :kc-minus]]
      [:kc-j :kc-l :kc-u :kc-y :kc-coln]
      [:kc-h :kc-n :kc-e :kc-i :kc-o]
      [:kc-k :kc-m :kc-comma :kc-dot :kc-slash]]
     :outer
-    [:kc-no :kc-delete [:lt :symbol-lay :kc-rbracket] :kc-rspc]
+    [:none :kc-delete [:lt :symbol-lay :kc-rbracket] :kc-rspc]
     :inner
-    [:kc-no :kc-app :kc-no]
+    [:none :kc-app :none]
     :bottom
     [:kc-lgui :kc-meh [:lsft :kc-lalt] :kc-lalt :kc-hypr]
     :thumb
-    {:top   [:kc-no :kc-no]
+    {:top   [:none :none]
      :main  [[:lt :number-lay :kc-enter] :kc-bspace]
-     :inner [:kc-no :kc-lctl]}}}}
+     :inner [:none :kc-lctl]}}}}
 
  ;; SYMBOL LAYER
  {:title :symbol-lay
   :layout
   {:left
    {:main
-    [[:kc-no :kc-no :kc-no :kc-no :kc-no]
-     [:kc-dlr :kc-circ :kc-hash :kc-unds :kc-no]
+    [[:none :none :none :none :none]
+     [:kc-dlr :kc-circ :kc-hash :kc-unds :none]
      [:kc-plus :kc-asterisk :kc-equal :kc-minus :kc-ques]
-     [:kc-left :kc-down :kc-up :kc-right :kc-no]]
+     [:kc-left :kc-down :kc-up :kc-right :none]]
     :outer
-    [:kc-no :kc-no :kc-trns :kc-lcbr]
+    [:none :none :kc-trns :kc-lcbr]
     :inner
-    [:kc-no :kc-no :kc-no]
+    [:none :none :none]
     :bottom
-    [:kc-no :kc-no :kc-no :kc-no :kc-no]
+    [:none :none :none :none :none]
     :thumb
-    {:top   [:kc-no :reset]
-     :main  [:kc-no :kc-no]
-     :inner [:kc-no :kc-no]}}
+    {:top   [:none :reset]
+     :main  [:none :none]
+     :inner [:none :none]}}
    :right
    {:main
-    [[:kc-no :kc-no :kc-no :kc-no :kc-no]
-     [:kc-no :kc-at :kc-perc :kc-pipe :kc-scolon]
+    [[:none :none :none :none :none]
+     [:none :kc-at :kc-perc :kc-pipe :kc-scolon]
      [:kc-exlm :kc-quote :kc-dquo :kc-grave :kc-tild]
-     [:kc-no :kc-ampr :kc-labk :kc-rabk :kc-bslash]]
+     [:none :kc-ampr :kc-labk :kc-rabk :kc-bslash]]
     :outer
-    [:kc-no :kc-no :kc-trns :kc-rcbr]
+    [:none :none :kc-trns :kc-rcbr]
     :inner
-    [:kc-no :kc-no :kc-no]
+    [:none :none :none]
     :bottom
-    [:kc-no :kc-no :kc-no :kc-no :kc-no]
+    [:none :none :none :none :none]
     :thumb
-    {:top   [:kc-f-13 :kc-no]
-     :main  [[:to :wc3-lay] :kc-no]
-     :inner [:kc-no :kc-no]}}}}
+    {:top   [:kc-f-13 :none]
+     :main  [[:to :wc3-lay] :none]
+     :inner [:none :none]}}}}
 
  ;; NUMBER LAYER
  {:title :number-lay
@@ -80,15 +80,15 @@
      [:kc-1 :kc-2 :kc-3 :kc-4 :kc-5]
      [[:lsft [:lalt :kc-1]] [:lsft [:lalt :kc-2]] [:lsft [:lalt :kc-3]] [:lsft [:lalt :kc-4]] [:lsft [:lalt :kc-5]]]]
     :outer
-    [[:lctl [:lsft :kc-j]] :kc-no :kc-no :kc-lctl]
+    [:inspect-linux :none :none :kc-lctl]
     :inner
-    [[:lgui [:lsft :kc-c]] :kc-no :kc-no]
+    [:inspect-mac :none :none]
     :bottom
-    [:kc-no :kc-lalt :kc-no :kc-no :kc-no]
+    [:none :kc-lalt :none :none :none]
     :thumb
-    {:top   [:kc-no :kc-no]
-     :main  [:kc-no :kc-trns]
-     :inner [:kc-no :kc-no]}}
+    {:top   [:none :none]
+     :main  [:none :kc-trns]
+     :inner [:none :none]}}
    :right
    {:main
     [[:kc-f-6 :kc-f-7 :kc-f-8 :kc-f-9 :kc-f-10]
@@ -96,15 +96,15 @@
      [:kc-6 :kc-7 :kc-8 :kc-9 :kc-0]
      [[:lsft [:lalt :kc-6]] [:lsft [:lalt :kc-7]] [:lsft [:lalt :kc-8]] [:lsft [:lalt :kc-9]] [:lsft [:lalt :kc-0]]]]
     :outer
-    [:kc-f-11 :kc-f-12 :kc-no :kc-lctl]
+    [:kc-f-11 :kc-f-12 :none :kc-lctl]
     :inner
-    [:kc-no :kc-no :kc-no]
+    [:none :none :none]
     :bottom
-    [:kc-no :kc-no :kc-no :kc-lalt :kc-no]
+    [:none :none :none :kc-lalt :none]
     :thumb
-    {:top   [:kc-no :kc-no]
-     :main  [:kc-trns :kc-no]
-     :inner [:kc-no :kc-no]}}}}
+    {:top   [:none :none]
+     :main  [:kc-trns :none]
+     :inner [:none :none]}}}}
 
  ;; WC3 LAYER
  {:title :wc3-lay
@@ -129,56 +129,56 @@
    ;; aux hand
    :right
    {:main
-    [[:kc-audio-mute :kc-audio-vol-up :kc-audio-vol-down [:lgui :kc-plus] [:lgui :kc-minus]]
+    [[:mute :vol-up :vol-down [:lgui :kc-plus] [:lgui :kc-minus]]
      [:kc-j :kc-l :kc-u :kc-y :kc-coln]
      [:kc-h :kc-n :kc-e :kc-i :kc-o]
      [:kc-k :kc-m :kc-comma :kc-dot :kc-slash]]
     :outer
     [[:to :main-lay] :kc-delete [:lt :symbol-lay :kc-rbracket] :kc-f-15]
     :inner
-    [[:to :sc2-lay] :kc-app :kc-no]
+    [[:to :sc2-lay] :kc-app :none]
     :bottom
     [:kc-lgui :kc-lalt :kc-meh :kc-hypr :kc-f-16]
     :thumb
-    {:top   [:kc-f-14 :kc-no]
+    {:top   [:kc-f-14 :none]
      :main  [[:lt :number-lay :kc-enter] :kc-bspace]
-     :inner [:kc-no :kc-lctl]}}}}
+     :inner [:none :kc-lctl]}}}}
 
  ;; WC3 AUX LAYER
  {:title :wc3-aux-lay
   :layout
   {:left
    {:main
-    [[:kc-no :kc-no :kc-no :kc-no :kc-no]
-     [:kc-no :kc-p-1 :kc-p-4 :kc-p-7 :kc-no]
-     [:kc-no :kc-f-3 :kc-f-2 :kc-f-1 :kc-no]
-     [:kc-no :kc-p-2 :kc-p-5 :kc-p-8 :kc-no]]
+    [[:none :none :none :none :none]
+     [:none :kc-p-1 :kc-p-4 :kc-p-7 :none]
+     [:none :kc-f-3 :kc-f-2 :kc-f-1 :none]
+     [:none :kc-p-2 :kc-p-5 :kc-p-8 :none]]
     :outer
-    [:kc-no :kc-no :kc-del :kc-ins]
+    [:none :none :kc-del :kc-ins]
     :inner
-    [:kc-no :kc-no :kc-no]
+    [:none :none :none]
     :bottom
-    [:kc-no :kc-no :kc-no :kc-no :kc-no]
+    [:none :none :none :none :none]
     :thumb
-    {:top   [:kc-no :kc-no]
-     :main  [:kc-no :kc-no]
-     :inner [:kc-no :kc-no]}}
+    {:top   [:none :none]
+     :main  [:none :none]
+     :inner [:none :none]}}
    :right
    {:main
-    [[:kc-no :kc-no :kc-no :kc-no :kc-no]
-     [:kc-no :kc-no :kc-no :kc-no :kc-no]
-     [:kc-no :kc-no :kc-no :kc-no :kc-no]
-     [:kc-no :kc-no :kc-no :kc-no :kc-no]]
+    [[:none :none :none :none :none]
+     [:none :none :none :none :none]
+     [:none :none :none :none :none]
+     [:none :none :none :none :none]]
     :outer
-    [:kc-no :kc-no :kc-no :kc-no]
+    [:none :none :none :none]
     :inner
-    [:kc-no :kc-no :kc-no]
+    [:none :none :none]
     :bottom
-    [:kc-no :kc-no :kc-no :kc-no :kc-no]
+    [:none :none :none :none :none]
     :thumb
-    {:top   [:kc-no :kc-no]
-     :main  [:kc-no :kc-no]
-     :inner [:kc-no :kc-no]}}}}
+    {:top   [:none :none]
+     :main  [:none :none]
+     :inner [:none :none]}}}}
 
  ;; SC2 LAYER
  {:title :sc2-lay
@@ -194,24 +194,24 @@
     :inner
     [:kc-6 :kc-home :kc-quote]
     :bottom
-    [[:lca :kc-no] :kc-meh :kc-8 :kc-9 [:s :kc-lctl]]
+    [[:lca :none] :kc-meh :kc-8 :kc-9 [:s :kc-lctl]]
     :thumb
-    {:top   [:kc-meh [:lca :kc-no]]
+    {:top   [:kc-meh [:lca :none]]
      :main  [:kc-lsft :kc-lctl]
-     :inner [[:lsa :kc-no] :kc-lalt]}}
+     :inner [[:lsa :none] :kc-lalt]}}
    :right
    {:main
-    [[:kc-audio-mute :kc-audio-vol-up :kc-audio-vol-down [:lgui :kc-plus] [:lgui :kc-minus]]
+    [[:mute :vol-up :vol-down [:lgui :kc-plus] [:lgui :kc-minus]]
      [:kc-j :kc-l :kc-u :kc-y :kc-coln]
      [:kc-h :kc-n :kc-e :kc-i :kc-o]
      [:kc-k :kc-m :kc-comma :kc-dot :kc-slash]]
     :outer
     [[:to :main-lay] :kc-delete :kc-rbracket :kc-rspc]
     :inner
-    [:kc-no [:lgui :kc-spc] :kc-no]
+    [:none [:lgui :kc-spc] :none]
     :bottom
-    [:kc-lgui :kc-lalt :kc-meh :kc-hypr :kc-no]
+    [:kc-lgui :kc-lalt :kc-meh :kc-hypr :none]
     :thumb
-    {:top   [:kc-no :kc-no]
+    {:top   [:none :none]
      :main  [:kc-enter :kc-bspace]
-     :inner [:kc-no :kc-no]}}}}]
+     :inner [:none :none]}}}}]
