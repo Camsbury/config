@@ -183,6 +183,13 @@ If invoked with a prefix ARG eval the expression after inserting it"
     (mark-defun)
     (call-interactively 'narrow-and-zoom-in)))
 
+(defun clj-inspect-at-point ()
+  ""
+  (interactive)
+  (save-excursion
+    (goto-char (cadr (cider-sexp-at-point 'bounds)))
+    (call-interactively #'cider-inspect)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Operators
@@ -215,10 +222,18 @@ If invoked with a prefix ARG eval the expression after inserting it"
   "M-<RET>" #'cider-eval-sexp-at-point
   "M-n"     #'clojure-unwind-all
   "M-e"     #'clojure-thread-first-all
-  "M-i"     #'clojure-thread-last-all)
+  "M-i"     #'clojure-thread-last-all
+  "M-y"     #'clj-inspect-at-point)
+
+(general-def 'normal cider-inspector-mode-map
+  "M-<RET>" #'cider-inspector-operate-on-point
+  "M-k"     #'cider-inspector-previous-inspectable-object
+  "M-j"     #'cider-inspector-next-inspectable-object
+  "M-l" #'cider-inspector-operate-on-point
+  "M-h"     #'cider-inspector-pop)
 
 (general-define-key :keymaps 'clojure-mode-map
-  [remap paredit-raise-sexp] #'cljr-raise-sexp)
+                    [remap paredit-raise-sexp] #'cljr-raise-sexp)
 
 (defhydra hydra-clj (:exit t :columns 5)
   "clojure-mode"
