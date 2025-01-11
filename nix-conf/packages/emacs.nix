@@ -23,6 +23,7 @@ let
     clojure-essential-ref-nov
     command-log-mode
     company
+    company-box
     company-cabal
     company-c-headers
     company-go
