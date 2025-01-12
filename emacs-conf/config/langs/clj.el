@@ -102,15 +102,37 @@
                  (format "%d chars" (length value)))))
     nil nil nil)))
 
+(defun cider-remove-pprint-commas
+    (s)
+  (let ((inner-string-p nil)
+        (escaped-p nil))
+    (apply #'string
+           (reverse
+            (--reduce-from
+             (progn
+               (when (and (not escaped-p) (eq it ?\"))
+                 (setq inner-string-p (not inner-string-p)))
+               (if escaped-p
+                   (setq escaped-p nil)
+                 (when (eq it ?\\)
+                   (setq escaped-p t)))
+               (if (and (not inner-string-p) (eq it ?,))
+                   acc
+                 (cons it acc)))
+             nil
+             (-map (lambda (x) x) s))))))
+
+;; TODO: don't remove commas if it's just a string
 (defun cider-copy-last-result-dwim ()
   (interactive)
   (cider-interactive-eval
-   "(if (string? *1) *1 (clojure.string/replace (with-out-str (clojure.pprint/pprint *1)) #\",\" \"\"))"
+   "(with-out-str (clojure.pprint/pprint *1))"
    (nrepl-make-response-handler
     (current-buffer)
     (lambda (_ value)
-      (kill-new value)
-      (unescape-clipboard-string)
+      (if (string-match "^\"" (read value))
+          (kill-new (read (read value)))
+        (kill-new (cider-remove-pprint-commas (read value))))
       (message "Copied last result (%s) to clipboard"
                (if (= (length value) 1) "1 char"
                  (format "%d chars" (length value)))))
@@ -119,12 +141,11 @@
 (defun cider-copy-last-result-as-edn ()
   (interactive)
   (cider-interactive-eval
-   "(clojure.string/replace (with-out-str (clojure.pprint/pprint *1)) #\",\" \"\")"
+   "(with-out-str (clojure.pprint/pprint *1))"
    (nrepl-make-response-handler
     (current-buffer)
     (lambda (_ value)
-      (kill-new value)
-      (unescape-clipboard-string)
+      (kill-new (cider-remove-pprint-commas (read value)))
       (message "Copied last result (%s) to clipboard"
                (if (= (length value) 1) "1 char"
                  (format "%d chars" (length value)))))
