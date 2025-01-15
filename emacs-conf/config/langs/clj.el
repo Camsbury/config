@@ -250,7 +250,9 @@ If invoked with a prefix ARG eval the expression after inserting it"
   "M-<RET>" #'cider-inspector-operate-on-point
   "M-k"     #'cider-inspector-previous-inspectable-object
   "M-j"     #'cider-inspector-next-inspectable-object
-  "M-l" #'cider-inspector-operate-on-point
+  "M-l"     #'cider-inspector-operate-on-point
+  "M-L"     #'cider-inspector-next-page
+  "M-H"     #'cider-inspector-prev-page
   "M-h"     #'cider-inspector-pop)
 
 (general-define-key :keymaps 'clojure-mode-map
