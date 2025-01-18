@@ -7,6 +7,7 @@
   irc
   lastpass
   lsp
+  notifications
   radio
   spotify
   tmux)
