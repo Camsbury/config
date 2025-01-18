@@ -218,6 +218,7 @@
   ("y" #'nav-flash-line               "flash line")
   ;; USEIT
   ("Y" #'copy-buffer-path             "copy buffer path")
+  ("z" #'breeze-paste-from-clipboard  "breeze it")
   ("Z" #'projectile-kill-buffers      "kill all project buffers"))
 
 (defhydra hydra-visual-leader (:exit t :columns 5)
