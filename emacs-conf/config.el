@@ -15,6 +15,7 @@
   services
   viewers
   games
+  gtd
   utils)
 
 (provide 'config)
