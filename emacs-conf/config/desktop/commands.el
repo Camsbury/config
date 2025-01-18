@@ -8,7 +8,8 @@
     (shell-command (concat "espeak \"" msg "\"")))
   :config
   (setq alarm-clock-play-sound nil)
-  (advice-add #'alarm-clock--system-notify :after #'alarm-message-espeak))
+  (setq alarm-clock-system-notify nil)
+  (advice-add #'alarm-clock--notify :after #'alarm-message-espeak))
 
 (use-package deadgrep)
 
@@ -258,7 +259,8 @@
 
 (defun find-or-open-application (command name &optional projectp)
   "Finds or opens the application"
-  (let* ((buffers (-map #'buffer-name (buffer-list)))
+  (let* (
+         (buffers (-map #'buffer-name (buffer-list)))
          (match (-first (lambda (buffer) (s-match name buffer)) buffers)))
     (if match
         (switch-to-buffer match)
