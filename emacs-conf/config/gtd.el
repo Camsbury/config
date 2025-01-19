@@ -3,6 +3,29 @@
 (require 'core/env)
 (require 'config/langs/org)
 
+(use-package pomidor
+  :config
+  (setq pomidor-seconds (* 10)
+        pomidor-break-seconds (* 10)
+        pomidor-sound-tick nil
+        pomidor-sound-tack nil
+        pomidor-sound-overwork (concat cmacs-share-path "/chime.wav")
+        pomidor-sound-break-over (concat cmacs-share-path "/chime.wav")
+        pomidor-update-interval 5
+        pomidor-play-sound-file
+        (lambda (file)
+          (start-process "my-pomidor-play-sound"
+                         nil
+                         "aplay"
+                         file)))
+  (add-to-list 'evil-emacs-state-modes 'pomidor-mode)
+  :hook (pomidor-mode . (lambda ()
+                          (display-line-numbers-mode -1) ; Emacs 26.1+
+                          (setq left-fringe-width 0 right-fringe-width 0)
+                          (setq left-margin-width 2 right-margin-width 0)
+                          ;; force fringe update
+                          (set-window-buffer nil (current-buffer)))))
+
 (setq org-tags-exclude-from-inheritance '("project")
       org-agenda-files `(,(concat cmacs-share-path "/org-roam/projects.org.gpg")
                          ,(concat cmacs-share-path "/org-roam/habit_tracker.org.gpg"))

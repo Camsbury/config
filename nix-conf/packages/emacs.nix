@@ -127,6 +127,7 @@ let
     origami
     paredit
     parseedn
+    pomidor
     posframe
     prettier-js
     prodigy
