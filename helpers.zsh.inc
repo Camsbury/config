@@ -150,38 +150,12 @@ function google-logs() {
   gcloud logging read "labels.\"compute.googleapis.com/resource_name\"=$1 $2" --limit 10 --format json
 }
 
-
-################################################################################
-  # dev servers
-
-  alias sshml="ssh cameron@${ML_1_IP_ADDR}"
-  alias sshmll="ssh cameron@${ML_2_IP_ADDR}"
-  alias sshvpn="ssh cameron@${VPN_IP_ADDR}"
-  alias sshadmin="ssh cameron@${ADMIN_IP_ADDR}"
-
 ################################################################################
 # shell
 
 function take-dir() {
   mkdir -p "$1" && cd "$1"
 }
-
-################################################################################
-# 1Pass retrieval
-
-function op-retrieve() {
-  op get item "${1}" | jq '.details.password' | tr -d \" | tr -d '\n' | xclip -selection clipboard
-}
-function op-retrieve-vpn() {
-  op get item VPN | jq '.details.fields[0].value' | tr -d \" | tr -d '\n' | xclip -selection clipboard
-}
-function op-list() {
-  op list "${1}" | jq -c 'map(.overview.title) | sort'
-}
-function op-retrieve-tripwire() {
-  op get item "Tripwire Local Passphrase" | jq '.details.password' | tr -d \" | tr -d '\n' | xclip -selection clipboard
-}
-
 ################################################################################
 # Productivity
 
