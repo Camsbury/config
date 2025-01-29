@@ -170,6 +170,7 @@
          (find-file (concat cmacs-config-path "/config/gtd.el")))
        "org.el")
   ("p" #'gtd-jump-to-project        "jump to project")
+  ("r" #'org-roam-buffer-toggle     "toggle roam info")
   ("t" #'gtd-tags->next-actions     "tags->next-actions")
   ("g" #'org-roam-ui-open           "open org graph")
 
