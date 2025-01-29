@@ -39,12 +39,16 @@ in
 
         xndr = super.callPackage (builtins.fetchTarball
           "https://github.com/Camsbury/xndr/archive/094be18.tar.gz") {pkgs = self;};
+
+        lmstudio = with builtins; with pkgs;
+          callPackage (import ../derivations/lmstudio) {};
+
         } // ( with unstablePkgs; {
           inherit bat;
           # inherit dropbox;
           inherit emacs;
           inherit ollama;
-          inherit lmstudio;
+          # inherit lmstudio;
           # inherit update-nix-fetchgit;
         })
       )
