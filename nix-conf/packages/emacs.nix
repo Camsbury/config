@@ -89,6 +89,7 @@ let
     ivy-clojuredocs
     ivy-hydra
     ivy-xref
+    journalctl-mode
     js2-mode
     json-navigator
     kaocha-runner
