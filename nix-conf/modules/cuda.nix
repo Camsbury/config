@@ -14,7 +14,7 @@ in
   {
 
     hardware.opengl.enable = true;
-    hardware.opengl.setLdLibraryPath = true;
+    # hardware.opengl.setLdLibraryPath = true;
 
     environment.systemPackages = [
       cudaPkgs.cudatoolkit

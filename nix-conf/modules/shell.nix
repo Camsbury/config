@@ -48,7 +48,7 @@
 
   documentation.dev.enable = true;
 
-  programs.bash.enableCompletion = true;
+  programs.bash.completion.enable = true;
 
   users.users.default.shell = pkgs.zsh;
 }

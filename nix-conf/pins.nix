@@ -1,16 +1,19 @@
 let
-  # nixos channel pinned to 24.05 - https://github.com/NixOS/nixpkgs/archive/759537f0.tar.gz
+  # nixos channel pinned to 24.11 - https://github.com/NixOS/nixpkgs/archive/f6687779bf4c396250831aa5a32cbfeb85bb07a3.tar.gz
+  # nixos channel was pinned to 24.05 - https://github.com/NixOS/nixpkgs/archive/759537f0.tar.gz
   last-unstable = {
-    rev = "eabe8d3eface";
-    hash = "sha256-OTeQA+F8d/Evad33JMfuXC89VMetQbsU4qcaePchGr4=";
+    rev = "4f3154007932";
+    hash = "sha256-AHTKbJ9ffR7Nx+XcR2XP0AYLI4OlUh2IGh4SAkdG5Ig=";
   };
   unstable = {
-    rev = "4f3154007932";
-    hash = "sha256-AHTKbJ9ffR7Nx+XcR2XP0AYLI4OlUh2IGh4SAkdG5Ig=";
+    rev = "102a39bfee44";
+    hash = "sha256-Q4vhtbLYWBUnjWD4iQb003Lt+N5PuURDad1BngGKdUs=";
   };
   chromium = {
-    rev = "4f3154007932";
-    hash = "sha256-AHTKbJ9ffR7Nx+XcR2XP0AYLI4OlUh2IGh4SAkdG5Ig=";
+    # rev = "4f3154007932";
+    # hash = "sha256-AHTKbJ9ffR7Nx+XcR2XP0AYLI4OlUh2IGh4SAkdG5Ig=";
+    rev = "102a39bfee44";
+    hash = "sha256-Q4vhtbLYWBUnjWD4iQb003Lt+N5PuURDad1BngGKdUs=";
   };
 in
   {
@@ -18,8 +21,9 @@ in
 
     hardware = {
       # NOTE: from nixos-hardware repo
-      rev = "72d53d51704295f1645d20384cd13aecc182f624";
-      hash = "sha256-5VSB63UE/O191cuZiGHbCJ9ipc7cGKB8cHp0cfusuyo=";
+      # rev = "72d53d51704295f1645d20384cd13aecc182f624";
+      rev = "537286c3c59b40311e5418a180b38034661d2536";
+      hash = "sha256-cgXDFrplNGs7bCVzXhRofjD8oJYqqXGcmUzXjHmip6Y=";
     };
 
     inherit chromium;
@@ -27,7 +31,7 @@ in
     brave = chromium;
 
     cuda = unstable;
-    vbox = unstable;
+    vbox = last-unstable;
 
     wine = unstable;
     # wine = {

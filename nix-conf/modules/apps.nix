@@ -31,7 +31,7 @@ in
       slack
       spotify # non-free
       tdesktop # telegram
-      transmission
+      transmission_3
       vlc
     ];
   };

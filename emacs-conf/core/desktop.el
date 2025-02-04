@@ -5,11 +5,7 @@
   (setq exwm-workspace-show-all-buffers t)
   (setq exwm-layout-show-all-buffers t)
   :config
-  (customize-set-variable 'exwm-replace nil))
-
-(use-package exwm-config
-  :after (exwm)
-  :config
+  (customize-set-variable 'exwm-replace nil)
   (defun global-exwm-key (key cmd)
     "bind key for use across all exwm buffers"
     (customize-set-variable 'exwm-input-global-keys

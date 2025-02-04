@@ -1,6 +1,5 @@
 (require 'prelude)
 (require 'exwm)
-(require 'exwm-config)
 
 (setq wbo-path  (concat cmacs-share-path "/wc3/build-orders/")
       wbo-file "builds.edn"

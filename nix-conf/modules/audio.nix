@@ -11,5 +11,8 @@
     package = pkgs.pulseaudioFull;
   };
 
-  sound.enable = true;
+
+  services.pipewire.enable = false;
+
+  # sound.enable = true;
 }

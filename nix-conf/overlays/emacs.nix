@@ -67,7 +67,6 @@ let
         buildInputs = with eSelf.melpaPackages; [
           dash
           emacsql
-          emacsql-psql
           s
         ];
       };
@@ -111,14 +110,20 @@ let
       ivy-cider = compileEmacsFiles {
         name = "ivy-cider.el";
         src = builtins.fetchurl {
-          url = https://raw.githubusercontent.com/rschmukler/ivy-cider/206e12f3c0892539de0ec91667863effe1da878b/ivy-cider.el;
-          sha256 = "0wiikh7l59c48bac6nlakai4p0dpi4qy7dlc6j2sr2gkznh5y5j0";
+          url = https://raw.githubusercontent.com/rschmukler/ivy-cider/bde9e2b1f2ecf753c50505301ccc964f249ea9a7/ivy-cider.el;
+          sha256 = "sha256:01jzyp17crhqyc56x63v47fjpy3nq7ns52wqgl45wlpgapynqbcw";
         };
-        buildInputs = with eSelf.melpaPackages; [
+        buildInputs = with eSelf.melpaPackages; with eSelf.elpaPackages; [
           all-the-icons
           cider
+          clojure-mode
           ivy
           ivy-rich
+          parseclj
+          parseedn
+          queue
+          sesman
+          spinner
         ];
       };
 
@@ -128,8 +133,14 @@ let
           url = https://raw.githubusercontent.com/oliyh/re-jump.el/443ddfa33dd2ae593cc0a013d16fff21f2afd925/re-jump.el;
           sha256 = "003zvvdlx77ncjml09gayspsrwynyqvhaip3cgzvn2nd92fwh9wk";
         };
-        buildInputs = with eSelf.melpaPackages; [
+        buildInputs = with eSelf.melpaPackages; with eSelf.elpaPackages; [
           cider
+          clojure-mode
+          parseclj
+          parseedn
+          queue
+          sesman
+          spinner
         ];
       };
     };

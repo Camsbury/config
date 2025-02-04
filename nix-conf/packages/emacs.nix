@@ -11,7 +11,6 @@ let
     attrap
     avy
     # benchmark-init
-    bind-key # use package dep
     browse-at-remote
     buffer-move
     cargo
@@ -49,8 +48,6 @@ let
     elfeed-score
     elixir-mode # elixir
     emacsql
-    emacsql-sqlite
-    emacsql-psql
     emms
     ess
     # esup
@@ -162,7 +159,6 @@ let
     treemacs-projectile
     ts
     typescript-mode
-    use-package
     uuidgen
     vega-view
     # visual-fill-column
@@ -174,10 +170,12 @@ let
     yasnippet
   ];
   elpas = with epkgs.elpaPackages; [
+    bind-key # use package dep
     chess
     exwm
     rainbow-mode
     undo-tree
+    use-package
   ];
   others = with epkgs; [
     # agda2-mode
