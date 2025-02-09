@@ -1,7 +1,10 @@
 { config, pkgs, lib, ... }:
 
 {
-  environment.systemPackages = [pkgs.pavucontrol];
+  environment.systemPackages = with pkgs; [
+    pavucontrol
+    alsa-utils
+  ];
 
   nixpkgs.config.pulseaudio = true;
 

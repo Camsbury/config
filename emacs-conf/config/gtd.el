@@ -5,13 +5,11 @@
 
 (use-package pomidor
   :config
-  (setq pomidor-seconds (* 10)
-        pomidor-break-seconds (* 10)
-        pomidor-sound-tick nil
+  (setq pomidor-sound-tick nil
         pomidor-sound-tack nil
         pomidor-sound-overwork (concat cmacs-share-path "/chime.wav")
         pomidor-sound-break-over (concat cmacs-share-path "/chime.wav")
-        pomidor-update-interval 5
+        pomidor-update-interval 1
         pomidor-play-sound-file
         (lambda (file)
           (start-process "my-pomidor-play-sound"
@@ -19,12 +17,73 @@
                          "aplay"
                          file)))
   (add-to-list 'evil-emacs-state-modes 'pomidor-mode)
+
+  ;; rest of config is GPT generated
+  (defface pomidor-work-mode-line-face
+    '((t (:foreground "yellow" :weight bold)))
+    "Face for work state in the Pomidor mode line."
+    :group 'pomidor)
+
+  (defface pomidor-break-mode-line-face
+    '((t (:foreground "green" :weight bold)))
+    "Face for break state in the Pomidor mode line."
+    :group 'pomidor)
+
+  (defface pomidor-overwork-mode-line-face
+    '((t (:foreground "red" :weight bold)))
+    "Face for overwork state in the Pomidor mode line."
+    :group 'pomidor)
+
+  ;; Variable holding the modeline status string
+  (defvar pomidor-mode-line-string ""
+    "String displaying current Pomidor status in the mode line.")
+
+  (defun pomidor-update-modeline ()
+    "Update `pomidor-mode-line-string' based on the current Pomidor state.
+    Shows a hammer emoji for work, a relaxing emoji for break,
+    and a warning emoji for overwork."
+    (let* ((work (or (pomidor-work-duration) (seconds-to-time 0)))
+           (over (pomidor-overwork-duration))
+           (brk (pomidor-break-duration))
+           (time-str (cond
+                      (brk (format "🏖️ %s" (pomidor--format-duration brk)))
+                      (over (format "🔥️ %s" (pomidor--format-duration over)))
+                      (work (format "🍅 %s" (pomidor--format-duration work)))
+                      (t "Idle")))
+           (face (cond
+                  (brk 'pomidor-break-mode-line-face)
+                  (over 'pomidor-overwork-mode-line-face)
+                  (work 'pomidor-work-mode-line-face)
+                  (t 'default)))
+           (base-text (propertize (format " %s " time-str) 'face face))
+           (click-map (let ((map (make-sparse-keymap)))
+                        (define-key map [mode-line down-mouse-1]
+                                    (lambda (event)
+                                      (interactive "e")
+                                      (switch-to-buffer (pomidor--get-buffer-create))))
+                        map)))
+      (setq pomidor-mode-line-string
+            (propertize base-text
+                        'face face
+                        'help-echo "Pomodoro\nmouse-1: open *pomidor* buffer"
+                        'mouse-face 'mode-line-highlight
+                        'local-map click-map))
+      (force-mode-line-update)))
+
+  ;; Hook the modeline update into Pomidor's update cycle.
+  (add-hook 'pomidor-update-hook #'pomidor-update-modeline)
+
+  ;; Ensure the Pomidor status string appears in the global mode line.
+  (add-to-list 'global-mode-string  '(:eval pomidor-mode-line-string) t)
+
   :hook (pomidor-mode . (lambda ()
                           (display-line-numbers-mode -1) ; Emacs 26.1+
                           (setq left-fringe-width 0 right-fringe-width 0)
                           (setq left-margin-width 2 right-margin-width 0)
                           ;; force fringe update
                           (set-window-buffer nil (current-buffer)))))
+
+
 
 (setq org-tags-exclude-from-inheritance '("project")
       org-agenda-files `(,(concat cmacs-share-path "/org-roam/projects.org.gpg")
