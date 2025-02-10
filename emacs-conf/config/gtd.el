@@ -46,8 +46,11 @@
     (let* ((work (or (pomidor-work-duration) (seconds-to-time 0)))
            (over (pomidor-overwork-duration))
            (brk (pomidor-break-duration))
+           (brk-icon (if (pomidor-should-long-break-p)
+                         "🏖️"
+                       "🧘"))
            (time-str (cond
-                      (brk (format "🏖️ %s" (pomidor--format-duration brk)))
+                      (brk (format (concat brk-icon " %s") (pomidor--format-duration brk)))
                       (over (format "🔥️ %s" (pomidor--format-duration over)))
                       (work (format "🍅 %s" (pomidor--format-duration work)))
                       (t "Idle")))
