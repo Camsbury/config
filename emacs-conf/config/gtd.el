@@ -9,6 +9,7 @@
         pomidor-sound-tack nil
         pomidor-sound-overwork (concat cmacs-share-path "/chime.wav")
         pomidor-sound-break-over (concat cmacs-share-path "/chime.wav")
+        pomidor-long-break-seconds (* 15 60)
         pomidor-update-interval 10
         pomidor-confirm-end-break nil
         pomidor-play-sound-file
@@ -76,7 +77,6 @@
 
   ;; Hook the modeline update into Pomidor's update cycle.
   (advice-add 'pomidor--update :after #'pomidor-update-modeline)
-  ;; (add-hook 'pomidor-update-hook #'pomidor-update-modeline)
 
   ;; Ensure the Pomidor status string appears in the global mode line.
   (add-to-list 'global-mode-string  '(:eval pomidor-mode-line-string) t)
@@ -87,6 +87,12 @@
                           (setq left-margin-width 2 right-margin-width 0)
                           ;; force fringe update
                           (set-window-buffer nil (current-buffer)))))
+
+(defun pomidor-quit ()
+  "Turn off Pomidor."
+  (interactive)
+  (kill-buffer (pomidor--get-buffer-create))
+  (setq pomidor-mode-line-string ""))
 
 (defun pomodoro-dwim ()
   (interactive)
@@ -239,6 +245,7 @@
          (spawn-right)
          (find-file (concat cmacs-config-path "/config/gtd.el")))
        "org.el")
+  ("O" #'pomidor-quit               "end pomodoro")
   ("p" #'gtd-jump-to-project        "jump to project")
   ("r" #'org-roam-buffer-toggle     "toggle roam info")
   ("t" #'gtd-tags->next-actions     "tags->next-actions")
