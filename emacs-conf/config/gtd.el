@@ -98,7 +98,9 @@
   (interactive)
   (if (pomidor-running-p)
       (call-interactively #'pomidor-break)
-    (call-interactively #'pomidor)))
+    (let ((b (current-buffer)))
+      (call-interactively #'pomidor)
+      (switch-to-buffer b))))
 
 
 (setq org-tags-exclude-from-inheritance '("project")
