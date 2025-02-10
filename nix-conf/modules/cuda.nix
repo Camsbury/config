@@ -13,7 +13,7 @@ let
 in
   {
 
-    hardware.opengl.enable = true;
+    hardware.graphics.enable = true;
     # hardware.opengl.setLdLibraryPath = true;
 
     environment.systemPackages = [

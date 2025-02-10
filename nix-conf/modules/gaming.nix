@@ -59,10 +59,10 @@ in
     "vm.max_map_count" = 1000000;
   };
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     # driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
   hardware.pulseaudio.support32Bit = true;
 }
