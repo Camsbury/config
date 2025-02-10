@@ -34,20 +34,24 @@ in
         disper = with builtins; with pkgs;
           callPackage (import ../derivations/disper) {};
 
+        gollama = with builtins; with pkgs;
+          callPackage (import ../derivations/gollama) {};
+
+        lmstudio = with builtins; with pkgs;
+          callPackage (import ../derivations/lmstudio) {};
+
         pgn-extract = with builtins; with pkgs;
           callPackage (import ../derivations/pgn-extract) {};
 
         xndr = super.callPackage (builtins.fetchTarball
           "https://github.com/Camsbury/xndr/archive/094be18.tar.gz") {pkgs = self;};
 
-        lmstudio = with builtins; with pkgs;
-          callPackage (import ../derivations/lmstudio) {};
-
         } // ( with unstablePkgs; {
           inherit bat;
           # inherit dropbox;
           inherit emacs;
           inherit ollama;
+          # inherit gollama;
           # inherit lmstudio;
           # inherit update-nix-fetchgit;
         })

@@ -1,8 +1,15 @@
 { config, pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
-    ollama
+  environment = {
+    variables = {
+      OLLAMA_MODELS = "/media/monoid/ollama-models";
+    };
+    systemPackages = with pkgs; [
+    aider-chat
+    gollama
     lmstudio
-  ];
+    ollama
+    ];
+  };
 }
