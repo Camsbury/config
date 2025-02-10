@@ -50,12 +50,15 @@
            (brk-icon (if (pomidor-should-long-break-p)
                          "🏖️"
                        "🧘"))
+           (on-hold pomidor--system-on-hold-p)
            (time-str (cond
+                      (on-hold "💤 Pomos paused")
                       (brk (format (concat brk-icon " %s") (pomidor--format-duration brk)))
                       (over (format "🔥️ %s" (pomidor--format-duration over)))
                       (work (format "🍅 %s" (pomidor--format-duration work)))
                       (t "Idle")))
            (face (cond
+                  (on-hold 'pomidor-break-mode-line-face)
                   (brk 'pomidor-break-mode-line-face)
                   (over 'pomidor-overwork-mode-line-face)
                   (work 'pomidor-work-mode-line-face)
@@ -77,6 +80,7 @@
 
   ;; Hook the modeline update into Pomidor's update cycle.
   (advice-add 'pomidor--update :after #'pomidor-update-modeline)
+  (advice-add 'pomidor-hold :after #'pomidor-update-modeline)
 
   ;; Ensure the Pomidor status string appears in the global mode line.
   (add-to-list 'global-mode-string  '(:eval pomidor-mode-line-string) t)
@@ -102,6 +106,11 @@
       (call-interactively #'pomidor)
       (switch-to-buffer b))))
 
+(defun pomodoro-hold-dwim ()
+  (interactive)
+  (if pomidor--system-on-hold-p
+      (call-interactively #'pomidor-unhold)
+    (call-interactively #'pomidor-hold)))
 
 (setq org-tags-exclude-from-inheritance '("project")
       org-agenda-files `(,(concat cmacs-share-path "/org-roam/projects.org.gpg")
@@ -234,6 +243,7 @@
   ;; ("SPC" #'toggle-org-alerts        "toggle org alerts")
   ("SPC" #'pomodoro-dwim            "pomodoro dwim")
   ;; ("P" #'gtd-projects->next-actions "projects->next-actions")
+  ("a" #'pomodoro-hold-dwim         "pomodoro hold dwim")
   ("P" #'gtd-projects               "projects list")
   ("c" #'gtd-contexts->next-actions "contexts->next-actions")
   ("e" #'gtd-search-mark-done       "search and mark done")
