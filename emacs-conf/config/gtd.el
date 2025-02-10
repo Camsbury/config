@@ -102,9 +102,11 @@
   (interactive)
   (if (pomidor-running-p)
       (call-interactively #'pomidor-break)
-    (let ((b (current-buffer)))
-      (call-interactively #'pomidor)
-      (switch-to-buffer b))))
+    (if pomidor--system-on-hold-p
+          (call-interactively #'pomidor-unhold)
+        (let ((b (current-buffer)))
+          (call-interactively #'pomidor)
+          (switch-to-buffer b)))))
 
 (defun pomodoro-hold-dwim ()
   (interactive)
