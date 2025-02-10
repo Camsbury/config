@@ -9,7 +9,8 @@
         pomidor-sound-tack nil
         pomidor-sound-overwork (concat cmacs-share-path "/chime.wav")
         pomidor-sound-break-over (concat cmacs-share-path "/chime.wav")
-        pomidor-update-interval 1
+        pomidor-update-interval 10
+        pomidor-confirm-end-break nil
         pomidor-play-sound-file
         (lambda (file)
           (start-process "my-pomidor-play-sound"
@@ -71,7 +72,8 @@
       (force-mode-line-update)))
 
   ;; Hook the modeline update into Pomidor's update cycle.
-  (add-hook 'pomidor-update-hook #'pomidor-update-modeline)
+  (advice-add 'pomidor--update :after #'pomidor-update-modeline)
+  ;; (add-hook 'pomidor-update-hook #'pomidor-update-modeline)
 
   ;; Ensure the Pomidor status string appears in the global mode line.
   (add-to-list 'global-mode-string  '(:eval pomidor-mode-line-string) t)
@@ -83,6 +85,11 @@
                           ;; force fringe update
                           (set-window-buffer nil (current-buffer)))))
 
+(defun pomodoro-dwim ()
+  (interactive)
+  (if (pomidor-running-p)
+      (call-interactively #'pomidor-break)
+    (call-interactively #'pomidor)))
 
 
 (setq org-tags-exclude-from-inheritance '("project")
@@ -213,7 +220,8 @@
 
 (defhydra hydra-gtd (:exit t :columns 5)
   "set register"
-  ("SPC" #'toggle-org-alerts        "toggle org alerts")
+  ;; ("SPC" #'toggle-org-alerts        "toggle org alerts")
+  ("SPC" #'pomodoro-dwim            "pomodoro dwim")
   ;; ("P" #'gtd-projects->next-actions "projects->next-actions")
   ("P" #'gtd-projects               "projects list")
   ("c" #'gtd-contexts->next-actions "contexts->next-actions")
