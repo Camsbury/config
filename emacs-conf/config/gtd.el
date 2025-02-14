@@ -10,7 +10,7 @@
         pomidor-sound-overwork (concat cmacs-share-path "/chime.wav")
         pomidor-sound-break-over (concat cmacs-share-path "/chime.wav")
         pomidor-long-break-seconds (* 15 60)
-        pomidor-update-interval 10
+        pomidor-update-interval 15
         pomidor-confirm-end-break nil
         pomidor-play-sound-file
         (lambda (file)
@@ -20,7 +20,6 @@
                          file)))
   (add-to-list 'evil-emacs-state-modes 'pomidor-mode)
 
-  ;; rest of config is GPT generated
   (defface pomidor-work-mode-line-face
     '((t (:foreground "yellow" :weight bold)))
     "Face for work state in the Pomidor mode line."
