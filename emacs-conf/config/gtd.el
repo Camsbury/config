@@ -2,6 +2,7 @@
 (require 'hydra)
 (require 'core/env)
 (require 'config/langs/org)
+(require 'config/modes/utils)
 
 (use-package pomidor
   :config
@@ -239,6 +240,14 @@
          (evil-scroll-line-to-center)
          (org-show-subtree))))))
 
+(defun gtd-open-graph ()
+  (interactive)
+  (if (minor-mode-active-p 'org-roam-ui-mode)
+      (call-interactively #'org-roam-ui-open)
+    (progn
+      (call-interactively #'org-roam-ui-mode)
+      (call-interactively #'org-roam-ui-open))))
+
 (defhydra hydra-gtd (:exit t :columns 5)
   "set register"
   ;; ("SPC" #'toggle-org-alerts        "toggle org alerts")
@@ -257,12 +266,12 @@
          (interactive)
          (spawn-right)
          (find-file (concat cmacs-config-path "/config/gtd.el")))
-       "org.el")
+   "org.el")
   ("O" #'pomidor-quit               "end pomodoro")
   ("p" #'gtd-jump-to-project        "jump to project")
   ("r" #'org-roam-buffer-toggle     "toggle roam info")
   ("t" #'gtd-tags->next-actions     "tags->next-actions")
-  ("g" #'org-roam-ui-open           "open org graph")
+  ("g" #'gtd-open-graph             "open org graph")
 
   ("q" nil))
 
