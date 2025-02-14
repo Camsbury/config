@@ -16,6 +16,7 @@ in
       anki
       aria2
       audacity
+      baobab
       brave
       chromium
       discordPkgs.discord
