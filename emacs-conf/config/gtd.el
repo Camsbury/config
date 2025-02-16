@@ -10,7 +10,7 @@
         pomidor-sound-tack nil
         pomidor-sound-overwork (concat cmacs-share-path "/chime.wav")
         pomidor-sound-break-over (concat cmacs-share-path "/chime.wav")
-        pomidor-long-break-seconds (* 15 60)
+        pomidor-long-break-seconds (* 20 60)
         pomidor-update-interval 15
         pomidor-confirm-end-break nil
         pomidor-play-sound-file
