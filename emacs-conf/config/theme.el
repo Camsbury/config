@@ -3,7 +3,7 @@
 (use-package doom-modeline
   :config (doom-modeline-mode))
 (use-package doom-themes
-  :config (load-theme 'doom-molokai t))
+  :config (load-theme 'doom-molokam t))
 (use-package rainbow-delimiters)
 (use-package rainbow-mode)
 
@@ -11,7 +11,8 @@
 
 (defvar themes)
 (setq themes
-      '(doom-molokai
+      '(doom-molokam
+        doom-molokai
         doom-Iosvkem
         doom-acario-dark
         doom-dracula
