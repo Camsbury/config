@@ -31,6 +31,7 @@ in
   environment = {
     systemPackages = with pkgs; [
       winePkgs.lutris
+      joystickwake
       mesa
       nvtopPackages.full
       sc-controller
