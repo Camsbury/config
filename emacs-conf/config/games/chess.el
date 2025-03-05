@@ -198,7 +198,7 @@
               (display-buffer-no-window)
               t))))
       (async-shell-command
-       "export NIXPKGS_ALLOW_INSECURE=1 && cd ~/projects/Camsbury/blitz-tactics && nix-shell --run 'yarn drun'"
+       "cd ~/projects/Camsbury/blitz-tactics && NIXPKGS_ALLOW_INSECURE=1 nix-shell --run 'yarn drun'"
        (generate-new-buffer-name "*Blitz Tactics Server*"))))
   (when browse-p
     (open-brave)
@@ -216,10 +216,6 @@
   (open-brave)
   (browse-in-order
    '("https://chessable.com/"
-      ;; B sticking points
-     "https://lichess.org/study/IOxNYOVr"
-     ;; W sticking points
-     "https://lichess.org/study/WRVjuRIP"
      "https://chessbook.com/"
      ;; warm up puzzles
      "http://localhost:3000/ps/27")))
