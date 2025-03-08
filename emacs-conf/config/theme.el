@@ -3,11 +3,11 @@
 (use-package doom-modeline
   :config (doom-modeline-mode))
 (use-package doom-themes
-  :config (load-theme 'doom-molokam t))
+  :config
+  (add-to-list 'custom-theme-load-path (concat cmacs-config-path "/config/theme/") t)
+  (load-theme 'doom-molokam t))
 (use-package rainbow-delimiters)
 (use-package rainbow-mode)
-
-(add-to-list 'custom-theme-load-path (concat cmacs-config-path "/config/theme/") t)
 
 (defvar themes)
 (setq themes
@@ -52,8 +52,8 @@
   (set-face-attribute 'default nil :height normal-font-height))
 
 (defun cycle-theme ()
-  (interactive)
   "Cycle through themes"
+  (interactive)
   (let ((theme (car theme-cycle)))
     (setq theme-cycle (cdr theme-cycle))
     (set-theme theme)))
