@@ -32,6 +32,7 @@ in
       slack
       spotify # non-free
       tdesktop # telegram
+      thunderbird
       transmission_3
       vlc
     ];
