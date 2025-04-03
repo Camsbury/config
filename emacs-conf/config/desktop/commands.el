@@ -300,6 +300,11 @@
   (interactive)
   (find-or-open-application "telegram-desktop" "TelegramDesktop"))
 
+(defun open-thunderbird ()
+  "Opens Telegram"
+  (interactive)
+  (find-or-open-application "thunderbird" "thunderbird"))
+
 (defun open-xterm ()
   "Opens the terminal"
   (interactive)
