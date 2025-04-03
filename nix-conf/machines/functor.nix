@@ -27,6 +27,7 @@
     ../modules/razer.nix
     ../modules/foreign.nix
     ../modules/printing.nix
+    ../modules/svalboard.nix
   ];
 
   networking.hostName = "functor";
