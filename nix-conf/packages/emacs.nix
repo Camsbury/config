@@ -2,6 +2,7 @@ epkgs:
 
 let
   melpas = with epkgs.melpaPackages; [
+    aggressive-indent
     alarm-clock
     alda-mode
     all-the-icons-ivy-rich
