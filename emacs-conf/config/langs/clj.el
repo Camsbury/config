@@ -213,6 +213,38 @@ If invoked with a prefix ARG eval the expression after inserting it"
     (goto-char (cadr (cider-sexp-at-point 'bounds)))
     (call-interactively #'cider-inspect)))
 
+;;; organize these
+
+  (defun systemic-restart ()
+    "Restarts systemic"
+    (interactive)
+    (cider-interactive-eval "(systemic.core/restart!)"))
+
+  (defun systemic-start ()
+    "Starts systemic"
+    (interactive)
+    (cider-interactive-eval "(systemic.core/start!)"))
+
+  (defun systemic-stop ()
+    "Stops systemic"
+    (interactive)
+    (cider-interactive-eval "(systemic.core/stop!)"))
+
+  (defun systemic-start-system-at-point ()
+    "Starts systemic system"
+    (interactive)
+    (cider-interactive-eval (concat "(systemic.core/start! `" (cider-sexp-at-point) ")")))
+
+  (defun systemic-stop-system-at-point ()
+    "Stops systemic system"
+    (interactive)
+    (cider-interactive-eval (concat "(systemic.core/stop! `" (cider-sexp-at-point) ")")))
+
+  (defun systemic-restart-system-at-point ()
+    "Restarts systemic system"
+    (interactive)
+    (cider-interactive-eval (concat "(systemic.core/restart! `" (cider-sexp-at-point) ")")))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Operators
@@ -273,6 +305,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
   ("J" #'clojars                          "search in clojars")
   ("l" #'cider-load-buffer                "load buffer")
   ("m" #'hydra-cljr-help-menu/body        "cljr hydra")
+  ("M" #'hydra-systemic/body              "systemic hydra")
   ("n" #'cljr-introduce-let               "introduce let")
   ("N" #'clojure-sort-ns                  "sort ns")
   ("o" #'clj-narrow-defun                 "focus on def")
@@ -308,6 +341,15 @@ If invoked with a prefix ARG eval the expression after inserting it"
 ; cljr-extract-function
 ; cljr-add-stubs
 ; cljr-inline-symbol
+
+(defhydra hydra-systemic (:exit t)
+  "systemic"
+  ("t" #'systemic-start-system-at-point   "Start systemic system")
+  ("s" #'systemic-stop-system-at-point    "Stop systemic system")
+  ("r" #'systemic-restart-system-at-point "Retart systemic system")
+  ("T" #'systemic-start                   "Start systemic systems")
+  ("S" #'systemic-stop                    "Stop systemic systems")
+  ("R" #'systemic-restart                 "Retart systemic systems"))
 
 (defhydra hydra-clj-jack-in (:exit t)
   "cider-jack-in"
