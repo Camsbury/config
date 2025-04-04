@@ -49,6 +49,7 @@
 (setq cider-repl-display-help-banner nil)
 (setq cljr-warn-on-eval nil)
 (setq cider-auto-select-error-buffer nil)
+(setq clojure-align-forms-automatically t)
 
 ;; systemic nice to haves
 (put 'defsys 'clojure-doc-string-elt 2)
