@@ -270,7 +270,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
   [remap empty-mode-alt-leader] #'hydra-systemic/body
   [remap evil-goto-definition] (lambda ()
                                  (interactive)
-                                 (cider-find-var (point)))
+                                 (call-interactively #'cider-find-var))
   [remap dumb-jump-go] (lambda ()
                          (interactive)
                          (cider-doc (point)))
