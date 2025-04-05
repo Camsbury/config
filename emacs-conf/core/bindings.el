@@ -21,6 +21,10 @@
   (interactive)
   (message "current mode hydra is unbound"))
 
+(defun empty-alt-mode-leader ()
+  (interactive)
+  (message "current mode alt hydra is unbound"))
+
 (defun empty-visual-mode-leader ()
   (interactive)
   (message "current visual mode hydra is unbound"))
@@ -149,9 +153,10 @@
 ;; USEIT
 (defhydra hydra-project (:exit t :columns 5)
   "project commands"
-  ("g" #'git-init "initialize git")
-  ("l" #'lorri-watch "watch lorri")
-  ("L" #'lorri-init "initialize lorri")
+  ("g" #'git-init               "initialize git")
+  ("l" #'lorri-watch            "watch lorri")
+  ("L" #'lorri-init             "initialize lorri")
+  ("s" #'open-project-shell-nix "shell.nix")
   ("q" nil))
 
 ;; CLEAN: reorganize and get rid of things you never use
@@ -191,6 +196,7 @@
   ;; USEIT
   ("L" #'list-buffers                 "list buffers")
   ("m" #'empty-mode-leader            "mode leader")
+  ("s-m" #'empty-mode-alt-leader      "mode alt leader")
   ("M" #'hydra-merge/body             "merge")
   ("n" #'hydra-spawn/body             "spawn")
   ("N" #'hydra-nixos/body             "nixos")

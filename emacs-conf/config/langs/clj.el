@@ -266,7 +266,8 @@ If invoked with a prefix ARG eval the expression after inserting it"
 ;; Bindings
 
 (general-def 'normal clojure-mode-map
-  [remap empty-mode-leader]    #'hydra-clj/body
+  [remap empty-mode-leader]     #'hydra-clj/body
+  [remap empty-mode-alt-leader] #'hydra-systemic/body
   [remap evil-goto-definition] (lambda ()
                                  (interactive)
                                  (cider-find-var (point)))
@@ -344,12 +345,12 @@ If invoked with a prefix ARG eval the expression after inserting it"
 
 (defhydra hydra-systemic (:exit t)
   "systemic"
-  ("t" #'systemic-start-system-at-point   "Start systemic system")
-  ("s" #'systemic-stop-system-at-point    "Stop systemic system")
-  ("r" #'systemic-restart-system-at-point "Retart systemic system")
-  ("T" #'systemic-start                   "Start systemic systems")
-  ("S" #'systemic-stop                    "Stop systemic systems")
-  ("R" #'systemic-restart                 "Retart systemic systems"))
+  ("n" #'systemic-start-system-at-point   "Start systemic system")
+  ("e" #'systemic-stop-system-at-point    "Stop systemic system")
+  ("i" #'systemic-restart-system-at-point "Retart systemic system")
+  ("N" #'systemic-start                   "Start systemic systems")
+  ("E" #'systemic-stop                    "Stop systemic systems")
+  ("I" #'systemic-restart                 "Retart systemic systems"))
 
 (defhydra hydra-clj-jack-in (:exit t)
   "cider-jack-in"
