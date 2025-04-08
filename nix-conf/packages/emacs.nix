@@ -126,6 +126,7 @@ let
     origami
     paredit
     parseedn
+    pkg-info
     pomidor
     posframe
     prettier-js
