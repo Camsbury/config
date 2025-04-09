@@ -21,10 +21,6 @@
   (interactive)
   (message "current mode hydra is unbound"))
 
-(defun empty-alt-mode-leader ()
-  (interactive)
-  (message "current mode alt hydra is unbound"))
-
 (defun empty-visual-mode-leader ()
   (interactive)
   (message "current visual mode hydra is unbound"))
@@ -196,7 +192,6 @@
   ;; USEIT
   ("L" #'list-buffers                 "list buffers")
   ("m" #'empty-mode-leader            "mode leader")
-  ("s-m" #'empty-mode-alt-leader      "mode alt leader")
   ("M" #'hydra-merge/body             "merge")
   ("n" #'hydra-spawn/body             "spawn")
   ("N" #'hydra-nixos/body             "nixos")

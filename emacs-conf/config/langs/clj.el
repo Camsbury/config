@@ -4,7 +4,14 @@
          ("\\.cljc\\'" . clojurec-mode)
          ("\\.cljs\\'" . clojurescript-mode)))
 (use-package clj-refactor
-  :after (clojure-mode))
+  :after clojure-mode
+  :hook (clojure-mode . clj-refactor-mode)
+  :config
+  ;; setup some extra namespace auto completion for great awesome
+  (dolist (mapping '(("re-frame" . "re-frame.core")
+                     ("reagent"  . "reagent.core")
+                     ("str"      . "clojure.str")))
+    (add-to-list 'cljr-magic-require-namespaces mapping t)))
 (use-package flycheck-clj-kondo
   :after (clojure-mode))
 (use-package cider
@@ -267,7 +274,6 @@ If invoked with a prefix ARG eval the expression after inserting it"
 
 (general-def 'normal clojure-mode-map
   [remap empty-mode-leader]     #'hydra-clj/body
-  [remap empty-mode-alt-leader] #'hydra-systemic/body
   [remap evil-goto-definition] (lambda ()
                                  (interactive)
                                  (call-interactively #'cider-find-var))
@@ -317,7 +323,14 @@ If invoked with a prefix ARG eval the expression after inserting it"
   ("T" #'kaocha-runner-run-all-tests      "run project tests")
   ("w" #'cljr-add-missing-libspec         "figure out the require")
   ("y" #'cider-copy-last-result           "copy last result")
-  ("Y" #'cider-copy-last-result-dwim      "copy last result dwim"))
+  ("Y" #'cider-copy-last-result-dwim      "copy last result dwim")
+
+  ("s-t" #'systemic-start-system-at-point   "Start systemic system")
+  ("s-s" #'systemic-stop-system-at-point    "Stop systemic system")
+  ("s-r" #'systemic-restart-system-at-point "Retart systemic system")
+  ("s-T" #'systemic-start                   "Start systemic systems")
+  ("s-S" #'systemic-stop                    "Stop systemic systems")
+  ("s-R" #'systemic-restart                 "Retart systemic systems"))
 
 ; clojure-thread-first-all
 ; clojure-thread-last-all
@@ -342,15 +355,6 @@ If invoked with a prefix ARG eval the expression after inserting it"
 ; cljr-extract-function
 ; cljr-add-stubs
 ; cljr-inline-symbol
-
-(defhydra hydra-systemic (:exit t)
-  "systemic"
-  ("n" #'systemic-start-system-at-point   "Start systemic system")
-  ("e" #'systemic-stop-system-at-point    "Stop systemic system")
-  ("i" #'systemic-restart-system-at-point "Retart systemic system")
-  ("N" #'systemic-start                   "Start systemic systems")
-  ("E" #'systemic-stop                    "Stop systemic systems")
-  ("I" #'systemic-restart                 "Retart systemic systems"))
 
 (defhydra hydra-clj-jack-in (:exit t)
   "cider-jack-in"
