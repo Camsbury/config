@@ -30,6 +30,9 @@
     DefaultTimeoutStopSec=10s
   '';
 
+  # Needed for Home Manager to set GTK themes
+  programs.dconf.enable = true;
+
   networking.networkmanager.enable = true;
 
   nix = {

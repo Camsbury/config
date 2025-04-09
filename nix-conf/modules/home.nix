@@ -10,6 +10,31 @@ in
 
     home.stateVersion = "22.05";
 
+    dconf = {
+      enable = true;
+      settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+    };
+    gtk = {
+      enable = true;
+      theme = {
+        name = "Tokyo-Night";
+        package = pkgs.tokyonight-gtk-theme;
+      };
+
+      gtk3.extraConfig = {
+        Settings = ''
+          gtk-application-prefer-dark-theme=1
+        '';
+      };
+
+      gtk4.extraConfig = {
+        Settings = ''
+          gtk-application-prefer-dark-theme=1
+        '';
+      };
+    };
+
+
     home.file = {
       ".Xresources".source = ../../Xresources;
       ".clojure".source = sym ../../clojure;
