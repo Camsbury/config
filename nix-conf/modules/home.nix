@@ -16,9 +16,13 @@ in
     };
     gtk = {
       enable = true;
+      # theme = {
+      #   name = "Tokyo-Night";
+      #   package = pkgs.tokyonight-gtk-theme;
+      # };
       theme = {
-        name = "Tokyo-Night";
-        package = pkgs.tokyonight-gtk-theme;
+        name = "Adwaita-dark";
+        package = pkgs.gnome-themes-extra;
       };
 
       gtk3.extraConfig = {
@@ -33,7 +37,6 @@ in
         '';
       };
     };
-
 
     home.file = {
       ".Xresources".source = ../../Xresources;

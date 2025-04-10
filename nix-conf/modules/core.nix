@@ -32,6 +32,11 @@
 
   # Needed for Home Manager to set GTK themes
   programs.dconf.enable = true;
+  qt = {
+    enable = true;
+    platformTheme = "gnome";
+    style = "adwaita-dark";
+  };
 
   networking.networkmanager.enable = true;
 
