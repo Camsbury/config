@@ -195,7 +195,7 @@
   ("M" #'hydra-merge/body             "merge")
   ("n" #'hydra-spawn/body             "spawn")
   ("N" #'hydra-nixos/body             "nixos")
-  ;; ("o" #'widen-and-zoom-out           "widen")
+  ("s-o" #'widen-and-zoom-out           "widen")
   ("o" #'hydra-gtd/body               "GTD")
   ("O" #'hide/show-comments-toggle    "toggle hiding comments")
   ("p" #'org-todo-list                "see org todo list")

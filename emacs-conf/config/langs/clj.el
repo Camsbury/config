@@ -29,7 +29,7 @@
 (use-package html-to-hiccup)
 (use-package clojars)
 (use-package kaocha-runner)
-(use-package aggressive-indent)
+;; (use-package aggressive-indent)
 
 (use-package clojure-essential-ref-nov
   :init
