@@ -19,6 +19,7 @@
     ../modules/gaming.nix
     ../modules/music.nix
     ../modules/influxdb.nix
+    ../modules/rgb.nix
 
     ../modules/gen-ai.nix
     # ../modules/email.nix
