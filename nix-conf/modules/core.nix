@@ -38,6 +38,9 @@
     style = "adwaita-dark";
   };
 
+  # clean /tmp
+  boot.tmp.cleanOnBoot = true;
+
   networking.networkmanager.enable = true;
 
   nix = {
