@@ -242,6 +242,18 @@
   (run-hooks 'kill-emacs-hook)
   (shell-command "shutdown now"))
 
+(defun caffeinate ()
+  "Prevent sleep"
+  (interactive)
+  (-run-shell-command
+   "systemd-inhibit --what=sleep --why='Prevent suspend' sleep infinity"))
+
+(defun decaffeinate ()
+  "Prevent sleep"
+  (interactive)
+  (-run-shell-command
+   "pkill -f 'systemd-inhibit.*sleep infinity'"))
+
 (defun ssh-keychain ()
   "Adds the ssh key to the keychain"
   (interactive)
