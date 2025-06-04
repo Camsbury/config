@@ -32,6 +32,7 @@
 (defun bookmark-clear ()
   "clear all bookmarks"
   (interactive)
+  (setq bookmark-alist ())
   (-> bookmark-end-of-version-stamp-marker
       (concat "()")
       (f-write-text 'utf-8 bookmark-default-file))
