@@ -218,7 +218,7 @@
 (defun restart-display-manager ()
   "Restart the display manager"
   (interactive)
-  ;; (run-hooks 'kill-emacs-hook)
+  (run-hooks 'kill-emacs-hook)
   (shell-command "sudo /usr/bin/env systemctl restart display-manager.service"))
 
 (defun nix-derivation-is-cached? (derivation)

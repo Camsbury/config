@@ -1,5 +1,6 @@
 (require 'prelude)
 (require 'core/env)
+(require 'config/search)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -20,6 +21,12 @@
   "set and save bookmark"
   (interactive)
   (bookmark-set)
+  (bookmark-save))
+
+(defun counsel-bookmark-and-save ()
+  "set and save bookmark"
+  (interactive)
+  (counsel-bookmark)
   (bookmark-save))
 
 (defun bookmark-clear ()
