@@ -42,10 +42,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Setup
 
+(setq cider-clojure-compilation-error-phases nil)
+
 (add-hook 'cider--debug-mode-hook
           (lambda ()
             (if cider--debug-mode
-                (evil-insert-state)  ; enter insert on entry
+                (evil-insert-state)     ; enter insert on entry
               (evil-normal-state)))) ; restore when leaving
 
 (-map
@@ -327,6 +329,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
   ("n" #'cljr-introduce-let               "introduce let")
   ("N" #'clojure-sort-ns                  "sort ns")
   ("o" #'clj-narrow-defun                 "focus on def")
+  ("p" #'cider-eval-defun-at-point        "eval outer sexp")
   ("q" #'cljr-add-require-to-ns           "add require")
   ("s" #'clerk-show                       "show clerk notebook")
   ("S" #'clerk-show-tap                   "show clerk notebook")
