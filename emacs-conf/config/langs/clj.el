@@ -39,9 +39,14 @@
         (concat cmacs-share-path
                 "/books/Clojure_The_Essential_Reference_v29.epub")))
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Setup
+
+(add-hook 'cider--debug-mode-hook
+          (lambda ()
+            (if cider--debug-mode
+                (evil-insert-state)  ; enter insert on entry
+              (evil-normal-state)))) ; restore when leaving
 
 (-map
  (lambda (mode)
@@ -76,6 +81,11 @@
    (add-to-list 'imenu-generic-expression
                 '("Sub" "reg-sub[[:blank:]\n]+:+\\(.*\\)" 1))))
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Indentation
+
+(setq clojure-indent-style 'align-arguments)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Functions
@@ -282,6 +292,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
                          (cider-doc (point)))
   [remap cider-inspector-pop]  #'evil-previous-visual-line
   "M-<RET>" #'cider-eval-sexp-at-point
+  "C-<return>" #'cider-eval-last-sexp
   "M-n"     #'clojure-unwind-all
   "M-e"     #'clojure-thread-first-all
   "M-i"     #'clojure-thread-last-all
