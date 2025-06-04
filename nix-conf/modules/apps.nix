@@ -8,6 +8,15 @@ let
   };
 in
 {
+  services.transmission = {
+    enable = true;
+    openFirewall = true;
+  };
+
+  systemd.tmpfiles.rules = [
+    "d ${toString config.services.transmission.settings.download-dir} 0770 transmission transmission - -"
+  ];
+
   environment = {
     variables = {
       BROWSER = "brave-browser";
@@ -33,7 +42,6 @@ in
       spotify # non-free
       tdesktop # telegram
       thunderbird
-      transmission_3
       vlc
     ];
   };
