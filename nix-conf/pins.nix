@@ -15,6 +15,10 @@ let
     rev = "102a39bfee44";
     hash = "sha256-Q4vhtbLYWBUnjWD4iQb003Lt+N5PuURDad1BngGKdUs=";
   };
+  spotify = {
+    rev = "afa43e1383d4";
+    hash = "sha256-4sE2td3lxsvekb1/3ACy/+5b1rNHgEmdMfdzMmXvMow=";
+  };
 in
   {
     inherit unstable;
@@ -32,6 +36,8 @@ in
 
     cuda = unstable;
     vbox = last-unstable;
+
+    spotify = spotify;
 
     wine = unstable;
     # wine = {

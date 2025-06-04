@@ -4,7 +4,9 @@
 let
   unstablePkgs = import ../utils/unstable.nix { config = { allowUnfree = true; }; };
   bravePkgs = import ../pins/brave.nix { config = { allowUnfree = true; }; };
-  cachixBall = import (builtins.fetchTarball "https://github.com/NixOS/nixpkgs/tarball/1d4de0d552ae9aa66a5b8dee5fb0650a4372d148") {};
+  spotifyPkgs = import ../pins/spotify.nix { config = { allowUnfree = true; }; };
+
+  # cachixBall = import (builtins.fetchTarball "https://github.com/NixOS/nixpkgs/tarball/1d4de0d552ae9aa66a5b8dee5fb0650a4372d148") {};
 in
   {
     nixpkgs.overlays = [
@@ -23,7 +25,7 @@ in
         check-low-battery = with builtins; with pkgs;
           callPackage (import ../derivations/check-low-battery) {};
 
-        cachix = cachixBall.cachix;
+        # cachix = cachixBall.cachix;
 
         cmacs = with builtins; with pkgs;
           callPackage (import ../derivations/cmacs) {};
@@ -42,6 +44,8 @@ in
 
         pgn-extract = with builtins; with pkgs;
           callPackage (import ../derivations/pgn-extract) {};
+
+        spotify = spotifyPkgs.spotify;
 
         xndr = super.callPackage (builtins.fetchTarball
           "https://github.com/Camsbury/xndr/archive/094be18.tar.gz") {pkgs = self;};
