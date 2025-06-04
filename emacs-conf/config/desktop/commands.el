@@ -102,6 +102,16 @@
   (interactive)
   (shell-command "pactl set-sink-volume @DEFAULT_SINK@ -1000"))
 
+(defun pause-notifications ()
+  "pause dunst notifications"
+  (interactive)
+  (shell-command "pkill -SIGUSR1 dunst"))
+
+(defun unpause-notifications ()
+  "pause dunst notifications"
+  (interactive)
+  (shell-command "pkill -SIGUSR2 dunst"))
+
 (defun toggle-mute ()
   "toggles mute"
   (interactive)
