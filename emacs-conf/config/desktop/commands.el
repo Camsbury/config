@@ -347,15 +347,33 @@
             (exwm-workspace-switch-to-buffer xterm-name)))
       (open-global-xterm))))
 
+(defun open-custom-xterm (term-name)
+  "Opens the terminal with a custom tmux session"
+  (interactive "sTerminal name: ")
+  (let* ((xterm-name (concat "XTerm - " term-name)))
+    (if (stringp term-name)
+        (progn
+          (find-or-open-application
+           (concat "xterm -e 'tmux new -A -s " term-name "'")
+           xterm-name
+           t)
+          (sleep-for 0.3)
+          (when (-first (lambda (buffer) (s-match "XTerm$" buffer)) (-map #'buffer-name (buffer-list)))
+            (with-current-buffer "XTerm"
+              (exwm-workspace-rename-buffer xterm-name))
+            ;; FIXME: switching to the buffers old window - maybe remove the exwm-workspace prefix here, but then the cursor isn't in the terminal
+            (exwm-workspace-switch-to-buffer xterm-name)))
+      (open-global-xterm))))
+
 (defun open-global-xterm ()
   "Opens the terminal"
   (interactive)
   (find-or-open-application "xterm -e 'tmux new -A -s global'" "XTerm - global")
   (sleep-for 0.3)
   (when (-first (lambda (buffer) (s-match "XTerm$" buffer)) (-map #'buffer-name (buffer-list)))
-      (with-current-buffer "XTerm"
-        (exwm-workspace-rename-buffer "XTerm - global"))
-      (exwm-workspace-switch-to-buffer "XTerm - global")))
+    (with-current-buffer "XTerm"
+      (exwm-workspace-rename-buffer "XTerm - global"))
+    (exwm-workspace-switch-to-buffer "XTerm - global")))
 
 (defun open-zoom ()
   "Opens the terminal"
