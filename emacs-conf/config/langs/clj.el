@@ -44,6 +44,8 @@
 
 (setq cider-clojure-compilation-error-phases nil)
 
+(setq clojure-toplevel-inside-comment-form t)
+
 (add-hook 'cider--debug-mode-hook
           (lambda ()
             (if cider--debug-mode
