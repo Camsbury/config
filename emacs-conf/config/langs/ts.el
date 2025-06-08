@@ -1,6 +1,8 @@
-(use-package typescript-mode)
-(general-add-hook
- 'typescript-mode-hook
- 'lsp)
+(use-package typescript-mode
+  :config
+  (setq lsp-clients-typescript-server "typescript-language-server")
+  (setq lsp-clients-typescript-server-args '("--stdio"))
+  :hook
+  (typescript-mode . lsp-deferred))
 
 (provide 'config/langs/ts)
