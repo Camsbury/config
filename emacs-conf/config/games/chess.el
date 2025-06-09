@@ -198,7 +198,7 @@
               (display-buffer-no-window)
               t))))
       (async-shell-command
-       "cd ~/projects/Camsbury/blitz-tactics && NIXPKGS_ALLOW_INSECURE=1 nix-shell --run 'yarn drun'"
+       "cd ~/projects/Camsbury/blitz-tactics && nix-shell --run 'yarn drun'"
        (generate-new-buffer-name "*Blitz Tactics Server*"))))
   (when browse-p
     (open-brave)
@@ -218,7 +218,7 @@
    '("https://chessable.com/"
      "https://chessbook.com/"
      ;; warm up puzzles
-     "http://localhost:3000/ps/27")))
+     "http://localhost:3000/ps/1")))
 
 
 (provide 'config/games/chess)
