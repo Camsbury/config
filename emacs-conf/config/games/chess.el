@@ -218,7 +218,7 @@
    '("https://chessable.com/"
      "https://chessbook.com/"
      ;; warm up puzzles
-     "http://localhost:3000/ps/1")))
+     "http://localhost:3000")))
 
 
 (provide 'config/games/chess)
