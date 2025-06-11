@@ -42,6 +42,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Setup
 
+(setq cider-stacktrace-default-filters '(project))
 (setq cider-clojure-compilation-error-phases nil)
 
 (setq clojure-toplevel-inside-comment-form t)
@@ -318,6 +319,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
   "clojure-mode"
   ("=" #'clojure-align                    "align")
   ("a" #'ivy-cider-apropos                "apropos")
+  ("d" #'cider-debug-defun-at-point       "debug at point")
   ("e" #'cljr-move-to-let                 "move to let")
   ("f" #'cljr-find-usages                 "find refs")
   ;; USEIT
