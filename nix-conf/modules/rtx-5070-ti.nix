@@ -12,4 +12,6 @@
   };
   hardware.nvidia.open = true;
   hardware.nvidia.modesetting.enable = true;
+
+  services.ollama.acceleration = "cuda";
 }
