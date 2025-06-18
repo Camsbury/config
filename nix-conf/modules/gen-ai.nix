@@ -6,10 +6,14 @@
       OLLAMA_MODELS = "/media/monoid/ollama-models";
     };
     systemPackages = with pkgs; [
-    aider-chat
-    gollama
-    lmstudio
-    ollama
+      aider-chat
+      gollama
+      lmstudio
     ];
+  };
+
+  services.ollama = {
+    enable = true;
+    acceleration = "cuda";
   };
 }
