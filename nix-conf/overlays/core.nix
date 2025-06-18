@@ -51,10 +51,11 @@ in
           "https://github.com/Camsbury/xndr/archive/094be18.tar.gz") {pkgs = self;};
 
         } // ( with unstablePkgs; {
+          inherit aider-chat;
           inherit bat;
           # inherit dropbox;
           inherit emacs;
-          inherit ollama;
+          # inherit ollama;
           # inherit gollama;
           # inherit lmstudio;
           # inherit update-nix-fetchgit;

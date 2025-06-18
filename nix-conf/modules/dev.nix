@@ -29,7 +29,6 @@ in
     google-cloud-sdk
     kubectl
     nodePackages.livedown
-    loc
     nixfmt-rfc-style
     update-nix-fetchgit
     nodePackages.prettier
