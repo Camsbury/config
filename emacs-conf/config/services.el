@@ -1,6 +1,7 @@
 (require 'prelude)
 
 (m-require config/services
+  aider
   docker
   email
   feeds
