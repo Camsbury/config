@@ -33,7 +33,6 @@ in
       firefox
       gimp
       google-chrome # for certain features
-      kdePackages.okular
       peek # screen recorder
       pgn-extract # chess utils
       scid-vs-pc # chess
@@ -43,6 +42,7 @@ in
       tdesktop # telegram
       thunderbird
       vlc
+      zathura
     ];
   };
 }
