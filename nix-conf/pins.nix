@@ -3,22 +3,24 @@ let
   # nixos channel pinned to 24.11 - https://github.com/NixOS/nixpkgs/archive/f6687779bf4c396250831aa5a32cbfeb85bb07a3.tar.gz
   # nixos channel was pinned to 24.05 - https://github.com/NixOS/nixpkgs/archive/759537f0.tar.gz
   last-unstable = {
-    rev = "4f3154007932";
-    hash = "sha256-AHTKbJ9ffR7Nx+XcR2XP0AYLI4OlUh2IGh4SAkdG5Ig=";
+    rev = "102a39bfee44";
+    hash = "sha256-Q4vhtbLYWBUnjWD4iQb003Lt+N5PuURDad1BngGKdUs=";
   };
   unstable = {
-    rev = "102a39bfee44";
-    hash = "sha256-Q4vhtbLYWBUnjWD4iQb003Lt+N5PuURDad1BngGKdUs=";
+    rev = "08f22084e608";
+    hash = "sha256-XE/lFNhz5lsriMm/yjXkvSZz5DfvKJLUjsS6pP8EC50=";
   };
   chromium = {
-    # rev = "4f3154007932";
-    # hash = "sha256-AHTKbJ9ffR7Nx+XcR2XP0AYLI4OlUh2IGh4SAkdG5Ig=";
-    rev = "102a39bfee44";
-    hash = "sha256-Q4vhtbLYWBUnjWD4iQb003Lt+N5PuURDad1BngGKdUs=";
+    # rev = "102a39bfee44";
+    # hash = "sha256-Q4vhtbLYWBUnjWD4iQb003Lt+N5PuURDad1BngGKdUs=";
+    rev = "08f22084e608";
+    hash = "sha256-XE/lFNhz5lsriMm/yjXkvSZz5DfvKJLUjsS6pP8EC50=";
   };
   spotify = {
-    rev = "afa43e1383d4";
-    hash = "sha256-4sE2td3lxsvekb1/3ACy/+5b1rNHgEmdMfdzMmXvMow=";
+    # rev = "afa43e1383d4";
+    # hash = "sha256-4sE2td3lxsvekb1/3ACy/+5b1rNHgEmdMfdzMmXvMow=";
+    rev = "08f22084e608";
+    hash = "sha256-XE/lFNhz5lsriMm/yjXkvSZz5DfvKJLUjsS6pP8EC50=";
   };
 in
   {
