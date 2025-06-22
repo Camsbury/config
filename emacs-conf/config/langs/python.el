@@ -10,8 +10,6 @@
   :after (python))
 (use-package pydoc
   :after (python))
-(use-package counsel-pydoc
-  :after (pydoc))
 (use-package pytest
   :after (python))
 (use-package python-pytest

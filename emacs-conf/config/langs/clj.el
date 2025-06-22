@@ -18,8 +18,6 @@
   :after (clojure-mode)
   :config
   (setq cider-clojure-cli-aliases "global"))
-(use-package ivy-cider
-  :after (clojure-mode))
 (use-package ivy-clojuredocs
   :after (clojure-mode))
 (use-package datomic-snippets
@@ -318,7 +316,6 @@ If invoked with a prefix ARG eval the expression after inserting it"
 (defhydra hydra-clj (:exit t :columns 5)
   "clojure-mode"
   ("=" #'clojure-align                    "align")
-  ("a" #'ivy-cider-apropos                "apropos")
   ("d" #'cider-debug-defun-at-point       "debug at point")
   ("e" #'cljr-move-to-let                 "move to let")
   ("f" #'cljr-find-usages                 "find refs")

@@ -28,39 +28,30 @@
 ;; CLEAN: remove stuff I never use, or shove behind another hydra
 (defhydra hydra-spawn (:exit t :columns 5)
   "spawn"
-  ("a" (spawnify #'org-roam-dailies-goto-today)         "daybook")
-  ("b" (spawn-file-link :books)                         "book notes")
-  ("c" (spawnify #'open-brave)                          "brave browser")
-  ("e" (spawnify
-        (ignorify
-         projectile-ignores
-         #'counsel-projectile-find-file))               "project file")
-  ("E" (spawnify #'counsel-projectile-switch-to-buffer) "project open buffer")
-  ("g" (spawnify #'open-telegram)                       "telegram")
-  ("H" (spawn-file-link :notes)                         "tmp org")
-  ("J" #'org-journal-open-current-journal-file          "org-journal")
-  ("k" (spawnify #'open-slack)                          "slack")
-  ("l" (spawnify #'open-lutris)                         "lutris")
-  ;; ("m" (spawnify #'mu4e)                                "email")
-  ("m" (spawnify #'open-thunderbird)                    "thunderbird")
-  ("M" (spawnify #'open-steam)                          "steam")
-  ("n" (spawnify #'counsel-recentf)                     "recent file")
-  ("N" (spawnify #'open-new-tmp)                        "new file")
-  ("O" (spawnify #'open-project-summary)                "project summary")
-  ("p" (spawnify
-        (ignorify
-         projectile-ignores
-         #'counsel-projectile-switch-project))          "open project")
-  ("r" (gtd--visit-roam-node "review")                  "review")
-  ("s" (spawnify #'open-spotify)                        "spotify")
-  ("t" (spawnify
-        (ignorify
-         find-file-ignores
-         #'counsel-find-file))                          "file in dir")
-  ("w" (spawnify #'eww-new)                             "web browser")
-  ("x" (spawnify #'open-xterm)                          "project xterm")
-  ("X" (spawnify #'open-global-xterm)                   "global xterm")
-  ("z" (spawnify #'open-zoom)                           "zoom"))
+  ("a" (spawnify #'org-roam-dailies-goto-today) "daybook")
+  ("b" (spawn-file-link :books)                 "book notes")
+  ("c" (spawnify #'open-brave)                  "brave browser")
+  ("e" (spawnify #'projectile-find-file)        "project file")
+  ("E" (spawnify #'projectile-switch-to-buffer) "project open buffer")
+  ("g" (spawnify #'open-telegram)               "telegram")
+  ("H" (spawn-file-link :notes)                 "tmp org")
+  ("J" #'org-journal-open-current-journal-file  "org-journal")
+  ("k" (spawnify #'open-slack)                  "slack")
+  ("l" (spawnify #'open-lutris)                 "lutris")
+  ;; ("m" (spawnify #'mu4e)                        "email")
+  ("m" (spawnify #'open-thunderbird)            "thunderbird")
+  ("M" (spawnify #'open-steam)                  "steam")
+  ("n" (spawnify #'recentf)                     "recent file")
+  ("N" (spawnify #'open-new-tmp)                "new file")
+  ("O" (spawnify #'open-project-summary)        "project summary")
+  ("p" (spawnify #'projectile-switch-project)   "open project")
+  ("r" (gtd--visit-roam-node "review")          "review")
+  ("s" (spawnify #'open-spotify)                "spotify")
+  ("t" (spawnify #'find-file)                   "file in dir")
+  ("w" (spawnify #'eww-new)                     "web browser")
+  ("x" (spawnify #'open-xterm)                  "project xterm")
+  ("X" (spawnify #'open-global-xterm)           "global xterm")
+  ("z" (spawnify #'open-zoom)                   "zoom"))
 
 ;; CLEAN: remove stuff I never use, or shove behind another hydra
 (defhydra hydra-nav (:exit t :columns 5)
@@ -70,11 +61,8 @@
   ("B" #'list-bookmarks                        "list bookmarks")
   ("c" #'open-brave                            "brave browser")
   ("C" #'open-chess-practice                   "chess practice")
-  ("e"
-   (ignorify
-    projectile-ignores
-    #'counsel-projectile-find-file)            "project file")
-  ("E" #'counsel-projectile-switch-to-buffer   "project open buffer")
+  ("e" #'projectile-find-file                  "project file")
+  ("E" #'projectile-switch-to-buffer           "project open buffer")
   ("g" #'open-telegram                         "telegram")
   ("j" #'org-journal-new-entry                 "org-journal entry")
   ("J" #'org-journal-open-current-journal-file "org-journal")
@@ -83,20 +71,16 @@
   ;; ("m" #'mu4e                                  "email")
   ("m" #'open-thunderbird                      "thunderbird")
   ("M" #'open-steam                            "steam")
-  ("n" #'counsel-recentf                       "recent file")
+  ("n" #'recentf                               "recent file")
   ("N" #'open-new-tmp                          "new file")
   ("o" #'org-roam-node-find                    "org-roam node")
   ("O" #'open-project-summary                  "project summary")
-  ("p" (ignorify
-        projectile-ignores
-        #'counsel-projectile-switch-project)   "open project")
+  ("p" #'projectile-switch-project             "open project")
   ("P" (gtd--visit-roam-node "projects")       "gtd projects")
   ("r" (gtd--visit-roam-node "review")         "review")
   ("s" #'open-spotify                          "spotify")
-  ("t" (ignorify
-        find-file-ignores
-        #'counsel-find-file)                   "file in dir")
-  ("T" #'open-custom-xterm                    "project xterm")
+  ("t" #'find-file                             "file in dir")
+  ("T" #'open-custom-xterm                     "custom xterm")
   ("w" #'eww-new                               "web browser")
   ("x" #'open-xterm                            "project xterm")
   ("X" #'open-global-xterm                     "global xterm")
@@ -162,8 +146,7 @@
   ("]" #'switch-to-buffer             "switch to buffer")
   (")" #'eval-defun                   "eval outer sexp")
   ("+" #'increment-number-at-point    "increment number")
-  ("M-x" #'counsel-M-x                "M-x")
-  ;; ("a" #'hydra-gtd/body               "GTD")
+  ("M-x" #'execute-extended-command   "M-x")
   ("a" #'alarm-clock-set              "set an alarm")
   ("b" #'blind-mode                   "blind mode")
   ("c" #'org-roam-capture             "org roam capture")
@@ -173,7 +156,7 @@
   ("D" #'dumb-jump-go                 "dumb jump")
   ("e" #'hydra-exwm-browser-link/body "browser links")
   ("E" #'etymology-of-word-at-point   "etymology of word at point")
-  ("f" #'counsel-rg                   "find text in project")
+  ("f" #'consult-ripgrep              "find text in project")
   ;; USEIT
   ("F" #'swiper-thing-at-point        "find uses of the thing at point")
   ("g" #'hydra-git/body               "git tasks")
@@ -181,13 +164,13 @@
   ("h" #'org-capture                  "capture")
   ;; USEIT
   ("H" #'helpful-at-point             "helpful at point")
-  ("i" #'counsel-imenu                "search with imenu")
+  ("i" #'imenu                        "search with imenu")
   ("I" #'join-irc                     "join IRCs")
   ("j" #'spawn-below                  "spawn window below")
   ;; ("J")
   ("k" #'delete-window                "delete window")
   ("s-k" #'kill-buffer-and-window     "kill buffer and delete window")
-  ("K" #'kill-this-buffer             "kill buffer")
+  ("K" #'kill-current-buffer             "kill buffer")
   ("l" #'spawn-right                  "spawn window right")
   ;; USEIT
   ("L" #'list-buffers                 "list buffers")
@@ -245,7 +228,7 @@
 ;; CLEAN: reorganize and get rid of things you never use
 (defhydra hydra-right-leader (:exit t :columns 5)
   "right leader"
-  ("b" #'counsel-bookmark-and-save "open/create bookmark")
+  ("b" #'consult-bookmark-and-save "open/create bookmark")
   ("e" #'flycheck-next-error       "next error")
   ("t" #'evil-next-buffer          "next buffer")
   ("f" #'text-scale-increase       "zoom in")
@@ -262,7 +245,6 @@
 
 (general-define-key
  "M-n"        #'goto-address-at-point
- "M-x"        #'counsel-M-x
  "C-S-p"      #'yank)
 
 (general-def 'normal

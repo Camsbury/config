@@ -379,7 +379,7 @@
  ("n"   #'org-narrow-to-subtree    "narrow")
  ("o"   #'org-sparse-tree-at-point "show all")
  ("r"   #'org-refile               "refile")
- ("t"   #'counsel-org-tag          "set tags")
+ ("t"   #'org-set-tags-command     "set tags")
  ("v"   (lambda ()
           (interactive)
           (org-cycle-set-startup-visibility)) "reset viz")

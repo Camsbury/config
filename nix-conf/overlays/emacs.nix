@@ -117,26 +117,6 @@ let
         };
       };
 
-      ivy-cider = compileEmacsFiles {
-        name = "ivy-cider.el";
-        src = builtins.fetchurl {
-          url = https://raw.githubusercontent.com/rschmukler/ivy-cider/bde9e2b1f2ecf753c50505301ccc964f249ea9a7/ivy-cider.el;
-          sha256 = "sha256:01jzyp17crhqyc56x63v47fjpy3nq7ns52wqgl45wlpgapynqbcw";
-        };
-        buildInputs = with eSelf.melpaPackages; with eSelf.elpaPackages; [
-          all-the-icons
-          cider
-          clojure-mode
-          ivy
-          ivy-rich
-          parseclj
-          parseedn
-          queue
-          sesman
-          spinner
-        ];
-      };
-
       re-jump = compileEmacsFiles {
         name = "re-jump.el";
         src = builtins.fetchurl {

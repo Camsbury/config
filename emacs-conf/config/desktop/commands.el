@@ -400,10 +400,10 @@
   (exwm-workspace-switch 1))
 
 (defun exwm-run-command ()
-  "Ivy reads available commands and runs one"
+  "Pick a command to run from those available"
   (interactive)
-  (ivy-read "Run command: " (s-lines (shell-command-to-string "print -rC1 -- ${(ko)commands}"))
-            :action #'-run-shell-command))
+  (-run-shell-command
+   (completing-read "Run command: " (s-lines (shell-command-to-string "print -rC1 -- ${(ko)commands}")))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

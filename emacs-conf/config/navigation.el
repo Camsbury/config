@@ -23,10 +23,10 @@
   (bookmark-set)
   (bookmark-save))
 
-(defun counsel-bookmark-and-save ()
+(defun consult-bookmark-and-save ()
   "set and save bookmark"
   (interactive)
-  (counsel-bookmark)
+  (consult-bookmark)
   (bookmark-save))
 
 (defun bookmark-clear ()

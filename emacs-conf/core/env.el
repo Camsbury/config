@@ -28,4 +28,10 @@
   :type 'string
   :group 'cmacs)
 
+(defcustom user-home-path
+  (getenv "HOME")
+  "path to the user's home dir"
+  :type 'string
+  :group 'cmacs)
+
 (provide 'core/env)

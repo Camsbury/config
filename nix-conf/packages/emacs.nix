@@ -28,9 +28,8 @@ let
     company-cabal
     company-c-headers
     company-go
-    counsel
-    counsel-projectile
-    counsel-pydoc
+    consult # emacs nouveau
+    consult-projectile
     dante
     dap-mode
     dash
@@ -50,6 +49,8 @@ let
     elfeed-score
     elixir-mode # elixir
     emacsql
+    embark # emacs nouveau
+    embark-consult # emacs nouveau
     emms
     ess
     # esup
@@ -104,9 +105,11 @@ let
     lsp-ui
     magit
     magit-todos
+    marginalia # emacs nouveau
     markdown-preview-eww
     markdown-preview-mode
     nav-flash
+    nerd-icons-completion
     nix-mode
     nix-update
     nov
@@ -115,6 +118,7 @@ let
     ob-elixir
     ob-http
     ob-ipython
+    orderless # emacs nouveau
     org-alert
     org-bullets
     org-download
@@ -164,6 +168,7 @@ let
     typescript-mode
     uuidgen
     vega-view
+    vertico # emacs nouveau
     # visual-fill-column
     wgrep
     which-key
