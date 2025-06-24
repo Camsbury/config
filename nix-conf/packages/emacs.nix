@@ -191,7 +191,6 @@ let
     company-postgresql
     etymology-of-word
     hide-comnt
-    ivy-cider
     re-jump
   ];
 in
