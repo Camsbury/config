@@ -228,13 +228,13 @@
 ;; CLEAN: reorganize and get rid of things you never use
 (defhydra hydra-right-leader (:exit t :columns 5)
   "right leader"
-  ("b" #'consult-bookmark-and-save "open/create bookmark")
-  ("e" #'flycheck-next-error       "next error")
-  ("t" #'evil-next-buffer          "next buffer")
-  ("f" #'text-scale-increase       "zoom in")
-  ("r" #'jump-to-register          "jump to register")
-  ("n" #'buf-move-right            "move window right")
-  ("x" #'org-next-block            "next org block"))
+  ("b" #'consult-bookmark    "open/create bookmark")
+  ("e" #'flycheck-next-error "next error")
+  ("t" #'evil-next-buffer    "next buffer")
+  ("f" #'text-scale-increase "zoom in")
+  ("r" #'jump-to-register    "jump to register")
+  ("n" #'buf-move-right      "move window right")
+  ("x" #'org-next-block      "next org block"))
 
 ;;Unbinds annoying accidental commands
 (general-define-key :keymaps 'global-map
