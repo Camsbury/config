@@ -97,17 +97,18 @@
    :keymaps 'vertico-map
    [escape] #'minibuffer-keyboard-quit))
 
+;; NOTE: still want this to only work for find-file
 ;; Configure directory extension.
-(use-package vertico-directory
-  :after vertico
-  :ensure nil
-  ;; More convenient directory navigation commands
-  :bind (:map vertico-map
-              ("RET" . vertico-directory-enter)
-              ("M-DEL" . vertico-directory-delete-char)
-              ("DEL" . vertico-directory-delete-word))
-  ;; Tidy shadowed file names
-  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+;; (use-package vertico-directory
+;;   :after vertico
+;;   :ensure nil
+;;   ;; More convenient directory navigation commands
+;;   :bind (:map vertico-map
+;;               ("RET" . vertico-directory-enter)
+;;               ("M-DEL" . vertico-directory-delete-char)
+;;               ("DEL" . vertico-directory-delete-word))
+;;   ;; Tidy shadowed file names
+;;   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
 (use-package orderless
   :custom (completion-styles '(orderless basic)))
