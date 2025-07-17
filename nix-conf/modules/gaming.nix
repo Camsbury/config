@@ -66,4 +66,13 @@ in
     enable32Bit = true;
   };
   services.pulseaudio.support32Bit = true;
+
+  systemd.services.joystickwake = {
+    description = "joystickwake service";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.joystickwake}/bin/joystickwake";
+    };
+  };
+
 }
