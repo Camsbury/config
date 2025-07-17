@@ -186,18 +186,14 @@
      "nixos-rebuild switch"
      (generate-new-buffer-name "*NixOS Rebuild Switch*"))))
 
-(defun nix-search-update-cache ()
-  "Update nix search cache"
-  (interactive)
-  (async-shell-command
-   "nix search -u"
-   (generate-new-buffer-name (concat "*Updating Nix Search Cache*"))))
-
 (defun nix-search (pkg)
   "search nixpkgs for pkg"
   (interactive "sPackage: ")
   (async-shell-command
-   (concat "nix search " pkg)
+   (concat "nix --quiet --log-format raw search nixpkgs "
+           pkg
+           " --json \\\n | jq -r '\n     to_entries[]\n     | \"\\(.value.pname) (\\(.value.version)) — \\(.value.description)\"'")
+
    (generate-new-buffer-name (concat "*Searching for package: " pkg "*"))))
 
 (defun nixos-option (option)
