@@ -93,12 +93,21 @@
   (vertico-mode 1)
   (require 'vertico-sort)
   (setq vertico-sort-function #'vertico-sort-history-length-alpha)
-  (general-define-key :keymaps 'vertico-map
-                      [escape] #'minibuffer-keyboard-quit)
-  (general-define-key :keymaps 'minibuffer-local-filename-completion-map
-                      "DEL" #'vertico-directory-delete-char)
-  (general-define-key :keymaps 'minibuffer-local-filename-completion-map
-                      "M-DEL" #'vertico-directory-delete-word))
+  (general-define-key
+   :keymaps 'vertico-map
+   [escape] #'minibuffer-keyboard-quit))
+
+;; Configure directory extension.
+(use-package vertico-directory
+  :after vertico
+  :ensure nil
+  ;; More convenient directory navigation commands
+  :bind (:map vertico-map
+              ("RET" . vertico-directory-enter)
+              ("M-DEL" . vertico-directory-delete-char)
+              ("DEL" . vertico-directory-delete-word))
+  ;; Tidy shadowed file names
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
 (use-package orderless
   :custom (completion-styles '(orderless basic)))
