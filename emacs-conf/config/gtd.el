@@ -121,12 +121,12 @@
       org-agenda-start-on-weekday nil
       org-agenda-custom-commands
       '(("d" "Default Agenda"
-         ((agenda ""
-                  ((org-agenda-span 'day)
-                   (org-deadline-warning-days 0)))
-          (todo ""
+         ((tags "active"
                 ((org-agenda-skip-function
-                  '(org-agenda-skip-entry-if 'scheduled 'deadline 'timestamp))))))))
+                  '(org-agenda-skip-entry-if 'scheduled 'deadline 'timestamp))))
+          (agenda ""
+                  ((org-agenda-span 'day)
+                   (org-deadline-warning-days 0)))))))
 
 (defun gtd--show-hidden-habits ()
   (interactive)
@@ -266,14 +266,14 @@
          (interactive)
          (spawn-right)
          (find-file (concat cmacs-config-path "/config/gtd.el")))
-   "org.el")
+   "gtd.el")
   ("O" #'pomidor-quit               "end pomodoro")
   ("p" #'gtd-jump-to-project        "jump to project")
   ("r" #'org-roam-buffer-toggle     "toggle roam info")
   ("t" #'gtd-tags->next-actions     "tags->next-actions")
   ("g" #'gtd-open-graph             "open org graph")
 
-  ("q" nil))
+  ("q" nil "quit"))
 
 (advice-add
  #'org-agenda-todo
