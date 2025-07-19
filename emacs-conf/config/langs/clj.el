@@ -39,7 +39,7 @@
         #'clojure-essential-ref-nov-browse
         clojure-essential-ref-nov-epub-path
         (concat cmacs-share-path
-                "/books/Clojure_The_Essential_Reference_v29.epub")))
+                "/books/Clojure_The_Essential_Reference.epub")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Setup
@@ -336,6 +336,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
   ("o" #'clj-narrow-defun                 "focus on def")
   ("p" #'cider-eval-defun-at-point        "eval outer sexp")
   ("q" #'cljr-add-require-to-ns           "add require")
+  ("r" #'clojure-essential-ref            "lookup in essential ref")
   ("s" #'clerk-show                       "show clerk notebook")
   ("S" #'clerk-show-tap                   "show clerk notebook")
   ("t" #'cider-test-run-ns-tests          "run ns tests")
