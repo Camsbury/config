@@ -17,6 +17,7 @@
 
 (use-package aggressive-indent
   :config
+  (add-to-list 'aggressive-indent-excluded-modes 'nix-mode)
   (add-to-list 'aggressive-indent-protected-commands 'evil-undo))
 
 (setq tab-width 2)
