@@ -229,18 +229,27 @@ If invoked with a prefix ARG eval the expression after inserting it"
     (call-interactively 'narrow-and-zoom-in)))
 
 (defun clj-inspect-at-point ()
-  ""
+  "Open the current point in the cider inspector"
   (interactive)
   (save-excursion
     (goto-char (cadr (cider-sexp-at-point 'bounds)))
     (call-interactively #'cider-inspect)))
 
+(defun cider-unalias-at-point ()
+  "Call (ns-unalias *ns* 'sym) in the current Clojure namespace for symbol at point."
+  (interactive)
+  (let* ((sym (thing-at-point 'symbol t)))
+    (if sym
+        (let ((code (format "(ns-unalias *ns* '%s)" sym)))
+          (cider-interactive-eval code))
+      (message "No symbol at point."))))
+
 ;;; organize these
 
-  (defun systemic-restart ()
-    "Restarts systemic"
-    (interactive)
-    (cider-interactive-eval "(systemic.core/restart!)"))
+(defun systemic-restart ()
+  "Restarts systemic"
+  (interactive)
+  (cider-interactive-eval "(systemic.core/restart!)"))
 
   (defun systemic-start ()
     "Starts systemic"
@@ -340,6 +349,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
   ("S" #'clerk-show-tap                   "show clerk notebook")
   ("t" #'cider-test-run-ns-tests          "run ns tests")
   ("T" #'kaocha-runner-run-all-tests      "run project tests")
+  ("u" #'cider-unalias-at-point           "unalias the symbol at point")
   ("w" #'cljr-add-missing-libspec         "figure out the require")
   ("y" #'cider-copy-last-result           "copy last result")
   ("Y" #'cider-copy-last-result-dwim      "copy last result dwim")
