@@ -15,6 +15,10 @@
           ("DEBUG" . "#ff9333")
           ("IMPL"  . "#c833ff"))))
 
+(use-package aggressive-indent
+  :config
+  (add-to-list 'aggressive-indent-protected-commands 'evil-undo))
+
 (setq tab-width 2)
 (setq-default indent-tabs-mode nil)
 (setq-default fill-column 80)
@@ -40,6 +44,7 @@
         'rainbow-delimiters-mode
         'rainbow-mode
         'display-line-numbers-mode
-        'prettify-mode))
+        'prettify-mode
+        'aggressive-indent-mode))
 
 (provide 'config/prog)
