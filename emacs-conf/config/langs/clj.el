@@ -302,7 +302,8 @@ If invoked with a prefix ARG eval the expression after inserting it"
   "M-n"     #'clojure-unwind-all
   "M-e"     #'clojure-thread-first-all
   "M-i"     #'clojure-thread-last-all
-  "M-y"     #'clj-inspect-at-point)
+  "M-y"     #'clj-inspect-at-point
+  "M-o"     #'cider-inspect-last-result)
 
 (general-def 'normal cider-inspector-mode-map
   "M-<RET>" #'cider-inspector-operate-on-point
