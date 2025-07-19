@@ -1,4 +1,5 @@
 (require 'config/langs/lisp)
+
 (use-package clojure-mode
   :mode (("\\.clj\\'" . clojure-mode)
          ("\\.cljc\\'" . clojurec-mode)
@@ -7,6 +8,9 @@
   :after clojure-mode
   :hook (clojure-mode . clj-refactor-mode)
   :config
+  ;; prevent firing the missiles in some projects
+  (setq cljr-eagerly-build-asts-on-startup nil)
+  ;; (setq cljr-warn-on-eval nil) ;; turned off for the above
   ;; setup some extra namespace auto completion for great awesome
   (dolist (mapping '(("re-frame" . "re-frame.core")
                      ("reagent"  . "reagent.core")
@@ -63,7 +67,6 @@
    clojurescript-mode-hook))
 
 (setq cider-repl-display-help-banner nil)
-(setq cljr-warn-on-eval nil)
 (setq cider-auto-select-error-buffer nil)
 (setq clojure-align-forms-automatically t)
 
