@@ -114,7 +114,7 @@
       (call-interactively #'pomidor-unhold)
     (call-interactively #'pomidor-hold)))
 
-(setq org-tags-exclude-from-inheritance '("project")
+(setq org-tags-exclude-from-inheritance '("project" "active")
       org-agenda-files `(,(concat cmacs-share-path "/org-roam/projects.org.gpg")
                          ,(concat cmacs-share-path "/org-roam/habit_tracker.org.gpg"))
       org-habit-graph-column 60
