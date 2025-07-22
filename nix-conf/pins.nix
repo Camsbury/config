@@ -10,38 +10,25 @@ let
     rev = "08f22084e608";
     hash = "sha256-XE/lFNhz5lsriMm/yjXkvSZz5DfvKJLUjsS6pP8EC50=";
   };
-  spotify = {
-    # rev = "afa43e1383d4";
-    # hash = "sha256-4sE2td3lxsvekb1/3ACy/+5b1rNHgEmdMfdzMmXvMow=";
-    rev = "08f22084e608";
-    hash = "sha256-XE/lFNhz5lsriMm/yjXkvSZz5DfvKJLUjsS6pP8EC50=";
+  hardware = {
+    # NOTE: from nixos-hardware repo
+    rev = "537286c3c59b40311e5418a180b38034661d2536";
+    hash = "sha256-cgXDFrplNGs7bCVzXhRofjD8oJYqqXGcmUzXjHmip6Y=";
   };
+
+  inherit (import <nixpkgs> {}) fetchFromGitHub;
+  fetchPackages = hashes: fetchFromGitHub ({
+      owner = "NixOS";
+      repo  = "nixpkgs";
+    } // hashes
+  );
 in
   {
-    inherit unstable;
-
-    hardware = {
-      # NOTE: from nixos-hardware repo
-      # rev = "72d53d51704295f1645d20384cd13aecc182f624";
-      rev = "537286c3c59b40311e5418a180b38034661d2536";
-      hash = "sha256-cgXDFrplNGs7bCVzXhRofjD8oJYqqXGcmUzXjHmip6Y=";
-    };
-
-    cuda = unstable;
-    vbox = last-unstable;
-
-    spotify = unstable;
-
-    wine = unstable;
-    # wine = {
-    #   rev = "b50a77c03d64";
-    #   hash = "sha256-zJaF0RkdIPbh8LTmnpW/E7tZYpqIE+MePzlWwUNob4c=";
-    # };
-
-    discord = unstable;
-    # discord = {
-    #   rev = "a518c771485";
-    #   hash = "sha256-oz757DnJ1ITvwyTovuwG3l9cX6j9j6/DH9eH+cXFJmc=";
-    # };
-
+    cuda = fetchPackages unstable;
+    discord = fetchPackages unstable;
+    hardware = fetchPackages hardware;
+    spotify = fetchPackages unstable;
+    unstable = fetchPackages unstable;
+    vbox = fetchPackages unstable;
+    wine = fetchPackages unstable;
   }

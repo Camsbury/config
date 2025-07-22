@@ -5,9 +5,9 @@ let
 in
   {
     imports = [
-      # "${import ../utils/hardware.nix}/apple/macbook-pro/11-5"
-      "${import ../utils/hardware.nix}/apple/macbook-pro"
-      "${import ../utils/hardware.nix}/common/pc/laptop/ssd"
+      # "${(import ../pins.nix).hardware}/apple/macbook-pro/11-5"
+      "${(import ../pins.nix).hardware}/apple/macbook-pro"
+      "${(import ../pins.nix).hardware}/common/pc/laptop/ssd"
       <nixpkgs/nixos/modules/hardware/network/broadcom-43xx.nix>
     ];
 

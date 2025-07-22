@@ -5,7 +5,7 @@
     ../modules/core.nix
 
     # hardware
-    "${import ../utils/hardware.nix}/dell/xps/13-9310"
+    "${(import ../pins.nix).hardware}/dell/xps/13-9310"
     ../modules/intel.nix
     ../modules/ssd.nix
     ../modules/laptop.nix

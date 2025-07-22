@@ -5,7 +5,7 @@
     ./intel.nix
     ./laptop.nix
     ./ssd.nix
-    "${import ../utils/hardware.nix}/dell/xps/13-9310"
+    "${(import ../pins.nix).hardware}/dell/xps/13-9310"
   ];
 
   # hardware = {

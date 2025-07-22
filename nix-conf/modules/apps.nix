@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  discordPkgs = import ../pins/discord.nix {
+  discordPkgs = import (import ../pins.nix).discord {
     config = {
       allowUnfree = true;
     };

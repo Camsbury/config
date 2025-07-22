@@ -63,12 +63,13 @@
         "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
       ];
     };
-    nixPath = [
-      "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
-      "nixpkgs-unstable=${../utils/unstable.nix}"
-      "nixos-config=/etc/nixos/configuration.nix"
-      "/nix/var/nix/profiles/per-user/root/channels"
-    ];
+    nixPath =
+      [
+        "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
+        "nixpkgs-unstable=${(import (toString ../pins.nix)).unstable}"
+        "nixos-config=/etc/nixos/configuration.nix"
+        "/nix/var/nix/profiles/per-user/root/channels"
+      ];
   };
 
   nixpkgs.config = {

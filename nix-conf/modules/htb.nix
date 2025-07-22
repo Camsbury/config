@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  vboxPkgs = import ../pins/vbox.nix {
+  vboxPkgs = import (import ../pins.nix).vbox {
     config = {
       allowUnfree = true;
     };

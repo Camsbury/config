@@ -2,6 +2,6 @@
 
 {
   imports = [
-    "${import ../utils/hardware.nix}/common/cpu/intel"
+    "${(import ../pins.nix).hardware}/common/cpu/intel"
   ];
 }

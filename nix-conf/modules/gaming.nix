@@ -1,12 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  # steamPkgs = import ../pins/steam.nix {
-  #   config = {
-  #     allowUnfree = true;
-  #   };
-  # };
-  winePkgs  = import ../pins/wine.nix {
+  winePkgs  = import (import ../pins.nix).wine {
     config = {
       allowUnfree = true;
     };

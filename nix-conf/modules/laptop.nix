@@ -2,7 +2,7 @@
 
 {
   imports = [
-    "${import ../utils/hardware.nix}/common/pc/laptop"
+    "${(import ../pins.nix).hardware}/common/pc/laptop"
     ./check-battery.nix
   ];
   boot.kernelParams = [
