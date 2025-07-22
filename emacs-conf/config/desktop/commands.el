@@ -283,15 +283,15 @@
     (if match
         (switch-to-buffer match)
       (let ((default-directory
-              (if projectp
-                  (or  (projectile-project-root) "~")
-                "~")))
+             (if projectp
+                 (or  (projectile-project-root) "~")
+               "~")))
         (-run-shell-command command)))))
 
-(defun open-brave ()
-  "Opens the brave browser"
+(defun open-firefox ()
+  "Opens the firefox browser"
   (interactive)
-  (find-or-open-application "brave" "Brave-browser"))
+  (find-or-open-application "firefox" "firefox"))
 
 (defun open-lutris ()
   "Opens Lutris"
@@ -378,7 +378,7 @@
 
 (defun open-all-applications ()
   (interactive)
-  (open-brave)
+  (open-firefox)
   (open-xterm)
   (open-slack)
   (open-telegram)
@@ -386,7 +386,7 @@
 
 (defun align-all-applications ()
   (interactive)
-  (dolist (i '((2 "Brave-browser")
+  (dolist (i '((2 "firefox")
                (4 "XTerm")
                (8 "Slack")
                (9 "TelegramDesktop")

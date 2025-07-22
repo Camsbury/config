@@ -10,12 +10,6 @@ let
     rev = "08f22084e608";
     hash = "sha256-XE/lFNhz5lsriMm/yjXkvSZz5DfvKJLUjsS6pP8EC50=";
   };
-  chromium = {
-    # rev = "102a39bfee44";
-    # hash = "sha256-Q4vhtbLYWBUnjWD4iQb003Lt+N5PuURDad1BngGKdUs=";
-    rev = "08f22084e608";
-    hash = "sha256-XE/lFNhz5lsriMm/yjXkvSZz5DfvKJLUjsS6pP8EC50=";
-  };
   spotify = {
     # rev = "afa43e1383d4";
     # hash = "sha256-4sE2td3lxsvekb1/3ACy/+5b1rNHgEmdMfdzMmXvMow=";
@@ -32,10 +26,6 @@ in
       rev = "537286c3c59b40311e5418a180b38034661d2536";
       hash = "sha256-cgXDFrplNGs7bCVzXhRofjD8oJYqqXGcmUzXjHmip6Y=";
     };
-
-    inherit chromium;
-    chrome = chromium;
-    brave = chromium;
 
     cuda = unstable;
     vbox = last-unstable;

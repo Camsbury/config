@@ -30,7 +30,7 @@
   "spawn"
   ("a" (spawnify #'org-roam-dailies-goto-today) "daybook")
   ("b" (spawn-file-link :books)                 "book notes")
-  ("c" (spawnify #'open-brave)                  "brave browser")
+  ("c" (spawnify #'open-firefox)                "firefox")
   ("e" (spawnify #'projectile-find-file)        "project file")
   ("E" (spawnify #'projectile-switch-to-buffer) "project open buffer")
   ("g" (spawnify #'open-telegram)               "telegram")
@@ -59,7 +59,7 @@
   ("a" #'org-roam-dailies-goto-today           "daybook")
   ("b" (open-file-link :books)                 "book notes")
   ("B" #'list-bookmarks                        "list bookmarks")
-  ("c" #'open-brave                            "brave browser")
+  ("c" #'open-firefox                          "firefox")
   ("C" #'open-chess-practice                   "chess practice")
   ("e" #'projectile-find-file                  "project file")
   ("E" #'projectile-switch-to-buffer           "project open buffer")

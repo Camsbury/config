@@ -19,14 +19,13 @@ in
 
   environment = {
     variables = {
-      BROWSER = "brave-browser";
+      BROWSER = "firefox";
     };
     systemPackages = with pkgs; [
       anki
       aria2
       audacity
       baobab
-      brave
       chromium
       discordPkgs.discord
       # element-desktop

@@ -19,7 +19,7 @@
      links
      :action
      (lambda (n)
-       (open-brave)
+       (open-firefox)
        (->> links (gethash n) (gethash :url) browse-url)))))
 
 (defun exwm-browser-link--build-new-tags (tags selected fn)
@@ -112,7 +112,7 @@
     (exwm-browser-link--build-tags tags '() t)))
 
 (defun exwm-browser-link-create ()
-  "with a brave browser selected and my extension installed, fire this off to
+  "with a firefox browser selected and my extension installed, fire this off to
 create a bookmark at the current url"
   (interactive)
   (let ((url

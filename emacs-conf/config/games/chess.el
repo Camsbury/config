@@ -201,7 +201,7 @@
        "cd ~/projects/Camsbury/blitz-tactics && nix-shell --run 'yarn drun'"
        (generate-new-buffer-name "*Blitz Tactics Server*"))))
   (when browse-p
-    (open-brave)
+    (open-firefox)
     (browse-url "http://localhost:3000")))
 
 (defun browse-in-order (urls)
@@ -213,7 +213,7 @@
   "open all the things you need to practice"
   (interactive)
   (open-local-blitz-tactics)
-  (open-brave)
+  (open-firefox)
   (browse-in-order
    '("https://chessable.com/"
      "https://chessbook.com/"

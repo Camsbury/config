@@ -9,7 +9,7 @@
    (concat
     "livedown start "
     (buffer-file-name)
-    " --open --browser \"'brave'\"")
+    " --open --browser \"'firefox'\"")
    (generate-new-buffer-name (concat "*Watching " (buffer-file-name) "*"))))
 
 (provide 'config/viewers/markdown)
