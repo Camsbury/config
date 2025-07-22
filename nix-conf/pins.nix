@@ -30,7 +30,7 @@ in
     cuda = unstable;
     vbox = last-unstable;
 
-    spotify = spotify;
+    spotify = unstable;
 
     wine = unstable;
     # wine = {
