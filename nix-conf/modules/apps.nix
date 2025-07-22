@@ -30,6 +30,7 @@ in
       discordPkgs.discord
       # element-desktop
       firefox
+      gather
       gimp
       google-chrome # for certain features
       peek # screen recorder
