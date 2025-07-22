@@ -143,6 +143,7 @@
          "/.rgignore")))
 (use-package consult-projectile)
 (use-package embark
+  ;; NOTE: you want to C-c C-p after this to edit all
   :bind (("C-c C-o" . embark-export)
          ("C-." . embark-act)))
 (use-package embark-consult
