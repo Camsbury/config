@@ -117,7 +117,8 @@ create a bookmark at the current url"
   (interactive)
   (let ((url
          (progn
-           (exwm-input--fake-key ?\C-\S-u)
+           (exwm-input--fake-key ?\C-l)
+           (exwm-input--fake-key ?\C-c)
            (sleep-for 1)
            (current-kill 0))))
     (if (s-starts-with? "http" url)
