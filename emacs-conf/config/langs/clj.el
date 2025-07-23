@@ -328,6 +328,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
 (defhydra hydra-clj (:exit t :columns 5)
   "clojure-mode"
   ("=" #'clojure-align                    "align")
+  ("c" #'cider-clojuredocs                "cider clojuredocs")
   ("d" #'cider-debug-defun-at-point       "debug at point")
   ("e" #'cljr-move-to-let                 "move to let")
   ("f" #'cljr-find-usages                 "find refs")
