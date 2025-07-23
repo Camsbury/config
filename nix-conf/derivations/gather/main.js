@@ -20,9 +20,13 @@ function createWindow() {
 
 app.whenReady().then(() => {
   session.defaultSession.setDisplayMediaRequestHandler((request, callback) => {
-    desktopCapturer.getSources({ types: ["screen"] }).then((sources) => {
-      callback({ video: sources[0] });
-    });
+    if (request.audio) {
+      callback(null);
+    } else {
+      desktopCapturer.getSources({ types: ["screen"] }).then((sources) => {
+        callback({ video: sources[0] });
+      });
+    }
   });
 
   createWindow();
