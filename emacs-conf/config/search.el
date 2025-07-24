@@ -130,9 +130,24 @@
   :config
   (nerd-icons-completion-mode)
   (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
-
 ;; power commands / actions
 (use-package consult
+  :preface
+  (general-define-key
+   :keymaps 'global-map
+   [remap bookmark-jump]                 #'consult-bookmark
+   [remap evil-show-marks]               #'consult-mark
+   [remap evil-show-registers]           #'consult-register
+   [remap goto-line]                     #'consult-goto-line
+   [remap imenu]                         #'consult-imenu
+   [remap Info-search]                   #'consult-info
+   [remap locate]                        #'consult-locate
+   [remap load-theme]                    #'consult-theme
+   [remap recentf-open-files]            #'consult-recent-file
+   [remap switch-to-buffer]              #'consult-buffer
+   [remap switch-to-buffer-other-window] #'consult-buffer-other-window
+   [remap switch-to-buffer-other-frame]  #'consult-buffer-other-frame
+   [remap yank-pop]                      #'consult-yank-pop)
   :config
   (setq consult-ripgrep-args
         (concat
@@ -140,7 +155,14 @@
           --path-separator / --smart-case --no-heading --line-number \
           --hidden --ignore-file "
          user-home-path
-         "/.rgignore")))
+         "/.rgignore")
+        consult-narrow-key "<"
+        consult-line-numbers-widen t
+        consult-async-min-input 2
+        consult-async-refresh-delay  0.15
+        consult-async-input-throttle 0.2
+        consult-async-input-debounce 0.1))
+(use-package consult-imenu)
 (use-package consult-projectile)
 (use-package embark
   ;; NOTE: you want to C-c C-p after this to edit all
