@@ -23,7 +23,10 @@
 ;;   :after (magit)
 ;;   :config
 ;;   (general-add-hook 'magit-mode-hook (list 'evil-magit-init)))
-(use-package forge)
+(use-package forge
+  :after (magit)
+  :config
+  (setq auth-sources '("~/.authinfo.gpg")))
 ;; (let ((token (getenv "GH_NOTIF_TOKEN")))
 ;;   (when token
 ;;     (use-package github-notifier
@@ -31,6 +34,7 @@
 ;;       (customize-set-variable 'github-notifier-token token)
 ;;       :config
 ;;       (github-notifier-mode 1))))
+;; USEIT
 (use-package browse-at-remote)
 
 
