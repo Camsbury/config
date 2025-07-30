@@ -160,7 +160,7 @@
   ("E" #'etymology-of-word-at-point   "etymology of word at point")
   ("f" #'consult-ripgrep              "find text in project")
   ;; USEIT
-  ("F" #'swiper-thing-at-point        "find uses of the thing at point")
+  ("F" #'ck/search-for-file           "search all dirs for file")
   ("g" #'hydra-git/body               "git tasks")
   ;; ("G")
   ("h" #'org-capture                  "capture")

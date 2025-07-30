@@ -271,6 +271,13 @@
   (-run-shell-command
    (concat "keychain --eval --agents gpg " user-gpg-id)))
 
+(defun ck/search-for-file (filename)
+  "Search for file in all dirs"
+  (interactive "sFile Name: ")
+  (async-shell-command
+   (concat "fd -IH --hidden " filename " /")
+   (generate-new-buffer-name (concat "*Searching for " filename "*"))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; open applications
