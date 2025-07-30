@@ -92,23 +92,38 @@
   :config
   (vertico-mode 1)
   (require 'vertico-sort)
-  (setq vertico-sort-function #'vertico-sort-history-length-alpha)
+  (setq
+   vertico-resize nil
+   vertico-count 17
+   vertico-cycle t
+   vertico-sort-function #'vertico-sort-history-length-alpha)
+  (setq-default
+   completion-in-region-function
+   (lambda (&rest args)
+     (apply (if vertico-mode
+                #'consult-completion-in-region
+              #'completion--in-region)
+            args)))
   (general-define-key
    :keymaps 'vertico-map
+   "M-RET" #'vertico-exit-input
+   "C-j"   #'vertico-next
+   "C-M-j" #'vertico-next-group
+   "C-k"   #'vertico-previous
+   "C-M-k" #'vertico-previous-group
    [escape] #'minibuffer-keyboard-quit))
 
 ;; NOTE: still want this to only work for find-file
 ;; Configure directory extension.
-;; (use-package vertico-directory
-;;   :after vertico
-;;   :ensure nil
-;;   ;; More convenient directory navigation commands
-;;   :bind (:map vertico-map
-;;               ("RET" . vertico-directory-enter)
-;;               ("M-DEL" . vertico-directory-delete-char)
-;;               ("DEL" . vertico-directory-delete-word))
-;;   ;; Tidy shadowed file names
-;;   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+(use-package vertico-directory
+  :after vertico
+  :ensure nil
+  ;; More convenient directory navigation commands
+  :bind (:map vertico-map
+              ("M-DEL" . #'vertico-directory-up)
+              ("RET" . vertico-directory-enter))
+  ;; Tidy shadowed file names
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
 (use-package orderless
   :custom (completion-styles '(orderless basic)))
