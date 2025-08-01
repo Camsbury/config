@@ -6,7 +6,6 @@
   email
   feeds
   irc
-  lastpass
   lsp
   notifications
   radio

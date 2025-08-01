@@ -95,7 +95,6 @@ let
     kaocha-runner
     keychain-environment
     # know-your-http-well
-    lastpass
     lispy
     lispyville
     lsp-haskell
