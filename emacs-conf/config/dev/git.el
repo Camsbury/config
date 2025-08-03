@@ -1,5 +1,11 @@
 (use-package git-timemachine)
 
+;; NOTE: this needs to be before magit so it runs before
+;; evil-collection-magit-setup
+(use-package forge
+  :after (magit)
+  :config
+  (setq auth-sources '("~/.authinfo.gpg")))
 (use-package magit
   :init
   ;; NOTE: deal with seq issues temporarily (probably can remove later)
@@ -23,10 +29,7 @@
 ;;   :after (magit)
 ;;   :config
 ;;   (general-add-hook 'magit-mode-hook (list 'evil-magit-init)))
-(use-package forge
-  :after (magit)
-  :config
-  (setq auth-sources '("~/.authinfo.gpg")))
+
 ;; (let ((token (getenv "GH_NOTIF_TOKEN")))
 ;;   (when token
 ;;     (use-package github-notifier
