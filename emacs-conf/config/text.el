@@ -47,7 +47,19 @@
   (setq yas-triggers-in-field t))
 (use-package company
   :config
-  (setq lsp-completion-provider :capf)
+  (setq company-minimum-prefix-length 2
+        company-tooltip-limit 14
+        company-tooltip-align-annotations t
+        company-require-match 'never
+        company-idle-delay 0.27
+        company-global-modes
+        '(not erc-mode
+              circe-mode
+              message-mode
+              help-mode
+              gud-mode
+              vterm-mode)
+        lsp-completion-provider :capf)
   (global-company-mode))
 (use-package company-box
   :hook (company-mode . company-box-mode))
