@@ -57,7 +57,6 @@ let
     evil
     evil-collection
     evil-commentary
-    evil-mu4e
     evil-multiedit
     evil-surround
     evil-visualstar
@@ -190,6 +189,7 @@ let
     company-postgresql
     etymology-of-word
     hide-comnt
+    mu4e
     re-jump
   ];
 in

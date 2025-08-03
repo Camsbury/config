@@ -3,30 +3,32 @@
 {
   environment = {
     systemPackages = with pkgs; [
-      mu
-      offlineimap
+      (isync.override { withCyrusSaslXoauth2 = true; }) # sync client
+      mu                                                # email client
+      msmtp                                             # send/SMTP client
+      oauth2l                                           # oauth login
     ];
-    variables = {
-      MU_PATH = "${pkgs.mu}";
-    };
-  };
-  systemd.user.services.offlineimap = {
-    description = "OfflineIMAP Quicksync";
-    path = [ pkgs.gnupg ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.offlineimap}/bin/offlineimap --info -o -q";
-    };
-  };
-  systemd.user.timers.offlineimap = {
-    description = "OfflineIMAP Quicksync Timer";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnBootSec = "1m";
-      OnUnitInactiveSec = "1m";
-    };
   };
 
- systemd.user.services.offlineimap.enable = true;
- systemd.user.timers.offlineimap.enable = true;
+  systemd.user = {
+    services.mbsync = {
+      description = "mbsync – sync Maildir";
+      after       = [ "network-online.target" ];
+      serviceConfig = {
+        Type          = "oneshot";
+        ExecStart     = "${pkgs.isync}/bin/mbsync -a";
+        ExecStartPost = "${pkgs.mu}/bin/mu index";
+      };
+      wantedBy = [ "default.target" ];
+    };
+    timers.mbsync = {
+      description = "Poll IMAP every 5 min";
+      timerConfig = {
+        OnBootSec       = "5min";
+        OnUnitActiveSec = "5min";
+        AccuracySec     = "30s";
+      };
+      wantedBy = [ "timers.target" ];
+    };
+  };
 }

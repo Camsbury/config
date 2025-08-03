@@ -1,0 +1,11 @@
+account personal
+host smtp.gmail.com
+port 465
+auth xoauth2
+user camsbury7@gmail.com
+passwordeval "oauth2l fetch --credentials ~/.config/mu4e/client.json --scope https://mail.google.com"
+from camsbury7@gmail.com
+
+ssl          on
+ssl_starttls off
+account default : personal

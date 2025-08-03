@@ -22,7 +22,7 @@
     ../modules/rgb.nix
 
     ../modules/gen-ai.nix
-    # ../modules/email.nix
+    ../modules/email.nix
     # ../modules/htb.nix
     ../modules/razer.nix
     ../modules/foreign.nix

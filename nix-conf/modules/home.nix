@@ -43,13 +43,13 @@ in
       ".clojure".source = sym ../../clojure;
       ".config/dunst/dunstrc".source = sym ../../dunstrc;
       ".config/gollama/config.json".source = sym ../../gollama-conf.json;
+      ".config/msmtp/config".source = ../../msmtp-config;
       ".gitconfig".source = sym ../../gitconfig;
       ".gitignore".source = sym ../../global-gitignore;
       ".gnupg/gpg-agent.conf".source = ../../gpg-agent.conf;
       ".gnupg/gpg.conf".source = ../../gpg.conf;
       ".helpers.zsh.inc".source = ../../helpers.zsh.inc;
-      ".offlineimap.py".source = ../../offlineimap.py;
-      ".offlineimaprc".source = ../../offlineimaprc;
+      ".mbsyncrc".source = ../../mbsyncrc;
       ".rgignore".source = sym ../../rgignore;
       ".scripts".source = sym ../../scripts;
       ".shells".source = ../shells;

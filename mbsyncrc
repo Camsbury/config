@@ -1,0 +1,22 @@
+IMAPAccount personal
+Host imap.gmail.com
+User camsbury7@gmail.com
+AuthMechs XOAUTH2
+TLSType IMAPS
+PassCmd "oauth2l fetch --credentials ~/.config/mu4e/client.json --scope https://mail.google.com"
+
+IMAPStore personal-remote
+Account personal
+
+MaildirStore personal-local
+SubFolders Verbatim
+Path   ~/Maildir/personal/
+Inbox  ~/Maildir/personal/Inbox
+
+Channel personal
+Far   :personal-remote:
+Near  :personal-local:
+Patterns * ![Gmail]*
+Create Both
+Expunge Both
+SyncState *

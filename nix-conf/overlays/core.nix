@@ -61,6 +61,7 @@ in
         # inherit gollama;
         # inherit lmstudio;
         # inherit update-nix-fetchgit;
+        inherit mu;
       })
       )
       (import ./emacs.nix)
