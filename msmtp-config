@@ -3,7 +3,7 @@ host smtp.gmail.com
 port 465
 auth xoauth2
 user camsbury7@gmail.com
-passwordeval "oauth2l fetch --credentials ~/.config/mu4e/client.json --scope https://mail.google.com"
+passwordeval "oauth2l fetch --refresh --credentials ~/.config/mu4e/client.json --scope https://mail.google.com --cache ~/.config/mu4e/oauth2l-cache"
 from camsbury7@gmail.com
 
 ssl          on

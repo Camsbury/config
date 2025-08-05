@@ -16,7 +16,7 @@
       after       = [ "network-online.target" ];
       serviceConfig = {
         Type          = "oneshot";
-        ExecStart     = "${pkgs.isync}/bin/mbsync -a";
+        ExecStart     = "${(pkgs.isync.override { withCyrusSaslXoauth2 = true; })}/bin/mbsync -a";
         ExecStartPost = "${pkgs.mu}/bin/mu index";
       };
       wantedBy = [ "default.target" ];

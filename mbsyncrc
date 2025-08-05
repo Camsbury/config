@@ -3,7 +3,7 @@ Host imap.gmail.com
 User camsbury7@gmail.com
 AuthMechs XOAUTH2
 TLSType IMAPS
-PassCmd "oauth2l fetch --credentials ~/.config/mu4e/client.json --scope https://mail.google.com"
+PassCmd "oauth2l fetch --refresh --credentials ~/.config/mu4e/client.json --scope https://mail.google.com --cache ~/.config/mu4e/oauth2l-cache"
 
 IMAPStore personal-remote
 Account personal
