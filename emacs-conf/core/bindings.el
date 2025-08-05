@@ -262,6 +262,7 @@
 
 ;; CLEAN: reorganize and get rid of things you never use
 (general-def '(normal visual) '(text-mode-map prog-mode-map)
+  "C-t" #'toggle-tests
   "C-u" #'evil-scroll-up
   "gt"  #'toggle-test
   "gc"  #'evil-commentary)
