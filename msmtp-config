@@ -6,6 +6,6 @@ user camsbury7@gmail.com
 passwordeval "oauth2l fetch --refresh --credentials ~/.config/mu4e/client.json --scope https://mail.google.com --cache ~/.config/mu4e/oauth2l-cache"
 from camsbury7@gmail.com
 
-ssl          on
-ssl_starttls off
+tls          on
+tls_starttls off
 account default : personal

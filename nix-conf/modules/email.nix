@@ -14,6 +14,7 @@
     services.mbsync = {
       description = "mbsync – sync Maildir";
       after       = [ "network-online.target" ];
+      path = [ pkgs.oauth2l ];
       serviceConfig = {
         Type          = "oneshot";
         ExecStart     = "${(pkgs.isync.override { withCyrusSaslXoauth2 = true; })}/bin/mbsync -a";

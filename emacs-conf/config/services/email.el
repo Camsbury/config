@@ -15,6 +15,10 @@
                 (mu4e-sent-folder . "/personal/sent")
                 (mu4e-drafts-folder . "/personal/drafts")
                 (mu4e-trash-folder . "/personal/trash"))))
+   message-send-mail-function 'message-send-mail-with-sendmail
+   sendmail-program "/run/current-system/sw/bin/msmtp"
+   mail-specify-envelope-from t
+   mail-envelope-from 'header
    shr-color-visible-luminance-min 80)
   (with-eval-after-load 'mu4e
     (evil-collection-mu4e-setup)))
