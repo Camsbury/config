@@ -203,6 +203,7 @@
   ("W" #'evil-save-as                 "save file as")
   ;; ("x")
   ("X" #'toggle-debug-on-error        "toggle debug on error")
+  ;; USEIT
   ("y" #'nav-flash-line               "flash line")
   ;; USEIT
   ("Y" #'copy-buffer-path             "copy buffer path")
