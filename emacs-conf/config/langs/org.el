@@ -91,7 +91,7 @@
          entry (file+headline ,(concat cmacs-share-path "/org-roam/daybook.org.gpg") "log")
          "* %i%? %T"))
       org-refile-targets `((,(concat cmacs-share-path "/org-roam/projects.org.gpg") :level . 3)
-                           (,(concat cmacs-share-path "/org-roam/tickler_list.org.gpg") :level . 1)
+                           (,(concat cmacs-share-path "/org-roam/tickler.org.gpg") :level . 1)
                            (,(concat cmacs-share-path "/org-roam/someday_maybe.org.gpg") :level . 1)
                            (,(concat cmacs-share-path "/org-roam/awaiting_action.org.gpg") :level . 1)
                            (,(concat cmacs-share-path "/org-roam/reference.org.gpg") :level . 1))
