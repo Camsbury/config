@@ -35,6 +35,7 @@
 (use-package string-edit-at-point)
 (use-package undo-tree
   :config
+  (setq undo-tree-history-directory-alist '(("." . "~/.cache/emacs/undo-tree/")))
   (customize-set-variable 'evil-undo-system 'undo-tree)
   (global-undo-tree-mode))
 (use-package yasnippet
