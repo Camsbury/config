@@ -13,6 +13,7 @@ let
     attrap
     avy
     # benchmark-init
+    beacon
     browse-at-remote
     buffer-move
     cargo

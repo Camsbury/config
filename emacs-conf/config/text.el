@@ -65,6 +65,40 @@
 (use-package company-box
   :hook (company-mode . company-box-mode))
 
+(defun ck/point-to-right-columns ()
+  "Visible columns from point to the right window edge."
+  (let* ((win (selected-window))
+         (col (current-column))           ; 0-based buffer column
+         (h   (window-hscroll win))       ; leftmost visible buffer column
+         (w   (window-body-width win))    ; visible width in columns
+         (right (+ h w -1)))
+    (max 0 (- (- right col) 5))))
+
+(defun ck/beacon-update-size (&rest _)
+  (setq beacon-size (ck/point-to-right-columns)))
+
+(use-package beacon
+  :init
+  (setq beacon-blink-when-point-moves-horizontally 2
+        beacon-blink-when-point-moves-vertically   1
+        beacon-blink-when-focused t
+        beacon-blink-duration 0.05
+        beacon-blink-delay 0.1
+        beacon-size 40
+        beacon-dont-blink-commands nil
+        beacon-push-mark nil
+        beacon-color "#00FF58")
+  :config
+  (advice-add 'beacon-blink :before #'ck/beacon-update-size)
+  (beacon-mode 1))
+
+;; (use-package corfu)
+;; (use-package kind-icon
+;;   :ensure t
+;;   :after corfu
+;;   :config
+;;   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Utility Functions
