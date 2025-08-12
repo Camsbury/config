@@ -79,12 +79,12 @@
 
 (use-package beacon
   :init
-  (setq beacon-blink-when-point-moves-horizontally 2
+  (add-to-list 'beacon-dont-blink-major-modes 'exwm-mode)
+  (setq beacon-blink-when-point-moves-horizontally 0
         beacon-blink-when-point-moves-vertically   1
         beacon-blink-when-focused t
         beacon-blink-duration 0.05
         beacon-blink-delay 0.1
-        beacon-size 40
         beacon-dont-blink-commands nil
         beacon-push-mark nil
         beacon-color "#00FF58")
