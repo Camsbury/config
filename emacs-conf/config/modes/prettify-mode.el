@@ -13,7 +13,7 @@
       (with-selected-window w
         (when
             (minor-mode-active-p 'prettify-mode)
-          (set-window-width w 85))))))
+          (set-window-width w 86))))))
 
 ;; non-prog modes
 (general-add-hook
