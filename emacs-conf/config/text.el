@@ -79,7 +79,6 @@
 
 (use-package beacon
   :init
-  (add-to-list 'beacon-dont-blink-major-modes 'exwm-mode)
   (setq beacon-blink-when-point-moves-horizontally 0
         beacon-blink-when-point-moves-vertically   1
         beacon-blink-when-focused t
@@ -89,6 +88,7 @@
         beacon-push-mark nil
         beacon-color "#00FF58")
   :config
+  (add-to-list 'beacon-dont-blink-major-modes 'exwm-mode)
   (advice-add 'beacon-blink :before #'ck/beacon-update-size)
   (beacon-mode 1))
 
