@@ -95,12 +95,12 @@
 (defun raise-volume ()
   "raises volume"
   (interactive)
-  (shell-command "pactl set-sink-volume @DEFAULT_SINK@ +1000"))
+  (shell-command "wpctl set-volume @DEFAULT_SINK@ 5%+"))
 
 (defun lower-volume ()
   "lowers volume"
   (interactive)
-  (shell-command "pactl set-sink-volume @DEFAULT_SINK@ -1000"))
+  (shell-command "wpctl set-volume @DEFAULT_SINK@ 5%-"))
 
 (defun pause-notifications ()
   "pause dunst notifications"
@@ -115,7 +115,7 @@
 (defun toggle-mute ()
   "toggles mute"
   (interactive)
-  (shell-command "pactl set-sink-mute @DEFAULT_SINK@ toggle"))
+  (shell-command "wpctl set-mute @DEFAULT_SINK@ toggle"))
 
 (defun spotify-toggle-play ()
   "toggles play/pause in Spotify"

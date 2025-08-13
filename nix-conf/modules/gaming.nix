@@ -60,7 +60,6 @@ in
     # driSupport = true;
     enable32Bit = true;
   };
-  services.pulseaudio.support32Bit = true;
 
   systemd.services.joystickwake = {
     description = "joystickwake service";
