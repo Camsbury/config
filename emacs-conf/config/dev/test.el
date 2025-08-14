@@ -35,7 +35,7 @@
 (defun toggle-tests ()
   "Toggle test and source"
   (interactive)
-  (case major-mode
+  (cl-case major-mode
     ('clojure-mode (toggle-test-clojure))
     (t (message "mode not supported for test toggling"))))
 
