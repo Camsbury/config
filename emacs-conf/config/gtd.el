@@ -114,16 +114,19 @@
       (call-interactively #'pomidor-unhold)
     (call-interactively #'pomidor-hold)))
 
-(setq org-tags-exclude-from-inheritance '("project" "active")
+(setq org-tags-exclude-from-inheritance '("project")
       org-agenda-files `(,(concat cmacs-share-path "/org-roam/projects.org.gpg")
                          ,(concat cmacs-share-path "/org-roam/habit_tracker.org.gpg"))
       org-habit-graph-column 60
       org-agenda-start-on-weekday nil
       org-agenda-custom-commands
       '(("d" "Default Agenda"
-         ((tags "active"
-                ((org-agenda-skip-function
-                  '(org-agenda-skip-entry-if 'scheduled 'deadline 'timestamp))))
+         ((tags-todo "c@digital"
+                     ((org-agenda-skip-function
+                       '(org-agenda-skip-entry-if 'scheduled 'deadline 'timestamp))))
+          (tags-todo "c@physical"
+                     ((org-agenda-skip-function
+                       '(org-agenda-skip-entry-if 'scheduled 'deadline 'timestamp))))
           (agenda ""
                   ((org-agenda-span 'day)
                    (org-deadline-warning-days 0)))))))
