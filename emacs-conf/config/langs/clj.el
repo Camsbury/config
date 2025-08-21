@@ -303,7 +303,7 @@ If invoked with a prefix ARG eval the expression after inserting it"
                                  (call-interactively #'cider-find-var))
   [remap dumb-jump-go] (lambda ()
                          (interactive)
-                         (cider-doc (point)))
+                         (call-interactively #'cider-doc))
   [remap cider-inspector-pop]  #'evil-previous-visual-line
   "M-<RET>" #'cider-eval-sexp-at-point
   "C-<return>" #'cider-eval-last-sexp
