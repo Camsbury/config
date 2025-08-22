@@ -26,9 +26,10 @@
 
 (defhydra hydra-elisp (:exit t)
   "elisp-mode"
- ("a" #'apropos             "search symbols")
- ("l" #'eval-buffer         "eval buffer")
- ("o" #'elisp-narrow-defun  "focus on def")
- ("S" #'run-async-from-desc "run async command from description"))
+  ("a" #'apropos             "search symbols")
+  ("l" #'eval-buffer         "eval buffer")
+  ("o" #'elisp-narrow-defun  "focus on def")
+  ("p" #'eval-defun          "eval outer sexp")
+  ("S" #'run-async-from-desc "run async command from description"))
 
 (provide 'config/langs/elisp)

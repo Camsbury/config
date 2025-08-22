@@ -146,7 +146,6 @@
   "leader"
   ("[" #'hydra-describe/body          "describe")
   ("]" #'switch-to-buffer             "switch to buffer")
-  (")" #'eval-defun                   "eval outer sexp")
   ("+" #'increment-number-at-point    "increment number")
   ("M-x" #'execute-extended-command   "M-x")
   ("a" #'alarm-clock-set              "set an alarm")
