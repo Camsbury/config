@@ -135,7 +135,7 @@
       nq = "nix-query";
       nqu = "NIXPKGS_ALLOW_UNFREE=1 nix-env -qaP";
       nr = "nix repl";
-      nrn = ''nix repl "<nixpkgs/nixos>"'';
+      nrn = ''nix repl --expr "import <nixpkgs/nixos> { configuration = import <nixos-config>; }"'';
       nrp = ''nix repl "<nixpkgs>"'';
       ns = "nix-shell";
       nsd = "nix show-derivation";
