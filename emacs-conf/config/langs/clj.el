@@ -48,12 +48,6 @@
 
 (setq clojure-toplevel-inside-comment-form t)
 
-(add-hook 'cider--debug-mode-hook
-          (lambda ()
-            (if cider--debug-mode
-                (evil-insert-state)     ; enter insert on entry
-              (evil-normal-state)))) ; restore when leaving
-
 (-map
  (lambda (mode)
    (general-add-hook
@@ -295,6 +289,28 @@ If invoked with a prefix ARG eval the expression after inserting it"
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Bindings
+
+;; NOTE: was a pain to get this working, but makes some sense, would rather not
+;; have to choose between the two (non-overlapping keys)
+
+;; 0) Load the map (it's not autoloaded)
+(with-eval-after-load 'cider-debug
+  ;; 1) Make the CIDER debug minor-mode map override Evil's state maps
+  (evil-make-overriding-map cider--debug-mode-map 'normal 'motion)
+  ;; 2) Recompute keymaps when the debug mode toggles, so overriding takes effect
+  (add-hook 'cider--debug-mode-hook #'evil-normalize-keymaps)
+
+  ;; 3) Bind with Evil’s higher-precedence API
+  (evil-define-key* '(normal motion) cider--debug-mode-map
+    "n" #'cider-debug-next
+    "s" #'cider-debug-in
+    "o" #'cider-debug-out
+    "c" #'cider-debug-continue
+    "e" #'cider-debug-eval
+    "i" #'cider-debug-inspect
+    "h" #'cider-debug-move-here
+    "b" #'cider-debug-toggle-locals
+    "q" #'cider-debug-quit))
 
 (general-def 'normal clojure-mode-map
   [remap empty-mode-leader]     #'hydra-clj/body
