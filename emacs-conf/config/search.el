@@ -4,28 +4,31 @@
 
 
 (use-package projectile
-  :config (projectile-mode))
+  :config (projectile-mode)
 
-(customize-set-variable
- 'projectile-project-search-path '(("~/projects" . 2)))
+  (customize-set-variable
+   'projectile-project-search-path '(("~/projects" . 2)))
 
-(customize-set-variable
- 'projectile-ignored-project-function
- (lambda (project)
-   (string-match
-    (rx
-     (or
-      (seq bos "/nix")
-      (seq "/."
-           (one-or-more (not (any "/.")))
-           eos)
-      ".git"
-      "dist"
-      "dist-newstyle"))
-    project)))
+  (customize-set-variable
+   'projectile-ignored-project-function
+   (lambda (project)
+     (string-match
+      (rx
+       (or
+        (seq bos "/nix")
+        (seq "/."
+             (one-or-more (not (any "/.")))
+             eos)
+        ".git"
+        "dist"
+        "dist-newstyle"))
+      project)))
 
-(customize-set-variable
- 'projectile-keymap-prefix (kbd "C-c C-p"))
+  (customize-set-variable
+   'projectile-keymap-prefix (kbd "C-c C-p"))
+
+  (customize-set-variable
+   'projectile-current-project-on-switch 'keep))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
