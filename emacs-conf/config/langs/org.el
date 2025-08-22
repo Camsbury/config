@@ -245,13 +245,17 @@
   "Insert top level heading"
   (interactive)
   (call-interactively #'evil-open-below)
-  (call-interactively #'outline-insert-heading))
+  (if (org-current-level)
+      (call-interactively #'outline-insert-heading)
+    (insert "* ")))
 
 (defun org-insert-todo-heading ()
   "Insert top level heading"
   (interactive)
   (call-interactively #'evil-open-below)
-  (call-interactively #'outline-insert-heading)
+  (if (org-current-level)
+      (call-interactively #'outline-insert-heading)
+    (insert "* "))
   (call-interactively #'org-todo))
 
 (defun org-cycle-shallow (&optional arg)
