@@ -87,6 +87,9 @@
       `(("n" "Enqueue"
          entry (file+headline ,(concat cmacs-share-path "/org-roam/review.org.gpg") "inbox")
          "* [ ] %i%? %T")
+        ("b" "To buy"
+         entry (file+headline ,(concat cmacs-share-path "/org-roam/to_blah.org.gpg") "to buy")
+         "* %i%? %T")
         ("l" "Log action"
          entry (file+headline ,(concat cmacs-share-path "/org-roam/daybook.org.gpg") "log")
          "* %i%? %T"))
