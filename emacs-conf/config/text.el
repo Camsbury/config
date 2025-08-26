@@ -90,7 +90,8 @@
   :config
   (add-to-list 'beacon-dont-blink-major-modes 'exwm-mode)
   (advice-add 'beacon-blink :before #'ck/beacon-update-size)
-  (beacon-mode 1))
+  ;; (beacon-mode 1)
+  )
 
 ;; (use-package corfu)
 ;; (use-package kind-icon
