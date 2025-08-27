@@ -129,6 +129,11 @@
                        '(org-agenda-skip-entry-if 'scheduled 'deadline 'timestamp))))
           (agenda ""
                   ((org-agenda-span 'day)
+                   (org-deadline-warning-days 0)))))
+        ("c" "Calendar"
+         ((agenda ""
+                  ((org-agenda-span 'month)
+                   (org-agenda-files `(,(concat cmacs-share-path "/org-roam/events.org.gpg")))
                    (org-deadline-warning-days 0)))))))
 
 (defun gtd--show-hidden-habits ()
