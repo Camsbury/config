@@ -302,15 +302,30 @@ If invoked with a prefix ARG eval the expression after inserting it"
 
   ;; 3) Bind with Evil’s higher-precedence API
   (evil-define-key* '(normal motion) cider--debug-mode-map
-    "n" #'cider-debug-next
-    "s" #'cider-debug-in
-    "o" #'cider-debug-out
-    "c" #'cider-debug-continue
-    "e" #'cider-debug-eval
-    "i" #'cider-debug-inspect
-    "h" #'cider-debug-move-here
-    "b" #'cider-debug-toggle-locals
-    "q" #'cider-debug-quit))
+    "n" (lambda ()
+          (interactive)
+          (cider-debug-mode-send-reply ":next"))
+    "o" (lambda ()
+          (interactive)
+          (cider-debug-mode-send-reply ":out"))
+    "c" (lambda ()
+          (interactive)
+          (cider-debug-mode-send-reply ":continue"))
+    "e" (lambda ()
+          (interactive)
+          (cider-debug-mode-send-reply ":eval"))
+    "p" (lambda ()
+          (interactive)
+          (cider-debug-mode-send-reply ":inspect"))
+    "h" (lambda ()
+          (interactive)
+          (cider-debug-mode-send-reply ":here"))
+    "l" (lambda ()
+          (interactive)
+          (cider-debug-mode-send-reply ":locals"))
+    "q" (lambda ()
+          (interactive)
+          (cider-debug-mode-send-reply ":quit"))))
 
 (general-def 'normal clojure-mode-map
   [remap empty-mode-leader]     #'hydra-clj/body
