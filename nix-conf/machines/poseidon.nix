@@ -23,7 +23,7 @@
 
     ../modules/gen-ai.nix
     ../modules/email.nix
-    # ../modules/htb.nix
+    ../modules/virtualization.nix
     ../modules/razer.nix
     ../modules/foreign.nix
     ../modules/printing.nix
