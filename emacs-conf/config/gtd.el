@@ -10,6 +10,8 @@
         pomidor-sound-tack nil
         pomidor-sound-overwork (concat cmacs-share-path "/chime.wav")
         pomidor-sound-break-over (concat cmacs-share-path "/chime.wav")
+        pomidor-seconds (* 50 60)
+        pomidor-break-seconds (* 10 60)
         pomidor-long-break-seconds (* 20 60)
         pomidor-update-interval 15
         pomidor-confirm-end-break nil
@@ -223,6 +225,7 @@
       (match-string 1 str)
     str))
 
+;; USEIT
 (defun gtd-jump-to-project ()
   (interactive)
   (let ((projects (ht-create)))
