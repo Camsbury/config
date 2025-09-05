@@ -17,7 +17,7 @@
     ../modules/email.nix
     ../modules/gaming.nix
     ../modules/art.nix
-    # ../modules/htb.nix
+    ../modules/virtualization.nix
   ];
 
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/559bcebb-ef43-4d84-8550-8b371bfb6aa6";
