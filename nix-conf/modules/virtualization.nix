@@ -1,9 +1,15 @@
 { config, pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
-    virt-viewer
-  ];
+  # NOTE: run `virsh net-autostart default`
+  environment = {
+    variables = {
+      LIBVIRT_DEFAULT_URI="qemu:///system";
+    };
+    systemPackages = with pkgs; [
+      virt-viewer
+    ];
+  };
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
