@@ -12,6 +12,7 @@
     ./cmacs.nix
     ./desktop.nix
     ./dev.nix
+    ./display.nix
     ./dropbox.nix
     ./search.nix
     ./security.nix
