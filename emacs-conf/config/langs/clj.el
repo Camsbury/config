@@ -82,6 +82,16 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Tempo helpers
+
+(defvar cider--inject-tempo-middleware nil "Whether to inject Tempo at startup")
+(defun cider--inject-tempo-middleware-p (&rest _args)
+  cider--inject-tempo-middleware)
+(setq cider-jack-in-nrepl-middlewares
+      (cons '("tempo.code.nrepl/wrap-eval" :predicate cider--inject-tempo-middleware-p)
+            cider-jack-in-nrepl-middlewares))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Indentation
 
 (setq clojure-indent-style 'align-arguments)
