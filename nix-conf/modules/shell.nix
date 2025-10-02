@@ -13,6 +13,7 @@
     systemPackages = with pkgs; [
       autojump
       bat
+      bottom
       curl
       dua
       du-dust
