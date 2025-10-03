@@ -16,6 +16,7 @@ let
     beacon
     browse-at-remote
     buffer-move
+    cape
     cargo
     cider
     circe
@@ -31,6 +32,7 @@ let
     company-go
     consult # emacs nouveau
     consult-projectile
+    corfu
     dante
     dap-mode
     dash
@@ -180,6 +182,7 @@ let
     bind-key # use package dep
     chess
     exwm
+    kind-icon
     rainbow-mode
     undo-tree
     use-package

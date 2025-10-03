@@ -60,17 +60,36 @@
               help-mode
               gud-mode
               vterm-mode)
-        lsp-completion-provider :capf)
-  (global-company-mode))
+        ;; lsp-completion-provider :capf
+        )
+  ;; (global-company-mode)
+  )
 (use-package company-box
   :hook (company-mode . company-box-mode))
+
+(use-package corfu
+  :config
+  (global-corfu-mode)
+  (setq corfu-auto t))
+
+(use-package kind-icon
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default)
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+(use-package cape
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-file))
 
 (defun ck/point-to-right-columns ()
   "Visible columns from point to the right window edge."
   (let* ((win (selected-window))
-         (col (current-column))           ; 0-based buffer column
-         (h   (window-hscroll win))       ; leftmost visible buffer column
-         (w   (window-body-width win))    ; visible width in columns
+         (col (current-column))         ; 0-based buffer column
+         (h   (window-hscroll win))     ; leftmost visible buffer column
+         (w   (window-body-width win))  ; visible width in columns
          (right (+ h w -1)))
     (max 0 (- (- right col) 5))))
 
