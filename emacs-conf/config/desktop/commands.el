@@ -325,11 +325,6 @@
   (interactive)
   (find-or-open-application "telegram-desktop" "TelegramDesktop"))
 
-(defun open-gather ()
-  "Opens Gather"
-  (interactive)
-  (find-or-open-application "gather" "gather"))
-
 (defun open-thunderbird ()
   "Opens Telegram"
   (interactive)

@@ -35,9 +35,6 @@ in
         disper = with builtins; with pkgs;
           callPackage (import ../derivations/disper) {};
 
-        gather = with builtins; with pkgs;
-          callPackage (import ../derivations/gather) {};
-
         gollama = with builtins; with pkgs;
           callPackage (import ../derivations/gollama) {};
 
