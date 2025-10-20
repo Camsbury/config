@@ -20,6 +20,7 @@ in
     (emacsPackages.emacsWithPackages (import ../packages/emacs.nix))
     entr
     gdb
+    gh
     git
     gitAndTools.git-extras
     gitAndTools.hub
