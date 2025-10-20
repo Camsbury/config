@@ -19,49 +19,53 @@
 
 (setq radio-playlists
       (-> (concat cmacs-share-path "/music/radio.edn")
-        (f-read 'utf-8)
-        parseedn-read-str))
-
-(define-emms-source radio-playlist (playlist-key)
-  ;; set the description function
-  (customize-set-variable
-   'emms-track-description-function
-   (lambda (track)
-     (->> radio-playlists
-       (gethash playlist-key)
-       (gethash (emms-track-name track)))))
-  ;; build the playlist
-  (maphash
-   (lambda (track-url _title)
-     (let ((track
-            (if (string-match "\\`\\(http[s]?\\|mms\\)://" track-url)
-                (emms-track 'url track-url)
-              (if (string-match "\\`file://" track-url) ;; handle file:// uris
-                  (let ((track-url (url-unhex-string (substring track-url 7))))
-                    (emms-track 'track-url track-url))
-                (emms-track 'track-url (expand-file-name track-url dir))))))
-       (emms-playlist-insert-track track)))
-   (gethash playlist-key radio-playlists)))
+          (f-read 'utf-8)
+          parseedn-read-str))
 
 (defun open-playlist (playlist-key)
   "Play my playlist by name"
-  (emms-play-radio-playlist playlist-key)
-  (setq emms-repeat-playlist t)
-  (emms-random))
+  (with-current-buffer
+      (or (get-buffer emms-playlist-buffer-name)
+          (emms-playlist-new))
+    (emms-playlist-clear)
+    (let* ((emms-info-functions '(emms-info-cueinfo))
+           (radio-playlist (gethash playlist-key radio-playlists))
+           (emms-track-description-function
+            (lambda (track)
+              (or (gethash (emms-track-name track) radio-playlist)
+                  "(no name)"))))
+      (maphash
+       (lambda (track-url _title)
+         ;; NOTE: can try to insert this buffer local path before the url, which is annoying.
+         (let ((track (emms-track 'url track-url)))
+           (emms-playlist-insert-track track)))
+       radio-playlist)
+      (setq emms-repeat-playlist t)
+      (emms-random))))
 
 (defhydra hydra-radio (:exit t :columns 5)
   "radio"
   ("SPC" #'emms-strong-pause          "pause/play")
   ("h"   (lambda ()
            (interactive)
-           (open-playlist :hits))        "open hits playlist")
+           (open-playlist :hits))     "open hits playlist")
   ("r"   (lambda ()
            (interactive)
-           (open-playlist :rock))        "open rock playlist")
+           (open-playlist :rock))     "open rock playlist")
   ("v"   (switch-to-buffer "*Radio*") "view radio playlist")
   ("s"   #'emms-random                "random station/track")
   ("["   #'emms-previous              "previous station/track")
   ("]"   #'emms-next                  "next station/track")
+  ("Q"   #'emms-stop                  "quit radio")
   ("q" nil))
 
 (provide 'config/services/radio)
+
+
+(comment
+
+ (cancel-debug-on-entry 'emms-track-simple-description)
+ (cancel-debug-on-entry 'open-playlist)
+ (emms-playlist-insert-track
+  (emms-track 'url "https://stream.revma.ihrhls.com/zc3401/hls.m3u8"))
+ )
