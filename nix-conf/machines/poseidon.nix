@@ -30,6 +30,17 @@
     ../modules/svalboard.nix
   ];
 
+  services.xserver.xrandrHeads = [
+    {
+      output = "DP-0";
+      primary = true;
+      monitorConfig = ''
+        Option "PreferredMode" "3840x2160"
+        Option "TargetRefresh" "240"
+      '';
+    }
+  ];
+
   services.transmission.settings.download-dir = "/mnt/hdd16t/transmission-downloads";
 
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/a5f95eb4-a033-40c9-81a1-4ae489adfc7c";
