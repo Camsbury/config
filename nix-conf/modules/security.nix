@@ -20,6 +20,8 @@
     openssh
     openssl
     openvpn
+    pass
+    pinentry-gnome3
     veracrypt
   ];
 
