@@ -39,43 +39,43 @@ Can be an integer to determine the exact padding."
 ;;; Theme definition
 
 (def-doom-theme doom-molokam
-  "A dark, vibrant theme inspired by Textmate's Monokai."
+    "A dark, vibrant theme inspired by Textmate's Monokai."
 
   ;; name        gui       256       16
-  ((bg         '("#1f1c1f" "black"   "black"        ))
+  ((bg         '("#020103" "black"   "black"        ))
    (fg         '("#d6d6d4" "#dfdfdf" "brightwhite"  ))
 
    ;; These are off-color variants of bg/fg, used primarily for `solaire-mode',
    ;; but can also be useful as a basis for subtle highlights (e.g. for hl-line
    ;; or region), especially when paired with the `doom-darken', `doom-lighten',
    ;; and `doom-blend' helper functions.
-   (bg-alt     '("#222323" "black"   "black"        ))
+   (bg-alt     '("#181719" "black"   "black"        ))
    (fg-alt     '("#556172" "#4d4d4d" "white"        ))
 
    ;; These should represent a spectrum from bg to fg, where base0 is a starker
    ;; bg and base8 is a starker fg. For example, if bg is light grey and fg is
    ;; dark grey, base0 should be white and base8 should be black.
-   (base0      '("#1B2229" "black"   "black"        ))
-   (base1      '("#151617" "#101010" "brightblack"  ))
-   (base2      '("#1d1f20" "#191919" "brightblack"  ))
-   (base3      '("#2d2e2e" "#252525" "brightblack"  ))
-   (base4      '("#4e4e4e" "#454545" "brightblack"  ))
-   (base5      '("#555556" "#6b6b6b" "brightblack"  ))
-   (base6      '("#767679" "#7b7b7b" "brightblack"  ))
-   (base7      '("#cfc0c5" "#c1c1c1" "brightblack"  ))
+   (base0      '("black" "black"   "black"        ))
+   (base1      '("#181719" "#101010" "brightblack"  ))
+   (base2      '("#2a292b" "#191919" "brightblack"  ))
+   (base3      '("#39383a" "#252525" "brightblack"  ))
+   (base4      '("#454446" "#454545" "brightblack"  ))
+   (base5      '("#808080" "#6b6b6b" "brightblack"  ))
+   (base6      '("#999999" "#7b7b7b" "brightblack"  ))
+   (base7      '("#b3b3b3" "#c1c1c1" "brightblack"  ))
    (base8      '("#ffffff" "#ffffff" "brightwhite"  ))
 
    (grey       '("#525254" "#515154" "brightblack"  ))
    (red        '("#e74c3c" "#e74c3c" "red"          ))
    (orange     '("#d44478" "#d44478" "brightred"    ))
-   (green      '("#66c74e" "#66c74e" "green"        ))
-   (teal       green)
+   (green      '("#79df60" "#66c74e" "green"        ))
+   (teal       '("#79df60" "#66c74e" "green"        ))
    (yellow     '("#c5d474" "#c5d474" "yellow"       ))
    (blue       '("#82aaff" "#82aaff" "brightblue"   ))
    (dark-blue  '("#727280" "#727280" "blue"         ))
    (magenta    '("#8d54a8" "#8d54a8" "magenta"      ))
    (violet     '("#9c91e4" "#9c91e4" "brightmagenta"))
-   (cyan       '("#66d9ef" "#66d9ef" "brightcyan"   ))
+   (cyan       '("#76d7eb" "#66d9ef" "brightcyan"   ))
    (dark-cyan  '("#8fa1b3" "#8FA1B3" "cyan"         ))
 
    ;; These are the "universal syntax classes" that doom-themes establishes.
@@ -98,7 +98,7 @@ Can be an integer to determine the exact padding."
    (strings        yellow)
    (variables      blue)
    (numbers        violet)
-   (region         base4)
+   (region         base2)
    (error          red)
    (warning        yellow)
    (success        green)
@@ -110,11 +110,8 @@ Can be an integer to determine the exact padding."
    ;; mandatory for derived themes.
    (modeline-fg          fg)
    (modeline-fg-alt      base4)
-   (modeline-bg          (if doom-molokam-brighter-modeline base4 base3))
-   (modeline-bg-inactive (doom-darken (if doom-molokam-brighter-modeline
-                                          base3
-                                        base2)
-                                      0.2))
+   (modeline-bg          base1)
+   (modeline-bg-inactive (doom-darken base1 0.6))
    (org-quote `(,(doom-lighten (car bg) 0.05) "#1f1f1f"))
 
    (-modeline-pad
@@ -155,13 +152,13 @@ Can be an integer to determine the exact padding."
    (evil-snipe-first-match-face :foreground base0 :background green)
    (evil-snipe-matches-face     :foreground green :underline t)
    ;;;; flycheck
-   (flycheck-error   :underline `(:style wave :color ,red)    :background base3)
-   (flycheck-warning :underline `(:style wave :color ,yellow) :background base3)
-   (flycheck-info    :underline `(:style wave :color ,green)  :background base3)
+   (flycheck-error   :underline `(:style wave :color ,red)    :background base1)
+   (flycheck-warning :underline `(:style wave :color ,yellow) :background base1)
+   (flycheck-info    :underline `(:style wave :color ,green)  :background base1)
    ;;;; helm
    (helm-swoop-target-line-face :foreground magenta :inverse-video t)
    ;;;; ivy
-   (ivy-current-match :background base3)
+   (ivy-current-match :background base2)
    (ivy-minibuffer-match-face-1 :background base1 :foreground base4)
    ;;;; markdown-mode
    (markdown-blockquote-face :inherit 'italic :foreground dark-blue)
