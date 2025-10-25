@@ -13,12 +13,15 @@
       90
     100))
 
+
 (use-package doom-modeline
   :config (doom-modeline-mode))
 (use-package doom-themes
   :config
   (add-to-list 'custom-theme-load-path (concat cmacs-config-path "/config/theme/") t)
   (load-theme 'doom-molokam t)
+  (set-face-attribute 'font-lock-function-name-face nil
+                      :weight 'normal :inherit nil)
   (set-frame-font "Go Mono 10" nil t)
   (set-face-attribute 'default nil :height normal-font-height))
 (use-package rainbow-delimiters)
@@ -38,6 +41,8 @@
     (theme)
   "Set theme and resize"
   (load-theme theme t)
+  (set-face-attribute 'font-lock-function-name-face nil
+                      :weight 'normal :inherit nil)
   (set-face-attribute 'default nil :height normal-font-height))
 
 (defun cycle-theme ()
