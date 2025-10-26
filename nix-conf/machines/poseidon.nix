@@ -30,16 +30,9 @@
     ../modules/svalboard.nix
   ];
 
-  services.xserver.xrandrHeads = [
-    {
-      output = "DP-0";
-      primary = true;
-      monitorConfig = ''
-        Option "PreferredMode" "3840x2160"
-        Option "TargetRefresh" "240"
-      '';
-    }
-  ];
+  services.xserver.screenSection = ''
+      Option "MetaModes" "DPY-1: 3840x2160_240 +0+0"
+    '';
 
   services.transmission.settings.download-dir = "/mnt/hdd16t/transmission-downloads";
 
