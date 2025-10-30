@@ -13,10 +13,10 @@
   (let [hash "6dfe915e26d7147e6c2bed495d3b01cf5b21e6ec"
         raw-md
         (slurp
-         (str
-          "https://raw.githubusercontent.com/qmk/qmk_firmware/"
-          hash
-          "/docs/keycodes.md"))
+          (str
+            "https://raw.githubusercontent.com/qmk/qmk_firmware/"
+            hash
+            "/docs/keycodes.md"))
         tables
         (->> raw-md
              (re-seq #"(?s)(\|Key[^\n]*\n(?:\|[^\n]*\n?)*)")
@@ -34,10 +34,25 @@
                               (cons keycode)))))
              (remove #{"_______" "XXXXXXX"}))]
     (reduce
-     (fn [acc kc]
-       (assoc acc (csk/->kebab-case-keyword kc) kc))
-     {}
-     keycodes)))
+      (fn [acc kc]
+        (assoc acc (csk/->kebab-case-keyword kc) kc))
+      {}
+      keycodes)))
+
+(defn get-kc
+  [translation-map kc]
+  (get
+    translation-map
+    kc
+    (cond
+      (keyword? kc)
+      (csk/->SCREAMING_SNAKE_CASE_STRING kc)
+
+      (string? kc)
+      (str "\"" kc "\"")
+
+      :else
+      kc)))
 
 (defn map-keycode
   [layer-map]
@@ -45,13 +60,13 @@
     (cond
       (sequential? kc)
       (str
-       (get translation-map (first kc))
-       "("
-       (->> kc
-            rest
-            (map map-it)
-            (str/join ", "))
-       ")")
+        (get-kc translation-map (first kc))
+        "("
+        (->> kc
+             rest
+             (map map-it)
+             (str/join ", "))
+        ")")
 
       (contains? layer-map kc)
       (get layer-map kc)
@@ -62,7 +77,7 @@
            (map-it))
 
       :else
-      (get translation-map kc))))
+      (get-kc translation-map kc))))
 
 (defn map-hand
   [layer-map {:keys [main outer inner bottom thumb]}]

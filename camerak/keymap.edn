@@ -208,10 +208,84 @@
     :outer
     [[:to :main-lay] :kc-delete :kc-rbracket :kc-rspc]
     :inner
-    [:none [:lgui :kc-spc] :none]
+    [[:to :sdv-lay] [:lgui :kc-spc] :none]
     :bottom
     [:kc-lgui :kc-lalt :kc-meh :kc-hypr :none]
     :thumb
     {:top   [:none :none]
      :main  [:kc-enter :kc-bspace]
-     :inner [:none :none]}}}}]
+     :inner [:none :none]}}}}
+
+
+ ;; SDV LAYER
+ {:title :sdv-lay
+  :layout
+  {:left
+   {:main
+    [[:kc-1 :kc-2 :kc-3 :kc-4 :kc-5]
+     [:kc-q :kc-w :kc-f :kc-p :kc-g]
+     [:kc-a :kc-r :kc-s :kc-t :kc-d]
+     [:kc-z :kc-x :kc-c :kc-v :kc-b]]
+    :outer
+    [:kc-esc :kc-tab [:mo :number-lay-2] :kc-rbracket]
+    :inner
+    [:kc-6 :kc-home :kc-quote]
+    :bottom
+    [[:lca :none] :kc-meh :kc-8 :kc-9 [:s :kc-lctl]]
+    :thumb
+    {:top   [:none :none]
+     :main  [:kc-space [:lt :number-lay-2 :kc-esc]]
+     :inner [:none :kc-lctl]}}
+   :right
+   {:main
+    [[:mute :vol-up :vol-down [:lgui :kc-plus] [:lgui :kc-minus]]
+     [:kc-j :kc-l :kc-u :kc-y :kc-coln]
+     [:kc-n :anim-cancel :kc-e :kc-i :kc-o]
+     [:kc-k :kc-m :kc-comma :kc-dot :kc-slash]]
+    :outer
+    [[:to :main-lay] :kc-delete [:mo :number-lay-2] :kc-rspc]
+    :inner
+    [[:to :sdv-lay] [:lgui :kc-spc] :none]
+    :bottom
+    [:kc-lgui :kc-lalt :kc-meh :kc-hypr :none]
+    :thumb
+    {:top   [:none :none]
+     :main  [[:lt :number-lay-2 :kc-enter] :kc-bspace]
+     :inner [:none :kc-lctl]}}}}
+
+ ;; NUMBER LAYER-2
+ {:title :number-lay-2
+  :layout
+  {:left
+   {:main
+    [[:kc-f-1 :kc-f-2 :kc-f-3 :kc-f-4 :kc-f-5]
+     [[:lalt :kc-1] [:lalt :kc-2] [:lalt :kc-3] [:lalt :kc-4] [:lalt :kc-5]]
+     [:kc-1 :kc-2 :kc-3 :kc-4 :kc-5]
+     [[:lsft [:lalt :kc-1]] [:lsft [:lalt :kc-2]] [:lsft [:lalt :kc-3]] [:lsft [:lalt :kc-4]] [:lsft [:lalt :kc-5]]]]
+    :outer
+    [:inspect-linux :none :none :kc-lctl]
+    :inner
+    [:inspect-mac :none :none]
+    :bottom
+    [:none :kc-lalt :none :none :none]
+    :thumb
+    {:top   [:none :none]
+     :main  [:none :kc-trns]
+     :inner [:none :none]}}
+   :right
+   {:main
+    [[:kc-f-6 :kc-f-7 :kc-f-8 :kc-f-9 :kc-f-10]
+     [[:lalt :kc-6] [:lalt :kc-7] [:lalt :kc-8] [:lalt :kc-9] [:lalt :kc-0]]
+     [:kc-6 :kc-7 :kc-8 :kc-9 :kc-0]
+     [[:lsft [:lalt :kc-6]] [:lsft [:lalt :kc-7]] [:lsft [:lalt :kc-8]] [:lsft [:lalt :kc-9]] [:lsft [:lalt :kc-0]]]]
+    :outer
+    [:kc-f-11 :kc-f-12 :none :kc-lctl]
+    :inner
+    [:none :none :none]
+    :bottom
+    [:none :none :none :kc-lalt :none]
+    :thumb
+    {:top   [:none :none]
+     :main  [:kc-trns :none]
+     :inner [:none :none]}}}}
+ ]
