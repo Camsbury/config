@@ -22,8 +22,11 @@
     openvpn
     pass
     pinentry-gnome3
+    protonvpn-gui
     veracrypt
   ];
+
+  networking.firewall.checkReversePath = false;
 
   security.sudo.extraRules = [{
     users = ["ALL"];
