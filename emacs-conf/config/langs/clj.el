@@ -43,7 +43,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Setup
 
-(setq cider-stacktrace-default-filters '(project))
 (setq cider-clojure-compilation-error-phases nil)
 
 (setq clojure-toplevel-inside-comment-form t)
