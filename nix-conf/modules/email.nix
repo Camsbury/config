@@ -14,11 +14,11 @@
     services.mbsync = {
       description = "mbsync – sync Maildir";
       after       = [ "network-online.target" ];
-      path = [ pkgs.oauth2l ];
+      path = [ pkgs.oauth2l pkgs.mu ];
       serviceConfig = {
         Type          = "oneshot";
         ExecStart     = "${(pkgs.isync.override { withCyrusSaslXoauth2 = true; })}/bin/mbsync -a";
-        ExecStartPost = "${pkgs.mu}/bin/mu index";
+        ExecStartPost = "${pkgs.babashka}/bin/bb ${../../parse-email.bb} && ${pkgs.mu}/bin/mu index";
       };
       wantedBy = [ "default.target" ];
     };
