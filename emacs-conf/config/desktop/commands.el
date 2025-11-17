@@ -50,7 +50,9 @@
 (defun lock-screen ()
   "Locks the screen"
   (interactive)
-  (shell-command "slock"))
+  (when (minibufferp)
+    (abort-recursive-edit))
+  (start-process "slock" nil "slock"))
 
 (defun conf-mouse ()
   "configures the mouse"
