@@ -6,8 +6,8 @@
 }:
 let
   pname = "lmstudio";
-  version = "0.3.14";
-  rev = "5";
+  version = "0.3.31";
+  rev = "7";
   meta = {
     description = "LM Studio is an easy to use desktop app for experimenting with local and open-source Large Language Models (LLMs)";
     homepage = "https://lmstudio.ai/";
