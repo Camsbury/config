@@ -17,14 +17,18 @@
             (lambda ()
               (exwm-workspace-rename-buffer exwm-class-name)))
   (defun ck/exwm-restore-focus ()
-    "Ensure the selected EXWM window regains X input focus."
+    "Restore X focus to the selected EXWM window on the current workspace."
     (let* ((win (selected-window))
-           (buf (and win (window-buffer win)))
-           (id  (and buf (boundp 'exwm--id) (with-current-buffer buf exwm--id))))
-      (when id
-        ;; Internal but reliable: reassert focus to the selected X window.
+           (buf (and win (window-buffer win))))
+      (when (and buf
+                 (with-current-buffer buf
+                   (derived-mode-p 'exwm-mode))
+                 (buffer-local-value 'exwm--id buf))
         (exwm-input--update-focus win))))
-  (add-hook 'exwm-workspace-switch-hook #'ck/exwm-restore-focus)
+  (add-hook 'exwm-workspace-switch-hook
+            (lambda ()
+              (when (eq major-mode 'exwm-mode)
+                (ck/exwm-restore-focus))))
   (customize-set-variable 'exwm-workspace-number 10)
   (customize-set-variable 'exwm-workspace-current-index 1)
   (global-exwm-key "s-," #'exwm-reset)
