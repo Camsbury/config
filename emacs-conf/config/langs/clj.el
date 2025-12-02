@@ -1,7 +1,8 @@
 (require 'config/langs/lisp)
 
 (use-package clojure-mode
-  :mode (("\\.clj\\'" . clojure-mode)
+  :mode (("\\.bb\\'" . clojure-mode)
+         ("\\.clj\\'" . clojure-mode)
          ("\\.cljc\\'" . clojurec-mode)
          ("\\.cljs\\'" . clojurescript-mode)))
 (use-package clj-refactor

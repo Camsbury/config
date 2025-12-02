@@ -1,3 +1,5 @@
+#!/run/current-system/sw/bin/bb
+
 (require '[babashka.process :refer [process]])
 (require '[clojure.string :as str])
 (require '[clojure.pprint :refer [pprint]])
