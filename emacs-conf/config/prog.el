@@ -23,6 +23,7 @@
 (setq tab-width 2)
 (setq-default indent-tabs-mode nil)
 (setq-default fill-column 80)
+(setq display-fill-column-indicator-column 82)
 (general-add-hook 'before-save-hook 'whitespace-cleanup)
 
 (column-number-mode)
@@ -35,17 +36,17 @@
 (setq split-height-threshold nil
       split-width-threshold 160)
 
-(setq
- whitespace-line-column 80
- whitespace-style '(face trailing lines-tail))
+(setq whitespace-line-column 10000
+      whitespace-style '(face trailing lines-tail))
 
 (general-add-hook 'prog-mode-hook
-  (list 'hl-todo-mode
-        'whitespace-mode
-        'rainbow-delimiters-mode
-        'rainbow-mode
-        'display-line-numbers-mode
-        'prettify-mode
-        'aggressive-indent-mode))
+                  (list 'hl-todo-mode
+                        'whitespace-mode
+                        'display-fill-column-indicator-mode
+                        'rainbow-delimiters-mode
+                        'rainbow-mode
+                        'display-line-numbers-mode
+                        'prettify-mode
+                        'aggressive-indent-mode))
 
 (provide 'config/prog)
