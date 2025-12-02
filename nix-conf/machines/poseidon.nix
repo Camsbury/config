@@ -31,8 +31,19 @@
   ];
 
   services.xserver.screenSection = ''
-      Option "MetaModes" "DPY-1: 3840x2160_240 +0+0"
-    '';
+    Option "CustomEDID" "DP-0:/etc/nixos/monitor.edid"
+    Option "UseEDID" "true"
+    Option "UseEDIDFreqs" "true"
+    Option "ModeValidation" "AllowNonEdidModes"
+    Option "MetaModes" "DPY-1: 3840x2160_240 +0+0"
+  '';
+
+  services.xserver.xrandrHeads = [
+    {
+      output = "DP-0";
+      primary = true;
+    }
+  ];
 
   services.transmission.settings.download-dir = "/mnt/hdd16t/transmission-downloads";
 
