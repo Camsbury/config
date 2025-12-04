@@ -5,7 +5,7 @@
     ./screen_lock.nix
   ];
   environment.systemPackages = with pkgs; [
-    disper
+    # disper
     dunst
     espeak # tts
     feh # wallpapers
@@ -28,7 +28,7 @@
       noto-fonts
       powerline-fonts
       roboto-mono
-      ubuntu_font_family
+      ubuntu-classic
     ];
   };
 

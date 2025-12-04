@@ -265,13 +265,13 @@
 (defun ssh-keychain ()
   "Adds the ssh key to the keychain"
   (interactive)
-  (-run-shell-command "keychain --eval --agents ssh id_rsa"))
+  (-run-shell-command "keychain --eval id_rsa"))
 
 (defun gpg-keychain ()
   "Adds the gpg key to the keychain"
   (interactive)
   (-run-shell-command
-   (concat "keychain --eval --agents gpg " user-gpg-id)))
+   (concat "keychain --eval " user-gpg-id)))
 
 (defun ck/search-for-file (filename)
   "Search for file in all dirs"
@@ -325,7 +325,7 @@
 (defun open-telegram ()
   "Opens Telegram"
   (interactive)
-  (find-or-open-application "telegram-desktop" "TelegramDesktop"))
+  (find-or-open-application "Telegram" "TelegramDesktop"))
 
 (defun open-thunderbird ()
   "Opens Telegram"

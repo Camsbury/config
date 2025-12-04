@@ -190,7 +190,7 @@ let
   others = with epkgs; [
     # agda2-mode
     asoc-el
-    company-postgresql
+    # company-postgresql
     etymology-of-word
     hide-comnt
     mu4e

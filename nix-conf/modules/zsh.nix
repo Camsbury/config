@@ -20,8 +20,8 @@
       ################################################################################
       # set up keychain
       export GPG_TTY=$(tty)
-      eval $(keychain --eval --agents ssh id_rsa)
-      eval $(keychain --eval --agents gpg D3F6CEF58C6E0F38)
+      eval $(keychain --eval id_rsa)
+      eval $(keychain --eval D3F6CEF58C6E0F38)
 
       ################################################################################
       # set up direnv

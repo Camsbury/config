@@ -11,6 +11,7 @@ in
   services.transmission = {
     enable = true;
     openFirewall = true;
+    package = pkgs.transmission_4;
   };
 
   systemd.tmpfiles.rules = [
@@ -38,7 +39,7 @@ in
       # signal-desktop
       slack
       spotify # non-free
-      tdesktop # telegram
+      telegram-desktop
       thunderbird
       vlc
       zathura

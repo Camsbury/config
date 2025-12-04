@@ -19,7 +19,7 @@
 ;;            exec-suffixes
 ;;            1))))
 (use-package sqlup-mode)
-(use-package company-postgresql
-  :after (company))
+;; (use-package company-postgresql
+;;   :after (company))
 
 (provide 'config/langs/sql)

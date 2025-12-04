@@ -23,14 +23,14 @@ in
     gdb
     gh
     git
-    gitAndTools.git-extras
-    gitAndTools.hub
+    git-extras
+    hub
     glibc
     grip
     gnumake
     google-cloud-sdk
     kubectl
-    nodePackages.livedown
+    loccount
     nixfmt-rfc-style
     update-nix-fetchgit
     nodePackages.prettier
@@ -38,7 +38,6 @@ in
     patchelf # patch dynamic libs/bins
     python3
     shellcheck
-    sloccount
     sqlite
     tmux
   ];

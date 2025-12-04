@@ -1,14 +1,14 @@
 let
+  # nixos channel pinned to 25.11 - https://github.com/NixOS/nixpkgs/archive/8bb5646e0bed5dbd3ab08c7a7cc15b75ab4e1d0f.tar.gz
   # nixos channel pinned to 25.05 - https://github.com/NixOS/nixpkgs/archive/6c64dabd3aa85e0c02ef1cdcb6e1213de64baee3.tar.gz
   # nixos channel pinned to 24.11 - https://github.com/NixOS/nixpkgs/archive/f6687779bf4c396250831aa5a32cbfeb85bb07a3.tar.gz
-  # nixos channel was pinned to 24.05 - https://github.com/NixOS/nixpkgs/archive/759537f0.tar.gz
   last-unstable = {
-    rev = "102a39bfee44";
-    hash = "sha256-Q4vhtbLYWBUnjWD4iQb003Lt+N5PuURDad1BngGKdUs=";
-  };
-  unstable = {
     rev = "08f22084e608";
     hash = "sha256-XE/lFNhz5lsriMm/yjXkvSZz5DfvKJLUjsS6pP8EC50=";
+  };
+  unstable = {
+    rev = "cadcc8de2476";
+    hash = "sha256-QJiih52NU+nm7XQWCj+K8SwUdIEayDQ1FQgjkYISt4I=";
   };
   hardware = {
     # NOTE: from nixos-hardware repo
@@ -24,7 +24,7 @@ let
   );
 in
   {
-    cuda = fetchPackages unstable;
+    cuda = fetchPackages last-unstable;
     discord = fetchPackages unstable;
     hardware = fetchPackages hardware;
     spotify = fetchPackages unstable;

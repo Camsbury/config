@@ -16,7 +16,7 @@
       bottom
       curl
       dua
-      du-dust
+      dust
       eza
       fzf
       htop
