@@ -4,7 +4,9 @@
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
+    pinentryPackage = pkgs.pinentry-gnome3;
   };
+  programs.ssh.startAgent = false;
 
   services.keybase.enable = true;
 
