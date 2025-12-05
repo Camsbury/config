@@ -1,13 +1,15 @@
 (require 'config/modes/utils)
+(require 'config/modes/center-buffer-mode)
 (define-minor-mode prettify-mode
   "Make buffers clean themselves up if this mode is on"
   :lighter " prettify"
   :global nil)
 
 (defun prettify-windows ()
-  "Set the windows all to have 81 chars of length"
+  "Set the windows all to have 86 chars of length"
   (interactive)
 
+  (center-buffer--center-when-single)
   (with-selected-window (frame-first-window)
     (dolist (w (window-list))
       (with-selected-window w
