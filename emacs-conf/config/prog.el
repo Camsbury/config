@@ -24,6 +24,10 @@
 (setq-default indent-tabs-mode nil)
 (setq-default fill-column 80)
 (setq display-fill-column-indicator-column 82)
+(add-hook 'after-load-theme-hook
+          (lambda ()
+            (set-face-attribute 'fill-column-indicator nil
+                                :foreground (doom-color 'base2))))
 (general-add-hook 'before-save-hook 'whitespace-cleanup)
 
 (column-number-mode)
