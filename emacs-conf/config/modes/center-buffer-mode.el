@@ -1,3 +1,20 @@
+(defun center-buffer--pad-modeline ()
+  "Add left modeline padding equal to window left margin."
+  (let* ((margins (window-margins))
+         (left (or (car margins) 0)))
+    (propertize " " 'display `(space :width ,left))))
+
+(defun center-buffer-enable-modeline-padding ()
+  (interactive)
+  (setq-local
+   mode-line-format
+   (cons '(:eval (center-buffer--pad-modeline))
+         mode-line-format)))
+
+(defun center-buffer-disable-modeline-padding  ()
+  (interactive)
+  (kill-local-variable 'mode-line-format))
+
 (defvar center-buffer-width nil
   "Width of the centered text area. If nil, use `fill-column'.")
 
@@ -11,12 +28,14 @@
         (add-hook 'window-configuration-change-hook #'center-buffer-adjust nil t)
         (when (boundp 'window-state-change-functions)
           (add-hook 'window-state-change-functions #'center-buffer-adjust nil t))
-        (center-buffer-adjust))
+        (center-buffer-adjust)
+        (center-buffer-enable-modeline-padding))
     (remove-hook 'window-configuration-change-hook #'center-buffer-adjust t)
     (when (boundp 'window-state-change-functions)
       (remove-hook 'window-state-change-functions #'center-buffer-adjust t))
     ;; Reset margins when disabling
-    (set-window-margins (selected-window) 0 0)))
+    (set-window-margins (selected-window) 0 0)
+    (center-buffer-disable-modeline-padding)))
 
 (defun center-buffer-adjust (&optional _arg)
   "Recompute margins to center `fill-column` (or `center-buffer-width`).
