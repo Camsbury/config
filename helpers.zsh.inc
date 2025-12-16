@@ -160,5 +160,5 @@ function take-dir() {
 # Productivity
 
 function timer() {
-  $(sleep "$1" && notify-send "$2" && espeak "$2" 2>/dev/null) &
+  $(sleep "$1" && notify-send "$2" && espeak-ng "$2" 2>/dev/null) &
 }

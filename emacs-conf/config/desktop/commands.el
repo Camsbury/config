@@ -5,7 +5,7 @@
 (use-package alarm-clock
   :init
   (defun alarm-message-espeak (title msg)
-    (shell-command (concat "espeak \"" msg "\"")))
+    (shell-command (concat "espeak-ng \"" msg "\"")))
   :config
   (setq alarm-clock-play-sound nil)
   (setq alarm-clock-system-notify nil)
@@ -45,7 +45,7 @@
   (interactive "sText to speak: ")
   (make-process
    :name "espeak"
-   :command `("espeak" ,msg)))
+   :command `("espeak-ng" ,msg)))
 
 (defun lock-screen ()
   "Locks the screen"
