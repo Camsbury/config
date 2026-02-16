@@ -12,6 +12,7 @@
 
   environment.variables = {
     USER_GPG_ID = "D3F6CEF58C6E0F38";
+    SSH_ASKPASS_REQUIRE = "force";
   };
   environment.systemPackages = with pkgs; [
     gnupg

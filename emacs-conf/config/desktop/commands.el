@@ -265,7 +265,11 @@
 (defun ssh-keychain ()
   "Adds the ssh key to the keychain"
   (interactive)
-  (-run-shell-command "keychain --eval id_rsa"))
+  (-run-shell-command
+   (concat
+    "keychain --eval /home/"
+    (user-login-name)
+    "/.ssh/id_rsa")))
 
 (defun gpg-keychain ()
   "Adds the gpg key to the keychain"
