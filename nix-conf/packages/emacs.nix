@@ -46,6 +46,7 @@ let
     doom-modeline
     dotenv-mode
     dumb-jump
+    eca
     ein
     elfeed
     elfeed-org
