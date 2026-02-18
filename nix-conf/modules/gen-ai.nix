@@ -3,7 +3,7 @@
 {
   environment = {
     variables = {
-      OLLAMA_MODELS = "/media/monoid/ollama-models";
+      OLLAMA_MODELS = "/media/camsbury/ollama-models";
     };
     systemPackages = with pkgs; [
       gollama

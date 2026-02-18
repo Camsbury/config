@@ -1,4 +1,4 @@
 {
-  "ollama_models_dir": "/media/monoid/ollama/models",
-  "lm_studio_file_paths": "/media/monoid/lmstudio-models"
+  "ollama_models_dir": "/media/camsbury/ollama/models",
+  "lm_studio_file_paths": "/media/camsbury/lmstudio-models"
 }
