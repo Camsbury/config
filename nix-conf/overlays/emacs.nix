@@ -60,6 +60,16 @@ let
         };
       };
 
+      elpaPackages = eSuper.elpaPackages // {
+        exwm = eSuper.elpaPackages.exwm.overrideAttrs {
+          version = "0.34.0.20260204.122929";
+          src = super.fetchurl {
+            url = "https://elpa.gnu.org/devel/exwm-0.34.0.20260204.122929.tar";
+            hash = "sha256-C7DBBTSubejgBlR380vXQVh0Y3iAE1+MgFk+eU8ztq4=";
+          };
+        };
+      };
+
       asoc-el = compileEmacsFiles {
         name = "asoc.el";
         src = builtins.fetchurl {
