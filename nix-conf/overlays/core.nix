@@ -50,7 +50,6 @@ in
           "https://github.com/Camsbury/xndr/archive/094be18.tar.gz") {pkgs = self;};
 
       } // ( with unstablePkgs; {
-        inherit aider-chat;
         inherit bat;
         # inherit dropbox;
         inherit emacs;

@@ -3,7 +3,6 @@ epkgs:
 let
   melpas = with epkgs.melpaPackages; [
     aggressive-indent
-    aidermacs
     alarm-clock
     alda-mode
     all-the-icons-ivy-rich

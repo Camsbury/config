@@ -9,25 +9,6 @@ let
   emacsOverrides = eSelf: eSuper:
     {
       melpaPackages = eSuper.melpaPackages // {
-        aidermacs = eSelf.melpaBuild {
-          pname = "aidermacs";
-          version = "1.4";
-          recipe = builtins.toFile "recipe.el" ''
-            (aidermacs :fetcher github :repo "MatthewZMD/aidermacs")
-          '';
-          buildInputs = with eSelf.melpaPackages; [
-            eSelf.elpaPackages.compat
-            markdown-mode
-            transient
-          ];
-
-          src = super.fetchFromGitHub {
-            owner = "MatthewZMD";
-            repo = "aidermacs";
-            rev = "v1.4";
-            hash = "sha256-ewvfBTxQuXw8BB0odey54ObXc/SiIPJzAm/MJ4TItYY=";
-          };
-        };
         cider = eSelf.melpaBuild {
           pname = "cider";
           version = "1.18.0";

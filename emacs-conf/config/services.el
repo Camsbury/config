@@ -1,7 +1,6 @@
 (require 'prelude)
 
 (m-require config/services
-  aider
   eca
   docker
   email
