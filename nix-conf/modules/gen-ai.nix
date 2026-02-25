@@ -8,6 +8,7 @@
     systemPackages = with pkgs; [
       gollama
       lmstudio
+      (builtins.getFlake "github:PeonPing/peon-ping").packages.${pkgs.system}.default
     ];
   };
 
