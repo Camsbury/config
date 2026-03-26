@@ -51,6 +51,7 @@
 (use-package wgrep
   :config
   (setq wgrep-change-readonly-file t)
+  ;; NOTE: C-c C-p is the thing if you are looking for writable grep
   (defun wgrep-save-and-quit ()
     "wgrep save everything and quit the window"
     (interactive)
