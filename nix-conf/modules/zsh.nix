@@ -125,6 +125,7 @@
       nxsr = "cd ~ && sudo nixos-rebuild switch && sudo reboot";
       nxt = "cd ~ && sudo nixos-rebuild test; cd -";
       nb = "nix-build";
+      nd = "git add . && nix develop";
       ndeps = "nix-store-deps";
       ndtree = "nix-store-deps-tree";
       ndx = "nix-index";
