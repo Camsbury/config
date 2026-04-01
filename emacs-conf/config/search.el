@@ -1,6 +1,7 @@
 (require 'prelude)
 (require 'core/env)
 (require 'core/bindings)
+(require 'core/text)
 
 
 (use-package projectile
