@@ -6,7 +6,6 @@
   (eca-chat-mode . (lambda () (whitespace-mode -1)))
   :config
   (setq eca-chat-use-side-window nil)
-  (setq eca-process--latest-server-version "0.112.0")
 
   (general-def 'normal eca-chat-mode-map
     [remap empty-mode-leader]     #'hydra-eca/body))

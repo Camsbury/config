@@ -42,7 +42,7 @@ let
 
         eca = eSelf.melpaBuild {
           pname = "eca";
-          version = "20260320.1224";
+          version = "20260330.1315";
 
 
           recipe = builtins.toFile "recipe.el" ''
@@ -58,8 +58,8 @@ let
           src = super.fetchFromGitHub {
             owner = "editor-code-assistant";
             repo = "eca-emacs";
-            rev = "bb407e";
-            hash = "sha256-fDBvlTkVfstuSM/JUduoLZMBctWOXIz+y6BemeUVemY=";
+            rev = "755e12";
+            hash = "sha256-n2uBe8ML4myKdRTpCERoo1SZx3i4BOwWMmMtEiNkQdA=";
           };
         };
       };
