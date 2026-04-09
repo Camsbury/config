@@ -38,6 +38,7 @@ let
     datomic-snippets
     deadgrep
     define-word
+    difftastic
     direnv
     docker
     dockerfile-mode

@@ -17,6 +17,7 @@ in
     babashka
     binutils
     code-maat
+    difftastic
     direnv
     (emacsPackages.emacsWithPackages (import ../packages/emacs.nix))
     entr

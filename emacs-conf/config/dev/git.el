@@ -25,6 +25,11 @@
    'magit-todos-ignored-keywords
    '("DONE"))
   (magit-todos-mode))
+(use-package difftastic
+  :after (magit)
+  :bind (:map magit-status-mode-map
+              ("D" . difftastic-magit-diff)
+              ("S" . difftastic-magit-show)))
 ;; (use-package evil-magit
 ;;   :after (magit)
 ;;   :config
