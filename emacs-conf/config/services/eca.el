@@ -15,6 +15,9 @@
   ("c" #'eca-chat-clear "Clear the chat")
   ("a" #'eca-chat-select-agent "Select agent")
   ("m" #'eca-chat-select-model "Select the model")
+  ("o" #'eca-chat-new "New chat")
+  ("t" #'eca-chat-select "Select chat")
+  ("n" #'eca-chat-rename "Rename chat")
   ("v" #'eca-chat-select-variant "Select the variant"))
 
 
