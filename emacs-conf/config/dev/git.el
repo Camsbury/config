@@ -30,10 +30,6 @@
   :bind (:map magit-status-mode-map
               ("D" . difftastic-magit-diff)
               ("S" . difftastic-magit-show)))
-;; (use-package evil-magit
-;;   :after (magit)
-;;   :config
-;;   (general-add-hook 'magit-mode-hook (list 'evil-magit-init)))
 
 ;; (let ((token (getenv "GH_NOTIF_TOKEN")))
 ;;   (when token
