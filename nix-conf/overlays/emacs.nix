@@ -40,9 +40,15 @@ let
           };
         };
 
-        eca = eSelf.melpaBuild {
+        eca =
+          let
+            version = "20260507.1945";
+            rev = "305148";
+            hash = "sha256-iJEgBL7/HizWrLN2ZMetkSwqQV5zKl9sWDU7WPcMldM=";
+          in
+        eSelf.melpaBuild {
           pname = "eca";
-          version = "20260408.2031";
+          version = version;
 
 
           recipe = builtins.toFile "recipe.el" ''
@@ -58,8 +64,8 @@ let
           src = super.fetchFromGitHub {
             owner = "editor-code-assistant";
             repo = "eca-emacs";
-            rev = "cd56d8";
-            hash = "sha256-kyeFj0D16BXsddMyqbbohKACoXQuzzKo1dkd4deqCRk=";
+            rev = rev;
+            hash = hash;
           };
         };
       };
