@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package circe
   :config
   (setq irc-sasl-username (getenv "SASL_USERNAME"))

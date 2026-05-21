@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package ess)
 (general-def 'normal ess-r-mode-map
   [remap empty-mode-leader] #'hydra-r/body

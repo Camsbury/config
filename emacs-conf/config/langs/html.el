@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package prettier-js)
 (general-add-hook 'html-mode-hook
                   (list 'flycheck-mode

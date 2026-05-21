@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package buffer-move)
 
 (defun windows-undedicate-workspace-buffer (dedicated-workspace)

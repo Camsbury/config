@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package go-mode)
 (use-package company-go
   :after (company))

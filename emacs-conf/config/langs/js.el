@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package prettier-js)
 (use-package rjsx-mode)
 (use-package js2-mode)

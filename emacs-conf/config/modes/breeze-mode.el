@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'prelude)
 (require 'config/modes/utils)
 

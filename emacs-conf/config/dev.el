@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (-map 'require
       '(config/dev/process
         config/dev/project

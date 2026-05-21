@@ -1,4 +1,4 @@
-;; remove extraneous visual components
+;; remove extraneous visual components  -*- lexical-binding: t; -*-
 (setq auto-window-vscroll nil)
 (menu-bar-mode -1)
 (tool-bar-mode -1)

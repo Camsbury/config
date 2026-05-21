@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package typescript-mode
   :config
   (setq lsp-clients-typescript-server "typescript-language-server")

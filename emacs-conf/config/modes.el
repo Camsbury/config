@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (-map 'require
       '(config/modes/blind-mode
         config/modes/breeze-mode

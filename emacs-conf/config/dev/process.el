@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package prodigy
   :config
   (general-def prodigy-mode-map

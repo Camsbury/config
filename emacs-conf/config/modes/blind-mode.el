@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'config/modes/utils)
 
 (setq blind-mode-font-height 150)

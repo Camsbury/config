@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (defun center-buffer--pad-modeline ()
   "Add left modeline padding equal to window left margin."
   (let* ((margins (window-margins))

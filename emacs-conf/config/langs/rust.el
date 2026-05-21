@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package rust-mode
   :custom
   (lsp-rust-analyzer-cargo-watch-command "clippy")

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'config/games/chess)
 (require 'config/games/wc3)
 

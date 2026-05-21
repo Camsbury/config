@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package emacsql)
 (use-package emacsql-psql)
 ;; (use-package emacsql-sqlite

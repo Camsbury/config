@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (defun url->uri (url)
   "Transform a Spotify URL to a URI"
   (->> url

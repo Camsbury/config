@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (general-define-key
  :keymaps 'doc-view-mode-map
  [remap doc-view-scroll-up-or-next-page] #'hydra-leader/body

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package idris-mode
   :mode "\\.idr\\'"
   :interpreter "idris")

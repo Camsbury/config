@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'prelude)
 
 ;; swapping alt and windows for meta/super

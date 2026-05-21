@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package slack)
 (use-package alert)
 (use-package emojify)

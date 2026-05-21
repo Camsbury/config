@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 's)
 (require 'config/desktop/commands)
 (require 'projectile)

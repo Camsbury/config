@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'config/desktop/commands)
 (use-package markdown-preview-eww)
 (use-package markdown-preview-mode)

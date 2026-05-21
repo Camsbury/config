@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'prelude)
 
 (m-require core

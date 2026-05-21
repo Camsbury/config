@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (defun random-uuid ()
   "Returns a random UUID V4"
   (interactive)

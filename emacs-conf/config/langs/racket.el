@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'prelude)
 (use-package racket-mode)
 (use-package hydra)

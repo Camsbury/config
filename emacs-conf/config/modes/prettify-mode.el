@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'config/modes/utils)
 (require 'config/modes/center-buffer-mode)
 (define-minor-mode prettify-mode

@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t; -*-
 (require 'config/langs/lisp)
 
 (use-package clojure-mode

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package keychain-environment
   :config (keychain-refresh-environment))
 (use-package direnv

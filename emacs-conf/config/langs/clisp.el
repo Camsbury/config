@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package evil)
 (use-package slime)
 (require 'config/langs/lisp)

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (eval-after-load 'dash '(dash-enable-font-lock))
 (general-add-hook 'emacs-lisp-mode-hook
                   (list 'paredit-mode

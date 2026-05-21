@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package git-timemachine)
 
 ;; NOTE: this needs to be before magit so it runs before

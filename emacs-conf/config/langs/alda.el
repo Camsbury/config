@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package alda-mode
   :mode "\\.alda\\'"
   :interpreter "alda")

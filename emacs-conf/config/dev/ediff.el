@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'ediff-wind)
 
 (setq ediff-floating-control-frame nil

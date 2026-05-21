@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package company-c-headers
   :after (company))
 (use-package reformatter)

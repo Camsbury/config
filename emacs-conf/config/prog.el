@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package pkg-info)
 (use-package flycheck)
 (use-package flycheck-popup-tip)
