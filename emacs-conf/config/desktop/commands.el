@@ -356,6 +356,14 @@
             (exwm-workspace-switch-to-buffer xterm-name)))
       (open-global-xterm))))
 
+(defun kill-project-xterm ()
+  "Kill the xterm associated with the project"
+  (interactive)
+  (when-let (p-name (when (stringp (projectile-project-root))
+                      (car (last (f-split (projectile-project-root))))))
+    (shell-command
+     (concat "tmux kill-session -t " p-name))))
+
 (defun open-custom-xterm (term-name)
   "Opens the terminal with a custom tmux session"
   (interactive "sTerminal name: ")
