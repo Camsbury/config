@@ -30,6 +30,11 @@
     ../modules/svalboard.nix
   ];
 
+  swapDevices = [{
+    device = "/var/lib/swapfile";
+    size = 32 * 1024;
+    options = [ "discard" ];
+  }];
   services.xserver.screenSection = ''
     Option "CustomEDID" "DP-0:/etc/nixos/monitor.edid"
     Option "UseEDID" "true"
