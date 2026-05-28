@@ -362,7 +362,10 @@ first with `ck/cider-nrepl-tmux-kill'."
                                       temporary-file-directory))
            (buf     (get-buffer-create (format "*starting nrepl for %s*" session)))
            (caller  (current-buffer))
-           (inner   (format "%s 2>&1 | tee %s" cmd (shell-quote-argument log)))
+           (inner (format "direnv exec %s %s 2>&1 | tee %s"
+                          (shell-quote-argument root)
+                          cmd                              ; stays UNQUOTED
+                          (shell-quote-argument log)))
            (script  (format
                      (concat "tmux new-session -d -s %s -c %s %s || exit 1\n"
                              "p=$(tmux display-message -p -t %s '#{pane_pid}')\n"
