@@ -1,5 +1,8 @@
 {:aliases
- {:poseidon
-  {:jvm-opts ["-Xmx48g" "-XX:SoftMaxHeapSize=32g"]}
-  :global
-  {:extra-deps {wing/wing {:mvn/version "0.1.4"}}}}}
+ {:poseidon-batch
+  {:jvm-opts
+   ["-XX:+UseParallelGC"
+    "-Xmx48g"
+    "-Xms48g"
+    "-XX:+UseLargePages"
+    "-XX:+UseTransparentHugePages"]}}}
