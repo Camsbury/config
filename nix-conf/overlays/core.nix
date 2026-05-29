@@ -58,6 +58,7 @@ in
         # inherit lmstudio;
         # inherit update-nix-fetchgit;
         inherit mu;
+        inherit netdata;
       })
       )
       (import ./emacs.nix)
