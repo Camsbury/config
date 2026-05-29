@@ -5,6 +5,11 @@ let
     config = {
       allowUnfree = true;
     };
+    overlays = [
+      (self: super: {
+        openldap = super.openldap.overrideAttrs (_: { doCheck = false; });
+      })
+    ];
   };
 in
 {
@@ -31,7 +36,7 @@ in
       nvtopPackages.full
       sc-controller
       vulkan-tools
-      (winePkgs.wineWowPackages.full.override {
+      (winePkgs.wineWow64Packages.full.override {
         wineRelease = "staging";
         mingwSupport = true;
       })

@@ -17,6 +17,7 @@
     ./search.nix
     ./security.nix
     ./shell.nix
+    ./system.nix
     ./user.nix
     ./utils.nix
   ];
@@ -83,6 +84,12 @@
         "nixos-config=/etc/nixos/configuration.nix"
         "/nix/var/nix/profiles/per-user/root/channels"
       ];
+  };
+
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 4d --keep 3";
   };
 
   nixpkgs.config = {

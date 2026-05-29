@@ -7,5 +7,8 @@
     vSync = true;
     shadow = false;
     fade = false;
+    settings = {
+      unredir-if-possible = true; # fullscreen games bypass
+    };
   };
 }

@@ -121,6 +121,7 @@
       '';
       npka = "sudo nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq";
       nxp = "lorri init && direnv allow";
+      nxb = "nh os switch -f '<nixpkgs/nixos>' -- -I nixos-config=/etc/nixos/configuration.nix";
       nxs = "sudo nixos-rebuild switch";
       nxsr = "cd ~ && sudo nixos-rebuild switch && sudo reboot";
       nxt = "cd ~ && sudo nixos-rebuild test; cd -";
