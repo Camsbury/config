@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
 
-(use-package ranger)
+(use-package dirvish)
 (use-package treemacs)
 (use-package treemacs-evil)
 (use-package treemacs-projectile)

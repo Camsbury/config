@@ -40,6 +40,7 @@ let
     define-word
     difftastic
     direnv
+    dirvish
     docker
     dockerfile-mode
     doom-themes
@@ -146,7 +147,6 @@ let
     python-pytest
     racket-mode
     rainbow-delimiters
-    ranger
     reformatter # astyle dep
     request
     # restart-emacs
