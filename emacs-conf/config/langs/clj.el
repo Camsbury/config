@@ -316,22 +316,7 @@ from the launcher's calling buffer, then kill PROC's buffer."
                            (cider-connect-clj params))
                        (error (setq cider-repl-pop-to-buffer-on-connect prev)
                               (remove-hook 'cider-connected-hook place)
-                              (signal (car err) (cdr err)))))))
-                ;; (run-at-time
-                ;;  0 nil
-                ;;  (lambda ()
-                ;;    (if (buffer-live-p caller)
-                ;;        (with-current-buffer caller
-                ;;          (cider-connect-clj
-                ;;           (list :host "127.0.0.1" :port port
-                ;;                 :project-dir root)))
-                ;;      (cider-connect-clj
-                ;;       (list :host "127.0.0.1" :port port :project-dir root)))
-                ;;    (when (process-live-p proc) (delete-process proc))
-                ;;    (when (buffer-live-p buf)   (kill-buffer buf))
-                ;;    (when (file-exists-p log)   (ignore-errors (delete-file log)))
-                ;;    (message "Connected to nREPL on port %d" port)))
-                ))))))))
+                              (signal (car err) (cdr err)))))))))))))))
 
 (defun ck/cider--nrepl-sentinel (proc _event)
   "Report failure if PROC exits before the nREPL server was ready."
@@ -339,6 +324,10 @@ from the launcher's calling buffer, then kill PROC's buffer."
               (process-get proc 'connected))
     (message "nREPL launcher (%s) exited before the server was ready — see %s"
              (process-get proc 'session) (process-buffer proc))))
+
+(defvar-local ck/cider-cpuset nil
+  "CPU list in taskset -c syntax (e.g. \"0-21\") to pin this project's nREPL JVM to.")
+(put 'ck/cider-cpuset 'safe-local-variable #'stringp)
 
 (defun ck/cider-jack-in-tmux ()
   "Launch CIDER's nREPL server in a detached tmux session.
@@ -357,14 +346,17 @@ first with `ck/cider-nrepl-tmux-kill'."
        "tmux session %S is already running — quit it first with `M-x ck/cider-nrepl-tmux-kill'"
        session))
     (let* ((root    (expand-file-name root))
-           (cmd     (plist-get (cider--update-jack-in-cmd params) :jack-in-cmd))
+           (cmd (let ((base (plist-get (cider--update-jack-in-cmd params) :jack-in-cmd)))
+                  (if ck/cider-cpuset
+                      (concat "taskset -c " ck/cider-cpuset " " base)
+                    base)))
            (log     (expand-file-name (format "nrepl-%s.log" session)
                                       temporary-file-directory))
            (buf     (get-buffer-create (format "*starting nrepl for %s*" session)))
            (caller  (current-buffer))
            (inner (format "direnv exec %s %s 2>&1 | tee %s"
                           (shell-quote-argument root)
-                          cmd                              ; stays UNQUOTED
+                          cmd           ; stays UNQUOTED
                           (shell-quote-argument log)))
            (script  (format
                      (concat "tmux new-session -d -s %s -c %s %s || exit 1\n"
