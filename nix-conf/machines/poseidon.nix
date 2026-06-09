@@ -93,11 +93,27 @@
     };
     # if you ever need to test memory after changing settings
     # loader.grub.memtest86.enable = true;
-    initrd.luks.devices = {
-      crypted.device = "/dev/disk/by-uuid/a5f95eb4-a033-40c9-81a1-4ae489adfc7c";
-      cryptedStore.device = "/dev/disk/by-uuid/77a45769-1398-44bd-a7a4-ebb05bfad2f6";
-      cryptedSSD500G.device = "/dev/disk/by-uuid/88df2045-baed-444d-ad6f-3832d841ee61";
-      cryptedHDD16T.device = "/dev/disk/by-uuid/720ce7b5-e3aa-4b7e-a079-e06c9c3e42a0";
+    initrd = {
+      systemd.services = {
+        "systemd-cryptsetup@cryptedStore"   = {
+          overrideStrategy = "asDropin";
+          after = [ "systemd-cryptsetup@crypted.service" ];
+        };
+        "systemd-cryptsetup@cryptedHDD16T"  = {
+          overrideStrategy = "asDropin";
+          after = [ "systemd-cryptsetup@crypted.service" ];
+        };
+        "systemd-cryptsetup@cryptedSSD500G" = {
+          overrideStrategy = "asDropin";
+          after = [ "systemd-cryptsetup@crypted.service" ];
+        };
+      };
+      luks.devices = {
+        crypted.device = "/dev/disk/by-uuid/a5f95eb4-a033-40c9-81a1-4ae489adfc7c";
+        cryptedStore.device = "/dev/disk/by-uuid/77a45769-1398-44bd-a7a4-ebb05bfad2f6";
+        cryptedSSD500G.device = "/dev/disk/by-uuid/88df2045-baed-444d-ad6f-3832d841ee61";
+        cryptedHDD16T.device = "/dev/disk/by-uuid/720ce7b5-e3aa-4b7e-a079-e06c9c3e42a0";
+      };
     };
   };
 
