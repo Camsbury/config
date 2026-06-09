@@ -6,17 +6,17 @@ let
 in
 {
   environment = {
-    variables = {
-      OLLAMA_MODELS = "/media/camsbury/ollama-models";
-    };
+    # variables = {
+    #   OLLAMA_MODELS = "/media/camsbury/ollama-models";
+    # };
     systemPackages = with pkgs; [
-      gollama
+      # gollama
       lmstudio
       peon-ping
     ];
   };
 
-  services.ollama = {
-    enable = true;
-  };
+  # services.ollama = {
+  #   enable = true;
+  # };
 }

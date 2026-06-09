@@ -192,6 +192,7 @@ let
     # agda2-mode
     asoc-el
     # company-postgresql
+    magit-difftastic
     etymology-of-word
     hide-comnt
     mu4e

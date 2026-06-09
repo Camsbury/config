@@ -14,8 +14,8 @@
     redshift
     speechd # tts
     xkb-switch
-    xorg.xbacklight
-    xorg.xmodmap
+    xbacklight
+    xmodmap
   ];
 
   fonts = {

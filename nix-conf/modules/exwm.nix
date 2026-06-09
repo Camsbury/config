@@ -7,7 +7,7 @@
   services.displayManager.defaultSession = "none+exwm";
   services.xserver = {
     displayManager = {
-      sessionCommands = "${pkgs.xorg.xhost}/bin/xhost +SI:localuser:$USER";
+      sessionCommands = "${pkgs.xhost}/bin/xhost +SI:localuser:$USER";
     };
     windowManager = {
       session = lib.singleton {

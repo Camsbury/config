@@ -63,7 +63,7 @@
       ];
       dpi = 139;
       displayManager.sessionCommands = ''
-        echo "Xft.dpi: 139" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+        echo "Xft.dpi: 139" | ${pkgs.xrdb}/bin/xrdb -merge
       '';
     };
 
@@ -84,7 +84,6 @@
     enableRedistributableFirmware = true;
   };
 
-
   boot = {
     # kernelPackages = pkgs.linuxPackages_latest;
     kernel.sysctl = {
@@ -92,7 +91,8 @@
       "vm.dirty_bytes"            = 1073741824; # ceiling before throttling
       "kernel.nmi_watchdog"       = 0;
     };
-    loader.grub.memtest86.enable = true; # memory load testing
+    # if you ever need to test memory after changing settings
+    # loader.grub.memtest86.enable = true;
     initrd.luks.devices = {
       crypted.device = "/dev/disk/by-uuid/a5f95eb4-a033-40c9-81a1-4ae489adfc7c";
       cryptedStore.device = "/dev/disk/by-uuid/77a45769-1398-44bd-a7a4-ebb05bfad2f6";
@@ -100,6 +100,8 @@
       cryptedHDD16T.device = "/dev/disk/by-uuid/720ce7b5-e3aa-4b7e-a079-e06c9c3e42a0";
     };
   };
+
+  fileSystems."/".options = [ "x-systemd.device-timeout=infinity" ];
 
   networking.hostName = "poseidon";
   users.users.default.name = "camsbury";

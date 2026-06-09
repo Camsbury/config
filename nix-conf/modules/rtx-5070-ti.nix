@@ -14,6 +14,6 @@
     modesetting.enable = true;
   };
 
-  services.ollama.acceleration = "cuda";
+  # services.ollama.package = pkgs.ollama-cuda;
 
 }

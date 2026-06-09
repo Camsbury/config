@@ -31,6 +31,9 @@
   :bind (:map magit-status-mode-map
               ("D" . difftastic-magit-diff)
               ("S" . difftastic-magit-show)))
+;; (use-package magit-difftastic
+;;   :after (magit)
+;;   :config (magit-difftastic-mode +1))
 
 ;; (let ((token (getenv "GH_NOTIF_TOKEN")))
 ;;   (when token

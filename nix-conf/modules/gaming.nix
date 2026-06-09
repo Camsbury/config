@@ -46,7 +46,7 @@ in
       # })
       winePkgs.winetricks
       xdg-user-dirs
-      xorg.xgamma
+      xgamma
     ];
   };
 

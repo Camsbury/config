@@ -32,9 +32,9 @@ in
     google-cloud-sdk
     kubectl
     loccount
-    nixfmt-rfc-style
+    nixfmt
     update-nix-fetchgit
-    nodePackages.prettier
+    pkgs.prettier
     pandoc
     patchelf # patch dynamic libs/bins
     python3

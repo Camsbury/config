@@ -42,9 +42,9 @@ let
 
         eca =
           let
-            version = "20260530.1352";
-            rev = "0344ba";
-            hash = "sha256-Bi2Ui+enMooKVj08lbFwJgbzQNaLxmIXUzds1yxwxvo=";
+            version = "20260608.2031";
+            rev = "05bad7";
+            hash = "sha256-Yj/56w71c31w26j/UxLWpSXGaLz12J2lY7GCYQ/AKE8=";
           in
         eSelf.melpaBuild {
           pname = "eca";
@@ -98,6 +98,23 @@ let
           dash
           emacsql
           s
+        ];
+      };
+
+      magit-difftastic = compileEmacsFiles {
+        name = "magit-difftastic.el";
+        src = builtins.fetchurl {
+          url = https://raw.githubusercontent.com/rschmukler/magit-difftastic/1e2a1f60288341893a9d21d8a900739be9f34e40/magit-difftastic.el;
+          sha256 = "0zr0n9x2029f4f2x33kjs7r826zc1kz7iziq4ik58w1nj4247qxz";
+        };
+        buildInputs = with eSelf.melpaPackages; [
+          cond-let
+          difftastic
+          llama
+          magit
+          magit-section
+          transient
+          with-editor
         ];
       };
 

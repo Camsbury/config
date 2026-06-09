@@ -19,7 +19,7 @@
       openvpn
       pass
       pinentry-gnome3
-      protonvpn-gui
+      proton-vpn
       veracrypt
     ];
   };

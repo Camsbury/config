@@ -1,5 +1,8 @@
 let
-  # nixos channel pinned to 25.11 - https://github.com/NixOS/nixpkgs/archive/8bb5646e0bed5dbd3ab08c7a7cc15b75ab4e1d0f.tar.gz
+  # nixos channel pinned to 26.05 - https://github.com/NixOS/nixpkgs/archive/bd0ff2d3eac2.tar.gz
+
+  # hash via
+  # nix --extra-experimental-features nix-command store prefetch-file --unpack https://github.com/NixOS/nixpkgs/archive/<REV>.tar.gz
   last-unstable = {
     rev = "cadcc8de2476";
     hash = "sha256-QJiih52NU+nm7XQWCj+K8SwUdIEayDQ1FQgjkYISt4I=";

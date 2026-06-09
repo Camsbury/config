@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  programs.adb.enable = true;
   users = {
     groups.adbusers = {};
     users.default.extraGroups = ["adbusers"];
