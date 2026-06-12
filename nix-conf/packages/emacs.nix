@@ -179,7 +179,7 @@ let
     yapfify # python-lsp
     yasnippet
   ];
-  elpas = with epkgs.elpaPackages; [
+  elpas = with epkgs.elpaDevelPackages; [
     bind-key # use package dep
     chess
     exwm

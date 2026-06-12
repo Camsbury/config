@@ -46,39 +46,40 @@ let
             rev = "05bad7";
             hash = "sha256-Yj/56w71c31w26j/UxLWpSXGaLz12J2lY7GCYQ/AKE8=";
           in
-        eSelf.melpaBuild {
-          pname = "eca";
-          version = version;
+            eSelf.melpaBuild {
+              pname = "eca";
+              version = version;
 
 
-          recipe = builtins.toFile "recipe.el" ''
+              recipe = builtins.toFile "recipe.el" ''
             (eca :fetcher github :repo "editor-code-assistant/eca-emacs")
           '';
 
-          buildInputs = with eSelf.melpaPackages; [
-            dash
-            f
-            markdown-mode
-          ];
+              buildInputs = with eSelf.melpaPackages; [
+                dash
+                f
+                markdown-mode
+              ];
 
-          src = super.fetchFromGitHub {
-            owner = "editor-code-assistant";
-            repo = "eca-emacs";
-            rev = rev;
-            hash = hash;
-          };
-        };
+              src = super.fetchFromGitHub {
+                owner = "editor-code-assistant";
+                repo = "eca-emacs";
+                rev = rev;
+                hash = hash;
+              };
+            };
       };
-
-      elpaPackages = eSuper.elpaPackages // {
-#        exwm = eSuper.elpaPackages.exwm.overrideAttrs {
-#         version = "0.34.0.20260204.122929";
-#         src = super.fetchurl {
-#           url = "https://elpa.gnu.org/devel/exwm-0.34.0.20260204.122929.tar";
-#           hash = "sha256-C7DBBTSubejgBlR380vXQVh0Y3iAE1+MgFk+eU8ztq4=";
-#         };
-#       };
-      };
+      # elpaDevelPackages = eSuper.elpaDevelPackages // {
+      #   exwm = eSuper.elpaDevelPackages.exwm.overrideAttrs (old: {
+      #     src = super.runCommand "exwm-${old.version}.tar" { } ''
+      #       tar xf ${old.src}
+      #       d=$(echo exwm-*/); d=''${d%/}
+      #       patch "$d/exwm-manage.el" < ${./exwm-floating-unmanage-crash.patch}
+      #       tar --sort=name --owner=0 --group=0 --numeric-owner --mtime='@1' \
+      #           -cf "$out" "$d"
+      #     '';
+      #   });
+      # };
 
       asoc-el = compileEmacsFiles {
         name = "asoc.el";
