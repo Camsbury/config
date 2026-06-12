@@ -53,7 +53,10 @@
    org-alert-notify-cutoff 10
    org-alert-notify-after-event-cutoff 10
    org-alert-active-p t)
-  (org-alert-enable))
+  (add-hook 'exwm-init-hook
+            (lambda () (run-with-timer 5 nil #'org-alert-enable)))
+  ;; (org-alert-enable)
+  )
 
 (defun toggle-org-alerts ()
   (interactive)
@@ -62,10 +65,10 @@
         (setq org-alert-active-p nil)
         (org-alert-disable)
         (message "org alerts disabled"))
-      (progn
-        (setq org-alert-active-p t)
-        (org-alert-enable)
-        (message "org alerts enabled"))))
+    (progn
+      (setq org-alert-active-p t)
+      (org-alert-enable)
+      (message "org alerts enabled"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org modules
@@ -182,7 +185,10 @@
       :unnarrowed t)))
   (customize-set-variable 'epa-file-select-keys 1)
   (setq epa-file-encrypt-to '("camsbury7@gmail.com"))
-  (org-roam-db-autosync-mode))
+  (add-hook 'exwm-init-hook
+            (lambda () (run-with-idle-timer 1 nil #'org-roam-db-autosync-mode)))
+  ;; (org-roam-db-autosync-mode)
+  )
 
 (defun gtd--visit-roam-node (node-name)
   (interactive)
