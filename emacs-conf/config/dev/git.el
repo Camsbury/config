@@ -45,6 +45,16 @@
 ;; USEIT
 (use-package browse-at-remote)
 
+(custom-set-faces
+ `(magit-diff-added-highlight
+   ((t (:foreground "#79df60"
+                    :background nil
+                    :extend t))))
+ `(magit-diff-removed-highlight
+   ((t (:foreground "#e74c3c"
+                    :background nil
+                    :extend t)))))
+
 
 
 (defun github-clone (user repo)
@@ -56,8 +66,8 @@
    (concat "clone " user "/" repo)
    nil
    (concat "mkdir -p ~/projects/" user " && "
-    "cd ~/projects/" user " && "
-    "git clone git@github.com:" user "/" repo ".git")))
+           "cd ~/projects/" user " && "
+           "git clone git@github.com:" user "/" repo ".git")))
 
 (defun kill-magit-buffer ()
   "Kills a magit buffer"
