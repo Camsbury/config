@@ -20,8 +20,9 @@
                 (f-directories edeps-root nil t))))
     (setq load-path (-concat base-path edeps))))
 
-;; give option to remember local "risky" variables
-(advice-add 'risky-local-variable-p :override #'ignore)
+(setq safe-local-variable-directories
+      '("/home/camsbury/projects/Camsbury/"
+        "/home/camsbury/projects/dynamic-alpha/"))
 
 
 (provide 'config/env)
