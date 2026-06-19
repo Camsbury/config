@@ -16,7 +16,7 @@
   ;; setup some extra namespace auto completion for great awesome
   (dolist (mapping '(("re-frame" . "re-frame.core")
                      ("reagent"  . "reagent.core")
-                     ("str"      . "clojure.str")))
+                     ("str"      . "clojure.string")))
     (add-to-list 'cljr-magic-require-namespaces mapping t)))
 (use-package flycheck-clj-kondo
   :after (clojure-mode))

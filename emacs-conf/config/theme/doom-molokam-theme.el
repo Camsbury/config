@@ -42,7 +42,7 @@ Can be an integer to determine the exact padding."
     "A dark, vibrant theme inspired by Textmate's Monokai."
 
   ;; name        gui       256       16
-  ((bg         '("#020103" "black"   "black"        ))
+  ((bg         '("black" "black"   "black"        ))
    (fg         '("#d6d6d4" "#dfdfdf" "brightwhite"  ))
 
    ;; These are off-color variants of bg/fg, used primarily for `solaire-mode',

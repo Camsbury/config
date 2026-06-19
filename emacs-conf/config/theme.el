@@ -35,8 +35,8 @@
     doom-acario-dark
     doom-dracula
     doom-material))
-(defvar theme-cycle
-  (nconc cmacs-themes cmacs-themes))
+(defvar theme-cycle cmacs-themes
+  "Remaining themes to cycle through; refilled from `cmacs-themes' when empty.")
 
 (defun set-theme
     (theme)
@@ -49,6 +49,8 @@
 (defun cycle-theme ()
   "Cycle through themes"
   (interactive)
+  (unless theme-cycle
+    (setq theme-cycle cmacs-themes))
   (let ((theme (car theme-cycle)))
     (setq theme-cycle (cdr theme-cycle))
     (set-theme theme)))
