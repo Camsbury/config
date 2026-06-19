@@ -10,6 +10,7 @@
   lsp
   notifications
   radio
+  server
   spotify
   tmux)
 
