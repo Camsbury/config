@@ -1,7 +1,10 @@
 ;; -*- lexical-binding: t; -*-
-(require 'config/desktop/browser-links)
-(require 'config/desktop/commands)
-(require 'config/desktop/windows)
-(require 'config/desktop/sound)
+(require 'prelude)
+
+(m-require config/desktop
+  browser-links
+  commands
+  windows
+  sound)
 
 (provide 'config/desktop)

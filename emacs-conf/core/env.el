@@ -13,7 +13,7 @@
 
 (defcustom cmacs-share-path
   (getenv "SHAREPATH")
-  "path to the cmacs configuration files"
+  "path to the shared system files"
   :type 'string
   :group 'cmacs)
 

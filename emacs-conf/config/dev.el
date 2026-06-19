@@ -1,9 +1,11 @@
 ;; -*- lexical-binding: t; -*-
-(-map 'require
-      '(config/dev/process
-        config/dev/project
-        config/dev/git
-        config/dev/ediff
-        config/dev/test))
+(require 'prelude)
+
+(m-require config/dev
+  process
+  project
+  git
+  ediff
+  test)
 
 (provide 'config/dev)

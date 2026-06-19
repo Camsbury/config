@@ -1,12 +1,13 @@
 ;; -*- lexical-binding: t; -*-
+(require 'prelude)
 
-(-map 'require
-      '(config/viewers/browser
-        config/viewers/epub
-        config/viewers/files
-        config/viewers/journal
-        config/viewers/markdown
-        config/viewers/pdf
-        config/viewers/vega))
+(m-require config/viewers
+  browser
+  epub
+  files
+  journal
+  markdown
+  pdf
+  vega)
 
 (provide 'config/viewers)

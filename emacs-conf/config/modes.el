@@ -1,9 +1,11 @@
 ;; -*- lexical-binding: t; -*-
-(-map 'require
-      '(config/modes/blind-mode
-        config/modes/breeze-mode
-        config/modes/prettify-mode
-        config/modes/center-buffer-mode
-        config/modes/utils))
+(require 'prelude)
+
+(m-require config/modes
+  blind-mode
+  breeze-mode
+  prettify-mode
+  center-buffer-mode
+  utils)
 
 (provide 'config/modes)
