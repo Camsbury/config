@@ -18,25 +18,6 @@
 (add-hook 'exwm-update-class-hook
           (lambda ()
             (exwm-workspace-rename-buffer exwm-class-name)))
-(defun ck/exwm-force-x-focus-out (&rest _)
-  "Ensure the current EXWM window receives a real FocusOut on workspace switch."
-  (when (derived-mode-p 'exwm-mode)
-    ;; Tell X: focus nothing (root window)
-    (x-focus-frame nil)))
-(advice-add 'exwm-workspace-switch :before #'ck/exwm-force-x-focus-out)
-(defun ck/exwm-restore-focus ()
-  "Restore X focus to the selected EXWM window on the current workspace."
-  (let* ((win (selected-window))
-         (buf (and win (window-buffer win))))
-    (when (and buf
-               (with-current-buffer buf
-                 (derived-mode-p 'exwm-mode))
-               (buffer-local-value 'exwm--id buf))
-      (exwm-input--update-focus win))))
-(add-hook 'exwm-workspace-switch-hook
-          (lambda ()
-            (when (eq major-mode 'exwm-mode)
-              (ck/exwm-restore-focus))))
 (customize-set-variable 'exwm-workspace-number 10)
 (customize-set-variable 'exwm-workspace-current-index 1)
 (global-exwm-key "s-," #'exwm-reset)
