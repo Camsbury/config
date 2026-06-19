@@ -42,9 +42,9 @@ let
 
         eca =
           let
-            version = "20260608.2031";
-            rev = "05bad7";
-            hash = "sha256-Yj/56w71c31w26j/UxLWpSXGaLz12J2lY7GCYQ/AKE8=";
+            version = "20260618.103";
+            rev = "e472b5";
+            hash = "sha256-84BPKyM3iGA6bhDhxREp/nUnuEfMLrxgqu5WoPHaDAI=";
           in
             eSelf.melpaBuild {
               pname = "eca";

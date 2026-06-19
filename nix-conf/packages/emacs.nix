@@ -179,10 +179,12 @@ let
     yapfify # python-lsp
     yasnippet
   ];
-  elpas = with epkgs.elpaDevelPackages; [
+  elpas = with epkgs.elpaPackages; [
+    exwm
+  ];
+  elpaDevels = with epkgs.elpaDevelPackages; [
     bind-key # use package dep
     chess
-    exwm
     kind-icon
     rainbow-mode
     undo-tree
@@ -199,4 +201,4 @@ let
     re-jump
   ];
 in
-  melpas ++ elpas ++ others
+melpas ++ elpas ++ elpaDevels ++ others
