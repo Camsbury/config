@@ -1,9 +1,7 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, home-manager-pkgs, ... }:
 
 {
-  imports = [
-    (import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-26.05.tar.gz}/nixos")
-  ];
+  imports = [ (import "${home-manager-pkgs}/nixos") ];
 
   users = {
     mutableUsers = false;
