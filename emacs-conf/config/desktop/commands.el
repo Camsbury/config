@@ -5,12 +5,12 @@
 
 (use-package alarm-clock
   :init
-  (defun alarm-message-espeak (title msg)
+  (defun ck/alarm-message-espeak (title msg)
     (shell-command (concat "espeak-ng \"" msg "\"")))
   :config
   (setq alarm-clock-play-sound nil)
   (setq alarm-clock-system-notify nil)
-  (advice-add #'alarm-clock--notify :after #'alarm-message-espeak))
+  (advice-add #'alarm-clock--notify :after #'ck/alarm-message-espeak))
 
 (use-package deadgrep)
 

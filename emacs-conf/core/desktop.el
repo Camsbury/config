@@ -64,7 +64,7 @@ Both keys are key description strings."
    ;; commands
    ("s-X"                    ck/exwm-run-command)
    ("s-b"                    ck/check-battery)
-   ("s-s"                    ck-switch-audio-sink)
+   ("s-s"                    ck/switch-audio-sink)
    ("s-t"                    ck/check-time)
    ("s-L"                    ck/lock-screen)))
 

@@ -4,7 +4,7 @@
 (require 'config/search)
 
 ;; TODO: could assign these individual default volumes too
-(defvar ck-audio-sink-names
+(defvar ck/audio-sink-names
   '(("alsa_output.usb-QTIL_Audioengine_HD3_ABCDEF0123456789-00.analog-stereo"
      . "speakers")
     ("alsa_output.usb-FiiO_FiiO_USB_DAC_E17K-01.analog-stereo"
@@ -12,7 +12,7 @@
   "Alist of node.name to friendly display name.
    Unlisted sinks show their node.name.")
 
-(defun ck--audio-sinks ()
+(defun ck/audio-sinks ()
   "Return alist of (display-name . node.name) for all available sinks."
   (let ((nodes (split-string
                 (string-trim
@@ -20,14 +20,14 @@
                   "pw-dump | jq -r '.[] | select(.type==\"PipeWire:Interface:Node\" and .info.props.\"media.class\"==\"Audio/Sink\") | .info.props.\"node.name\"'"))
                 "\n" t)))
     (mapcar (lambda (node)
-              (let ((friendly (alist-get node ck-audio-sink-names nil nil #'string=)))
+              (let ((friendly (alist-get node ck/audio-sink-names nil nil #'string=)))
                 (cons (or friendly node) node)))
             nodes)))
 
-(defun ck-switch-audio-sink ()
+(defun ck/switch-audio-sink ()
   "Switch default audio sink via wpctl with ivy completion."
   (interactive)
-  (let* ((sinks (ck--audio-sinks))
+  (let* ((sinks (ck/audio-sinks))
          (choice (ivy-read "Sink: " (mapcar #'car sinks)))
          (node-name (alist-get choice sinks nil nil #'string=))
          (id (string-trim
