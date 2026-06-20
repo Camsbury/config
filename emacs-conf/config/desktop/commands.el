@@ -14,152 +14,152 @@
 
 (use-package deadgrep)
 
-(defun -run-shell-command (command)
+(defun ck/-run-shell-command (command)
   "run a shell command"
   (start-process-shell-command command nil command))
 
-(defun set-brightness (brightness)
+(defun ck/set-brightness (brightness)
   (shell-command
    (concat "sh ~/.scripts/set-brightness.sh " (number-to-string brightness))))
 
-(defun set-high-brightness ()
+(defun ck/set-high-brightness ()
   (interactive)
-  (set-brightness 1))
+  (ck/set-brightness 1))
 
-(defun set-normal-brightness ()
+(defun ck/set-normal-brightness ()
   (interactive)
-  (set-brightness 0.9))
+  (ck/set-brightness 0.9))
 
-(defun set-medium-brightness ()
+(defun ck/set-medium-brightness ()
   (interactive)
-  (set-brightness 0.8))
+  (ck/set-brightness 0.8))
 
-(defun set-low-brightness ()
+(defun ck/set-low-brightness ()
   (interactive)
-  (set-brightness 0.6))
+  (ck/set-brightness 0.6))
 
-(defun mtgo ()
+(defun ck/mtgo ()
   (interactive)
-  (-run-shell-command "~/projects/pauleve/docker-mtgo/run-mtgo -- --cpuset-cpus 0-3 panard/mtgo:latest"))
+  (ck/-run-shell-command "~/projects/pauleve/docker-mtgo/run-mtgo -- --cpuset-cpus 0-3 panard/mtgo:latest"))
 
-(defun espeak (msg)
+(defun ck/espeak (msg)
   (interactive "sText to speak: ")
   (make-process
    :name "espeak"
    :command `("espeak-ng" ,msg)))
 
-(defun lock-screen ()
+(defun ck/lock-screen ()
   "Locks the screen"
   (interactive)
   (when (minibufferp)
     (abort-recursive-edit))
   (start-process "slock" nil "slock"))
 
-(defun conf-mouse ()
+(defun ck/conf-mouse ()
   "configures the mouse"
   (interactive)
   (shell-command "xinput set-button-map 'Kensington Slimblade Trackball' 1 2 3 4 5 0 0 3; xinput --set-prop \"Kensington Slimblade Trackball\" \"libinput Accel Speed\" 1"))
 
-(defun check-time ()
+(defun ck/check-time ()
   "checks the time"
   (interactive)
   (shell-command "sh ~/.scripts/check-time.sh"))
 
-(defun check-battery ()
+(defun ck/check-battery ()
   "checks the battery"
   (interactive)
   (shell-command "sh ~/.scripts/check-battery.sh"))
 
-(defun cycle-sound ()
+(defun ck/cycle-sound ()
   "cycle sound sinks"
   (interactive)
   (shell-command "bash ~/.scripts/cycle-sound.sh"))
 
-(defun cycle-displays ()
+(defun ck/cycle-displays ()
   "cycle displays" ;TODO: pimp out with exwm-randr
   (interactive)
   (shell-command "disper -d eDP-1,DP-3 -r auto --cycle-stages=\"-s:-c:-e\" --cycle -t right"))
 
-(defun switch-keymap ()
+(defun ck/switch-keymap ()
   "switch between QWERTY and Colemak"
   (interactive)
 (shell-command "sh ~/.scripts/switch-keymap.sh"))
 
-(defun raise-brightness ()
+(defun ck/raise-brightness ()
   "raises brightness"
   (interactive)
   (shell-command "sh ~/.scripts/brightness.sh +20"))
 
-(defun lower-brightness ()
+(defun ck/lower-brightness ()
   "lowers brightness"
   (interactive)
   (shell-command "sh ~/.scripts/brightness.sh -20"))
 
-(defun raise-volume ()
+(defun ck/raise-volume ()
   "raises volume"
   (interactive)
   (shell-command "wpctl set-volume @DEFAULT_SINK@ 5%+"))
 
-(defun lower-volume ()
+(defun ck/lower-volume ()
   "lowers volume"
   (interactive)
   (shell-command "wpctl set-volume @DEFAULT_SINK@ 5%-"))
 
-(defun pause-notifications ()
+(defun ck/pause-notifications ()
   "pause dunst notifications"
   (interactive)
   (shell-command "pkill -SIGUSR1 dunst"))
 
-(defun unpause-notifications ()
+(defun ck/unpause-notifications ()
   "pause dunst notifications"
   (interactive)
   (shell-command "pkill -SIGUSR2 dunst"))
 
-(defun toggle-mute ()
+(defun ck/toggle-mute ()
   "toggles mute"
   (interactive)
   (shell-command "wpctl set-mute @DEFAULT_SINK@ toggle"))
 
-(defun spotify-toggle-play ()
+(defun ck/spotify-toggle-play ()
   "toggles play/pause in Spotify"
   (interactive)
   (shell-command "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"))
 
-(defun spotify-prev ()
+(defun ck/spotify-prev ()
   "goes to the previous track in spotify"
   (interactive)
   (shell-command "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"))
 
-(defun spotify-next ()
+(defun ck/spotify-next ()
   "goes to the next track in spotify"
   (interactive)
   (shell-command "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"))
 
-(defun screenshot-to-file (filename)
+(defun ck/screenshot-to-file (filename)
   "Saves a screenshot to a file"
   (interactive "sFile Name:")
-  (-run-shell-command (concat "nix-shell -p imagemagick --run \"import " filename "\"")))
+  (ck/-run-shell-command (concat "nix-shell -p imagemagick --run \"import " filename "\"")))
 
-(defun redshift-blue ()
+(defun ck/redshift-blue ()
   "Turns the screen normal"
   (interactive)
   (shell-command "redshift -x"))
 
-(defun redshift-orange ()
+(defun ck/redshift-orange ()
   "Turns the screen orange"
   (interactive)
   (shell-command "redshift -PO 2000k -b 0.75"))
 
-(defun redshift-red ()
+(defun ck/redshift-red ()
   "Turns the screen red"
   (interactive)
   (shell-command "redshift -PO 1000k -b 0.5"))
 
-(defun nixos-man ()
+(defun ck/nixos-man ()
   (interactive)
   (man "configuration.nix"))
 
-(defun nix-channel-update ()
+(defun ck/nix-channel-update ()
   "Rebuild nixos"
   (interactive)
   (let ((default-directory "/sudo::"))
@@ -167,21 +167,21 @@
      "nix-channel --update"
      (generate-new-buffer-name "*Nix Update Channels*"))))
 
-(defun nixos-channel-version ()
+(defun ck/nixos-channel-version ()
   "Get the nixos channel version"
   (interactive)
   (kill-new
    ;; (shell-command-to-string "nix-instantiate --eval -E '(import <nixos> {}).lib.version'")
    (shell-command-to-string "cat /nix/var/nix/profiles/per-user/root/channels/nixos/svn-revision")))
 
-(defun nixpkgs-channel-version ()
+(defun ck/nixpkgs-channel-version ()
   "Get the nixpkgs channel version"
   (interactive)
   (kill-new
    ;; (shell-command-to-string "nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'")
    (shell-command-to-string "cat /nix/var/nix/profiles/per-user/root/channels/nixpkgs/svn-revision")))
 
-(defun nixos-rebuild-switch ()
+(defun ck/nixos-rebuild-switch ()
   "Rebuild nixos"
   (interactive)
   (let ((default-directory "/sudo::"))
@@ -189,24 +189,24 @@
      "nixos-rebuild switch"
      (generate-new-buffer-name "*NixOS Rebuild Switch*"))))
 
-(defun nix-search (pkg)
+(defun ck/nix-search (pkg)
   "search nixpkgs for pkg"
   (interactive "sPackage: ")
   (async-shell-command
    (concat "nix --quiet --log-format raw search nixpkgs "
            pkg
-           " --json \\\n | jq -r '\n     to_entries[]\n     | \"\\(.value.pname) (\\(.value.version)) — \\(.value.description)\"'")
+           " --json \\\n | jq -r '\n     to_entries[]\n     | \"\\(.value.pname) (\\(.value.version)) - \\(.value.description)\"'")
 
    (generate-new-buffer-name (concat "*Searching for package: " pkg "*"))))
 
-(defun nixos-option (option)
+(defun ck/nixos-option (option)
   "Determine attributes of an option in current nixos expression"
   (interactive "sOption: ")
   (async-shell-command
    (concat "nixos-option " option)
    (generate-new-buffer-name (concat  "*Describing Option: " option "*"))))
 
-(defun ergodox-build-and-flash ()
+(defun ck/ergodox-build-and-flash ()
   "Rebuild ergodox"
   (interactive)
   (let ((default-directory "/sudo::"))
@@ -217,20 +217,20 @@
       "/projects/Camsbury/config/camerak/shell.nix --run exit")
      (generate-new-buffer-name "*Build and Flash Ergodox*"))))
 
-(defun nix-collect-garbage ()
+(defun ck/nix-collect-garbage ()
   "Collect garbage"
   (interactive)
   (async-shell-command
    "nix-collect-garbage -d"
    (generate-new-buffer-name "*Nix Collect Garbage*")))
 
-(defun restart-display-manager ()
+(defun ck/restart-display-manager ()
   "Restart the display manager"
   (interactive)
   (run-hooks 'kill-emacs-hook)
   (shell-command "sudo /usr/bin/env systemctl restart display-manager.service"))
 
-(defun nix-derivation-is-cached? (derivation)
+(defun ck/nix-derivation-is-cached? (derivation)
   "Sees if the derivation is cached on the nixos cache"
   (interactive "sDerivation Path: ")
   (shell-command
@@ -239,43 +239,43 @@
     derivation
     " --store https://cache.nixos.org/")))
 
-(defun reboot ()
+(defun ck/reboot ()
   "Reboot the system"
   (interactive)
   (run-hooks 'kill-emacs-hook)
   (shell-command "reboot"))
 
-(defun shutdown ()
+(defun ck/shutdown ()
   "Shut down the system"
   (interactive)
   (run-hooks 'kill-emacs-hook)
   (shell-command "shutdown now"))
 
-(defun caffeinate ()
+(defun ck/caffeinate ()
   "Prevent sleep"
   (interactive)
-  (-run-shell-command
+  (ck/-run-shell-command
    "systemd-inhibit --what=sleep --why='Prevent suspend' sleep infinity"))
 
-(defun decaffeinate ()
+(defun ck/decaffeinate ()
   "Prevent sleep"
   (interactive)
-  (-run-shell-command
+  (ck/-run-shell-command
    "pkill -f 'systemd-inhibit.*sleep infinity'"))
 
-(defun ssh-keychain ()
+(defun ck/ssh-keychain ()
   "Adds the ssh key to the keychain"
   (interactive)
-  (-run-shell-command
+  (ck/-run-shell-command
    (concat
     "keychain --eval /home/"
     (user-login-name)
     "/.ssh/id_rsa")))
 
-(defun gpg-keychain ()
+(defun ck/gpg-keychain ()
   "Adds the gpg key to the keychain"
   (interactive)
-  (-run-shell-command
+  (ck/-run-shell-command
    (concat "keychain --eval " user-gpg-id)))
 
 (defun ck/search-for-file (filename)
@@ -289,7 +289,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; open applications
 
-(defun find-or-open-application (command name &optional projectp)
+(defun ck/find-or-open-application (command name &optional projectp)
   "Finds or opens the application"
   (let* (
          (buffers (-map #'buffer-name (buffer-list)))
@@ -300,44 +300,44 @@
              (if projectp
                  (or  (projectile-project-root) "~")
                "~")))
-        (-run-shell-command command)))))
+        (ck/-run-shell-command command)))))
 
-(defun open-firefox ()
+(defun ck/open-firefox ()
   "Opens the firefox browser"
   (interactive)
-  (find-or-open-application "firefox" "firefox"))
+  (ck/find-or-open-application "firefox" "firefox"))
 
-(defun open-lutris ()
+(defun ck/open-lutris ()
   "Opens Lutris"
   (interactive)
-  (find-or-open-application "lutris" "Lutris"))
+  (ck/find-or-open-application "lutris" "Lutris"))
 
-(defun open-spotify ()
+(defun ck/open-spotify ()
   "Opens Spotify"
   (interactive)
-  (find-or-open-application "spotify" "Spotify"))
+  (ck/find-or-open-application "spotify" "Spotify"))
 
-(defun open-slack ()
+(defun ck/open-slack ()
   "Opens Slack"
   (interactive)
-  (find-or-open-application "slack" "Slack"))
+  (ck/find-or-open-application "slack" "Slack"))
 
-(defun open-steam ()
+(defun ck/open-steam ()
   "Opens Steam"
   (interactive)
-  (find-or-open-application "steam" "Steam"))
+  (ck/find-or-open-application "steam" "Steam"))
 
-(defun open-telegram ()
+(defun ck/open-telegram ()
   "Opens Telegram"
   (interactive)
-  (find-or-open-application "Telegram" "TelegramDesktop"))
+  (ck/find-or-open-application "Telegram" "TelegramDesktop"))
 
-(defun open-thunderbird ()
+(defun ck/open-thunderbird ()
   "Opens Telegram"
   (interactive)
-  (find-or-open-application "thunderbird" "thunderbird"))
+  (ck/find-or-open-application "thunderbird" "thunderbird"))
 
-(defun open-xterm ()
+(defun ck/open-xterm ()
   "Opens the terminal"
   (interactive)
   (let* ((p-name (when (stringp (projectile-project-root))
@@ -345,7 +345,7 @@
          (xterm-name (concat "XTerm - " p-name)))
     (if (stringp p-name)
         (progn
-          (find-or-open-application
+          (ck/find-or-open-application
            (concat "xterm -e 'tmux new -A -s " p-name "'")
            xterm-name
            t)
@@ -355,9 +355,9 @@
               (exwm-workspace-rename-buffer xterm-name))
             ;; FIXME: switching to the buffers old window - maybe remove the exwm-workspace prefix here, but then the cursor isn't in the terminal
             (exwm-workspace-switch-to-buffer xterm-name)))
-      (open-global-xterm))))
+      (ck/open-global-xterm))))
 
-(defun kill-project-xterm ()
+(defun ck/kill-project-xterm ()
   "Kill the xterm associated with the project"
   (interactive)
   (when-let (p-name (when (stringp (projectile-project-root))
@@ -365,13 +365,13 @@
     (shell-command
      (concat "tmux kill-session -t " p-name))))
 
-(defun open-custom-xterm (term-name)
+(defun ck/open-custom-xterm (term-name)
   "Opens the terminal with a custom tmux session"
   (interactive "sTerminal name: ")
   (let* ((xterm-name (concat "XTerm - " term-name)))
     (if (stringp term-name)
         (progn
-          (find-or-open-application
+          (ck/find-or-open-application
            (concat "xterm -e 'tmux new -A -s " term-name "'")
            xterm-name
            t)
@@ -381,32 +381,32 @@
               (exwm-workspace-rename-buffer xterm-name))
             ;; FIXME: switching to the buffers old window - maybe remove the exwm-workspace prefix here, but then the cursor isn't in the terminal
             (exwm-workspace-switch-to-buffer xterm-name)))
-      (open-global-xterm))))
+      (ck/open-global-xterm))))
 
-(defun open-global-xterm ()
+(defun ck/open-global-xterm ()
   "Opens the terminal"
   (interactive)
-  (find-or-open-application "xterm -e 'tmux new -A -s global'" "XTerm - global")
+  (ck/find-or-open-application "xterm -e 'tmux new -A -s global'" "XTerm - global")
   (sleep-for 0.3)
   (when (-first (lambda (buffer) (s-match "XTerm$" buffer)) (-map #'buffer-name (buffer-list)))
     (with-current-buffer "XTerm"
       (exwm-workspace-rename-buffer "XTerm - global"))
     (exwm-workspace-switch-to-buffer "XTerm - global")))
 
-(defun open-zoom ()
+(defun ck/open-zoom ()
   "Opens the terminal"
   (interactive)
-  (find-or-open-application "zoom-us" "zoom"))
+  (ck/find-or-open-application "zoom-us" "zoom"))
 
-(defun open-all-applications ()
+(defun ck/open-all-applications ()
   (interactive)
-  (open-firefox)
-  (open-xterm)
-  (open-slack)
-  (open-telegram)
-  (open-spotify))
+  (ck/open-firefox)
+  (ck/open-xterm)
+  (ck/open-slack)
+  (ck/open-telegram)
+  (ck/open-spotify))
 
-(defun align-all-applications ()
+(defun ck/align-all-applications ()
   (interactive)
   (dolist (i '((2 "firefox")
                (4 "XTerm")
@@ -417,17 +417,17 @@
     (exwm-workspace-switch-to-buffer (cadr i)))
   (exwm-workspace-switch 1))
 
-(defun exwm-run-command ()
+(defun ck/exwm-run-command ()
   "Pick a command to run from those available"
   (interactive)
-  (-run-shell-command
+  (ck/-run-shell-command
    (completing-read "Run command: " (s-lines (shell-command-to-string "print -rC1 -- ${(ko)commands}")))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Running Shell Commands in Buffers
 
-(defun run-shell-command-in-background (buff-name command)
+(defun ck/run-shell-command-in-background (buff-name command)
   "runs a shell command async in a background buffer"
   (interactive "sBuffer name: \nsCommand: ")
   (async-shell-command
@@ -466,7 +466,7 @@ See `shell-escape'."
                (rafd--shell-escape command)
                "'"))))
 
-(defun run-async-from-desc ()
+(defun ck/run-async-from-desc ()
   "run a shell command async in a background buffer from a description in the
    form of an plist in the form of:
      :name    - name of the buffer
@@ -474,7 +474,7 @@ See `shell-escape'."
      :nix     - (optional) `t` if should run in nix-shell
      :command - content of the shell command to run"
   (interactive)
-  (let* ((desc    (call-interactively #'lisp-eval-sexp-at-point))
+  (let* ((desc    (call-interactively #'ck/lisp-eval-sexp-at-point))
          (name    (plist-get desc :name))
          (dir     (plist-get desc :dir))
          (nix     (plist-get desc :nix))
@@ -483,7 +483,7 @@ See `shell-escape'."
         (async-shell-command
          (rafd--build-command dir nix command)
          (generate-new-buffer-name (concat "*" name "*")))
-      (message "Pease call `run-async-from-desc` with an plist containing the \
+      (message "Pease call `ck/run-async-from-desc` with an plist containing the \
 `:name` and `:command` keys."))))
 
 (provide 'config/desktop/commands)

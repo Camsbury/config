@@ -8,7 +8,7 @@
   :lighter " blind"
   :global t
   :after-hook
-  (if (minor-mode-active-p 'blind-mode)
+  (if (ck/minor-mode-active-p 'blind-mode)
       (set-face-attribute
        'default nil :height blind-mode-font-height)
     (set-face-attribute

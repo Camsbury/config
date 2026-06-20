@@ -16,21 +16,21 @@
 
 
 (general-def 'normal emacs-lisp-mode-map
- [remap empty-mode-leader] #'hydra-elisp/body)
+ [remap ck/empty-mode-leader] #'hydra-elisp/body)
 
-(defun elisp-narrow-defun ()
+(defun ck/elisp-narrow-defun ()
   "Narrows to the current defun"
   (interactive)
   (save-mark-and-excursion
     (mark-defun)
-    (call-interactively 'narrow-and-zoom-in)))
+    (call-interactively 'ck/narrow-and-zoom-in)))
 
 (defhydra hydra-elisp (:exit t)
   "elisp-mode"
   ("a" #'apropos             "search symbols")
   ("l" #'eval-buffer         "eval buffer")
-  ("o" #'elisp-narrow-defun  "focus on def")
+  ("o" #'ck/elisp-narrow-defun  "focus on def")
   ("p" #'eval-defun          "eval outer sexp")
-  ("S" #'run-async-from-desc "run async command from description"))
+  ("S" #'ck/run-async-from-desc "run async command from description"))
 
 (provide 'config/langs/elisp)

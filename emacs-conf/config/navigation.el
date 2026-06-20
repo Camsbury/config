@@ -5,7 +5,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun xdg-open (l-name)
+(defun ck/xdg-open (l-name)
   "Open a link interactively"
   (interactive)
   (shell-command
@@ -18,19 +18,19 @@
 ;; stop annoying prompts about reloading bookmarks
 (customize-set-variable 'bookmark-watch-bookmark-file nil)
 
-(defun bookmark-set-and-save ()
+(defun ck/bookmark-set-and-save ()
   "set and save bookmark"
   (interactive)
   (bookmark-set)
   (bookmark-save))
 
-(defun consult-bookmark-and-save ()
+(defun ck/consult-bookmark-and-save ()
   "set and save bookmark"
   (interactive)
   (consult-bookmark)
   (bookmark-save))
 
-(defun bookmark-clear ()
+(defun ck/bookmark-clear ()
   "clear all bookmarks"
   (interactive)
   (setq bookmark-alist ())
@@ -43,19 +43,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Nav Functions
 
-(defun open-file-link (file-key)
+(defun ck/open-file-link (file-key)
   "Open a file link interactively"
   (interactive)
   (->> file-key
     (plist-get file-links)
     find-file))
 
-(defun open-new-tmp (arg)
+(defun ck/open-new-tmp (arg)
   "Opens a new tmp file"
   (interactive "sFile name: ")
   (find-file (concat "/tmp/" arg)))
 
-(defun open-project-summary ()
+(defun ck/open-project-summary ()
   "Opens the project's summary file"
   (interactive)
   (->> (f-relative (projectile-project-root) "~")
@@ -67,36 +67,36 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Spawn Functions
 
-(defun spawn-below ()
+(defun ck/spawn-below ()
   "Spawns a window below"
   (interactive)
   (split-window-below)
   (windmove-down))
 
-(defun spawn-right ()
+(defun ck/spawn-right ()
   "Spawns a window to the right"
   (interactive)
   (split-window-right)
   (windmove-right))
 
-(defun spawn-file-link (file-key)
+(defun ck/spawn-file-link (file-key)
   "Spawn a window to the right before calling a function"
   (interactive)
   (split-window-right)
   (windmove-right)
-  (open-file-link file-key))
+  (ck/open-file-link file-key))
 
-(defun spawnify (f)
+(defun ck/spawnify (f)
   "Spawn a window to the right before calling a function"
   (interactive)
   (split-window-right)
   (windmove-right)
   (call-interactively f))
 
-(defun spawn-new (arg)
+(defun ck/spawn-new (arg)
   "Spawns a new fundamental buffer"
   (interactive "sBuffer name: ")
-  (spawn-right)
+  (ck/spawn-right)
   (switch-to-buffer (generate-new-buffer-name arg)))
 
 (provide 'config/navigation)

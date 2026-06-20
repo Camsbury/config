@@ -58,7 +58,7 @@
   ;; (org-alert-enable)
   )
 
-(defun toggle-org-alerts ()
+(defun ck/toggle-org-alerts ()
   (interactive)
   (if org-alert-active-p
       (progn
@@ -141,7 +141,7 @@
 (setq org-list-allow-alphabetical 1)
 (setq org-ellipsis " ▾")
 (setq org-bullets-bullet-list '("•"))
-(defun org-faces-init ()
+(defun ck/org-faces-init ()
   "Initialize org faces"
   (interactive)
   (set-face-attribute 'org-level-1 nil :height 1.0)
@@ -166,7 +166,7 @@
            "#62FCC4"
            "#cbc284"
            "#b9fc6d"))))
-(org-faces-init)
+(ck/org-faces-init)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -233,25 +233,25 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org functions
 
-(defun org-append-link ()
+(defun ck/org-append-link ()
   "Append link instead of replacing current point"
   (interactive)
   (insert " ")
   (call-interactively #'org-insert-link))
 
-(defun org-table-clear-and-align ()
+(defun ck/org-table-clear-and-align ()
   "Clear a cell, then align the table."
   (interactive)
   (org-table-blank-field)
   (org-table-align))
 
-(defun org-table-edit-and-align ()
+(defun ck/org-table-edit-and-align ()
   "Edit a cell, then align the table."
   (interactive)
   (call-interactively 'org-table-edit-field)
   (org-table-align))
 
-(defun org-insert-heading ()
+(defun ck/org-insert-heading ()
   "Insert top level heading"
   (interactive)
   (call-interactively #'evil-open-below)
@@ -259,7 +259,7 @@
       (call-interactively #'outline-insert-heading)
     (insert "* ")))
 
-(defun org-insert-todo-heading ()
+(defun ck/org-insert-todo-heading ()
   "Insert top level heading"
   (interactive)
   (call-interactively #'evil-open-below)
@@ -268,7 +268,7 @@
     (insert "* "))
   (call-interactively #'org-todo))
 
-(defun org-cycle-shallow (&optional arg)
+(defun ck/org-cycle-shallow (&optional arg)
   "Toggle org-cycle for only one level"
   (interactive "P")
   (unless (eq this-command 'org-shifttab)
@@ -285,19 +285,19 @@
           (org-cycle-internal-local)
           t)))))
 
-(defun org-sparse-tree-at-point ()
+(defun ck/org-sparse-tree-at-point ()
   "Focus in on the current point"
   (interactive)
   (org-overview)
   (org-show-context))
 
-(defun org-new-item ()
+(defun ck/org-new-item ()
   "Add a list item"
   (interactive)
   (call-interactively #'evil-open-below)
   (call-interactively #'org-insert-item))
 
-(defun org-add-extant-tags ()
+(defun ck/org-add-extant-tags ()
   "Add tags based on those that already exist"
   (interactive)
   (let* ((selected (org-get-tags nil t))
@@ -321,8 +321,8 @@
   ("k" #'evil-previous-line "previous row")
   ("l" #'org-table-next-field "next field")
   ("h" #'org-table-previous-field "previous field")
-  ("x" #'org-table-clear-and-align "clear field")
-  ("i" #'org-table-edit-and-align "edit field")
+  ("x" #'ck/org-table-clear-and-align "clear field")
+  ("i" #'ck/org-table-edit-and-align "edit field")
   ("z" #'org-table-toggle-formula-debugger "formula debugger")
   ("q" nil "quit" :color red))
 
@@ -352,20 +352,20 @@
 (general-def 'normal org-mode-map
  "]" #'hydra-right-leader/body
  "[" #'hydra-left-leader/body
- [remap empty-mode-leader] #'hydra-org/body
- [remap empty-visual-mode-leader] #'hydra-visual-org/body)
+ [remap ck/empty-mode-leader] #'hydra-org/body
+ [remap ck/empty-visual-mode-leader] #'hydra-visual-org/body)
 
 (general-def org-mode-map
-  "M-a" #'org-insert-todo-heading
+  "M-a" #'ck/org-insert-todo-heading
   "M-n" #'org-open-at-point
   "M-r" #'org-metaleft
-  "M-s" #'org-insert-heading
+  "M-s" #'ck/org-insert-heading
   "M-t" #'org-metaright)
 
 (defhydra hydra-org-link (:exit t)
   "org-mode links"
   ("e" #'org-store-link     "store a link")
-  ("n" #'org-append-link    "insert a link")
+  ("n" #'ck/org-append-link    "insert a link")
   ("t" #'org-open-at-point  "follow a link"))
 
 (defhydra hydra-org-timer (:exit t)
@@ -378,20 +378,20 @@
 (defhydra hydra-org (:exit t)
   "org-mode"
  ("RET" #'org-sparse-tree          "sparse tree")
- ("I"   #'org-new-item             "new item")
- ("L"   #'org-append-link          "add link")
+ ("I"   #'ck/org-new-item             "new item")
+ ("L"   #'ck/org-append-link          "add link")
  ("O"   #'outline-show-all         "show all")
  ("T"   #'hydra-org-table/body     "org table")
  ("Y"   #'org-roam-dailies-find-next-note "next note")
  ("a"   #'org-archive-subtree      "archive")
  ("d"   #'org-deadline             "deadline")
  ("e"   #'org-edit-special         "edit src")
- ("g"   #'org-add-extant-tags      "add extant tags")
+ ("g"   #'ck/org-add-extant-tags      "add extant tags")
  ("i"   #'org-roam-node-insert     "insert roam node")
  ("l"   #'hydra-org-link/body      "org links")
  ("m"   #'hydra-org-timer/body     "org timer")
  ("n"   #'org-narrow-to-subtree    "narrow")
- ("o"   #'org-sparse-tree-at-point "show all")
+ ("o"   #'ck/org-sparse-tree-at-point "show all")
  ("r"   #'org-refile               "refile")
  ("t"   #'org-set-tags-command     "set tags")
  ("v"   (lambda ()
@@ -405,7 +405,7 @@
  ("s" #'org-sort "sort"))
 
 (general-def org-src-mode-map
- [remap empty-mode-leader] #'hydra-org-src/body)
+ [remap ck/empty-mode-leader] #'hydra-org-src/body)
 
 (defhydra hydra-org-src (:exit t)
   "org-src-mode"

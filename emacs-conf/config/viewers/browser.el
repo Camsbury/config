@@ -3,7 +3,7 @@
                   'visual-line-mode
                   (lambda () (call-interactively (buffer-face-set 'hl-line))))
 
-(defun eww-new (buff-name)
+(defun ck/eww-new (buff-name)
   "opens a new eww buffer"
   (interactive "sBuffer name: ")
   (let ((url (read-from-minibuffer "Enter URL or keywords: ")))
@@ -12,7 +12,7 @@
     (eww url)))
 
 (general-def 'normal eww-mode-map
- [remap empty-mode-leader] #'hydra-eww/body)
+ [remap ck/empty-mode-leader] #'hydra-eww/body)
 
 (defhydra hydra-eww (:exit t)
   "eww-mode"

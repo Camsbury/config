@@ -4,7 +4,7 @@
   :interpreter "idris")
 
 (general-def 'normal idris-mode-map
-  [remap empty-mode-leader]    #'hydra-idris/body
+  [remap ck/empty-mode-leader]    #'hydra-idris/body
   [remap evil-goto-definition] #'idris-docs-at-point)
 
 (defhydra hydra-idris (:exit t)

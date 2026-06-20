@@ -4,7 +4,7 @@
   :after (company))
 
 (general-def 'normal go-mode-map
- [remap empty-mode-leader] #'hydra-go/body)
+ [remap ck/empty-mode-leader] #'hydra-go/body)
 
 (setq gofmt-command "goimports")
 

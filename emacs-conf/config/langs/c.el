@@ -9,7 +9,7 @@
 (setq c-default-style "linux")
 
 (general-def 'normal c-mode-map
- [remap empty-mode-leader] #'hydra-c/body)
+ [remap ck/empty-mode-leader] #'hydra-c/body)
 
 (general-add-hook 'c-mode-hook
   (list

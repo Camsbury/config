@@ -68,28 +68,28 @@
 (use-package company-cabal
   :after (company))
 
-(defun haskell-clean-and-compile ()
+(defun ck/haskell-clean-and-compile ()
   (interactive)
   (let ((haskell-compile-cabal-build-command
          "cabal clean && cabal new-build --ghc-option=-ferror-spans"))
     (haskell-compile)))
 
-(defun haskell-run ()
+(defun ck/haskell-run ()
   (interactive)
   (let ((haskell-compile-cabal-build-command
          "cabal run"))
     (haskell-compile)))
 
-(defun haskell-ghcid ()
+(defun ck/haskell-ghcid ()
   (interactive)
   (let ((haskell-compile-cabal-build-command
          "ghcid --command=\"cabal new-repl\""))
     (haskell-compile)))
 
 (general-def 'normal haskell-mode-map
-  [remap empty-mode-leader] #'hydra-haskell/body)
+  [remap ck/empty-mode-leader] #'hydra-haskell/body)
 
-(defun haskell-toggle-type-nav ()
+(defun ck/haskell-toggle-type-nav ()
   (interactive)
   (let* ((path (buffer-file-name))
          (type-file-p
@@ -117,7 +117,7 @@
 
 (defhydra hydra-haskell (:exit t)
   "haskell-mode"
-  ("C" #'haskell-clean-and-compile      "clean and compile!")
+  ("C" #'ck/haskell-clean-and-compile      "clean and compile!")
   ("L" #'flycheck-list-errors           "list errors")
   ("R" #'lsp-workspace-restart          "restart lsp workspace")
   ("T" #'hlint-refactor-refactor-buffer "hlint buffer")
@@ -125,11 +125,11 @@
   ("c" #'haskell-compile                "compile!")
   ("d" #'lsp-doc-show                   "show docs")
   ("e" #'haskell-align-imports          "align imports")
-  ("g" #'haskell-ghcid                  "ghcid imports")
+  ("g" #'ck/haskell-ghcid                  "ghcid imports")
   ("i" #'lsp-describe-thing-at-point    "describe at point")
   ("l" #'lsp-lens-mode                  "toggle lenses")
-  ("r" #'haskell-run                    "run!")
+  ("r" #'ck/haskell-run                    "run!")
   ("s" #'haskell-sort-imports           "sort imports")
-  ("t" #'haskell-toggle-type-nav        "hlint point"))
+  ("t" #'ck/haskell-toggle-type-nav        "hlint point"))
 
 (provide 'config/langs/haskell)

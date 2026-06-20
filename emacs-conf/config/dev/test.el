@@ -7,7 +7,7 @@
 ;; https://github.com/skeeto/predd
 ;; (also have some kind of local config in dir-locals)
 
-(defun jump-to-test-clojure ()
+(defun ck/jump-to-test-clojure ()
   "Jump from a clojure namespace to a test."
   (interactive)
   (let ((filename (->> buffer-file-name
@@ -16,7 +16,7 @@
     (make-directory (f-dirname filename) t)
     (find-file filename)))
 
-(defun jump-from-test-clojure ()
+(defun ck/jump-from-test-clojure ()
   "Jump from a test to a clojure namespace."
   (interactive)
   (let ((filename (->> buffer-file-name
@@ -25,18 +25,18 @@
     (make-directory (f-dirname filename) t)
     (find-file filename)))
 
-(defun toggle-test-clojure ()
+(defun ck/toggle-test-clojure ()
   "Toggle test and source in clojure."
   (interactive)
   (if (s-contains? "/src/" buffer-file-name)
-      (jump-to-test-clojure)
-    (jump-from-test-clojure)))
+      (ck/jump-to-test-clojure)
+    (ck/jump-from-test-clojure)))
 
-(defun toggle-tests ()
+(defun ck/toggle-tests ()
   "Toggle test and source"
   (interactive)
   (cl-case major-mode
-    ('clojure-mode (toggle-test-clojure))
+    ('clojure-mode (ck/toggle-test-clojure))
     (t (message "mode not supported for test toggling"))))
 
 

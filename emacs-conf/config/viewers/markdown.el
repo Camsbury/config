@@ -4,7 +4,7 @@
 (use-package markdown-preview-mode)
 (setq markdown-command "pandoc")
 
-(defun watch-this-markdown ()
+(defun ck/watch-this-markdown ()
   (interactive)
   (async-shell-command
    (concat

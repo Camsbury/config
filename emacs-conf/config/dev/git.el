@@ -57,11 +57,11 @@
 
 
 
-(defun github-clone (user repo)
+(defun ck/github-clone (user repo)
   "clones a repo from github to the obvious path"
   (interactive "sUser name: \nsRepo name: ")
-  (call-interactively #'gpg-keychain)
-  (call-interactively #'ssh-keychain)
+  (call-interactively #'ck/gpg-keychain)
+  (call-interactively #'ck/ssh-keychain)
   (start-process-shell-command
    (concat "clone " user "/" repo)
    nil
@@ -69,14 +69,14 @@
            "cd ~/projects/" user " && "
            "git clone git@github.com:" user "/" repo ".git")))
 
-(defun kill-magit-buffer ()
+(defun ck/kill-magit-buffer ()
   "Kills a magit buffer"
   (interactive)
   (let ((current-prefix-arg t))
     (call-interactively #'magit-mode-bury-buffer)))
 
 ;; USEIT
-(defun gitgrep-history (regex)
+(defun ck/gitgrep-history (regex)
   "grep through git history"
   (interactive "s")
   (shell-command-to-string
@@ -87,7 +87,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Multi Repo Utils
 
-(defun reset-repo-master (repo-name output-buffer)
+(defun ck/reset-repo-master (repo-name output-buffer)
   "reset the repo's master branch to origin/master"
   (async-shell-command
    (concat
@@ -101,11 +101,11 @@
     "git reset --hard origin/master")
    output-buffer))
 
-(defun reset-working-repos ()
+(defun ck/reset-working-repos ()
   "reset all working repos to origin/master"
   (interactive)
   (-each working-repos (lambda (repo)
-                         (reset-repo-master
+                         (ck/reset-repo-master
                           repo
                           (generate-new-buffer-name
                            (concat "*Reset " repo " to origin/master*"))))))
@@ -138,11 +138,11 @@
   ("r" #'browse-at-remote                  "browse at remote")
   ("s" #'magit-status                      "magit status")
   ("t" #'git-timemachine-toggle            "git time machine")
-  ("l" #'github-clone                      "github clone")
+  ("l" #'ck/github-clone                      "github clone")
   ("q" nil))
 
 (general-define-key
- [remap magit-mode-bury-buffer] #'kill-magit-buffer)
+ [remap magit-mode-bury-buffer] #'ck/kill-magit-buffer)
 
 (general-define-key
  :states  'normal

@@ -100,7 +100,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Functions
 
-(defun clerk-show ()
+(defun ck/clerk-show ()
   (interactive)
   (save-buffer)
   (let
@@ -110,7 +110,7 @@
       (cider-interactive-eval
        (concat "(nextjournal.clerk/show! \"" filename "\")")))))
 
-(defun clerk-show-tap ()
+(defun ck/clerk-show-tap ()
   (interactive)
   (let ((filename
          (buffer-file-name)))
@@ -118,7 +118,7 @@
       (cider-interactive-eval
        "(nextjournal.clerk/show! 'nextjournal.clerk.tap)"))))
 
-(defun cider-copy-last-result ()
+(defun ck/cider-copy-last-result ()
   (interactive)
   (cider-interactive-eval
    "*1"
@@ -131,7 +131,7 @@
                  (format "%d chars" (length value)))))
     nil nil nil)))
 
-(defun cider-remove-pprint-commas
+(defun ck/cider-remove-pprint-commas
     (s)
   (let ((inner-string-p nil)
         (escaped-p nil))
@@ -152,7 +152,7 @@
              (-map (lambda (x) x) s))))))
 
 ;; TODO: don't remove commas if it's just a string
-(defun cider-copy-last-result-dwim ()
+(defun ck/cider-copy-last-result-dwim ()
   (interactive)
   (cider-interactive-eval
    "(with-out-str (clojure.pprint/pprint *1))"
@@ -161,36 +161,36 @@
     (lambda (_ value)
       (if (string-match "^\"" (read value))
           (kill-new (read (read value)))
-        (kill-new (cider-remove-pprint-commas (read value))))
+        (kill-new (ck/cider-remove-pprint-commas (read value))))
       (message "Copied last result (%s) to clipboard"
                (if (= (length value) 1) "1 char"
                  (format "%d chars" (length value)))))
     nil nil nil)))
 
-(defun cider-copy-last-result-as-edn ()
+(defun ck/cider-copy-last-result-as-edn ()
   (interactive)
   (cider-interactive-eval
    "(with-out-str (clojure.pprint/pprint *1))"
    (nrepl-make-response-handler
     (current-buffer)
     (lambda (_ value)
-      (kill-new (cider-remove-pprint-commas (read value)))
+      (kill-new (ck/cider-remove-pprint-commas (read value)))
       (message "Copied last result (%s) to clipboard"
                (if (= (length value) 1) "1 char"
                  (format "%d chars" (length value)))))
     nil nil nil)))
 
-(defun cider-insert-current-sexp-in-repl (&optional arg)
+(defun ck/cider-insert-current-sexp-in-repl (&optional arg)
   "Insert the expression at point in the REPL buffer.
 If invoked with a prefix ARG eval the expression after inserting it"
   (interactive "P")
   (cider-insert-in-repl (cider-sexp-at-point) arg))
 
-(defun +clojure-pprint-expr (form)
+(defun ck/+clojure-pprint-expr (form)
   (format "(with-out-str (clojure.pprint/pprint %s))"
           form))
 
-(defun cider-eval-read-and-print-handler (&optional buffer)
+(defun ck/cider-eval-read-and-print-handler (&optional buffer)
   "Make a handler for evaluating and reading then printing result in BUFFER."
   (nrepl-make-response-handler
    (or buffer (current-buffer))
@@ -205,42 +205,42 @@ If invoked with a prefix ARG eval the expression after inserting it"
    (lambda (_buffer err) (cider-emit-interactive-eval-err-output err))
    '()))
 
-(defun cider-eval-and-replace (beg end)
+(defun ck/cider-eval-and-replace (beg end)
   "Evaluate the expression in region and replace it with its result"
   (interactive "r")
   (let ((form (buffer-substring beg end)))
     (cider-nrepl-sync-request:eval form)
     (kill-region beg end)
     (cider-interactive-eval
-     (+clojure-pprint-expr form)
-     (cider-eval-read-and-print-handler))))
+     (ck/+clojure-pprint-expr form)
+     (ck/cider-eval-read-and-print-handler))))
 
-(defun cider-eval-current-sexp-and-replace ()
+(defun ck/cider-eval-current-sexp-and-replace ()
   "Evaluate the expression at point and replace it with its result"
   (interactive)
-  (apply #'cider-eval-and-replace (cider-sexp-at-point 'bounds)))
+  (apply #'ck/cider-eval-and-replace (cider-sexp-at-point 'bounds)))
 
-(defun cider-rejack ()
+(defun ck/cider-rejack ()
   "Jack back in!"
   (interactive)
   (sesman-quit)
   (cider-jack-in-clj&cljs))
 
-(defun clj-narrow-defun ()
+(defun ck/clj-narrow-defun ()
   "Narrows to the current defun"
   (interactive)
   (save-mark-and-excursion
     (mark-defun)
-    (call-interactively 'narrow-and-zoom-in)))
+    (call-interactively 'ck/narrow-and-zoom-in)))
 
-(defun clj-inspect-at-point ()
+(defun ck/clj-inspect-at-point ()
   "Open the current point in the cider inspector"
   (interactive)
   (save-excursion
     (goto-char (cadr (cider-sexp-at-point 'bounds)))
     (call-interactively #'cider-inspect)))
 
-(defun cider-unalias-at-point ()
+(defun ck/cider-unalias-at-point ()
   "Call (ns-unalias *ns* 'sym) in the current Clojure namespace for symbol at point."
   (interactive)
   (let* ((sym (thing-at-point 'symbol t)))
@@ -322,7 +322,7 @@ from the launcher's calling buffer, then kill PROC's buffer."
   "Report failure if PROC exits before the nREPL server was ready."
   (unless (or (process-live-p proc)
               (process-get proc 'connected))
-    (message "nREPL launcher (%s) exited before the server was ready — see %s"
+    (message "nREPL launcher (%s) exited before the server was ready - see %s"
              (process-get proc 'session) (process-buffer proc))))
 
 (defvar-local ck/cider-cpuset nil
@@ -332,7 +332,7 @@ from the launcher's calling buffer, then kill PROC's buffer."
 (defun ck/cider-jack-in-tmux ()
   "Launch CIDER's nREPL server in a detached tmux session.
 A process buffer streams the server's output while waiting; the connect
-fires off the server's own readiness line — no clock anywhere.
+fires off the server's own readiness line - no clock anywhere.
 
 Refuses to run if this project's tmux session already exists; quit it
 first with `ck/cider-nrepl-tmux-kill'."
@@ -343,7 +343,7 @@ first with `ck/cider-nrepl-tmux-kill'."
     (unless (stringp root) (user-error "No project directory resolved here"))
     (when (zerop (call-process "tmux" nil nil nil "has-session" "-t" session))
       (user-error
-       "tmux session %S is already running — quit it first with `M-x ck/cider-nrepl-tmux-kill'"
+       "tmux session %S is already running - quit it first with `M-x ck/cider-nrepl-tmux-kill'"
        session))
     (let* ((root    (expand-file-name root))
            (cmd (let ((base (plist-get (cider--update-jack-in-cmd params) :jack-in-cmd)))
@@ -384,38 +384,38 @@ first with `ck/cider-nrepl-tmux-kill'."
         (set-process-sentinel proc #'ck/cider--nrepl-sentinel)
         (set-process-query-on-exit-flag proc nil)
         (display-buffer buf)
-        (message "nREPL booting in tmux %S — see %s" session buf)))))
+        (message "nREPL booting in tmux %S - see %s" session buf)))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Systemic
 
-(defun systemic-restart ()
+(defun ck/systemic-restart ()
   "Restarts systemic"
   (interactive)
   (cider-interactive-eval "(systemic.core/restart!)"))
 
-(defun systemic-start ()
+(defun ck/systemic-start ()
   "Starts systemic"
   (interactive)
   (cider-interactive-eval "(systemic.core/start!)"))
 
-(defun systemic-stop ()
+(defun ck/systemic-stop ()
   "Stops systemic"
   (interactive)
   (cider-interactive-eval "(systemic.core/stop!)"))
 
-(defun systemic-start-system-at-point ()
+(defun ck/systemic-start-system-at-point ()
   "Starts systemic system"
   (interactive)
   (cider-interactive-eval (concat "(systemic.core/start! `" (cider-sexp-at-point) ")")))
 
-(defun systemic-stop-system-at-point ()
+(defun ck/systemic-stop-system-at-point ()
   "Stops systemic system"
   (interactive)
   (cider-interactive-eval (concat "(systemic.core/stop! `" (cider-sexp-at-point) ")")))
 
-(defun systemic-restart-system-at-point ()
+(defun ck/systemic-restart-system-at-point ()
   "Restarts systemic system"
   (interactive)
   (cider-interactive-eval (concat "(systemic.core/restart! `" (cider-sexp-at-point) ")")))
@@ -428,10 +428,10 @@ first with `ck/cider-nrepl-tmux-kill'."
   (cider-interactive-eval nil nil (list beg end)))
 
 (evil-define-operator fireplace-send (beg end)
-  (cider-insert-current-sexp-in-repl nil nil (list beg end)))
+  (ck/cider-insert-current-sexp-in-repl nil nil (list beg end)))
 
 (evil-define-operator fireplace-replace (beg end)
-  (cider-eval-and-replace beg end))
+  (ck/cider-eval-and-replace beg end))
 
 (evil-define-operator fireplace-eval-context (beg end)
   (cider--eval-in-context (buffer-substring beg end)))
@@ -478,7 +478,7 @@ first with `ck/cider-nrepl-tmux-kill'."
           (cider-debug-mode-send-reply ":quit"))))
 
 (general-def 'normal clojure-mode-map
-  [remap empty-mode-leader]     #'hydra-clj/body
+  [remap ck/empty-mode-leader]     #'hydra-clj/body
   [remap evil-goto-definition] (lambda ()
                                  (interactive)
                                  (call-interactively #'cider-find-var))
@@ -491,7 +491,7 @@ first with `ck/cider-nrepl-tmux-kill'."
   "M-n"     #'clojure-unwind-all
   "M-e"     #'clojure-thread-first-all
   "M-i"     #'clojure-thread-last-all
-  "M-y"     #'clj-inspect-at-point
+  "M-y"     #'ck/clj-inspect-at-point
   "M-o"     #'cider-inspect-last-result)
 
 (general-def 'normal cider-inspector-mode-map
@@ -523,25 +523,25 @@ first with `ck/cider-nrepl-tmux-kill'."
   ("M" #'hydra-systemic/body              "systemic hydra")
   ("n" #'cljr-introduce-let               "introduce let")
   ("N" #'clojure-sort-ns                  "sort ns")
-  ("o" #'clj-narrow-defun                 "focus on def")
+  ("o" #'ck/clj-narrow-defun                 "focus on def")
   ("p" #'cider-eval-defun-at-point        "eval outer sexp")
   ("q" #'cljr-add-require-to-ns           "add require")
   ("r" #'clojure-essential-ref            "lookup in essential ref")
-  ("s" #'clerk-show                       "show clerk notebook")
-  ("S" #'clerk-show-tap                   "show clerk notebook")
+  ("s" #'ck/clerk-show                       "show clerk notebook")
+  ("S" #'ck/clerk-show-tap                   "show clerk notebook")
   ("t" #'cider-test-run-ns-tests          "run ns tests")
   ("T" #'kaocha-runner-run-all-tests      "run project tests")
-  ("u" #'cider-unalias-at-point           "unalias the symbol at point")
+  ("u" #'ck/cider-unalias-at-point           "unalias the symbol at point")
   ("w" #'cljr-add-missing-libspec         "figure out the require")
-  ("y" #'cider-copy-last-result           "copy last result")
-  ("Y" #'cider-copy-last-result-dwim      "copy last result dwim")
+  ("y" #'ck/cider-copy-last-result           "copy last result")
+  ("Y" #'ck/cider-copy-last-result-dwim      "copy last result dwim")
 
-  ("s-t" #'systemic-start-system-at-point   "Start systemic system")
-  ("s-s" #'systemic-stop-system-at-point    "Stop systemic system")
-  ("s-r" #'systemic-restart-system-at-point "Retart systemic system")
-  ("s-T" #'systemic-start                   "Start systemic systems")
-  ("s-S" #'systemic-stop                    "Stop systemic systems")
-  ("s-R" #'systemic-restart                 "Retart systemic systems"))
+  ("s-t" #'ck/systemic-start-system-at-point   "Start systemic system")
+  ("s-s" #'ck/systemic-stop-system-at-point    "Stop systemic system")
+  ("s-r" #'ck/systemic-restart-system-at-point "Retart systemic system")
+  ("s-T" #'ck/systemic-start                   "Start systemic systems")
+  ("s-S" #'ck/systemic-stop                    "Stop systemic systems")
+  ("s-R" #'ck/systemic-restart                 "Retart systemic systems"))
 
 ; clojure-thread-first-all
 ; clojure-thread-last-all
@@ -587,13 +587,13 @@ first with `ck/cider-nrepl-tmux-kill'."
               "d" 'cider-eval-defun-at-point
               "r" 'cider-test-run-test)
         "q" (general-key-dispatch 'fireplace-send
-              "q" 'cider-insert-current-sexp-in-repl
+              "q" 'ck/cider-insert-current-sexp-in-repl
               "c" 'cider-insert-last-sexp-in-repl)
         "x" (general-key-dispatch 'fireplace-eval-context
               "x" 'cider-eval-sexp-at-point-in-context
               "c" 'cider-eval-last-sexp-in-context)
         "!" (general-key-dispatch 'fireplace-replace
-              "!" 'cider-eval-current-sexp-and-replace
+              "!" 'ck/cider-eval-current-sexp-and-replace
               "c" 'cider-eval-last-sexp-and-replace)))
 
 (nmap :states 'normal :keymaps 'cider-mode-map

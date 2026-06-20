@@ -24,7 +24,7 @@
   (setq exec-path (append exec-path '("~/.cargo/bin"))))
 
 (general-def 'normal rust-mode-map
- [remap empty-mode-leader] #'hydra-rust/body)
+ [remap ck/empty-mode-leader] #'hydra-rust/body)
 
 (with-eval-after-load 'rust-mode
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
@@ -54,7 +54,7 @@
 ;;        :target nil
 ;;        :cwd nil))
 
-(defun rustic-cargo-run-with-args ()
+(defun ck/rustic-cargo-run-with-args ()
   (interactive)
   (let ((current-prefix-arg t))
     (call-interactively #'rustic-cargo-run)))
@@ -67,7 +67,7 @@
   ("d" #'lsp-describe-thing-at-point "describe thing")
   ("g" #'rust-dbg-wrap-or-unwrap     "wrap debug")
   ("r" #'rustic-cargo-run            "run project")
-  ("R" #'rustic-cargo-run-with-args  "run project with args")
+  ("R" #'ck/rustic-cargo-run-with-args  "run project with args")
   ("m" #'rust-toggle-mutability      "toggle mutability")
   ("t" #'rustic-cargo-test           "run tests"))
 

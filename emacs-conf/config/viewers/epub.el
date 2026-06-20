@@ -11,7 +11,7 @@
                   'evil-mode)
 
 (general-def 'normal nov-mode-map
- [remap empty-mode-leader] #'hydra-nov/body)
+ [remap ck/empty-mode-leader] #'hydra-nov/body)
 
 (defhydra hydra-nov (:exit t)
   "nov-mode"

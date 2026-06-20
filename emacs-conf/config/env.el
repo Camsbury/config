@@ -4,7 +4,7 @@
 (use-package direnv
   :config (direnv-mode))
 
-(defun latest-loadpath ()
+(defun ck/latest-loadpath ()
   "Gets the latest loadpath (useful after a rebuild switch)"
   (interactive)
   (let* ((edeps-root

@@ -11,7 +11,7 @@
   :config
   (emms-all))
 
-(defun emms-strong-pause ()
+(defun ck/emms-strong-pause ()
   "Stops playlists that pause won't stop"
   (interactive)
   (if emms-player-playing-p
@@ -23,7 +23,7 @@
           (f-read 'utf-8)
           parseedn-read-str))
 
-(defun open-playlist (playlist-key)
+(defun ck/open-playlist (playlist-key)
   "Play my playlist by name"
   (with-current-buffer
       (or (get-buffer emms-playlist-buffer-name)
@@ -46,13 +46,13 @@
 
 (defhydra hydra-radio (:exit t :columns 5)
   "radio"
-  ("SPC" #'emms-strong-pause          "pause/play")
+  ("SPC" #'ck/emms-strong-pause          "pause/play")
   ("h"   (lambda ()
            (interactive)
-           (open-playlist :hits))     "open hits playlist")
+           (ck/open-playlist :hits))     "open hits playlist")
   ("r"   (lambda ()
            (interactive)
-           (open-playlist :rock))     "open rock playlist")
+           (ck/open-playlist :rock))     "open rock playlist")
   ("v"   (switch-to-buffer "*Radio*") "view radio playlist")
   ("s"   #'emms-random                "random station/track")
   ("["   #'emms-previous              "previous station/track")
@@ -66,7 +66,7 @@
 (comment
 
  (cancel-debug-on-entry 'emms-track-simple-description)
- (cancel-debug-on-entry 'open-playlist)
+ (cancel-debug-on-entry 'ck/open-playlist)
  (emms-playlist-insert-track
   (emms-track 'url "https://stream.revma.ihrhls.com/zc3401/hls.m3u8"))
  )

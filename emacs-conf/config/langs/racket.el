@@ -4,7 +4,7 @@
 (use-package hydra)
 
 (general-def 'normal racket-mode-map
- [remap empty-mode-leader] #'hydra-racket/body
+ [remap ck/empty-mode-leader] #'hydra-racket/body
  )
 
 (general-add-hook

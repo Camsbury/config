@@ -37,16 +37,16 @@
 
 
 (general-def 'normal python-mode-map
- [remap empty-mode-leader] #'hydra-python/body)
+ [remap ck/empty-mode-leader] #'hydra-python/body)
 
-(defun python-narrow-defun ()
+(defun ck/python-narrow-defun ()
   "Narrows to the current defun."
   (interactive)
   (save-mark-and-excursion
     (python-mark-defun)
-    (call-interactively 'narrow-and-zoom-in)))
+    (call-interactively 'ck/narrow-and-zoom-in)))
 
-(defun create-or-restart-python ()
+(defun ck/create-or-restart-python ()
   "Will create or restart a repl for python use."
   (interactive)
   (when (get-buffer "*Python*")
@@ -54,7 +54,7 @@
         (kill-buffer "*Python*")))
   (run-python))
 
-(defun kill-python-repl ()
+(defun ck/kill-python-repl ()
   "Kill the python repl"
   (interactive)
   (when (get-buffer "*Python*")
@@ -64,9 +64,9 @@
 (defhydra hydra-python (:exit t)
   "python-mode"
   ("h" #'pydoc-at-point-no-jedi   "pydoc")
-  ("o" #'python-narrow-defun      "focus on def")
-  ("r" #'create-or-restart-python "python repl")
-  ("k" #'kill-python-repl         "kill python repl")
+  ("o" #'ck/python-narrow-defun      "focus on def")
+  ("r" #'ck/create-or-restart-python "python repl")
+  ("k" #'ck/kill-python-repl         "kill python repl")
   ("l" #'python-shell-send-buffer "run buffer in repl")
   ("L" #'python-shell-send-region "run region in repl")
   ("t" #'pytest-module            "run pytest on buffer")

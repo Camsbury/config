@@ -13,28 +13,28 @@
 ;;; Functions
 
 ; straight outta smartparens
-(defun sp-forward-whitespace (&optional arg)
+(defun ck/sp-forward-whitespace (&optional arg)
   "Skip forward past the whitespace characters.
 With non-nil ARG return number of characters skipped."
   (interactive "^P")
   (let ((rel-move (skip-chars-forward " \t\n")))
     (if arg rel-move (point))))
 
-(defun lisp-tree-forward ()
+(defun ck/lisp-tree-forward ()
   "Move forward in the lisp tree"
   (interactive)
   (paredit-forward)
   (when (or (= 32 (following-char)) (= 10 (following-char)))
-    (sp-forward-whitespace)))
+    (ck/sp-forward-whitespace)))
 
-(defun lisp-tree-last ()
+(defun ck/lisp-tree-last ()
   "Move to the last element of the list"
   (interactive)
   (paredit-backward-up)
   (paredit-forward)
   (paredit-backward-down))
 
-(defun lisp-open-above ()
+(defun ck/lisp-open-above ()
   "Open above the current list"
   (interactive)
   (if (= 40 (following-char))
@@ -44,7 +44,7 @@ With non-nil ARG return number of characters skipped."
     (call-interactively #'lispyville-open-above-list)))
 
 
-(defun lisp-eval-sexp-at-point ()
+(defun ck/lisp-eval-sexp-at-point ()
   "Evaluate the expression around point, like CIDER does."
   (interactive)
   (save-excursion
@@ -65,7 +65,7 @@ With non-nil ARG return number of characters skipped."
   ;; "A"   #'lispyville-insert-at-end-of-list
 
   ;; "o"   #'lispyville-open-below-list
-  ;; "O"   #'lisp-open-above
+  ;; "O"   #'ck/lisp-open-above
   )
 
 (general-define-key :keymaps 'paredit-mode-map
@@ -75,14 +75,14 @@ With non-nil ARG return number of characters skipped."
   "C-l"     #'evil-window-right
 
   "M-h"     #'paredit-backward-up
-  "M-j"     #'lisp-tree-forward
+  "M-j"     #'ck/lisp-tree-forward
   "M-k"     #'paredit-backward
   "M-l"     #'paredit-forward-down
 
   "M-o"     #'evil-open-below
   "M-O"     #'evil-open-above
 
-  "M-L"     #'lisp-tree-last
+  "M-L"     #'ck/lisp-tree-last
   "M-H"     #'lispy-raise-sexp
 
   "M-s"     #'paredit-forward-slurp-sexp
@@ -92,7 +92,7 @@ With non-nil ARG return number of characters skipped."
 
   "M-f"     #'lispyville-drag-backward
   "M-p"     #'lispyville-drag-forward
-  "M-<RET>" #'lisp-eval-sexp-at-point)
+  "M-<RET>" #'ck/lisp-eval-sexp-at-point)
 
 
 

@@ -2,7 +2,7 @@
 (require 'prelude)
 (require 'core/env)
 
-(defun laptop-p ()
+(defun ck/laptop-p ()
   (= 10
      (-> "cat /sys/class/dmi/id/chassis_type"
          shell-command-to-string
@@ -10,7 +10,7 @@
          string-to-number)))
 
 (defvar normal-font-height
-  (if (laptop-p)
+  (if (ck/laptop-p)
       90
     100))
 
@@ -38,7 +38,7 @@
 (defvar theme-cycle cmacs-themes
   "Remaining themes to cycle through; refilled from `cmacs-themes' when empty.")
 
-(defun set-theme
+(defun ck/set-theme
     (theme)
   "Set theme and resize"
   (load-theme theme t)
@@ -46,19 +46,19 @@
                       :weight 'normal :inherit nil)
   (set-face-attribute 'default nil :height normal-font-height))
 
-(defun cycle-theme ()
+(defun ck/cycle-theme ()
   "Cycle through themes"
   (interactive)
   (unless theme-cycle
     (setq theme-cycle cmacs-themes))
   (let ((theme (car theme-cycle)))
     (setq theme-cycle (cdr theme-cycle))
-    (set-theme theme)))
+    (ck/set-theme theme)))
 
 (provide 'config/theme)
 
 (comment
- (set-theme 'doom-molokam)
- (set-theme 'doom-molokai)
- (set-theme 'doom-material-dark)
- (set-theme 'doom-Iosvkem))
+ (ck/set-theme 'doom-molokam)
+ (ck/set-theme 'doom-molokai)
+ (ck/set-theme 'doom-material-dark)
+ (ck/set-theme 'doom-Iosvkem))

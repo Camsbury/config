@@ -10,7 +10,7 @@
                         'lispyville-mode))
 
 (general-def 'normal lisp-mode-map
- [remap empty-mode-leader] #'hydra-clisp/body)
+ [remap ck/empty-mode-leader] #'hydra-clisp/body)
 
 (defhydra hydra-clisp (:exit t)
   "clisp-mode"

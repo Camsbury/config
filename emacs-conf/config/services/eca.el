@@ -9,7 +9,7 @@
   (setq eca-chat-use-side-window nil)
 
   (general-def 'normal eca-chat-mode-map
-    [remap empty-mode-leader]     #'hydra-eca/body))
+    [remap ck/empty-mode-leader]     #'hydra-eca/body))
 
 (defhydra hydra-eca (:exit t :columns 5)
   "eca-chat-mode"

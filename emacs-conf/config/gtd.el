@@ -101,7 +101,7 @@
   (kill-buffer (pomidor--get-buffer-create))
   (setq pomidor-mode-line-string ""))
 
-(defun pomodoro-dwim ()
+(defun ck/pomodoro-dwim ()
   (interactive)
   (if (pomidor-running-p)
       (call-interactively #'pomidor-break)
@@ -111,7 +111,7 @@
           (call-interactively #'pomidor)
           (switch-to-buffer b)))))
 
-(defun pomodoro-hold-dwim ()
+(defun ck/pomodoro-hold-dwim ()
   (interactive)
   (if pomidor--system-on-hold-p
       (call-interactively #'pomidor-unhold)
@@ -254,7 +254,7 @@
 
 (defun gtd-open-graph ()
   (interactive)
-  (if (minor-mode-active-p 'org-roam-ui-mode)
+  (if (ck/minor-mode-active-p 'org-roam-ui-mode)
       (call-interactively #'org-roam-ui-open)
     (progn
       (call-interactively #'org-roam-ui-mode)
@@ -262,10 +262,10 @@
 
 (defhydra hydra-gtd (:exit t :columns 5)
   "set register"
-  ;; ("SPC" #'toggle-org-alerts        "toggle org alerts")
-  ("SPC" #'pomodoro-dwim            "pomodoro dwim")
+  ;; ("SPC" #'ck/toggle-org-alerts        "toggle org alerts")
+  ("SPC" #'ck/pomodoro-dwim            "pomodoro dwim")
   ;; ("P" #'gtd-projects->next-actions "projects->next-actions")
-  ("a" #'pomodoro-hold-dwim         "pomodoro hold dwim")
+  ("a" #'ck/pomodoro-hold-dwim         "pomodoro hold dwim")
   ("P" #'gtd-projects               "projects list")
   ("c" #'gtd-contexts->next-actions "contexts->next-actions")
   ("e" #'gtd-search-mark-done       "search and mark done")
@@ -276,7 +276,7 @@
   ("n" #'gtd-topics->next-actions   "topics->next-actions")
   ("o" (lambda ()
          (interactive)
-         (spawn-right)
+         (ck/spawn-right)
          (find-file (concat cmacs-config-path "/config/gtd.el")))
    "gtd.el")
   ("O" #'pomidor-quit               "end pomodoro")

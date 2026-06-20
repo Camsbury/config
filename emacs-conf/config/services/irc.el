@@ -70,7 +70,7 @@
     '(setq circe-notifications-watch-strings '()))
   (add-hook 'circe-server-connected-hook 'enable-circe-notifications))
 
-(defun join-irc ()
+(defun ck/join-irc ()
   "Jump into all your favorite channels"
   (interactive)
   (circe "HackInt")

@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 (use-package buffer-move)
 
-(defun windows-undedicate-workspace-buffer (dedicated-workspace)
+(defun ck/windows-undedicate-workspace-buffer (dedicated-workspace)
   (interactive
    (list
     (exwm-workspace--prompt-for-workspace
@@ -11,7 +11,7 @@
     frame-selected-window
     (set-window-dedicated-p nil)))
 
-(defun windows-fix-broken-workspace (broken-workspace)
+(defun ck/windows-fix-broken-workspace (broken-workspace)
   "Place a new frame in the given frame/index, without affecting other frames"
   (interactive
    (list
@@ -28,7 +28,7 @@
      (exwm-workspace--workspace-from-frame-or-index default-limit))
     (customize-set-variable 'exwm-workspace-switch-create-limit default-limit)))
 
-(defun set-window-width (window count)
+(defun ck/set-window-width (window count)
   "Set the selected window's width."
   (when (and (window-combined-p window t)
              (window-right window))
@@ -47,14 +47,14 @@
 
 (defvar after-delete-window-hook nil
   "Functions run after a window is deleted")
-(defun run-after-delete-window-hook (&rest _)
+(defun ck/run-after-delete-window-hook (&rest _)
   (run-hooks 'after-delete-window-hook))
-(advice-add #'delete-window :after #'run-after-delete-window-hook)
+(advice-add #'delete-window :after #'ck/run-after-delete-window-hook)
 
 (defvar after-split-window-hook nil
   "Functions run after a window is split")
-(defun run-after-split-window-hook (&rest _)
+(defun ck/run-after-split-window-hook (&rest _)
   (run-hooks 'after-split-window-hook))
-(advice-add #'split-window :after #'run-after-split-window-hook)
+(advice-add #'split-window :after #'ck/run-after-split-window-hook)
 
 (provide 'config/desktop/windows)

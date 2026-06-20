@@ -3,22 +3,22 @@
 (require 'config/search)
 (require 'hide-comnt)
 
-(defun git-init ()
+(defun ck/git-init ()
   "initialize git"
   (interactive)
   (shell-command "git init && touch .gitignore"))
 
-(defun lorri-init ()
+(defun ck/lorri-init ()
   "initialize lorri"
   (interactive)
   (shell-command "lorri init && direnv allow"))
 
-(defun lorri-watch ()
+(defun ck/lorri-watch ()
   "lorri watcher for nix changes"
   (interactive)
   (async-shell-command "lorri watch"))
 
-(defun open-project-shell-nix ()
+(defun ck/open-project-shell-nix ()
   "Opens the project's shell.nix"
   (interactive)
   (->>

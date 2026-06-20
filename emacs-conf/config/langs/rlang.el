@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 (use-package ess)
 (general-def 'normal ess-r-mode-map
-  [remap empty-mode-leader] #'hydra-r/body
+  [remap ck/empty-mode-leader] #'hydra-r/body
   [remap ess-use-this-dir]  #'ess-eval-region-or-function-or-paragraph)
 
 (defhydra hydra-r (:exit t)

@@ -17,7 +17,7 @@
   (setq font-lock-defaults '(breeze-font-lock-keywords))
   (font-lock-mode 1))
 
-(defun breeze-paste-from-clipboard ()
+(defun ck/breeze-paste-from-clipboard ()
   "Create a new buffer, paste clipboard text into it, and enable `breeze-mode`."
   (interactive)
   (let ((clipboard-text (gui-get-selection 'CLIPBOARD)))

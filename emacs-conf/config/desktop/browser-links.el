@@ -19,9 +19,9 @@
      "Link: "
      links
      :action
-     (lambda (n)
-       (open-firefox)
-       (->> links (gethash n) (gethash :url) browse-url)))))
+                (lambda (n)
+            (ck/open-firefox)
+            (->> links (gethash n) (gethash :url) browse-url)))))
 
 (defun exwm-browser-link--build-new-tags (tags selected fn)
   (ivy-read

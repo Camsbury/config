@@ -4,7 +4,7 @@
 
 (use-package command-log-mode
   :config
-  (defun toggle-command-logging ()
+  (defun ck/toggle-command-logging ()
     "Toggle command logging"
     (interactive)
     (if (bound-and-true-p command-log-mode)

@@ -54,7 +54,7 @@
   :config
   (setq wgrep-change-readonly-file t)
   ;; NOTE: C-c C-p is the thing if you are looking for writable grep
-  (defun wgrep-save-and-quit ()
+  (defun ck/wgrep-save-and-quit ()
     "wgrep save everything and quit the window"
     (interactive)
     (wgrep-finish-edit)
@@ -62,7 +62,7 @@
     (quit-window))
   (general-define-key
    :keymaps 'wgrep-mode-map
-   [remap evil-save-modified-and-close] #'wgrep-save-and-quit))
+   [remap evil-save-modified-and-close] #'ck/wgrep-save-and-quit))
 
 (use-package dumb-jump
   :init

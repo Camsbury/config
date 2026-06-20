@@ -9,7 +9,7 @@
    alert-default-style 'libnotify))
 
 ;; TODO: make this on save hook for dunstrc
-(defun kill-dunst ()
+(defun ck/kill-dunst ()
   (interactive)
   (shell-command "pgrep dunst | xargs kill"))
 

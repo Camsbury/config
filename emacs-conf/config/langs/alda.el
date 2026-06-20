@@ -4,7 +4,7 @@
   :interpreter "alda")
 
 (general-def 'normal alda-mode-map
- [remap empty-mode-leader] #'hydra-alda/body)
+ [remap ck/empty-mode-leader] #'hydra-alda/body)
 
 (defhydra hydra-alda (:exit t)
   "alda-mode"

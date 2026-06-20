@@ -1,5 +1,5 @@
 ;; -*- lexical-binding: t; -*-
-(defun minor-mode-active-p (minor-mode)
+(defun ck/minor-mode-active-p (minor-mode)
   "Check if the passed minor-mode is active"
   (->> minor-mode-list
     (--filter

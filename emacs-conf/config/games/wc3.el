@@ -7,7 +7,7 @@
       wbo-steps nil)
 
 ;; NOTE: call this to refresh from `builds.edn'
-(defun wbo-get-wbos ()
+(defun ck/wbo-get-wbos ()
   (interactive)
   (setq wbos
    (--> (concat wbo-path wbo-file)
@@ -16,37 +16,37 @@
         (append it nil)
         (nconc it it))))
 
-(wbo-get-wbos)
+(ck/wbo-get-wbos)
 
-(defun wbo-cycle ()
+(defun ck/wbo-cycle ()
   (interactive)
   (setq wbos (cdr wbos))
   (->> wbos
        car
        (gethash :name)
        (concat "Loading ")
-       espeak))
+       ck/espeak))
 
-(defun wbo-clear (&rest silent)
+(defun ck/wbo-clear (&rest silent)
   (interactive)
   (when (not silent)
     (->> wbos
       car
       (gethash :name)
       (concat "Clearing ")
-      espeak))
+      ck/espeak))
   (--each wbo-steps
     (cancel-timer it))
   (setq wbo-steps nil))
 
-(defun wbo-initiate ()
+(defun ck/wbo-initiate ()
   (interactive)
-  (wbo-clear t)
+  (ck/wbo-clear t)
   (->> wbos
        car
        (gethash :name)
        (concat "Starting ")
-       espeak)
+       ck/espeak)
   (setq wbo-steps
         (->> wbos
              car
@@ -54,20 +54,20 @@
              (concat wbo-path)
              ((lambda (x) (f-read x 'utf-8)))
              parseedn-read-str
-             (--map (run-at-time (aref it 0) nil #'espeak (aref it 1)))
+             (--map (run-at-time (aref it 0) nil #'ck/espeak (aref it 1)))
              (append wbo-steps))))
 
 (customize-set-variable 'exwm-input-global-keys
                           (add-to-list
                            'exwm-input-global-keys
-                           `(,(kbd "<XF86Launch7>") . wbo-initiate)))
+                           `(,(kbd "<XF86Launch7>") . ck/wbo-initiate)))
 (customize-set-variable 'exwm-input-global-keys
                           (add-to-list
                            'exwm-input-global-keys
-                           `(,(kbd "<XF86Launch5>") . wbo-clear)))
+                           `(,(kbd "<XF86Launch5>") . ck/wbo-clear)))
 (customize-set-variable 'exwm-input-global-keys
                           (add-to-list
                            'exwm-input-global-keys
-                           `(,(kbd "<XF86Launch6>") . wbo-cycle)))
+                           `(,(kbd "<XF86Launch6>") . ck/wbo-cycle)))
 
 (provide 'config/games/wc3)
