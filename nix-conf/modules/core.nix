@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   imports = [
@@ -24,8 +29,7 @@
 
   environment.variables = {
     USER_EMAIL = "camsbury7@gmail.com";
-    SHAREPATH =
-      "/home/${toString config.users.users.default.name}/Dropbox/lxndr";
+    SHAREPATH = "/home/${toString config.users.users.default.name}/Dropbox/lxndr";
   };
 
   systemd.settings.Manager.DefaultTimeoutStopSec = 10;
@@ -60,7 +64,10 @@
 
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
 
       substituters = [
         "https://cache.iog.io"
@@ -78,12 +85,11 @@
         "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
       ];
     };
-    nixPath =
-      [
-        "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
-        "nixos-config=/etc/nixos/configuration.nix"
-        "/nix/var/nix/profiles/per-user/root/channels"
-      ];
+    nixPath = [
+      "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
+      "nixos-config=/etc/nixos/configuration.nix"
+      "/nix/var/nix/profiles/per-user/root/channels"
+    ];
   };
 
   programs.nh = {
@@ -94,8 +100,5 @@
 
   nixpkgs.config = {
     allowUnfree = true;
-    permittedInsecurePackages = [
-      "python-2.7.18.8"
-    ];
   };
 }

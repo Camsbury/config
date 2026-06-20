@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
 {
   programs.zsh = {
@@ -9,8 +14,7 @@
       highlightStyle = "fg=7";
     };
 
-    interactiveShellInit =
-      ''
+    interactiveShellInit = ''
       export TERM=xterm-256color # needed for autocompletions
       export FZF="${pkgs.fzf}/share/fzf" # this doesn't work until after omz is loaded
       source "${pkgs.autojump}/share/autojump/autojump.zsh"
@@ -89,7 +93,7 @@
       gi = "git init";
       glf = "git-force-pull";
       glfm = "git fetch && git reset --hard origin/master";
-      glp = ''git log --graph --pretty=format:'%Cred%h%Creset -%Cblue %an %Creset - %C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative'';
+      glp = "git log --graph --pretty=format:'%Cred%h%Creset -%Cblue %an %Creset - %C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative";
       gpf = "git push --force";
       gpop = "git reset HEAD~";
       gpr = "git pull-request";
@@ -150,9 +154,7 @@
       # nix shells
       dana = "nix-shell ~/.shells/dataAnalysis.nix";
       fpy = "nix-shell ~/.shells/yapf.nix";
-      ipy = "nix-shell -p python36Packages.ipython --run ipython";
       ugen = "uuid-gen-n";
-      nsr = "nix-shell ~/projects/Camsbury/config/rSetup.nix --run emacs";
 
       # cabal
       cbw = ''ghcid -c "cabal repl lib:bobby" | source-highlight -s haskell -f esc'';
@@ -168,8 +170,8 @@
       dchr = "docker-compose-hard-restart";
       dchrf = "docker-compose-hard-restart-and-log";
       dps = "docker ps";
-      dsac = ''docker stop $(docker ps -aq)'';
-      drac = ''docker rm $(docker ps -aq)'';
+      dsac = "docker stop $(docker ps -aq)";
+      drac = "docker rm $(docker ps -aq)";
       dcrf = "docker-compose-restart-and-log";
       dk = "docker";
       drni = "docker rmi $(docker images | grep '^<none>' | awk '{print $3}')";
