@@ -151,11 +151,6 @@
       nst = "nix-store";
       nstp = "nix-store-path";
       nsu = "nix-shell --arg nixpkgs 'import <nixpkgs-unstable> {}'";
-      # nix shells
-      dana = "nix-shell ~/.shells/dataAnalysis.nix";
-      fpy = "nix-shell ~/.shells/yapf.nix";
-      ugen = "uuid-gen-n";
-
       # cabal
       cbw = ''ghcid -c "cabal repl lib:bobby" | source-highlight -s haskell -f esc'';
       ctw = ''ghcid -c "cabal repl test:bobby-tests" --warnings --test "Main.main" | source-highlight -s haskell -f esc'';

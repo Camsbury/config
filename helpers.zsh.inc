@@ -109,12 +109,6 @@ function nix-query () {
     }
 }
 
-# shells
-function uuid-gen-n() {
-  nix-shell --argstr "$1" ~/.shells/uuid.nix --run "echo \"$UUID_GEN_N\""
-}
-
-
 ################################################################################
 # docker
 
