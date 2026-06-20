@@ -1,4 +1,7 @@
 ;; -*- lexical-binding: t; -*-
+;; USEIT: parked - not in the load chain (no aggregator requires it) and the
+;; `slack` package is commented out in packages/emacs.nix. Kept as a reminder to
+;; re-emacsify Slack someday; wire it into config.el + emacs.nix to revive.
 (use-package slack)
 (use-package alert)
 (use-package emojify)
