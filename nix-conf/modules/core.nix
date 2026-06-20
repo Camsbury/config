@@ -33,9 +33,6 @@
   };
 
   systemd.settings.Manager.DefaultTimeoutStopSec = 10;
-  # systemd.extraConfig = ''
-  #   DefaultTimeoutStopSec=10s
-  # '';
 
   # Needed for Home Manager to set GTK themes
   programs.dconf.enable = true;

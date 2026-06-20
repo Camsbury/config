@@ -5,7 +5,6 @@
     ./screen_lock.nix
   ];
   environment.systemPackages = with pkgs; [
-    # disper
     dunst
     espeak # tts
     feh # wallpapers

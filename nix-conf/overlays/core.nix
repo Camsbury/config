@@ -12,7 +12,6 @@ let
     };
   };
 
-  # cachixBall = import (builtins.fetchTarball "https://github.com/NixOS/nixpkgs/tarball/1d4de0d552ae9aa66a5b8dee5fb0650a4372d148") {};
 in
 {
   nixpkgs.overlays = [
@@ -22,15 +21,10 @@ in
 
         alias-tips = with builtins; with pkgs; callPackage (import ../derivations/alias-tips) { };
 
-        # babashka = with builtins; with pkgs;
-        #   callPackage (import ../derivations/babashka) {};
-
         check-low-battery =
           with builtins;
           with pkgs;
           callPackage (import ../derivations/check-low-battery) { };
-
-        # cachix = cachixBall.cachix;
 
         cmacs = with builtins; with pkgs; callPackage (import ../derivations/cmacs) { };
 
@@ -51,12 +45,7 @@ in
       }
       // (with unstablePkgs; {
         inherit bat;
-        # inherit dropbox;
         inherit emacs;
-        # inherit ollama;
-        # inherit gollama;
-        # inherit lmstudio;
-        # inherit update-nix-fetchgit;
         inherit mu;
         inherit netdata;
       })
