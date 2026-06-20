@@ -3,30 +3,12 @@
 
 (use-package lsp-mode
   :custom
+  (lsp-keymap-prefix "s-o")
   (lsp-server-trace "verbose") ;; gimme logs!
   (lsp-log-io       t)         ;; log more!
   (lsp-lens-enable  t) ;; do cool stuff!
   (lsp-idle-delay 0.6)
-  (lsp-keep-workspace-alive nil)
-  :config
-  ;; NOTE: hack to get rid of the annoying command map, which seems broken currently
-  (let ((lsp-mode-map
-         (let ((map (make-sparse-keymap)))
-           (define-key map (kbd "C-<down-mouse-1>") #'lsp-find-definition-mouse)
-           (define-key map (kbd "C-<mouse-1>") #'ignore)
-           (define-key map (kbd "<mouse-3>") #'lsp-mouse-click)
-           (define-key map (kbd "C-S-SPC") #'lsp-signature-activate)
-           (define-key map (kbd "s-o") lsp-command-map)
-           map)))
-    (define-minor-mode lsp-mode ""
-      :keymap lsp-mode-map
-      :lighter
-      (" LSP["
-       (lsp--buffer-workspaces
-        (:eval (mapconcat #'lsp--workspace-print lsp--buffer-workspaces "]["))
-        (:propertize "Disconnected" face warning))
-       "]")
-      :group 'lsp-mode)))
+  (lsp-keep-workspace-alive nil))
 
 ;; lsp perf
 (setq gc-cons-threshold       100000000      ;; 100mb - maybe move this last in init
