@@ -48,6 +48,7 @@ in
         inherit emacs;
         inherit mu;
         inherit netdata;
+        inherit ouch;
       })
     )
     (import ./emacs.nix)
