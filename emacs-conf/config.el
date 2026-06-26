@@ -2,6 +2,7 @@
 (require 'prelude)
 
 (m-require config
+  performance
   theme
   search
   navigation
