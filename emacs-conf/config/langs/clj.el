@@ -21,14 +21,10 @@
 (use-package flycheck-clj-kondo
   :after (clojure-mode))
 (use-package cider
-  :after (clojure-mode)
-  :config
-  (setq cider-clojure-cli-aliases "global"))
+  :after (clojure-mode))
 (use-package ivy-clojuredocs
   :after (clojure-mode))
 (use-package datomic-snippets
-  :after (clojure-mode))
-(use-package re-jump
   :after (clojure-mode))
 (use-package html-to-hiccup)
 (use-package clojars)
@@ -80,17 +76,6 @@
                 '("Event" "reg-event-\\(db\\|fx\\)[[:blank:]\n]+:+\\(.*\\)" 2))
    (add-to-list 'imenu-generic-expression
                 '("Sub" "reg-sub[[:blank:]\n]+:+\\(.*\\)" 1))))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Tempo helpers
-
-;; (defvar cider--inject-tempo-middleware nil "Whether to inject Tempo at startup")
-;; (defun cider--inject-tempo-middleware-p (&rest _args)
-;;   cider--inject-tempo-middleware)
-;; (setq cider-jack-in-nrepl-middlewares
-;;       (cons '("tempo.code.nrepl/wrap-eval" :predicate cider--inject-tempo-middleware-p)
-;;             cider-jack-in-nrepl-middlewares))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Indentation

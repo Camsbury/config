@@ -2,6 +2,7 @@ epkgs:
 
 let
   melpas = with epkgs.melpaPackages; [
+    a
     aggressive-indent
     alarm-clock
     alda-mode
@@ -191,14 +192,10 @@ let
     use-package
   ];
   others = with epkgs; [
-    # agda2-mode
-    asoc-el
-    # company-postgresql
     magit-difftastic
     etymology-of-word
     hide-comnt
     mu4e
-    re-jump
   ];
 in
 melpas ++ elpas ++ elpaDevels ++ others

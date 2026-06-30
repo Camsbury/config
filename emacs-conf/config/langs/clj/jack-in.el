@@ -103,21 +103,42 @@ first with `ck/cider-nrepl-tmux-kill'."
                     base)))
            (log     (expand-file-name (format "nrepl-%s.log" session)
                                       temporary-file-directory))
+           (qlog    (shell-quote-argument log))   ; referenced several times below
            (buf     (get-buffer-create (format "*starting nrepl for %s*" session)))
            (caller  (current-buffer))
            (inner (format "direnv exec %s %s 2>&1 | tee %s"
                           (shell-quote-argument root)
                           cmd           ; stays UNQUOTED
-                          (shell-quote-argument log)))
+                          qlog))
            (script  (format
-                     (concat "tmux new-session -d -s %s -c %s %s || exit 1\n"
-                             "p=$(tmux display-message -p -t %s '#{pane_pid}')\n"
-                             "exec tail -n +1 -F --pid=\"$p\" %s")
+                     (concat
+                      ;; Capture the pane PID atomically as the session is
+                      ;; created (-P -F prints it before the pane's process can
+                      ;; race ahead and exit).  The old two-step form queried
+                      ;; the PID afterwards, so a server that died instantly
+                      ;; left no session to query, yielding an empty PID and the
+                      ;; opaque `tail: invalid PID' error that hid the real
+                      ;; failure.
+                      "p=$(tmux new-session -d -P -F '#{pane_pid}' -s %s -c %s %s) || exit 1\n"
+                      ;; Defensive guard: never feed a non-numeric PID to tail.
+                      ;; If we somehow got one, dump the log so the actual error
+                      ;; reaches the process buffer instead of vanishing.
+                      "case \"$p\" in ''|*[!0-9]*)\n"
+                      "  echo ';; nREPL launcher: no pane PID from tmux - server exited early?' 1>&2\n"
+                      "  [ -f %s ] && cat %s 1>&2\n"
+                      "  exit 1 ;;\n"
+                      "esac\n"
+                      ;; Stream the log until the pane process dies.  If the
+                      ;; server failed fast the PID is already dead, so tail
+                      ;; prints the captured error and exits cleanly (the
+                      ;; sentinel then reports the failure and points at BUF).
+                      "exec tail -n +1 -F --pid=\"$p\" %s")
                      (shell-quote-argument session)
                      (shell-quote-argument root)
                      (shell-quote-argument inner)
-                     (shell-quote-argument session)
-                     (shell-quote-argument log))))
+                     qlog                ; [ -f LOG ]
+                     qlog                ; cat LOG
+                     qlog)))             ; tail ... LOG
       (when-let* ((old (get-buffer-process buf))) (delete-process old))
       (when (file-exists-p log) (delete-file log))
       (with-current-buffer buf

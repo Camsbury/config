@@ -10,42 +10,11 @@ let
   compileEmacsFiles = basePkgs.callPackage ./emacsBuilder.nix;
   emacsOverrides = eSelf: eSuper: {
     melpaPackages = eSuper.melpaPackages // {
-      cider = eSelf.melpaBuild {
-        pname = "cider";
-        version = "1.18.0";
-
-        recipe = builtins.toFile "recipe.el" ''
-          (cider :fetcher github
-                 :repo "clojure-emacs/cider"
-                 :files (;; new code layout:
-                         "lisp/*.el" "bin/*.sh"
-                         ;; old code layout - will be kept for a while during the transition:
-                         "*.el" "clojure.sh" "lein.sh" (:exclude ".dir-locals.el"))
-                 :old-names (nrepl))
-        '';
-        buildInputs = with eSelf.melpaPackages; [
-          clojure-mode
-          eSelf.elpaPackages.queue
-          eSelf.elpaPackages.seq
-          eSelf.elpaPackages.spinner
-          parseedn
-          sesman
-          transient
-        ];
-
-        src = super.fetchFromGitHub {
-          owner = "clojure-emacs";
-          repo = "cider";
-          rev = "v1.18.0";
-          hash = "sha256-qgFmyPGpjUhMbIFGMYBzrlmrKj+/EnszNwVe4FlhmWU=";
-        };
-      };
-
       eca =
         let
-          version = "20260618.103";
-          rev = "e472b5";
-          hash = "sha256-84BPKyM3iGA6bhDhxREp/nUnuEfMLrxgqu5WoPHaDAI=";
+          version = "20260629.1508";
+          rev = "399c86";
+          hash = "sha256-Q2Jz2G7N9NNxoQOI5i59ZL+JDiHx1sk3rBgq9Ly6zgU=";
         in
         eSelf.melpaBuild {
           pname = "eca";
@@ -68,27 +37,6 @@ let
             hash = hash;
           };
         };
-    };
-
-    asoc-el = compileEmacsFiles {
-      name = "asoc.el";
-      src = builtins.fetchurl {
-        url = "https://raw.githubusercontent.com/troyp/asoc.el/4a3309a9f250656da6f4a9d34feedf4f5666b17a/asoc.el";
-        sha256 = "1fdynjy8xmx4a41982793z9329121k2bzigpm4vljx1yflq52v2b";
-      };
-    };
-
-    company-postgresql = compileEmacsFiles {
-      name = "company-postgresql.el";
-      src = builtins.fetchurl {
-        url = "https://raw.githubusercontent.com/urbint/emacs-postgresql-interactive/0c26f9cb4a7784c1eac121c30c557a70bff9b85e/company-postgresql.el";
-        sha256 = "1znqdnz5dx2cil7pilpggl18jkalys0923k26iabqlab9apygi0z";
-      };
-      buildInputs = with eSelf.melpaPackages; [
-        dash
-        emacsql
-        s
-      ];
     };
 
     magit-difftastic = compileEmacsFiles {
@@ -142,26 +90,6 @@ let
         url = "https://raw.githubusercontent.com/emacsmirror/emacswiki.org/601b51e25e758083e66fab433cf61d22713fed51/hide-comnt.el";
         sha256 = "0v3wgl9r9w0qbvs1cxgl7am9hvpy6hyhvfbsjqix5n0zmdg68s4n";
       };
-    };
-
-    re-jump = compileEmacsFiles {
-      name = "re-jump.el";
-      src = builtins.fetchurl {
-        url = "https://raw.githubusercontent.com/oliyh/re-jump.el/443ddfa33dd2ae593cc0a013d16fff21f2afd925/re-jump.el";
-        sha256 = "003zvvdlx77ncjml09gayspsrwynyqvhaip3cgzvn2nd92fwh9wk";
-      };
-      buildInputs =
-        with eSelf.melpaPackages;
-        with eSelf.elpaPackages;
-        [
-          cider
-          clojure-mode
-          parseclj
-          parseedn
-          queue
-          sesman
-          spinner
-        ];
     };
   };
 

@@ -5,7 +5,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Elisp Libraries
 
-(use-package asoc)
+(use-package a)
 (use-package async)
 (use-package dash)
 (use-package f)

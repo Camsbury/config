@@ -1,4 +1,5 @@
 ;; -*- lexical-binding: t; -*-
+(require 'core/bindings)
 (use-package paredit)
 (use-package lispyville)
 
