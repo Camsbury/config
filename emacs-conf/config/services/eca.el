@@ -3,6 +3,14 @@
 (require 'core/bindings)
 (require 'color)
 
+;; Functions/vars the `eca' package provides at runtime; forward-declared so
+;; byte-compiling the helpers below stays warning-free without force-loading eca.
+(declare-function eca-table-align "eca-table")
+(declare-function eca-table-beautify "eca-table")
+(declare-function eca-table-open "eca-table")
+(declare-function eca-chat--prompt-area-start-point "eca-chat")
+(defvar eca-chat-table-beautify)
+
 ;;; LaTeX preview in chat buffers ------------------------------------------
 ;;
 ;; ECA chat buffers derive from `gfm-mode', so model output containing LaTeX
@@ -41,6 +49,15 @@ Falls back to png when dvisvgm or svg image support is unavailable."
 
 (defcustom ck/eca-chat-auto-latex t
   "When non-nil, render LaTeX automatically after each ECA response finishes."
+  :type 'boolean
+  :group 'ck/eca)
+
+(defcustom ck/eca-chat-auto-align-tables t
+  "When non-nil, re-align all markdown tables after each ECA response finishes.
+ECA only aligns the just-finished turn, so tables outside that window (earlier
+turns, re-renders) stay raw and jagged.  This re-runs ECA's own aligner over
+the whole chat content area to keep every table consistent.  Disable if it
+ever perturbs ECA's overlays."
   :type 'boolean
   :group 'ck/eca)
 
@@ -224,6 +241,29 @@ manually cleared are not re-rendered."
        (or (bound-and-true-p eca-chat--last-user-message-pos) (point-min))
        (point-max)))))
 
+;;; Table alignment ---------------------------------------------------------
+;;
+;; ECA aligns markdown tables only within the just-finished turn, so a table
+;; that falls outside that window stays raw and jagged.  Re-run ECA's own
+;; aligner/beautifier over the whole chat content area to keep every table
+;; consistent.  The operation is idempotent on already-aligned tables.
+
+(defun ck/eca-chat-align-tables ()
+  "Align and beautify every markdown table in the current ECA chat buffer."
+  (interactive)
+  (unless (derived-mode-p 'eca-chat-mode)
+    (user-error "Not in an ECA chat buffer"))
+  (let ((inhibit-read-only t)
+        (end (eca-chat--prompt-area-start-point)))
+    (eca-table-align (point-min) end)
+    (when (bound-and-true-p eca-chat-table-beautify)
+      (eca-table-beautify (point-min) end))))
+
+(defun ck/eca-chat--auto-align-tables ()
+  "Re-align all chat tables on response completion when enabled."
+  (when (and ck/eca-chat-auto-align-tables (derived-mode-p 'eca-chat-mode))
+    (ignore-errors (ck/eca-chat-align-tables))))
+
 ;;; Package setup -----------------------------------------------------------
 
 (use-package eca
@@ -233,6 +273,7 @@ manually cleared are not re-rendered."
   (setq eca-chat-use-side-window nil)
 
   (add-hook 'eca-chat-finished-hook #'ck/eca-chat--auto-preview-latex)
+  (add-hook 'eca-chat-finished-hook #'ck/eca-chat--auto-align-tables)
 
   (general-def 'normal eca-chat-mode-map
     [remap ck/empty-mode-leader]     #'hydra-eca/body))
@@ -247,7 +288,9 @@ manually cleared are not re-rendered."
   ("n" #'eca-chat-rename "Rename chat")
   ("v" #'eca-chat-select-variant "Select the variant")
   ("l" #'ck/eca-chat-toggle-latex "Toggle LaTeX")
-  ("L" #'ck/eca-chat-clear-latex "Clear LaTeX"))
+  ("L" #'ck/eca-chat-clear-latex "Clear LaTeX")
+  ("b" #'ck/eca-chat-align-tables "Align tables")
+  ("T" #'eca-table-open "Open table at point"))
 
 
 
