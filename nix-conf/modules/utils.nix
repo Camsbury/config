@@ -11,6 +11,6 @@
     ispell # used for spell check
     mpg123 # used in emacs and other quick mp3 playing
     ouch # for easy compression semantics
-    tetex # latex!
+    texliveFull # latex!
   ];
 }
