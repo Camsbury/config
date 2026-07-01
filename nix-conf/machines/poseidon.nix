@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   imports = [
@@ -38,18 +43,23 @@
   ];
 
   # Just in case my memory blows up
-  swapDevices = [{
-    device = "/var/lib/swapfile";
-    size = 32 * 1024;
-    options = [ "discard" ];
-  }];
-
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 32 * 1024;
+      options = [ "discard" ];
+    }
+  ];
 
   services = {
-    # Persist the monitor selection
+    # Persist the monitor selection. The EDID is pinned from a repo-tracked
+    # dump (nix-conf/machines/poseidon.edid) baked into the nix store, so the
+    # pin cannot silently dangle like the old /etc/nixos/monitor.edid symlink
+    # did. Re-dump after a monitor swap: cat /sys/class/drm/card*-DP-*/edid
+    # (the connected one) > poseidon.edid
     xserver = {
       screenSection = ''
-        Option "CustomEDID" "DP-0:/etc/nixos/monitor.edid"
+        Option "CustomEDID" "DP-0:${./poseidon.edid}"
         Option "UseEDID" "true"
         Option "UseEDIDFreqs" "true"
         Option "ModeValidation" "AllowNonEdidModes"
@@ -87,19 +97,19 @@
   boot = {
     # kernelPackages = pkgs.linuxPackages_latest;
     kernel.sysctl = {
-      "vm.dirty_background_bytes" = 268435456;  # start flushing early
-      "vm.dirty_bytes"            = 1073741824; # ceiling before throttling
-      "kernel.nmi_watchdog"       = 0;
+      "vm.dirty_background_bytes" = 268435456; # start flushing early
+      "vm.dirty_bytes" = 1073741824; # ceiling before throttling
+      "kernel.nmi_watchdog" = 0;
     };
     # if you ever need to test memory after changing settings
     # loader.grub.memtest86.enable = true;
     initrd = {
       systemd.services = {
-        "systemd-cryptsetup@cryptedStore"   = {
+        "systemd-cryptsetup@cryptedStore" = {
           overrideStrategy = "asDropin";
           after = [ "systemd-cryptsetup@crypted.service" ];
         };
-        "systemd-cryptsetup@cryptedHDD16T"  = {
+        "systemd-cryptsetup@cryptedHDD16T" = {
           overrideStrategy = "asDropin";
           after = [ "systemd-cryptsetup@crypted.service" ];
         };
