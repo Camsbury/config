@@ -17,5 +17,3 @@ private.nix
 result*
 .eca/
 .envrc
-emacs-conf/IMPLEMENTATION.md
-emacs-conf/DEBUG.md
