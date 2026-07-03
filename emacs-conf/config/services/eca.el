@@ -515,7 +515,8 @@ the guard it would recurse into itself.")
   ("l" #'ck/eca-chat-toggle-latex "Toggle LaTeX")
   ("L" #'ck/eca-chat-clear-latex "Clear LaTeX")
   ("b" #'ck/eca-chat-align-tables "Align tables")
-  ("T" #'ck/eca-chat-open-table-wrapped "Open table (wrapped)"))
+  ("T" #'ck/eca-chat-open-table-wrapped "Open table (wrapped)")
+  ("Q" #'eca-stop "Stop ECA if running"))
 
 
 
