@@ -113,16 +113,26 @@
     (exwm-browser-link--build-tags tags '() t)))
 
 (defun exwm-browser-link-create ()
-  "with a firefox browser selected and my extension installed, fire this off to
-create a bookmark at the current url"
+  "with a firefox window selected, fire this off to create a bookmark at the
+current url (grabs it via faked C-l / C-c and the clipboard)"
   (interactive)
   (let ((url
          (progn
+           (gui-set-selection 'CLIPBOARD nil)
            (exwm-input--fake-key ?\C-l)
+           (sleep-for 0.3)
            (exwm-input--fake-key ?\C-c)
-           (sleep-for 1)
-           (current-kill 0))))
-    (if (s-starts-with? "http" url)
+           (let ((waited 0.0)
+                 (clip nil))
+             (while (and (< waited 2.0)
+                         (not (and (stringp clip)
+                                   (s-starts-with? "http" clip))))
+               (sleep-for 0.1)
+               (setq waited (+ waited 0.1))
+               (setq clip (ignore-errors
+                            (gui-get-selection 'CLIPBOARD))))
+             clip))))
+    (if (and (stringp url) (s-starts-with? "http" url))
         (let* ((meta (call-interactively #'exwm-browser-link--grab-meta))
                (link-name (car meta))
                (tags (cadr meta)))
@@ -137,7 +147,8 @@ create a bookmark at the current url"
             "' '"
             tags
             "'")))
-      (message "exwm-browser-link-create failed: invalid URL"))))
+      (message "exwm-browser-link-create failed: invalid URL (clipboard was %S)"
+               url))))
 
 (general-define-key :keymaps 'exwm-mode-map
                     "s-d" #'exwm-browser-link-create)
