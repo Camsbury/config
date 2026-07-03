@@ -460,16 +460,45 @@ columns.  The chat buffer is not modified."
           (goto-char (point-min))))
       (pop-to-buffer buf))))
 
+;;; Closed-buffer sweeping ---------------------------------------------------
+;;
+;; ECA renames buffers for dead sessions to "<eca ...:closed ...>" instead of
+;; killing them, so chat and process-stderr buffers pile up across restarts.
+;; Sweep them whenever a session winds down: after `eca-process-stop', after
+;; `eca-chat-exit', and when a chat buffer is killed by hand.
+
+(defvar ck/eca--sweeping nil
+  "Reentrancy guard for `ck/eca--sweep-closed-buffers'.
+The sweep kills buffers and also runs from `kill-buffer-hook', so without
+the guard it would recurse into itself.")
+
+(defun ck/eca--sweep-closed-buffers (&rest _)
+  "Kill every closed ECA buffer (chat and process stderr)."
+  (unless ck/eca--sweeping
+    (let ((ck/eca--sweeping t))
+      (dolist (buf (buffer-list))
+        (when (and (buffer-live-p buf)
+                   (string-match-p "^<eca.*:closed" (buffer-name buf)))
+          (kill-buffer buf))))))
+
+(defun ck/eca--sweep-on-chat-kill ()
+  "Arrange a closed-buffer sweep when the current chat buffer is killed."
+  (add-hook 'kill-buffer-hook #'ck/eca--sweep-closed-buffers nil t))
+
 ;;; Package setup -----------------------------------------------------------
 
 (use-package eca
   :hook
   (eca-chat-mode . (lambda () (whitespace-mode -1)))
+  (eca-chat-mode . ck/eca--sweep-on-chat-kill)
   :config
   (setq eca-chat-use-side-window nil)
 
   (add-hook 'eca-chat-finished-hook #'ck/eca-chat--auto-preview-latex)
   (add-hook 'eca-chat-finished-hook #'ck/eca-chat--auto-align-tables)
+
+  (advice-add 'eca-process-stop :after #'ck/eca--sweep-closed-buffers)
+  (advice-add 'eca-chat-exit    :after #'ck/eca--sweep-closed-buffers)
 
   (general-def 'normal eca-chat-mode-map
     [remap ck/empty-mode-leader]     #'hydra-eca/body))
