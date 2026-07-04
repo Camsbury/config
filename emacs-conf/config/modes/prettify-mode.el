@@ -20,7 +20,8 @@
 
 ;; non-prog modes
 (general-add-hook
- '(nxml-mode-hook
+ '(eca-chat-mode
+   nxml-mode-hook
    haskell-cabal-mode-hook)
  #'prettify-mode)
 
