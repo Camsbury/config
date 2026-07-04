@@ -133,6 +133,73 @@ No-op if the buffer is already opted in or is not the sole window."
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Aligning bottom-anchored UI (minibuffer, hydra hint) with the column
+
+;; The minibuffer and hydra's `lv' hint sit at the bottom of the frame,
+;; spanning the whole width, so their text hugs the far left even when the
+;; document they relate to is centered.  Give each the SAME left offset as
+;; the centered source buffer so entering text about that document stays in
+;; the same vertical column instead of jumping to the edge.  The `lv' hint
+;; takes a window margin, but the minibuffer must use a `line-prefix'
+;; instead (see `center-buffer--adjust-minibuffer' for why a margin fails
+;; there).
+
+(defun center-buffer--source-pad (win)
+  "Left offset (columns) for a frame-anchored UI element anchored at WIN.
+Reuses the centering pad (`center-buffer--pad-width') when WIN shows a
+centered, full-width, non-EXWM buffer, and 0 otherwise.  The 0 case is
+what makes the offset vanish in a tiled layout: there is no full-width
+centered source window to align under, so the bottom UI hugs left like
+the buffers do."
+  (if (and (window-live-p win)
+           (window-full-width-p win)
+           (with-current-buffer (window-buffer win)
+             (and center-buffer-mode (not (derived-mode-p 'exwm-mode)))))
+      (center-buffer--pad-width win)
+    0))
+
+(defun center-buffer--adjust-minibuffer ()
+  "Indent the active minibuffer to align under its centered source buffer.
+`minibuffer-selected-window' is the window the minibuffer was entered
+from -- the document being acted on -- so its centering pad is the
+offset we want.
+
+Uses a buffer-local `line-prefix'/`wrap-prefix' rather than a window
+margin.  A window margin on the LIVE minibuffer window does not repaint
+until a command-loop redisplay, so a margin only appears on the first
+keystroke (it \"snaps over\").  A line prefix is part of the buffer's
+own layout, computed on the initial paint, so the offset shows the
+instant the minibuffer opens.  The prefix is set on the minibuffer
+buffer (current during `minibuffer-setup-hook'); the echo area uses a
+different buffer, so messages between reads stay flush left.  Cleared
+to nil when there is no centered source (tiled layout), which also
+resets any prefix left over from a prior read of this reused buffer."
+  (let* ((pad  (center-buffer--source-pad (minibuffer-selected-window)))
+         (spec (and (> pad 0) (propertize " " 'display `(space :width ,pad)))))
+    (setq-local line-prefix spec
+                wrap-prefix spec)))
+
+(add-hook 'minibuffer-setup-hook #'center-buffer--adjust-minibuffer)
+
+(defun center-buffer--adjust-lv (&rest _)
+  "Offset hydra's `lv' hint window to align under the centered source.
+A hydra never selects the hint window, so `selected-window' is still
+the document the hydra is acting on.  Runs as `:after' advice on
+`lv-message', which has already created the hint window."
+  (when (fboundp 'lv-window)
+    (let ((w (lv-window)))
+      (when (window-live-p w)
+        (set-window-margins
+         w (center-buffer--source-pad (selected-window)) 0)))))
+
+;; `advice-add' dedupes by symbol, so re-loading this file does not stack
+;; the advice.  `with-eval-after-load' runs now if `lv' is already loaded
+;; (it is once any hydra hint has rendered) and defers otherwise.
+(with-eval-after-load 'lv
+  (advice-add 'lv-message :after #'center-buffer--adjust-lv))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Capping tiled windows to `prettify-width'
 
 (define-minor-mode prettify-mode
