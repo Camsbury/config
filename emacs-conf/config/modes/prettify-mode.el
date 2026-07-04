@@ -40,24 +40,98 @@ pre-regression version divided, and matches \"centered in the middle
 of the screen\"."
   (max 0 (/ (- (frame-width (window-frame win)) prettify-width) 2)))
 
-(defun center-buffer--pad-modeline ()
-  "Left modeline padding equal to the current window's left margin.
-Evaluated per window during redisplay, so it follows the margin: it
-is 0 when the buffer hugs left and the pad width when it is centered."
+(defun center-buffer--pad-line ()
+  "Left padding equal to the current window's left margin.
+Evaluated per window during redisplay of a mode/header/tab line, so it
+tracks the margin: 0 when the buffer hugs left, the pad width when it is
+centered.  Because it reads the LIVE margin, the padding element is
+self-collapsing -- harmless to leave in a tiled buffer's line, where it
+renders nothing."
   (let* ((margins (window-margins))
          (left (or (car margins) 0)))
     (propertize " " 'display `(space :width ,left))))
 
-(defun center-buffer-enable-modeline-padding ()
-  "Prepend the centering pad to `mode-line-format' (idempotently)."
-  (let ((pad '(:eval (center-buffer--pad-modeline))))
-    (unless (and (consp mode-line-format)
-                 (equal (car mode-line-format) pad))
-      (setq-local mode-line-format (cons pad mode-line-format)))))
+(defconst center-buffer--padded-line-vars
+  '(mode-line-format header-line-format tab-line-format)
+  "Full-width decoration lines whose left content should follow the margin.
+Each spans the whole window at column 0, so a centered buffer's mode
+line, header line (e.g. eca chat's) and tab line would otherwise hug the
+far left while the body sits in the centered column.")
 
-(defun center-buffer-disable-modeline-padding ()
-  "Drop the buffer-local `mode-line-format' override."
-  (kill-local-variable 'mode-line-format))
+(defun center-buffer--pad-element-p (el)
+  "Non-nil when EL is any center-buffer padding construct.
+Matches `(:eval (SYM ...))' where SYM's name starts with
+\"center-buffer--pad\", so it recognizes the current pad element AND any
+older or renamed variant (e.g. a stale `center-buffer--pad-modeline'
+baked into a buffer-local line by a prior load).  Matching on the name
+prefix rather than an exact form is what keeps a rename from silently
+stacking a second pad on the next reload."
+  (and (consp el)
+       (eq (car el) :eval)
+       (consp (cadr el))
+       (symbolp (car (cadr el)))
+       (string-prefix-p "center-buffer--pad"
+                        (symbol-name (car (cadr el))))))
+
+(defun center-buffer--line-list-p (fmt)
+  "Non-nil when FMT is a list OF constructs, not a single construct.
+A mode-line value is a list of constructs only when its car is itself a
+string or a sub-construct (a cons); a car that is a keyword (`:eval',
+`:propertize'), a plain symbol (a `(SYMBOL THEN ELSE)' conditional) or an
+integer marks FMT as one construct that must be left whole."
+  (and (consp fmt)
+       (or (stringp (car fmt)) (consp (car fmt)))))
+
+(defun center-buffer--strip-pads (fmt)
+  "Return a copy of mode-line value FMT with all our pad constructs removed.
+Recurses only through genuine lists of constructs
+(`center-buffer--line-list-p'), never into an `(:eval FORM)' body, so it
+cleans a pad wherever a prior load left it -- including one nested inside
+an older wrapper -- without walking into unrelated data (e.g. eca's
+session struct carried in its own `:eval')."
+  (cond
+   ((center-buffer--pad-element-p fmt) nil)
+   ((center-buffer--line-list-p fmt)
+    (let (acc)
+      (dolist (el fmt)
+        (cond
+         ((center-buffer--pad-element-p el))
+         ((center-buffer--line-list-p el)
+          (let ((s (center-buffer--strip-pads el)))
+            (when s (push s acc))))
+         (t (push el acc))))
+      (nreverse acc)))
+   (t fmt)))
+
+(defun center-buffer-enable-line-padding ()
+  "Prepend the centering pad to each present mode/header/tab line.
+Self-healing and idempotent: strips ANY prior center-buffer pad
+(`center-buffer--strip-pads') before prepending a fresh one, so re-running
+never stacks pads and a stale variant left by an earlier load is cleared
+rather than doubled (the double-pad that shifted a reloaded modeline
+right).  Skips a nil line so we never conjure a header or tab line where
+the buffer has none.  Prepends flat when the stripped line is a list of
+constructs, and wraps in a two-element list when it is a single construct
+(e.g. `tab-line-format's lone `(:eval ...)'), so the result is always a
+valid list of constructs."
+  (let ((pad '(:eval (center-buffer--pad-line))))
+    (dolist (var center-buffer--padded-line-vars)
+      (let ((fmt (symbol-value var)))
+        (when fmt
+          (let ((stripped (center-buffer--strip-pads fmt)))
+            (set (make-local-variable var)
+                 (cond
+                  ((null stripped) (list pad))
+                  ((center-buffer--line-list-p stripped) (cons pad stripped))
+                  (t (list pad stripped))))))))))
+
+(defun center-buffer-disable-line-padding ()
+  "Remove every center-buffer pad from each mode/header/tab line.
+Strips all our pad variants (`center-buffer--strip-pads') while preserving
+the rest of a line another package (eca chat, tab-line-mode) owns."
+  (dolist (var center-buffer--padded-line-vars)
+    (when (local-variable-p var)
+      (set var (center-buffer--strip-pads (symbol-value var))))))
 
 (define-minor-mode center-buffer-mode
   "Opt this buffer into fixed-width centering when it is alone on its frame.
@@ -79,14 +153,14 @@ matter who enabled it."
    ((and center-buffer-mode (derived-mode-p 'exwm-mode))
     (setq center-buffer-mode nil))
    (center-buffer-mode
-    (center-buffer-enable-modeline-padding)
+    ;; `center-buffer-adjust' asserts the line padding for this buffer.
     (center-buffer-adjust))
    (t
     ;; Reset margins on every window actually showing this buffer, not
     ;; whatever window happens to be selected right now.
     (dolist (w (get-buffer-window-list (current-buffer) nil t))
       (set-window-margins w 0 0))
-    (center-buffer-disable-modeline-padding))))
+    (center-buffer-disable-line-padding))))
 
 (defun center-buffer-adjust (&rest _)
   "Center or left-align every centered buffer based on horizontal space.
@@ -110,8 +184,12 @@ other packages' margins."
     (dolist (w (window-list frame 'no-mini))
       (with-current-buffer (window-buffer w)
         (when (and center-buffer-mode (not (derived-mode-p 'exwm-mode)))
+          ;; In-tandem chrome (mode/header/tab line) rides the margin.
+          (center-buffer-enable-line-padding)
           (set-window-margins
-           w (if (window-full-width-p w) (center-buffer--pad-width w) 0) 0))))))
+           w (if (window-full-width-p w) (center-buffer--pad-width w) 0) 0)))))
+  ;; The echo area is frame-anchored chrome, not a window in the list above.
+  (center-buffer--adjust-echo))
 
 ;; React to layout changes globally.  Buffer-local values of these hooks
 ;; fire only for windows already showing the buffer whose configuration
@@ -133,16 +211,19 @@ No-op if the buffer is already opted in or is not the sole window."
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Aligning bottom-anchored UI (minibuffer, hydra hint) with the column
+;;; Aligning frame-anchored chrome (minibuffer, hydra hint, echo area)
 
-;; The minibuffer and hydra's `lv' hint sit at the bottom of the frame,
-;; spanning the whole width, so their text hugs the far left even when the
-;; document they relate to is centered.  Give each the SAME left offset as
-;; the centered source buffer so entering text about that document stays in
-;; the same vertical column instead of jumping to the edge.  The `lv' hint
-;; takes a window margin, but the minibuffer must use a `line-prefix'
+;; Same idea as the in-tandem decoration lines above, but for chrome that
+;; is anchored to the whole frame rather than living inside the centered
+;; window: the minibuffer, hydra's `lv' hint, and the echo area all sit at
+;; the bottom spanning the full width, so their text hugs the far left even
+;; when the document they relate to is centered.  Give each the SAME left
+;; offset as the centered source so entering (or reading) text about that
+;; document stays in the same vertical column instead of jumping to the
+;; edge.  The mechanism differs by target: the `lv' hint takes a window
+;; margin, but the minibuffer and echo area must use a `line-prefix'
 ;; instead (see `center-buffer--adjust-minibuffer' for why a margin fails
-;; there).
+;; on a live minibuffer window).
 
 (defun center-buffer--source-pad (win)
   "Left offset (columns) for a frame-anchored UI element anchored at WIN.
@@ -170,16 +251,33 @@ until a command-loop redisplay, so a margin only appears on the first
 keystroke (it \"snaps over\").  A line prefix is part of the buffer's
 own layout, computed on the initial paint, so the offset shows the
 instant the minibuffer opens.  The prefix is set on the minibuffer
-buffer (current during `minibuffer-setup-hook'); the echo area uses a
-different buffer, so messages between reads stay flush left.  Cleared
-to nil when there is no centered source (tiled layout), which also
-resets any prefix left over from a prior read of this reused buffer."
+buffer (current during `minibuffer-setup-hook'); the echo area uses
+different buffers, handled by `center-buffer--adjust-echo'.  Cleared to
+nil when there is no centered source (tiled layout), which also resets
+any prefix left over from a prior read of this reused buffer."
   (let* ((pad  (center-buffer--source-pad (minibuffer-selected-window)))
          (spec (and (> pad 0) (propertize " " 'display `(space :width ,pad)))))
     (setq-local line-prefix spec
                 wrap-prefix spec)))
 
 (add-hook 'minibuffer-setup-hook #'center-buffer--adjust-minibuffer)
+
+(defun center-buffer--adjust-echo (&rest _)
+  "Indent echo-area messages to align under the centered selected window.
+A `message' renders in the echo-area buffers, not in the active-read
+buffer, so the `minibuffer-setup-hook' prefix never touches it.  Give
+those buffers the same `line-prefix' as the currently selected centered
+window (nil -> flush left when the selected window is not a full-width
+centered buffer, e.g. a tiled layout).  Runs from the same layout hooks
+as `center-buffer-adjust', so the prefix is already correct by the time
+a message appears while the layout is stable."
+  (let* ((pad  (center-buffer--source-pad (frame-selected-window)))
+         (spec (and (> pad 0) (propertize " " 'display `(space :width ,pad)))))
+    (dolist (name '(" *Minibuf-0*" " *Echo Area 0*" " *Echo Area 1*"))
+      (when (get-buffer name)
+        (with-current-buffer name
+          (setq-local line-prefix spec
+                      wrap-prefix spec))))))
 
 (defun center-buffer--adjust-lv (&rest _)
   "Offset hydra's `lv' hint window to align under the centered source.
