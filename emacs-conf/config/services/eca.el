@@ -497,6 +497,16 @@ the guard it would recurse into itself.")
   :config
   (setq eca-chat-use-side-window nil)
 
+  ;; New chats (and any re-display) reuse a window already showing an eca
+  ;; chat, so `eca-chat-new' switches the tab in place instead of spawning a
+  ;; second window.  Falls back to popping a window on first open.
+  (add-to-list 'display-buffer-alist
+               '("\\`<eca-chat"
+                 (display-buffer-reuse-window
+                  display-buffer-reuse-mode-window
+                  display-buffer-pop-up-window)
+                 (mode . eca-chat-mode)))
+
   (add-hook 'eca-chat-finished-hook #'ck/eca-chat--auto-preview-latex)
   (add-hook 'eca-chat-finished-hook #'ck/eca-chat--auto-align-tables)
 
