@@ -9,6 +9,26 @@
 (declare-function eca-table-align "eca-table")
 (declare-function eca-table-beautify "eca-table")
 (declare-function eca-chat--prompt-area-start-point "eca-chat")
+(declare-function eca-chat--switch-windows-to-sibling "eca-chat")
+(declare-function eca-session "eca-util")
+(declare-function eca-assert-session-running "eca-util")
+(declare-function eca-api-request-sync "eca-api")
+(declare-function tab-line-switch-to-next-tab "tab-line")
+(declare-function tab-line-switch-to-prev-tab "tab-line")
+(declare-function eca-api-request-async "eca-api")
+(declare-function eca-chat--new-chat "eca-chat")
+(declare-function eca-chat--get-last-buffer "eca-chat")
+(declare-function eca-chat--set-chat-loading "eca-chat")
+(declare-function eca-chat--model "eca-chat")
+(declare-function eca-chat--agent "eca-chat")
+(declare-function eca-chat-resume "eca-chat")
+(defvar eca-chat--id)
+(defvar eca-chat--closed)
+(defvar eca-chat--last-request-id)
+(defvar eca-chat--last-known-model)
+(defvar eca-chat--last-known-agent)
+(defvar eca-chat--last-known-variant)
+(defvar eca-chat--last-known-trust)
 (declare-function markdown-table-at-point-p "markdown-mode")
 (declare-function markdown-table-begin "markdown-mode")
 (declare-function markdown-table-end "markdown-mode")
@@ -460,6 +480,55 @@ columns.  The chat buffer is not modified."
           (goto-char (point-min))))
       (pop-to-buffer buf))))
 
+;;; Tab management -----------------------------------------------------------
+;;
+;; Two closing flavors for the chat tab-line: close just the tab (buffer),
+;; or close it and delete the chat server-side.  Cycling left/right is
+;; stock `tab-line' -- ECA's tabs carry `buffer' entries, which
+;; `tab-line-switch-to-{prev,next}-tab' understands, wrapping at the ends
+;; via `tab-line-switch-cycling'.
+
+(defun ck/eca-chat-close-tab ()
+  "Close the current chat tab without deleting the chat server-side.
+Reuses ECA's own kill-buffer path (sibling-window switch plus session
+registry cleanup) but answers its \"delete from server?\" prompt with a
+hard no, so the chat can still be resumed later."
+  (interactive)
+  (unless (derived-mode-p 'eca-chat-mode)
+    (user-error "Not in an ECA chat buffer"))
+  ;; `eca-chat--delete-chat' (on `kill-buffer-hook') only runs its cleanup
+  ;; when `this-command' looks like a kill, and it prompts via `yes-or-no-p'
+  ;; about server-side deletion; the chat buffer visits no file, so no other
+  ;; prompt can be swallowed by the stub.
+  (cl-letf (((symbol-function 'yes-or-no-p) (lambda (&rest _) nil)))
+    (let ((this-command 'kill-buffer))
+      (kill-buffer (current-buffer)))))
+
+(defun ck/eca-chat-delete-tab ()
+  "Close the current chat tab AND delete the chat from the server.
+Unlike `eca-chat-delete' this always targets the current buffer's chat,
+not the session's last-visited one.  Never prompts."
+  (interactive)
+  (unless (derived-mode-p 'eca-chat-mode)
+    (user-error "Not in an ECA chat buffer"))
+  (let ((session (eca-session))
+        (buffer (current-buffer))
+        (chat-id eca-chat--id))
+    (eca-assert-session-running session)
+    (if (not chat-id)
+        (ck/eca-chat-close-tab)
+      ;; Mark closed so the kill-buffer hook neither prompts nor sends a
+      ;; second chat/delete; switch windows to a sibling chat first so the
+      ;; chat window keeps showing a chat.
+      (setq-local eca-chat--closed t)
+      (eca-chat--switch-windows-to-sibling session buffer)
+      (unwind-protect
+          (eca-api-request-sync session
+                                :method "chat/delete"
+                                :params (list :chatId chat-id))
+        (when (buffer-live-p buffer)
+          (kill-buffer buffer))))))
+
 ;;; Closed-buffer sweeping ---------------------------------------------------
 ;;
 ;; ECA renames buffers for dead sessions to "<eca ...:closed ...>" instead of
@@ -519,6 +588,92 @@ Returns the reused window, or nil to fall through to the next action."
       (window--display-buffer buffer win 'reuse alist)
       win)))
 
+;;; Server-identified new chats ---------------------------------------------
+;;
+;; The ECA server only creates a chat record (`[:chats id]') on a chat's FIRST
+;; `chat/prompt'.  A tab that has not yet been prompted is unknown server-side,
+;; and the agent/model-change handlers then drop its chat-id and broadcast the
+;; change session-wide -- so switching agent or model on a fresh tab clobbers
+;; every other open chat.  We sidestep that by registering the chat up front:
+;; fire one benign no-LLM slash command (`/costs' routes through the server's
+;; command handler, which seeds the chat record and finishes idle without ever
+;; calling a model).  Its short output stays on screen; since command output is
+;; display-only (never persisted to the chat's messages), it neither pollutes
+;; the LLM context nor needs clearing.
+
+(defcustom ck/eca-chat-register-command "/costs"
+  "Slash command used to register a new chat with the ECA server.
+Must be a command the server answers WITHOUT calling an LLM -- it only needs
+to make the server seed the chat record.  `/costs' is the lightest such
+command: it reads a few usage counters, prints a short system message, and
+finishes idle.  Command output is display-only (the server never adds it to
+the chat's message list), so it does not leak into the LLM conversation and
+is safe to leave on screen."
+  :type 'string
+  :group 'ck/eca)
+
+(defun ck/eca--register-current-chat (session)
+  "Register the current chat buffer with SESSION's server via a benign command.
+Sends `ck/eca-chat-register-command' as a real `chat/prompt' carrying the
+buffer's eager chat-id, which makes the server create its `[:chats id]'
+record.  The command's short output is left on screen.  No-op without a
+chat-id or on an already-closed buffer."
+  (when (and eca-chat--id (not eca-chat--closed))
+    ;; Flip loading so the turn renders like any normal command turn (spinner,
+    ;; then a clean finish that fontifies the output and runs the finished-hook).
+    (eca-chat--set-chat-loading session t)
+    (eca-api-request-async
+     session
+     :method "chat/prompt"
+     :params (list :message ck/eca-chat-register-command
+                   :request-id (cl-incf eca-chat--last-request-id)
+                   :chatId eca-chat--id
+                   :model (eca-chat--model)
+                   :agent (eca-chat--agent)
+                   :contexts [])
+     ;; The id is already buffer-local; the response carries nothing we need.
+     :success-callback #'ignore)))
+
+(defun ck/eca-chat-new-registered ()
+  "Create a new ECA chat that is registered with the server immediately.
+Unlike `eca-chat-new', the fresh tab is known server-side before its first
+real prompt, so changing its agent or model is scoped to this tab alone and
+no longer clobbers the other open chats."
+  (interactive)
+  (let ((session (eca-session)))
+    (eca-assert-session-running session)
+    (eca-chat--new-chat session)
+    (when-let* ((buf (eca-chat--get-last-buffer session)))
+      (with-current-buffer buf
+        (ck/eca--register-current-chat session)))))
+
+;;; Chat-scoped config isolation ---------------------------------------------
+;;
+;; eca-emacs bug: `eca-chat--apply-per-chat-config' writes the GLOBAL
+;; `eca-chat--last-known-{model,agent,variant,trust}' fallbacks even when the
+;; `config/updated' payload is scoped to a single chat via `chatId'.  Every
+;; buffer resolves its model as (or custom selected last-known), so any tab
+;; whose buffer-local selection is nil (fresh tabs; resumed tabs whose model
+;; notify the server's diff mirror suppressed) silently starts displaying AND
+;; sending the scoped chat's model.  Net effect: changing agent/model on one
+;; registered chat still "changes all models".  Guard: dynamically let-bind
+;; the four globals around scoped updates, so the buffer-local writes land
+;; and the global writes evaporate on exit.  Session-wide payloads (no
+;; chatId, e.g. the post-initialize defaults broadcast) pass through
+;; untouched.  Harmless no-op if upstream fixes the leak.
+
+(defun ck/eca--config-updated-guard-globals (fn session chat-config)
+  "Around-advice for `eca-chat-config-updated' (FN, SESSION, CHAT-CONFIG).
+Confine chat-scoped payloads (those carrying `chatId') to buffer-local
+state by shadowing the global last-known fallbacks for the duration."
+  (if (plist-get chat-config :chatId)
+      (let ((eca-chat--last-known-model eca-chat--last-known-model)
+            (eca-chat--last-known-agent eca-chat--last-known-agent)
+            (eca-chat--last-known-variant eca-chat--last-known-variant)
+            (eca-chat--last-known-trust eca-chat--last-known-trust))
+        (funcall fn session chat-config))
+    (funcall fn session chat-config)))
+
 ;;; Package setup -----------------------------------------------------------
 
 (use-package eca
@@ -551,6 +706,8 @@ Returns the reused window, or nil to fall through to the next action."
 
   (advice-add 'eca-process-stop :after #'ck/eca--sweep-closed-buffers)
   (advice-add 'eca-chat-exit    :after #'ck/eca--sweep-closed-buffers)
+  (advice-add 'eca-chat-config-updated
+              :around #'ck/eca--config-updated-guard-globals)
 
   (general-def 'normal eca-chat-mode-map
     [remap ck/empty-mode-leader]     #'hydra-eca/body))
@@ -560,15 +717,19 @@ Returns the reused window, or nil to fall through to the next action."
   ("c" #'eca-chat-clear "Clear the chat")
   ("a" #'eca-chat-select-agent "Select agent")
   ("m" #'eca-chat-select-model "Select the model")
-  ("o" #'eca-chat-new "New chat")
+  ("o" #'ck/eca-chat-new-registered "New chat")
   ("t" #'eca-chat-select "Select chat")
+  ("e" #'eca-chat-resume "Open server chat")
   ("n" #'eca-chat-rename "Rename chat")
   ("v" #'eca-chat-select-variant "Select the variant")
-  ("l" #'ck/eca-chat-toggle-latex "Toggle LaTeX")
-  ("L" #'ck/eca-chat-clear-latex "Clear LaTeX")
+  ("l" #'tab-line-switch-to-next-tab "Next tab")
+  ("h" #'tab-line-switch-to-prev-tab "Prev tab")
+  ("k" #'ck/eca-chat-close-tab "Close tab")
+  ("K" #'ck/eca-chat-delete-tab "Close tab + delete chat")
+  ("L" #'ck/eca-chat-toggle-latex "Toggle LaTeX")
   ("b" #'ck/eca-chat-align-tables "Align tables")
   ("T" #'ck/eca-chat-open-table-wrapped "Open table (wrapped)")
-  ("Q" #'eca-stop "Stop ECA if running"))
+  ("q" #'eca-stop "Stop ECA if running"))
 
 
 
