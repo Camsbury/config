@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 (require 'config/modes/utils)
 
-;; This module bundles the two halves of the "read text at a fixed column"
+;; This module bundles the pieces of the "read text at a fixed column"
 ;; experience, which share one width knob:
 ;;
 ;;   * Centering (`center-buffer-mode'): when a buffer is ALONE on its frame,
@@ -15,10 +15,16 @@
 ;;     `prettify-width' columns so they don't stretch.  Opt-in per mode:
 ;;     some buffers should not be squeezed, the ones hooked below should.
 ;;
-;; Both read the same `prettify-width', so the reading column stays identical
-;; whether a buffer is centered (solo) or capped (tiled).
+;;   * Margin capping (`margin-cap-mode'): leave the window alone and bound
+;;     the TEXT AREA instead, absorbing surplus columns into the right
+;;     margin.  For buffers that soft-wrap at the window edge (eca chat's
+;;     `word-wrap') and sit where window capping never fires (the rightmost
+;;     window has no right neighbour to donate space to).
+;;
+;; All read the same `prettify-width', so the reading column stays identical
+;; whether a buffer is centered (solo), capped (tiled), or margin-capped.
 
-(defvar prettify-width 80
+(defvar prettify-width 86
   "Shared reading column width, in columns.
 Used both as the centered-column target (`center-buffer-mode') and as
 the forced window width when capping tiled windows (`ck/prettify-windows').
@@ -202,11 +208,16 @@ other packages' margins."
 
 (defun center-buffer--center-when-single ()
   "Enable `center-buffer-mode' in the current buffer when it is alone.
-No-op if the buffer is already opted in or is not the sole window."
+No-op if the buffer is already opted in, is not the sole window, or is
+margin-capped (`margin-cap-mode' bounds BOTH sides and does its own
+full-width centering, so plain centering would only undo the right
+bound)."
   (interactive)
   (let* ((win (get-buffer-window (current-buffer) 'visible))
          (n   (length (window-list (and win (window-frame win)) 'no-mini))))
-    (unless (or center-buffer-mode (> n 1))
+    (unless (or center-buffer-mode
+                (bound-and-true-p margin-cap-mode)
+                (> n 1))
       (center-buffer-mode 1))))
 
 
@@ -324,7 +335,16 @@ margin would corrupt `ck/set-window-width''s body-width math."
     (dolist (w (window-list))
       (with-selected-window w
         (when (ck/minor-mode-active-p 'prettify-mode)
-          (ck/set-window-width w prettify-width))))))
+          ;; A margin cap hides the surplus from the capper:
+          ;; `ck/set-window-width' measures `window-width' (body only,
+          ;; margins excluded), so a margin-capped window already reads
+          ;; `prettify-width' and the snap would no-op.  Drop the margins
+          ;; first; `margin-cap-adjust' below re-absorbs whatever the snap
+          ;; could not reclaim.
+          (when (bound-and-true-p margin-cap-mode)
+            (set-window-margins w 0 0))
+          (ck/set-window-width w prettify-width)))))
+  (margin-cap-adjust))
 
 ;; non-prog modes that should be squeezed to `prettify-width' when tiled
 ;; NOTE: `general-add-hook' is a bare `add-hook' wrapper with no normalization,
@@ -340,5 +360,119 @@ margin would corrupt `ck/set-window-width''s body-width math."
 (general-add-hook
  '(find-file-hook after-delete-window-hook after-split-window-hook)
  #'ck/prettify-windows)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Capping the text area with margins (eca chat)
+
+;; Window capping above squeezes a window down to `prettify-width', but it
+;; only works when there is a right neighbour to donate the surplus to.  The
+;; eca chat is the rightmost (often only-sibling) window, so it never gets
+;; capped and its `word-wrap' lines run to the window edge.  Margin capping
+;; takes the opposite approach: keep the window at whatever width the layout
+;; wants and shrink the TEXT AREA to `prettify-width' by absorbing the
+;; surplus into the right margin.  Everything that wraps at the window edge
+;; now wraps at the reading column, while width-aware machinery keeps
+;; working: eca's `---' separator is a face-extended horizontal rule that
+;; follows the text area, and `eca-table' compares against `window-width'
+;; (which excludes margins), so a wide table's "scrollable" mode pans inside
+;; the capped column.  Text hugs left, matching tiled buffers, which also
+;; means no mode/header-line padding is needed (that chrome only misaligns
+;; when a LEFT margin pushes the body over).
+
+(define-minor-mode margin-cap-mode
+  "Cap this buffer's text area to `prettify-width' using window margins.
+
+Like `center-buffer-mode' the flag is pure intent: the actual margins
+are managed by `margin-cap-adjust' from the global window hooks, so the
+cap tracks resizes, re-displays, and windows the buffer appears in
+later.  Supersedes `center-buffer-mode' rather than coexisting with it:
+capping bounds BOTH sides (and centers itself when full-width), so
+enabling this mode turns plain centering off, and
+`center-buffer--center-when-single' skips capped buffers so a solo
+layout cannot turn it back on and undo the right bound.
+
+Never activates in EXWM buffers, same as centering: margin management
+on an X window misbehaves."
+  :init-value nil
+  :lighter " ⊢⊣"
+  (cond
+   ((and margin-cap-mode (derived-mode-p 'exwm-mode))
+    (setq margin-cap-mode nil))
+   (margin-cap-mode
+    ;; Take over from centering cleanly: turning it off resets margins
+    ;; and strips its line pads; the adjust below re-asserts both.
+    (when center-buffer-mode (center-buffer-mode -1))
+    (margin-cap-adjust))
+   (t
+    ;; Reset margins on every window actually showing this buffer.
+    (dolist (w (get-buffer-window-list (current-buffer) nil t))
+      (set-window-margins w 0 0))
+    (center-buffer-disable-line-padding))))
+
+(defun margin-cap-adjust (&rest _)
+  "Re-assert the margin cap on every window showing a capped buffer.
+
+Runs from the global `window-configuration-change-hook' /
+`window-state-change-functions' (same registration pattern as
+`center-buffer-adjust'), so a chat window created by `display-buffer',
+resized by a split, or re-shown from the buffer list all get the cap
+without per-window bookkeeping.  Idempotent: the available width is
+computed as body + current margins, so re-running on an already-capped
+window sets the same margins again rather than compounding.
+
+Placement mirrors centering: a full-width window centers the column
+(reusing `center-buffer--pad-width' so the reading column lands exactly
+where a centered buffer's would), a tiled window hugs left.  Either
+way the right margin absorbs the rest, which is the whole point.  The
+mode/header/tab-line pads ride the live margin
+(`center-buffer-enable-line-padding'), self-collapsing in the hug-left
+case."
+  (dolist (frame (frame-list))
+    (dolist (w (window-list frame 'no-mini))
+      (with-current-buffer (window-buffer w)
+        (when (and margin-cap-mode (not (derived-mode-p 'exwm-mode)))
+          (let* ((margins (window-margins w))
+                 (avail (+ (window-body-width w)
+                           (or (car margins) 0)
+                           (or (cdr margins) 0)))
+                 (left (if (window-full-width-p w)
+                           (min (center-buffer--pad-width w)
+                                (max 0 (- avail prettify-width)))
+                         0))
+                 (right (max 0 (- avail prettify-width left))))
+            (center-buffer-enable-line-padding)
+            (set-window-margins w left right)))))))
+
+;; Same global hooks as centering; `add-hook' dedupes by symbol, so
+;; re-loading this file does not accumulate registrations.
+(add-hook 'window-configuration-change-hook #'margin-cap-adjust)
+(when (boundp 'window-state-change-functions)
+  (add-hook 'window-state-change-functions #'margin-cap-adjust))
+
+(defun margin-cap--reset-margins-for-split (&optional window &rest _)
+  "Zero WINDOW's margins so `split-window' has room to split it.
+`split-window' treats margins as fixed width, so a window whose margins
+absorb most of the frame (a capped OR centered buffer) is \"too small
+for splitting\" even when the underlying window is huge.  Dropping the
+margins just before the split fixes that; the reactive adjust passes
+(`margin-cap-adjust', `center-buffer-adjust') re-assert the correct
+margins for the new layout on the very next configuration change."
+  (let ((w (if (windowp window) window (selected-window))))
+    (when (and (window-live-p w)
+               (with-current-buffer (window-buffer w)
+                 (or margin-cap-mode center-buffer-mode)))
+      (set-window-margins w 0 0))))
+
+;; `advice-add' dedupes by symbol, so re-loading does not stack advice.
+(advice-add 'split-window :before #'margin-cap--reset-margins-for-split)
+
+;; The eca chat opts into BOTH: window capping (`prettify-mode', hooked
+;; above) snaps a tiled chat window down to the reading column so the
+;; sibling gets the surplus, exactly as before; margin capping only covers
+;; what the snap cannot reach (a full-width/solo chat window, where there is
+;; no sibling to donate space to), bounding the text area instead.  On a
+;; snapped window the margin cap self-collapses to zero.
+(add-hook 'eca-chat-mode-hook #'margin-cap-mode)
 
 (provide 'config/modes/prettify-mode)
