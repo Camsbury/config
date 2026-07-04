@@ -5,7 +5,6 @@
   blind-mode
   breeze-mode
   prettify-mode
-  center-buffer-mode
   utils)
 
 (provide 'config/modes)
