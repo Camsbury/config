@@ -488,6 +488,9 @@ the guard it would recurse into itself.")
 ;;; Package setup -----------------------------------------------------------
 
 (use-package eca
+  ;; init.el restricts `package-load-list', so the package's own autoloads
+  ;; never load; stub the entry command ourselves or nothing defines `eca'.
+  :commands (eca)
   :hook
   (eca-chat-mode . (lambda () (whitespace-mode -1)))
   (eca-chat-mode . ck/eca--sweep-on-chat-kill)

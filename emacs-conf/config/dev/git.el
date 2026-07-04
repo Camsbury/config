@@ -48,11 +48,11 @@
 (custom-set-faces
  `(magit-diff-added-highlight
    ((t (:foreground "#79df60"
-                    :background nil
+                    :background "unspecified"
                     :extend t))))
  `(magit-diff-removed-highlight
    ((t (:foreground "#e74c3c"
-                    :background nil
+                    :background "unspecified"
                     :extend t)))))
 
 

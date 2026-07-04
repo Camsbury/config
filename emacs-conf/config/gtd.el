@@ -6,6 +6,9 @@
 (require 'config/modes/utils)
 
 (use-package pomidor
+  ;; Autoloads never activate (restricted `package-load-list'); without this
+  ;; stub nothing defines `pomidor' and the package could never load.
+  :commands (pomidor)
   :config
   (setq pomidor-sound-tick nil
         pomidor-sound-tack nil
@@ -103,6 +106,7 @@
 
 (defun ck/pomodoro-dwim ()
   (interactive)
+  (require 'pomidor) ; leader entry point; may run before the package loads
   (if (pomidor-running-p)
       (call-interactively #'pomidor-break)
     (if pomidor--system-on-hold-p
@@ -113,6 +117,7 @@
 
 (defun ck/pomodoro-hold-dwim ()
   (interactive)
+  (require 'pomidor) ; leader entry point; may run before the package loads
   (if pomidor--system-on-hold-p
       (call-interactively #'pomidor-unhold)
     (call-interactively #'pomidor-hold)))

@@ -57,6 +57,9 @@
   :after (haskell-mode)
   :hook  (haskell-mode . hlint-refactor-mode))
 
+;; TODO: autoloads need looking into: `:after' + `:hook' emit no `require',
+;; so this never loads; and even loaded it would do nothing, since the hook
+;; here just re-adds flycheck-mode instead of flycheck-haskell-setup.
 (use-package flycheck-haskell
   :after (haskell-mode)
   :hook  (haskell-mode . flycheck-mode)

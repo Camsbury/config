@@ -195,6 +195,9 @@
   :bind (("C-c C-o" . embark-export)
          ("C-." . embark-act)))
 (use-package embark-consult
+  ;; `:after' + `:hook' alone never emit a `require', so this glue package
+  ;; would never load; `:demand' fires the load once embark and consult are in.
+  :demand t
   :after (embark consult)
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 

@@ -188,7 +188,7 @@
   (ivy-read
    "Puzzle theme: "
    puzzle-themes
-   :action #'play-puzzle-theme-on-lichess))
+   :action #'ck/play-puzzle-theme))
 
 (defun ck/open-local-blitz-tactics (&optional browse-p)
   "opens a local blitz tactics instance"

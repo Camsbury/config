@@ -1,4 +1,7 @@
 ;; -*- lexical-binding: t; -*-
+;; TODO: autoloads need looking into: package activation is restricted, and
+;; bare `:defer t' creates no entry stubs, so this never loads (.ex/.exs get
+;; fundamental-mode) and flycheck-elixir's `:after' never fires.
 (use-package elixir-mode
   :defer t
   :config
