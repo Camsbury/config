@@ -19,8 +19,11 @@
           (ck/set-window-width w 86))))))
 
 ;; non-prog modes
+;; NOTE: `general-add-hook' is a bare `add-hook' wrapper with no normalization,
+;; so every entry must be an actual hook variable (`-hook' suffix).  A plain
+;; mode symbol like `eca-chat-mode' would attach to a symbol nothing runs.
 (general-add-hook
- '(eca-chat-mode
+ '(eca-chat-mode-hook
    nxml-mode-hook
    haskell-cabal-mode-hook)
  #'prettify-mode)
