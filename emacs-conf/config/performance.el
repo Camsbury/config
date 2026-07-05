@@ -17,6 +17,28 @@
 ;; or log line from agent output turns every redisplay into an O(n) scan.
 ;; `so-long' detects them and strips the expensive machinery buffer-locally.
 (global-so-long-mode 1)
+(with-eval-after-load 'so-long
+  ;; Extend so-long past its long-single-line detection to also trip on merely
+  ;; LARGE files (huge logs, generated data): each line is fine on its own, but
+  ;; the sheer count makes the expensive minor modes (font-lock, line numbers,
+  ;; etc.) drag every redisplay. Needs `buffer-line-statistics' (Emacs 29+);
+  ;; older Emacs keeps the stock long-line-only predicate.
+  (when (fboundp 'buffer-line-statistics)
+    (defvar ck/so-long-max-lines 20000
+      "Line count above which a file buffer is handed to so-long.")
+    (defun ck/so-long-p ()
+      "`so-long-predicate' tripping on a long line OR a large line count."
+      (let ((stats (buffer-line-statistics)))
+        (or (> (cadr stats) so-long-threshold)            ; longest line width
+            (and buffer-file-name
+                 (> (car stats) ck/so-long-max-lines))))) ; total line count
+    (setq so-long-predicate #'ck/so-long-p))
+  ;; Keep these buffers editable. Use the minor-mode action (neuter the
+  ;; expensive minor modes but keep the major mode) instead of the full
+  ;; `so-long-mode', which swaps the major mode out, and drop the read-only
+  ;; override so a large file is still a working buffer, just a lighter one.
+  (setq so-long-action 'so-long-minor-mode)
+  (setf (alist-get 'buffer-read-only so-long-variable-overrides nil t) nil))
 
 ;; Cheaper long-line layout. Safe here: this is an English + code config (LTR),
 ;; so the bidirectional paren algorithm and auto paragraph direction are pure
