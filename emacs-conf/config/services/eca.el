@@ -41,6 +41,18 @@
 (declare-function markdown-table-begin "markdown-mode")
 (declare-function markdown-table-end "markdown-mode")
 (defvar eca-chat-table-beautify)
+;; Used by the jump/rotation navigation section below.
+(declare-function eca-chat--needs-attention-p "eca-chat")
+(declare-function eca-chat--switch-to-buffer "eca-chat")
+(declare-function eca-chat-open "eca-chat")
+(declare-function eca-vals "eca-util")
+(declare-function eca-info "eca-util")
+(declare-function eca--session-id "eca-util")
+(declare-function eca--session-chats "eca-util")
+(declare-function exwm-workspace-switch "exwm-workspace")
+(defvar eca--sessions)
+(defvar eca-chat--chat-loading)
+(defvar exwm-workspace--list)
 
 ;;; LaTeX preview in chat buffers ------------------------------------------
 ;;
@@ -896,9 +908,10 @@ name out (point is left after the space, ready for any arguments)."
                                        commands)))
          (table (mapcar
                  (lambda (c)
-                   (cons (format "%-*s  %-13s  %s"
-                                 width
-                                 (plist-get c :name)
+                   ;; Emacs `format' has no C-style `%-*s' dynamic width, so
+                   ;; pad the name to `width' explicitly.
+                   (cons (format "%s  %-13s  %s"
+                                 (string-pad (plist-get c :name) width)
                                  (format "(%s)" (or (plist-get c :type) ""))
                                  (or (plist-get c :description) ""))
                          c))
@@ -919,6 +932,174 @@ name out (point is left after the space, ready for any arguments)."
              (goto-char (point-max)))
            (eca-chat--insert (concat "/" name " "))))))))
 
+;;; Crash mitigation: native code-block fontification -----------------------
+;;
+;; `eca-chat-mode' sets `markdown-fontify-code-blocks-natively' to t, which
+;; makes markdown-mode spin up each fenced block's real major mode to
+;; highlight it.  On Emacs 30.2 + native-comp that path can SIGSEGV deep in
+;; the C core while fontifying a streamed code block, and because Emacs is the
+;; window manager here that abort kills the whole X session (postmortem:
+;; `.eca/docs/reference/theme-editor-crash-postmortem.md').  Disable native
+;; code-block fontification in chat buffers: fenced blocks still render as
+;; monospace via `markdown-code-face', only per-language highlighting (and
+;; native diff coloring) is lost -- a cheap price to remove a session-fatal
+;; crash path.  Runs on `eca-chat-mode-hook', after the mode body's own
+;; `setq-local ... t', so it wins.
+
+(defun ck/eca--disable-native-code-fontify ()
+  "Turn off native code-block fontification in the current ECA chat buffer.
+Neutralizes the `markdown-fontify-code-blocks-natively' SIGSEGV path that can
+take down the whole session (Emacs is the WM here)."
+  (setq-local markdown-fontify-code-blocks-natively nil))
+
+;;; Jump / rotation navigation ----------------------------------------------
+;;
+;; Jump to the chat that wants you, from anywhere (bound globally via the
+;; leader hydra and an EXWM chord, not just from inside a chat).  The design
+;; leans on two ECA facts:
+;;
+;;   - A session's chats are tab-line tabs sharing ONE window; only the
+;;     selected tab is that window's buffer, but a background tab can still
+;;     need attention (its `eca-chat--pending-question' / pending-approval
+;;     state is buffer-local and lives whether or not the tab is visible).
+;;   - ECA never pins a session to an EXWM workspace; a session's location is
+;;     simply wherever its one window currently sits.
+;;
+;; So we locate by SESSION, not by the target buffer: if the session's window
+;; exists on any frame, switch to that EXWM workspace and toggle its tab to
+;; the target (reusing `eca-chat--switch-to-buffer' plus this file's
+;; `ck/eca-display-reuse-same-workspace-window' display action, which swaps
+;; the tab in place).  If the session has no window anywhere, the same call
+;; falls through `display-buffer-alist' to a fresh left pane in the current
+;; workspace.  We reuse ECA's own `eca-chat--needs-attention-p' predicate and
+;; delegate the `last-chat-buffer' bookkeeping to `eca-chat--switch-to-buffer'
+;; (so we never `setf' a struct slot -- avoiding the native-comp setf-expander
+;; trap that would bake a call to a nonexistent setter into the cached .eln).
+
+(defun ck/eca--sessions-ordered ()
+  "Return all ECA sessions ordered by creation id (stable across calls)."
+  (when (boundp 'eca--sessions)
+    (sort (copy-sequence (eca-vals eca--sessions))
+          (lambda (a b) (< (eca--session-id a) (eca--session-id b))))))
+
+(defun ck/eca--session-chats (session)
+  "Return SESSION's chat buffers in tab order (oldest-first)."
+  (reverse (eca-vals (eca--session-chats session))))
+
+(defun ck/eca--entries ()
+  "Return a flat list of (SESSION . BUFFER) for every live chat.
+Ordered by session id, then tab order, matching the tab-line so a
+rotation walks chats the same way the eye does."
+  (cl-loop for session in (ck/eca--sessions-ordered)
+           append (cl-loop for buf in (ck/eca--session-chats session)
+                           when (buffer-live-p buf)
+                           collect (cons session buf))))
+
+(defun ck/eca--idle-p (buffer)
+  "Non-nil when chat BUFFER is idle: live, not loading, not needing attention.
+These are the chats you can immediately send a new message to."
+  (and (buffer-live-p buffer)
+       (with-current-buffer buffer
+         (and (derived-mode-p 'eca-chat-mode)
+              (not eca-chat--chat-loading)
+              (not (eca-chat--needs-attention-p buffer))))))
+
+(defun ck/eca--rotate (pred &optional backward)
+  "Return the next (SESSION . BUFFER) whose buffer satisfies PRED.
+Anchored at the current buffer and wrapping around, so repeated calls
+advance through every match; searches backward when BACKWARD is non-nil.
+Returns nil when nothing matches."
+  (let* ((entries (ck/eca--entries))
+         (entries (if backward (reverse entries) entries)))
+    (when entries
+      (let* ((cur (current-buffer))
+             (pos (cl-position cur entries :key #'cdr))
+             ;; Start the search *after* the current chat (wrapping) so a call
+             ;; advances rather than re-selecting where we already are.
+             (ordered (if pos
+                          (append (nthcdr (1+ pos) entries)
+                                  (cl-subseq entries 0 (1+ pos)))
+                        entries)))
+        (seq-find (lambda (e) (funcall pred (cdr e))) ordered)))))
+
+(defun ck/eca--session-window (session)
+  "Return a live window on ANY frame showing one of SESSION's chats, or nil.
+Because a session's tabs share one window, this finds that window
+regardless of which tab is currently the visible one."
+  (seq-some (lambda (buf) (get-buffer-window buf t))
+            (ck/eca--session-chats session)))
+
+(defun ck/eca--exwm-goto-window (win)
+  "Switch to WIN's EXWM workspace (when it is one) and select WIN.
+Falls back to plain frame focus for non-workspace frames (e.g. a
+floating child frame), and no-ops the switch when WIN is already on the
+selected frame."
+  (let ((frame (window-frame win)))
+    (unless (eq frame (selected-frame))
+      (if (and (boundp 'exwm-workspace--list)
+               (memq frame exwm-workspace--list)
+               (fboundp 'exwm-workspace-switch))
+          (exwm-workspace-switch frame)
+        (select-frame-set-input-focus frame)))
+    (when (window-live-p win)
+      (select-window win))))
+
+(defun ck/eca--reveal (session buffer)
+  "Reveal chat BUFFER of SESSION and put focus on it.
+If SESSION already has a window somewhere, hop to that EXWM workspace
+first, then let `eca-chat--switch-to-buffer' (via `display-buffer-alist')
+toggle the tab in place; otherwise it opens a fresh pane in the current
+workspace."
+  (when-let* ((win (ck/eca--session-window session)))
+    (ck/eca--exwm-goto-window win))
+  (eca-chat--switch-to-buffer buffer session)
+  (when-let* ((win (get-buffer-window buffer t)))
+    (select-window win)))
+
+(defun ck/eca--jump (pred backward none-msg)
+  "Rotate to the next chat matching PRED (BACKWARD-aware) and reveal it.
+Show NONE-MSG when nothing matches.  Loads eca lazily so the command
+works before any session buffer is current."
+  (require 'eca-chat)
+  (if-let* ((entry (ck/eca--rotate pred backward)))
+      (ck/eca--reveal (car entry) (cdr entry))
+    (eca-info none-msg)))
+
+;;;###autoload
+(defun ck/eca-jump-to-attention ()
+  "Jump to the next ECA chat waiting on you, cycling across all projects.
+A chat waits when it has a pending tool-call approval or an unanswered
+question.  Lands in the chat's own EXWM workspace when it is already
+open there, otherwise opens it as a pane in the current workspace."
+  (interactive)
+  (ck/eca--jump #'eca-chat--needs-attention-p nil
+                "No ECA chat needs attention"))
+
+;;;###autoload
+(defun ck/eca-jump-to-attention-back ()
+  "Like `ck/eca-jump-to-attention' but rotating in the opposite direction."
+  (interactive)
+  (ck/eca--jump #'eca-chat--needs-attention-p t
+                "No ECA chat needs attention"))
+
+;;;###autoload
+(defun ck/eca-jump-to-idle ()
+  "Jump to the next idle ECA chat (open, not loading, not waiting on you)."
+  (interactive)
+  (ck/eca--jump #'ck/eca--idle-p nil "No idle ECA chat"))
+
+;;;###autoload
+(defun ck/eca-jump-next ()
+  "Jump to the next ECA chat in rotation, whatever its state."
+  (interactive)
+  (ck/eca--jump (lambda (_buf) t) nil "No ECA chats"))
+
+;;;###autoload
+(defun ck/eca-jump-prev ()
+  "Jump to the previous ECA chat in rotation, whatever its state."
+  (interactive)
+  (ck/eca--jump (lambda (_buf) t) t "No ECA chats"))
+
 ;;; Package setup -----------------------------------------------------------
 
 (use-package eca
@@ -928,6 +1109,7 @@ name out (point is left after the space, ready for any arguments)."
   :hook
   (eca-chat-mode . (lambda () (whitespace-mode -1)))
   (eca-chat-mode . ck/eca--sweep-on-chat-kill)
+  (eca-chat-mode . ck/eca--disable-native-code-fontify)
   :config
   (setq eca-chat-use-side-window nil)
 
@@ -991,6 +1173,20 @@ name out (point is left after the space, ready for any arguments)."
   ("T" #'ck/eca-chat-open-table-wrapped "Open table (wrapped)")
   ("q" #'eca-stop "Stop ECA if running")
   )
+
+;; Global ECA navigation, reachable from anywhere (bound on the leader as
+;; `SPC s' / `s-SPC s', and to the `s-a' EXWM chord for attention).  Sticky by
+;; default (like `hydra-merge') so the rotation heads can be pressed
+;; repeatedly to sweep every waiting/idle chat; `u' and `q' exit.
+(defhydra hydra-eca-nav (:columns 4)
+  "eca nav"
+  ("j" #'ck/eca-jump-to-attention      "attention next")
+  ("k" #'ck/eca-jump-to-attention-back "attention prev")
+  ("i" #'ck/eca-jump-to-idle           "idle next")
+  ("n" #'ck/eca-jump-next              "chat next")
+  ("p" #'ck/eca-jump-prev              "chat prev")
+  ("u" #'eca                           "open eca" :exit t)
+  ("q" nil                             "quit"))
 
 
 

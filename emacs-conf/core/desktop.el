@@ -63,6 +63,7 @@ Both keys are key description strings."
    ("s-]"                    hydra-right-leader/body)
    ;; commands
    ("s-X"                    ck/exwm-run-command)
+   ("s-e"                    ck/eca-jump-to-attention)
    ("s-b"                    ck/check-battery)
    ("s-s"                    ck/switch-audio-sink)
    ("s-t"                    ck/check-time)

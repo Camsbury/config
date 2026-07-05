@@ -186,10 +186,10 @@
   ("P" #'hydra-project/body           "project")
   ("q" #'evil-save-modified-and-close "write quit")
   ("r" #'hydra-radio/body             "radio commands")
-  ;; USEIT
-  ("s" #'avy-goto-char-2              "avy jump to char")
+  ("s" #'hydra-eca-nav/body           "eca nav")
   ;; USEIT
   ("S" #'string-edit-at-point         "edit string")
+  ;; USEIT
   ("s-s" #'ck/unescape-clipboard-string  "unescape clipboard string")
   ("t" #'hydra-nav/body               "nav")
   ("s-t" #'ck/cycle-theme                "cycle theme")
@@ -200,7 +200,8 @@
   ;; ("V")
   ("w" #'evil-write                   "write file")
   ("W" #'ck/evil-save-as                 "save file as")
-  ;; ("x")
+  ;; USEIT
+  ("x" #'avy-goto-char-2              "avy jump to char")
   ("X" #'toggle-debug-on-error        "toggle debug on error")
   ;; USEIT
   ("y" #'ck/nav-flash-line               "flash line")
