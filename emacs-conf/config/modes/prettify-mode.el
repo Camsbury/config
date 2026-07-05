@@ -242,11 +242,14 @@ Reuses the centering pad (`center-buffer--pad-width') when WIN shows a
 centered, full-width, non-EXWM buffer, and 0 otherwise.  The 0 case is
 what makes the offset vanish in a tiled layout: there is no full-width
 centered source window to align under, so the bottom UI hugs left like
-the buffers do."
+the buffers do.  A margin-capped buffer (`margin-cap-mode') counts as a
+source too: full-width it centers the same column via the same pad, so
+the bottom UI should ride it identically."
   (if (and (window-live-p win)
            (window-full-width-p win)
            (with-current-buffer (window-buffer win)
-             (and center-buffer-mode (not (derived-mode-p 'exwm-mode)))))
+             (and (or center-buffer-mode (bound-and-true-p margin-cap-mode))
+                  (not (derived-mode-p 'exwm-mode)))))
       (center-buffer--pad-width win)
     0))
 
@@ -269,7 +272,19 @@ any prefix left over from a prior read of this reused buffer."
   (let* ((pad  (center-buffer--source-pad (minibuffer-selected-window)))
          (spec (and (> pad 0) (propertize " " 'display `(space :width ,pad)))))
     (setq-local line-prefix spec
-                wrap-prefix spec)))
+                wrap-prefix spec)
+    ;; Marginalia anchors its annotation column with `:align-to (+ left N)',
+    ;; where `left' is the WINDOW TEXT AREA edge, not where this line's text
+    ;; starts.  The line prefix above consumes `pad' columns inside the text
+    ;; area, so marginalia's column would land to the LEFT of the shifted
+    ;; candidates and the stretch glyph collapses -- annotations glue to
+    ;; their candidates, alignment gone.  Shift the anchor by the same pad
+    ;; (buffer-locally: `marginalia--align' runs with the minibuffer
+    ;; current), preserving any user-set default offset; nil pad case still
+    ;; resets a stale local from a prior read of this reused buffer."
+    (when (boundp 'marginalia-align-offset)
+      (setq-local marginalia-align-offset
+                  (+ pad (default-value 'marginalia-align-offset))))))
 
 (add-hook 'minibuffer-setup-hook #'center-buffer--adjust-minibuffer)
 
