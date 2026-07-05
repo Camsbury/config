@@ -10,6 +10,14 @@
 (declare-function eca-table-beautify "eca-table")
 (declare-function eca-chat--prompt-area-start-point "eca-chat")
 (declare-function eca-chat--switch-windows-to-sibling "eca-chat")
+(declare-function eca-chat--prompt-content "eca-chat")
+(declare-function eca-chat--set-prompt "eca-chat")
+(declare-function eca-chat--send-prompt "eca-chat")
+(declare-function eca-chat--insert "eca-chat")
+(declare-function eca-chat--point-at-prompt-field-p "eca-chat")
+(declare-function gfm-mode "markdown-mode")
+(declare-function evil-normal-state "evil-states")
+(declare-function eca-config-updated "eca")
 (declare-function eca-session "eca-util")
 (declare-function eca-assert-session-running "eca-util")
 (declare-function eca-api-request-sync "eca-api")
@@ -649,18 +657,62 @@ no longer clobbers the other open chats."
 
 ;;; Chat-scoped config isolation ---------------------------------------------
 ;;
-;; eca-emacs bug: `eca-chat--apply-per-chat-config' writes the GLOBAL
-;; `eca-chat--last-known-{model,agent,variant,trust}' fallbacks even when the
-;; `config/updated' payload is scoped to a single chat via `chatId'.  Every
-;; buffer resolves its model as (or custom selected last-known), so any tab
-;; whose buffer-local selection is nil (fresh tabs; resumed tabs whose model
-;; notify the server's diff mirror suppressed) silently starts displaying AND
-;; sending the scoped chat's model.  Net effect: changing agent/model on one
-;; registered chat still "changes all models".  Guard: dynamically let-bind
-;; the four globals around scoped updates, so the buffer-local writes land
-;; and the global writes evaporate on exit.  Session-wide payloads (no
-;; chatId, e.g. the post-initialize defaults broadcast) pass through
-;; untouched.  Harmless no-op if upstream fixes the leak.
+;; Two upstream defects conspire to make "change agent/model on one tab"
+;; leak into every other tab (verified against eca server 141.0 +
+;; eca-emacs 20260629.1508); both are worked around here:
+;;
+;; 1. Wire mismatch (the big one): the server scopes a per-chat
+;;    `config/updated' by putting `chatId' at the TOP LEVEL of the payload
+;;    ({"chat": {...}, "chatId": "..."}, see the server's
+;;    `notify-fields-changed-only!'), but `eca-config-updated' extracts only
+;;    the inner `:chat' plist and passes that to `eca-chat-config-updated',
+;;    dropping the id.  The chat handler therefore never sees a `chatId',
+;;    always takes its legacy session-wide branch, and stomps every tab's
+;;    buffer-local model/agent/variant.  Fix:
+;;    `ck/eca--config-updated-attach-chat-id' re-attaches the top-level id
+;;    onto the `:chat' plist before dispatch, so the upstream scoped branch
+;;    (eca-emacs#231) finally runs.
+;;
+;; 2. Global fallback writes: `eca-chat--apply-per-chat-config' and the
+;;    interactive selectors (`eca-chat--set-agent',
+;;    `eca-chat-select-model', `eca-chat-select-variant') write the GLOBAL
+;;    `eca-chat--last-known-{model,agent,variant,trust}' even for
+;;    buffer-scoped changes.  Tabs whose buffer-local selection is nil
+;;    display AND send those globals, so they silently follow.  Fix: shadow
+;;    the globals (dynamic let) around scoped paths, so buffer-local writes
+;;    land and global writes evaporate on exit.  Globals then change only
+;;    on genuine session-wide broadcasts (post-initialize defaults), which
+;;    also means a NEW tab inherits the session default rather than the
+;;    last per-tab pick; that is the intended isolation semantics.
+;;
+;; Server-side scoping additionally requires the chat to EXIST in the
+;; server db (an unknown id falls back to a session-wide broadcast by
+;; design), hence the /costs registration above.  All three pieces are
+;; needed.
+
+(defun ck/eca--config-updated-attach-chat-id (fn session config)
+  "Around-advice for `eca-config-updated' (FN, SESSION, CONFIG).
+Re-attach the top-level `:chatId' onto the inner `:chat' plist, which is
+where `eca-chat-config-updated' expects it; without this the scoped
+branch never runs and per-chat updates broadcast to every tab."
+  (let ((chat-id (plist-get config :chatId))
+        (chat (plist-get config :chat)))
+    (funcall fn session
+             (if (and chat-id chat (not (plist-get chat :chatId)))
+                 (plist-put (copy-sequence config) :chat
+                            (append (list :chatId chat-id) chat))
+               config))))
+
+(defun ck/eca--shadow-config-globals (fn &rest args)
+  "Around-advice shadowing the global last-known config fallbacks.
+Runs FN with ARGS while the four `eca-chat--last-known-*' globals are
+dynamically rebound, so a buffer-scoped selection cannot leak to other
+tabs through the global fallback display path."
+  (let ((eca-chat--last-known-model eca-chat--last-known-model)
+        (eca-chat--last-known-agent eca-chat--last-known-agent)
+        (eca-chat--last-known-variant eca-chat--last-known-variant)
+        (eca-chat--last-known-trust eca-chat--last-known-trust))
+    (apply fn args)))
 
 (defun ck/eca--config-updated-guard-globals (fn session chat-config)
   "Around-advice for `eca-chat-config-updated' (FN, SESSION, CHAT-CONFIG).
@@ -673,6 +725,199 @@ state by shadowing the global last-known fallbacks for the duration."
             (eca-chat--last-known-trust eca-chat--last-known-trust))
         (funcall fn session chat-config))
     (funcall fn session chat-config)))
+
+;;; Prompt compose buffer ----------------------------------------------------
+;;
+;; Editing the prompt in place is annoying: RET sends, and any evil edit risks
+;; an accidental submit.  Borrowing the `string-edit-at-point' idea, pop the
+;; current prompt text into a dedicated buffer where evil motions work freely
+;; and RET is just a newline, then commit it back (optionally sending).  Only
+;; the plain text round-trips; add `@'-contexts in the chat buffer itself.
+;;
+;; The commit/abort commands are intentionally left unbound -- bind them (or a
+;; hydra) in `ck/eca-compose-mode-map' to taste.
+
+(defvar-local ck/eca-compose--source-buffer nil
+  "The `eca-chat-mode' buffer whose prompt this compose buffer edits.")
+
+(defcustom ck/eca-compose-display-direction 'below
+  "Direction in which the compose buffer splits off the chat window.
+The split is confined to the chat window so it never touches the rest of
+the tiling.  `below'/`above' stack them (compose under/over the chat);
+`right'/`left' give a side-by-side split."
+  :type '(choice (const right) (const left) (const below) (const above))
+  :group 'ck/eca)
+
+(defvar ck/eca-compose-mode-map (make-sparse-keymap)
+  "Keymap for `ck/eca-compose-mode'.
+`C-c C-c' toggles back to the chat (fill prompt, no send), `C-c C-s'
+sends, `C-c C-k' aborts.")
+
+(define-minor-mode ck/eca-compose-mode
+  "Minor mode for the ECA prompt compose buffer."
+  :lighter " eca-compose"
+  :keymap ck/eca-compose-mode-map)
+
+(defun ck/eca-chat-edit-prompt ()
+  "Edit the current ECA chat prompt in a dedicated compose buffer.
+Lifts the prompt text into a separate `gfm-mode' buffer where evil
+motions work and RET is a plain newline, so there is no accidental send.
+Commit with `ck/eca-compose-finish' (fill back only) or
+`ck/eca-compose-send' (fill back and send); drop it with
+`ck/eca-compose-abort'.  Only plain text round-trips; add `@'-contexts in
+the chat buffer."
+  (interactive)
+  (unless (derived-mode-p 'eca-chat-mode)
+    (user-error "Not in an ECA chat buffer"))
+  (let ((src (current-buffer))
+        (win (selected-window))
+        (text (or (eca-chat--prompt-content) ""))
+        (buf (get-buffer-create "*eca-compose*")))
+    (with-current-buffer buf
+      (let ((inhibit-read-only t))
+        (erase-buffer))
+      (if (fboundp 'gfm-mode) (gfm-mode) (text-mode))
+      (ck/eca-compose-mode 1)
+      (setq-local ck/eca-compose--source-buffer src)
+      (insert text)
+      (goto-char (point-max))
+      (when (bound-and-true-p evil-local-mode)
+        (evil-normal-state)))
+    ;; Split the chat window itself in the chosen direction, so the compose
+    ;; window lives inside the chat's footprint and leaves the surrounding
+    ;; tiling untouched (a plain `pop-to-buffer' would split an arbitrary
+    ;; window).
+    (pop-to-buffer buf
+                   `((display-buffer-in-direction)
+                     (direction . ,ck/eca-compose-display-direction)
+                     (window . ,win)
+                     ;; Give the compose window a usable share of the chat
+                     ;; window rather than the tiny default split.  Only the
+                     ;; entry matching the split axis is honored: `window-height'
+                     ;; for below/above, `window-width' for left/right.
+                     (window-height . 0.4)
+                     (window-width . 0.5)
+                     ;; Dedicated so killing the compose buffer on
+                     ;; finish/abort deletes this window and the chat window
+                     ;; reclaims the space, instead of leaving a stray split.
+                     (dedicated . t)))))
+
+(defun ck/eca-compose--text ()
+  "Return the trimmed contents of the compose buffer."
+  (string-trim (buffer-substring-no-properties (point-min) (point-max))))
+
+(defun ck/eca-compose--commit (send)
+  "Push the composed text into the source chat prompt; SEND it when non-nil.
+Kills the compose buffer and selects the source chat window afterward."
+  (unless ck/eca-compose--source-buffer
+    (user-error "Not an ECA compose buffer"))
+  (let ((src ck/eca-compose--source-buffer)
+        (text (ck/eca-compose--text))
+        (compose (current-buffer)))
+    (unless (buffer-live-p src)
+      (user-error "Source ECA chat buffer is gone"))
+    (when (and send (string-empty-p text))
+      (user-error "Refusing to send an empty prompt"))
+    (with-current-buffer src
+      (if send
+          (eca-chat--send-prompt (eca-session) text)
+        (eca-chat--set-prompt text)))
+    (when (buffer-live-p compose)
+      (kill-buffer compose))
+    (when-let* ((win (get-buffer-window src t)))
+      (select-window win))))
+
+(defun ck/eca-compose-finish ()
+  "Write the composed text back into the source chat prompt without sending."
+  (interactive)
+  (ck/eca-compose--commit nil))
+
+(defun ck/eca-compose-send ()
+  "Write the composed text back into the source chat prompt and send it."
+  (interactive)
+  (ck/eca-compose--commit t))
+
+(defun ck/eca-compose-abort ()
+  "Discard the compose buffer, leaving the chat prompt untouched."
+  (interactive)
+  (let ((src ck/eca-compose--source-buffer)
+        (compose (current-buffer)))
+    (when (buffer-live-p compose)
+      (kill-buffer compose))
+    (when-let* ((win (and (buffer-live-p src) (get-buffer-window src t))))
+      (select-window win))))
+
+(defun ck/eca-toggle-compose ()
+  "Toggle between the chat prompt and its compose buffer.
+In an `eca-chat-mode' buffer this opens the compose buffer; in the
+compose buffer it fills the text back into the prompt (without sending).
+Bound to `C-c C-c' in both, so one chord flips the edit location either
+way."
+  (interactive)
+  (cond
+   ((bound-and-true-p ck/eca-compose-mode) (ck/eca-compose-finish))
+   ((derived-mode-p 'eca-chat-mode) (ck/eca-chat-edit-prompt))
+   (t (user-error "Not in an ECA chat or compose buffer"))))
+
+(define-key ck/eca-compose-mode-map (kbd "C-c C-c") #'ck/eca-toggle-compose)
+(define-key ck/eca-compose-mode-map (kbd "C-c C-s") #'ck/eca-compose-send)
+(define-key ck/eca-compose-mode-map (kbd "C-c C-k") #'ck/eca-compose-abort)
+
+;;; Command / skill palette --------------------------------------------------
+;;
+;; Slash commands and skills are annoying to type out.  Query the server for
+;; the exact same catalog its `/' completion uses (native commands, skills,
+;; custom prompts, MCP prompts, each with a description) and pick one with
+;; `ivy-read', inserting `/<name> ' at point so any arguments can be typed.
+
+(defun ck/eca-chat--all-commands ()
+  "Return the ECA server's full command/skill/prompt catalog for this chat.
+Each entry is a plist with `:name', `:type', `:description', `:arguments'."
+  (let ((session (eca-session)))
+    (eca-assert-session-running session)
+    (append
+     (plist-get (eca-api-request-sync session
+                                      :method "chat/queryCommands"
+                                      :params (list :chatId eca-chat--id
+                                                    :query ""))
+                :commands)
+     nil)))
+
+(defun ck/eca-chat-insert-command ()
+  "Pick an ECA command, skill or prompt via `ivy-read' and insert it.
+Lists everything the server exposes for `/' completion, with type and
+description, and inserts `/<name> ' at the prompt so you never type the
+name out (point is left after the space, ready for any arguments)."
+  (interactive)
+  (unless (derived-mode-p 'eca-chat-mode)
+    (user-error "Not in an ECA chat buffer"))
+  (let* ((commands (ck/eca-chat--all-commands))
+         (width (apply #'max 1 (mapcar (lambda (c) (length (plist-get c :name)))
+                                       commands)))
+         (table (mapcar
+                 (lambda (c)
+                   (cons (format "%-*s  %-13s  %s"
+                                 width
+                                 (plist-get c :name)
+                                 (format "(%s)" (or (plist-get c :type) ""))
+                                 (or (plist-get c :description) ""))
+                         c))
+                 commands)))
+    (unless table
+      (user-error "No ECA commands available"))
+    (ivy-read
+     "ECA command: " table
+     :require-match t
+     :caller 'ck/eca-chat-insert-command
+     :action
+     (lambda (sel)
+       ;; ivy hands the action the selected label string; resolve the plist.
+       (let* ((cmd (cdr (assoc (if (consp sel) (car sel) sel) table)))
+              (name (plist-get cmd :name)))
+         (when name
+           (unless (eca-chat--point-at-prompt-field-p)
+             (goto-char (point-max)))
+           (eca-chat--insert (concat "/" name " "))))))))
 
 ;;; Package setup -----------------------------------------------------------
 
@@ -691,7 +936,8 @@ state by shadowing the global last-known fallbacks for the duration."
   ;; - a chat whose ECA workspace is already on screen toggles into that
   ;;   window (same-workspace chats share one window);
   ;; - the first chat of a workspace spawns leftmost (full height, from the
-  ;;   whole frame); prettify then sizes it to 86 cols once the layout settles.
+  ;;   whole frame); prettify then sizes it to `prettify-width' cols once the
+  ;;   layout settles.
   (add-to-list 'display-buffer-alist
                '("\\`<eca-chat"
                  (display-buffer-reuse-window
@@ -706,20 +952,34 @@ state by shadowing the global last-known fallbacks for the duration."
 
   (advice-add 'eca-process-stop :after #'ck/eca--sweep-closed-buffers)
   (advice-add 'eca-chat-exit    :after #'ck/eca--sweep-closed-buffers)
+  (advice-add 'eca-config-updated
+              :around #'ck/eca--config-updated-attach-chat-id)
   (advice-add 'eca-chat-config-updated
               :around #'ck/eca--config-updated-guard-globals)
+  (dolist (fn '(eca-chat--set-agent
+                eca-chat-select-model
+                eca-chat-select-variant))
+    (advice-add fn :around #'ck/eca--shadow-config-globals))
+
+  ;; `C-c C-c' toggles the prompt into (and, from the compose buffer, back
+  ;; out of) a dedicated edit buffer -- one chord either direction.  Bound
+  ;; outside an evil state so it works whether typing (insert) or navigating
+  ;; (normal) in the prompt.
+  (define-key eca-chat-mode-map (kbd "C-c C-c") #'ck/eca-toggle-compose)
 
   (general-def 'normal eca-chat-mode-map
     [remap ck/empty-mode-leader]     #'hydra-eca/body))
 
 (defhydra hydra-eca (:exit t :columns 5)
   "eca-chat-mode"
-  ("c" #'eca-chat-clear "Clear the chat")
+  ("c" #'eca-chat-clear-prompt "Clear prompt")
+  ("p" #'ck/eca-chat-edit-prompt "Edit prompt (compose)")
   ("a" #'eca-chat-select-agent "Select agent")
   ("m" #'eca-chat-select-model "Select the model")
   ("o" #'ck/eca-chat-new-registered "New chat")
   ("t" #'eca-chat-select "Select chat")
   ("e" #'eca-chat-resume "Open server chat")
+  ("f" #'ck/eca-chat-insert-command "Insert command/skill")
   ("n" #'eca-chat-rename "Rename chat")
   ("v" #'eca-chat-select-variant "Select the variant")
   ("l" #'tab-line-switch-to-next-tab "Next tab")
@@ -729,7 +989,8 @@ state by shadowing the global last-known fallbacks for the duration."
   ("L" #'ck/eca-chat-toggle-latex "Toggle LaTeX")
   ("b" #'ck/eca-chat-align-tables "Align tables")
   ("T" #'ck/eca-chat-open-table-wrapped "Open table (wrapped)")
-  ("q" #'eca-stop "Stop ECA if running"))
+  ("q" #'eca-stop "Stop ECA if running")
+  )
 
 
 
