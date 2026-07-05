@@ -3,6 +3,7 @@
 
 (m-require config
   performance
+  transient-defaults
   theme
   search
   navigation

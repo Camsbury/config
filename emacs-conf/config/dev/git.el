@@ -126,7 +126,8 @@
 (transient-suffix-put 'magit-push "u" :key "U")
 (transient-append-suffix 'magit-push "U"
   '("u" "Smart Upstream" magit-push-smart-upstream))
-(setq transient-default-level 7)
+;; `transient-default-level' now lives in config/transient-defaults.el so it
+;; applies to every transient, not just magit's.
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
