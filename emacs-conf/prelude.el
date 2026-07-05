@@ -45,6 +45,27 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Byte-compile forward declarations
+
+(defmacro declare-functions (file &rest names)
+  "Declare each of NAMES as a function defined in FILE.
+Expands to one `declare-function' per name, so byte-compiling code that
+calls into a deferred package stays warning-free without force-loading
+that package.  Groups the otherwise noisy per-function boilerplate:
+
+  (declare-functions \"eca-chat\" eca-chat--insert eca-chat--set-prompt)"
+  (declare (indent 1))
+  `(progn ,@(mapcar (lambda (name) `(declare-function ,name ,file)) names)))
+
+(defmacro declare-vars (&rest names)
+  "Forward-declare each of NAMES as a special variable for the byte-compiler.
+Expands to a value-less `defvar' per name, silencing free-variable
+warnings for vars a deferred package owns without touching their values."
+  (declare (indent 0))
+  `(progn ,@(mapcar (lambda (name) `(defvar ,name)) names)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Etc.
 
 (defun random-choice (items)
