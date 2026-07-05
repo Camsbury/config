@@ -89,6 +89,13 @@
       history-delete-duplicates nil)
 (minibuffer-electric-default-mode)
 
+;; Hide commands that do not apply to the current buffer's major/minor modes
+;; from `M-x' completion (e.g. no org-only commands while in a prog buffer).
+;; The built-in predicate honors each command's declared applicability
+;; (`:completion-predicate' / `interactive' MODES), so genuinely global
+;; commands still show everywhere.
+(setq read-extended-command-predicate #'command-completion-default-include-p)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Emacs Nouveau
