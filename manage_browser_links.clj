@@ -23,7 +23,7 @@
          :url  url
          :tags
          (->>  (str/split tags #" ")
-               (into #{} (map keyword)))}]
+               (into #{} (comp (remove str/blank?) (map keyword))))}]
     (back-up-links links)
     (->> entry
          (conj links)
