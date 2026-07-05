@@ -139,6 +139,16 @@ Shared by the flat-classic and semantic compile paths."
 ;;   :extends "structural"                -> merge that file's :faces UNDER these
 ;; Map insertion order is preserved, so :palette emits before :roles (roles
 ;; reference palette colors, not vice versa).
+;;
+;; The EDN files (`doom-molokam.edn', `structural.edn') are pure data, no
+;; comments -- this file is their documentation.  `structural.edn' is the shared
+;; boilerplate layer, seeded from doom-molokam's own face overrides (molokam
+;; descends from an old molokai) and generalized into role terms so future
+;; themes reuse it.  It is applied over `doom-themes-base', so its face set is
+;; intentionally bounded to what molokam overrode -- that is why loading molokam
+;; via EDN reproduces the hand-written .el look exactly.  The two repeated groups
+;; molokam had (rainbow-delimiters depth 1-7, outline 1-2) are NOT in structural;
+;; they are generated from each theme's `:families' shorthands instead.
 
 (defun ck/doom-theme--semantic-p (data)
   "Non-nil if DATA is a semantic (three-tier) theme, not the flat form.

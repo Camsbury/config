@@ -1,33 +1,3 @@
-;; structural.edn -- shared doom "structural" layer (base for our EDN themes).
-;;
-;; The three-tier design: a theme file (e.g. doom-molokam.edn) carries the
-;; volatile parts -- :palette (primitive colors), :roles (semantic meaning ->
-;; color), and :families (repeated face groups as shorthands).  The stable,
-;; verbose boilerplate -- the component-face overrides that reference those
-;; roles -- lives here, written once and shared via `:extends "structural"'.
-;;
-;; EDN convention: everything in OUR namespace is a keyword -- palette/role
-;; names, color/role references, face names.  The loader
-;; (config/theme/editor.el, `ck/doom-theme--xlate') resolves a keyword to its
-;; elisp symbol only when it names a known token (a :palette or :roles entry) or
-;; a :toggles key; every other keyword (a face-plist property like :foreground,
-;; :box, :line-width, :color, :style) is left as-is, and every bare symbol
-;; (bold, italic, wave, doom-lighten, if, when, quote, ...) is literal elisp.
-;;
-;;   :faces {:face-name {:prop value, ...}}   a face override; property keys are
-;;                                            plain plist keywords (kept as-is)
-;;   :&override true                          marks a doom `(face &override)'
-;;   (quote x)      -> elisp 'x               literal symbol (bold, unspecified)
-;;   (quasiquote x) -> elisp `x   / (unquote x) -> ,x   (box / wave specs)
-;;
-;; Round-trip note: this v1 layer is seeded from doom-molokam's own override
-;; set (molokam descends from an old molokai), generalized into role terms so
-;; future themes reuse it.  Because it is applied over `doom-themes-base', its
-;; face set is intentionally bounded to what molokam overrode, so loading
-;; molokam via EDN reproduces the .el look exactly.  The two repeated groups
-;; molokam had -- rainbow-delimiters (depth 1-7) and outline (1-2) -- are NOT
-;; here; they are generated from the theme's :families shorthands instead.
-
 {:structural true
  :doc "Shared structural face layer for EDN-sourced doom themes."
 
@@ -49,46 +19,34 @@
             (quasiquote (:line-width (unquote :-modeline-pad) :color :modeline-bg-inactive)))}
   :isearch        {:foreground :base0 :background :green}
 
-  ;; centaur-tabs
   :centaur-tabs-active-bar-face {:background :green}
   :centaur-tabs-modified-marker-selected
   {:inherit (quote centaur-tabs-selected) :foreground :green}
   :centaur-tabs-modified-marker-unselected
   {:inherit (quote centaur-tabs-unselected) :foreground :green}
-  ;; css-mode <built-in> / scss-mode
   :css-proprietary-property {:foreground :keywords}
-  ;; doom-modeline
   :doom-modeline-bar {:background :green}
   :doom-modeline-buffer-file {:inherit (quote mode-line-buffer-id) :weight (quote bold)}
   :doom-modeline-buffer-path {:inherit (quote bold) :foreground :green}
   :doom-modeline-buffer-project-root {:foreground :green :weight (quote bold)}
   :doom-modeline-buffer-modified {:inherit (quote bold) :foreground :orange}
-  ;; ediff <built-in>
   :ediff-fine-diff-A {:background (doom-blend :magenta :bg 0.3) :weight (quote bold)}
-  ;; evil
   :evil-search-highlight-persist-highlight-face {:background :violet}
-  ;; evil-snipe
   :evil-snipe-first-match-face {:foreground :base0 :background :green}
   :evil-snipe-matches-face     {:foreground :green :underline t}
-  ;; flycheck
   :flycheck-error   {:underline (quasiquote (:style wave :color (unquote :red)))    :background :base1}
   :flycheck-warning {:underline (quasiquote (:style wave :color (unquote :yellow))) :background :base1}
   :flycheck-info    {:underline (quasiquote (:style wave :color (unquote :green)))  :background :base1}
-  ;; helm
   :helm-swoop-target-line-face {:foreground :magenta :inverse-video t}
-  ;; ivy
   :ivy-current-match {:background :base2}
   :ivy-minibuffer-match-face-1 {:background :base1 :foreground :base4}
-  ;; markdown-mode
   :markdown-blockquote-face {:inherit (quote italic) :foreground :dark-blue}
   :markdown-list-face {:foreground :magenta}
   :markdown-pre-face  {:foreground :cyan}
   :markdown-link-face {:inherit (quote bold) :foreground :blue}
   :markdown-code-face {:&override true :background (doom-lighten :base2 0.045)}
-  ;; neotree
   :neo-dir-link-face   {:foreground :cyan}
   :neo-expand-btn-face {:foreground :magenta}
-  ;; org <built-in>
   :org-ellipsis {:foreground :orange}
   :org-tag      {:foreground :yellow :bold nil}
   :org-quote    {:&override true :foreground :base7}

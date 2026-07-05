@@ -1,30 +1,7 @@
-;; doom-molokam.edn -- semantic EDN source of truth for the doom-molokam theme.
-;;
-;; Three-tier design (see config/theme/structural.edn for the shared layer):
-;;   :palette   primitives  -- color name -> [gui 256 16] triple (leaf colors)
-;;   :roles     semantics   -- meaning -> color/expr (syntax classes + extras)
-;;   :families  shorthands  -- repeated face groups (rainbow, outline) as vectors
-;; The stable component-face boilerplate lives in structural.edn and is merged
-;; UNDER this theme via `:extends "structural"'; every keyword it references
-;; (:keywords, :modeline-bg, :-modeline-pad, :base5, ...) is defined below.
-;;
-;; EDN convention: everything in OUR namespace is a keyword -- palette/role/
-;; family names AND references to them, plus the :toggles keys.  The loader
-;; (config/theme/editor.el, `ck/doom-theme--xlate') resolves a keyword to its
-;; elisp symbol only when it names a known token or toggle; a :toggles key like
-;; :padded-modeline resolves to the defcustom `doom-molokam-padded-modeline'.
-;; Bare symbols (bold, italic, doom-lighten, if, when, integerp, quote, ...) are
-;; literal elisp and pass through untouched.
-;;   - a color triple is a vector []      -- [gui 256 16], quoted at load time
-;;   - (quote x) / (quasiquote x) / (unquote x) encode elisp 'x / `x / ,x
-;; Map key insertion order is preserved, so :palette emits before :roles (roles
-;; reference palette colors, not vice versa).
-
 {:name doom-molokam
  :doc  "A dark, vibrant theme inspired by Textmate's Monokai."
  :extends "structural"
 
- ;; defcustom toggles -> doom-molokam-<key>; referenced as keywords below.
  :toggles
  {:brighter-modeline {:default nil
                       :doc "If non-nil, more vivid colors will be used to style the mode-line."
@@ -36,16 +13,11 @@
                       :doc "If non-nil, adds a 4px padding to the mode-line.\nCan be an integer to determine the exact padding."
                       :type (choice integer boolean)}}
 
- ;; Tier 1: primitives.  name -> [gui 256 16] leaf color triple.
  :palette
  {:bg         ["black"   "black"   "black"]
   :fg         ["#d6d6d4" "#dfdfdf" "brightwhite"]
-
-  ;; off-color variants of bg/fg (solaire-mode, subtle highlights)
   :bg-alt     ["#181719" "black"   "black"]
   :fg-alt     ["#556172" "#4d4d4d" "white"]
-
-  ;; spectrum from a starker bg (base0) to a starker fg (base8)
   :base0      ["black"   "black"   "black"]
   :base1      ["#181719" "#101010" "brightblack"]
   :base2      ["#2a292b" "#191919" "brightblack"]
@@ -55,7 +27,6 @@
   :base6      ["#999999" "#7b7b7b" "brightblack"]
   :base7      ["#b3b3b3" "#c1c1c1" "brightblack"]
   :base8      ["#ffffff" "#ffffff" "brightwhite"]
-
   :grey       ["#525254" "#515154" "brightblack"]
   :red        ["#e74c3c" "#e74c3c" "red"]
   :orange     ["#d44478" "#d44478" "brightred"]
@@ -69,9 +40,6 @@
   :cyan       ["#76d7eb" "#66d9ef" "brightcyan"]
   :dark-cyan  ["#8fa1b3" "#8FA1B3" "cyan"]}
 
- ;; Tier 2: semantic roles.  The universal syntax classes (mandatory in every
- ;; doom theme) plus this theme's extra variables; each resolves to a palette
- ;; color or a computed expression over palette colors.
  :roles
  {:highlight      :orange
   :vertical-bar   (doom-lighten :bg 0.1)
@@ -97,8 +65,6 @@
   :vc-modified    :cyan
   :vc-added       (doom-darken :green 0.15)
   :vc-deleted     :red
-
-  ;; extra theme variables (not mandatory for derived themes)
   :modeline-fg          :fg
   :modeline-fg-alt      :base4
   :modeline-bg          :base1
@@ -107,15 +73,10 @@
   :-modeline-pad        (when :padded-modeline
                           (if (integerp :padded-modeline) :padded-modeline 4))}
 
- ;; Tier 3 shorthands: repeated face groups expanded by the loader.
- ;;   :rainbow -> rainbow-delimiters-depth-N-face :foreground (nth N-1)
- ;;   :outline -> (outline-N &override) :foreground (nth N-1)
  :families
  {:rainbow [:magenta :orange :green :cyan :magenta :orange :green]
   :outline [:magenta :orange]}
 
- ;; Theme-specific face tweaks beyond the structural layer (none for molokam).
  :faces {}
 
- ;; Base theme variable overrides (none).
  :vars {}}
