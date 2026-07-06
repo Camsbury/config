@@ -18,6 +18,7 @@
    :box (if :-modeline-pad
             (quasiquote (:line-width (unquote :-modeline-pad) :color :modeline-bg-inactive)))}
   :isearch        {:foreground :base0 :background :green}
+  :fill-column-indicator {:foreground :base2}
 
   :centaur-tabs-active-bar-face {:background :green}
   :centaur-tabs-modified-marker-selected
@@ -30,7 +31,11 @@
   :doom-modeline-buffer-path {:inherit (quote bold) :foreground :green}
   :doom-modeline-buffer-project-root {:foreground :green :weight (quote bold)}
   :doom-modeline-buffer-modified {:inherit (quote bold) :foreground :orange}
-  :ediff-fine-diff-A {:background (doom-blend :magenta :bg 0.3) :weight (quote bold)}
+  :ediff-fine-diff-A {:background (doom-darken :magenta 0.7) :weight (quote bold)}
+  :magit-diff-added   {:foreground :green :background (doom-darken :green 0.9) :extend t}
+  :magit-diff-added-highlight {:foreground (doom-lighten :green 0.1) :background (doom-darken :green 0.8) :extend t}
+  :magit-diff-removed {:foreground :red :background (doom-darken :red 0.9) :extend t}
+  :magit-diff-removed-highlight {:foreground (doom-lighten :red 0.1) :background (doom-darken :red 0.8) :extend t}
   :evil-search-highlight-persist-highlight-face {:background :violet}
   :evil-snipe-first-match-face {:foreground :base0 :background :green}
   :evil-snipe-matches-face     {:foreground :green :underline t}

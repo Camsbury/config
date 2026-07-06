@@ -45,18 +45,6 @@
 ;; USEIT
 (use-package browse-at-remote)
 
-(custom-set-faces
- `(magit-diff-added-highlight
-   ((t (:foreground "#79df60"
-                    :background "unspecified"
-                    :extend t))))
- `(magit-diff-removed-highlight
-   ((t (:foreground "#e74c3c"
-                    :background "unspecified"
-                    :extend t)))))
-
-
-
 (defun ck/github-clone (user repo)
   "clones a repo from github to the obvious path"
   (interactive "sUser name: \nsRepo name: ")
