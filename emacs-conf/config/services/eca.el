@@ -15,7 +15,7 @@
 ;;   isolation per-chat agent/model config isolation (+ server registration)
 ;;   compose   dedicated prompt compose buffer
 ;;   palette   command/skill/prompt picker
-;;   crash     disable the session-fatal native code-block fontify path
+;;   crash     dormant opt-in to re-disable native code-block fontify
 ;;   nav       jump/rotation navigation across all chats
 ;;   keys      the in-chat and global navigation hydras
 
@@ -49,7 +49,6 @@
   :hook
   (eca-chat-mode . (lambda () (whitespace-mode -1)))
   (eca-chat-mode . ck/eca--sweep-on-chat-kill)
-  (eca-chat-mode . ck/eca--disable-native-code-fontify)
   :config
   (setq eca-chat-use-side-window nil)
 
