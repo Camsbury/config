@@ -11,6 +11,16 @@
 ;;
 ;; Delimiter styles handled: $$...$$, \[...\], \(...\), \begin{..}..\end{..},
 ;; and (strictly, to avoid currency/shell false positives) $...$.
+;;
+;; Rendering is ASYNC.  Emacs is the EXWM window manager, so a synchronous
+;; `call-process' to latex/dvisvgm (~300-800ms per uncached fragment) freezes
+;; the whole desktop, and `while-no-input' cannot save us: when an X app is
+;; focused the command loop never runs, so there is no input event to abort
+;; on.  Instead each render runs as a `make-process' chain (latex -> image)
+;; behind a bounded queue.  On a cache miss we drop a PLACEHOLDER overlay
+;; immediately (raw text stays visible, region is reserved, re-enqueue is
+;; blocked) and swap in the image from the process sentinel when it is ready.
+;; Cache hits are cheap and rendered inline on the spot.
 
 (require 'prelude)
 (require 'color)
@@ -31,6 +41,12 @@ Falls back to png when dvisvgm or svg image support is unavailable."
 
 (defcustom ck/eca-chat-latex-dpi 140
   "Resolution for PNG previews (used only by the dvipng fallback)."
+  :type 'integer
+  :group 'ck/eca)
+
+(defcustom ck/eca-chat-latex-max-jobs 3
+  "Maximum number of concurrent async LaTeX render chains.
+Each chain spawns latex then dvisvgm/dvipng; the queue holds the rest."
   :type 'integer
   :group 'ck/eca)
 
@@ -67,35 +83,122 @@ Falls back to png when dvisvgm or svg image support is unavailable."
            "\\end{document}\n")
           (nth 0 rgb) (nth 1 rgb) (nth 2 rgb) fragment))
 
-(defun ck/eca-chat--render-fragment (fragment rgb)
-  "Compile FRAGMENT (colored RGB) to an image; return its path or nil.
-Output is SVG (dvisvgm) or PNG (dvipng) per `ck/eca-chat--effective-format',
-cached on disk by a hash of FRAGMENT, color, DPI and format."
+(defun ck/eca-chat--latex-paths (fragment rgb)
+  "Return a plist of render paths for FRAGMENT colored RGB.
+Keys: :key (content hash), :fmt, :tex, :dvi, :out.  The hash formula matches
+the historical one so the on-disk cache stays valid across this rewrite."
   (let* ((dir ck/eca-chat-latex-image-dir)
          (dpi ck/eca-chat-latex-dpi)
          (fmt (ck/eca-chat--effective-format))
-         (key (secure-hash 'sha1 (format "%s|%S|%d|%s" fragment rgb dpi fmt)))
-         (out (expand-file-name (concat key "." (symbol-name fmt)) dir)))
-    (unless (file-exists-p out)
-      (let ((tex (expand-file-name (concat key ".tex") dir))
-            (dvi (expand-file-name (concat key ".dvi") dir)))
-        (with-temp-file tex
-          (insert (ck/eca-chat--latex-document fragment rgb)))
-        (when (zerop (call-process "latex" nil nil nil
-                                   "-interaction=nonstopmode" "-halt-on-error"
-                                   "-output-directory" dir tex))
-          (pcase fmt
-            ('svg (call-process "dvisvgm" nil nil nil
-                                "--no-fonts" "--exact" "--bbox=min"
-                                "-o" out dvi))
-            ('png (call-process "dvipng" nil nil nil
-                                "-D" (number-to-string dpi)
-                                "-T" "tight" "-bg" "Transparent"
-                                "-o" out dvi))))
-        ;; Clean intermediates; the rendered image is the only artifact we keep.
-        (dolist (ext '(".tex" ".dvi" ".aux" ".log"))
-          (ignore-errors (delete-file (expand-file-name (concat key ext) dir))))))
-    (and (file-exists-p out) out)))
+         (key (secure-hash 'sha1 (format "%s|%S|%d|%s" fragment rgb dpi fmt))))
+    (list :key key :fmt fmt
+          :tex (expand-file-name (concat key ".tex") dir)
+          :dvi (expand-file-name (concat key ".dvi") dir)
+          :out (expand-file-name (concat key "." (symbol-name fmt)) dir))))
+
+;;; Async render queue ------------------------------------------------------
+;;
+;; A job is a plist: (:buffer :overlay :frag :rgb :key :fmt :tex :dvi :out).
+;; `--latex-pump' starts jobs up to `ck/eca-chat-latex-max-jobs'; each job
+;; runs latex then the image backend as chained `make-process' calls, and
+;; `--latex-finish' swaps the placeholder overlay for the image (or drops it
+;; on failure), then pumps the next job.
+
+(defvar ck/eca-chat--latex-queue nil
+  "List of pending async LaTeX render jobs (plists).")
+
+(defvar ck/eca-chat--latex-running 0
+  "Number of in-flight async LaTeX render chains.")
+
+(defun ck/eca-chat--make-latex-overlay (beg end frag &optional img)
+  "Create a LaTeX preview overlay over BEG..END for FRAG.
+With IMG (an image object) the fragment shows as the image immediately.
+Without IMG the overlay is a placeholder: it reserves the region (raw text
+stays visible) and blocks re-enqueue until its async render finishes."
+  (let ((ov (make-overlay beg end)))
+    (overlay-put ov 'ck/eca-latex t)
+    (overlay-put ov 'evaporate t)
+    (overlay-put ov 'help-echo frag)
+    (when img (overlay-put ov 'display img))
+    ov))
+
+(defun ck/eca-chat--latex-finish (job ok)
+  "Complete JOB: install the image when OK, else drop the placeholder.
+Always cleans intermediates, decrements the running count, and pumps."
+  (let ((ov (plist-get job :overlay))
+        (out (plist-get job :out))
+        (key (plist-get job :key))
+        (dir ck/eca-chat-latex-image-dir))
+    (dolist (ext '(".tex" ".dvi" ".aux" ".log"))
+      (ignore-errors (delete-file (expand-file-name (concat key ext) dir))))
+    (if (and ok ov (overlay-buffer ov) (file-exists-p out))
+        (overlay-put ov 'display (create-image out nil nil :ascent 'center))
+      ;; Render failed or the overlay is gone: drop the placeholder so the
+      ;; raw text shows again and the fragment can be retried later.
+      (when (and ov (overlay-buffer ov)) (delete-overlay ov)))
+    (setq ck/eca-chat--latex-running (max 0 (1- ck/eca-chat--latex-running)))
+    (ck/eca-chat--latex-pump)))
+
+(defun ck/eca-chat--latex-start-dvi (job)
+  "Second stage of JOB: rasterize/vectorize the DVI into the output image."
+  (let ((dir ck/eca-chat-latex-image-dir)
+        (dpi ck/eca-chat-latex-dpi)
+        (dvi (plist-get job :dvi))
+        (out (plist-get job :out))
+        (fmt (plist-get job :fmt)))
+    (condition-case nil
+        (make-process
+         :name "eca-latex-img"
+         :noquery t
+         :connection-type 'pipe
+         :buffer nil
+         :command
+         (pcase fmt
+           ('svg (list "dvisvgm" "--no-fonts" "--exact" "--bbox=min"
+                       "-o" out dvi))
+           (_    (list "dvipng" "-D" (number-to-string dpi)
+                       "-T" "tight" "-bg" "Transparent" "-o" out dvi)))
+         :sentinel
+         (lambda (proc _event)
+           (when (memq (process-status proc) '(exit signal))
+             (ck/eca-chat--latex-finish
+              job (and (eq (process-status proc) 'exit)
+                       (zerop (process-exit-status proc))
+                       (file-exists-p out))))))
+      (error (ck/eca-chat--latex-finish job nil)))))
+
+(defun ck/eca-chat--latex-start (job)
+  "First stage of JOB: write the .tex and compile it to DVI asynchronously."
+  (let ((tex (plist-get job :tex))
+        (dir ck/eca-chat-latex-image-dir))
+    (condition-case nil
+        (progn
+          (with-temp-file tex
+            (insert (ck/eca-chat--latex-document
+                     (plist-get job :frag) (plist-get job :rgb))))
+          (make-process
+           :name "eca-latex"
+           :noquery t
+           :connection-type 'pipe
+           :buffer nil
+           :command (list "latex" "-interaction=nonstopmode" "-halt-on-error"
+                          "-output-directory" dir tex)
+           :sentinel
+           (lambda (proc _event)
+             (when (memq (process-status proc) '(exit signal))
+               (if (and (eq (process-status proc) 'exit)
+                        (zerop (process-exit-status proc)))
+                   (ck/eca-chat--latex-start-dvi job)
+                 (ck/eca-chat--latex-finish job nil))))))
+      (error (ck/eca-chat--latex-finish job nil)))))
+
+(defun ck/eca-chat--latex-pump ()
+  "Start queued render jobs until the concurrency limit is reached."
+  (while (and ck/eca-chat--latex-queue
+              (< ck/eca-chat--latex-running ck/eca-chat-latex-max-jobs))
+    (let ((job (pop ck/eca-chat--latex-queue)))
+      (setq ck/eca-chat--latex-running (1+ ck/eca-chat--latex-running))
+      (ck/eca-chat--latex-start job))))
 
 ;;; Overlay management ------------------------------------------------------
 
@@ -115,18 +218,23 @@ Guards against rendering shell vars / code samples that merely look like math."
              (markdown-inline-code-at-point-p)))))
 
 (defun ck/eca-chat--render-at (mbeg mend rgb)
-  "Render the fragment between MBEG and MEND in color RGB, unless skippable."
+  "Preview the fragment between MBEG and MEND in color RGB, unless skippable.
+Cache hits render inline immediately; misses drop a placeholder overlay and
+enqueue an async render that fills the image in when it is ready."
   (unless (or (ck/eca-chat--in-code-p mbeg)
               (ck/eca-chat--latex-overlays mbeg mend))
     (let* ((frag (buffer-substring-no-properties mbeg mend))
-           (img (ck/eca-chat--render-fragment frag rgb)))
-      (when img
-        (let ((ov (make-overlay mbeg mend)))
-          (overlay-put ov 'ck/eca-latex t)
-          (overlay-put ov 'evaporate t)
-          (overlay-put ov 'help-echo frag)
-          (overlay-put ov 'display
-                       (create-image img nil nil :ascent 'center)))))))
+           (paths (ck/eca-chat--latex-paths frag rgb))
+           (out (plist-get paths :out)))
+      (if (file-exists-p out)
+          (ck/eca-chat--make-latex-overlay
+           mbeg mend frag (create-image out nil nil :ascent 'center))
+        (let ((ov (ck/eca-chat--make-latex-overlay mbeg mend frag)))
+          (push (append (list :buffer (current-buffer) :overlay ov
+                              :frag frag :rgb rgb)
+                        paths)
+                ck/eca-chat--latex-queue)
+          (ck/eca-chat--latex-pump))))))
 
 ;;; Scanning ----------------------------------------------------------------
 
@@ -177,7 +285,8 @@ Rejects spacing/digit patterns typical of currency and shell variables."
 (defun ck/eca-chat-preview-latex (&optional beg end)
   "Render LaTeX fragments as inline images in the current ECA chat buffer.
 Operates on the active region when there is one, otherwise the whole buffer.
-Fragments inside markdown code are left as text."
+Fragments inside markdown code are left as text.  Rendering is async: the
+scan returns immediately and images appear as their subprocesses finish."
   (interactive (when (use-region-p)
                  (list (region-beginning) (region-end))))
   (unless (derived-mode-p 'eca-chat-mode)
@@ -194,7 +303,9 @@ Fragments inside markdown code are left as text."
     (ck/eca-chat--render-region beg end rgb)))
 
 (defun ck/eca-chat-clear-latex (&optional beg end)
-  "Remove LaTeX preview images from the current ECA chat buffer."
+  "Remove LaTeX preview images from the current ECA chat buffer.
+In-flight renders whose placeholders are deleted here simply drop their
+result when they finish (the sentinel checks the overlay is still live)."
   (interactive (when (use-region-p)
                  (list (region-beginning) (region-end))))
   (dolist (ov (ck/eca-chat--latex-overlays (or beg (point-min))
