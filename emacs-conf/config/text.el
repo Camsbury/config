@@ -71,7 +71,26 @@
 (use-package corfu
   :config
   (global-corfu-mode)
-  (setq corfu-auto t))
+  (setq corfu-auto t
+        corfu-cycle t
+        corfu-count 16
+        corfu-max-width 120
+        corfu-preselect 'prompt
+        ;; With orderless, keep the popup open across the separator (space)
+        ;; and when nothing matches, instead of quitting mid-input.
+        corfu-quit-at-boundary 'separator
+        corfu-quit-no-match 'separator)
+  ;; Documentation panel beside the selected candidate (childframe, same
+  ;; mechanism as corfu's own popup, already EXWM-proven here).
+  (require 'corfu-popupinfo)
+  (setq corfu-popupinfo-delay '(0.5 . 1.0))
+  (corfu-popupinfo-mode 1)
+  ;; Remember recently-chosen candidates and sort by them; persist via
+  ;; savehist (enabled in config/search.el).
+  (require 'corfu-history)
+  (corfu-history-mode 1)
+  (with-eval-after-load 'savehist
+    (add-to-list 'savehist-additional-variables 'corfu-history)))
 
 (use-package kind-icon
   :after corfu
@@ -83,7 +102,16 @@
 (use-package cape
   :init
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-file))
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  :config
+  ;; Make backend capfs composable: `nonexclusive' lets the dabbrev/file
+  ;; capfs still contribute when lsp/comint/pcomplete would otherwise claim
+  ;; the completion exclusively; `noninterruptible' keeps lsp's capf stable.
+  (when (fboundp 'lsp-completion-at-point)
+    (advice-add 'lsp-completion-at-point :around #'cape-wrap-noninterruptible)
+    (advice-add 'lsp-completion-at-point :around #'cape-wrap-nonexclusive))
+  (advice-add 'comint-completion-at-point :around #'cape-wrap-nonexclusive)
+  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
 
 (defun ck/point-to-right-columns ()
   "Visible columns from point to the right window edge."
