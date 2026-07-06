@@ -156,6 +156,7 @@
   ("s-d" #'ck/delete-file-and-buffer     "delete current file")
   ("D" #'dumb-jump-go                 "dumb jump")
   ("e" #'hydra-exwm-browser-link/body "browser links")
+  ("s-e" #'ck/doom-theme-edit         "edit theme edn")
   ("E" #'etymology-of-word-at-point   "etymology of word at point")
   ("f" #'consult-ripgrep              "find text in project")
   ;; USEIT

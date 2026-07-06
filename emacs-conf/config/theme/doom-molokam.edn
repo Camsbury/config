@@ -1,77 +1,62 @@
-{:name doom-molokam
- :doc  "A dark, vibrant theme inspired by Textmate's Monokai."
+{:name    "doom-molokam"
+ :doc     "A dark, vibrant theme inspired by Textmate's Monokai."
  :extends "structural"
 
- :toggles
- {:brighter-modeline {:default nil
-                      :doc "If non-nil, more vivid colors will be used to style the mode-line."
-                      :type boolean}
-  :brighter-comments {:default nil
-                      :doc "If non-nil, comments will be highlighted in more vivid colors."
-                      :type boolean}
-  :padded-modeline   {:default doom-themes-padded-modeline
-                      :doc "If non-nil, adds a 4px padding to the mode-line.\nCan be an integer to determine the exact padding."
-                      :type (choice integer boolean)}}
-
  :palette
- {:bg         ["black"   "black"   "black"]
-  :fg         ["#d6d6d4" "#dfdfdf" "brightwhite"]
-  :bg-alt     ["#181719" "black"   "black"]
-  :fg-alt     ["#556172" "#4d4d4d" "white"]
-  :base0      ["black"   "black"   "black"]
-  :base1      ["#181719" "#101010" "brightblack"]
-  :base2      ["#2a292b" "#191919" "brightblack"]
-  :base3      ["#39383a" "#252525" "brightblack"]
-  :base4      ["#454446" "#454545" "brightblack"]
-  :base5      ["#808080" "#6b6b6b" "brightblack"]
-  :base6      ["#999999" "#7b7b7b" "brightblack"]
-  :base7      ["#b3b3b3" "#c1c1c1" "brightblack"]
-  :base8      ["#ffffff" "#ffffff" "brightwhite"]
-  :grey       ["#525254" "#515154" "brightblack"]
-  :red        ["#e74c3c" "#e74c3c" "red"]
-  :orange     ["#d44478" "#d44478" "brightred"]
-  :green      ["#79df60" "#66c74e" "green"]
-  :teal       ["#79df60" "#66c74e" "green"]
-  :yellow     ["#c5d474" "#c5d474" "yellow"]
-  :blue       ["#82aaff" "#82aaff" "brightblue"]
-  :dark-blue  ["#727280" "#727280" "blue"]
-  :magenta    ["#8d54a8" "#8d54a8" "magenta"]
-  :violet     ["#9c91e4" "#9c91e4" "brightmagenta"]
-  :cyan       ["#76d7eb" "#66d9ef" "brightcyan"]
-  :dark-cyan  ["#8fa1b3" "#8FA1B3" "cyan"]}
+ {:bg        ["#000000" "black"   "black"]
+  :fg        ["#d6d6d4" "#dfdfdf" "brightwhite"]
+  :bg-alt    ["#181719" "black"   "black"]
+  :fg-alt    ["#556172" "#4d4d4d" "white"]
+  :base0     ["#000000" "black"   "black"]
+  :base1     ["#181719" "#101010" "brightblack"]
+  :base2     ["#2a292b" "#191919" "brightblack"]
+  :base3     ["#39383a" "#252525" "brightblack"]
+  :base4     ["#454446" "#454545" "brightblack"]
+  :base5     ["#808080" "#6b6b6b" "brightblack"]
+  :base6     ["#999999" "#7b7b7b" "brightblack"]
+  :base7     ["#b3b3b3" "#c1c1c1" "brightblack"]
+  :base8     ["#ffffff" "#ffffff" "brightwhite"]
+  :grey      ["#525254" "#515154" "brightblack"]
+  :red       ["#e74c3c" "#e74c3c" "red"]
+  :orange    ["#d44478" "#d44478" "brightred"]
+  :green     ["#79df60" "#66c74e" "green"]
+  :teal      ["#79df60" "#66c74e" "green"]
+  :yellow    ["#c5d474" "#c5d474" "yellow"]
+  :blue      ["#82aaff" "#82aaff" "brightblue"]
+  :dark-blue ["#727280" "#727280" "blue"]
+  :magenta   ["#8d54a8" "#8d54a8" "magenta"]
+  :violet    ["#9c91e4" "#9c91e4" "brightmagenta"]
+  :cyan      ["#76d7eb" "#66d9ef" "brightcyan"]
+  :dark-cyan ["#8fa1b3" "#8FA1B3" "cyan"]}
 
  :roles
- {:highlight      :orange
-  :vertical-bar   (doom-lighten :bg 0.1)
-  :selection      :base5
-  :builtin        :orange
-  :comments       (if :brighter-comments :violet :base5)
-  :doc-comments   (if :brighter-comments
-                      (doom-lighten :violet 0.1)
-                      (doom-lighten :base5 0.25))
-  :constants      :orange
-  :functions      :green
-  :keywords       :magenta
-  :methods        :cyan
-  :operators      :violet
-  :type           :cyan
-  :strings        :yellow
-  :variables      :blue
-  :numbers        :violet
-  :region         :base2
-  :error          :red
-  :warning        :yellow
-  :success        :green
-  :vc-modified    :cyan
-  :vc-added       (doom-darken :green 0.15)
-  :vc-deleted     :red
+ {:highlight            :orange
+  :vertical-bar         [:lighten :bg 0.1]
+  :selection            :base5
+  :builtin              :orange
+  :comments             :base5
+  :doc-comments         [:lighten :base5 0.25]
+  :constants            :orange
+  :functions            :green
+  :keywords             :magenta
+  :methods              :cyan
+  :operators            :violet
+  :type                 :cyan
+  :strings              :yellow
+  :variables            :blue
+  :numbers              :violet
+  :region               :base2
+  :error                :red
+  :warning              :yellow
+  :success              :green
+  :vc-modified          :cyan
+  :vc-added             [:darken :green 0.15]
+  :vc-deleted           :red
   :modeline-fg          :fg
   :modeline-fg-alt      :base4
   :modeline-bg          :base1
-  :modeline-bg-inactive (doom-darken :base1 0.6)
-  :org-quote            (quasiquote ((unquote (doom-lighten (car :bg) 0.05)) "#1f1f1f"))
-  :-modeline-pad        (when :padded-modeline
-                          (if (integerp :padded-modeline) :padded-modeline 4))}
+  :modeline-bg-inactive [:darken :base1 0.6]
+  :org-quote            [:lighten :bg 0.05]}
 
  :families
  {:rainbow [:magenta :orange :green :cyan :magenta :orange :green]

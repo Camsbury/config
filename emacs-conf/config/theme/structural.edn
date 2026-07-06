@@ -1,59 +1,46 @@
 {:structural true
- :doc "Shared structural face layer for EDN-sourced doom themes."
+ :doc        "Shared structural face layer for EDN-sourced doom themes."
 
  :faces
- {:cursor         {:background :magenta}
-  :lazy-highlight {:background :violet :foreground :base0
-                   :distant-foreground :base0 :bold bold}
-  :line-number    {:&override true :foreground :base5
-                   :distant-foreground (quote unspecified)}
-  :line-number-current-line {:&override true :foreground :base7
-                             :distant-foreground (quote unspecified)}
-  :mode-line
-  {:background :modeline-bg :foreground :modeline-fg
-   :box (if :-modeline-pad
-            (quasiquote (:line-width (unquote :-modeline-pad) :color :modeline-bg)))}
-  :mode-line-inactive
-  {:background :modeline-bg-inactive :foreground :modeline-fg-alt
-   :box (if :-modeline-pad
-            (quasiquote (:line-width (unquote :-modeline-pad) :color :modeline-bg-inactive)))}
-  :isearch        {:foreground :base0 :background :green}
-  :fill-column-indicator {:foreground :base2}
+ {:cursor                   {:background :magenta}
+  :lazy-highlight           {:background         :violet :foreground :base0
+                             :distant-foreground :base0  :bold       true}
+  :line-number              {:&override          true :foreground :base5
+                             :distant-foreground :unspecified}
+  :line-number-current-line {:&override          true :foreground :base7
+                             :distant-foreground :unspecified}
+  :mode-line                {:background :modeline-bg :foreground :modeline-fg
+                             :box        false}
+  :mode-line-inactive       {:background :modeline-bg-inactive
+                             :foreground :modeline-fg-alt :box false}
+  :isearch                  {:foreground :base0 :background :green}
+  :fill-column-indicator    {:foreground :base2}
 
-  :centaur-tabs-active-bar-face {:background :green}
-  :centaur-tabs-modified-marker-selected
-  {:inherit (quote centaur-tabs-selected) :foreground :green}
-  :centaur-tabs-modified-marker-unselected
-  {:inherit (quote centaur-tabs-unselected) :foreground :green}
-  :css-proprietary-property {:foreground :keywords}
-  :doom-modeline-bar {:background :green}
-  :doom-modeline-buffer-file {:inherit (quote mode-line-buffer-id) :weight (quote bold)}
-  :doom-modeline-buffer-path {:inherit (quote bold) :foreground :green}
-  :doom-modeline-buffer-project-root {:foreground :green :weight (quote bold)}
-  :doom-modeline-buffer-modified {:inherit (quote bold) :foreground :orange}
-  :ediff-fine-diff-A {:background (doom-darken :magenta 0.7) :weight (quote bold)}
-  :magit-diff-added   {:foreground :green :background (doom-darken :green 0.9) :extend t}
-  :magit-diff-added-highlight {:foreground (doom-lighten :green 0.1) :background (doom-darken :green 0.8) :extend t}
-  :magit-diff-removed {:foreground :red :background (doom-darken :red 0.9) :extend t}
-  :magit-diff-removed-highlight {:foreground (doom-lighten :red 0.1) :background (doom-darken :red 0.8) :extend t}
-  :evil-search-highlight-persist-highlight-face {:background :violet}
-  :evil-snipe-first-match-face {:foreground :base0 :background :green}
-  :evil-snipe-matches-face     {:foreground :green :underline t}
-  :flycheck-error   {:underline (quasiquote (:style wave :color (unquote :red)))    :background :base1}
-  :flycheck-warning {:underline (quasiquote (:style wave :color (unquote :yellow))) :background :base1}
-  :flycheck-info    {:underline (quasiquote (:style wave :color (unquote :green)))  :background :base1}
-  :helm-swoop-target-line-face {:foreground :magenta :inverse-video t}
-  :ivy-current-match {:background :base2}
-  :ivy-minibuffer-match-face-1 {:background :base1 :foreground :base4}
-  :markdown-blockquote-face {:inherit (quote italic) :foreground :dark-blue}
-  :markdown-list-face {:foreground :magenta}
-  :markdown-pre-face  {:foreground :cyan}
-  :markdown-link-face {:inherit (quote bold) :foreground :blue}
-  :markdown-code-face {:&override true :background (doom-lighten :base2 0.045)}
-  :neo-dir-link-face   {:foreground :cyan}
-  :neo-expand-btn-face {:foreground :magenta}
-  :org-ellipsis {:foreground :orange}
-  :org-tag      {:foreground :yellow :bold nil}
-  :org-quote    {:&override true :foreground :base7}
-  :org-todo     {:foreground :yellow :bold (quote inherit)}
-  :org-list-dt  {:foreground :yellow}}}
+  :css-proprietary-property          {:foreground :keywords}
+  :doom-modeline-bar                 {:background :green}
+  :doom-modeline-buffer-file         {:inherit :mode-line-buffer-id :weight :bold}
+  :doom-modeline-buffer-path         {:inherit :bold :foreground :green}
+  :doom-modeline-buffer-project-root {:foreground :green :weight :bold}
+  :doom-modeline-buffer-modified     {:inherit :bold :foreground :orange}
+  :ediff-fine-diff-A                 {:background [:darken :magenta 0.7] :weight :bold}
+  :magit-diff-added                  {:foreground :green :background [:darken :green 0.9] :extend true}
+  :magit-diff-added-highlight        {:foreground [:lighten :green 0.1] :background [:darken :green 0.8] :extend true}
+  :magit-diff-removed                {:foreground :red :background [:darken :red 0.9] :extend true}
+  :magit-diff-removed-highlight      {:foreground [:lighten :red 0.1] :background [:darken :red 0.8] :extend true}
+  :evil-snipe-first-match-face       {:foreground :base0 :background :green}
+  :evil-snipe-matches-face           {:foreground :green :underline true}
+  :flycheck-error                    {:underline {:style :wave :color :red} :background :base1}
+  :flycheck-warning                  {:underline {:style :wave :color :yellow} :background :base1}
+  :flycheck-info                     {:underline {:style :wave :color :green} :background :base1}
+  :ivy-current-match                 {:background :base2}
+  :ivy-minibuffer-match-face-1       {:background :base1 :foreground :base4}
+  :markdown-blockquote-face          {:inherit :italic :foreground :dark-blue}
+  :markdown-list-face                {:foreground :magenta}
+  :markdown-pre-face                 {:foreground :cyan}
+  :markdown-link-face                {:inherit :bold :foreground :blue}
+  :markdown-code-face                {:&override true :background [:lighten :base2 0.045]}
+  :org-ellipsis                      {:foreground :orange}
+  :org-tag                           {:foreground :yellow :bold false}
+  :org-quote                         {:&override true :foreground :base7}
+  :org-todo                          {:foreground :yellow :bold :inherit}
+  :org-list-dt                       {:foreground :yellow}}}

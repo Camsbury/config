@@ -6,8 +6,14 @@
 ;; form, so the theme is derivable from EDN and hand/tool edits to the EDN can
 ;; be re-applied to the running Emacs performantly.
 ;;
-;; The round-trip is verified: loading the theme from EDN reproduces the
-;; hand-written `.el' state byte-for-byte (palette + sampled face attributes).
+;; The EDN files are pure DATA with NO symbols (a user ruling); this file is
+;; both their compiler and their documentation.  The goal is RENDER-equivalence,
+;; not byte-parity with the old hand-written `.el': loading the EDN reproduces
+;; the same resolved palette and face attributes.  The earlier byte-for-byte
+;; `.el' round-trip was migration scaffolding and has been intentionally retired
+;; -- it forced transcribing elisp reader syntax (quasiquote/unquote/car) into
+;; the EDN, which is exactly what the no-symbols rule forbids.  Equivalence is
+;; checked by diffing a full `face-all-attributes' dump before/after a reload.
 ;; See `.eca/docs/reference/theme-editor-crash-postmortem.md' for why we persist
 ;; to disk first and test deliberately.
 
@@ -125,18 +131,25 @@ Shared by the flat-classic and semantic compile paths."
 ;; `:families', `:extends') is compiled here into the same `def-doom-theme'
 ;; form the verified assembler produces, so the round-trip guarantee carries.
 ;;
-;; EDN convention: our tokens are keywords -- palette/role names AND every
-;; reference to them, plus the `:toggles' keys.  `ck/doom-theme--xlate'
-;; resolves a keyword to its elisp symbol ONLY when it names a known token
-;; (a :palette or :roles entry) or a :toggles key; any other keyword (a
-;; face-plist property like :foreground, :box, :line-width, :color, :style) is
-;; left as-is, and bare symbols (bold, doom-lighten, if, quote, ...) are
-;; literal elisp.
+;; EDN convention: the files are PURE DATA -- no symbols anywhere (by user
+;; ruling).  Everything an elisp theme needs is encoded as keywords, strings,
+;; numbers, booleans, vectors, and maps, and `ck/doom-theme--xlate' maps it
+;; back onto elisp:
+;;   - a keyword that NAMES a :palette or :roles entry resolves to that color
+;;     symbol; any OTHER keyword becomes a quoted literal symbol (:bold, :wave,
+;;     :unspecified, :italic, an :inherit face name, ...);
+;;   - color math is a closed grammar: a vector [:lighten C amt] / [:darken C
+;;     amt] (nestable) -- these two ops are all that is allowed;
+;;   - a [gui term256 term16] triple is a plain 3-string vector;
+;;   - EDN true/false/nil map to elisp t/nil (so no `t'/`nil' symbols);
+;;   - a nested plist (an :underline or :box spec) is written as a map.
 ;;   :palette {:name [gui 256 16], ...}   -> leading let-bindings (primitives)
 ;;   :roles   {:name expr, ...}           -> trailing let-bindings (semantics)
 ;;   :faces   {:face {:prop val}}         -> face overrides (:&override marker)
 ;;   :families {:rainbow [...] :outline [...]} -> generated face specs
 ;;   :extends "structural"                -> merge that file's :faces UNDER these
+;; The theme :name is a string, interned on compile.  Themes carry no :toggles;
+;; the toggle plumbing below stays only as dormant capability.
 ;; Map insertion order is preserved, so :palette emits before :roles (roles
 ;; reference palette colors, not vice versa).
 ;;
@@ -167,30 +180,57 @@ Discriminated by a `:palette' key (the flat form uses `:defs')."
         (maphash (lambda (k _) (puthash (ck/doom-theme--kw-name k) t s)) m)))
     s))
 
+(defconst ck/doom-theme--ops
+  '((:lighten . doom-lighten) (:darken . doom-darken))
+  "Color operations the symbol-free EDN grammar allows: op-keyword -> elisp fn.
+These are the ONLY operations; a vector headed by one is compiled into the
+corresponding call.  Extend deliberately -- the grammar is closed on purpose.")
+
+(defun ck/doom-theme--as-name (x)
+  "Coerce a theme name X (a string in the EDN, or already a symbol) to a symbol."
+  (if (stringp x) (intern x) x))
+
 (defun ck/doom-theme--xlate (x tokens toggles name)
-  "Translate EDN datum X into an elisp theme form.
-A keyword resolves to a bare symbol when it names a TOKENS entry, or to the
-theme's defcustom `<NAME>-<key>' when it names a TOGGLES entry (both hash-sets
-of name strings); otherwise it is left as-is (a face-plist property key).
-Vectors are quoted color triples; quote/quasiquote/unquote encode elisp reader
-forms; every other list recurses."
+  "Translate a symbol-free EDN datum X into an elisp theme form.
+The EDN files are pure data with NO symbols; this maps that data onto the
+elisp a `def-doom-theme' body expects:
+
+  - a keyword naming a TOKENS entry (a :palette or :roles name) -> that bare
+    symbol, so doom's colorizer resolves it to a color;
+  - any other keyword -> a quoted literal symbol (:bold -> \\='bold, :wave ->
+    \\='wave, :unspecified -> \\='unspecified, an :inherit face name, ...);
+  - a vector headed by :lighten or :darken -> the matching (doom-lighten ...)
+    / (doom-darken ...) call, arguments translated recursively (nestable);
+  - any other vector -> a quoted list (a [gui term256 term16] color triple);
+  - a map used as a value -> an elisp plist, so an :underline/:box spec like
+    {:style :wave :color :red} becomes (list :style \\='wave :color red);
+  - numbers, strings, and t/nil (from EDN true/false/nil) pass through.
+
+TOKENS is a hash-set of palette+role name strings.  NAME and TOGGLES are kept
+for signature compatibility; TOGGLES is empty now that themes carry none."
   (cond
    ((keywordp x)
     (let ((n (substring (symbol-name x) 1)))
-      (cond ((gethash n tokens)  (intern n))
-            ((gethash n toggles) (intern (format "%s-%s" name n)))
-            (t x))))
+      (cond ((gethash n tokens) (intern n))
+            ((and toggles (gethash n toggles))
+             (intern (format "%s-%s" name n)))
+            (t (list 'quote (intern n))))))
    ((vectorp x)
-    (list 'quote (mapcar (lambda (e) (ck/doom-theme--xlate e tokens toggles name))
-                         (append x nil))))
-   ((consp x)
-    (let ((head (car x)))
-      (cond
-       ((eq head 'quote)            (list 'quote (cadr x)))
-       ((eq head 'quasiquote)       (list (intern "`")  (ck/doom-theme--xlate (cadr x) tokens toggles name)))
-       ((eq head 'unquote)          (list (intern ",")  (ck/doom-theme--xlate (cadr x) tokens toggles name)))
-       ((eq head 'unquote-splicing) (list (intern ",@") (ck/doom-theme--xlate (cadr x) tokens toggles name)))
-       (t (mapcar (lambda (e) (ck/doom-theme--xlate e tokens toggles name)) x)))))
+    (let* ((lst (append x nil))
+           (op  (and lst (keywordp (car lst))
+                     (cdr (assq (car lst) ck/doom-theme--ops)))))
+      (if op
+          (cons op (mapcar (lambda (e) (ck/doom-theme--xlate e tokens toggles name))
+                           (cdr lst)))
+        (list 'quote (mapcar (lambda (e) (ck/doom-theme--xlate e tokens toggles name))
+                             lst)))))
+   ((hash-table-p x)
+    (let (plist)
+      (maphash (lambda (k v)
+                 (setq plist (nconc plist
+                                    (list k (ck/doom-theme--xlate v tokens toggles name)))))
+               x)
+      (cons 'list plist)))
    (t x)))
 
 (defun ck/doom-theme--compile-defs (map tokens toggles name)
@@ -270,7 +310,7 @@ Merges the `:extends' structural layer's faces UNDER the theme's own and
 resolves every token/toggle keyword; `:form' is a ready-to-eval
 `def-doom-theme'.  The token set is the theme's own :palette + :roles keys, so
 the structural layer's role references resolve against this theme."
-  (let* ((name    (gethash :name data))
+  (let* ((name    (ck/doom-theme--as-name (gethash :name data)))
          (struct  (ck/doom-theme--structural-data data))
          (tokens  (ck/doom-theme--name-set (gethash :palette data)
                                            (gethash :roles data)))
