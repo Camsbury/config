@@ -269,7 +269,14 @@ buffer (current during `minibuffer-setup-hook'); the echo area uses
 different buffers, handled by `center-buffer--adjust-echo'.  Cleared to
 nil when there is no centered source (tiled layout), which also resets
 any prefix left over from a prior read of this reused buffer."
-  (let* ((pad  (center-buffer--source-pad (minibuffer-selected-window)))
+  ;; vertico-posframe renders the minibuffer in a floating child frame that
+  ;; positions itself, so this source-alignment indent is not merely useless
+  ;; there but actively shifts the posframe's contents sideways.  Force pad 0
+  ;; while posframe-mode is active (still clears any stale prefix); the indent
+  ;; returns on its own if posframe-mode is later turned off.
+  (let* ((pad  (if (bound-and-true-p vertico-posframe-mode)
+                   0
+                 (center-buffer--source-pad (minibuffer-selected-window))))
          (spec (and (> pad 0) (propertize " " 'display `(space :width ,pad)))))
     (setq-local line-prefix spec
                 wrap-prefix spec)

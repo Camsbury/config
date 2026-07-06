@@ -182,6 +182,7 @@ let
   ];
   elpas = with epkgs.elpaPackages; [
     exwm
+    vertico-posframe # emacs nouveau
   ];
   elpaDevels = with epkgs.elpaDevelPackages; [
     bind-key # use package dep

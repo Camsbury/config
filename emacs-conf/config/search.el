@@ -197,6 +197,35 @@
                  (ck/vertico-transform-functions
                   . ck/vertico-highlight-enabled-mode))))
 
+;; Render the vertico minibuffer in a centered floating child frame.
+;; From GNU ELPA (declared in nix-conf/packages/emacs.nix, elpaPackages);
+;; the `:if (locate-library ...)' guard keeps this inert until the rebuild
+;; lands, so a restart before the rebuild does not error on a missing pkg.
+;;
+;; Enabled as a plain global mode on purpose: posframe is NOT one of the
+;; display modes vertico-multiform manages (buffer/flat/grid/reverse/
+;; unobtrusive/vertical), so the global mode is orthogonal to our multiform
+;; candidate-transform highlighting and the two compose cleanly.  Do NOT add
+;; `posframe' to vertico-multiform settings as well, that would double-manage
+;; the mode (per the vertico-posframe README).  Childframes are EXWM-safe
+;; here (corfu already draws them).
+(use-package vertico-posframe
+  :if (locate-library "vertico-posframe")
+  :demand t
+  :after vertico
+  :config
+  ;; Default min-width is 62% of the frame, which leaves a wide band of empty
+  ;; space to the right of short candidates (and pushes marginalia annotations
+  ;; out to that far edge).  A small floor lets the box hug its content, while
+  ;; the cap keeps long file paths from sprawling across the whole frame.
+  (setq vertico-posframe-poshandler #'posframe-poshandler-frame-center
+        vertico-posframe-border-width 3
+        vertico-posframe-min-width 40
+        vertico-posframe-width 100
+        vertico-posframe-parameters '((left-fringe . 8)
+                                      (right-fringe . 8)))
+  (vertico-posframe-mode 1))
+
 (use-package orderless
   :custom
   (completion-styles '(orderless basic))
