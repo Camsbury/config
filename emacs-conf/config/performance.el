@@ -79,23 +79,77 @@
 ;; The threshold itself is set by `ck/gc-idle-install', called from init.el so
 ;; it stays the authoritative last word on GC during boot (a module-level setq
 ;; here would be clobbered, per the note at the top of this file).
+;;
+;; Consing gate: this session's live heap is large (multiple long-lived ECA
+;; chats + big buffers), so EVERY full GC costs ~140ms no matter how much
+;; garbage there is -- the cost is sweeping the live set, not the garbage.
+;; Measured 2026-07-06: with a naive 4s idle-GC, ~14 collections fired over 8
+;; minutes (one every ~35s), many collecting almost nothing, each a 140ms
+;; pause that can collide with a notification glance or the user re-engaging.
+;; So the idle GC only runs when a meaningful amount was actually allocated
+;; since the last one (`ck/gc-min-consed') and not more often than
+;; `ck/gc-min-interval'. Fewer collections -> fewer collision chances; the
+;; 256MB threshold is the backstop if consing outruns the gate.
 (defvar ck/gc-idle-delay 4
   "Seconds of idle before an off-hot-path `garbage-collect'.")
 
 (defvar ck/gc-high-threshold (* 256 1024 1024)
   "`gc-cons-threshold' held during activity so GC rarely fires mid-command.")
 
+(defvar ck/gc-min-consed (* 64 1024 1024)
+  "Approx bytes allocated since the last idle GC before another is worth it.
+Every full GC here costs ~140ms regardless of garbage volume, so collecting on
+a pause that consed almost nothing is pure stall; this gate skips those.")
+
+(defvar ck/gc-min-interval 30
+  "Minimum seconds between idle GCs: an upper bound on their frequency, and so
+on the odds one lands on a notification glance or the moment you re-engage.")
+
 (defvar ck/gc--idle-timer nil
   "One-shot idle timer, re-armed after each command; see `ck/gc-register'.")
 
+(defvar ck/gc--last-time 0
+  "`float-time' of the last idle GC (for `ck/gc-min-interval').")
+
+(defvar ck/gc--last-use-counts nil
+  "`memory-use-counts' snapshot at the last idle GC (for the consing gate).")
+
+(defun ck/gc--bytes-consed-since ()
+  "Approximate bytes allocated since the last idle GC.
+`memory-use-counts' is cumulative and monotonic, so the weighted delta against
+our last snapshot measures allocation regardless of any intervening GC."
+  (if (null ck/gc--last-use-counts)
+      most-positive-fixnum              ; no snapshot yet: allow the first GC
+    (let ((now (memory-use-counts))
+          (old ck/gc--last-use-counts)
+          ;; rough 64-bit byte sizes per object kind, in memory-use-counts
+          ;; order: conses floats vector-cells symbols string-chars intervals
+          ;; strings
+          (weights '(16 8 8 48 1 56 32))
+          (total 0))
+      (while (and now old weights)
+        (setq total  (+ total (* (car weights) (- (car now) (car old))))
+              now     (cdr now)
+              old     (cdr old)
+              weights (cdr weights)))
+      total)))
+
 (defun ck/gc-idle-collect ()
-  "Collect garbage once the session has gone idle, unless an X app is focused.
-Skips when the selected buffer is an `exwm-mode' buffer: under char-mode the
-user may be actively typing into that X client without resetting the Emacs
-idle timer, and a GC pause there would stutter the application."
-  (unless (with-current-buffer (window-buffer (selected-window))
-            (derived-mode-p 'exwm-mode))
-    (garbage-collect)))
+  "Collect garbage once the session has gone idle. Three gates keep the ~140ms
+full-heap pause off the interactive path and rare:
+ - skip when the selected buffer is an `exwm-mode' X window (under char-mode the
+   user may be actively typing into it without resetting the idle timer, and a
+   GC pause there would stutter the application);
+ - skip when less than `ck/gc-min-consed' has been allocated since the last
+   collection (nothing worth a full sweep);
+ - skip when the last collection was under `ck/gc-min-interval' seconds ago."
+  (unless (or (with-current-buffer (window-buffer (selected-window))
+                (derived-mode-p 'exwm-mode))
+              (< (- (float-time) ck/gc--last-time) ck/gc-min-interval)
+              (< (ck/gc--bytes-consed-since) ck/gc-min-consed))
+    (garbage-collect)
+    (setq ck/gc--last-time (float-time)
+          ck/gc--last-use-counts (memory-use-counts))))
 
 (defun ck/gc-register ()
   "Re-arm the one-shot idle-GC timer. Run from `post-command-hook'.
