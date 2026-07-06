@@ -10,9 +10,12 @@
   (lsp-idle-delay 0.6)
   (lsp-keep-workspace-alive nil))
 
-;; lsp perf
-(setq gc-cons-threshold       100000000      ;; 100mb - maybe move this last in init
-      read-process-output-max (* 1024 1024)) ;; 1mb
+;; lsp perf. NB: no gc-cons-threshold here on purpose. It used to setq 100MB
+;; globally, which fought (and lowered) the steady-state GC configured in
+;; init.el / config/performance.el. GC is now owned solely by ck/gc-idle-install
+;; (256MB + idle collection); this file only bumps the process-output buffer so
+;; a chatty language server's stdout is read in bigger chunks.
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
 
 (use-package lsp-ui)
 (require 'lsp-ui-flycheck)

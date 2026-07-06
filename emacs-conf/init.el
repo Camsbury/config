@@ -31,10 +31,14 @@
 (require 'config)
 ;; Steady-state GC. Agents (ECA) cons hard via JSON parsing + fontification
 ;; of streamed output; a small threshold means GC pauses fire *inside*
-;; redisplay and stall every workspace frame. 128MB keeps GC out of the hot
-;; path. See config/performance.el for the redisplay-side tuning.
-(setq gc-cons-threshold (* 128 1024 1024)
-      gc-cons-percentage 0.2)
+;; redisplay and stall every workspace frame. `ck/gc-idle-install' holds the
+;; threshold high (256MB) so GC rarely fires mid-command, and forces one
+;; collection after a short idle so the ~150ms pause lands off the hot path
+;; (with an EXWM gate so it never stutters a focused X app). This runs here,
+;; last during boot, so its `gc-cons-threshold' is the authoritative one. See
+;; config/performance.el for the machinery and the redisplay-side tuning.
+(setq gc-cons-percentage 0.2)
+(ck/gc-idle-install)
 
 ;; initialize workspaces
 (dolist (i (number-sequence 0 9))
