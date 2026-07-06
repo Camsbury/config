@@ -52,6 +52,17 @@
   :config
   (setq eca-chat-use-side-window nil)
 
+  ;; Stream without the intermediate fontify debounce: nil means "no
+  ;; mid-stream font-lock, jit-lock still colors the visible area, and one
+  ;; final ensure runs at end-of-stream" (ECA's blessed mode; finished output
+  ;; is identical, only off-screen streaming text stays uncolored until
+  ;; scrolled to or done).  The stock 0.15s timer re-ran `font-lock-ensure'
+  ;; over the whole growing turn on every fire: O(n^2) buffer-substring
+  ;; scans on long answers, the string-alloc bursts that tripped whole-heap
+  ;; GCs.  nil also cuts how often native code-block fontify sweeps a stream,
+  ;; lowering the reentrant-mutation SIGSEGV exposure (see eca/crash.el).
+  (setq eca-chat-fontify-debounce-interval nil)
+
   ;; Window placement for eca chats:
   ;; - re-displaying the current chat reuses its window;
   ;; - a chat whose ECA workspace is already on screen toggles into that
