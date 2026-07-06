@@ -148,4 +148,86 @@ to the Emacs frame's black background over a still-rendering game."
 (advice-add 'exwm-layout--hide :around #'ck/exwm-layout--hide-keep-mapped)
 (advice-add 'exwm-layout--show :after  #'ck/exwm-layout--show-raise-protected)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; BUG-2: session death when closing a managed FLOATING window
+;;
+;; Symptom
+;; -------
+;; Closing certain floating clients (the reproducer is a Bitwarden autofill
+;; popup dismissed after a wrong password) killed the whole X session back to
+;; the lightdm greeter.  21 of the 24 SIGSEGV WM coredumps over Jan-Jun 2026
+;; are this one crash; it is the dominant session-killer, not the rare
+;; native-fontify crash (that is a singleton -- see
+;; `config/services/eca/crash.el').
+;;
+;; Root cause (pinned from the PID 8321 gdb backtrace, 2026-06-29)
+;; --------------------------------------------------------------
+;; `exwm-manage--unmanage-window' (exwm-manage.el) tears a floating client
+;; down in two steps: first it fires an X request burst for the floating
+;; frame's container -- UnmapWindow / ReparentWindow / DestroyWindow -- and
+;; `xcb:flush'es it; then it DEFERS the buffer kill via `exwm--defer 0' (an
+;; idle-0 timer).  When that deferred `kill-buffer' runs, the buffer is the
+;; sole occupant of the floating child frame's only window, so the kill
+;; cascades into an implicit `delete-frame' on that frame.  Deep inside
+;; `delete_frame', `Fdelq' (removing the frame from the frame list) hits a
+;; QUIT checkpoint -> `process_pending_signals' -> `gobble_input', which reads
+;; the STILL-PENDING X destroy burst from the socket -> `handle_one_xevent' ->
+;; `gui_consider_frame_title' -> `format_mode_line_unwind_data' on the
+;; half-deleted floating frame -> SIGSEGV.  Because Emacs IS the window
+;; manager, that abort takes X down with it.
+;;
+;; This is a reentrancy bug: a non-reentrant structural mutation (frame
+;; teardown) is re-entered by X input processing at a QUIT checkpoint while
+;; the frame's own destroy events are still in flight.  `inhibit-quit' does
+;; NOT help -- `maybe_quit' calls `process_pending_signals' whenever
+;; `pending_signals' is set regardless of `inhibit-quit' -- and elisp cannot
+;; `block_input'.  The earlier "NVIDIA driver / Xid 8" theory was an
+;; unrelated red herring for these 21 crashes (the X log ends cleanly and a
+;; fresh Emacs coredump is produced -- a pure Emacs abort).
+;;
+;; Fix
+;; ---
+;; Close the race at a SAFE point.  After `exwm-manage--unmanage-window' has
+;; flushed the destroy burst but BEFORE its deferred timer fires, force one
+;; full X round-trip (a `GetInputFocus' reply).  The server cannot answer the
+;; query until it has processed every earlier request, so by the time the
+;; reply arrives all the resulting Unmap/Destroy notify events have been read
+;; off the socket (and dispatched by xelb, harmlessly -- the ids are already
+;; out of `exwm--id-buffer-alist').  The socket is then empty, so when the
+;; deferred `kill-buffer' later runs `delete-frame', the QUIT checkpoint finds
+;; nothing pending and never reenters `handle_one_xevent' on the dying frame.
+;;
+;; The round-trip is only done when the window being unmanaged actually had a
+;; floating frame (tiled windows never hit this path), and the whole thing is
+;; wrapped so a failure here can never itself break window closing: the worst
+;; case is falling back to the pre-existing (rare) crash, never a NEW failure
+;; mode.  NOTE: `exwm-floating--unset-floating' (float->tile toggle) has the
+;; same latent race with its synchronous `delete-frame'; it was never observed
+;; crashing, so it is left alone and only noted here.
+;;
+;; Verification caveat: the crash is intermittent and not reproducible on
+;; demand, so this fix cannot be positively proven.  It is deterministic in
+;; mechanism, low-risk, and confined to config.  See
+;; `.eca/docs/todos.md' (BUG-2) and the decision doc.
+
+(defun ck/exwm--unmanage-drain-x (orig-fn id &rest args)
+  "Around advice for `exwm-manage--unmanage-window' fixing BUG-2.
+When the window being unmanaged had a floating frame, force one X round-trip
+after ORIG-FN's destroy burst so the pending X events drain before the
+deferred `kill-buffer' runs `delete-frame'.  See the commentary above."
+  (let ((floating-p (when-let ((buf (exwm--id->buffer id)))
+                      (buffer-local-value 'exwm--floating-frame buf))))
+    (apply orig-fn id args)
+    (when (and floating-p
+               exwm--connection
+               (slot-value exwm--connection 'connected))
+      (condition-case err
+          (xcb:+request-unchecked+reply exwm--connection
+              (make-instance 'xcb:GetInputFocus))
+        (error
+         (exwm--log "BUG-2 drain round-trip failed: %S" err))))))
+
+(advice-add 'exwm-manage--unmanage-window
+            :around #'ck/exwm--unmanage-drain-x)
+
 (provide 'config/desktop/windows)
