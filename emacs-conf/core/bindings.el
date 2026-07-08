@@ -308,6 +308,10 @@ recomputed on every posframe refresh."
   "j"   #'evil-next-visual-line
   "K"   #'comment-indent-new-line
   "U"   #'undo-tree-visualize
+  ;; Fuzzy line jump with live preview (leaves native `/' + n/N intact).
+  ;; `s' (evil-substitute) is redundant with `cl'; surround lives on the
+  ;; operator-state `s' below, so normal-state `s' is free.
+  "s"   #'consult-line
   "["   #'hydra-left-leader/body
   "]"   #'hydra-right-leader/body
   "M-d" #'evil-multiedit-match-symbol-and-next
