@@ -15,7 +15,35 @@
 (use-package hydra
   :config
   ;;; allows easy remapping in hydras
-  (setq hydra-look-for-remap t))
+  (setq hydra-look-for-remap t)
+  ;; Render hydra hints as a floating posframe box near the cursor, matching
+  ;; vertico-posframe, instead of the bottom `lv' hint window.  Same anchoring
+  ;; trick as the vertico poshandler: hydra-posframe-show calls posframe-show
+  ;; without a `:position', but posframe sets `:parent-window' to the window
+  ;; selected when the hydra fired (a hydra never selects its hint), so read
+  ;; that window's point, inject it as `:position', then defer to posframe's
+  ;; point poshandler (it clamps X into the frame and flips the box upward
+  ;; when placing it below point would overflow the bottom edge).
+  (defun ck/hydra-posframe-poshandler-point (info)
+    "Poshandler anchoring the hydra posframe at the parent window's point."
+    (let* ((win (plist-get info :parent-window))
+           (pt (and (window-live-p win) (window-point win))))
+      (posframe-poshandler-point-bottom-left-corner
+       (if (integerp pt)
+           (plist-put (copy-sequence info) :position pt)
+         info))))
+  ;; `vertico-posframe-border' loads after this file, so its face is absent
+  ;; here; fall back to its package-default grey so the two boxes match.
+  (setq hydra-hint-display-type 'posframe
+        hydra-posframe-show-params
+        (list :internal-border-width 3
+              :internal-border-color
+              (if (facep 'vertico-posframe-border)
+                  (face-attribute 'vertico-posframe-border :background nil t)
+                "#525254")
+              :left-fringe 8
+              :right-fringe 8
+              :poshandler #'ck/hydra-posframe-poshandler-point)))
 
 ;; nice tooltip for unbound mode hydras
 (defun ck/empty-mode-leader ()

@@ -214,11 +214,26 @@
   :demand t
   :after vertico
   :config
+  ;; Anchor the box at the cursor of the window that was active before the
+  ;; minibuffer (like the in-buffer completion popup) instead of dead centre,
+  ;; clamped to stay fully on screen.  vertico-posframe passes no `:position'
+  ;; to posframe, but posframe sets `:parent-window' to that pre-minibuffer
+  ;; window, so read its point, inject it as `:position', then defer to
+  ;; posframe's point poshandler (it clamps X into the frame and flips the box
+  ;; upward when placing it below point would overflow the bottom edge).
+  (defun ck/vertico-posframe-poshandler-point (info)
+    "Poshandler anchoring the posframe at the parent window's point."
+    (let* ((win (plist-get info :parent-window))
+           (pt (and (window-live-p win) (window-point win))))
+      (posframe-poshandler-point-bottom-left-corner
+       (if (integerp pt)
+           (plist-put (copy-sequence info) :position pt)
+         info))))
   ;; Default min-width is 62% of the frame, which leaves a wide band of empty
   ;; space to the right of short candidates (and pushes marginalia annotations
   ;; out to that far edge).  A small floor lets the box hug its content, while
   ;; the cap keeps long file paths from sprawling across the whole frame.
-  (setq vertico-posframe-poshandler #'posframe-poshandler-frame-center
+  (setq vertico-posframe-poshandler #'ck/vertico-posframe-poshandler-point
         vertico-posframe-border-width 3
         vertico-posframe-min-width 40
         vertico-posframe-width 100
@@ -239,9 +254,11 @@
   ;; an EXWM top-level frame, so `window-minibuffer-p' nil and no
   ;; `parent-frame').  An overlay scoped, via its `window' property, to the
   ;; real minibuffer window blanks the prompt and input there while the
-  ;; posframe still shows them.  Vertico draws the count and candidate list
-  ;; with its own before/after-string overlays that sit outside the cover
-  ;; range, so pin those to the posframe window too.  Finally the real
+  ;; posframe still shows them.  Vertico draws the count `[n/m]' with a
+  ;; before-string overlay pinned at point-min, outside the cover range, so
+  ;; pin it to the posframe window too.  (The candidate list needs no pin: it
+  ;; is newline-led, so the one-line real minibuffer clips it below the fold
+  ;; and it never leaks.)  Finally the real
   ;; minibuffer window is selected (cursor from `cursor-type') while the
   ;; posframe window is not (cursor from `cursor-in-non-selected-windows'):
   ;; kill the former, keep a box for the latter.  Everything is undone on
@@ -274,12 +291,9 @@ for why vertico-posframe's built-in hide fails in this config."
             (overlay-put ck/vertico-posframe--cover-ov 'display "")
             (setq-local cursor-type nil
                         cursor-in-non-selected-windows 'box)
-            (when (window-live-p pfwin)
-              (when (and (boundp 'vertico--count-ov) (overlayp vertico--count-ov))
-                (overlay-put vertico--count-ov 'window pfwin))
-              (when (and (boundp 'vertico--candidates-ov)
-                         (overlayp vertico--candidates-ov))
-                (overlay-put vertico--candidates-ov 'window pfwin))))))))
+            (when (and (window-live-p pfwin)
+                       (boundp 'vertico--count-ov) (overlayp vertico--count-ov))
+              (overlay-put vertico--count-ov 'window pfwin)))))))
   (defun ck/vertico-posframe--uncover ()
     "Undo `ck/vertico-posframe--cover' when the minibuffer exits."
     (when (overlayp ck/vertico-posframe--cover-ov)
