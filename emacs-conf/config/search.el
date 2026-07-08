@@ -214,26 +214,17 @@
   :demand t
   :after vertico
   :config
-  ;; Anchor the box at the cursor of the window that was active before the
-  ;; minibuffer (like the in-buffer completion popup) instead of dead centre,
-  ;; clamped to stay fully on screen.  vertico-posframe passes no `:position'
-  ;; to posframe, but posframe sets `:parent-window' to that pre-minibuffer
-  ;; window, so read its point, inject it as `:position', then defer to
-  ;; posframe's point poshandler (it clamps X into the frame and flips the box
-  ;; upward when placing it below point would overflow the bottom edge).
-  (defun ck/vertico-posframe-poshandler-point (info)
-    "Poshandler anchoring the posframe at the parent window's point."
-    (let* ((win (plist-get info :parent-window))
-           (pt (and (window-live-p win) (window-point win))))
-      (posframe-poshandler-point-bottom-left-corner
-       (if (integerp pt)
-           (plist-put (copy-sequence info) :position pt)
-         info))))
+  ;; Anchor the floating minibuffer at the cursor (not dead centre), clamped on
+  ;; screen and frozen for the session so previewing commands do not bounce it.
+  ;; The poshandler is the shared `ck/posframe-poshandler-point' from
+  ;; core/bindings.el (also used by hydra hints); the anchor is cleared in
+  ;; `ck/vertico-posframe--uncover' on minibuffer exit.
+  ;;
   ;; Default min-width is 62% of the frame, which leaves a wide band of empty
   ;; space to the right of short candidates (and pushes marginalia annotations
   ;; out to that far edge).  A small floor lets the box hug its content, while
   ;; the cap keeps long file paths from sprawling across the whole frame.
-  (setq vertico-posframe-poshandler #'ck/vertico-posframe-poshandler-point
+  (setq vertico-posframe-poshandler #'ck/posframe-poshandler-point
         vertico-posframe-border-width 3
         vertico-posframe-min-width 40
         vertico-posframe-width 100
@@ -300,7 +291,9 @@ for why vertico-posframe's built-in hide fails in this config."
       (delete-overlay ck/vertico-posframe--cover-ov)
       (setq ck/vertico-posframe--cover-ov nil))
     (kill-local-variable 'cursor-type)
-    (kill-local-variable 'cursor-in-non-selected-windows))
+    (kill-local-variable 'cursor-in-non-selected-windows)
+    ;; Drop the frozen cursor anchor so the next minibuffer re-anchors.
+    (ck/posframe-point-anchor-reset))
   (advice-add 'vertico-posframe--show :after #'ck/vertico-posframe--cover)
   (add-hook 'minibuffer-exit-hook #'ck/vertico-posframe--uncover)
   (vertico-posframe-mode 1))

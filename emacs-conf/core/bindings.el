@@ -12,28 +12,50 @@
   :config
   (which-key-mode)
   (setq which-key-max-display-columns 5))
+;; Cursor-anchored posframe positioning, shared by vertico-posframe (the
+;; floating minibuffer, see config/search.el) and hydra hints (below).  Anchor
+;; the box at the cursor of the window active before the popup, instead of dead
+;; centre, clamped to stay fully on screen.  Neither caller passes a
+;; `:position' to posframe, but posframe sets `:parent-window' in the poshandler
+;; info to that pre-popup window, so read its point, inject it as `:position',
+;; and defer to posframe's point poshandler (it clamps X into the frame and
+;; flips the box upward when placing it below point would overflow the bottom
+;; edge, so screen-edge cases stay fully visible for free).
+;;
+;; FREEZE the result for the life of the popup.  posframe re-runs the poshandler
+;; on every refresh, so recomputing from the live point makes previewing
+;; commands (switch-to-buffer, consult-line) bounce the box around as they move
+;; point.  Cache the first `(x . y)' and reuse it; each caller clears the cache
+;; when its popup closes (minibuffer exit / hydra hide), so the next popup
+;; re-anchors at the new cursor.
+(defvar ck/posframe--point-anchor nil
+  "Frozen `(x . y)' for a cursor-anchored posframe, or nil between popups.")
+(defun ck/posframe-poshandler-point (info)
+  "Anchor the posframe at the parent window's point, frozen once per popup.
+See the comment above for why the position is cached rather than
+recomputed on every posframe refresh."
+  (or ck/posframe--point-anchor
+      (setq ck/posframe--point-anchor
+            (let* ((win (plist-get info :parent-window))
+                   (pt (and (window-live-p win) (window-point win))))
+              (posframe-poshandler-point-bottom-left-corner
+               (if (integerp pt)
+                   (plist-put (copy-sequence info) :position pt)
+                 info))))))
+(defun ck/posframe-point-anchor-reset (&rest _)
+  "Clear the frozen posframe anchor so the next popup re-anchors at point."
+  (setq ck/posframe--point-anchor nil))
+
 (use-package hydra
   :config
   ;;; allows easy remapping in hydras
   (setq hydra-look-for-remap t)
-  ;; Render hydra hints as a floating posframe box near the cursor, matching
-  ;; vertico-posframe, instead of the bottom `lv' hint window.  Same anchoring
-  ;; trick as the vertico poshandler: hydra-posframe-show calls posframe-show
-  ;; without a `:position', but posframe sets `:parent-window' to the window
-  ;; selected when the hydra fired (a hydra never selects its hint), so read
-  ;; that window's point, inject it as `:position', then defer to posframe's
-  ;; point poshandler (it clamps X into the frame and flips the box upward
-  ;; when placing it below point would overflow the bottom edge).
-  (defun ck/hydra-posframe-poshandler-point (info)
-    "Poshandler anchoring the hydra posframe at the parent window's point."
-    (let* ((win (plist-get info :parent-window))
-           (pt (and (window-live-p win) (window-point win))))
-      (posframe-poshandler-point-bottom-left-corner
-       (if (integerp pt)
-           (plist-put (copy-sequence info) :position pt)
-         info))))
-  ;; `vertico-posframe-border' loads after this file, so its face is absent
-  ;; here; fall back to its package-default grey so the two boxes match.
+  ;; Render hydra hints as a floating posframe box near the cursor (via the
+  ;; shared `ck/posframe-poshandler-point' above), matching vertico-posframe,
+  ;; instead of the bottom `lv' hint window.  `vertico-posframe-border' loads
+  ;; after this file, so its face is absent here; fall back to its
+  ;; package-default grey so the two boxes match.  Clear the frozen anchor when
+  ;; the hint hides so the next hydra re-anchors.
   (setq hydra-hint-display-type 'posframe
         hydra-posframe-show-params
         (list :internal-border-width 3
@@ -43,7 +65,8 @@
                 "#525254")
               :left-fringe 8
               :right-fringe 8
-              :poshandler #'ck/hydra-posframe-poshandler-point)))
+              :poshandler #'ck/posframe-poshandler-point))
+  (advice-add 'hydra-posframe-hide :after #'ck/posframe-point-anchor-reset))
 
 ;; nice tooltip for unbound mode hydras
 (defun ck/empty-mode-leader ()
