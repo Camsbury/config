@@ -407,6 +407,13 @@ for why vertico-posframe's built-in hide fails in this config."
         consult-async-input-throttle 0.2
         consult-async-input-debounce 0.1)
 
+  ;; Never auto-preview EXWM buffers.  An EXWM buffer *is* an X client window,
+  ;; so consult's preview `switch-to-buffer' physically yanks that window into
+  ;; the current frame/workspace, wrecking the layout.  Skip preview for them
+  ;; (selection on RET still switches normally); regular buffers preview as
+  ;; before.
+  (setq consult-preview-excluded-buffers '(derived-mode . exwm-mode))
+
   ;; Gate the heavy previews behind `C-SPC' instead of auto-previewing every
   ;; candidate: ripgrep/grep hits, recent files and bookmarks preview only on
   ;; demand, and `consult-theme' only after a debounce (so scrolling the
