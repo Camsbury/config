@@ -310,8 +310,10 @@ recomputed on every posframe refresh."
   "U"   #'undo-tree-visualize
   ;; Fuzzy line jump with live preview (leaves native `/' + n/N intact).
   ;; `s' (evil-substitute) is redundant with `cl'; surround lives on the
-  ;; operator-state `s' below, so normal-state `s' is free.
+  ;; operator-state `s' below, so normal-state `s' is free.  Lowercase searches
+  ;; this buffer, uppercase (`S', redundant with `cc') searches all buffers.
   "s"   #'consult-line
+  "S"   #'consult-line-multi
   "["   #'hydra-left-leader/body
   "]"   #'hydra-right-leader/body
   "M-d" #'evil-multiedit-match-symbol-and-next
