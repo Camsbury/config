@@ -6,7 +6,6 @@ let
     aggressive-indent
     alarm-clock
     alda-mode
-    all-the-icons-ivy-rich
     # ammonite-term-repl # scala
     astyle
     async
@@ -91,10 +90,6 @@ let
     ht
     html-to-hiccup
     hydra
-    ivy
-    ivy-clojuredocs
-    ivy-hydra
-    ivy-xref
     journalctl-mode
     js2-mode
     json-navigator

@@ -3,7 +3,7 @@
 (require 'hydra)
 (require 'core/env)
 (require 'config/langs/org)
-(require 'config/modes/utils)
+(require 'lib/utils)
 
 (use-package pomidor
   ;; Autoloads never activate (restricted `package-load-list'); without this
@@ -150,17 +150,16 @@
     (call-interactively #'org-habit-toggle-display-in-agenda)))
 
 (defun gtd--build-tags (tags selected fn)
-  (ivy-read
-   "Tag: "
-   (append tags '("DONE"))
-   :preselect "DONE"
-   :action
-   (lambda (tag)
-     (if (string= "DONE" tag)
-         (funcall fn selected)
-       (let* ((selected (cons tag selected))
-              (tags     (remove tag tags)))
-         (gtd--build-tags tags selected fn))))))
+  ;; DONE leads the candidate list (order preserved), so it starts
+  ;; preselected and a bare RET finishes the tag set (the old ivy
+  ;; :preselect behavior).
+  (let ((tag (ck/completing-read-in-order
+              "Tag: " (cons "DONE" tags))))
+    (if (string= "DONE" tag)
+        (funcall fn selected)
+      (let* ((selected (cons tag selected))
+             (tags     (remove tag tags)))
+        (gtd--build-tags tags selected fn)))))
 
 (defun gtd--tagged-next-actions-view
     (tags)
@@ -212,18 +211,14 @@
               (copy-marker pom)))))
      nil
      'agenda)
-    (ivy-read
-     "Completed Task: "
-     (ht-keys tasks)
-     :action
-     (lambda (task)
-       (let ((m (ht-get tasks task)))
-         (save-excursion
-           (with-current-buffer (marker-buffer m)
-             (goto-char m)
-             (org-todo)
-             ;; FIXME: this is too fast for some reason for the habit hooks
-             (save-buffer))))))))
+    (let* ((task (completing-read "Completed Task: " (ht-keys tasks) nil t))
+           (m (ht-get tasks task)))
+      (save-excursion
+        (with-current-buffer (marker-buffer m)
+          (goto-char m)
+          (org-todo)
+          ;; FIXME: this is too fast for some reason for the habit hooks
+          (save-buffer))))))
 
 (defun gtd--get-org-mode-link-label (str)
   "Return the label of an org-mode link, or the string itself if it's not a link."
@@ -246,16 +241,12 @@
           (copy-marker pom))))
      "project"
      'agenda)
-    (ivy-read
-     "Project: "
-     (ht-keys projects)
-     :action
-     (lambda (p)
-       (let ((m (ht-get projects p)))
-         (switch-to-buffer (marker-buffer m))
-         (goto-char m)
-         (evil-scroll-line-to-center)
-         (org-show-subtree))))))
+    (let* ((p (completing-read "Project: " (ht-keys projects) nil t))
+           (m (ht-get projects p)))
+      (switch-to-buffer (marker-buffer m))
+      (goto-char m)
+      (evil-scroll-line-to-center)
+      (org-show-subtree))))
 
 (defun gtd-open-graph ()
   (interactive)

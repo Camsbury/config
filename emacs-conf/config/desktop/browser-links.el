@@ -1,12 +1,16 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
-(require 'hydra)
+(require 'core/keys-base)
 (require 'browse-url)
+(require 'lib/utils)
+
+(declare-functions "config/desktop/commands/launchers" ck/open-firefox)
+(declare-functions "exwm-input" exwm-input--fake-key)
+(declare-vars exwm-mode-map)
 
 
-(defvar exwm-browser-set-link-script)
-(setq exwm-browser-set-link-script
-      "~/projects/Camsbury/config/manage_browser_links.clj")
+(defvar exwm-browser-set-link-script
+  "~/projects/Camsbury/config/manage_browser_links.clj")
 
 (defun exwm-browser-link-visit ()
   "Select a link to visit in the browser"
@@ -15,26 +19,21 @@
          (parseedn-read-str
           (shell-command-to-string
            (concat "bb -f " exwm-browser-set-link-script " list-all")))))
-    (ivy-read
-     "Link: "
-     links
-     :action
-                (lambda (n)
-            (ck/open-firefox)
-            (->> links (gethash n) (gethash :url) browse-url)))))
+    (let ((n (completing-read "Link: " links nil t)))
+      (ck/open-firefox)
+      (->> links (gethash n) (gethash :url) browse-url))))
 
 (defun exwm-browser-link--build-new-tags (tags selected fn)
-  (ivy-read
-   "Tag: "
-   (append tags '("DONE"))
-   :preselect "DONE"
-   :action
-   (lambda (tag)
-     (if (string= "DONE" tag)
-         (funcall fn selected)
-       (let* ((selected (cons tag selected))
-              (tags     (remove tag tags)))
-         (exwm-browser-link--build-new-tags tags selected fn))))))
+  ;; DONE leads the candidate list (order preserved), so it starts
+  ;; preselected and a bare RET finishes the tag set (the old ivy
+  ;; :preselect behavior).
+  (let ((tag (ck/completing-read-in-order
+              "Tag: " (cons "DONE" tags))))
+    (if (string= "DONE" tag)
+        (funcall fn selected)
+      (let* ((selected (cons tag selected))
+             (tags     (remove tag tags)))
+        (exwm-browser-link--build-new-tags tags selected fn)))))
 
 (defun exwm-browser-link--grab-meta (link-name)
   (interactive "sName: ")
@@ -63,12 +62,8 @@
                  ht-values
                  (--map (gethash :url it))
                  (-map #'browse-url))
-          (ivy-read
-           "Link: "
-           links
-           :action
-           (lambda (n)
-             (->> links (gethash n) (gethash :url) browse-url))))
+          (let ((n (completing-read "Link: " links nil t)))
+            (->> links (gethash n) (gethash :url) browse-url)))
       (message "No links with this tag set!"))))
 
 (defun exwm-browser-link--get-tags (selected)
@@ -82,23 +77,18 @@
      "'"))))
 
 (defun exwm-browser-link--build-tags (tags selected &optional visit-all?)
-  (ivy-read
-   "Tag: "
-   (append tags '("DONE"))
-   :preselect "DONE"
-   :action
-   (lambda (tag)
-     (if (string= "DONE" tag)
-         (if selected
-             (exwm-browser-link--visit-tagged selected visit-all?)
-           (exwm-browser-link-visit))
-       (let* ((selected (cons tag selected))
-              (tags
-               (->> selected
-                    exwm-browser-link--get-tags
-                    (remove tag)
-                    )))
-         (exwm-browser-link--build-tags tags selected visit-all?))))))
+  (let ((tag (ck/completing-read-in-order
+              "Tag: " (cons "DONE" tags))))
+    (if (string= "DONE" tag)
+        (if selected
+            (exwm-browser-link--visit-tagged selected visit-all?)
+          (exwm-browser-link-visit))
+      (let* ((selected (cons tag selected))
+             (tags
+              (->> selected
+                   exwm-browser-link--get-tags
+                   (remove tag))))
+        (exwm-browser-link--build-tags tags selected visit-all?)))))
 
 (defun exwm-browser-link-visit-tagged ()
   "choose tags to filter by"

@@ -4,6 +4,8 @@
 (require 'core/env)
 (require 'lib/utils)
 
+(declare-functions "config/desktop/commands/launchers" ck/open-firefox)
+
 (defvar puzzle-themes
   (--> (concat cmacs-share-path "/puzzle-themes.edn")
        (f-read it 'utf-8)
@@ -106,19 +108,19 @@
 
 (defun ck/fen-distance (fen-a fen-b)
   "Calculate how similar one chess position is to another"
-  (--fen-distance
+  ;; was `--fen-distance', a function that never existed under that name
+  ;; (latent void-function error; caught by the byte-compile sweep)
+  (ck/expanded-fen-distance
    (ck/expand-fen fen-a)
    (ck/expand-fen fen-b)))
 
 
-(defun ck/ivy-copy-eco-pgn ()
+(defun ck/copy-eco-pgn ()
   "copy PGN for ECO opening"
   (interactive)
-  (defvar openings (ck/extract-openings))
-  (ivy-read
-   "Opening: "
-   openings
-   :action (lambda (x) (kill-new (cadr x)))))
+  (let* ((openings (ck/extract-openings))
+         (choice (completing-read "Opening: " openings nil t)))
+    (kill-new (cadr (assoc choice openings)))))
 
 
 ;; (defun ivy-copy-eco-fen ()
@@ -182,13 +184,11 @@
 ;;    openings
 ;;    :action #'--ivy-similar-position-copy-eco-pgn))
 
-(defun ck/ivy-play-puzzle-theme ()
+(defun ck/choose-puzzle-theme ()
   "Open a puzzle theme on lichess"
   (interactive)
-  (ivy-read
-   "Puzzle theme: "
-   puzzle-themes
-   :action #'ck/play-puzzle-theme))
+  (ck/play-puzzle-theme
+   (completing-read "Puzzle theme: " puzzle-themes nil t)))
 
 (defun ck/open-local-blitz-tactics (&optional browse-p)
   "opens a local blitz tactics instance"

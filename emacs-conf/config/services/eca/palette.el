@@ -4,9 +4,11 @@
 ;; Slash commands and skills are annoying to type out.  Query the server for
 ;; the exact same catalog its `/' completion uses (native commands, skills,
 ;; custom prompts, MCP prompts, each with a description) and pick one with
-;; `ivy-read', inserting `/<name> ' at point so any arguments can be typed.
+;; `completing-read', inserting `/<name> ' at point so any arguments can be
+;; typed.
 
 (require 'prelude)
+(require 'lib/utils)
 
 (declare-functions "eca-util"
   eca-session
@@ -16,7 +18,6 @@
 (declare-functions "eca-chat"
   eca-chat--point-at-prompt-field-p
   eca-chat--insert)
-(declare-functions "ivy" ivy-read)
 (declare-vars eca-chat--id)
 
 (defun ck/eca-chat--all-commands ()
@@ -33,7 +34,7 @@ Each entry is a plist with `:name', `:type', `:description', `:arguments'."
      nil)))
 
 (defun ck/eca-chat-insert-command ()
-  "Pick an ECA command, skill or prompt via `ivy-read' and insert it.
+  "Pick an ECA command, skill or prompt via `completing-read' and insert it.
 Lists everything the server exposes for `/' completion, with type and
 description, and inserts `/<name> ' at the prompt so you never type the
 name out (point is left after the space, ready for any arguments)."
@@ -55,18 +56,14 @@ name out (point is left after the space, ready for any arguments)."
                  commands)))
     (unless table
       (user-error "No ECA commands available"))
-    (ivy-read
-     "ECA command: " table
-     :require-match t
-     :caller 'ck/eca-chat-insert-command
-     :action
-     (lambda (sel)
-       ;; ivy hands the action the selected label string; resolve the plist.
-       (let* ((cmd (cdr (assoc (if (consp sel) (car sel) sel) table)))
-              (name (plist-get cmd :name)))
-         (when name
-           (unless (eca-chat--point-at-prompt-field-p)
-             (goto-char (point-max)))
-           (eca-chat--insert (concat "/" name " "))))))))
+    ;; Keep the server's catalog order (in-order read); resolve the selected
+    ;; label string back to its plist through the table.
+    (let* ((sel (ck/completing-read-in-order "ECA command: " table nil t))
+           (cmd (cdr (assoc sel table)))
+           (name (plist-get cmd :name)))
+      (when name
+        (unless (eca-chat--point-at-prompt-field-p)
+          (goto-char (point-max)))
+        (eca-chat--insert (concat "/" name " "))))))
 
 (provide 'config/services/eca/palette)

@@ -28,8 +28,6 @@
   :after (clojure-mode))
 (use-package cider
   :after (clojure-mode))
-(use-package ivy-clojuredocs
-  :after (clojure-mode))
 (use-package datomic-snippets
   :after (clojure-mode))
 (use-package html-to-hiccup)

@@ -302,9 +302,6 @@ recomputed on every posframe refresh."
 (general-define-key :keymaps 'global-map
  "M-ESC ESC" nil)
 
-(general-define-key :keymaps 'ivy-minibuffer-map
-                    "M-<RET>" #'ivy-immediate-done)
-
 (general-define-key
  "M-n"        #'goto-address-at-point
  "C-S-p"      #'yank)

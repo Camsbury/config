@@ -34,18 +34,6 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Ivy - keeping around for things that depend on it, but don't use it globally
-
-(use-package ivy
-  :demand nil)
-(use-package ivy-rich
-  :after (ivy)
-  :config (setq ivy-rich-mode nil))
-(use-package all-the-icons-ivy-rich
-  :after (ivy-rich))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Others
 
 (use-package smex)
