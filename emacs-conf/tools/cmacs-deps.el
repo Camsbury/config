@@ -339,6 +339,127 @@ definitions (informational only; the tag stays `application')."
               :other-heads (sort (delete-dups other) #'string<)
               :top-forms n)))))
 
+;;;; --- environment tier (editor vs WM) -------------------------------------
+;;
+;; A SECOND axis, orthogonal to library/application: what runtime environment
+;; a file's BEHAVIOR needs.  This is mechanical evidence only; the
+;; architectural "layer" call (WM implementation vs feature touchpoint) stays
+;; a human judgment.  Ruling that motivated the split: games/wc3 is tier `wm'
+;; because its XF86 keybindings need EXWM (to reach them inside a fullscreen
+;; game), yet it is NOT part of the WM layer - it is a feature touchpoint.
+;;
+;;   editor      no EXWM references; behavior testable in a plain Emacs
+;;   wm-guarded  only degrade-gracefully guards (`exwm-mode' checks); testable
+;;               in a plain Emacs where the guards simply never fire
+;;   wm          real EXWM API references; behavior only exercisable with
+;;               EXWM as the window manager (nested X / Xephyr)
+;;
+;; The separate :display list marks files that create frames/posframes or set
+;; X-level settings: they need SOME X display (Xvfb) though not the WM.
+
+(defconst cmacs-deps--wm-guard-symbols '(exwm-mode)
+  "EXWM symbols whose reference is a degrade-gracefully check, not API use.
+`exwm-mode' shows up in `derived-mode-p' guards, preview/mode exclusion
+lists, and evil state lists; code referencing only it runs fine without
+EXWM (the guard never fires).")
+
+(defconst cmacs-deps--display-symbols
+  '(make-frame make-frame-command set-frame-font
+    x-super-keysym x-meta-keysym)
+  "Symbols implying the file needs an X display (though not the WM).
+Symbols prefixed `posframe-' are matched by prefix as well.")
+
+(defun cmacs-deps--walk-symbols (form fn)
+  "Call FN on every symbol occurring anywhere in FORM."
+  (cond ((symbolp form) (when form (funcall fn form)))
+        ((consp form)
+         (cmacs-deps--walk-symbols (car form) fn)
+         (cmacs-deps--walk-symbols (cdr form) fn))
+        ((vectorp form)
+         (mapc (lambda (x) (cmacs-deps--walk-symbols x fn)) form))))
+
+(defconst cmacs-deps--defining-heads
+  '(defun cl-defun defmacro cl-defmacro defsubst defvar defvar-local
+    defconst defcustom defalias define-minor-mode define-derived-mode
+    define-globalized-minor-mode)
+  "Heads whose (cadr FORM) names a symbol the file itself defines.
+Used to subtract a file's OWN namespace from its WM-API evidence (e.g.
+browser-links deliberately lives in an `exwm-browser-link-*' namespace;
+those are its definitions, not EXWM API use).")
+
+(defun cmacs-deps--defined-names (forms)
+  "Symbols defined by FORMS (top level or inside load-time wrappers)."
+  (let ((names '()))
+    (cl-labels ((scan (form)
+                  (when (consp form)
+                    (cond
+                     ((and (memq (car form) cmacs-deps--defining-heads)
+                           (cdr form))
+                      (let ((name (cadr form)))
+                        (when (and (consp name) (eq (car name) 'quote))
+                          (setq name (cadr name)))
+                        (when (symbolp name) (push name names))))
+                     ((memq (car form) cmacs-deps--transparent-heads)
+                      (mapc #'scan (cdr form)))))))
+      (mapc #'scan forms))
+    names))
+
+(defun cmacs-deps-env-tier (file)
+  "Classify FILE's environment tier: `wm', `wm-guarded', or `editor'.
+Walks every symbol in the file's forms.  `exwm-'-prefixed symbols are WM
+API use, except the guard set (`cmacs-deps--wm-guard-symbols') and names
+the file itself defines (its own namespace).  A bare `exwm' (as in a
+`require' or `featurep') is deliberately NOT counted: loading the library
+needs no WM.  Returns a plist :tier :wm-api :wm-guards :display."
+  (with-temp-buffer
+    (insert-file-contents file)
+    (goto-char (point-min))
+    (let ((forms '()) form)
+      (condition-case _err
+          (while (setq form (read (current-buffer)))
+            (push form forms))
+        (end-of-file nil)
+        (error nil))
+      (setq forms (nreverse forms))
+      (let ((own (cmacs-deps--defined-names forms))
+            (api '()) (guards '()) (display '()))
+        (dolist (f forms)
+          (cmacs-deps--walk-symbols
+           f
+           (lambda (s)
+             (let ((n (symbol-name s)))
+               (cond
+                ((memq s own))          ; the file's own namespace
+                ((memq s cmacs-deps--wm-guard-symbols)
+                 (cl-pushnew s guards))
+                ((string-prefix-p "exwm-" n)
+                 (cl-pushnew s api))
+                ((or (memq s cmacs-deps--display-symbols)
+                     (string-prefix-p "posframe-" n))
+                 (cl-pushnew s display)))))))
+        (list :tier (cond (api 'wm) (guards 'wm-guarded) (t 'editor))
+              :wm-api (sort api #'string<)
+              :wm-guards guards
+              :display (sort display #'string<))))))
+
+(defun cmacs-deps-env-tier-report ()
+  "Tier every config file.  Return a list of (FEATURE TIER WM-API DISPLAY),
+sorted wm first, then wm-guarded, then editor."
+  (let ((rows '()))
+    (dolist (f (cmacs-deps--all-files))
+      (let* ((pl (cmacs-deps-env-tier f))
+             (tier (plist-get pl :tier)))
+        (push (list (cmacs-deps--feature-of f) tier
+                    (plist-get pl :wm-api) (plist-get pl :display))
+              rows)))
+    (let ((order '(wm wm-guarded editor)))
+      (sort (nreverse rows)
+            (lambda (a b)
+              (let ((ta (cl-position (nth 1 a) order))
+                    (tb (cl-position (nth 1 b) order)))
+                (if (/= ta tb) (< ta tb)
+                  (string< (nth 0 a) (nth 0 b)))))))))
+
 ;;;; --- whole-config dependency DAG ----------------------------------------
 ;;
 ;; Three-phase, isolation-preserving, WM-safe scan:
