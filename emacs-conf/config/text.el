@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
 (require 'core/env)
+(require 'lib/utils)   ; ck/set-window-width
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Evil

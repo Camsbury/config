@@ -4,7 +4,6 @@
 (m-require config/desktop
   browser-links
   commands
-  windows
-  sound)
+  windows)
 
 (provide 'config/desktop)

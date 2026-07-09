@@ -4,6 +4,7 @@
 ;; references no core/bindings hub symbols, so requiring the foundation instead
 ;; of the hub removes the hub edge entirely.
 (require 'core/keys-base)
+(require 'lib/utils)   ; ck/lisp-eval-sexp-at-point
 (use-package paredit)
 (use-package lispyville)
 
@@ -48,13 +49,9 @@ With non-nil ARG return number of characters skipped."
         (call-interactively #'lispyville-open-above-list))
     (call-interactively #'lispyville-open-above-list)))
 
-
-(defun ck/lisp-eval-sexp-at-point ()
-  "Evaluate the expression around point, like CIDER does."
-  (interactive)
-  (save-excursion
-    (goto-char (cadr (cider-sexp-at-point 'bounds)))
-    (call-interactively #'eval-last-sexp)))
+;; `ck/lisp-eval-sexp-at-point' used to live here; it is consumed across
+;; areas (lib/shell's `ck/run-async-from-desc', the binding below), so it
+;; moved to lib/utils.el.
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

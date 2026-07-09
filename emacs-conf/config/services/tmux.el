@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 (require 's)
-(require 'config/desktop/commands)
+(require 'lib/shell)   ; ck/-run-shell-command
 (require 'projectile)
 
 (defun ck/tmux-session-pid (session)

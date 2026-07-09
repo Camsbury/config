@@ -33,6 +33,11 @@ Both keys are key description strings."
              (cons (kbd from) (kbd to)))
            bindings)))
 
+;; Library command reached only through the `s-s' key below: lib/ features
+;; are not in the m-require boot chain, so declare the entry stub explicitly
+;; (decision 0001: autoloads never load here) and the file loads on first use.
+(autoload 'ck/switch-audio-sink "lib/sound" nil t)
+
 (ck/set-exwm-global-keys
  `(;; EXWM controls
    ("s-,"                    exwm-reset)

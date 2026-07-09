@@ -4,7 +4,6 @@
 (m-require config/modes
   blind-mode
   breeze-mode
-  prettify-mode
-  utils)
+  prettify-mode)
 
 (provide 'config/modes)

@@ -1,11 +1,14 @@
 ;; -*- lexical-binding: t; -*-
-(require 'config/modes/utils)
+(require 'prelude)
+(require 'lib/utils)
+(declare-vars normal-font-height)   ; config/theme.el
 
-(setq blind-mode-font-height 150)
+(defvar blind-mode-font-height 150)
 
 (define-minor-mode blind-mode
   "Make it so blind people can see"
   :lighter " blind"
+  :group 'convenience
   :global t
   :after-hook
   (if (ck/minor-mode-active-p 'blind-mode)

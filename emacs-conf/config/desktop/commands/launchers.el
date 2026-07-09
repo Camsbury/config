@@ -2,6 +2,7 @@
 (require 'prelude)
 (require 'projectile)
 (require 'exwm)
+(require 'lib/shell)   ; ck/-run-shell-command
 
 (defun ck/mtgo ()
   (interactive)

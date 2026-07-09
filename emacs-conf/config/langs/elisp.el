@@ -8,6 +8,8 @@
 ;; requiring), which the per-file `require' + `declare-functions' work targets.
 (setq flycheck-emacs-lisp-load-path 'inherit)
 
+(require 'lib/shell)   ; ck/run-async-from-desc (bound in the hydra below)
+
 (eval-after-load 'dash '(dash-enable-font-lock))
 (general-add-hook 'emacs-lisp-mode-hook
                   (list 'paredit-mode

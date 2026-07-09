@@ -1,7 +1,10 @@
 ;; -*- lexical-binding: t; -*-
+;; Audio-sink operations over PipeWire (pw-dump/wpctl/jq): pure library, no
+;; wiring.  NOT in the m-require boot chain; the `s-s' WM key reaches
+;; `ck/switch-audio-sink' through an autoload stub in core/desktop.el, so
+;; this loads on first use.
 (require 'prelude)
 (require 'core/env)
-(require 'config/search)
 
 ;; TODO: could assign these individual default volumes too
 (defvar ck/audio-sink-names
@@ -25,10 +28,10 @@
             nodes)))
 
 (defun ck/switch-audio-sink ()
-  "Switch default audio sink via wpctl with ivy completion."
+  "Switch default audio sink via wpctl with completion."
   (interactive)
   (let* ((sinks (ck/audio-sinks))
-         (choice (ivy-read "Sink: " (mapcar #'car sinks)))
+         (choice (completing-read "Sink: " (mapcar #'car sinks) nil t))
          (node-name (alist-get choice sinks nil nil #'string=))
          (id (string-trim
               (shell-command-to-string
@@ -39,4 +42,4 @@
     (shell-command (format "wpctl set-mute %s 0" id))
     (shell-command (format "wpctl set-volume %s 0.7" id))))
 
-(provide 'config/desktop/sound)
+(provide 'lib/sound)

@@ -31,15 +31,8 @@
      (exwm-workspace--workspace-from-frame-or-index default-limit))
     (customize-set-variable 'exwm-workspace-switch-create-limit default-limit)))
 
-(defun ck/set-window-width (window count)
-  "Set the selected window's width."
-  (when (and (window-combined-p window t)
-             (window-right window))
-    (ignore-errors
-      (adjust-window-trailing-edge
-       window
-       (- count (window-width))
-       t))))
+;; `ck/set-window-width' used to live here; it is pure and consumed across
+;; areas (text.el, modes/prettify-mode.el), so it moved to lib/utils.el.
 
 ;; EXWM manage windows
 (setq exwm-manage-configurations '((t managed t)))

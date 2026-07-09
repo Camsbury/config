@@ -1,6 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
-(require 'config/modes/utils)
 
 (defface breeze-face
   '((t :foreground "#d074e8" :height 1.1))
