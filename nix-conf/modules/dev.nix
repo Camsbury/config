@@ -28,7 +28,7 @@ in
       git-extras
       hub
       glibc
-      grip
+      go-grip
       gnumake
       google-cloud-sdk
       kubectl

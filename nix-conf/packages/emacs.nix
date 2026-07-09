@@ -82,6 +82,7 @@ let
     git-timemachine
     github-notifier
     go-mode
+    grip-mode
     helm-dash
     helpful
     idris-mode
@@ -110,8 +111,6 @@ let
     magit
     magit-todos
     marginalia # emacs nouveau
-    markdown-preview-eww
-    markdown-preview-mode
     nav-flash
     nerd-icons-completion
     nix-mode

@@ -1,16 +1,9 @@
 ;; -*- lexical-binding: t; -*-
 (require 'config/desktop/commands)
-(use-package markdown-preview-eww)
-(use-package markdown-preview-mode)
-(setq markdown-command "pandoc")
 
-(defun ck/watch-this-markdown ()
-  (interactive)
-  (async-shell-command
-   (concat
-    "livedown start "
-    (buffer-file-name)
-    " --open --browser \"'firefox'\"")
-   (generate-new-buffer-name (concat "*Watching " (buffer-file-name) "*"))))
+(use-package grip-mode)
+(setq grip-command 'go-grip)
+(setq grip-preview-in-webkit nil)
+(setq grip-real-time-refresh nil)
 
 (provide 'config/viewers/markdown)
