@@ -256,6 +256,12 @@ the header is prefixed with a MANUAL banner instead of being trusted."
     defalias cl-defstruct cl-deftype cl-defgeneric cl-defmethod
     declare-function declare-functions declare-vars require provide
     eval-when-compile eval-and-compile
+    ;; mode DEFINITIONS: the body runs when the mode is toggled, not at
+    ;; load (the only load-time product is a defcustom/defvar + command,
+    ;; i.e. more definitions), so a file of pure mode definitions is
+    ;; library.  Wiring the mode in (add-hook, keybinding) is what makes
+    ;; a file application, and those heads stay in the application list.
+    define-minor-mode define-globalized-minor-mode define-derived-mode
     ;; comments/no-ops that carry no wiring
     put function-put)
   "Heads that define reusable code without side-effecting the editor.
@@ -273,7 +279,6 @@ from these (plus `require'/`provide') is LIBRARY.")
     defhydra pretty-hydra-define pretty-hydra-define+ major-mode-hydra-define
     transient-define-prefix add-to-list push run-with-idle-timer
     run-with-timer add-to-ordered-list
-    define-minor-mode define-globalized-minor-mode define-derived-mode
     exwm-input-set-key exwm-enable start-process)
   "Heads that wire, configure, or side-effect the running editor at load time.
 Any of these reached at load time (top level, or inside a load-time wrapper)
