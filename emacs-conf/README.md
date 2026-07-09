@@ -30,7 +30,8 @@ DE.
     - [flycheck-mode](https://github.com/flycheck/flycheck)
       - How we get real time feedback in our code for compiler/checker errors and warnings
     - [vertico/consult/orderless/marginalia/embark](https://github.com/minad/vertico)
-      - The completion + search stack (Ivy is retained only for a few legacy dependents)
+      - The completion + search stack; every picker goes through
+        `completing-read` (Ivy was fully removed 2026-07)
 
 ## My Emacs Architecture
 
@@ -43,8 +44,9 @@ relevant expressions live in the sibling `nix-conf/` tree:
 - `nix-conf/derivations/cmacs/default.nix` - builds the `cmacs` launcher
   (`writeShellScriptBin`). It exports the environment (`CONFIG_PATH`,
   `EMACSLOADPATH`, `EMACS_C_SOURCE_PATH`, GSettings/XDG dirs) and runs Emacs
-  with `--no-init-file --load <this-dir>/init.el`. So this directory is loaded
-  explicitly; there is **no** `~/.emacs.d` package management.
+  with `--debug-init --no-site-file --no-site-lisp --no-init-file --load
+  <this-dir>/init.el`. So this directory is loaded explicitly; there is
+  **no** `~/.emacs.d` package management.
 - `nix-conf/modules/exwm.nix` - makes EXWM the window manager: sets the system
   `EMACSLOADPATH`, selects `none+exwm` as the default session, and starts
   `cmacs` as the window-manager session.
@@ -94,6 +96,7 @@ macro (defined in `prelude.el`) pulls a list of them in by prefix:
 
 ```elisp
 (m-require config
+  performance transient-defaults
   theme search navigation env text prog info
   desktop dev langs modes services viewers games gtd)
 ```
@@ -114,20 +117,35 @@ cross-cutting operations, pulled on demand with `(require 'lib/NAME)` (decision
   - `env.el` - the `cmacs` customization group and env-var-backed settings
   - `text.el` - Evil + evil-collection
 - `lib/` - library layer (decision 0009): pure cross-cutting operations, not
-  boot-loaded, required on demand. `utils.el` (uuid, file-to-string,
-  delete-file-and-buffer, shuffle-selection, unescape-clipboard)
+  boot-loaded, required on demand:
+  - `utils.el` - grab-bag (uuid, file-to-string, delete-file-and-buffer,
+    shuffle-selection, unescape-clipboard, minor-mode-active-p,
+    set-window-width, lisp-eval-sexp-at-point, completing-read-in-order)
+  - `shell.el` - shell-command ops (process spawns, background buffers,
+    escaping, nix-shell command build)
+  - `sound.el` - PipeWire audio-sink ops (reached from the `s-s` key via an
+    autoload stub in `core/desktop.el`)
 - `config/` - feature modules, grouped by area:
   - top-level: `theme`, `search`, `navigation`, `prog`, `info`, `text`
-  - `desktop/` - app launchers, shell commands, browser links, sound, windows
+  - `desktop/` - app launchers, system/nix commands, browser links, windows
+    (EXWM patches)
   - `dev/` - project, git, ediff, process, test
   - `langs/` - per-language setup (~26 languages; `clj.el` is the richest)
   - `services/` - lsp, eca, docker, email, feeds, irc, radio, spotify, tmux, notifications
   - `viewers/` - browser, epub, pdf, markdown, journal, files, vega
-  - `modes/` - custom minor modes (blind, breeze, prettify, center-buffer)
+  - `modes/` - custom minor modes (blind, breeze, prettify; buffer centering
+    and width-capping live inside prettify-mode)
   - `gtd.el` - org-roam GTD + pomodoro
   - `games/` - chess, wc3
-- `theme/` - the local `doom-molokam` custom theme
+  - `theme/` - EDN-sourced doom themes (`doom-molokam.edn` +
+    `structural.edn`) and `editor.el`, which compiles the EDN to a
+    `def-doom-theme` and live-applies it; boot loads the EDN
+    authoritatively, the generated `.el` is a fallback
 - `snippets/` - yasnippet trees per major mode
+- `tools/` - dependency/seam tooling (not loaded by the config):
+  `fc-check.sh` (per-file byte-compile harness), `cmacs-deps.el`
+  (dependency analyzer/classifier), `lib-guard.sh` (lib/ must classify
+  library), `wm-free-check.sh` (config must load without the WM)
 
 External data (org-roam files, books, summaries, sounds) lives under `$SHAREPATH`
 and is **not** part of this repo. Some commands also shell out to personal
