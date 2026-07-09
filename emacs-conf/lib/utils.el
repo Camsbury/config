@@ -1,4 +1,9 @@
 ;; -*- lexical-binding: t; -*-
+;; Cross-cutting, area-agnostic operations (library, not application).  NOT in
+;; the m-require boot chain: it has no load-time side effects, so consumers pull
+;; it on demand with `(require 'lib/utils)'.  Uses uuidgen-4 from prelude.
+(require 'prelude)
+
 (defun ck/random-uuid ()
   "Returns a random UUID V4"
   (interactive)
@@ -32,4 +37,4 @@
   (let ((current-clipboard (current-kill 0 t)))
     (kill-new (read current-clipboard))))
 
-(provide 'config/utils)
+(provide 'lib/utils)

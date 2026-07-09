@@ -20,7 +20,10 @@
 ;;   keys      the in-chat and global navigation hydras
 
 (require 'prelude)
-(require 'core/bindings)
+;; general-def comes from here.  The one hub symbol this file names,
+;; ck/empty-mode-leader, is a runtime remap target (suppressed below), not a
+;; load-time dependency; the hub loads earlier at boot regardless.
+(require 'core/keys-base)
 
 (defgroup ck/eca nil
   "Personal ECA chat customizations."
@@ -103,3 +106,12 @@
     [remap ck/empty-mode-leader]     #'hydra-eca/body))
 
 (provide 'config/services/eca)
+
+;; Aggregator + use-package config: the "undefined" symbols are the ck/eca-*
+;; operations and hydras defined in the sibling feature files, pulled in by the
+;; `m-require' above (a runtime require, invisible to the isolated
+;; byte-compiler) and invoked only when the deferred `eca' package loads.
+;; Suppress the unresolved class; keep every other class live.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

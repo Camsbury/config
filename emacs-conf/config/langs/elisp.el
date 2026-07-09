@@ -1,4 +1,13 @@
 ;; -*- lexical-binding: t; -*-
+;; Flycheck byte-compiles each file in a fresh subprocess.  By default that
+;; subprocess starts with an empty `load-path', so every `require' (packages,
+;; elisp libs, and our own `provide'd sibling features) fails and cascades into
+;; spurious "not known to be defined" / "free variable" warnings.  `inherit'
+;; hands the checker this session's `load-path' so those requires resolve; the
+;; residual warnings are then the real ones (dependencies a file uses without
+;; requiring), which the per-file `require' + `declare-functions' work targets.
+(setq flycheck-emacs-lisp-load-path 'inherit)
+
 (eval-after-load 'dash '(dash-enable-font-lock))
 (general-add-hook 'emacs-lisp-mode-hook
                   (list 'paredit-mode

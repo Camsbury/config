@@ -1,6 +1,17 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
 
+;; CIDER loads lazily with clojure-mode; every use below is inside an
+;; interactive defun, so forward-declare rather than force-load CIDER.
+(declare-functions "cider"
+  cider--update-jack-in-cmd
+  cider--update-project-dir
+  cider-connect-clj)
+(declare-functions "cider-connection" cider-quit)
+(declare-functions "cider-session" cider-current-repl)
+(declare-functions "projectile" projectile-project-root)
+(declare-vars cider-repl-pop-to-buffer-on-connect)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Tmux jack-in
 
@@ -60,14 +71,20 @@ from the launcher's calling buffer, then kill PROC's buffer."
                                  (when (buffer-live-p buf) (kill-buffer buf))
                                  (when (file-exists-p log) (ignore-errors (delete-file log)))
                                  (message "Connected to nREPL on port %d" port))))
-                       (add-hook 'cider-connected-hook place))
-                     (condition-case err            ; sync connect failure: undo, don't leak state
-                         (if (buffer-live-p caller)
-                             (with-current-buffer caller (cider-connect-clj params))
-                           (cider-connect-clj params))
-                       (error (setq cider-repl-pop-to-buffer-on-connect prev)
-                              (remove-hook 'cider-connected-hook place)
-                              (signal (car err) (cdr err)))))))))))))))
+                       (add-hook 'cider-connected-hook place)
+                       ;; Run the sync connect INSIDE the letrec so the error
+                       ;; handler can see `place'.  On a synchronous connect
+                       ;; failure, undo the hook and the pop-to-buffer override
+                       ;; then re-signal.  The old form put this after the letrec
+                       ;; closed, so the handler referenced a void-variable
+                       ;; `place' and leaked both the hook and the setting.
+                       (condition-case err
+                           (if (buffer-live-p caller)
+                               (with-current-buffer caller (cider-connect-clj params))
+                             (cider-connect-clj params))
+                         (error (setq cider-repl-pop-to-buffer-on-connect prev)
+                                (remove-hook 'cider-connected-hook place)
+                                (signal (car err) (cdr err))))))))))))))))
 
 (defun ck/cider--nrepl-sentinel (proc _event)
   "Report failure if PROC exits before the nREPL server was ready."

@@ -1,5 +1,11 @@
 ;;; -*- lexical-binding: t; -*-
+(require 'prelude)
 (require 'config/langs/lisp)
+
+;; cmacs-share-path is a core/env global (loaded at boot before config); the
+;; clojure-essential-ref epub path builds on it.  Declare rather than require
+;; core/env so we do not force-load a cross-area module.
+(declare-vars cmacs-share-path)
 
 (use-package clojure-mode
   :mode (("\\.bb\\'" . clojure-mode)
@@ -45,16 +51,16 @@
 
 (setq clojure-toplevel-inside-comment-form t)
 
-(-map
+(-each
+ '(clojure-mode-hook
+   clojurec-mode-hook
+   clojurescript-mode-hook)
  (lambda (mode)
    (general-add-hook
     mode
     (list 'paredit-mode
           'lispyville-mode
-          'flycheck-mode)))
- '(clojure-mode-hook
-   clojurec-mode-hook
-   clojurescript-mode-hook))
+          'flycheck-mode))))
 
 (setq cider-repl-display-help-banner nil)
 (setq cider-auto-select-error-buffer nil)
@@ -93,3 +99,10 @@
   keys)
 
 (provide 'config/langs/clj)
+
+;; use-package config file: the "undefined" symbols are the packages' own
+;; config APIs (clojure-mode, clj-refactor, cider, general).  Suppress only
+;; the unresolved class; keep every other warning live.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

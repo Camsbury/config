@@ -8,7 +8,9 @@
 ;; `:config' in the aggregator, not here.
 
 (require 'prelude)
-(require 'core/bindings)
+;; defhydra comes from here; the leader entry that reaches these hydras lives in
+;; the core/bindings hub (loaded earlier at boot), not needed at load time.
+(require 'core/keys-base)
 (require 'config/services/eca/latex)
 (require 'config/services/eca/tables)
 (require 'config/services/eca/tabs)

@@ -1,6 +1,11 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
 
+;; CIDER loads lazily with clojure-mode; every use below is inside an
+;; interactive defun, so forward-declare rather than force-load CIDER.
+(declare-functions "cider-eval" cider-interactive-eval)
+(declare-functions "cider-util" cider-sexp-at-point)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Systemic
 

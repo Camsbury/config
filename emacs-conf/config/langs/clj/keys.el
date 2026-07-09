@@ -1,8 +1,13 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
+;; nmap/general-key-dispatch/evil-define-operator/defhydra come from here.
+(require 'core/keys-base)
 (require 'config/langs/clj/eval)
 (require 'config/langs/clj/jack-in)
 (require 'config/langs/clj/systemic)
+
+;; cider-debug's keymap, bound only inside the `with-eval-after-load' below.
+(declare-vars cider--debug-mode-map)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Operators
@@ -189,3 +194,12 @@
   "M-l" #'cider-repl-clear-buffer)
 
 (provide 'config/langs/clj/keys)
+
+;; This is a keybinding/hydra dispatch hub: it forward-references CIDER,
+;; clj-refactor and clojure-mode commands defined elsewhere and invoked only
+;; at runtime, so the "unresolved" byte-compile class is all noise here.  Keep
+;; every other warning class live.  `(not unresolved)' is a safe-local value,
+;; so opening the file prompts nothing.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

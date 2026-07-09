@@ -2,7 +2,7 @@
 (require 'prelude)
 (require 'browse-url)
 (require 'core/env)
-(require 'config/utils)
+(require 'lib/utils)
 
 (defvar puzzle-themes
   (--> (concat cmacs-share-path "/puzzle-themes.edn")

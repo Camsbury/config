@@ -1,5 +1,9 @@
 ;; -*- lexical-binding: t; -*-
-(require 'core/bindings)
+(require 'prelude)
+;; general (+ general-evil-setup) and hydra macros come from here.  This file
+;; references no core/bindings hub symbols, so requiring the foundation instead
+;; of the hub removes the hub edge entirely.
+(require 'core/keys-base)
 (use-package paredit)
 (use-package lispyville)
 
@@ -98,3 +102,10 @@ With non-nil ARG return number of characters skipped."
 
 
 (provide 'config/langs/lisp)
+
+;; use-package config + keybinding file: the "undefined" symbols are paredit /
+;; lispyville / evil / cider commands invoked only at runtime.  Suppress the
+;; unresolved class; keep every other class live.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

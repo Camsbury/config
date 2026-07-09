@@ -1,4 +1,15 @@
 ;; -*- lexical-binding: t; -*-
+(require 'prelude)
+;; general/hydra macros (general-define-key, defhydra) come from here, so they
+;; expand in isolation instead of depending on the core/bindings hub loading
+;; first.  The leader hydras this file remaps to (hydra-leader/body etc.) are
+;; runtime forward-refs, suppressed by the file-local at the bottom.
+(require 'core/keys-base)
+
+;; magit's status keymap, referenced by difftastic's `:bind :map' before magit
+;; loads.
+(declare-vars magit-status-mode-map)
+
 (use-package git-timemachine)
 
 ;; NOTE: this needs to be before magit so it runs before
@@ -74,6 +85,11 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Multi Repo Utils
+
+(defvar working-repos nil
+  "List of sibling repo names (dirs next to the current repo) that
+`ck/reset-working-repos' hard-resets to origin/master.  Set it per host;
+nil means the command is a no-op instead of a void-variable error.")
 
 (defun ck/reset-repo-master (repo-name output-buffer)
   "reset the repo's master branch to origin/master"
@@ -168,7 +184,17 @@
  [remap magit-section-forward]   #'evil-window-down
  [remap indent-new-comment-line] #'magit-section-forward
  [remap kill-sentence]           #'magit-section-backward
- [remap scroll-up]               #'hydra-leader-body)
+ [remap scroll-up]               #'hydra-leader/body)
 
 
 (provide 'config/dev/git)
+
+;; Keybinding/hydra file: it forward-references the leader hydras
+;; (hydra-leader/body, hydra-left-leader/body, ...) defined in the core/bindings
+;; hub and magit/git-timemachine commands, all invoked only at runtime.
+;; Suppress just the unresolved class; keep every other class live.  Removing
+;; these forward-ref edges from the DAG is what dissolves the
+;; core/bindings <-> dev/git cycle.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

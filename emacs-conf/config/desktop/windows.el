@@ -1,4 +1,5 @@
 ;; -*- lexical-binding: t; -*-
+(require 'prelude) ; `inc' + dash's `->' macro used below (load-time)
 (require 'exwm)
 (require 'exwm-layout)
 (use-package buffer-move)

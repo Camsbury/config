@@ -1,13 +1,20 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
+;; general (+ general-evil-setup) and the hydra macro come from here.  The hub
+;; configures and USES them below (which-key, hydra hints, the hydras and
+;; general-def bindings) but no longer bootstraps them itself: keybinding files
+;; require the same foundation so their macros expand without depending on the
+;; hub having loaded first.
+(require 'core/keys-base)
+;; ck/delete-file-and-buffer, ck/unescape-clipboard-string and
+;; ck/shuffle-selection (bound in the leaders below) are cross-cutting library
+;; ops; pull them from lib/ on demand.
+(require 'lib/utils)
 
 ;; swapping alt and windows for meta/super
 (setq x-super-keysym 'meta
       x-meta-keysym 'super)
 
-(use-package general
-  :config
-  (general-evil-setup t))
 (use-package which-key
   :config
   (which-key-mode)
@@ -336,3 +343,16 @@ recomputed on every posframe refresh."
   "s" #'evil-surround-edit)
 
 (provide 'core/bindings)
+
+;; This is THE dispatch hub: the leader hydras forward-reference ~120 commands
+;; defined across the config and invoked only at runtime (cider, org,
+;; projectile, feature hydras like hydra-git/body, ...).  Cannot `require' them
+;; (would force-load deferred packages and invert core-before-config order), so
+;; the "unresolved" class is all noise here.  Suppress only it; keep every
+;; other class live.  `(not unresolved)' is a safe-local value, so opening the
+;; file prompts nothing.  (This also removes the hub's outbound forward-ref
+;; edges from the dependency DAG, dissolving the core/bindings <-> dev/git and
+;; core/bindings <-> info cycles.)
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

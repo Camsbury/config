@@ -95,8 +95,12 @@ macro (defined in `prelude.el`) pulls a list of them in by prefix:
 ```elisp
 (m-require config
   theme search navigation env text prog info
-  desktop dev langs modes services viewers games gtd utils)
+  desktop dev langs modes services viewers games gtd)
 ```
+
+The `lib/` layer is deliberately NOT in any `m-require` chain: those are pure
+cross-cutting operations, pulled on demand with `(require 'lib/NAME)` (decision
+0009, the library/application seam).
 
 ### File structure
 - `init.el` - boot, GC tuning, EXWM workspace bootstrap
@@ -105,11 +109,15 @@ macro (defined in `prelude.el`) pulls a list of them in by prefix:
 - `core.el` / `config.el` - the two aggregators
 - `core/` - foundational layer:
   - `bindings.el` - the command center: leader hydras, Evil bindings, super/meta swap
+  - `keys-base.el` - foundational keybinding macro providers (evil + `general-evil-setup` + hydra), requirable so keybinding files expand their macros in isolation
   - `desktop.el` - EXWM proper: workspaces, global `s-*` keys, XF86 media keys
   - `env.el` - the `cmacs` customization group and env-var-backed settings
   - `text.el` - Evil + evil-collection
+- `lib/` - library layer (decision 0009): pure cross-cutting operations, not
+  boot-loaded, required on demand. `utils.el` (uuid, file-to-string,
+  delete-file-and-buffer, shuffle-selection, unescape-clipboard)
 - `config/` - feature modules, grouped by area:
-  - top-level: `theme`, `search`, `navigation`, `prog`, `info`, `text`, `utils`
+  - top-level: `theme`, `search`, `navigation`, `prog`, `info`, `text`
   - `desktop/` - app launchers, shell commands, browser links, sound, windows
   - `dev/` - project, git, ediff, process, test
   - `langs/` - per-language setup (~26 languages; `clj.el` is the richest)

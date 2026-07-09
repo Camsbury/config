@@ -1,6 +1,22 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
 
+;; CIDER and its nREPL/sesman deps load lazily with clojure-mode.  Every use
+;; below is inside an interactive defun (runtime), so forward-declare them
+;; rather than force-load CIDER at config time (see prelude's
+;; `declare-functions').
+(declare-functions "cider"
+  cider-interactive-eval
+  cider-insert-in-repl
+  cider-sexp-at-point
+  cider-emit-interactive-eval-output
+  cider-emit-interactive-eval-err-output
+  cider-nrepl-sync-request:eval
+  cider-jack-in-clj&cljs
+  cider-inspect)
+(declare-functions "nrepl-client" nrepl-make-response-handler)
+(declare-functions "sesman" sesman-quit)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Functions
 
