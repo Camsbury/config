@@ -36,7 +36,9 @@
   "Toggle test and source"
   (interactive)
   (cl-case major-mode
-    ('clojure-mode (ck/toggle-test-clojure))
+    ;; bare symbol: a quoted key here is the key LIST (quote clojure-mode),
+    ;; which also matches a `quote' major-mode (Emacs 30 warns about this)
+    (clojure-mode (ck/toggle-test-clojure))
     (t (message "mode not supported for test toggling"))))
 
 
