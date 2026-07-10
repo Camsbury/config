@@ -46,16 +46,13 @@ Both keys are key description strings."
    ,@(--map `(,(format "s-%d" it)
               (lambda () (interactive) (exwm-workspace-switch-create ,it)))
             (number-sequence 0 9))
-   ;; XF86 media/hardware keys
+   ;; XF86 hardware keys. Audio/media keys (volume, mute, play/prev/next) are
+   ;; intentionally absent: they are handled below X by triggerhappy (see
+   ;; nix-conf/modules/media_keys.nix) so they keep working while the screen is
+   ;; locked. Binding them here too would double-fire.
    ("<XF86MonBrightnessUp>"  ck/raise-brightness)
    ("<XF86MonBrightnessDown>" ck/lower-brightness)
    ("<XF86Display>"          ck/lock-screen)
-   ("<XF86AudioRaiseVolume>" ck/raise-volume)
-   ("<XF86AudioLowerVolume>" ck/lower-volume)
-   ("<XF86AudioMute>"        ck/toggle-mute)
-   ("<XF86AudioPlay>"        ck/spotify-toggle-play)
-   ("<XF86AudioPrev>"        ck/spotify-prev)
-   ("<XF86AudioNext>"        ck/spotify-next)
    ("<XF86Tools>"            ck/restart-display-manager)
    ;; window navigation
    ("s-k"                    evil-window-up)
@@ -69,6 +66,7 @@ Both keys are key description strings."
    ;; commands
    ("s-X"                    ck/exwm-run-command)
    ("s-e"                    ck/eca-jump-to-attention)
+   ("s-i"                    ck/eca-jump-to-idle)
    ("s-b"                    ck/check-battery)
    ("s-s"                    ck/switch-audio-sink)
    ("s-t"                    ck/check-time)

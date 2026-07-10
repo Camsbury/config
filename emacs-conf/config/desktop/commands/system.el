@@ -51,35 +51,10 @@
   (interactive)
   (shell-command "bash ~/.scripts/cycle-sound.sh"))
 
-(defun ck/raise-volume ()
-  "raises volume"
-  (interactive)
-  (shell-command "wpctl set-volume @DEFAULT_SINK@ 5%+"))
-
-(defun ck/lower-volume ()
-  "lowers volume"
-  (interactive)
-  (shell-command "wpctl set-volume @DEFAULT_SINK@ 5%-"))
-
-(defun ck/toggle-mute ()
-  "toggles mute"
-  (interactive)
-  (shell-command "wpctl set-mute @DEFAULT_SINK@ toggle"))
-
-(defun ck/spotify-toggle-play ()
-  "toggles play/pause in Spotify"
-  (interactive)
-  (shell-command "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"))
-
-(defun ck/spotify-prev ()
-  "goes to the previous track in spotify"
-  (interactive)
-  (shell-command "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"))
-
-(defun ck/spotify-next ()
-  "goes to the next track in spotify"
-  (interactive)
-  (shell-command "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"))
+;; Volume, mute, and media transport (play/pause, prev, next) are handled
+;; outside Emacs by triggerhappy at the evdev layer (nix-conf/modules/
+;; media_keys.nix), so the XF86Audio* keys keep working while the screen is
+;; locked and transport routes to the active MPRIS player via playerctld.
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -145,11 +120,11 @@
   (shell-command "pkill -SIGUSR2 dunst"))
 
 (defun ck/lock-screen ()
-  "Locks the screen"
+  "Lock the screen through xss-lock (logind lock-session -> xsecurelock)."
   (interactive)
   (when (minibufferp)
     (abort-recursive-edit))
-  (start-process "slock" nil "slock"))
+  (start-process "lock-session" nil "loginctl" "lock-session"))
 
 (defun ck/search-for-file (filename)
   "Search for file in all dirs"
