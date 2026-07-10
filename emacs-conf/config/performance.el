@@ -13,6 +13,13 @@
 ;; module-level setq here would be clobbered).
 (require 'prelude)
 
+;; so-long owns these; forward-declare so setting them in the
+;; `with-eval-after-load' below is not a free-variable warning.  `ck/so-long-p'
+;; is defined further down inside that same deferred block, so declare it too.
+(declare-vars so-long-threshold so-long-predicate so-long-action
+              so-long-variable-overrides)
+(declare-function ck/so-long-p "config/performance")
+
 ;; Long lines are the worst-case redisplay cost: a single minified blob, diff,
 ;; or log line from agent output turns every redisplay into an O(n) scan.
 ;; `so-long' detects them and strips the expensive machinery buffer-locally.

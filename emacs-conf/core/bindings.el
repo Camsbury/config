@@ -213,7 +213,7 @@ recomputed on every posframe refresh."
   ("d" #'evil-goto-definition         "evil jump to def")
   ("s-d" #'ck/delete-file-and-buffer     "delete current file")
   ("D" #'dumb-jump-go                 "dumb jump")
-  ("e" #'hydra-exwm-browser-link/body "browser links")
+  ("e" #'hydra-browser/body           "browser links")
   ("s-e" #'ck/doom-theme-edit         "edit theme edn")
   ("E" #'etymology-of-word-at-point   "etymology of word at point")
   ("f" #'consult-ripgrep              "find text in project")
@@ -346,10 +346,14 @@ recomputed on every posframe refresh."
 ;; projectile, feature hydras like hydra-git/body, ...).  Cannot `require' them
 ;; (would force-load deferred packages and invert core-before-config order), so
 ;; the "unresolved" class is all noise here.  Suppress only it; keep every
-;; other class live.  `(not unresolved)' is a safe-local value, so opening the
-;; file prompts nothing.  (This also removes the hub's outbound forward-ref
+;; other class live.  (This also removes the hub's outbound forward-ref
 ;; edges from the dependency DAG, dissolving the core/bindings <-> dev/git and
 ;; core/bindings <-> info cycles.)
+;;
+;; `docstrings' is suppressed for the same reason as org/keys.el: defhydra
+;; writes each head's docstring itself, printing lambda bodies and long head
+;; names into "Call the head ..." lines that overflow 80 columns and carry
+;; unescaped quotes.  Those strings are generated, not editable text.
 ;; Local Variables:
-;; byte-compile-warnings: (not unresolved)
+;; byte-compile-warnings: (not unresolved docstrings)
 ;; End:

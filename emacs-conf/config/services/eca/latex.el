@@ -141,7 +141,7 @@ Always cleans intermediates, decrements the running count, and pumps."
 
 (defun ck/eca-chat--latex-start-dvi (job)
   "Second stage of JOB: rasterize/vectorize the DVI into the output image."
-  (let ((dir ck/eca-chat-latex-image-dir)
+  (let ((_dir ck/eca-chat-latex-image-dir)
         (dpi ck/eca-chat-latex-dpi)
         (dvi (plist-get job :dvi))
         (out (plist-get job :out))

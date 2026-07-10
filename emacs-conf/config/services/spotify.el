@@ -1,4 +1,6 @@
 ;; -*- lexical-binding: t; -*-
+;; dash's `->'/`->>' and s.el's `s-replace'/`s-replace-regexp' come from here.
+(require 'prelude)
 (defun ck/url->uri (url)
   "Transform a Spotify URL to a URI"
   (->> url

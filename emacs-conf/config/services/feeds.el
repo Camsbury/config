@@ -19,3 +19,10 @@
   (setq rmh-elfeed-org-files `(,(concat cmacs-share-path "/feeds.org"))))
 
 (provide 'config/services/feeds)
+
+;; use-package config file: elfeed/elfeed-score/elfeed-org and
+;; `evil-set-initial-state' are the packages' own API, invoked only at runtime.
+;; Suppress just the unresolved class; every other class stays live.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

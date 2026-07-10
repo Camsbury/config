@@ -1,4 +1,8 @@
 ;; -*- lexical-binding: t; -*-
+(require 'prelude)
+;; defhydra/general-def macros come from here, so they expand in byte-compile
+;; isolation instead of depending on the core/bindings hub.
+(require 'core/definers)
 (use-package idris-mode
   :mode "\\.idr\\'"
   :interpreter "idris")
@@ -19,3 +23,9 @@
   ("w" #'idris-make-with-block "put into with"))
 
 (provide 'config/langs/idris)
+
+;; use-package config + hydra: forward-refs deferred idris commands invoked only
+;; at runtime.  Suppress just the unresolved class.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

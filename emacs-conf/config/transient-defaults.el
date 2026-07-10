@@ -6,6 +6,16 @@
 ;; to live.  Doom made the same move (out of `:tools magit' into core) once
 ;; transient started shipping with Emacs.
 
+(require 'prelude)
+
+;; transient owns all of these; forward-declare so setting them here (before
+;; transient loads) does not read as free-variable / undefined-function.
+(declare-vars
+ transient-levels-file transient-values-file transient-history-file
+ transient-default-level transient-display-buffer-action
+ transient-show-during-minibuffer-read transient-map)
+(declare-functions "transient" transient-quit-one)
+
 ;; Keep transient's persisted state out of `user-emacs-directory', where it
 ;; would otherwise silently create a `transient/' dir, and put it alongside the
 ;; other cache state (undo-tree lives under ~/.cache/emacs too).  Set here,

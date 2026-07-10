@@ -31,3 +31,9 @@
   (add-to-list 'flycheck-checkers 'elixir-mix t))
 
 (provide 'config/langs/elixir)
+
+;; use-package config: forward-refs general-add-hook and deferred flycheck
+;; commands invoked only at runtime.  Suppress just the unresolved class.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

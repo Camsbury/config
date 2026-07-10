@@ -1,6 +1,10 @@
 ;; -*- lexical-binding: t; -*-
-(require 'use-package)
-(require 'hydra)
+(require 'prelude)
+;; defhydra/general-def macros come from here, so they expand in byte-compile
+;; isolation instead of depending on the core/bindings hub.
+(require 'core/definers)
+;; haskell-mode owns this; declare so the :config setq doesn't warn.
+(declare-vars haskell-interactive-mode-scroll-to-bottom)
 
 (use-package haskell)
 (use-package haskell-mode
@@ -64,8 +68,9 @@
   :after (haskell-mode)
   :hook  (haskell-mode . flycheck-mode)
   :init
+  ;; `flymake-start-syntax-check-on-newline' is obsolete (27.1) and inert, so
+  ;; it is dropped here rather than set.
   (setq flymake-no-changes-timeout nil
-        flymake-start-syntax-check-on-newline nil
         flycheck-check-syntax-automatically '(save mode-enabled)))
 
 (use-package company-cabal
@@ -136,3 +141,9 @@
   ("t" #'ck/haskell-toggle-type-nav        "hlint point"))
 
 (provide 'config/langs/haskell)
+
+;; use-package config + hydra: forward-refs deferred lsp/haskell commands and
+;; hydra-haskell/body, invoked only at runtime.  Suppress the unresolved class.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

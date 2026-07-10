@@ -1,5 +1,10 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
+;; general + lsp-mode own these; declare so the load-time hook body doesn't warn
+;; without force-loading the deferred lsp packages.
+(declare-functions "general" general-add-hook)
+(declare-functions "lsp-mode"
+  lsp-deferred lsp-dependency lsp-register-custom-settings)
 
 ;; (use-package ammonite-term-repl)
 (use-package scala-mode)

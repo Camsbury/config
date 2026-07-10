@@ -3,6 +3,10 @@
 (require 'core/env)
 (require 'config/theme/editor)
 
+;; doom-modeline is deferred; its mode command is called only in the
+;; `use-package :config' below (decision 0001, autoloads never load here).
+(declare-functions "doom-modeline" doom-modeline-mode)
+
 (defun ck/laptop-p ()
   (= 10
      (-> "cat /sys/class/dmi/id/chassis_type"

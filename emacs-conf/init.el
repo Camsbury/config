@@ -44,3 +44,11 @@
 (dolist (i (number-sequence 0 9))
   (exwm-workspace-switch-create i))
 (exwm-workspace-switch 1)
+
+;; Boot file: compiling it loads the whole tree, and packages that
+;; byte-compile lambdas while loading (org-ql, pcre2el, vertico-posframe)
+;; report their nested "might not be defined" noise against this file.
+;; Suppress just the unresolved class; every other class stays live.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

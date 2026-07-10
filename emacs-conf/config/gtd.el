@@ -5,6 +5,10 @@
 (require 'config/langs/org)
 (require 'lib/utils)
 
+;; Defined via `defvar' inside the use-package `:config' below, but set/read
+;; from toplevel defuns (`pomidor-quit'), so forward-declare it here.
+(declare-vars pomidor-mode-line-string)
+
 (use-package pomidor
   ;; Autoloads never activate (restricted `package-load-list'); without this
   ;; stub nothing defines `pomidor' and the package could never load.
@@ -72,7 +76,7 @@
            (base-text (propertize (format " %s " time-str) 'face face))
            (click-map (let ((map (make-sparse-keymap)))
                         (define-key map [mode-line down-mouse-1]
-                                    (lambda (event)
+                                    (lambda (_event)
                                       (interactive "e")
                                       (switch-to-buffer (pomidor--get-buffer-create))))
                         map)))
@@ -245,8 +249,8 @@
            (m (ht-get projects p)))
       (switch-to-buffer (marker-buffer m))
       (goto-char m)
-      (evil-scroll-line-to-center)
-      (org-show-subtree))))
+      (evil-scroll-line-to-center nil)
+      (org-fold-show-subtree))))
 
 (defun gtd-open-graph ()
   (interactive)
@@ -255,6 +259,19 @@
     (progn
       (call-interactively #'org-roam-ui-mode)
       (call-interactively #'org-roam-ui-open))))
+
+;; Named so the hydra's auto-generated docstring lists a short symbol instead
+;; of printing the whole lambda body (which blows past the 80-column limit).
+(defun gtd-agenda-next-actions ()
+  "Open the default (\"d\") org agenda."
+  (interactive)
+  (org-agenda nil "d"))
+
+(defun gtd-edit-config ()
+  "Open this gtd config file in a window spawned to the right."
+  (interactive)
+  (ck/spawn-right)
+  (find-file (concat cmacs-config-path "/config/gtd.el")))
 
 (defhydra hydra-gtd (:exit t :columns 5)
   "set register"
@@ -266,15 +283,9 @@
   ("c" #'gtd-contexts->next-actions "contexts->next-actions")
   ("e" #'gtd-search-mark-done       "search and mark done")
   ;; ("l" #'org-agenda-list            "calendar")
-  ("l" (lambda ()
-         (interactive)
-         (org-agenda nil "d")) "next actions")
+  ("l" #'gtd-agenda-next-actions    "next actions")
   ("n" #'gtd-topics->next-actions   "topics->next-actions")
-  ("o" (lambda ()
-         (interactive)
-         (ck/spawn-right)
-         (find-file (concat cmacs-config-path "/config/gtd.el")))
-   "gtd.el")
+  ("o" #'gtd-edit-config            "gtd.el")
   ("O" #'pomidor-quit               "end pomodoro")
   ("p" #'gtd-jump-to-project        "jump to project")
   ("r" #'org-roam-buffer-toggle     "toggle roam info")
@@ -299,3 +310,11 @@
                     "o" #'org-agenda)
 
 (provide 'config/gtd)
+
+;; use-package / hydra file: forward-references commands defined elsewhere
+;; (`ck/spawn-right' in navigation, the deferred pomidor package's fns,
+;; org-ql/vertico-posframe leaked through requires).  Suppress just the
+;; unresolved class; every other class stays live.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

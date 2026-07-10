@@ -3,6 +3,13 @@
 (require 'core/env)
 (require 'config/search)
 
+;; Host-provided link registries consumed by the openers below; declared so
+;; referencing them here is not a free-variable warning.
+(declare-vars my-links file-links)
+;; vertico-posframe (deferred) leaks a noruntime reference through the
+;; config/search require chain; declare it so the compile stays clean.
+(declare-functions "vertico-posframe" vertico-posframe-mode-workable-p)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun ck/xdg-open (l-name)
@@ -27,7 +34,7 @@
 (defun ck/consult-bookmark-and-save ()
   "set and save bookmark"
   (interactive)
-  (consult-bookmark)
+  (call-interactively #'consult-bookmark)
   (bookmark-save))
 
 (defun ck/bookmark-clear ()

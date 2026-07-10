@@ -124,11 +124,14 @@ current url (grabs it via faked C-l / C-c and the clipboard)"
 (general-define-key :keymaps 'exwm-mode-map
                     "s-d" #'exwm-browser-link-create)
 
-(defhydra hydra-exwm-browser-link (:exit t :columns 5)
+;; Kept short so hydra's auto-generated per-head docstring ("Call the head
+;; `CMD' in the \"NAME\" hydra.") stays within 80 columns given the long
+;; `exwm-browser-link-visit*' command names.
+(defhydra hydra-browser (:exit t :columns 5)
   "exwm browser links"
-  ("e" #'exwm-browser-link-visit            "visit link")
-  ("t" #'exwm-browser-link-visit-tagged     "visit tagged link")
-  ("T" #'exwm-browser-link-visit-all-tagged "visit all tagged links"))
+  ("e" exwm-browser-link-visit            "visit link")
+  ("t" exwm-browser-link-visit-tagged     "visit tagged link")
+  ("T" exwm-browser-link-visit-all-tagged "visit all tagged links"))
 
 
 (provide 'config/desktop/browser-links)

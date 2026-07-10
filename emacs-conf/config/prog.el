@@ -1,13 +1,19 @@
 ;; -*- lexical-binding: t; -*-
+(require 'prelude)
+
+;; whitespace.el owns these; set at toplevel below before it loads.
+(declare-vars whitespace-line-column whitespace-style)
+
 (use-package pkg-info)
 (use-package flycheck)
 (use-package flycheck-popup-tip)
-;; Deferred: nothing in the config wires origami, and loading it at boot
-;; drags in the deprecated `cl' package ("Package cl is deprecated" in
-;; *Messages*).  The stub keeps `M-x origami-mode' working (decision 0001:
-;; autoloads never activate, so deferral needs an explicit entry point).
-(use-package origami
-  :commands (origami-mode global-origami-mode))
+;; Deferred: nothing in the config wires origami, and loading it drags in the
+;; deprecated `cl' package ("Package cl is deprecated").  Explicit autoload
+;; stubs keep `M-x origami-mode' working (decision 0001: autoloads never
+;; activate, so deferral needs an explicit entry point) WITHOUT letting
+;; use-package load origami (and cl) at byte-compile time.
+(autoload 'origami-mode "origami" nil t)
+(autoload 'global-origami-mode "origami" nil t)
 (require 'config/modes/prettify-mode)
 
 (use-package hl-todo

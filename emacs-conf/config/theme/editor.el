@@ -19,6 +19,12 @@
 
 (require 'prelude)
 
+;; `cmacs-config-path' is a core/env global; `ck/doom-theme-dir' is this file's
+;; own var, forward-referenced from `ck/doom-theme--structural-data' before its
+;; `defvar' below.  filenotify's watch fns are called only at runtime.
+(declare-vars cmacs-config-path ck/doom-theme-dir)
+(declare-functions "filenotify" file-notify-add-watch file-notify-rm-watch)
+
 (defvar ck/doom-theme-edn-file
   (expand-file-name "config/theme/doom-molokam.edn" cmacs-config-path)
   "Path to the EDN source of the active editable doom theme.")

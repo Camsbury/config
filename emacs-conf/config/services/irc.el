@@ -1,4 +1,20 @@
 ;; -*- lexical-binding: t; -*-
+(require 'prelude)
+
+;; This file's own config vars: populated from the environment inside the
+;; circe `:config' block below, then spliced into `circe-network-options'.
+(defvar irc-sasl-username nil
+  "SASL username shared across IRC networks (from $SASL_USERNAME).")
+(defvar freenode-sasl-password nil
+  "Freenode SASL password (from $FREENODE_PASSWORD).")
+(defvar hackint-sasl-password nil
+  "HackInt SASL password (from $HACKINT_PASSWORD).")
+(defvar libera-sasl-password nil
+  "Libera SASL password (from $LIBERA_PASSWORD).")
+
+;; `circe' is deferred; declare the one command `ck/join-irc' calls at runtime.
+(declare-functions "circe" circe)
+
 (use-package circe
   :config
   (setq irc-sasl-username (getenv "SASL_USERNAME"))

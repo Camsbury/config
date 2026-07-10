@@ -5,7 +5,7 @@
 
 (use-package alarm-clock
   :init
-  (defun ck/alarm-message-espeak (title msg)
+  (defun ck/alarm-message-espeak (_title msg)
     (shell-command (concat "espeak-ng \"" msg "\"")))
   :config
   (setq alarm-clock-play-sound nil)
@@ -28,3 +28,10 @@
   launchers)
 
 (provide 'config/desktop/commands)
+
+;; `ck/alarm-message-espeak' is defined in the use-package `:init' above and
+;; forward-referenced in `:config'; `alarm-clock--notify' is the deferred
+;; package's own fn.  Suppress just the unresolved class.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

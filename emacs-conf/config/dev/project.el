@@ -1,7 +1,10 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
-(require 'config/search)
 (require 'hide-comnt)
+;; projectile is loaded earlier in the boot chain (config/search, before dev);
+;; declare the one fn we call so this leaf compiles clean without requiring the
+;; heavy search stack.
+(declare-functions "projectile" projectile-project-root)
 
 (defun ck/git-init ()
   "initialize git"

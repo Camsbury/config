@@ -4,6 +4,10 @@
 (require 'core/bindings)
 (require 'core/text)
 
+;; `crm-separator' is owned by crm.el (completing-read-multiple), referenced in
+;; `ck/crm-indicator' before that library loads.
+(declare-vars crm-separator)
+
 
 (use-package projectile
   :config (projectile-mode)
@@ -195,6 +199,11 @@
 ;; `posframe' to vertico-multiform settings as well, that would double-manage
 ;; the mode (per the vertico-posframe README).  Childframes are EXWM-safe
 ;; here (corfu already draws them).
+;; Toplevel so its `make-variable-buffer-local' runs at load time (a
+;; `defvar-local' buried in the `:config' block below would warn).
+(defvar-local ck/vertico-posframe--cover-ov nil
+  "Overlay blanking the real minibuffer window during a posframe session.")
+
 (use-package vertico-posframe
   :if (locate-library "vertico-posframe")
   :demand t
@@ -240,8 +249,6 @@
   ;; posframe window is not (cursor from `cursor-in-non-selected-windows'):
   ;; kill the former, keep a box for the latter.  Everything is undone on
   ;; minibuffer exit so a later plain minibuffer is untouched.
-  (defvar-local ck/vertico-posframe--cover-ov nil
-    "Overlay blanking the real minibuffer window during a posframe session.")
   (defun ck/vertico-posframe--cover (&rest _)
     "Blank the real minibuffer window while vertico-posframe shows its
 buffer in a child frame.  See the comment above `vertico-posframe-mode'
@@ -469,3 +476,12 @@ consult-xref -> xref-edit (Emacs 31+).  Edit, then save as usual."
     "q" #'quit-window))
 
 (provide 'config/search)
+
+;; use-package config file: the undefined functions are the packages' own APIs
+;; (vertico/consult/embark/wgrep/... deferred, so never loaded at compile time)
+;; and the few `ck/*' commands defined inside `:config' blocks and forward-
+;; referenced from bindings.  Suppress just the unresolved class; every other
+;; class stays live.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

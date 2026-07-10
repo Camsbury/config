@@ -22,3 +22,9 @@
   "M-<RET>" #'slime-eval-defun)
 
 (provide 'config/langs/clisp)
+
+;; use-package config + hydra: forward-refs deferred slime commands invoked only
+;; at runtime.  Suppress just the unresolved class.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

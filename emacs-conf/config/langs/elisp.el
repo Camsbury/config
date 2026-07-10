@@ -6,11 +6,21 @@
 ;; hands the checker this session's `load-path' so those requires resolve; the
 ;; residual warnings are then the real ones (dependencies a file uses without
 ;; requiring), which the per-file `require' + `declare-functions' work targets.
+(require 'prelude)
+;; defhydra/general-def/general-add-hook macros come from here, so they expand
+;; in byte-compile isolation instead of depending on the core/bindings hub.
+(require 'core/definers)
+(require 'lib/shell)   ; ck/run-async-from-desc (bound in the hydra below)
+;; flycheck/find-func own these; declare so the load-time setqs don't warn.
+(declare-vars flycheck-emacs-lisp-load-path
+              flycheck-disabled-checkers
+              find-function-C-source-directory)
+
 (setq flycheck-emacs-lisp-load-path 'inherit)
 
-(require 'lib/shell)   ; ck/run-async-from-desc (bound in the hydra below)
-
-(eval-after-load 'dash '(dash-enable-font-lock))
+;; `dash-enable-font-lock' is an obsolete alias for `global-dash-fontify-mode';
+;; call the current name (same behavior) to drop the obsoletion warning.
+(eval-after-load 'dash '(global-dash-fontify-mode))
 (general-add-hook 'emacs-lisp-mode-hook
                   (list 'paredit-mode
                         'lispyville-mode
@@ -45,3 +55,9 @@
   ("S" #'ck/run-async-from-desc "run async command from description"))
 
 (provide 'config/langs/elisp)
+
+;; use-package config + hydra: hydra-elisp/body is a runtime forward-ref.
+;; Suppress just the unresolved class.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

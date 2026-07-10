@@ -11,8 +11,7 @@
 (setq make-backup-files nil)
 
 ;; scroll options
-(setq redisplay-dont-pause t
-      scroll-margin 1
+(setq scroll-margin 1
       scroll-step 1
       scroll-conservatively 10000
       scroll-preserve-screen-position 1)
@@ -29,7 +28,11 @@
 ;; save custom values
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file 'noerror)
-(defun ck/force-custom-file (&optional no-error)
+;; The `custom-file' FUNCTION (cus-edit) decides where Custom saves; override
+;; it so saves follow the symlink to the repo copy instead of clobbering it.
+(declare-function custom-file "cus-edit" (&optional no-error))
+(defun ck/force-custom-file (&optional _no-error)
+  "Return `custom-file' with symlinks resolved, for Custom saves."
   (file-chase-links custom-file))
 (advice-add #'custom-file :override #'ck/force-custom-file)
 

@@ -73,3 +73,9 @@
   ("N" #'pytest-all               "run all pytests"))
 
 (provide 'config/langs/python)
+
+;; use-package config + hydra: forward-refs deferred python/pytest/pydoc
+;; commands invoked only at runtime.  Suppress just the unresolved class.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

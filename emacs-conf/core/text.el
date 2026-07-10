@@ -15,3 +15,10 @@
 (use-package evil-collection)
 
 (provide 'core/text)
+
+;; use-package config file: `evil-mode' is evil's own entry point, loaded by
+;; the same form at runtime.  Suppress just the unresolved class; every other
+;; class stays live.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

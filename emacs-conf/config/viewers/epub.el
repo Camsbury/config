@@ -1,4 +1,7 @@
 ;; -*- lexical-binding: t; -*-
+;; general/hydra macros (general-add-hook, general-def, defhydra) expand from
+;; here instead of depending on the core/bindings hub loading first.
+(require 'core/definers)
 (use-package nov)
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
@@ -20,3 +23,10 @@
   ("l" #'nov-next-document     "next"))
 
 (provide 'config/viewers/epub)
+
+;; Keybinding/hydra file: the nov-* commands are deferred package API, invoked
+;; only at runtime.  Suppress just the unresolved class; every other class stays
+;; live.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

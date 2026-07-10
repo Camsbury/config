@@ -1,6 +1,11 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
 (require 'core/env)
+;; org-roam owns these; declare so the deferred-package refs don't warn without
+;; force-loading org-roam.
+(declare-functions "org-roam"
+  org-roam-node-visit org-roam-node-from-title-or-alias
+  org-roam-db-autosync-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org roam

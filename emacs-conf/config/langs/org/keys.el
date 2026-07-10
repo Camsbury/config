@@ -1,6 +1,11 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
-(require 'hydra)
+;; defhydra + the general-* binding macros come from here, so they expand in
+;; byte-compile isolation instead of depending on the core/bindings hub.
+(require 'core/definers)
+;; org owns these keymaps, bound only at runtime; declare so the general-*
+;; forms don't warn.
+(declare-vars org-capture-mode-map org-mode-map org-src-mode-map)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my org bindings
@@ -106,3 +111,12 @@
   ("k" #'org-edit-src-abort "quit without saving"))
 
 (provide 'config/langs/org/keys)
+
+;; Keybinding/hydra hub: forward-refs org commands and the leader hydra bodies,
+;; invoked only at runtime (unresolved).  The big hydras (hydra-org,
+;; hydra-org-table) also emit hint docstrings wider than 80 that defhydra
+;; generates, not source text we can rewrap (docstring).  Suppress both classes;
+;; keep every other class live.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved docstrings)
+;; End:

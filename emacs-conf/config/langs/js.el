@@ -1,4 +1,9 @@
 ;; -*- lexical-binding: t; -*-
+(require 'prelude)
+;; css-mode owns css-indent-offset; general owns general-add-hook.  Declare so
+;; the load-time setq and hook setups don't warn.
+(declare-vars css-indent-offset)
+(declare-functions "general" general-add-hook)
 (use-package prettier-js)
 (use-package rjsx-mode)
 (use-package js2-mode)

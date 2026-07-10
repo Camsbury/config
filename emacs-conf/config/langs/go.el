@@ -1,4 +1,8 @@
 ;; -*- lexical-binding: t; -*-
+(require 'prelude)
+;; defhydra/general-def/general-add-hook macros come from here, so they expand
+;; in byte-compile isolation instead of depending on the core/bindings hub.
+(require 'core/definers)
 (use-package go-mode)
 (use-package company-go
   :after (company))
@@ -21,3 +25,9 @@
 
 
 (provide 'config/langs/go)
+
+;; use-package config + hydra: forward-refs deferred go commands invoked only at
+;; runtime.  Suppress just the unresolved class.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

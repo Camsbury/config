@@ -45,7 +45,7 @@
          :cwd nil)))
 (use-package dap-mouse)
 (add-hook 'dap-stopped-hook
-          (lambda (arg) (call-interactively #'dap-hydra)))
+          (lambda (_arg) (call-interactively #'dap-hydra)))
 
 (use-package lsp-treemacs
   :after
@@ -62,3 +62,10 @@
  "q" 'lsp-ui-imenu--kill)
 
 (provide 'config/services/lsp)
+
+;; use-package config file: the dap-*/lsp-* commands and `general-def' are the
+;; packages' own API, invoked only at runtime.  Suppress just the unresolved
+;; class; every other class stays live.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

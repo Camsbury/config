@@ -1,4 +1,8 @@
 ;; -*- lexical-binding: t; -*-
+(require 'prelude)
+;; defhydra/general-def/general-add-hook macros come from here, so they expand
+;; in byte-compile isolation instead of depending on the core/bindings hub.
+(require 'core/definers)
 (use-package rust-mode
   :custom
   (lsp-rust-analyzer-cargo-watch-command "clippy")
@@ -72,3 +76,9 @@
   ("t" #'rustic-cargo-test           "run tests"))
 
 (provide 'config/langs/rust)
+
+;; use-package config + hydra: forward-refs deferred rust/lsp/flycheck commands
+;; invoked only at runtime.  Suppress just the unresolved class.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

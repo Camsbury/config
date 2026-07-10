@@ -6,6 +6,12 @@
 (require 'config/langs/sql)
 ;; TODO: https://stackoverflow.com/questions/17478260/completely-hide-the-properties-drawer-in-org-mode
 (require 'org-id)
+;; org owns org-capture-templates; org-alert-active-p is this file's own toggle
+;; flag tracking whether the alert timer is armed.
+(declare-vars org-capture-templates)
+(defvar org-alert-active-p nil
+  "Non-nil when org-alert notifications are enabled.
+Toggled by `ck/toggle-org-alerts'.")
 
 (use-package ob-async)
 (use-package ob-elixir)
@@ -145,15 +151,15 @@
   "Initialize org faces"
   (interactive)
   (set-face-attribute 'org-level-1 nil :height 1.0)
-  (-map (lambda (x) (set-face-bold x nil))
-        '( org-level-1
-           org-level-2
-           org-level-3
-           org-level-4
-           org-level-5
-           org-level-6
-           org-level-7
-           org-level-8))
+  (-each '( org-level-1
+            org-level-2
+            org-level-3
+            org-level-4
+            org-level-5
+            org-level-6
+            org-level-7
+            org-level-8)
+    (lambda (x) (set-face-bold x nil)))
   (-map (lambda (pair) (set-face-foreground (car pair) (cdr pair)))
         (-zip-pair
          '(org-level-1 org-level-2 org-level-3 org-level-4 org-level-5
@@ -235,7 +241,7 @@
   "Focus in on the current point"
   (interactive)
   (org-overview)
-  (org-show-context))
+  (org-fold-show-context))
 
 (defun ck/org-new-item ()
   "Add a list item"
@@ -264,3 +270,10 @@
   keys)
 
 (provide 'config/langs/org)
+
+;; use-package config: forward-refs deferred org-alert/vertico-posframe helpers
+;; and gtd--build-tags (defined in the gtd module), invoked only at runtime.
+;; Suppress just the unresolved class.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

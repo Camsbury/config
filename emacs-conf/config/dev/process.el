@@ -13,3 +13,10 @@
     [remap evil-change-whole-line] #'prodigy-stop))
 
 (provide 'config/dev/process)
+
+;; use-package config file: the prodigy-* commands and `general-def' are the
+;; package's own API, invoked only at runtime.  Suppress just the unresolved
+;; class; every other class stays live.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

@@ -1,7 +1,9 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
+;; defhydra/general-def/general-add-hook macros come from here, so they expand
+;; in byte-compile isolation instead of depending on the core/bindings hub.
+(require 'core/definers)
 (use-package racket-mode)
-(use-package hydra)
 
 (general-def 'normal racket-mode-map
  [remap ck/empty-mode-leader] #'hydra-racket/body
@@ -21,3 +23,9 @@
  ("t" #'racket-test                   "test"))
 
 (provide 'config/langs/racket)
+
+;; use-package config + hydra: forward-refs deferred racket commands and hydra
+;; runtime helpers, invoked only at runtime.  Suppress the unresolved class.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

@@ -3,6 +3,10 @@
 (require 'core/env)
 (require 'lib/utils)   ; ck/set-window-width
 
+;; Package-owned vars set/read in the `use-package' blocks below before those
+;; packages load: corfu-popupinfo, savehist (built-in), beacon.
+(declare-vars corfu-popupinfo-delay savehist-additional-variables beacon-size)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Evil
 
@@ -184,3 +188,11 @@
 
 
 (provide 'config/text)
+
+;; use-package config file: the undefined functions are the deferred packages'
+;; own APIs (evil-*, corfu, cape, kind-icon, undo-tree, yasnippet, ...) plus
+;; `ck/prettify-windows' from config/modes/prettify-mode, forward-referenced.
+;; Suppress just the unresolved class; every other class stays live.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

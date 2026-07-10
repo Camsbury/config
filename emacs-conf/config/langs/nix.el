@@ -1,4 +1,8 @@
 ;; -*- lexical-binding: t; -*-
+(require 'prelude)
+;; defhydra/general-def macros come from here, so they expand in byte-compile
+;; isolation instead of depending on the core/bindings hub.
+(require 'core/definers)
 (use-package nix-mode
   :mode "\\.nix\\'")
 ;; CLEAN: maybe don't need
@@ -26,5 +30,11 @@
            (shell-quote-argument (buffer-file-name)))))
 
 (provide 'config/langs/nix)
+
+;; use-package config + hydra: forward-refs nix-update commands invoked only at
+;; runtime.  Suppress just the unresolved class.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:
 
 

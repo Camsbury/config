@@ -10,3 +10,10 @@
  "/"                   #'doc-view-search)
 
 (provide 'config/viewers/pdf)
+
+;; Keybinding file: `general-define-key' plus the doc-view commands and the
+;; leader hydra it remaps to are all runtime forward-refs.  Suppress just the
+;; unresolved class; every other class stays live.
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved)
+;; End:

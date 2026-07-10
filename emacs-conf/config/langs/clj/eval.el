@@ -161,7 +161,8 @@ If invoked with a prefix ARG eval the expression after inserting it"
     (call-interactively #'cider-inspect)))
 
 (defun ck/cider-unalias-at-point ()
-  "Call (ns-unalias *ns* 'sym) in the current Clojure namespace for symbol at point."
+  "Call (ns-unalias *ns* \\='sym) in the current Clojure namespace.
+Uses the symbol at point as sym."
   (interactive)
   (let* ((sym (thing-at-point 'symbol t)))
     (if sym

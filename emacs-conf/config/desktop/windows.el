@@ -221,8 +221,12 @@ Also logs each invocation + the round-trip outcome via `ck/bug2-test-log'
       (ck/bug2-test-log "  drain: round-trip start id=#x%x" id)
       (condition-case err
           (progn
-            (xcb:+request-unchecked+reply exwm--connection
-                (make-instance 'xcb:GetInputFocus))
+            ;; Called purely for the forced X round-trip; the reply object is
+            ;; discarded on purpose (`ignore' marks the value as intentionally
+            ;; unused, silencing the macro's `car'-value warning).
+            (ignore
+             (xcb:+request-unchecked+reply exwm--connection
+                 (make-instance 'xcb:GetInputFocus)))
             (ck/bug2-test-log "  drain: round-trip OK id=#x%x" id))
         (error
          (ck/bug2-test-log "  drain: round-trip ERROR id=#x%x %S" id err)
