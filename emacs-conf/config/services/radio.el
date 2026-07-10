@@ -64,12 +64,17 @@ Interactively, pick the playlist by name from radio.edn."
                 (push (cons (substring (symbol-name key) 1) key) names))
               (ck/radio-playlists))
      (list (cdr (assoc (completing-read "Playlist: " names nil t) names)))))
-  (let ((playlist (gethash playlist-key (ck/radio-playlists))))
+  (let ((playlist (gethash playlist-key (ck/radio-playlists)))
+        (buffer (or (get-buffer emms-playlist-buffer-name)
+                    (emms-playlist-new))))
     (unless playlist
       (user-error "No radio playlist %s" playlist-key))
-    (with-current-buffer
-        (or (get-buffer emms-playlist-buffer-name)
-            (emms-playlist-new))
+    ;; `emms-random' selects from the GLOBAL `emms-playlist-buffer', not the
+    ;; buffer we fill here.  If that pointer is nil or dead (fresh session,
+    ;; *Radio* resurrected without emms state), emms would invent an empty
+    ;; *Radio*<2> and error "Args out of range" on its zero tracks.
+    (emms-playlist-set-playlist-buffer buffer)
+    (with-current-buffer buffer
       (emms-playlist-clear)
       (maphash
        (lambda (track-url title)
