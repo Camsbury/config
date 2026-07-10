@@ -27,6 +27,37 @@ ever perturbs ECA's overlays."
   :type 'boolean
   :group 'ck/eca)
 
+;;; Table font --------------------------------------------------------------
+;;
+;; ECA remaps `markdown-table-face' to inherit `fixed-pitch' so tables align in
+;; a monospace, but `fixed-pitch' resolves to the generic "Monospace" family,
+;; not the chat's own font.  Pin tables to an explicit family instead.  The
+;; remap is installed from `eca-chat-mode-hook', which runs after ECA's own
+;; `markdown-table-face' remap in the mode body, so this later relative remap
+;; wins on `:family' (last relative remap has highest priority) while ECA keeps
+;; owning alignment and the colour/zebra overlays layered on top.
+
+(defcustom ck/eca-chat-table-font "Go Mono"
+  "Monospace family for markdown tables in ECA chat buffers.
+Set to nil, or to a family with no installed font, to keep ECA's default
+\(fixed-pitch).  Must be monospace or tables will not line up."
+  :type '(choice (const :tag "ECA default (fixed-pitch)" nil) string)
+  :group 'ck/eca)
+
+(defun ck/eca-chat--table-font-available-p ()
+  "Non-nil when `ck/eca-chat-table-font' is set and its font is installed."
+  (and ck/eca-chat-table-font
+       (find-font (font-spec :family ck/eca-chat-table-font))))
+
+(defun ck/eca-chat--apply-table-font ()
+  "Render markdown tables in this ECA chat buffer in `ck/eca-chat-table-font'.
+A buffer-local relative remap on `markdown-table-face'; ECA's colour and zebra
+overlays sit on top and specify no family, so they inherit this one and only
+the table font changes.  A no-op when the configured font is unavailable."
+  (when (ck/eca-chat--table-font-available-p)
+    (face-remap-add-relative 'markdown-table-face
+                             `(:family ,ck/eca-chat-table-font))))
+
 ;;; Table alignment ---------------------------------------------------------
 ;;
 ;; ECA aligns markdown tables only within the just-finished turn, so a table
@@ -53,7 +84,7 @@ ever perturbs ECA's overlays."
 ;;; Table wrapping (dedicated reading view) ---------------------------------
 ;;
 ;; Wide markdown tables read poorly inline (they wrap jaggedly).  Reflow the
-;; table at point into a fixed-pitch `*eca-table*' buffer, word-wrapping long
+;; table at point into a monospace `*eca-table*' buffer, word-wrapping long
 ;; cells so the whole table fits within `ck/eca-chat-table-wrap-width' columns.
 ;; The chat buffer is never modified, and this is self-contained (no dependence
 ;; on ECA's table internals, only stable markdown-mode boundary detection).
@@ -222,7 +253,7 @@ Shrinks the widest columns first, never below a small minimum."
       (buffer-string))))
 
 (defun ck/eca-chat-open-table-wrapped ()
-  "Open the markdown table at point in a wrapped, fixed-pitch reading buffer.
+  "Open the markdown table at point in a wrapped, monospace reading buffer.
 Long cells are word-wrapped so the table fits `ck/eca-chat-table-wrap-width'
 columns.  The chat buffer is not modified."
   (interactive)
@@ -235,7 +266,9 @@ columns.  The chat buffer is not modified."
            (buf (get-buffer-create "*eca-table*")))
       (with-current-buffer buf
         (special-mode)
-        (buffer-face-set 'fixed-pitch)
+        (if (ck/eca-chat--table-font-available-p)
+            (buffer-face-set (list :family ck/eca-chat-table-font))
+          (buffer-face-set 'fixed-pitch))
         (setq-local truncate-lines nil)
         (let ((inhibit-read-only t))
           (erase-buffer)

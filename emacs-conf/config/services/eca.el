@@ -54,6 +54,7 @@
   :hook
   (eca-chat-mode . (lambda () (whitespace-mode -1)))
   (eca-chat-mode . ck/eca--sweep-on-chat-kill)
+  (eca-chat-mode . ck/eca-chat--apply-table-font)
   :config
   (setq eca-chat-use-side-window nil)
 
