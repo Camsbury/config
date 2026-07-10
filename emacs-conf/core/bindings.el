@@ -122,6 +122,7 @@ recomputed on every posframe refresh."
   ("C" #'ck/open-chess-practice                "chess practice")
   ("e" #'projectile-find-file                  "project file")
   ("E" #'projectile-switch-to-buffer           "project open buffer")
+  ("f" #'ck/elfeed-open                        "elfeed feeds")
   ("g" #'ck/open-telegram                      "telegram")
   ("j" #'org-journal-new-entry                 "org-journal entry")
   ("J" #'org-journal-open-current-journal-file "org-journal")

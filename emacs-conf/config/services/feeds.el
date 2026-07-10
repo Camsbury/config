@@ -18,6 +18,12 @@
   (elfeed-org)
   (setq rmh-elfeed-org-files `(,(concat cmacs-share-path "/feeds.org"))))
 
+(defun ck/elfeed-open ()
+  "Open elfeed and kick off an async refresh of all feeds."
+  (interactive)
+  (elfeed)
+  (elfeed-update))
+
 (provide 'config/services/feeds)
 
 ;; use-package config file: elfeed/elfeed-score/elfeed-org and
