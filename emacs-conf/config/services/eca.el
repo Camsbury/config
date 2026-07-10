@@ -16,6 +16,7 @@
 ;;   compose   dedicated prompt compose buffer
 ;;   palette   command/skill/prompt picker
 ;;   crash     dormant opt-in to re-disable native code-block fontify
+;;   fold      fold expandable blocks from inside their content
 ;;   scroll    follow the stream only while point is in the prompt
 ;;   nav       jump/rotation navigation across all chats
 ;;   keys      the in-chat and global navigation hydras
@@ -39,6 +40,7 @@
   compose
   palette
   crash
+  fold
   scroll
   nav
   keys)
@@ -110,6 +112,16 @@
   ;; outside an evil state so it works whether typing (insert) or navigating
   ;; (normal) in the prompt.
   (define-key eca-chat-mode-map (kbd "C-c C-c") #'ck/eca-toggle-compose)
+
+  ;; Expandable-block folding: plain TAB folds the block at *or around* point
+  ;; (not just from its header line); shift-TAB toggles every block; `M-j' /
+  ;; `M-k' walk to the next / previous block header.
+  (define-key eca-chat-mode-map (kbd "<tab>")     #'ck/eca-chat-tab-dwim)
+  (define-key eca-chat-mode-map (kbd "TAB")       #'ck/eca-chat-tab-dwim)
+  (define-key eca-chat-mode-map (kbd "<backtab>") #'ck/eca-chat-toggle-all-blocks)
+  (define-key eca-chat-mode-map (kbd "S-<tab>")   #'ck/eca-chat-toggle-all-blocks)
+  (define-key eca-chat-mode-map (kbd "M-k") #'eca-chat-go-to-prev-expandable-block)
+  (define-key eca-chat-mode-map (kbd "M-j") #'eca-chat-go-to-next-expandable-block)
 
   (general-def 'normal eca-chat-mode-map
     [remap ck/empty-mode-leader]     #'hydra-eca/body))

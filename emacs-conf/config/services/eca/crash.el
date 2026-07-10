@@ -22,6 +22,14 @@
 ;; The real safeguard remains discipline: write code to files, keep chat lean
 ;; -- that is what starves this crash (never stream big code walls into chat).
 ;;
+;; A SECOND trigger of this same path is UNFOLDING a big collapsed block (a
+;; large tool result dumped into view at once), independent of streaming.
+;; `config/services/eca/fold.el' now size-gates both fold commands: past a
+;; byte threshold it turns native code fontify off buffer-locally BEFORE the
+;; reveal, so a huge unfold renders as cheap monospace instead of freezing /
+;; SIGSEGV-ing.  That is the live mitigation for the fold path; this dormant
+;; hook is still the blunt whole-buffer opt-out if the crash ever recurs.
+;;
 ;; This function is kept DORMANT (not wired to any hook).  To re-disable
 ;; native fontify if the crash recurs, add it back:
 ;;   (add-hook 'eca-chat-mode-hook #'ck/eca--disable-native-code-fontify)
