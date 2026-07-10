@@ -56,28 +56,38 @@
   (ck/find-or-open-application "Telegram" "TelegramDesktop"))
 
 (defun ck/open-thunderbird ()
-  "Opens Telegram"
+  "Opens Thunderbird"
   (interactive)
   (ck/find-or-open-application "thunderbird" "thunderbird"))
 
+(defun ck/--open-tmux-xterm (session &optional projectp)
+  "Open (or focus) an xterm attached to tmux SESSION.
+Spawns from the project root when PROJECTP, else from ~ (matters only
+when the tmux session does not exist yet).  Names the EXWM buffer
+\"XTerm - SESSION\" once the window maps.  Known smell (tracked in
+todos): the rename waits on a sleep-and-match race instead of
+`exwm-manage-finish-hook'."
+  (let ((xterm-name (concat "XTerm - " session)))
+    (ck/find-or-open-application
+     (concat "xterm -e 'tmux new -A -s " session "'")
+     xterm-name
+     projectp)
+    (sleep-for 0.3)
+    (when (-first (lambda (buffer) (s-match "XTerm$" buffer))
+                  (-map #'buffer-name (buffer-list)))
+      (with-current-buffer "XTerm"
+        (exwm-workspace-rename-buffer xterm-name))
+      ;; FIXME: switching to the buffers old window - maybe remove the
+      ;; exwm-workspace prefix here, but then the cursor isn't in the terminal
+      (exwm-workspace-switch-to-buffer xterm-name))))
+
 (defun ck/open-xterm ()
-  "Opens the terminal"
+  "Open the current project's tmux terminal (global session outside one)."
   (interactive)
-  (let* ((p-name (when (stringp (projectile-project-root))
-                   (car (last (f-split (projectile-project-root))))))
-         (xterm-name (concat "XTerm - " p-name)))
+  (let ((p-name (when (stringp (projectile-project-root))
+                  (car (last (f-split (projectile-project-root)))))))
     (if (stringp p-name)
-        (progn
-          (ck/find-or-open-application
-           (concat "xterm -e 'tmux new -A -s " p-name "'")
-           xterm-name
-           t)
-          (sleep-for 0.3)
-          (when (-first (lambda (buffer) (s-match "XTerm$" buffer)) (-map #'buffer-name (buffer-list)))
-            (with-current-buffer "XTerm"
-              (exwm-workspace-rename-buffer xterm-name))
-            ;; FIXME: switching to the buffers old window - maybe remove the exwm-workspace prefix here, but then the cursor isn't in the terminal
-            (exwm-workspace-switch-to-buffer xterm-name)))
+        (ck/--open-tmux-xterm p-name t)
       (ck/open-global-xterm))))
 
 (defun ck/kill-project-xterm ()
@@ -89,35 +99,17 @@
      (concat "tmux kill-session -t " p-name))))
 
 (defun ck/open-custom-xterm (term-name)
-  "Opens the terminal with a custom tmux session"
+  "Open a terminal attached to the tmux session TERM-NAME."
   (interactive "sTerminal name: ")
-  (let* ((xterm-name (concat "XTerm - " term-name)))
-    (if (stringp term-name)
-        (progn
-          (ck/find-or-open-application
-           (concat "xterm -e 'tmux new -A -s " term-name "'")
-           xterm-name
-           t)
-          (sleep-for 0.3)
-          (when (-first (lambda (buffer) (s-match "XTerm$" buffer)) (-map #'buffer-name (buffer-list)))
-            (with-current-buffer "XTerm"
-              (exwm-workspace-rename-buffer xterm-name))
-            ;; FIXME: switching to the buffers old window - maybe remove the exwm-workspace prefix here, but then the cursor isn't in the terminal
-            (exwm-workspace-switch-to-buffer xterm-name)))
-      (ck/open-global-xterm))))
+  (ck/--open-tmux-xterm term-name t))
 
 (defun ck/open-global-xterm ()
-  "Opens the terminal"
+  "Open the global tmux terminal."
   (interactive)
-  (ck/find-or-open-application "xterm -e 'tmux new -A -s global'" "XTerm - global")
-  (sleep-for 0.3)
-  (when (-first (lambda (buffer) (s-match "XTerm$" buffer)) (-map #'buffer-name (buffer-list)))
-    (with-current-buffer "XTerm"
-      (exwm-workspace-rename-buffer "XTerm - global"))
-    (exwm-workspace-switch-to-buffer "XTerm - global")))
+  (ck/--open-tmux-xterm "global"))
 
 (defun ck/open-zoom ()
-  "Opens the terminal"
+  "Opens Zoom"
   (interactive)
   (ck/find-or-open-application "zoom-us" "zoom"))
 

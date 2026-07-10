@@ -1,4 +1,8 @@
 ;; -*- lexical-binding: t; -*-
+;; Tagged browser bookmarks, stored by the manage_browser_links.clj Babashka
+;; script.  `s-d' on a Firefox window captures the current URL (faked
+;; C-l/C-c through EXWM + clipboard); the hydra picks links back out,
+;; filtered by an interactively narrowed tag set.
 (require 'prelude)
 (require 'core/keys-base)
 (require 'browse-url)
@@ -12,50 +16,56 @@
 (defvar exwm-browser-set-link-script
   "~/projects/Camsbury/config/manage_browser_links.clj")
 
+(defun exwm-browser-link--bb (&rest args)
+  "Run the link-management script with ARGS (each shell-quoted); return
+stdout."
+  (shell-command-to-string
+   (s-join " " (append (list "bb" "-f"
+                             (shell-quote-argument
+                              (expand-file-name exwm-browser-set-link-script)))
+                       (-map #'shell-quote-argument args)))))
+
+(defun exwm-browser-link--get-tags (selected)
+  "Tags co-occurring with the SELECTED tag set (all tags when nil)."
+  (parseedn-read-str
+   (exwm-browser-link--bb "list-tags" (s-join " " selected))))
+
 (defun exwm-browser-link-visit ()
   "Select a link to visit in the browser"
   (interactive)
-  (let ((links
-         (parseedn-read-str
-          (shell-command-to-string
-           (concat "bb -f " exwm-browser-set-link-script " list-all")))))
-    (let ((n (completing-read "Link: " links nil t)))
-      (ck/open-firefox)
-      (->> links (gethash n) (gethash :url) browse-url))))
+  (let* ((links (parseedn-read-str (exwm-browser-link--bb "list-all")))
+         (n (completing-read "Link: " links nil t)))
+    (ck/open-firefox)
+    (->> links (gethash n) (gethash :url) browse-url)))
 
-(defun exwm-browser-link--build-new-tags (tags selected fn)
-  ;; DONE leads the candidate list (order preserved), so it starts
-  ;; preselected and a bare RET finishes the tag set (the old ivy
-  ;; :preselect behavior).
-  (let ((tag (ck/completing-read-in-order
-              "Tag: " (cons "DONE" tags))))
-    (if (string= "DONE" tag)
-        (funcall fn selected)
-      (let* ((selected (cons tag selected))
-             (tags     (remove tag tags)))
-        (exwm-browser-link--build-new-tags tags selected fn)))))
+(defun exwm-browser-link--read-tags (&optional narrow)
+  "Read tags until DONE; return the selection (newest first).
+DONE leads the candidate list (order preserved), so it starts
+preselected and a bare RET finishes the set (the old ivy :preselect
+behavior).  With NARROW, each pick restricts the next offers to tags
+co-occurring with the selection so far."
+  (let ((tags (exwm-browser-link--get-tags '()))
+        (selected '()))
+    (catch 'done
+      (while t
+        (let ((tag (ck/completing-read-in-order
+                    "Tag: " (cons "DONE" tags))))
+          (if (string= "DONE" tag)
+              (throw 'done selected)
+            (push tag selected)
+            (setq tags (remove tag (if narrow
+                                       (exwm-browser-link--get-tags selected)
+                                     tags)))))))))
 
 (defun exwm-browser-link--grab-meta (link-name)
+  "Prompt for LINK-NAME and a tag set; return (LINK-NAME \"tag ...\")."
   (interactive "sName: ")
-  ;; this needs to take space separated tags...
-  (let ((exwm-browser-link--new-tags '()))
-    (exwm-browser-link--build-new-tags
-     (exwm-browser-link--get-tags nil)
-     nil
-     (lambda (to-add) (setq exwm-browser-link--new-tags (append to-add nil))))
-    (list link-name (s-join " " exwm-browser-link--new-tags))))
+  (list link-name (s-join " " (reverse (exwm-browser-link--read-tags)))))
 
 (defun exwm-browser-link--visit-tagged (tags visit-all?)
-  "Select a link to visit in the browser"
-  (let ((links
-         (parseedn-read-str
-          (shell-command-to-string
-           (concat
-            "bb -f "
-            exwm-browser-set-link-script
-            " list-tagged '"
-            (s-join " " tags)
-            "'")))))
+  "Visit a link carrying every tag in TAGS (all matches when VISIT-ALL?)."
+  (let ((links (parseedn-read-str
+                (exwm-browser-link--bb "list-tagged" (s-join " " tags)))))
     (if links
         (if visit-all?
             (->> links
@@ -66,41 +76,22 @@
             (->> links (gethash n) (gethash :url) browse-url)))
       (message "No links with this tag set!"))))
 
-(defun exwm-browser-link--get-tags (selected)
-  (parseedn-read-str
-   (shell-command-to-string
-    (concat
-     "bb -f "
-     exwm-browser-set-link-script
-     " list-tags '"
-     (s-join " " selected)
-     "'"))))
-
-(defun exwm-browser-link--build-tags (tags selected &optional visit-all?)
-  (let ((tag (ck/completing-read-in-order
-              "Tag: " (cons "DONE" tags))))
-    (if (string= "DONE" tag)
-        (if selected
-            (exwm-browser-link--visit-tagged selected visit-all?)
-          (exwm-browser-link-visit))
-      (let* ((selected (cons tag selected))
-             (tags
-              (->> selected
-                   exwm-browser-link--get-tags
-                   (remove tag))))
-        (exwm-browser-link--build-tags tags selected visit-all?)))))
+(defun exwm-browser-link--visit-by-tags (visit-all?)
+  "Read a narrowing tag set, then visit matches (all links when empty)."
+  (let ((tags (exwm-browser-link--read-tags 'narrow)))
+    (if tags
+        (exwm-browser-link--visit-tagged tags visit-all?)
+      (exwm-browser-link-visit))))
 
 (defun exwm-browser-link-visit-tagged ()
-  "choose tags to filter by"
+  "Pick a tag set, then visit one matching link."
   (interactive)
-  (let ((tags (exwm-browser-link--get-tags '())))
-    (exwm-browser-link--build-tags tags '())))
+  (exwm-browser-link--visit-by-tags nil))
 
 (defun exwm-browser-link-visit-all-tagged ()
-  "choose tag to visit"
+  "Pick a tag set, then open every matching link."
   (interactive)
-  (let ((tags (exwm-browser-link--get-tags '())))
-    (exwm-browser-link--build-tags tags '() t)))
+  (exwm-browser-link--visit-by-tags t))
 
 (defun exwm-browser-link-create ()
   "with a firefox window selected, fire this off to create a bookmark at the
@@ -126,17 +117,7 @@ current url (grabs it via faked C-l / C-c and the clipboard)"
         (let* ((meta (call-interactively #'exwm-browser-link--grab-meta))
                (link-name (car meta))
                (tags (cadr meta)))
-          (shell-command
-           (concat
-            "bb -f "
-            exwm-browser-set-link-script
-            " append-link '"
-            link-name
-            "' '"
-            url
-            "' '"
-            tags
-            "'")))
+          (exwm-browser-link--bb "append-link" link-name url tags))
       (message "exwm-browser-link-create failed: invalid URL (clipboard was %S)"
                url))))
 

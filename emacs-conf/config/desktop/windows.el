@@ -1,35 +1,8 @@
 ;; -*- lexical-binding: t; -*-
-(require 'prelude) ; `inc' + dash's `->' macro used below (load-time)
+(require 'prelude)
 (require 'exwm)
 (require 'exwm-layout)
 (use-package buffer-move)
-
-(defun ck/windows-undedicate-workspace-buffer (dedicated-workspace)
-  (interactive
-   (list
-    (exwm-workspace--prompt-for-workspace
-     "Pick dedicated workspace [+/-]: ")))
-  (-> dedicated-workspace
-    exwm-workspace--workspace-from-frame-or-index
-    frame-selected-window
-    (set-window-dedicated-p nil)))
-
-(defun ck/windows-fix-broken-workspace (broken-workspace)
-  "Place a new frame in the given frame/index, without affecting other frames"
-  (interactive
-   (list
-    (exwm-workspace--prompt-for-workspace
-     "Pick broken workspace [+/-]: ")))
-  (let* ((current-index exwm-workspace-current-index)
-         (default-limit exwm-workspace-switch-create-limit)
-         (temp-limit (inc default-limit)))
-    (customize-set-variable 'exwm-workspace-switch-create-limit temp-limit)
-    (exwm-workspace-switch-create default-limit)
-    (exwm-workspace-switch-create current-index)
-    (exwm-workspace-swap
-     (exwm-workspace--workspace-from-frame-or-index broken-workspace)
-     (exwm-workspace--workspace-from-frame-or-index default-limit))
-    (customize-set-variable 'exwm-workspace-switch-create-limit default-limit)))
 
 ;; `ck/set-window-width' used to live here; it is pure and consumed across
 ;; areas (text.el, modes/prettify-mode.el), so it moved to lib/utils.el.
