@@ -16,6 +16,7 @@
 ;;   compose   dedicated prompt compose buffer
 ;;   palette   command/skill/prompt picker
 ;;   crash     dormant opt-in to re-disable native code-block fontify
+;;   scroll    follow the stream only while point is in the prompt
 ;;   nav       jump/rotation navigation across all chats
 ;;   keys      the in-chat and global navigation hydras
 
@@ -38,6 +39,7 @@
   compose
   palette
   crash
+  scroll
   nav
   keys)
 
@@ -87,6 +89,12 @@
 
   (advice-add 'eca-process-stop :after #'ck/eca--sweep-closed-buffers)
   (advice-add 'eca-chat-exit    :after #'ck/eca--sweep-closed-buffers)
+
+  ;; Only follow the stream (yank point to the bottom + recenter) while point
+  ;; is in the prompt field; reading up in the transcript mid-stream leaves the
+  ;; cursor put.  See eca/scroll.el.
+  (advice-add 'eca-chat--ensure-prompt-visible
+              :before-while #'ck/eca-chat--follow-only-in-prompt)
   (advice-add 'eca-config-updated
               :around #'ck/eca--config-updated-attach-chat-id)
   (advice-add 'eca-chat-config-updated
