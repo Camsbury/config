@@ -216,7 +216,7 @@ recomputed on every posframe refresh."
   ("D" #'dumb-jump-go                 "dumb jump")
   ("e" #'hydra-browser/body           "browser links")
   ("s-e" #'ck/doom-theme-edit         "edit theme edn")
-  ("E" #'etymology-of-word-at-point   "etymology of word at point")
+  ("E" #'hydra-eca/body               "eca hydra")
   ("f" #'consult-ripgrep              "find text in project")
   ;; USEIT
   ("F" #'ck/search-for-file           "search all dirs for file")
@@ -259,6 +259,7 @@ recomputed on every posframe refresh."
   ("v" #'hydra-window/body            "window")
   ;; ("V")
   ("w" #'evil-write                   "write file")
+  ("s-w" #'etymology-of-word-at-point "etymology of word at point")
   ("W" #'ck/evil-save-as                 "save file as")
   ;; USEIT
   ("x" #'avy-goto-char-2              "avy jump to char")
