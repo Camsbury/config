@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 (require 'lib/utils)
-(require 'core/keys-base)   ; general-add-hook
+(require 'core/definers)   ; general-add-hook
 
 ;; This module bundles the pieces of the "read text at a fixed column"
 ;; experience, which share one width knob:

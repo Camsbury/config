@@ -2,7 +2,7 @@
 (require 'prelude)
 
 ;; Foundational keybinding macro providers, extracted from the core/bindings
-;; hub so any keybinding file can `(require 'core/keys-base)' and have its
+;; hub so any keybinding file can `(require 'core/definers)' and have its
 ;; binding macros EXPAND in byte-compile isolation, instead of silently
 ;; depending on the hub having loaded first.  What this makes available:
 ;;   - evil: `evil-define-operator', `evil-define-key', the state maps.
@@ -27,4 +27,4 @@
   (general-evil-setup t))
 (use-package hydra)
 
-(provide 'core/keys-base)
+(provide 'core/definers)

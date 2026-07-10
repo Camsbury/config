@@ -112,7 +112,7 @@ cross-cutting operations, pulled on demand with `(require 'lib/NAME)` (decision
 - `core.el` / `config.el` - the two aggregators
 - `core/` - foundational layer:
   - `bindings.el` - the command center: leader hydras, Evil bindings, super/meta swap
-  - `keys-base.el` - foundational keybinding macro providers (evil + `general-evil-setup` + hydra), requirable so keybinding files expand their macros in isolation
+  - `definers.el` - the keybinding definer macros (evil + `general-evil-setup` + hydra), requirable so keybinding files expand their macros in isolation
   - `desktop.el` - EXWM proper: workspaces, global `s-*` keys, XF86 media keys
   - `env.el` - the `cmacs` customization group and env-var-backed settings
   - `text.el` - Evil + evil-collection

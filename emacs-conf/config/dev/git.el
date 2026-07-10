@@ -4,7 +4,7 @@
 ;; expand in isolation instead of depending on the core/bindings hub loading
 ;; first.  The leader hydras this file remaps to (hydra-leader/body etc.) are
 ;; runtime forward-refs, suppressed by the file-local at the bottom.
-(require 'core/keys-base)
+(require 'core/definers)
 
 ;; magit's status keymap, referenced by difftastic's `:bind :map' before magit
 ;; loads.

@@ -5,7 +5,7 @@
 ;; general-def bindings) but no longer bootstraps them itself: keybinding files
 ;; require the same foundation so their macros expand without depending on the
 ;; hub having loaded first.
-(require 'core/keys-base)
+(require 'core/definers)
 ;; ck/delete-file-and-buffer, ck/unescape-clipboard-string and
 ;; ck/shuffle-selection (bound in the leaders below) are cross-cutting library
 ;; ops; pull them from lib/ on demand.

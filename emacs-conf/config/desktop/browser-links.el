@@ -4,7 +4,7 @@
 ;; C-l/C-c through EXWM + clipboard); the hydra picks links back out,
 ;; filtered by an interactively narrowed tag set.
 (require 'prelude)
-(require 'core/keys-base)
+(require 'core/definers)
 (require 'browse-url)
 (require 'lib/utils)
 

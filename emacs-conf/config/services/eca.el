@@ -23,7 +23,7 @@
 ;; general-def comes from here.  The one hub symbol this file names,
 ;; ck/empty-mode-leader, is a runtime remap target (suppressed below), not a
 ;; load-time dependency; the hub loads earlier at boot regardless.
-(require 'core/keys-base)
+(require 'core/definers)
 
 (defgroup ck/eca nil
   "Personal ECA chat customizations."

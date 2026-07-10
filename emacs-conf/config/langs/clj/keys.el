@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
 ;; nmap/general-key-dispatch/evil-define-operator/defhydra come from here.
-(require 'core/keys-base)
+(require 'core/definers)
 (require 'config/langs/clj/eval)
 (require 'config/langs/clj/jack-in)
 (require 'config/langs/clj/systemic)

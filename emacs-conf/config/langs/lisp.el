@@ -3,7 +3,7 @@
 ;; general (+ general-evil-setup) and hydra macros come from here.  This file
 ;; references no core/bindings hub symbols, so requiring the foundation instead
 ;; of the hub removes the hub edge entirely.
-(require 'core/keys-base)
+(require 'core/definers)
 (require 'lib/utils)   ; ck/lisp-eval-sexp-at-point
 (use-package paredit)
 (use-package lispyville)

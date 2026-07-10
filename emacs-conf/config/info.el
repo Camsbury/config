@@ -4,7 +4,7 @@
 ;; expand in isolation instead of depending on the core/bindings hub loading
 ;; first.  The hydra-leader/body remap below is a runtime forward-ref,
 ;; suppressed by the file-local at the bottom.
-(require 'core/keys-base)
+(require 'core/definers)
 
 (use-package command-log-mode
   :config
