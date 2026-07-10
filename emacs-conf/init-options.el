@@ -20,6 +20,12 @@
 ;; enable narrowing
 (put 'narrow-to-region 'disabled nil)
 
+;; Old-style `defadvice' (pcre2el, pulled in by magit-todos, advises
+;; align-regexp and friends) logs "ad-handle-definition: '<fn>' got
+;; redefined" whenever an advised function is later redefined.  Purely
+;; informational; accept silently (Doom sets the same).
+(setq ad-redefinition-action 'accept)
+
 ;; save custom values
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file 'noerror)

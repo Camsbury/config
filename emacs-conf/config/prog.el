@@ -2,7 +2,12 @@
 (use-package pkg-info)
 (use-package flycheck)
 (use-package flycheck-popup-tip)
-(use-package origami)
+;; Deferred: nothing in the config wires origami, and loading it at boot
+;; drags in the deprecated `cl' package ("Package cl is deprecated" in
+;; *Messages*).  The stub keeps `M-x origami-mode' working (decision 0001:
+;; autoloads never activate, so deferral needs an explicit entry point).
+(use-package origami
+  :commands (origami-mode global-origami-mode))
 (require 'config/modes/prettify-mode)
 
 (use-package hl-todo
