@@ -70,6 +70,7 @@ Both keys are key description strings."
    ("s-b"                    ck/check-battery)
    ("s-s"                    ck/switch-audio-sink)
    ("s-t"                    ck/check-time)
+   ("s-n"                    ck/dunst-toggle-mute)
    ("s-L"                    ck/lock-screen)))
 
 (ck/set-exwm-simulation-keys
