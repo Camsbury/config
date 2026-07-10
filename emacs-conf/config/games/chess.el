@@ -37,8 +37,9 @@
       random-choice
       ck/play-puzzle-theme))
 
-;; TODO: used to include fen, very sad.
-;; let's grab them interactively as we need them!
+;; The lichess TSVs carry only eco/name/pgn (they used to include FEN);
+;; `ck/openings-add-fens' derives each line's final FEN locally via
+;; pgn-extract, so the FEN commands below work again.
 (defun ck/extract-eco-and-detail (line)
   (string-match "\\(.*\t.*\\)\t\\(.*\\)" line)
   (list (match-string 1 line)
@@ -122,67 +123,80 @@
          (choice (completing-read "Opening: " openings nil t)))
     (kill-new (cadr (assoc choice openings)))))
 
+(defun ck/openings-add-fens (openings)
+  "Augment OPENINGS rows (LABEL PGN) to (LABEL PGN FEN).
+One `pgn-extract -F' run (system package) derives every line's final
+FEN; games come back in input order, and a count mismatch errors rather
+than silently misaligning rows."
+  (let ((pgn-file (make-temp-file "cmacs-openings" nil ".pgn")))
+    (unwind-protect
+        (progn
+          (with-temp-file pgn-file
+            (dolist (o openings)
+              (insert (cadr o) " *\n\n")))
+          (let ((out (shell-command-to-string
+                      (concat "pgn-extract -F --quiet "
+                              (shell-quote-argument pgn-file)
+                              " 2>/dev/null")))
+                (fens '())
+                (start 0))
+            (while (string-match "{ \"\\([^\"]+\\)\" }" out start)
+              (push (match-string 1 out) fens)
+              (setq start (match-end 0)))
+            (setq fens (nreverse fens))
+            (unless (= (length fens) (length openings))
+              (user-error "pgn-extract FEN mismatch: %d openings, %d FENs"
+                          (length openings) (length fens)))
+            (-zip-with (lambda (o fen) (append o (list fen)))
+                       openings fens)))
+      (delete-file pgn-file))))
 
-;; (defun ivy-copy-eco-fen ()
-;;   "copy FEN for ECO opening"
-;;   (interactive)
-;;   (defvar openings (extract-openings))
-;;   (ivy-read
-;;    "Opening: "
-;;    openings
-;;    :action (lambda (x) (kill-new (caddr x)))))
+(defun ck/copy-eco-fen ()
+  "copy FEN for ECO opening"
+  (interactive)
+  (let* ((openings (ck/openings-add-fens (ck/extract-openings)))
+         (choice (completing-read "Opening: " openings nil t)))
+    (kill-new (caddr (assoc choice openings)))))
 
-;; (defun --ivy-similar-position-copy-eco-fen (chosen)
-;;   (let* ((min-distance 12)
-;;          (chosen (expand-fen (caddr chosen)))
-;;          (openings (->> openings
-;;                      (-map
-;;                       (lambda (opening)
-;;                         (list
-;;                          (expanded-fen-distance chosen (expand-fen (caddr opening)))
-;;                          opening)))
-;;                      (-filter (lambda (x) (< (car x) min-distance)))
-;;                      (-sort (lambda (a b) (< (car a) (car b))))
-;;                      (-map #'cadr))))
-;;     (ivy-read
-;;      "Opening: "
-;;      openings
-;;      :action (lambda (x) (kill-new (caddr x))))))
+(defun ck/similar-openings (opening openings &optional max-distance)
+  "Rows of OPENINGS whose final position is near OPENING's, nearest first.
+Compares expanded piece placement via `ck/expanded-fen-distance', keeps
+rows under MAX-DISTANCE (default 12), and excludes OPENING itself.
+Rows must carry FENs (see `ck/openings-add-fens')."
+  (let ((target (ck/expand-fen (caddr opening)))
+        (max-distance (or max-distance 12)))
+    (->> openings
+         (-remove (lambda (o) (equal (car o) (car opening))))
+         (-map (lambda (o)
+                 (cons (ck/expanded-fen-distance
+                        target (ck/expand-fen (caddr o)))
+                       o)))
+         (-filter (lambda (x) (< (car x) max-distance)))
+         (-sort (lambda (a b) (< (car a) (car b))))
+         (-map #'cdr))))
 
-;; (defun ivy-similar-position-copy-eco-fen ()
-;;   "Find a similar ECO opening, then copy the FEN"
-;;   (interactive)
-;;   (defvar openings (extract-openings))
-;;   (ivy-read
-;;    "Opening: "
-;;    openings
-;;    :action #'--ivy-similar-position-copy-eco-fen))
+(defun ck/similar-position--pick ()
+  "Pick an opening, then one whose final position is similar; return its row.
+The second read keeps nearest-first order (`ck/completing-read-in-order')."
+  (let* ((openings (ck/openings-add-fens (ck/extract-openings)))
+         (chosen (assoc (completing-read "Opening: " openings nil t)
+                        openings))
+         (similar (ck/similar-openings chosen openings)))
+    (unless similar
+      (user-error "No openings with a position similar to %s" (car chosen)))
+    (assoc (ck/completing-read-in-order
+            "Similar opening (nearest first): " similar nil t)
+           similar)))
 
-;; (defun --ivy-similar-position-copy-eco-pgn (chosen)
-;;   (let* ((min-distance 12)
-;;          (chosen (expand-fen (caddr chosen)))
-;;          (openings (->> openings
-;;                      (-map
-;;                       (lambda (opening)
-;;                         (list
-;;                          (expanded-fen-distance chosen (expand-fen (caddr opening)))
-;;                          opening)))
-;;                      (-filter (lambda (x) (< (car x) min-distance)))
-;;                      (-sort (lambda (a b) (< (car a) (car b))))
-;;                      (-map #'cadr))))
-;;     (ivy-read
-;;      "Opening: "
-;;      openings
-;;      :action (lambda (x) (kill-new (cadr x))))))
+(defun ck/similar-position-copy-eco-fen ()
+  "Find a similar ECO opening, then copy the FEN"
+  (interactive)
+  (kill-new (caddr (ck/similar-position--pick))))
 
-;; (defun ivy-similar-position-copy-eco-pgn ()
-;;   "Find a similar ECO opening, then copy the PGN"
-;;   (interactive)
-;;   (defvar openings (extract-openings))
-;;   (ivy-read
-;;    "Opening: "
-;;    openings
-;;    :action #'--ivy-similar-position-copy-eco-pgn))
+(defun ck/similar-position-copy-eco-pgn ()
+  "Find a similar ECO opening, then copy the PGN"
+  (interactive)
+  (kill-new (cadr (ck/similar-position--pick))))
 
 (defun ck/choose-puzzle-theme ()
   "Open a puzzle theme on lichess"
