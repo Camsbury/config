@@ -3,42 +3,43 @@
  :extends "structural"
 
  :palette
- {:bg        ["#000000" "black"   "black"]
-  :fg        ["#d6d6d4" "#dfdfdf" "brightwhite"]
-  :bg-alt    ["#181719" "black"   "black"]
-  :fg-alt    ["#556172" "#4d4d4d" "white"]
-  :base0     ["#000000" "black"   "black"]
-  :base1     ["#181719" "#101010" "brightblack"]
-  :base2     ["#2a292b" "#191919" "brightblack"]
-  :base3     ["#39383a" "#252525" "brightblack"]
-  :base4     ["#454446" "#454545" "brightblack"]
-  :base5     ["#808080" "#6b6b6b" "brightblack"]
-  :base6     ["#999999" "#7b7b7b" "brightblack"]
-  :base7     ["#b3b3b3" "#c1c1c1" "brightblack"]
+ {:bg        ["#000000" "#000000" "black"]
+  :fg        ["#d6d6d4" "#d7d7d7" "brightwhite"]
+  :bg-alt    ["#181719" "#1c1c1c" "black"]
+  :fg-alt    ["#556172" "#5f5f5f" "brightblack"]
+  :base0     ["#000000" "#000000" "black"]
+  :base1     ["#181719" "#1c1c1c" "black"]
+  :base2     ["#2a292b" "#262626" "black"]
+  :base3     ["#39383a" "#3a3a3a" "brightblack"]
+  :base4     ["#454446" "#444444" "brightblack"]
+  :base5     ["#808080" "#808080" "brightblack"]
+  :base6     ["#999999" "#9e9e9e" "white"]
+  :base7     ["#b3b3b3" "#b2b2b2" "white"]
   :base8     ["#ffffff" "#ffffff" "brightwhite"]
-  :grey      ["#525254" "#515154" "brightblack"]
-  :red       ["#e74c3c" "#e74c3c" "red"]
-  :orange    ["#d44478" "#d44478" "brightred"]
-  :green     ["#79df60" "#66c74e" "green"]
-  :teal      ["#79df60" "#66c74e" "green"]
-  :yellow    ["#c5d474" "#c5d474" "yellow"]
-  :blue      ["#82aaff" "#82aaff" "brightblue"]
-  :dark-blue ["#727280" "#727280" "blue"]
-  :magenta   ["#8d54a8" "#8d54a8" "magenta"]
-  :violet    ["#9c91e4" "#9c91e4" "brightmagenta"]
-  :cyan      ["#76d7eb" "#66d9ef" "brightcyan"]
-  :dark-cyan ["#8fa1b3" "#8FA1B3" "cyan"]}
+  :grey      ["#525254" "#4e4e4e" "brightblack"]
+  :red       ["#e74c3c" "#d75f5f" "brightred"]
+  :orange    ["#d44478" "#d75f87" "brightred"]
+  :green     ["#79df60" "#87d75f" "brightgreen"]
+  :teal      ["#79df60" "#87d75f" "brightgreen"]
+  :yellow    ["#c5d474" "#afd787" "brightyellow"]
+  :blue      ["#82aaff" "#87afff" "brightblue"]
+  :dark-blue ["#727280" "#767676" "brightblack"]
+  :magenta   ["#d44479" "#d75f87" "brightred"]
+  :violet    ["#9c91e4" "#af87d7" "brightblue"]
+  :cyan      ["#76d7eb" "#87d7d7" "brightcyan"]
+  :dark-cyan ["#8fa1b3" "#9e9e9e" "white"]
+  :lavender  ["#8d54a8" "#875faf" "magenta"]}
 
  :roles
- {:highlight            :orange
+ {:highlight            :magenta
   :vertical-bar         [:lighten :bg 0.1]
   :selection            :base5
-  :builtin              :orange
+  :builtin              :magenta
   :comments             :base5
   :doc-comments         [:lighten :base5 0.25]
-  :constants            :orange
+  :constants            :magenta
   :functions            :green
-  :keywords             :magenta
+  :keywords             :lavender
   :methods              :cyan
   :operators            :violet
   :type                 :cyan
@@ -59,8 +60,8 @@
   :org-quote            [:lighten :bg 0.05]}
 
  :families
- {:rainbow [:magenta :orange :green :cyan :magenta :orange :green]
-  :outline [:magenta :orange]}
+ {:rainbow [:lavender :magenta :green :cyan :lavender :magenta :green]
+  :outline [:lavender :magenta]}
 
  :faces {}
 
