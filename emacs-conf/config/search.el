@@ -36,8 +36,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Others
 
-(use-package smex)
-
 (use-package wgrep
   :config
   (setq wgrep-change-readonly-file t)

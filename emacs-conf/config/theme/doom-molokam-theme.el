@@ -157,9 +157,6 @@ Can be an integer to determine the exact padding."
    (flycheck-info    :underline `(:style wave :color ,green)  :background base1)
    ;;;; helm
    (helm-swoop-target-line-face :foreground magenta :inverse-video t)
-   ;;;; ivy
-   (ivy-current-match :background base2)
-   (ivy-minibuffer-match-face-1 :background base1 :foreground base4)
    ;;;; markdown-mode
    (markdown-blockquote-face :inherit 'italic :foreground dark-blue)
    (markdown-list-face :foreground magenta)

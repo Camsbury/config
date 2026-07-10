@@ -32,8 +32,6 @@
   :flycheck-error                    {:underline {:style :wave :color :red} :background :base1}
   :flycheck-warning                  {:underline {:style :wave :color :yellow} :background :base1}
   :flycheck-info                     {:underline {:style :wave :color :green} :background :base1}
-  :ivy-current-match                 {:background :base2}
-  :ivy-minibuffer-match-face-1       {:background :base1 :foreground :base4}
   :markdown-blockquote-face          {:inherit :italic :foreground :dark-blue}
   :markdown-list-face                {:foreground :magenta}
   :markdown-pre-face                 {:foreground :cyan}

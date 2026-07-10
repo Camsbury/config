@@ -9,7 +9,6 @@ let
     # ammonite-term-repl # scala
     astyle
     async
-    attrap
     avy
     # benchmark-init
     beacon
@@ -32,7 +31,6 @@ let
     consult # emacs nouveau
     consult-projectile
     corfu
-    dante
     dap-mode
     dash
     datomic-snippets
@@ -65,7 +63,6 @@ let
     evil-multiedit
     evil-surround
     evil-visualstar
-    exec-path-from-shell
     f
     flycheck
     flycheck-haskell
@@ -115,7 +112,6 @@ let
     ob-async
     ob-elixir
     ob-http
-    ob-ipython
     orderless # emacs nouveau
     org-alert
     org-bullets
@@ -151,11 +147,8 @@ let
     s
     sbt-mode
     scala-mode
-    # slack
     slime
-    smex
     string-edit-at-point
-    sqlite3
     sqlup-mode
     tree-mode
     treemacs
