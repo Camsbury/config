@@ -3,6 +3,8 @@
 {
   imports = [
     ./screen_lock.nix
+    ./media_keys.nix
+    ./login_greeter.nix
   ];
   environment.systemPackages = with pkgs; [
     dunst
