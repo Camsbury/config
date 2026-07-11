@@ -9,13 +9,19 @@
 # It starts only the DEFAULT X session (services.displayManager.defaultSession =
 # "none+exwm", set in exwm.nix), which is exactly what we want.
 #
+# Preview WITHOUT logging out: `lightdm --test-mode` is a DEAD END on this host
+# (the greeter PAM stack requires user=lightdm; test-mode runs as you). Use the
+# standalone GTK harness `scripts/greeter-preview.py` instead: it rebuilds this
+# greeter's exact CSS + widget tree (from upstream src/ui.c) out of the deployed
+# conf. Run `./scripts/greeter-preview.py` (GUI, Esc to quit) or `python3
+# scripts/greeter-preview.py --print-css` (headless dry-run).
+#
 # Recovery: if login ever breaks, switch to a TTY (Ctrl+Alt+F2), log in, comment
 # out the greeter block below to fall back to the default gtk greeter, and
 # rebuild (or `systemctl restart display-manager` after fixing).
 
 let
-  theme = import ./doom-theme.nix { inherit pkgs; };
-  palette = theme.palette;
+  palette = config.ck.theme.palette;
 
   # doom-molokam hexes (without '#'); same colors the locker ring uses.
   fg = palette.fg; # label text + typed password glyphs
@@ -23,6 +29,13 @@ let
   grey = palette.grey; # password-field border (i3lock idle ring)
   blue = palette.blue; # login-box border accent (i3lock typing/verify color)
   red = palette.red; # invalid-password text
+
+  # The mini greeter draws background-image CENTERED and UNSCALED (see its
+  # shipped etc/lightdm-mini-greeter.conf: "displayed centered & unscaled"). The
+  # shared wallpaper (config.ck.theme.wallpaper, from modules/theme.nix) is
+  # already pure-black and pre-scaled to this 3840x2160 panel, so "centered &
+  # unscaled" fills the whole screen. That recolor + scaling used to live here;
+  # it moved to theme.nix so the lock screen shares the identical image.
 
   # lightdm-mini-greeter reads this hardcoded path. The [greeter-theme] keys are
   # exactly those the nixpkgs mini module writes, recolored to the doom palette;
@@ -35,6 +48,9 @@ let
     invalid-password-text = nope
     show-input-cursor = true
     password-alignment = left
+    # Without this the input takes GTK's default (tiny) width, which looks
+    # cramped next to the greeter font. Width is measured in characters.
+    password-input-width = 20
 
     [greeter-hotkeys]
     mod-key = meta
@@ -45,12 +61,12 @@ let
 
     [greeter-theme]
     font = monospace
-    font-size = 1.2em
+    font-size = 1em
     font-weight = bold
     font-style = normal
     text-color = "#${fg}"
     error-color = "#${red}"
-    background-image = "${theme.wallpaper}"
+    background-image = "${config.ck.theme.wallpaper}"
     background-color = "#${bg}"
     window-color = "#${bg}"
     border-color = "#${blue}"

@@ -24,14 +24,15 @@
 # media_keys.nix, which reads evdev below X and works regardless of the grab.
 
 let
-  # Shared doom-molokam palette + wallpaper, so the lock screen and the login
-  # greeter (login_greeter.nix) theme from one source. `palette` maps each
-  # `:name` to its first (GUI) hex WITHOUT the leading '#'; a palette rename
-  # fails the build loudly at the use site. Colors feed i3lock-color as
-  # RRGGBBAA (an alpha byte is appended at each use site below).
-  theme = import ./doom-theme.nix { inherit pkgs; };
-  wallpaper = theme.wallpaper;
-  palette = theme.palette;
+  # Shared doom-molokam palette + wallpaper from the ck.theme module
+  # (modules/theme.nix), so the lock screen and the login greeter paint one
+  # palette over one background. `palette` maps each `:name` to its first (GUI)
+  # hex WITHOUT the leading '#'; a palette rename fails the build loudly at the
+  # use site. Colors feed i3lock-color as RRGGBBAA (an alpha byte is appended at
+  # each use site below). The wallpaper is already pure-black and panel-sized,
+  # so `--fill` below just no-ops (a guard for odd panel sizes).
+  wallpaper = config.ck.theme.wallpaper;
+  palette = config.ck.theme.palette;
 
   bg = palette.bg; # base black: inside circle
   fg = palette.fg; # foreground text: clock/date

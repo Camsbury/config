@@ -15,5 +15,6 @@ nov-places
 offlineimap/*
 private.nix
 result*
+__pycache__/
 .eca/
 .envrc

@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./theme.nix
     ./screen_lock.nix
     ./media_keys.nix
     ./login_greeter.nix
