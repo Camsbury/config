@@ -57,8 +57,16 @@
     # pin cannot silently dangle like the old /etc/nixos/monitor.edid symlink
     # did. Re-dump after a monitor swap: cat /sys/class/drm/card*-DP-*/edid
     # (the connected one) > poseidon.edid
+    #
+    # ConnectedMonitor forces the driver to always report DP-0 as connected
+    # and ignore hot-plug-detect. Without it, physically powering the monitor
+    # OFF asserts HPD-low, the driver disconnects the sole output, and X is
+    # left with no display ("display not found"; only a TTY works). CustomEDID
+    # is what makes this safe: a forced-connected output cannot read live EDID
+    # from a powered-off panel, so it falls back to the pinned dump for modes.
     xserver = {
       screenSection = ''
+        Option "ConnectedMonitor" "DP-0"
         Option "CustomEDID" "DP-0:${./poseidon.edid}"
         Option "UseEDID" "true"
         Option "UseEDIDFreqs" "true"
