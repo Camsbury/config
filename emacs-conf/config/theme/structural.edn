@@ -41,4 +41,18 @@
   :org-tag                           {:foreground :yellow :bold false}
   :org-quote                         {:&override true :foreground :base7}
   :org-todo                          {:foreground :yellow :bold :inherit}
-  :org-list-dt                       {:foreground :yellow}}}
+  :org-list-dt                       {:foreground :yellow}
+
+  ;; eca-chat context-usage bar.  The bar reads each face's FOREGROUND and
+  ;; paints it as the segment color (a space :background in GUI frames, the
+  ;; ?block glyph fg in terminals), so every entry here sets :foreground even
+  ;; though the free region reads as a "background".  Server-sent hex is
+  ;; stripped in config/services/eca/colors.el so these actually apply.
+  :eca-chat-context-system-prompt-face    {:foreground :blue}
+  :eca-chat-context-rules-face            {:foreground :red}
+  :eca-chat-context-skills-face           {:foreground :yellow}
+  :eca-chat-context-agents-face           {:foreground :cyan}
+  :eca-chat-context-tool-definitions-face {:foreground :yellow}
+  :eca-chat-context-tool-calls-face       {:foreground :lavender}
+  :eca-chat-context-conversation-face     {:foreground :green}
+  :eca-chat-context-free-face             {:foreground :base4}}}
