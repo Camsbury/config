@@ -136,15 +136,29 @@ first with `ck/cider-nrepl-tmux-kill'."
                       ;; left no session to query, yielding an empty PID and the
                       ;; opaque `tail: invalid PID' error that hid the real
                       ;; failure.
-                      "p=$(tmux new-session -d -P -F '#{pane_pid}' -s %s -c %s %s) || exit 1\n"
-                      ;; Defensive guard: never feed a non-numeric PID to tail.
-                      ;; If we somehow got one, dump the log so the actual error
-                      ;; reaches the process buffer instead of vanishing.
+                      ;;
+                      ;; tmux's own stderr goes to $errf, not the process
+                      ;; buffer: $(...) captures stdout (the PID) only, so a
+                      ;; socket-creation failure (e.g. a stale or racy
+                      ;; /tmp/tmux-<uid> dir under boot.tmp.cleanOnBoot) would
+                      ;; otherwise print unlabeled and be misattributed to the
+                      ;; nREPL server by the guard below.  We replay $errf under
+                      ;; a clear `tmux error' heading on any failure path.
+                      "errf=$(mktemp)\n"
+                      "p=$(tmux new-session -d -P -F '#{pane_pid}' -s %s -c %s %s 2>\"$errf\")\n"
+                      ;; Guard: an empty PID (tmux exited non-zero, e.g. it
+                      ;; could not create its socket) or a non-numeric PID.
+                      ;; Surface tmux's stderr and any server log so the real
+                      ;; cause reaches the process buffer instead of vanishing.
                       "case \"$p\" in ''|*[!0-9]*)\n"
-                      "  echo ';; nREPL launcher: no pane PID from tmux - server exited early?' 1>&2\n"
-                      "  [ -f %s ] && cat %s 1>&2\n"
+                      "  echo ';; nREPL launcher: tmux failed to create the session (no pane PID).' 1>&2\n"
+                      "  echo ';; --- tmux error ---' 1>&2\n"
+                      "  cat \"$errf\" 1>&2\n"
+                      "  [ -f %s ] && { echo ';; --- server log ---' 1>&2; cat %s 1>&2; }\n"
+                      "  rm -f \"$errf\"\n"
                       "  exit 1 ;;\n"
                       "esac\n"
+                      "rm -f \"$errf\"\n"
                       ;; Stream the log until the pane process dies.  If the
                       ;; server failed fast the PID is already dead, so tail
                       ;; prints the captured error and exits cleanly (the
