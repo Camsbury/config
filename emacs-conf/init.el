@@ -40,10 +40,14 @@
 (setq gc-cons-percentage 0.2)
 (ck/gc-idle-install)
 
-;; initialize workspaces
-(dolist (i (number-sequence 0 9))
-  (exwm-workspace-switch-create i))
-(exwm-workspace-switch 1)
+;; Become the window manager only on a graphical X login session.  On a plain
+;; TTY (`ck/wm-session-p' nil) EXWM cannot connect to X, so we skip activation
+;; and the config runs editor-only.  The whole tree is already WM-free at load
+;; time (tools/wm-free-check.sh); this gate is the one place the WM turns on.
+;; The activation body (start EXWM, create workspaces) lives in `ck/enable-wm'
+;; in core/desktop.el.  TTY-vs-WM dispatch seam: decision 0016.
+(when (ck/wm-session-p)
+  (ck/enable-wm))
 
 ;; Boot file: compiling it loads the whole tree, and packages that
 ;; byte-compile lambdas while loading (org-ql, pcre2el, vertico-posframe)

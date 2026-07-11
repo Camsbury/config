@@ -93,6 +93,33 @@ Both keys are key description strings."
    ("s-V" "C-V")
    ("s-v" "C-v")))
 
-(exwm-wm-mode)
+;; --- WM activation seam ---------------------------------------------------
+;; Loading this file only DEFINES the WM setup; it must never enable EXWM at
+;; load time, so the whole config stays usable on a plain TTY (no X).  The two
+;; activation steps (become the WM, create workspaces) are gathered into
+;; `ck/enable-wm', which init.el calls only when `ck/wm-session-p' is non-nil.
+;; This is the TTY-vs-WM dispatch seam (decision 0016).  The WM-free load
+;; invariant is machine-checked by tools/wm-free-check.sh.
+
+(defvar ck/wm-active-p nil
+  "Non-nil once `ck/enable-wm' has started EXWM in this session.
+Lets any feature branch on \"am I the window manager?\" without probing
+EXWM internals.  Stays nil on a TTY session.")
+
+(defun ck/wm-session-p ()
+  "Non-nil when this Emacs should act as the EXWM window manager.
+True for the graphical X login session, nil on a plain TTY (where
+`initial-window-system' is nil)."
+  (eq initial-window-system 'x))
+
+(defun ck/enable-wm ()
+  "Become the X window manager: start EXWM and create workspaces.
+Call only from a real X session (see `ck/wm-session-p'); on a TTY EXWM
+cannot connect to X and would abort startup."
+  (exwm-wm-mode)
+  (dolist (i (number-sequence 0 9))
+    (exwm-workspace-switch-create i))
+  (exwm-workspace-switch 1)
+  (setq ck/wm-active-p t))
 
 (provide 'core/desktop)
