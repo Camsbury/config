@@ -15,12 +15,28 @@
   eca-chat--send-prompt)
 (declare-functions "eca-util"
   eca-session)
+(declare-vars eca-chat--id)
 (declare-functions "markdown-mode" gfm-mode)
 (declare-functions "evil-states" evil-normal-state)
 (declare-functions "config/modes/prettify-mode" margin-cap-mode)
 
 (defvar-local ck/eca-compose--source-buffer nil
   "The `eca-chat-mode' buffer whose prompt this compose buffer edits.")
+
+(defvar-local ck/eca-compose--chat-id nil
+  "The `eca-chat--id' of the chat this compose buffer was spawned from.
+Chat tabs are separate buffers (the tab-line lists the session's chat
+buffers), each carrying its own stable buffer-local `eca-chat--id'.  We
+pin the compose to that id so a commit lands on the originating chat even
+after the user toggles the shared chat window to another tab.")
+
+(defun ck/eca-compose--buffer-name (chat-buffer)
+  "Return the name of the compose buffer dedicated to CHAT-BUFFER.
+Per-chat rather than one shared `*eca-compose*': deriving the name from
+the source chat's buffer name gives each chat its own compose buffer, so
+opening compose from a second chat never repoints an existing one at the
+wrong chat."
+  (format "*eca-compose %s*" (buffer-name chat-buffer)))
 
 (defcustom ck/eca-compose-display-direction 'below
   "Direction in which the compose buffer splits off the chat window.
@@ -51,10 +67,11 @@ the chat buffer."
   (interactive)
   (unless (derived-mode-p 'eca-chat-mode)
     (user-error "Not in an ECA chat buffer"))
-  (let ((src (current-buffer))
-        (win (selected-window))
-        (text (or (eca-chat--prompt-content) ""))
-        (buf (get-buffer-create "*eca-compose*")))
+  (let* ((src (current-buffer))
+         (chat-id eca-chat--id)
+         (win (selected-window))
+         (text (or (eca-chat--prompt-content) ""))
+         (buf (get-buffer-create (ck/eca-compose--buffer-name src))))
     (with-current-buffer buf
       (let ((inhibit-read-only t))
         (erase-buffer))
@@ -68,6 +85,7 @@ the chat buffer."
       ;; tiled, tracking layout via the same global window hooks.
       (when (fboundp 'margin-cap-mode) (margin-cap-mode 1))
       (setq-local ck/eca-compose--source-buffer src)
+      (setq-local ck/eca-compose--chat-id chat-id)
       (insert text)
       (goto-char (point-max))
       (when (bound-and-true-p evil-local-mode)
@@ -101,10 +119,18 @@ Kills the compose buffer and selects the source chat window afterward."
   (unless ck/eca-compose--source-buffer
     (user-error "Not an ECA compose buffer"))
   (let ((src ck/eca-compose--source-buffer)
+        (chat-id ck/eca-compose--chat-id)
         (text (ck/eca-compose--text))
         (compose (current-buffer)))
     (unless (buffer-live-p src)
       (user-error "Source ECA chat buffer is gone"))
+    ;; Pin to the chat this compose was spawned from.  The source buffer is
+    ;; a specific chat tab, and its `eca-chat--id' is stable for that tab's
+    ;; life, so a changed id means the buffer was recycled for a different
+    ;; chat; refuse rather than silently send to the wrong one.
+    (when (and chat-id
+               (not (equal chat-id (buffer-local-value 'eca-chat--id src))))
+      (user-error "Source ECA chat changed; aborting to avoid wrong target"))
     (when (and send (string-empty-p text))
       (user-error "Refusing to send an empty prompt"))
     (with-current-buffer src
