@@ -32,6 +32,22 @@
   "Personal ECA chat customizations."
   :group 'cmacs)
 
+;;; Server version pin -------------------------------------------------------
+;; Left to itself, eca-emacs floats the server to GitHub's newest release on
+;; every startup (`eca-process--get-latest-server-version').  We pin it so the
+;; server moves only when we say so, in lockstep with the eca-emacs client
+;; pinned in nix-conf/overlays/emacs.nix.  This value and that overlay are
+;; rewritten together by scripts/update-eca.bb; do not hand-edit one alone.
+;; The override below makes the pin the ONE source of truth: the download
+;; decision, the release URL, and the on-disk eca-version marker all use it,
+;; so they can never disagree (the drift that stranded us on a stale binary).
+(defvar ck/eca-server-version "0.145.1"
+  "Pinned eca server version (a github.com/editor-code-assistant/eca release tag).")
+
+(defun ck/eca--pinned-server-version (&rest _)
+  "Return `ck/eca-server-version', ignoring GitHub's latest release."
+  ck/eca-server-version)
+
 (m-require config/services/eca
   latex
   tables
@@ -112,6 +128,11 @@
   ;; cursor put.  See eca/scroll.el.
   (advice-add 'eca-chat--ensure-prompt-visible
               :before-while #'ck/eca-chat--follow-only-in-prompt)
+  ;; Pin the server version (see the defvar above); :override so eca never
+  ;; contacts GitHub to decide "latest".
+  (advice-add 'eca-process--get-latest-server-version
+              :override #'ck/eca--pinned-server-version)
+
   (advice-add 'eca-config-updated
               :around #'ck/eca--config-updated-attach-chat-id)
   (advice-add 'eca-chat-config-updated

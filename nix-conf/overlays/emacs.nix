@@ -12,9 +12,9 @@ let
     melpaPackages = eSuper.melpaPackages // {
       eca =
         let
-          version = "20260629.1508";
-          rev = "399c86";
-          hash = "sha256-Q2Jz2G7N9NNxoQOI5i59ZL+JDiHx1sk3rBgq9Ly6zgU=";
+          version = "20260711.1907";
+          rev = "b1785deb294796792211207fbc628859f28b6410";
+          hash = "sha256-Z98XHBIZUBSYkppl/160kblW3dDEgyPqjvDj+I5+MKk=";
         in
         eSelf.melpaBuild {
           pname = "eca";
