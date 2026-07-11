@@ -17,6 +17,7 @@
   eca-session)
 (declare-functions "markdown-mode" gfm-mode)
 (declare-functions "evil-states" evil-normal-state)
+(declare-functions "config/modes/prettify-mode" margin-cap-mode)
 
 (defvar-local ck/eca-compose--source-buffer nil
   "The `eca-chat-mode' buffer whose prompt this compose buffer edits.")
@@ -59,6 +60,13 @@ the chat buffer."
         (erase-buffer))
       (if (fboundp 'gfm-mode) (gfm-mode) (text-mode))
       (ck/eca-compose-mode 1)
+      ;; Match the parent chat's centered reading column.  The compose
+      ;; window is the chat band's one top/bottom pane (see
+      ;; `ck/eca-compose-display-direction'), so cap its text area to
+      ;; `prettify-width' exactly as the chat does: `margin-cap-mode'
+      ;; centers the column when the band is full-width and hugs left when
+      ;; tiled, tracking layout via the same global window hooks.
+      (when (fboundp 'margin-cap-mode) (margin-cap-mode 1))
       (setq-local ck/eca-compose--source-buffer src)
       (insert text)
       (goto-char (point-max))

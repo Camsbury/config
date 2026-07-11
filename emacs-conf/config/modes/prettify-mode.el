@@ -474,18 +474,28 @@ case."
   (add-hook 'window-state-change-functions #'margin-cap-adjust))
 
 (defun margin-cap--reset-margins-for-split (&optional window &rest _)
-  "Zero WINDOW's margins so `split-window' has room to split it.
+  "Zero capped/centered margins in WINDOW's subtree before `split-window'.
 `split-window' treats margins as fixed width, so a window whose margins
 absorb most of the frame (a capped OR centered buffer) is \"too small
 for splitting\" even when the underlying window is huge.  Dropping the
 margins just before the split fixes that; the reactive adjust passes
 (`margin-cap-adjust', `center-buffer-adjust') re-assert the correct
-margins for the new layout on the very next configuration change."
-  (let ((w (if (windowp window) window (selected-window))))
-    (when (and (window-live-p w)
-               (with-current-buffer (window-buffer w)
-                 (or margin-cap-mode center-buffer-mode)))
-      (set-window-margins w 0 0))))
+margins for the new layout on the very next configuration change.
+
+WINDOW may be an INTERNAL window: `ck/spawn-right' splits a whole
+vertical band (a top/bottom combination) to move it as a unit, and the
+margins that block the split live on the band's live child panes, not on
+the internal band window itself.  `walk-window-subtree' visits every
+live leaf (a live WINDOW is its own subtree), so both the plain
+live-target split and the whole-band split get cleared."
+  (let ((root (if (windowp window) window (selected-window))))
+    (when (window-valid-p root)
+      (walk-window-subtree
+       (lambda (w)
+         (when (with-current-buffer (window-buffer w)
+                 (or margin-cap-mode center-buffer-mode))
+           (set-window-margins w 0 0)))
+       root))))
 
 ;; `advice-add' dedupes by symbol, so re-loading does not stack advice.
 (advice-add 'split-window :before #'margin-cap--reset-margins-for-split)

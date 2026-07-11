@@ -36,16 +36,31 @@
     (call-interactively #'eval-last-sexp)))
 
 (defun ck/set-window-width (window count)
-  "Set WINDOW's body width to COUNT columns.
-No-op unless WINDOW is horizontally combined with a right neighbour to
-donate/absorb the difference."
-  (when (and (window-combined-p window t)
-             (window-right window))
-    (ignore-errors
-      (adjust-window-trailing-edge
-       window
-       (- count (window-width))
-       t))))
+  "Set the reading-column width of WINDOW's vertical band to COUNT columns.
+Climbs from WINDOW to its enclosing band -- the nearest ancestor that is
+horizontally combined with its siblings (a column in the row of bands) --
+and moves that band's right edge.  This is what lets a stacked top/bottom
+band resize as a UNIT: its panes are combined vertically, so resizing a
+pane directly no-ops (a pane has no right edge to donate across), while
+the band above them does.  No-op when the band is rightmost (no sibling
+to donate/absorb the difference).
+
+Measures a live LEAF of the band itself (descending via `window-child'),
+not `frame-first-window', which returns the whole FRAME's first window:
+when the band is not leftmost that would measure a DIFFERENT band, and if
+that band already sits at COUNT the delta is zero and this band is
+silently skipped (the bug that let a non-leftmost stacked band go
+uncapped)."
+  (let ((band window))
+    (while (and band (not (window-combined-p band t)))
+      (setq band (window-parent band)))
+    (when (and band (window-next-sibling band))
+      (let ((leaf band))
+        (while (not (window-live-p leaf))
+          (setq leaf (window-child leaf)))
+        (ignore-errors
+          (adjust-window-trailing-edge
+           band (- count (window-body-width leaf)) t))))))
 
 (defun ck/shuffle-selection (beginning end)
   "Shuffle the current selection"
