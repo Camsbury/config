@@ -1,0 +1,4 @@
+!.eca/
+!shell.nix
+!flake.nix
+!overlays.nix

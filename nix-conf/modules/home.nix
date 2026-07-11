@@ -36,6 +36,7 @@ in
       ".config/msmtp/config".source = ../../msmtp-config;
       ".gitconfig".source = sym ../../gitconfig;
       ".gitignore".source = sym ../../global-gitignore;
+      ".ignore".source = sym ../../global-ignore;
       ".gnupg/gpg-agent.conf".source = ../../gpg-agent.conf;
       ".gnupg/gpg.conf".source = ../../gpg.conf;
       ".helpers.zsh.inc".source = ../../helpers.zsh.inc;
