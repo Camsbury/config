@@ -6,4 +6,3 @@
 es-replicator/.clj-kondo/
 tenant-synchronizer/.clj-kondo/
 **/node_modules
-DEFERRED.md
