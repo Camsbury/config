@@ -121,6 +121,22 @@ in
     extraOptions = [ "--transfer-sleep-lock" ];
   };
 
+  # Ride out a transient X-auth blip instead of dying permanently. The module
+  # unit defaults to Restart=always with RestartSec=100ms and StartLimitBurst=5
+  # over 10s, so five failures exhaust the budget in ~0.5s. A monitor
+  # power-cycle or suspend/resume briefly invalidates ~/.Xauthority while logind
+  # rebuilds the session; xss-lock SIGABRTs and every fast retry then hits
+  # "Invalid MIT-MAGIC-COOKIE-1 key" -> start-limit-hit, staying DEAD even
+  # though the cookie is valid again seconds later. With xss-lock down the lock
+  # binding silently no-ops (loginctl lock-session has no listener) until a
+  # manual `systemctl --user reset-failed xss-lock && restart`. Widen the window
+  # so the transient passes: 2s between tries, up to 10 tries over 60s.
+  systemd.user.services.xss-lock = {
+    startLimitIntervalSec = 60;
+    startLimitBurst = 10;
+    serviceConfig.RestartSec = "2s";
+  };
+
   # Primary idle lock with fullscreen/audio guards. Fires before the 600s X
   # screensaver fallback, and triggers the same single locker path via logind.
   # DISPLAY is inherited from the graphical session, same as xss-lock.
