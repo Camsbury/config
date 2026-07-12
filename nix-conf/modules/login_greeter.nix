@@ -32,10 +32,14 @@ let
 
   # The mini greeter draws background-image CENTERED and UNSCALED (see its
   # shipped etc/lightdm-mini-greeter.conf: "displayed centered & unscaled"). The
-  # shared wallpaper (config.ck.theme.wallpaper, from modules/theme.nix) is
-  # already pure-black and pre-scaled to this 3840x2160 panel, so "centered &
-  # unscaled" fills the whole screen. That recolor + scaling used to live here;
-  # it moved to theme.nix so the lock screen shares the identical image.
+  # processed wallpaper (from modules/theme.nix) is already pure-black and
+  # pre-scaled to this 3840x2160 panel, so "centered & unscaled" fills the whole
+  # screen. That recolor + scaling used to live here; it moved to theme.nix so
+  # the two screens share the base image. We use the LOGO-SHIFTED variant
+  # (config.ck.theme.wallpaperLogoShifted): the greeter's password box is nailed
+  # to screen center with no offset config, so the logo is raised to clear it.
+  # The lock screen uses the centered `wallpaper` instead (i3lock looks better
+  # with the logo centered under its ring).
 
   # lightdm-mini-greeter reads this hardcoded path. The [greeter-theme] keys are
   # exactly those the nixpkgs mini module writes, recolored to the doom palette;
@@ -66,7 +70,7 @@ let
     font-style = normal
     text-color = "#${fg}"
     error-color = "#${red}"
-    background-image = "${config.ck.theme.wallpaper}"
+    background-image = "${config.ck.theme.wallpaperLogoShifted}"
     background-color = "#${bg}"
     window-color = "#${bg}"
     border-color = "#${blue}"
