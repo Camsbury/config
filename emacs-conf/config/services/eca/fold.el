@@ -65,16 +65,25 @@ bulk expand past this size prompts before proceeding."
   :group 'ck/eca)
 
 (defun ck/eca--tree-string-bytes (x)
-  "Recursively sum the lengths of every string reachable in X.
+  "Sum the lengths of every string reachable in X.
 Handles the segment lists / conses / live overlays that ECA stashes a
 block's rendered text in, so the total approximates how much text will be
-fontified when the block opens."
-  (cond ((stringp x) (length x))
-        ((consp x) (+ (ck/eca--tree-string-bytes (car x))
-                      (ck/eca--tree-string-bytes (cdr x))))
-        ((and (overlayp x) (overlay-buffer x))
-         (abs (- (overlay-end x) (overlay-start x))))
-        (t 0)))
+fontified when the block opens.  Walks the structure with an explicit
+heap stack, NOT the call stack: a big subagent's segment list is a chain
+of thousands of conses, and structural recursion down its spine blows
+`max-lisp-eval-depth' -- on exactly the giant blocks this gate exists to
+tame.  An explicit stack bounds depth by the heap instead."
+  (let ((stack (list x))
+        (total 0))
+    (while stack
+      (let ((y (pop stack)))
+        (cond ((stringp y) (setq total (+ total (length y))))
+              ((consp y) (push (cdr y) stack)
+                         (push (car y) stack))
+              ((and (overlayp y) (overlay-buffer y))
+               (setq total (+ total (abs (- (overlay-end y)
+                                            (overlay-start y)))))))))
+    total))
 
 (defun ck/eca--block-content-bytes (ov)
   "Stored-content byte count for block label overlay OV, without opening it."
