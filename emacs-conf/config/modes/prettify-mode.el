@@ -379,6 +379,16 @@ margin would corrupt `ck/set-window-width''s body-width math."
    haskell-cabal-mode-hook)
  #'prettify-mode)
 
+(defun ck/prettify-eca-chat-after-display ()
+  "Resize ECA chat windows after their buffer and display both exist.
+`eca-chat-mode-hook' enables `prettify-mode' before `display-buffer' has
+finished creating the chat window.  Deferring one event-loop turn lets the
+window exist and ensures `ck/prettify-windows' sees the enabled mode."
+  (run-at-time 0 nil #'ck/prettify-windows))
+
+;; Append so `prettify-mode' is enabled before the deferred frame pass.
+(add-hook 'eca-chat-mode-hook #'ck/prettify-eca-chat-after-display t)
+
 ;; when to run the frame pass
 (general-add-hook
  '(find-file-hook after-delete-window-hook after-split-window-hook)
