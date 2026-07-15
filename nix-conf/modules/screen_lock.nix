@@ -11,10 +11,14 @@
 #   i3lock-color the locker itself: a themed ring + clock over a static
 #                background image (PAM auth via the `login` service). Driven by
 #                the lock script below.
-#   xidlehook    the primary idle timer. Locks after 5 min idle BUT skips while
-#                a fullscreen app runs or audio plays, so video/music aren't
-#                interrupted. It reads the X screensaver idle counter, so the
-#                `xset s` timeout above must stay non-zero (never `xset s off`).
+#   xidlehook    the primary idle timer. Locks after 5 min idle, then blanks the
+#                monitor via DPMS 5 min after that (second chained timer), BUT
+#                skips both while a fullscreen app runs or audio plays, so
+#                video/music aren't interrupted. It reads the X screensaver idle
+#                counter, so the `xset s` timeout above must stay non-zero (never
+#                `xset s off`). NOTE: `xset dpms` is a SEPARATE subsystem from
+#                the `xset s` screensaver counter, so the DPMS timer does not
+#                touch the idle counter xidlehook relies on.
 #
 # Manual lock is `loginctl lock-session` (see ck/lock-screen in emacs-conf),
 # routed through xss-lock so there is a single locker of record.
@@ -99,6 +103,17 @@ let
       wait
     fi
   '';
+
+  # Blank the monitor via DPMS. i3lock-color has no DPMS of its own, so nothing
+  # drops the video signal while locked and the panel stays fully powered (clock
+  # just sitting there). This forces the signal off so the monitor enters its
+  # own hardware power-save/idle state, the same "no signal" sleep it reaches on
+  # its own; any keypress or mouse move wakes it back up. `+dpms` first in case
+  # DPMS is disabled on the server, since `force off` is a no-op when it is.
+  dpmsOff = pkgs.writeShellScript "dpms-off" ''
+    ${pkgs.xorg.xset}/bin/xset +dpms
+    ${pkgs.xorg.xset}/bin/xset dpms force off
+  '';
 in
 {
   environment.systemPackages = [
@@ -139,14 +154,18 @@ in
 
   # Primary idle lock with fullscreen/audio guards. Fires before the 600s X
   # screensaver fallback, and triggers the same single locker path via logind.
-  # DISPLAY is inherited from the graphical session, same as xss-lock.
+  # A second, chained timer blanks the monitor (DPMS off) 300s AFTER the lock
+  # fires (xidlehook timers are relative to the previous), i.e. 5 min after lock
+  # / 600s total idle. Both timers inherit the fullscreen/audio guards, so a
+  # movie or music neither locks nor blanks the screen. DISPLAY is inherited
+  # from the graphical session, same as xss-lock.
   systemd.user.services.xidlehook = {
     description = "Idle screen locker (xidlehook -> loginctl lock-session)";
     wantedBy = [ "graphical-session.target" ];
     partOf = [ "graphical-session.target" ];
     serviceConfig = {
       Type = "simple";
-      ExecStart = "${pkgs.xidlehook}/bin/xidlehook --not-when-fullscreen --not-when-audio --timer 300 '${pkgs.systemd}/bin/loginctl lock-session' ''";
+      ExecStart = "${pkgs.xidlehook}/bin/xidlehook --not-when-fullscreen --not-when-audio --timer 300 '${pkgs.systemd}/bin/loginctl lock-session' '' --timer 300 '${dpmsOff}' ''";
       Restart = "always";
     };
   };
