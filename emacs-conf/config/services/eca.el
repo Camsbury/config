@@ -17,6 +17,7 @@
 ;;   palette   command/skill/prompt picker
 ;;   crash     dormant opt-in to re-disable native code-block fontify
 ;;   fold      fold expandable blocks from inside their content
+;;   windowing bound rendered transcripts to the newest server-history page
 ;;   scroll    follow the stream only while point is in the prompt
 ;;   nav       jump/rotation navigation across all chats
 ;;   colors    make the context-usage bar inherit the doom theme
@@ -58,6 +59,7 @@
   palette
   crash
   fold
+  windowing
   scroll
   nav
   colors
@@ -107,6 +109,10 @@
 
   (add-hook 'eca-chat-finished-hook #'ck/eca-chat--auto-preview-latex)
   (add-hook 'eca-chat-finished-hook #'ck/eca-chat--auto-align-tables)
+  (add-hook 'eca-chat-finished-hook #'ck/eca-chat-window-if-needed)
+  ;; A selected chat is queued but not rebuilt under the user's cursor.  The
+  ;; next command after leaving it dispatches the deferred bounded replay.
+  (add-hook 'post-command-hook #'ck/eca-chat--schedule-window-dispatch)
 
   (advice-add 'eca-process-stop :after #'ck/eca--sweep-closed-buffers)
   (advice-add 'eca-chat-exit    :after #'ck/eca--sweep-closed-buffers)
