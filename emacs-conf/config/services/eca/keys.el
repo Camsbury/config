@@ -18,6 +18,7 @@
 (require 'config/services/eca/palette)
 (require 'config/services/eca/isolation)
 (require 'config/services/eca/nav)
+(require 'config/services/eca/usage)
 
 (declare-functions "eca-chat"
   eca-chat-clear-prompt
@@ -51,6 +52,7 @@
   ("L" #'ck/eca-chat-toggle-latex "Toggle LaTeX")
   ("b" #'ck/eca-chat-align-tables "Align tables")
   ("T" #'ck/eca-chat-open-table-wrapped "Open table (wrapped)")
+  ("u" #'ck/eca-provider-usage "Provider usage")
   ("q" #'eca-stop "Stop ECA if running")
   )
 
