@@ -65,6 +65,73 @@
   (interactive)
   (shell-command "disper -d eDP-1,DP-3 -r auto --cycle-stages=\"-s:-c:-e\" --cycle -t right"))
 
+(defcustom ck/pg32ucdp-retrain-delay 1.0
+  "Seconds to hold the PG32UCDP at 120 Hz before restoring 240 Hz.
+The DisplayPort link trains during each modeset.  This delay only gives the
+monitor time to lock onto the completed 120 Hz mode before the second modeset."
+  :type 'number
+  :group 'cmacs)
+
+(defvar ck/pg32ucdp--retrain-process nil)
+(defvar ck/pg32ucdp--retrain-timer nil)
+
+(defun ck/pg32ucdp--set-refresh (rate on-success)
+  "Set DP-0 to 4K at RATE, then call ON-SUCCESS."
+  (let ((buffer (get-buffer-create "*pg32ucdp-retrain*")))
+    (with-current-buffer buffer
+      (erase-buffer))
+    (setq ck/pg32ucdp--retrain-process
+          (make-process
+           :name "pg32ucdp-retrain"
+           :buffer buffer
+           :stderr buffer
+           :command (list "xrandr" "--output" "DP-0"
+                          "--mode" "3840x2160" "--rate" rate)
+           :noquery t
+           :sentinel
+           (lambda (process _event)
+             (when (memq (process-status process) '(exit signal))
+               (if (zerop (process-exit-status process))
+                   (progn
+                     (kill-buffer buffer)
+                     (funcall on-success))
+                 (setq ck/pg32ucdp--retrain-process nil
+                       ck/pg32ucdp--retrain-timer nil)
+                 (display-buffer buffer)
+                 (message "PG32UCDP modeset to %s Hz failed" rate))))))))
+
+(defun ck/pg32ucdp--restore-240hz ()
+  "Finish a PG32UCDP retrain by restoring 4K 240 Hz."
+  (setq ck/pg32ucdp--retrain-timer nil)
+  (ck/pg32ucdp--set-refresh
+   "240.02"
+   (lambda ()
+     (setq ck/pg32ucdp--retrain-process nil)
+     (message "PG32UCDP DisplayPort link retrained at 4K 240 Hz"))))
+
+(defun ck/fix-monitor-blackouts ()
+  "Recover the PG32UCDP from a black or asleep panel after a monitor wake.
+Wake the panel (DPMS on), switch DP-0 to 4K 120 Hz, wait
+`ck/pg32ucdp-retrain-delay' seconds, then restore 4K 240 Hz.  The asynchronous
+wait does not block the WM Emacs."
+  (interactive)
+  (when (or (process-live-p ck/pg32ucdp--retrain-process)
+            (timerp ck/pg32ucdp--retrain-timer))
+    (user-error "A PG32UCDP retrain is already running"))
+  ;; Wake the panel first in case DPMS forced it off (the overnight lock chain
+  ;; blanks it via `xset dpms force off').  Harmless when it is already awake:
+  ;; `force on' is a no-op then.  Synchronous, but xset returns instantly.
+  (call-process "xset" nil nil nil "dpms" "force" "on")
+  (message "Retraining PG32UCDP DisplayPort link via 4K 120 Hz")
+  (ck/pg32ucdp--set-refresh
+   "119.88"
+   (lambda ()
+     (message "PG32UCDP locked at 4K 120 Hz; restoring 240 Hz in %.1fs"
+              ck/pg32ucdp-retrain-delay)
+     (setq ck/pg32ucdp--retrain-timer
+           (run-at-time ck/pg32ucdp-retrain-delay nil
+                        #'ck/pg32ucdp--restore-240hz)))))
+
 (defun ck/screenshot-to-file (filename)
   "Saves a screenshot to a file"
   (interactive "sFile Name:")

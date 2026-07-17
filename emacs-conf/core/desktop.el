@@ -83,6 +83,13 @@ Both keys are key description strings."
    ("s-s"                    ck/switch-audio-sink)
    ("s-t"                    ck/check-time)
    ("s-n"                    ck/dunst-toggle-mute)
+   ;; Blind monitor recovery: modeset DP-0 through 120 Hz to retrain the
+   ;; DisplayPort link when the panel wakes black (e.g. after the monitor was
+   ;; off overnight).  Reachable WITHOUT seeing the screen, so it is the first
+   ;; thing to try on a dead display instead of `ck/restart-display-manager'
+   ;; (<XF86Tools>), which tears down the whole X session and takes xss-lock
+   ;; with it.
+   ("s-m"                    ck/fix-monitor-blackouts)
    ("s-L"                    ck/lock-screen)))
 
 (ck/set-exwm-simulation-keys
