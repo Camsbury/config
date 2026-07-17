@@ -1,164 +1,393 @@
-# My Emacs Config (cmacs)
+# cmacs
 
-This is **cmacs** - my personal Emacs configuration, which doubles as my desktop
-environment via [EXWM](https://github.com/emacs-exwm/exwm) (the Emacs X Window
-Manager). Dependencies are built with [Nix](https://nixos.org/nix/), and Emacs
-is launched as the window manager itself rather than as an editor inside another
-DE.
+**cmacs** is my personal Emacs configuration and X window manager. Emacs runs
+as the desktop session through
+[EXWM](https://github.com/emacs-exwm/exwm), rather than inside another desktop
+environment. Nix builds the Emacs binary, its packages, and the launcher.
 
-## My Emacs Philosophy
-- Emacs is a manager and runner of blocks of text via text with some extra features
-- Functions are more important than hotkeys -> you have the power to customize those yourself
-- You must understand the basic vocabulary for [describing emacs](https://www.gnu.org/software/emacs/manual/html_node/emacs/index.html#Top)
-- Be aware of
-  - [Major Modes](https://www.gnu.org/software/emacs/manual/html_node/emacs/Major-Modes.html)
-  - [Minor Modes](https://www.gnu.org/software/emacs/manual/html_node/emacs/Minor-Modes.html#Minor-Modes)
-  - [M-x](https://www.gnu.org/software/emacs/manual/html_node/emacs/M_002dx.html), and of [how keys are described](https://www.gnu.org/software/emacs/manual/html_node/emacs/User-Input.html#User-Input)
-  - The `describe` family of [commands](https://www.gnu.org/software/emacs/manual/html_node/emacs/Commands.html#Commands)
-    - Useful to get descriptions for variables, functions, modes, fonts, etc.
-  - The `messages` buffer (the `stdout` and `stderr` of emacs)
-    - Useful for seeing any errors and logging that has occurred
-  - [Command-log-mode](https://github.com/lewang/command-log-mode)
-    - Used to log all commands that have been run (useful for following a series of events to later write into a function)
-  - `info-emacs-manual`
-    - The in-editor version of [The GNU Emacs Manual](https://www.gnu.org/software/emacs/manual/html_node/emacs/index.html)
-  - Extremely useful tools
-    - [evil-mode](https://github.com/emacs-evil/evil)
-      - Pretending we are in vim for productivity's sake
-    - [org-mode](https://orgmode.org/manual/) (built-in)
-      - Probably the best organizational tool on the planet, with many cool features
-    - [flycheck-mode](https://github.com/flycheck/flycheck)
-      - How we get real time feedback in our code for compiler/checker errors and warnings
-    - [vertico/consult/orderless/marginalia/embark](https://github.com/minad/vertico)
-      - The completion + search stack; every picker goes through
-        `completing-read` (Ivy was fully removed 2026-07)
+- **System:** one NixOS host named `poseidon`.
+- **Goal:** make named Emacs commands the control surface for editing and the
+  desktop.
+- **Constraint:** host-specific behavior is intentional. Portability is not a
+  design goal.
 
-## My Emacs Architecture
+## Philosophy
 
-### Built and launched by Nix
-The Emacs binary, all packages, and the launcher are produced by Nix. The
-relevant expressions live in the sibling `nix-conf/` tree:
+Emacs is a manager and runner of text. Commands matter more than hotkeys. A
+keybinding should expose a useful function, not hide behavior inside a gesture.
 
-- `nix-conf/packages/emacs.nix` - the package manifest (an `emacsWithPackages`
-  argument: melpa / elpa / elpa-devel / others lists).
-- `nix-conf/derivations/cmacs/default.nix` - builds the `cmacs` launcher
-  (`writeShellScriptBin`). It exports the environment (`CONFIG_PATH`,
-  `EMACSLOADPATH`, `EMACS_C_SOURCE_PATH`, GSettings/XDG dirs) and runs Emacs
-  with `--debug-init --no-site-file --no-site-lisp --no-init-file --load
-  <this-dir>/init.el`. So this directory is loaded explicitly; there is
-  **no** `~/.emacs.d` package management.
-- `nix-conf/modules/exwm.nix` - makes EXWM the window manager: sets the system
-  `EMACSLOADPATH`, selects `none+exwm` as the default session, and starts
-  `cmacs` as the window-manager session.
-- `nix-conf/modules/cmacs.nix` - entry module that wires the above into the
-  system and installs `cmacs` + `cmacs-load-path`.
+The configuration follows a few rules:
 
-After a rebuild you can refresh the running `load-path` without restarting via
-`M-x latest-loadpath` (see `config/env.el`), which shells out to the
-`cmacs-load-path` helper.
+- **Functions first:** write a named command, then bind it where useful.
+- **Text as interface:** buffers remain the main surface for code, output,
+  search, logs, and structured data.
+- **Discoverability:** `M-x`, help commands, Hydra menus, and symbol navigation
+  should make the system inspectable from inside itself.
+- **Immediate feedback:** Flycheck, completion, live theme reload, and REPL
+  workflows shorten the edit and verify loop.
+- **One machine:** concrete host behavior beats abstraction for hypothetical
+  systems.
 
-### Environment the elisp expects
-The launcher and the NixOS user environment provide these variables, consumed in
-`core/env.el`:
+Useful Emacs vocabulary:
 
-| Var | Elisp | Meaning |
-|-----|-------|---------|
-| `CONFIG_PATH` | `cmacs-config-path` | this `emacs-conf` directory |
-| `SHAREPATH` | `cmacs-share-path` | shared data (org-roam, books, summaries, sounds) |
-| `USER_EMAIL` | `user-email` | |
-| `USER_GPG_ID` | `user-gpg-id` | |
-| `HOME` | `user-home-path` | |
+| Concept | Why it matters |
+|---------|----------------|
+| Major mode | Defines the main behavior for a buffer |
+| Minor mode | Adds an independent behavior to a buffer |
+| `M-x` | Runs any interactive command by name |
+| `describe-*` | Explains commands, variables, modes, faces, and keys |
+| `*Messages*` | Shows errors, warnings, and ordinary diagnostic output |
+| Info | Provides the Emacs manuals inside Emacs |
 
-### Minimal true dependencies
-The config leans on a small set of foundational packages:
+`M-x info-emacs-manual` opens the GNU Emacs manual. The
+[command-log-mode](https://github.com/lewang/command-log-mode) package records
+interactive commands, which is useful when turning a repeated workflow into a
+function.
 
-- [general](https://github.com/noctuid/general.el) - clean keybindings and mode hooks
-- [use-package](https://github.com/jwiegley/use-package) - encapsulated package configuration
-- [dash](https://github.com/magnars/dash.el) (plus `s`, `f`, `ht`) - functional elisp
-- [hydra](https://github.com/abo-abo/hydra) - branching, context-aware keybinding menus
+The main interaction stack is:
 
-### Load order
-`init.el` requires the layers in this order, then bootstraps EXWM workspaces:
+- [Evil](https://github.com/emacs-evil/evil) for modal editing.
+- [Org](https://orgmode.org/manual/) for notes, tasks, and structured text.
+- [Flycheck](https://github.com/flycheck/flycheck) for diagnostics.
+- Vertico, Consult, Orderless, Marginalia, and Embark for completion and
+  search.
+- General and Hydra for command discovery and keybinding menus.
 
-```
-init.el
-  → init-options   ; bare UI, scrolling, backups, custom-file
-  → prelude        ; libraries, Clojure-isms, the m-require macro
-  → core           ; core/{desktop,env,text,bindings}
-  → config         ; all feature modules
-  → (create EXWM workspaces 0-9, switch to 1)
+## Runtime architecture
+
+```mermaid
+flowchart TD
+    login[LightDM starts the exwm session]
+    launcher[cmacs launcher exports the environment]
+    init[init.el]
+    options[init-options.el]
+    prelude[prelude.el]
+    core[core.el]
+    config[config.el]
+    gate{Graphical X login?}
+    wm[ck/enable-wm starts EXWM]
+    editor[Editor-only session]
+
+    login --> launcher --> init
+    init --> options --> prelude --> core --> config --> gate
+    gate -->|yes| wm
+    gate -->|no| editor
 ```
 
-### Module system
-Modules are namespaced features of the form `prefix/name` (e.g.
-`config/langs/clj`), each ending in `(provide 'prefix/name)`. The `m-require`
-macro (defined in `prelude.el`) pulls a list of them in by prefix:
+The entire configuration loads before EXWM starts. `init.el` activates the
+window manager only when Emacs began in a graphical X login. The same config
+can therefore run as an editor on a plain terminal without trying to become
+the window manager.
+
+The activation point is `ck/enable-wm` in `core/desktop.el`. Loading a module
+must never activate EXWM as a side effect.
+
+## Built and launched by Nix
+
+Nix owns the executable environment. Emacs does not install packages at
+runtime.
+
+| Path | Responsibility |
+|------|----------------|
+| `../nix-conf/modules/cmacs.nix` | Installs cmacs and imports EXWM setup |
+| `../nix-conf/modules/exwm.nix` | Registers the display-manager session |
+| `../nix-conf/derivations/cmacs/default.nix` | Builds the launcher |
+| `../nix-conf/packages/emacs.nix` | Defines the Emacs package set |
+
+The launcher exports the load path and runs this configuration explicitly:
+
+```text
+emacs --debug-init --no-site-file --no-site-lisp \
+  --no-init-file --load emacs-conf/init.el
+```
+
+This source tree is not `~/.emacs.d`. Emacs still uses `~/.emacs.d` for some
+ordinary state, including `custom.el`, but package management and config
+loading come from Nix and this repository.
+
+After a Nix rebuild, run `M-x ck/latest-loadpath` to refresh the running Emacs
+load path without restarting the desktop.
+
+### Environment contract
+
+`core/env.el` exposes launcher and user environment values as Emacs options:
+
+| Environment | Emacs option | Purpose |
+|-------------|--------------|---------|
+| `CONFIG_PATH` | `cmacs-config-path` | This configuration directory |
+| `SHAREPATH` | `cmacs-share-path` | Books, notes, summaries, and sounds |
+| `USER_EMAIL` | `user-email` | Personal email identity |
+| `USER_GPG_ID` | `user-gpg-id` | GPG identity |
+| `HOME` | `user-home-path` | Home directory |
+
+## Configuration architecture
+
+| Layer | Role | Loading rule |
+|-------|------|--------------|
+| `init` | Orders boot and activates the WM | Direct calls and `require` |
+| `core/` | Keeps the machine operable | Loaded by `core.el` |
+| `config/` | Normal editor and desktop features | Loaded by `config.el` |
+| `lib/` | Reusable operations without wiring | Required by consumers |
+| Nix | Packages, binaries, services, environment | Built before login |
+
+### Core
+
+`core/` is the degraded-mode survival kit. It owns the command surface, EXWM
+machinery, environment options, and basic editing behavior. A failure later in
+`config/` should still leave enough Emacs working to inspect and repair the
+system.
+
+### Config
+
+`config/` contains normal application behavior: desktop commands, language
+support, search, services, viewers, themes, games, and task management.
+
+### Library
+
+`lib/` holds reusable operations with no hooks, keybindings, or boot wiring.
+Consumers load library features directly with `require`.
+
+This distinction is deliberate:
+
+- `m-require` joins application modules to an aggregator.
+- `require` pulls a reusable library operation on demand.
+
+## Module system
+
+Features follow their logical path:
+
+- `core/desktop.el` provides `core/desktop`.
+- `config/desktop/windows.el` provides `config/desktop/windows`.
+- `lib/shell.el` provides `lib/shell`.
+
+An application aggregator loads sibling modules with `m-require`:
 
 ```elisp
-(m-require config
-  performance transient-defaults
-  theme search navigation env text prog info
-  desktop dev langs modes services viewers games gtd)
+(m-require config/desktop/commands
+  system
+  nix
+  launchers)
 ```
 
-The `lib/` layer is deliberately NOT in any `m-require` chain: those are pure
-cross-cutting operations, pulled on demand with `(require 'lib/NAME)` (decision
-0009, the library/application seam).
+A consumer loads a library directly:
 
-### File structure
-- `init.el` - boot, GC tuning, EXWM workspace bootstrap
-- `init-options.el` - bare UI/scroll/backup setup, `custom-file` redirect
-- `prelude.el` - libraries, Clojure-isms (`comment`, `inc`, `dec`), `m-require`
-- `core.el` / `config.el` - the two aggregators
-- `core/` - foundational layer:
-  - `bindings.el` - the command center: leader hydras, Evil bindings, super/meta swap
-  - `definers.el` - the keybinding definer macros (evil + `general-evil-setup` + hydra), requirable so keybinding files expand their macros in isolation
-  - `desktop.el` - EXWM proper: workspaces, global `s-*` keys, XF86 media keys
-  - `env.el` - the `cmacs` customization group and env-var-backed settings
-  - `text.el` - Evil + evil-collection
-- `lib/` - library layer (decision 0009): pure cross-cutting operations, not
-  boot-loaded, required on demand:
-  - `utils.el` - grab-bag (uuid, file-to-string, delete-file-and-buffer,
-    shuffle-selection, unescape-clipboard, minor-mode-active-p,
-    set-window-width, lisp-eval-sexp-at-point, completing-read-in-order)
-  - `shell.el` - shell-command ops (process spawns, background buffers,
-    escaping, nix-shell command build)
-  - `sound.el` - PipeWire audio-sink ops (reached from the `s-s` key via an
-    autoload stub in `core/desktop.el`)
-- `config/` - feature modules, grouped by area:
-  - top-level: `theme`, `search`, `navigation`, `prog`, `info`, `text`
-  - `desktop/` - app launchers, system/nix commands, browser links, windows
-    (EXWM patches)
-  - `dev/` - project, git, ediff, process, test
-  - `langs/` - per-language setup (~26 languages; `clj.el` is the richest)
-  - `services/` - lsp, eca, docker, email, feeds, irc, radio, spotify, tmux, notifications
-  - `viewers/` - browser, epub, pdf, markdown, journal, files, vega
-  - `modes/` - custom minor modes (blind, breeze, prettify; buffer centering
-    and width-capping live inside prettify-mode)
-  - `gtd.el` - org-roam GTD + pomodoro
-  - `games/` - chess, wc3
-  - `theme/` - EDN-sourced doom themes (`doom-molokam.edn` +
-    `structural.edn`) and `editor.el`, which compiles the EDN to a
-    `def-doom-theme` and live-applies it; boot loads the EDN
-    authoritatively, the generated `.el` is a fallback
-- `snippets/` - yasnippet trees per major mode
-- `tools/` - dependency/seam tooling (not loaded by the config):
-  `fc-check.sh` (per-file byte-compile harness), `cmacs-deps.el`
-  (dependency analyzer/classifier), `lib-guard.sh` (lib/ must classify
-  library), `wm-free-check.sh` (config must load without the WM)
+```elisp
+(require 'lib/shell)
+```
 
-External data (org-roam files, books, summaries, sounds) lives under `$SHAREPATH`
-and is **not** part of this repo. Some commands also shell out to personal
-scripts under `~/.scripts/` and to `manage_browser_links.clj` (Babashka).
+Package activation is intentionally restricted. `init.el` initializes only
+`bind-key` and `use-package` through `package.el`; package contents come from
+the Nix load path. A deferred `use-package` form therefore needs an explicit
+entry command, mode, hook, or binding that can load it.
 
-### The leader / hydra system
-Nearly all interaction flows through `hydra-leader`, bound to `SPC` in Evil
-normal state and to `s-SPC` globally under EXWM. It branches into sub-hydras
-(`hydra-spawn`, `hydra-nav`, `hydra-nixos`, `hydra-project`, `hydra-window`, …).
-Per-mode menus hook in by remapping `empty-mode-leader` to the mode's own hydra
-(e.g. `hydra-clj`, `hydra-eca`). Adding a feature usually means: write the
-commands, define a mode hydra, and remap `empty-mode-leader` in that mode's map.
+## Repository map
 
-Note: Super and Meta are swapped (`x-super-keysym 'meta`, `x-meta-keysym
-'super`), and EXWM simulation keys translate `s-c`→`C-c`, `s-v`→`C-v`, etc. for
-X applications.
+### Boot and foundations
+
+| Path | Owns |
+|------|------|
+| `init.el` | Boot order, GC policy installation, EXWM gate |
+| `init-options.el` | Early UI, scrolling, backups, and custom-file |
+| `prelude.el` | Shared libraries, macros, and `m-require` |
+| `core.el` | Core aggregator |
+| `config.el` | Application aggregator |
+| `core/definers.el` | Evil, General, and Hydra macro foundations |
+| `core/bindings.el` | Global leader and shared Hydra menus |
+| `core/desktop.el` | EXWM startup, workspaces, and global X keys |
+| `core/env.el` | The `cmacs` customization group and environment |
+| `core/text.el` | Evil and basic editing behavior |
+
+### Reusable operations
+
+| Path | Owns |
+|------|------|
+| `lib/utils.el` | File, buffer, completion, and window operations |
+| `lib/shell.el` | Process launch and shell-command construction |
+| `lib/sound.el` | PipeWire sink operations |
+
+### Configured features
+
+| Path | Owns |
+|------|------|
+| `config/desktop/` | Host commands, launchers, links, and window policy |
+| `config/dev/` | Project, test, Git, diff, and process workflows |
+| `config/langs/` | Language packages, commands, REPLs, and keys |
+| `config/modes/` | Local presentation and reading modes |
+| `config/services/` | ECA, LSP, server, media, and network integrations |
+| `config/viewers/` | Browser, document, journal, and media viewers |
+| `config/games/` | Chess and Warcraft helpers |
+| `config/theme/` | EDN theme data, compiler, and live editor |
+| `config/gtd.el` | Org-roam task management and Pomidor |
+| `config/performance.el` | Interactive garbage-collection policy |
+| `config/search.el` | Completion, search, and project navigation |
+| `config/navigation.el` | Buffer movement and window spawning |
+
+### Development tools
+
+The files under `tools/` are development checks. They are not loaded by the
+running configuration.
+
+| Tool | Purpose |
+|------|---------|
+| `tools/fc-check.sh` | Byte-compile files in the cmacs environment |
+| `tools/cmacs-deps.el` | Inspect dependencies and classify modules |
+| `tools/lib-guard.sh` | Protect the library and application boundary |
+| `tools/wm-free-check.sh` | Prove the tree loads without activating EXWM |
+
+## Command surfaces
+
+```mermaid
+flowchart LR
+    functions[Named ck/ commands]
+    mx[M-x]
+    leader[Leader hydras]
+    mode[Mode hydras]
+    exwm[EXWM global keys]
+
+    functions --> mx
+    functions --> leader
+    functions --> mode
+    functions --> exwm
+```
+
+Named functions are the source of truth. Bindings are discovery surfaces.
+
+- `M-x` reaches every interactive command.
+- `SPC` opens `hydra-leader` in Evil normal state.
+- `s-SPC` opens the same leader globally under EXWM.
+- Mode maps remap `empty-mode-leader` to their own Hydra.
+- `core/desktop.el` owns keys that must work inside X applications.
+
+Super and Meta are intentionally swapped:
+
+```elisp
+(setq x-super-keysym 'meta
+      x-meta-keysym 'super)
+```
+
+Read `s-` and `M-` bindings using cmacs semantics, rather than stock Emacs
+keyboard assumptions.
+
+## Major systems
+
+### Window management
+
+The layout is a row of full-height vertical bands. A band may contain a top
+and bottom pane. Spawn and resize commands operate on the band as a unit, so a
+new right-hand window does not split only half of a stacked column.
+
+EXWM behavior and global keys live in `core/desktop.el`. Window policy and
+runtime patches live in `config/desktop/windows.el`.
+
+### Search and completion
+
+Vertico, Consult, Orderless, Marginalia, and Embark share the standard
+`completing-read` interface. Pickers therefore use one completion stack. Ivy
+is no longer part of the configuration.
+
+### Themes
+
+Themes are authored as semantic EDN in `config/theme/`. The active theme
+combines palette, role, and structural data. `config/theme/editor.el` compiles
+that data into a Doom theme and can apply changes live.
+
+Run `M-x ck/doom-theme-edit` to edit the theme with live reload.
+
+### ECA
+
+`config/services/eca.el` aggregates focused modules under
+`config/services/eca/`. Navigation, tabs, prompt composition, rendering,
+folding, and per-chat isolation stay in separate files.
+
+### Clojure
+
+`config/langs/clj/` is the richest language area. Package setup remains in
+`config/langs/clj.el`; evaluation, jack-in, Systemic control, and keybindings
+live in focused sibling modules.
+
+## Where changes belong
+
+| Change | Put it here |
+|--------|-------------|
+| Essential WM survival behavior | `core/` |
+| EXWM activation or global X keys | `core/desktop.el` |
+| Desktop window policy | `config/desktop/windows.el` |
+| Host command or hardware recovery | `config/desktop/commands/system.el` |
+| Application launcher | `config/desktop/commands/launchers.el` |
+| Reusable process operation | `lib/shell.el` |
+| Cross-feature pure helper | `lib/utils.el` |
+| Language behavior | `config/langs/<language>/` |
+| Background integration | `config/services/` |
+| Theme data | `config/theme/*.edn` |
+| Package or executable dependency | `../nix-conf/` |
+
+When a configured feature contains a reusable operation, move the operation to
+`lib/` and leave its hooks, packages, and keybindings in `config/`.
+
+## Development workflow
+
+### Find the owning code
+
+1. Use `M-x find-function` for a known command.
+2. Read the feature's final `provide` form.
+3. Check the nearest aggregator to see how it loads.
+4. Put the change in the narrowest module that owns the behavior.
+
+### Load a change live
+
+The window-manager Emacs runs a server. A safe file can be reloaded with:
+
+```text
+emacsclient --eval \
+  '(load-file "/absolute/path/to/file.el")'
+```
+
+Files with top-level hooks, advice, or list mutation need targeted reloads.
+Repeated `load-file` calls do not undo old global registrations. The
+project-local `patch-live-cmacs` skill documents the safe procedure when the
+agent docs are present.
+
+### Verify before finishing
+
+- Run `tools/fc-check.sh` on changed Emacs Lisp.
+- Run `tools/wm-free-check.sh` after load-order or boundary changes.
+- Exercise the real interactive path in the running Emacs.
+- Read back state after the command completes.
+
+## Operations and recovery
+
+| Command | Use |
+|---------|-----|
+| `M-x ck/latest-loadpath` | Refresh Nix-built package paths after a rebuild |
+| `M-x ck/fix-monitor-blackouts` | Reset PG32UCDP wake blackouts via 120 Hz |
+| `M-x ck/lock-screen` | Lock through the logind and xss-lock stack |
+| `M-x ck/restart-display-manager` | Restart the graphical session |
+
+`ck/fix-monitor-blackouts` switches `DP-0` to 4K at 119.88 Hz, waits one
+second for the monitor to lock, and restores 240.02 Hz. The wait is
+asynchronous, so Emacs remains responsive during the transition.
+
+## External state
+
+Shared data lives under `$SHAREPATH`, outside this repository. It includes
+Org-roam files, books, summaries, and sounds.
+
+Some commands also use:
+
+- Personal scripts under `~/.scripts/`.
+- `../manage_browser_links.clj` through Babashka.
+- NixOS services declared under `../nix-conf/modules/`.
+
+## Invariants
+
+- Only `ck/enable-wm` may activate EXWM.
+- `core/` must remain useful if later configuration fails.
+- `lib/` must not acquire hooks, keybindings, or WM dependencies.
+- Dependencies come from Nix, not runtime package installation.
+- Aggregators use `m-require`; library consumers use `require`.
+- Named functions own behavior. Keybindings only expose it.
+- Live changes must be verified in the running Emacs.
+
+When `.eca/docs/` is available, its `README.md` and
+`reference/cmacs-module-map.md` provide the deeper agent-maintained state and
+routing references.
