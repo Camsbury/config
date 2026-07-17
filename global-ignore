@@ -2,3 +2,4 @@
 !shell.nix
 !flake.nix
 !overlays.nix
+!dev/
