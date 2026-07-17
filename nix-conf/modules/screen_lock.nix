@@ -152,19 +152,24 @@ in
     extraOptions = [ "--transfer-sleep-lock" ];
   };
 
-  # Ride out a transient X-auth blip instead of dying permanently. The module
-  # unit defaults to Restart=always with RestartSec=100ms and StartLimitBurst=5
-  # over 10s, so five failures exhaust the budget in ~0.5s. A monitor
-  # power-cycle or suspend/resume briefly invalidates ~/.Xauthority while logind
-  # rebuilds the session; xss-lock SIGABRTs and every fast retry then hits
-  # "Invalid MIT-MAGIC-COOKIE-1 key" -> start-limit-hit, staying DEAD even
-  # though the cookie is valid again seconds later. With xss-lock down the lock
+  # Never let xss-lock die permanently. It lives in the persistent `--user`
+  # manager, but its X connection belongs to ONE graphical session; when that
+  # session is torn down (a `ck/restart-display-manager`, the usual recovery
+  # when the monitor won't wake, or any DM restart) xss-lock SIGABRTs on the
+  # lost X connection. systemd then restarts it, but every retry during the
+  # ~20s teardown + greeter-handover window hits "Authorization required, but no
+  # authorization protocol specified": there is no connectable X yet. A bounded
+  # start limit (even a widened one) burns its whole budget inside that window
+  # and lands the unit in `failed (start-limit-hit)` for good, so the lock
   # binding silently no-ops (loginctl lock-session has no listener) until a
-  # manual `systemctl --user reset-failed xss-lock && restart`. Widen the window
-  # so the transient passes: 2s between tries, up to 10 tries over 60s.
+  # manual `reset-failed && restart`. Disabling the rate limiter entirely
+  # (StartLimitIntervalSec=0) lets Restart=always keep retrying calmly every 2s
+  # and reconnect the instant the new session's X + fresh ~/.Xauthority are
+  # ready. Worst case it retries a dozen times harmlessly; it can never get
+  # stuck dead. Domain-durable for any X11 box running xss-lock as a user
+  # service across session restarts.
   systemd.user.services.xss-lock = {
-    startLimitIntervalSec = 60;
-    startLimitBurst = 10;
+    startLimitIntervalSec = 0;
     serviceConfig.RestartSec = "2s";
   };
 
