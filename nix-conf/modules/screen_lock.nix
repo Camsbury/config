@@ -23,6 +23,11 @@
 # Manual lock is `loginctl lock-session` (see ck/lock-screen in emacs-conf),
 # routed through xss-lock so there is a single locker of record.
 #
+# The lock script also pauses dunst (`dunstctl set-paused`) for the locked
+# span, so no notification content paints on the lock screen; queued
+# notifications pop on unlock. Restored via an EXIT trap so a crashed locker
+# never strands dunst paused.
+#
 # Media keys while locked are NOT handled here. i3lock-color grabs the X
 # keyboard, so EXWM's media bindings die while locked; the fix lives in
 # media_keys.nix, which reads evdev below X and works regardless of the grab.
@@ -58,6 +63,17 @@ let
     i3lock="${pkgs.i3lock-color}/bin/i3lock-color"
     pkill="${pkgs.procps}/bin/pkill"
     sleep="${pkgs.coreutils}/bin/sleep"
+    dunstctl="${pkgs.dunst}/bin/dunstctl"
+
+    # Pause dunst for the whole locked span so no notification content paints on
+    # the lock screen. Paused notifications queue and pop on unlock (and stay in
+    # history); nothing is lost. The EXIT trap restores dunst however we leave
+    # (normal exit, or TERM/INT from xss-lock), so a crashed locker can't strand
+    # dunst paused. EXIT is a different trap slot from the per-branch TERM/INT
+    # traps below, so the two coexist. `|| true` keeps a dunst/D-Bus hiccup from
+    # aborting the locker under `set -u`/pipefail-free but defensive anyway.
+    "$dunstctl" set-paused true || true
+    trap '"$dunstctl" set-paused false || true' EXIT
 
     opts=(
       --image=${wallpaper} --fill --color=${bg}ff
