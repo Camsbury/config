@@ -44,7 +44,7 @@
      [:kc-plus :kc-asterisk :kc-equal :kc-minus :kc-ques]
      [:kc-left :kc-down :kc-up :kc-right :none]]
     :outer
-    [:none :none :kc-trns :kc-lcbr]
+    [:kc-f-17 :none :kc-trns :kc-lcbr]
     :inner
     [:none :none :none]
     :bottom
@@ -60,7 +60,7 @@
      [:kc-exlm :kc-quote :kc-dquo :kc-grave :kc-tild]
      [:none :kc-ampr :kc-labk :kc-rabk :kc-bslash]]
     :outer
-    [:none :none :kc-trns :kc-rcbr]
+    [:kc-f-17 :none :kc-trns :kc-rcbr]
     :inner
     [:none :none :none]
     :bottom
