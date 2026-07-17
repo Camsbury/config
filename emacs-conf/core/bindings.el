@@ -35,23 +35,57 @@
 ;; point.  Cache the first `(x . y)' and reuse it; each caller clears the cache
 ;; when its popup closes (minibuffer exit / hydra hide), so the next popup
 ;; re-anchors at the new cursor.
+;;
+;; EXWM buffers are the exception: their point maps to the X window's
+;; top-left corner, so anchoring at point drops the box in the corner.  When
+;; the pre-popup window shows an `exwm-mode' buffer, centre the box in that
+;; window instead (applies to every caller, since they share this handler).
 (defvar ck/posframe--point-anchor nil
   "Frozen `(x . y)' for a cursor-anchored posframe, or nil between popups.")
 (defun ck/posframe-poshandler-point (info)
   "Anchor the posframe at the parent window's point, frozen once per popup.
-See the comment above for why the position is cached rather than
-recomputed on every posframe refresh."
+For an `exwm-mode' parent window point is meaningless (it maps to the X
+window's top-left corner), so centre the box in that window instead.  See
+the comment above for why the position is cached rather than recomputed on
+every posframe refresh."
   (or ck/posframe--point-anchor
       (setq ck/posframe--point-anchor
             (let* ((win (plist-get info :parent-window))
-                   (pt (and (window-live-p win) (window-point win))))
-              (posframe-poshandler-point-bottom-left-corner
-               (if (integerp pt)
-                   (plist-put (copy-sequence info) :position pt)
-                 info))))))
+                   (buf (and (window-live-p win) (window-buffer win))))
+              (if (and (bufferp buf)
+                       (with-current-buffer buf (derived-mode-p 'exwm-mode)))
+                  (posframe-poshandler-window-center info)
+                (let ((pt (and (window-live-p win) (window-point win))))
+                  (posframe-poshandler-point-bottom-left-corner
+                   (if (integerp pt)
+                       (plist-put (copy-sequence info) :position pt)
+                     info))))))))
 (defun ck/posframe-point-anchor-reset (&rest _)
   "Clear the frozen posframe anchor so the next popup re-anchors at point."
   (setq ck/posframe--point-anchor nil))
+
+;; Under EXWM a posframe is only drawn OVER focused X clients when posframe
+;; renders it as a TOP-LEVEL frame (reparented under the workspace container
+;; alongside the client windows) instead of a child frame (trapped inside the
+;; Emacs workspace frame's stacking, behind the client).  posframe switches to
+;; a top-level frame exactly when its `:refposhandler' returns non-nil, and
+;; then offsets the placement by that value into root coordinates.  So a
+;; refposhandler returning the workspace origin is posframe's official EXWM
+;; support -- vertico-posframe ships its own, which is why the M-x box overlays
+;; X windows; hydra's params carry none, so its hint used to hide behind them.
+;; Give hydra the same handler (kept independent of vertico-posframe).  Off
+;; EXWM it returns nil, so posframe's normal child-frame behaviour is untouched.
+(declare-vars exwm-workspace--workareas exwm-workspace-current-index)
+(defun ck/posframe-refposhandler (&optional _frame)
+  "Posframe refposhandler: EXWM workspace origin `(x . y)', or nil off EXWM.
+See the commentary above for why non-nil is what lets a posframe stack over
+X clients under EXWM."
+  (when (bound-and-true-p exwm--connection)
+    (or (ignore-errors
+          (let ((info (elt exwm-workspace--workareas
+                           exwm-workspace-current-index)))
+            (cons (slot-value info 'x) (slot-value info 'y))))
+        (cons 0 0))))
 
 (use-package hydra
   :config
@@ -72,7 +106,10 @@ recomputed on every posframe refresh."
                 "#525254")
               :left-fringe 8
               :right-fringe 8
-              :poshandler #'ck/posframe-poshandler-point))
+              :poshandler #'ck/posframe-poshandler-point
+              ;; Render the hint as a TOP-LEVEL frame under EXWM so it draws
+              ;; over focused X clients (see `ck/posframe-refposhandler').
+              :refposhandler #'ck/posframe-refposhandler))
   (advice-add 'hydra-posframe-hide :after #'ck/posframe-point-anchor-reset))
 
 ;; nice tooltip for unbound mode hydras
