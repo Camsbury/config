@@ -127,8 +127,8 @@ let
   # its own; any keypress or mouse move wakes it back up. `+dpms` first in case
   # DPMS is disabled on the server, since `force off` is a no-op when it is.
   dpmsOff = pkgs.writeShellScript "dpms-off" ''
-    ${pkgs.xorg.xset}/bin/xset +dpms
-    ${pkgs.xorg.xset}/bin/xset dpms force off
+    ${pkgs.xset}/bin/xset +dpms
+    ${pkgs.xset}/bin/xset dpms force off
   '';
 in
 {
