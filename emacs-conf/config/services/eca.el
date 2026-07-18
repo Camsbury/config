@@ -18,6 +18,7 @@
 ;;   crash     dormant opt-in to re-disable native code-block fontify
 ;;   fold      fold expandable blocks from inside their content
 ;;   windowing bound rendered transcripts to the newest server-history page
+;;   pending   O(1) memoized pending-approval check for the mode + tab line
 ;;   scroll    follow the stream only while point is in the prompt
 ;;   nav       jump/rotation navigation across all chats
 ;;   colors    make the context-usage bar inherit the doom theme
@@ -60,6 +61,7 @@
   crash
   fold
   windowing
+  pending
   scroll
   nav
   colors
@@ -128,6 +130,11 @@
   (dolist (fn '(eca-chat--context-free-color
                 eca-chat--context-free-face-spec))
     (advice-add fn :filter-args #'ck/eca--strip-free-color))
+
+  ;; Memoize the per-redisplay pending-approval scan so the mode line and tab
+  ;; line stop walking every chat buffer on every frame.  See eca/pending.el.
+  (advice-add 'eca-chat--has-pending-approvals-p
+              :override #'ck/eca-chat--has-pending-approvals-p)
 
   ;; Only follow the stream (yank point to the bottom + recenter) while point
   ;; is in the prompt field; reading up in the transcript mid-stream leaves the
