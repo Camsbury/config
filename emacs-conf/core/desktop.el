@@ -82,7 +82,6 @@ Both keys are key description strings."
    ("s-b"                    ck/check-battery)
    ("s-s"                    ck/switch-audio-sink)
    ("s-t"                    ck/check-time)
-   ("s-n"                    ck/dunst-toggle-mute)
    ;; Blind monitor recovery: modeset DP-0 through 120 Hz to retrain the
    ;; DisplayPort link when the panel wakes black (e.g. after the monitor was
    ;; off overnight).  Reachable WITHOUT seeing the screen, so it is the first
