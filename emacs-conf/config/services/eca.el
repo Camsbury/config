@@ -53,6 +53,7 @@
 (m-require config/services/eca
   latex
   tables
+  deferred-render
   tabs
   window
   isolation
@@ -109,8 +110,15 @@
                  (window . root)
                  (body-function . (lambda (_w) (ck/prettify-windows)))))
 
-  (add-hook 'eca-chat-finished-hook #'ck/eca-chat--auto-preview-latex)
-  (add-hook 'eca-chat-finished-hook #'ck/eca-chat--auto-align-tables)
+  ;; Finish-time render is DEFERRED (see eca/deferred-render.el): the LaTeX +
+  ;; table passes run only when you are viewing the finished chat, or the moment
+  ;; you next navigate into it, so a chat that completes while you are in a
+  ;; game / another buffer / another workspace no longer hitches the WM with
+  ;; off-screen render churn.  The transcript size-bounding stays on finish; it
+  ;; already self-defers.
+  (add-hook 'eca-chat-finished-hook #'ck/eca-chat--render-or-defer)
+  (add-hook 'window-selection-change-functions
+            #'ck/eca-chat--render-pending-on-select)
   (add-hook 'eca-chat-finished-hook #'ck/eca-chat-window-if-needed)
   ;; A selected chat is queued but not rebuilt under the user's cursor.  The
   ;; next command after leaving it dispatches the deferred bounded replay.
