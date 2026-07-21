@@ -6,7 +6,21 @@
   :config
   (setq
    alert-fade-time     180
-   alert-default-style 'libnotify))
+   ;; D-Bus style (`notifications-notify'), NOT `libnotify'.  The libnotify
+   ;; style shells out to notify-send via `call-process', i.e. it spawns a
+   ;; SUBPROCESS from this Emacs.  Empirically that hitches a focused fullscreen
+   ;; client (game): A/B-tested live 2026-07-21, Emacs libnotify notifications
+   ;; (both sync `call-process' AND async `start-process') visibly lagged the
+   ;; game, while a direct shell notify-send and the in-process D-Bus path did
+   ;; not.  Emacs is the WM, so the spawn's cost (forking a ~2GB/4.4GB-VmSize
+   ;; process plus notify-send's own D-Bus round-trip) lands on the WM's main
+   ;; thread; the exact split was not pinned, but avoiding the subprocess
+   ;; ENTIRELY is what removed the lag.  The `notifications' style sends over
+   ;; Emacs's existing D-Bus session connection in-process (no fork, no
+   ;; notify-send) and tested smooth.  `alert-fade-time' is inert under this
+   ;; style (it sends :timeout -1, so dunst's own per-urgency timeout applies).
+   ;; See `.eca/docs/gotchas.md'.
+   alert-default-style 'notifications))
 
 ;; TODO: make this on save hook for dunstrc
 (defun ck/kill-dunst ()
