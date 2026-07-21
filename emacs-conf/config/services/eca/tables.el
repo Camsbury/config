@@ -65,21 +65,34 @@ the table font changes.  A no-op when the configured font is unavailable."
 ;; aligner/beautifier over the whole chat content area to keep every table
 ;; consistent.  The operation is idempotent on already-aligned tables.
 
-(defun ck/eca-chat-align-tables ()
-  "Align and beautify every markdown table in the current ECA chat buffer."
+(defun ck/eca-chat-align-tables (&optional beg end)
+  "Align and beautify markdown tables in the current ECA chat buffer.
+With no region (interactive use) aligns the whole content area.  BEG/END
+bound the pass so callers can scope it: ECA's `eca-table-align' re-processes
+its whole region from scratch with no early-out, so a whole-buffer pass is
+O(history) and froze Emacs ~1.3s on large chats.  The finish-time auto-align
+scopes to just the new turn instead."
   (interactive)
   (unless (derived-mode-p 'eca-chat-mode)
     (user-error "Not in an ECA chat buffer"))
   (let ((inhibit-read-only t)
-        (end (eca-chat--prompt-area-start-point)))
-    (eca-table-align (point-min) end)
+        (beg (or beg (point-min)))
+        (end (or end (eca-chat--prompt-area-start-point))))
+    (eca-table-align beg end)
     (when (bound-and-true-p eca-chat-table-beautify)
-      (eca-table-beautify (point-min) end))))
+      (eca-table-beautify beg end))))
 
 (defun ck/eca-chat--auto-align-tables ()
-  "Re-align all chat tables on response completion when enabled."
+  "Re-align the just-finished turn's tables on response completion.
+Scoped to the finished turn (from `eca-chat--last-user-message-pos', mirroring
+`ck/eca-chat--auto-preview-latex' and ECA's own end-of-stream scoping) so cost
+does not grow with chat history.  A whole-buffer align runs ECA's O(history)
+aligner and froze Emacs ~1.3s on large chats."
   (when (and ck/eca-chat-auto-align-tables (derived-mode-p 'eca-chat-mode))
-    (ignore-errors (ck/eca-chat-align-tables))))
+    (ignore-errors
+      (ck/eca-chat-align-tables
+       (or (bound-and-true-p eca-chat--last-user-message-pos) (point-min))
+       (eca-chat--prompt-area-start-point)))))
 
 ;;; Table wrapping (dedicated reading view) ---------------------------------
 ;;
