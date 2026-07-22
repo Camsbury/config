@@ -5,6 +5,7 @@
 (require 'prelude)
 
 (declare-functions "cider" cider-sexp-at-point)
+(declare-functions "evil-commands" evil-window-left evil-window-right)
 
 (defun ck/random-uuid ()
   "Returns a random UUID V4"
@@ -61,6 +62,57 @@ uncapped)."
         (ignore-errors
           (adjust-window-trailing-edge
            band (- count (window-body-width leaf)) t))))))
+
+(defvar ck/window-band-last-selected (make-hash-table :test 'eq)
+  "Maps a vertical-band root window to the pane last selected within it.
+Populated by `ck/window-left'/`ck/window-right' (bound to s-h/s-l in
+`core/desktop.el') so returning to a multi-pane band (a stacked top/bottom
+split) restores whichever pane you were last on. Plain `evil-window-left'/
+`evil-window-right' (windmove underneath) do not do this: a full-height
+neighboring band overlaps both stacked panes equally, so ties resolve by
+window-list order and always land on the same pane (typically the top
+one), regardless of which pane you left from.")
+
+(defun ck/window-band-root (&optional window)
+  "Return the vertical-band root window containing WINDOW.
+Climbs past any top/bottom (vertical) combination to the child of the
+row-of-bands, or the frame root when no bands exist yet. Mirrors
+`ck/band-window' in `config/navigation.el' (kept separate here: `lib/'
+cannot depend on `config/', decision 0009's library/application seam)."
+  (let ((w (or window (selected-window))))
+    (while (let ((p (window-parent w)))
+             (and p (not (window-left-child p))))
+      (setq w (window-parent w)))
+    w))
+
+(defun ck/window-move-remembering-band (command)
+  "Run directional-movement COMMAND, remembering per-band pane focus.
+Records the departing window against its band before running COMMAND (via
+`call-interactively', so COMMAND's own interactive spec and count argument
+still apply), then, if the band just entered has a remembered pane still
+live inside it, selects that pane instead of wherever COMMAND landed. See
+`ck/window-band-last-selected' for why this is needed."
+  (let* ((from (selected-window))
+         (from-band (ck/window-band-root from)))
+    (call-interactively command)
+    (let* ((target-band (ck/window-band-root))
+           (remembered (gethash target-band ck/window-band-last-selected)))
+      (puthash from-band from ck/window-band-last-selected)
+      (when (and remembered
+                 (window-live-p remembered)
+                 (eq (ck/window-band-root remembered) target-band)
+                 (not (eq remembered (selected-window))))
+        (select-window remembered)))))
+
+(defun ck/window-left ()
+  "Move focus left by band, restoring that band's last-selected pane."
+  (interactive)
+  (ck/window-move-remembering-band #'evil-window-left))
+
+(defun ck/window-right ()
+  "Move focus right by band, restoring that band's last-selected pane."
+  (interactive)
+  (ck/window-move-remembering-band #'evil-window-right))
 
 (defun ck/shuffle-selection (beginning end)
   "Shuffle the current selection"

@@ -2,6 +2,7 @@
 (require 'prelude)
 (require 'exwm)
 (require 'exwm-randr)
+(require 'lib/utils) ; ck/window-left, ck/window-right
 
 (setq exwm-workspace-show-all-buffers t)
 (setq exwm-layout-show-all-buffers t)
@@ -66,11 +67,15 @@ Both keys are key description strings."
    ("<XF86MonBrightnessDown>" ck/lower-brightness)
    ("<XF86Display>"          ck/lock-screen)
    ("<XF86Tools>"            ck/restart-display-manager)
-   ;; window navigation
+   ;; window navigation.  Up/down never cross a vertical band (decision
+   ;; 0010), so plain evil-window-up/down are unambiguous.  Left/right DO
+   ;; cross bands, so they go through ck/window-left/-right (lib/utils),
+   ;; which restore the target band's last-selected pane instead of
+   ;; windmove's geometric pick (see `ck/window-band-last-selected').
    ("s-k"                    evil-window-up)
    ("s-j"                    evil-window-down)
-   ("s-h"                    evil-window-left)
-   ("s-l"                    evil-window-right)
+   ("s-h"                    ck/window-left)
+   ("s-l"                    ck/window-right)
    ;; leaders
    ("s-SPC"                  hydra-leader/body)
    ("s-["                    hydra-left-leader/body)
