@@ -107,6 +107,17 @@
                 #'consult-completion-in-region
               #'completion--in-region)
             args)))
+  ;; Replace the WHOLE minibuffer path with the clipboard in one key.  Plain
+  ;; `yank' appends to the current directory, and `vertico-directory-tidy'
+  ;; only collapses the shadowed prefix on `self-insert-command' (typing a
+  ;; `/'), never on a yank -- so a paste leaves `~/dir//pasted/path'.  Deleting
+  ;; the field first means there is no prefix to double up, so no tidy needed.
+  (defun ck/minibuffer-replace-with-clipboard ()
+    "Replace the whole minibuffer contents with the clipboard, then yank.
+In `find-file' this swaps the entire path for the clipboard in one step."
+    (interactive)
+    (delete-minibuffer-contents)
+    (yank))
   (general-define-key
    :keymaps 'vertico-map
    "M-RET" #'vertico-exit-input
@@ -114,6 +125,7 @@
    "C-M-j" #'vertico-next-group
    "C-k"   #'vertico-previous
    "C-M-k" #'vertico-previous-group
+   "C-S-y" #'ck/minibuffer-replace-with-clipboard
    [escape] #'minibuffer-keyboard-quit))
 
 ;; NOTE: still want this to only work for find-file
