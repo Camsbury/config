@@ -9,7 +9,7 @@ let
 in
 {
   imports = [
-    ./bb-nrepl.nix
+    # ./bb-nrepl.nix
     ./docker.nix
     ./postgres.nix
   ];
