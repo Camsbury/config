@@ -4,15 +4,14 @@
 ;; Personal ECA (Editor Code Assistant) chat customizations, split across the
 ;; `config/services/eca/' subdirectory.  This aggregator owns the shared
 ;; customization group, pulls in the feature files, and wires the `eca'
-;; package itself (hooks, window placement, the config-isolation advices, and
-;; the `eca-chat-mode-map' bindings that must wait for eca to load).
+;; package itself (hooks, window placement, and the `eca-chat-mode-map'
+;; bindings that must wait for eca to load).
 ;;
 ;; Feature files (see each for its own commentary):
 ;;   latex     LaTeX-fragment image previews in chat buffers
 ;;   tables    re-align every table + a wrapped reading view
 ;;   tabs      close/delete a chat tab + sweep closed buffers
 ;;   window    workspace-scoped chat window reuse
-;;   isolation per-chat agent/model config isolation (+ server registration)
 ;;   compose   dedicated prompt compose buffer
 ;;   palette   command/skill/prompt picker
 ;;   crash     dormant opt-in to re-disable native code-block fontify
@@ -56,7 +55,6 @@
   deferred-render
   tabs
   window
-  isolation
   compose
   palette
   crash
@@ -153,15 +151,6 @@
   ;; contacts GitHub to decide "latest".
   (advice-add 'eca-process--get-latest-server-version
               :override #'ck/eca--pinned-server-version)
-
-  (advice-add 'eca-config-updated
-              :around #'ck/eca--config-updated-attach-chat-id)
-  (advice-add 'eca-chat-config-updated
-              :around #'ck/eca--config-updated-guard-globals)
-  (dolist (fn '(eca-chat--set-agent
-                eca-chat-select-model
-                eca-chat-select-variant))
-    (advice-add fn :around #'ck/eca--shadow-config-globals))
 
   ;; `C-c C-c' toggles the prompt into (and, from the compose buffer, back
   ;; out of) a dedicated edit buffer -- one chord either direction.  Bound

@@ -16,12 +16,12 @@
 (require 'config/services/eca/tabs)
 (require 'config/services/eca/compose)
 (require 'config/services/eca/palette)
-(require 'config/services/eca/isolation)
 (require 'config/services/eca/nav)
 (require 'config/services/eca/usage)
 
 (declare-functions "eca-chat"
   eca-chat-clear-prompt
+  eca-chat-new
   eca-chat-select-agent
   eca-chat-select-model
   eca-chat-select-variant
@@ -39,7 +39,7 @@
   ("p" #'ck/eca-chat-edit-prompt "Edit prompt (compose)")
   ("a" #'eca-chat-select-agent "Select agent")
   ("m" #'eca-chat-select-model "Select the model")
-  ("o" #'ck/eca-chat-new-registered "New chat")
+  ("o" #'eca-chat-new "New chat")
   ("t" #'eca-chat-select "Select chat")
   ("e" #'eca-chat-resume "Open server chat")
   ("f" #'ck/eca-chat-insert-command "Insert command/skill")
