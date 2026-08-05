@@ -12,9 +12,7 @@
 (declare-functions "eca-chat"
   eca-chat--prompt-content
   eca-chat--set-prompt
-  eca-chat--send-prompt)
-(declare-functions "eca-util"
-  eca-session)
+  eca-chat--key-pressed-return)
 (declare-vars eca-chat--id)
 (declare-functions "markdown-mode" gfm-mode)
 (declare-functions "evil-states" evil-normal-state)
@@ -115,7 +113,10 @@ the chat buffer."
 
 (defun ck/eca-compose--commit (send)
   "Push the composed text into the source chat prompt; SEND it when non-nil.
-Kills the compose buffer and selects the source chat window afterward."
+When SEND, dispatch exactly as a manual RET in the prompt does: answer a
+pending freeform question, steer/queue while the chat is loading, or send
+when idle.  Kills the compose buffer and selects the source chat window
+afterward."
   (unless ck/eca-compose--source-buffer
     (user-error "Not an ECA compose buffer"))
   (let ((src ck/eca-compose--source-buffer)
@@ -134,9 +135,17 @@ Kills the compose buffer and selects the source chat window afterward."
     (when (and send (string-empty-p text))
       (user-error "Refusing to send an empty prompt"))
     (with-current-buffer src
-      (if send
-          (eca-chat--send-prompt (eca-session) text)
-        (eca-chat--set-prompt text)))
+      ;; Fill the prompt, then route through the same dispatcher RET uses so a
+      ;; composed message behaves like one typed at the prompt: it answers a
+      ;; pending freeform question, steers/queues while the chat is loading, or
+      ;; sends when idle.  A bare `eca-chat--send-prompt' is only the idle-send
+      ;; branch and skips the question and steer handling.  Move point into the
+      ;; prompt field first so the dispatcher's earlier point-dependent branches
+      ;; (button / expandable / link at point) cannot fire.
+      (eca-chat--set-prompt text)
+      (when send
+        (goto-char (point-max))
+        (eca-chat--key-pressed-return)))
     (when (buffer-live-p compose)
       (kill-buffer compose))
     (when-let* ((win (get-buffer-window src t)))
@@ -148,7 +157,9 @@ Kills the compose buffer and selects the source chat window afterward."
   (ck/eca-compose--commit nil))
 
 (defun ck/eca-compose-send ()
-  "Write the composed text back into the source chat prompt and send it."
+  "Fill the composed text back into the source chat prompt and dispatch it.
+Behaves like RET at the prompt: answers a pending freeform question,
+steers/queues while the chat is loading, or sends when idle."
   (interactive)
   (ck/eca-compose--commit t))
 
