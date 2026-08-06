@@ -33,6 +33,7 @@ in
       google-cloud-sdk
       kubectl
       loccount
+      nixd
       nixfmt
       update-nix-fetchgit
       pkgs.prettier
