@@ -3,3 +3,5 @@
 !flake.nix
 !overlays.nix
 !dev/
+!CONTEXT.md
+!CONTEXT-MAPPING.md

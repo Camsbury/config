@@ -4,4 +4,5 @@
 *.cpcache
 *.nrepl-port
 *~
-.scratch/
+CONTEXT.md
+CONTEXT-MAPPING.md

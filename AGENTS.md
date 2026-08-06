@@ -9,10 +9,19 @@ Personal machine configuration monorepo for the NixOS host `poseidon`:
 
 Host-specific by design; portability is not a goal.
 
-## Agent docs
+## Agent skills
 
-Supplemental docs live at `.eca/docs/` (start at `.eca/docs/README.md`; use
-the `orient` and `handoff` skills). `.eca/` is invisible to grep and
-directory-tree tools, so read them by exact path. The whole `.eca/` dir is
-gitignored here: a fresh clone will not have these docs; fall back to the
-README and source.
+### Issue tracker
+
+Issues live as local Markdown under `.eca/issues/`. See
+`.eca/docs/issue-tracker.md`.
+
+### Triage labels
+
+Triage uses the canonical role names. See
+`.eca/docs/triage-labels.md`.
+
+### Domain docs
+
+Domain documentation uses a single-context layout. See
+`.eca/docs/domain.md`.
