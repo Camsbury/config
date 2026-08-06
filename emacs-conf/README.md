@@ -5,11 +5,11 @@ as the desktop session through
 [EXWM](https://github.com/emacs-exwm/exwm), rather than inside another desktop
 environment. Nix builds the Emacs binary, its packages, and the launcher.
 
-- **System:** one NixOS host named `poseidon`.
+- **System:** cmacs runs on machines configured by this repository.
 - **Goal:** make named Emacs commands the control surface for editing and the
   desktop.
-- **Constraint:** host-specific behavior is intentional. Portability is not a
-  design goal.
+- **Constraint:** concrete behavior for the configured machine set takes
+  priority over portability to arbitrary systems.
 
 ## Philosophy
 
@@ -25,8 +25,8 @@ The configuration follows a few rules:
   should make the system inspectable from inside itself.
 - **Immediate feedback:** Flycheck, completion, live theme reload, and REPL
   workflows shorten the edit and verify loop.
-- **One machine:** concrete host behavior beats abstraction for hypothetical
-  systems.
+- **Configured machines:** concrete machine behavior beats abstraction for
+  hypothetical systems.
 
 Useful Emacs vocabulary:
 
