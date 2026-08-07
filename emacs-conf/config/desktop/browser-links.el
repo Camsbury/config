@@ -26,9 +26,13 @@ stdout."
                        (-map #'shell-quote-argument args)))))
 
 (defun exwm-browser-link--get-tags (selected)
-  "Tags co-occurring with the SELECTED tag set (all tags when nil)."
-  (parseedn-read-str
-   (exwm-browser-link--bb "list-tags" (s-join " " selected))))
+  "Tags co-occurring with the SELECTED tag set (all tags when nil).
+Returns a proper list: parseedn yields a vector for an EDN vector, and
+the completion primitives stop iterating a candidate list at the first
+non-cons tail, so a vector tail would hide every tag."
+  (append (parseedn-read-str
+           (exwm-browser-link--bb "list-tags" (s-join " " selected)))
+          nil))
 
 (defun exwm-browser-link-visit ()
   "Select a link to visit in the browser"
