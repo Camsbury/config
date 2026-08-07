@@ -510,8 +510,13 @@ consult-xref -> xref-edit (Emacs 31+).  Edit, then save as usual."
 A hydra head runs as a generated wrapper such as
 `hydra-leader/consult-ripgrep-and-exit', and that wrapper is what
 `current-minibuffer-command' reports, so the args-var lookup (and any
-relaunch) must use the wrapped command instead."
-  (let ((name (and command (symbol-name command))))
+relaunch) must use the wrapped command instead.
+COMMAND may be any binding target, not just a symbol: upstream packages
+bind keys and buttons to closures (eca-chat's resume entry runs as
+`(lambda (&rest _) (eca-chat-resume))'), and `this-command' carries that
+closure verbatim.  Only symbols can be hydra wrappers, so anything else
+passes through unchanged."
+  (let ((name (and (symbolp command) command (symbol-name command))))
     (if (and name
              (string-match "\\`hydra-[^/]+/\\(.+?\\)\\(-and-exit\\)?\\'" name))
         (intern (match-string 1 name))
