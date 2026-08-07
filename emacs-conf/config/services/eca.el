@@ -136,6 +136,12 @@
   (dolist (fn '(eca-chat--context-free-color
                 eca-chat--context-free-face-spec))
     (advice-add fn :filter-args #'ck/eca--strip-free-color))
+  ;; ...and strip the server emoji swatches from the hover legend so its
+  ;; swatches fall back to the same themed block the bar uses (see
+  ;; eca/colors.el); otherwise the tooltip shows the server emoji palette
+  ;; while the bar shows the doom theme.
+  (advice-add 'eca-chat--context-bar-help
+              :filter-args #'ck/eca--strip-help-emoji)
 
   ;; Memoize the per-redisplay pending-approval scan so the mode line and tab
   ;; line stop walking every chat buffer on every frame.  See eca/pending.el.

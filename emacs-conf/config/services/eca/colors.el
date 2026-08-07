@@ -53,4 +53,30 @@ ARGS is the arg list of `eca-chat--context-free-color' / `...-face-spec'
 the themed `eca-chat-context-free-face'."
   (list (ck/eca--plist-delete (car args) :freeColor)))
 
+;;; Tooltip swatch colors ----------------------------------------------------
+;;
+;; The hover legend (`eca-chat--context-bar-help') prefixes each category with
+;; a swatch that PREFERS the server-sent `:emoji' (and `:freeEmoji' for the
+;; free region), only falling back to a `█' block drawn in the themed
+;; `eca-chat-context-*-face-spec' when the emoji is absent.  Since our server
+;; sends emoji, the tooltip painted the server's fixed emoji palette while the
+;; bar segments -- with `:color' stripped above -- painted the doom theme, so
+;; the two disagreed.  Strip the emoji here too and the swatch takes the block
+;; fallback, whose face-spec is the same doom color the matching bar segment
+;; uses.
+
+(defun ck/eca--strip-help-emoji (args)
+  "Advice `:filter-args' dropping server emoji swatches from the tooltip.
+ARGS is the arg list of `eca-chat--context-bar-help' (BREAKDOWN USED FREE
+LIMIT &optional COMPACT-PCT).  Returns a copy with each category's
+`:emoji' and the breakdown's `:freeEmoji' removed so the legend swatches
+fall back to the themed `█' block, matching the bar's doom colors.
+Non-destructive: the server breakdown is left intact for other consumers."
+  (let* ((breakdown (car args))
+         (cats (mapcar (lambda (cat) (ck/eca--plist-delete cat :emoji))
+                       (append (plist-get breakdown :categories) nil)))
+         (breakdown (plist-put (ck/eca--plist-delete breakdown :freeEmoji)
+                               :categories cats)))
+    (cons breakdown (cdr args))))
+
 (provide 'config/services/eca/colors)
