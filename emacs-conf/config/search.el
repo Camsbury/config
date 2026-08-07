@@ -100,12 +100,6 @@
    vertico-count 17
    vertico-cycle t
    vertico-sort-function #'vertico-sort-history-length-alpha)
-  ;; A minibuffer abandoned in another window must not hard-block the next
-  ;; minibuffer command ("Command attempted to use minibuffer while in
-  ;; minibuffer"); recursion keeps a forgotten session harmless and the
-  ;; [2] depth prompt makes it noticeable.
-  (setq enable-recursive-minibuffers t)
-  (minibuffer-depth-indicate-mode 1)
   (setq-default
    completion-in-region-function
    (lambda (&rest args)
@@ -489,16 +483,21 @@ consult-xref -> xref-edit (Emacs 31+).  Edit, then save as usual."
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 
 ;; Edit the current search in a real buffer, mirroring isearch's `M-e'
-;; (`isearch-edit-string').  For consult grep-style sessions the edit buffer
-;; shows the FULL expression in two sections: the base command args (e.g.
-;; `consult-ripgrep-args') and the minibuffer input.  `C-c C-c' with the
-;; base args untouched pushes the input back into the still-live session;
-;; edited base args abort the session and relaunch it (same directory,
-;; input preserved) with the new args in effect for that search only, since
-;; consult captures the args in a closure at session start.  Within each
-;; section lines join with spaces, so flags can sit one per line while
-;; editing.  `C-c C-k' abandons the edit.  Any other minibuffer gets the
-;; input-only version of the same flow.
+;; (`isearch-edit-string').  M-e captures the session (invoking command,
+;; base args, directory, input), CLOSES the minibuffer, then opens the
+;; edit buffer.  `C-c C-c' relaunches the command with the edited values;
+;; `C-c C-k' relaunches it with the originals.  No minibuffer stays alive
+;; behind the edit, so recursive minibuffers stay disabled and no
+;; abandoned session lingers to block later minibuffer commands.
+;;
+;; For consult grep-style sessions the edit buffer shows the FULL
+;; expression in two sections: the base command args (e.g.
+;; `consult-ripgrep-args') and the minibuffer input.  Edited args are in
+;; effect for the relaunched search only, since consult captures the args
+;; in a closure at session start.  Within each section lines join with
+;; spaces, so flags can sit one per line while editing.  Any other
+;; minibuffer gets the input-only version of the same flow, relaunched
+;; via `call-interactively'.
 (defvar ck/minibuffer-edit--grep-args-vars
   '((consult-ripgrep  . consult-ripgrep-args)
     (consult-grep     . consult-grep-args)
@@ -536,8 +535,8 @@ it mirrors `this-command' again, so we capture the invoker ourselves.")
 (add-hook 'minibuffer-setup-hook #'ck/minibuffer-edit--capture-invoker)
 
 (defvar-local ck/minibuffer-edit--session nil
-  "Plist for the minibuffer session this edit buffer belongs to.
-Keys: :window, :command, :args-var, :args, :dir.")
+  "Plist for the captured minibuffer session this edit buffer edits.
+Keys: :command, :args-var, :args, :dir, :input.")
 
 (defconst ck/minibuffer-edit--args-header
   ";; Base command args -- editing these relaunches the search:")
@@ -558,30 +557,59 @@ lines back with spaces on confirm."
 (define-derived-mode ck/minibuffer-input-edit-mode text-mode "MiniEdit"
   "Edit a minibuffer input string in a full buffer."
   (setq-local header-line-format
-              "Edit search -- C-c C-c: apply, C-c C-k: cancel (lines join with spaces)"))
+              "Edit search -- C-c C-c: apply, C-c C-k: restore original (lines join with spaces)"))
 
 (defun ck/minibuffer-edit-input ()
-  "Edit the current minibuffer input (and search args) in a dedicated buffer."
+  "Capture the minibuffer session, close it, and edit it in a buffer.
+Everything a relaunch needs (command, args, directory, input) is read
+here; the session itself is aborted before the edit buffer opens, so no
+live minibuffer waits behind the edit."
   (interactive)
-  (let* ((mini (or (active-minibuffer-window)
-                   (user-error "No active minibuffer input to edit")))
-         (input (minibuffer-contents))
-         (command ck/minibuffer-edit--invoking-command)
+  (unless (minibufferp)
+    (user-error "No active minibuffer input to edit"))
+  (let* ((command ck/minibuffer-edit--invoking-command)
          (args-var (alist-get command ck/minibuffer-edit--grep-args-vars))
-         (args (and args-var (symbol-value args-var)))
-         (dir (with-current-buffer (window-buffer mini) default-directory))
-         (buf (get-buffer-create "*minibuffer input edit*")))
+         (session (list :command command
+                        :args-var args-var
+                        :args (and args-var (symbol-value args-var))
+                        :dir default-directory
+                        :input (minibuffer-contents))))
+    (unless (commandp command)
+      (user-error "Cannot relaunch this minibuffer's command (%S)" command))
+    ;; `abort-minibuffers' throws out of this command, so nothing after
+    ;; it runs: hand the buffer setup to a poller first.
+    (ck/minibuffer-edit--open-when-clear session (minibuffer-depth))
+    (abort-minibuffers)))
+
+(defun ck/minibuffer-edit--open-when-clear (session depth &optional tries)
+  "Open SESSION's edit buffer once minibuffer DEPTH has unwound.
+A zero-delay timer can fire during the aborted session's teardown
+(consult kills its rg process inside the minibuffer's unwind, and that
+process wait runs timers), so poll until the depth drops below DEPTH,
+the aborted session's depth.  Give up after ~2s."
+  (let ((tries (or tries 0)))
+    (cond
+     ((< (minibuffer-depth) depth)
+      (ck/minibuffer-edit--open session))
+     ((> tries 40)
+      (message "Minibuffer edit abandoned: the aborted session never exited"))
+     (t
+      (run-with-timer 0.05 nil #'ck/minibuffer-edit--open-when-clear
+                      session depth (1+ tries))))))
+
+(defun ck/minibuffer-edit--open (session)
+  "Pop up the edit buffer for the captured SESSION."
+  (let ((buf (get-buffer-create "*minibuffer input edit*")))
     (with-current-buffer buf
       (erase-buffer)
       (ck/minibuffer-input-edit-mode)
-      (setq ck/minibuffer-edit--session
-            (list :window mini :command command
-                  :args-var args-var :args args :dir dir))
-      (when args-var
+      (setq ck/minibuffer-edit--session session)
+      (when (plist-get session :args-var)
         (insert ck/minibuffer-edit--args-header "\n"
-                (ck/minibuffer-edit--args-lines args) "\n\n"
+                (ck/minibuffer-edit--args-lines (plist-get session :args))
+                "\n\n"
                 ck/minibuffer-edit--input-header "\n"))
-      (insert input)
+      (insert (plist-get session :input))
       (goto-char (point-max)))
     ;; `pop-to-buffer' rather than `select-window' + `display-buffer':
     ;; the latter returns nil when no window takes the buffer, and
@@ -603,44 +631,35 @@ lines back with spaces on confirm."
          " ")))))
 
 (defun ck/minibuffer-edit--relaunch (command args-var args dir input)
-  "Restart COMMAND in DIR with ARGS-VAR set to ARGS and INPUT restored.
-ARGS-VAR reverts when the relaunched session ends."
-  (let ((old (symbol-value args-var)))
-    (set args-var args)
-    (unwind-protect
-        (minibuffer-with-setup-hook
-            (lambda ()
-              (delete-minibuffer-contents)
-              (insert input))
-          (funcall command dir))
-      (set args-var old))))
+  "Run COMMAND with INPUT preinserted in its minibuffer.
+Grep-style commands (ARGS-VAR non-nil) run in DIR with ARGS-VAR set to
+ARGS for just that session; anything else relaunches via
+`call-interactively'."
+  (minibuffer-with-setup-hook
+      (lambda ()
+        (delete-minibuffer-contents)
+        (insert input))
+    (if args-var
+        (let ((old (symbol-value args-var)))
+          (set args-var args)
+          (unwind-protect
+              (funcall command dir)
+            (set args-var old)))
+      (call-interactively command))))
 
-(defun ck/minibuffer-edit--relaunch-when-clear (command args-var args dir input
-                                                depth &optional tries)
-  "Relaunch once the aborted session's minibuffer has fully exited.
-A zero-delay timer can fire during the old session's teardown (consult
-kills its rg process inside the minibuffer's unwind, and that process
-wait runs timers), so opening the new minibuffer immediately collides
-with the dying one.  Poll until the minibuffer depth drops below DEPTH,
-the aborted session's depth.  Waiting for NO active minibuffer would be
-wrong: an abandoned outer session or a minibuffer on another frame can
-legitimately stay active forever, and with recursive minibuffers the
-relaunch simply opens on top of it.  Give up after ~2s."
-  (let ((tries (or tries 0)))
-    (cond
-     ((< (minibuffer-depth) depth)
-      (ck/minibuffer-edit--relaunch command args-var args dir input))
-     ((> tries 40)
-      (message "Search relaunch abandoned: the aborted search never exited"))
-     (t
-      (run-with-timer 0.05 nil #'ck/minibuffer-edit--relaunch-when-clear
-                      command args-var args dir input depth (1+ tries))))))
+(defun ck/minibuffer-edit--relaunch-session (session args input)
+  "Relaunch SESSION's command with ARGS and INPUT, closing the edit buffer."
+  (quit-window t)
+  (ck/minibuffer-edit--relaunch (plist-get session :command)
+                                (plist-get session :args-var)
+                                args
+                                (plist-get session :dir)
+                                input))
 
 (defun ck/minibuffer-input-edit-confirm ()
-  "Apply the edits: update the live session, or relaunch if args changed."
+  "Relaunch the captured command with the edited args and input."
   (interactive)
   (let* ((session ck/minibuffer-edit--session)
-         (mini (plist-get session :window))
          (args-var (plist-get session :args-var))
          (new-args (and args-var
                         (or (ck/minibuffer-edit--section
@@ -654,32 +673,15 @@ relaunch simply opens on top of it.  Give up after ~2s."
                    (delete "" (mapcar #'string-trim
                                       (split-string (buffer-string) "\n")))
                    " "))))
-    (unless (window-live-p mini)
-      (user-error "The minibuffer session is gone"))
-    (quit-window t)
-    (select-window mini)
-    ;; Compare whitespace-normalized: the stored args string can carry
-    ;; multi-space runs (setq line continuations) that the section
-    ;; parser's space-join collapses, which must not read as an edit.
-    (if (and args-var
-             (not (string= new-args
-                           (string-join (split-string (plist-get session :args))
-                                        " "))))
-        (progn
-          (run-with-timer 0.05 nil #'ck/minibuffer-edit--relaunch-when-clear
-                          (plist-get session :command) args-var new-args
-                          (plist-get session :dir) input (minibuffer-depth))
-          (abort-minibuffers))
-      (delete-minibuffer-contents)
-      (insert input))))
+    (ck/minibuffer-edit--relaunch-session session new-args input)))
 
 (defun ck/minibuffer-input-edit-abort ()
-  "Abandon the edit and return to the minibuffer unchanged."
+  "Abandon the edit and relaunch with the original args and input."
   (interactive)
-  (let ((mini (plist-get ck/minibuffer-edit--session :window)))
-    (quit-window t)
-    (when (window-live-p mini)
-      (select-window mini))))
+  (let ((session ck/minibuffer-edit--session))
+    (ck/minibuffer-edit--relaunch-session session
+                                          (plist-get session :args)
+                                          (plist-get session :input))))
 
 (general-define-key :keymaps 'minibuffer-local-map
  "M-e" #'ck/minibuffer-edit-input)
