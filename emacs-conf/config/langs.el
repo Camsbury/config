@@ -17,6 +17,7 @@
   idris
   js
   lisp
+  md
   nix
   org
   python

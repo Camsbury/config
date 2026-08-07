@@ -6,7 +6,6 @@
   epub
   files
   journal
-  markdown
   pdf
   vega)
 
