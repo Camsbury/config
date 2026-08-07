@@ -9,27 +9,21 @@
 
 (require 'prelude)
 (require 'lib/utils)
+(require 'config/services/eca/upstream)
 
 (declare-functions "eca-util"
-  eca-session
   eca-assert-session-running)
-(declare-functions "eca-api"
-  eca-api-request-sync)
-(declare-functions "eca-chat"
-  eca-chat--point-at-prompt-field-p
-  eca-chat--insert)
-(declare-vars eca-chat--id)
 
 (defun ck/eca-chat--all-commands ()
   "Return the ECA server's full command/skill/prompt catalog for this chat.
 Each entry is a plist with `:name', `:type', `:description', `:arguments'."
-  (let ((session (eca-session)))
+  (let ((session (ck/eca-upstream-session)))
     (eca-assert-session-running session)
     (append
-     (plist-get (eca-api-request-sync session
-                                      :method "chat/queryCommands"
-                                      :params (list :chatId eca-chat--id
-                                                    :query ""))
+     (plist-get (ck/eca-upstream-request-sync session
+                                              :method "chat/queryCommands"
+                                              :params (list :chatId (ck/eca-upstream-chat-id)
+                                                            :query ""))
                 :commands)
      nil)))
 
@@ -62,8 +56,8 @@ name out (point is left after the space, ready for any arguments)."
            (cmd (cdr (assoc sel table)))
            (name (plist-get cmd :name)))
       (when name
-        (unless (eca-chat--point-at-prompt-field-p)
+        (unless (ck/eca-upstream-point-at-prompt-field-p)
           (goto-char (point-max)))
-        (eca-chat--insert (concat "/" name " "))))))
+        (ck/eca-upstream-insert (concat "/" name " "))))))
 
 (provide 'config/services/eca/palette)

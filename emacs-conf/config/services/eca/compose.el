@@ -8,12 +8,8 @@
 ;; the plain text round-trips; add `@'-contexts in the chat buffer itself.
 
 (require 'prelude)
+(require 'config/services/eca/upstream)
 
-(declare-functions "eca-chat"
-  eca-chat--prompt-content
-  eca-chat--set-prompt
-  eca-chat--key-pressed-return)
-(declare-vars eca-chat--id)
 (declare-functions "markdown-mode" gfm-mode)
 (declare-functions "evil-states" evil-normal-state)
 (declare-functions "config/modes/prettify-mode" margin-cap-mode)
@@ -22,11 +18,11 @@
   "The `eca-chat-mode' buffer whose prompt this compose buffer edits.")
 
 (defvar-local ck/eca-compose--chat-id nil
-  "The `eca-chat--id' of the chat this compose buffer was spawned from.
+  "The chat id of the chat this compose buffer was spawned from.
 Chat tabs are separate buffers (the tab-line lists the session's chat
-buffers), each carrying its own stable buffer-local `eca-chat--id'.  We
-pin the compose to that id so a commit lands on the originating chat even
-after the user toggles the shared chat window to another tab.")
+buffers), each carrying its own stable buffer-local chat id.  We pin the
+compose to that id so a commit lands on the originating chat even after the
+user toggles the shared chat window to another tab.")
 
 (defun ck/eca-compose--buffer-name (chat-buffer)
   "Return the name of the compose buffer dedicated to CHAT-BUFFER.
@@ -66,9 +62,9 @@ the chat buffer."
   (unless (derived-mode-p 'eca-chat-mode)
     (user-error "Not in an ECA chat buffer"))
   (let* ((src (current-buffer))
-         (chat-id eca-chat--id)
+         (chat-id (ck/eca-upstream-chat-id))
          (win (selected-window))
-         (text (or (eca-chat--prompt-content) ""))
+         (text (or (ck/eca-upstream-prompt-content) ""))
          (buf (get-buffer-create (ck/eca-compose--buffer-name src))))
     (with-current-buffer buf
       (let ((inhibit-read-only t))
@@ -126,11 +122,11 @@ afterward."
     (unless (buffer-live-p src)
       (user-error "Source ECA chat buffer is gone"))
     ;; Pin to the chat this compose was spawned from.  The source buffer is
-    ;; a specific chat tab, and its `eca-chat--id' is stable for that tab's
-    ;; life, so a changed id means the buffer was recycled for a different
-    ;; chat; refuse rather than silently send to the wrong one.
+    ;; a specific chat tab, and its chat id is stable for that tab's life, so
+    ;; a changed id means the buffer was recycled for a different chat; refuse
+    ;; rather than silently send to the wrong one.
     (when (and chat-id
-               (not (equal chat-id (buffer-local-value 'eca-chat--id src))))
+               (not (equal chat-id (ck/eca-upstream-chat-id src))))
       (user-error "Source ECA chat changed; aborting to avoid wrong target"))
     (when (and send (string-empty-p text))
       (user-error "Refusing to send an empty prompt"))
@@ -138,14 +134,14 @@ afterward."
       ;; Fill the prompt, then route through the same dispatcher RET uses so a
       ;; composed message behaves like one typed at the prompt: it answers a
       ;; pending freeform question, steers/queues while the chat is loading, or
-      ;; sends when idle.  A bare `eca-chat--send-prompt' is only the idle-send
-      ;; branch and skips the question and steer handling.  Move point into the
+      ;; sends when idle.  The bare idle-send path only sends and skips the
+      ;; question and steer handling.  Move point into the
       ;; prompt field first so the dispatcher's earlier point-dependent branches
       ;; (button / expandable / link at point) cannot fire.
-      (eca-chat--set-prompt text)
+      (ck/eca-upstream-set-prompt text)
       (when send
         (goto-char (point-max))
-        (eca-chat--key-pressed-return)))
+        (ck/eca-upstream-send-return)))
     (when (buffer-live-p compose)
       (kill-buffer compose))
     (when-let* ((win (get-buffer-window src t)))

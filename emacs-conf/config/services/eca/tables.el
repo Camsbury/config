@@ -6,12 +6,11 @@
 
 (require 'prelude)
 (require 'cl-lib)
+(require 'config/services/eca/upstream)
 
 (declare-functions "eca-table"
   eca-table-align
   eca-table-beautify)
-(declare-functions "eca-chat"
-  eca-chat--prompt-area-start-point)
 (declare-functions "markdown-mode"
   markdown-table-at-point-p
   markdown-table-begin
@@ -77,22 +76,22 @@ scopes to just the new turn instead."
     (user-error "Not in an ECA chat buffer"))
   (let ((inhibit-read-only t)
         (beg (or beg (point-min)))
-        (end (or end (eca-chat--prompt-area-start-point))))
+        (end (or end (ck/eca-upstream-prompt-area-start-point))))
     (eca-table-align beg end)
     (when (bound-and-true-p eca-chat-table-beautify)
       (eca-table-beautify beg end))))
 
 (defun ck/eca-chat--auto-align-tables ()
   "Re-align the just-finished turn's tables on response completion.
-Scoped to the finished turn (from `eca-chat--last-user-message-pos', mirroring
-`ck/eca-chat--auto-preview-latex' and ECA's own end-of-stream scoping) so cost
-does not grow with chat history.  A whole-buffer align runs ECA's O(history)
-aligner and froze Emacs ~1.3s on large chats."
+Scoped to the finished turn (from the chat's last-user-message position,
+mirroring `ck/eca-chat--auto-preview-latex' and ECA's own end-of-stream
+scoping) so cost does not grow with chat history.  A whole-buffer align runs
+ECA's O(history) aligner and froze Emacs ~1.3s on large chats."
   (when (and ck/eca-chat-auto-align-tables (derived-mode-p 'eca-chat-mode))
     (ignore-errors
       (ck/eca-chat-align-tables
-       (or (bound-and-true-p eca-chat--last-user-message-pos) (point-min))
-       (eca-chat--prompt-area-start-point)))))
+       (or (ck/eca-upstream-last-user-message-pos) (point-min))
+       (ck/eca-upstream-prompt-area-start-point)))))
 
 ;;; Table wrapping (dedicated reading view) ---------------------------------
 ;;
@@ -136,9 +135,7 @@ Tries markdown-mode detection, then ECA's table overlays, then a direct
 line scan so it still works when markdown-mode fails to see the table."
   (or (and (markdown-table-at-point-p)
            (cons (markdown-table-begin) (markdown-table-end)))
-      (when-let* ((ov (seq-find (lambda (o)
-                                  (or (overlay-get o 'eca-table-action)
-                                      (overlay-get o 'eca-table-overlay)))
+      (when-let* ((ov (seq-find #'ck/eca-upstream-table-overlay-p
                                 (overlays-at (point)))))
         (cons (overlay-start ov) (overlay-end ov)))
       (ck/eca-chat--table-bounds-by-scan)))

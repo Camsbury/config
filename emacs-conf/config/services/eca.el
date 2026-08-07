@@ -35,13 +35,14 @@
 
 ;;; Server version pin -------------------------------------------------------
 ;; Left to itself, eca-emacs floats the server to GitHub's newest release on
-;; every startup (`eca-process--get-latest-server-version').  We pin it so the
+;; every startup (its "latest server version" lookup).  We pin it so the
 ;; server moves only when we say so, in lockstep with the eca-emacs client
 ;; pinned in nix-conf/overlays/emacs.nix.  This value and that overlay are
 ;; rewritten together by scripts/update-eca.bb; do not hand-edit one alone.
-;; The override below makes the pin the ONE source of truth: the download
-;; decision, the release URL, and the on-disk eca-version marker all use it,
-;; so they can never disagree (the drift that stranded us on a stale binary).
+;; The adapter override (registered after the require list below) makes the
+;; pin the ONE source of truth: the download decision, the release URL, and
+;; the on-disk eca-version marker all use it, so they can never disagree (the
+;; drift that stranded us on a stale binary).
 (defvar ck/eca-server-version "0.153.0"
   "Pinned eca server version (a github.com/editor-code-assistant/eca release tag).")
 
@@ -50,6 +51,7 @@
   ck/eca-server-version)
 
 (m-require config/services/eca
+  upstream
   latex
   tables
   deferred-render
@@ -65,6 +67,14 @@
   nav
   colors
   keys)
+
+;; Register the server-version pin through the adapter (see the defvar/defun
+;; above).  The adapter installs the `:override' on eca's "latest server
+;; version" lookup, so eca never contacts GitHub to decide "latest".  This
+;; lives here rather than in a satellite because the pin is aggregator-owned
+;; (rewritten in lockstep with nix-conf/overlays/emacs.nix by
+;; scripts/update-eca.bb).
+(ck/eca-upstream-set-server-version-source #'ck/eca--pinned-server-version)
 
 (declare-vars eca-chat-mode-map)
 
@@ -122,41 +132,17 @@
   ;; next command after leaving it dispatches the deferred bounded replay.
   (add-hook 'post-command-hook #'ck/eca-chat--schedule-window-dispatch)
 
-  (advice-add 'eca-process-stop :after #'ck/eca--sweep-closed-buffers)
-  (advice-add 'eca-chat-exit    :after #'ck/eca--sweep-closed-buffers)
-
-  ;; Make the context-usage bar inherit the doom theme instead of the
-  ;; server-sent hex colors: strip the per-category `:color' / free
-  ;; `:freeColor' before these resolvers see them, so they fall through to
-  ;; the client faces (themed in `config/theme/doom-*.edn' ->
-  ;; `eca-chat-context-*-face').  See eca/colors.el.
-  (dolist (fn '(eca-chat--context-category-color
-                eca-chat--context-category-face-spec))
-    (advice-add fn :filter-args #'ck/eca--strip-cat-color))
-  (dolist (fn '(eca-chat--context-free-color
-                eca-chat--context-free-face-spec))
-    (advice-add fn :filter-args #'ck/eca--strip-free-color))
-  ;; ...and strip the server emoji swatches from the hover legend so its
-  ;; swatches fall back to the same themed block the bar uses (see
-  ;; eca/colors.el); otherwise the tooltip shows the server emoji palette
-  ;; while the bar shows the doom theme.
-  (advice-add 'eca-chat--context-bar-help
-              :filter-args #'ck/eca--strip-help-emoji)
-
-  ;; Memoize the per-redisplay pending-approval scan so the mode line and tab
-  ;; line stop walking every chat buffer on every frame.  See eca/pending.el.
-  (advice-add 'eca-chat--has-pending-approvals-p
-              :override #'ck/eca-chat--has-pending-approvals-p)
-
-  ;; Only follow the stream (yank point to the bottom + recenter) while point
-  ;; is in the prompt field; reading up in the transcript mid-stream leaves the
-  ;; cursor put.  See eca/scroll.el.
-  (advice-add 'eca-chat--ensure-prompt-visible
-              :before-while #'ck/eca-chat--follow-only-in-prompt)
-  ;; Pin the server version (see the defvar above); :override so eca never
-  ;; contacts GitHub to decide "latest".
-  (advice-add 'eca-process--get-latest-server-version
-              :override #'ck/eca--pinned-server-version)
+  ;; Every advice on an eca internal is owned by the ECA upstream adapter
+  ;; (eca/upstream.el); each satellite self-registers its handler through the
+  ;; adapter's extension points at its own load time (before this deferred
+  ;; package loads, so the adapter's dispatch advice attaches to the not-yet-
+  ;; defined upstream symbol and applies once eca defines it):
+  ;;   - closed-buffer sweep on chat/process wind-down  -> eca/tabs.el
+  ;;   - context-bar color + hover-emoji strip          -> eca/colors.el
+  ;;   - memoized pending-approval scan                 -> eca/pending.el
+  ;;   - prompt-follow stream scroll gate               -> eca/scroll.el
+  ;; The server-version pin has no satellite home, so it is registered from
+  ;; this aggregator right after the require list above.
 
   ;; `C-c C-c' toggles the prompt into (and, from the compose buffer, back
   ;; out of) a dedicated edit buffer -- one chord either direction.  Bound

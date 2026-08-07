@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 ;;; O(1) pending-approval check ----------------------------------------------
 ;;
-;; `eca-chat--has-pending-approvals-p' walks the chat buffer with
+;; ECA's per-redisplay pending-approval scan walks the chat buffer with
 ;; `text-property-search-forward' from `point-min'.  With nothing pending (the
 ;; common case) it finds no match and scans all the way to `point-max'.  The
 ;; mode line and, worse, the tab line call it on every redisplay -- the tab
@@ -16,29 +16,30 @@
 ;; the cached answer can never be stale.  Idle chats (stable tick) collapse to
 ;; O(1); only the one actively streaming buffer rescans, and only itself.
 ;;
-;; Wired as an `:override' advice in the aggregator's `use-package eca' body,
-;; alongside the other eca advices.
+;; The raw full-buffer scan lives behind the adapter
+;; (`ck/eca-upstream-buffer-has-pending-approval-p'); this file only memoizes
+;; it and self-registers as the adapter's pending-approval check at the bottom
+;; (the adapter owns the underlying `:override').
 
 (require 'prelude)
+(require 'config/services/eca/upstream)
 
 (defvar-local ck/eca-chat--pending-cache nil
   "Memo cons (CHARS-MODIFIED-TICK . RESULT) for the pending-approval scan.")
 
 (defun ck/eca-chat--has-pending-approvals-p ()
   "Return non-nil if the current chat buffer has a pending approval.
-Drop-in `:override' for `eca-chat--has-pending-approvals-p' that
-memoizes its full-buffer text-property scan on
-`buffer-chars-modified-tick', so redisplay stops re-scanning idle
-transcripts on every frame."
+Registered as the adapter's pending-approval check; memoizes the adapter's
+full-buffer text-property scan on `buffer-chars-modified-tick', so redisplay
+stops re-scanning idle transcripts on every frame."
   (let ((tick (buffer-chars-modified-tick)))
     (if (eql (car ck/eca-chat--pending-cache) tick)
         (cdr ck/eca-chat--pending-cache)
-      (let ((result (save-excursion
-                      (goto-char (point-min))
-                      (and (text-property-search-forward
-                            'eca-tool-call-pending-approval-accept t t)
-                           t))))
+      (let ((result (ck/eca-upstream-buffer-has-pending-approval-p)))
         (setq ck/eca-chat--pending-cache (cons tick result))
         result))))
+
+;; Self-register the memoized check at load time through the adapter.
+(ck/eca-upstream-set-pending-approvals-check #'ck/eca-chat--has-pending-approvals-p)
 
 (provide 'config/services/eca/pending)

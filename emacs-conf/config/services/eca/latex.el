@@ -24,6 +24,7 @@
 
 (require 'prelude)
 (require 'color)
+(require 'config/services/eca/upstream)
 
 (defcustom ck/eca-chat-latex-image-dir
   (expand-file-name "eca-ltximg/" user-emacs-directory)
@@ -321,13 +322,14 @@ result when they finish (the sentinel checks the overlay is still live)."
 
 (defun ck/eca-chat--auto-preview-latex ()
   "Render LaTeX on response completion when `ck/eca-chat-auto-latex' is set.
-Scoped to the just-finished turn (mirroring ECA's own end-of-stream
-scoping) so cost does not grow with chat history and so turns the user
-manually cleared are not re-rendered."
+Scoped to the just-finished turn (from the chat's last-user-message
+position, mirroring ECA's own end-of-stream scoping) so cost does not grow
+with chat history and so turns the user manually cleared are not
+re-rendered."
   (when (and ck/eca-chat-auto-latex (derived-mode-p 'eca-chat-mode))
     (ignore-errors
       (ck/eca-chat-preview-latex
-       (or (bound-and-true-p eca-chat--last-user-message-pos) (point-min))
+       (or (ck/eca-upstream-last-user-message-pos) (point-min))
        (point-max)))))
 
 (provide 'config/services/eca/latex)

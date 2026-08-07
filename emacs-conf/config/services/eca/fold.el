@@ -14,22 +14,14 @@
 ;;
 ;; Wired to TAB / shift-TAB (and the block navigators to `M-j' / `M-k') in the
 ;; `eca-chat-mode-map' section of the eca aggregator's `use-package' `:config'.
+;; Every block-overlay touch goes through the ECA upstream adapter.
 
 (require 'prelude)
-
-(declare-functions "eca-chat"
-  eca-chat--expandable-content-at-point-dwim
-  eca-chat--expandable-content-toggle
-  eca-chat--prompt-context-field-ov)
+(require 'config/services/eca/upstream)
 
 ;; markdown-mode buffer-local, set to t by eca-chat-mode.  Declared so the
 ;; size-gate below can flip it off without a free-variable warning.
 (declare-vars markdown-fontify-code-blocks-natively)
-
-(defun ck/eca--block-overlays ()
-  "Return every currently-rendered expandable-block label overlay."
-  (-filter (lambda (ov) (overlay-get ov 'eca-chat--expandable-content-id))
-           (overlays-in (point-min) (point-max))))
 
 ;;; Reveal-load size gate ---------------------------------------------------
 ;;
@@ -39,11 +31,11 @@
 ;; big tool-result block (measured up to ~400KB here) that stalls redisplay,
 ;; and since Emacs is the window manager the whole desktop freezes -- the same
 ;; path can also SIGSEGV the session (see eca/crash.el).  Each block stashes
-;; its text off-buffer in its `-segments' / `-ov-content' overlay properties,
-;; so we can size a block BEFORE revealing it and, when it is large, turn
-;; native code fontify off for the buffer first.  The reveal then renders as
-;; fast plain monospace (losing only per-language + native-diff coloring on
-;; that chat); normal small blocks are untouched.
+;; its text off-buffer in its stored segment / overlay-content, so we can size
+;; a block BEFORE revealing it and, when it is large, turn native code fontify
+;; off for the buffer first.  The reveal then renders as fast plain monospace
+;; (losing only per-language + native-diff coloring on that chat); normal
+;; small blocks are untouched.
 
 (defcustom ck/eca-fold-native-fontify-max-bytes 50000
   "Stored-content byte ceiling for unfolding with native code fontify on.
@@ -87,14 +79,8 @@ tame.  An explicit stack bounds depth by the heap instead."
 
 (defun ck/eca--block-content-bytes (ov)
   "Stored-content byte count for block label overlay OV, without opening it."
-  (max (ck/eca--tree-string-bytes
-        (overlay-get ov 'eca-chat--expandable-content-segments))
-       (ck/eca--tree-string-bytes
-        (overlay-get ov 'eca-chat--expandable-content-ov-content))))
-
-(defun ck/eca--block-open-p (ov)
-  "Non-nil when block label overlay OV is currently expanded."
-  (and (overlay-get ov 'eca-chat--expandable-content-toggle) t))
+  (max (ck/eca--tree-string-bytes (ck/eca-upstream-block-segments ov))
+       (ck/eca--tree-string-bytes (ck/eca-upstream-block-ov-content ov))))
 
 (defun ck/eca--fold-desensitize (reason)
   "Turn native code-block fontify off in this chat buffer, once, loudly.
@@ -112,18 +98,17 @@ from anywhere within its content, not only from its header line.
 Outside any block keep the stock TAB behavior: context completion in
 the prompt, else nothing."
   (interactive)
-  (if-let* ((ov (eca-chat--expandable-content-at-point-dwim)))
+  (if-let* ((ov (ck/eca-upstream-block-at-point)))
       (let ((bytes (ck/eca--block-content-bytes ov)))
         ;; About to OPEN a large block -> desensitize before the reveal, so
         ;; the incoming mass fontifies as cheap monospace, not a session
         ;; freeze.  Collapsing (already open) only shrinks the load; skip it.
-        (when (and (not (ck/eca--block-open-p ov))
+        (when (and (not (ck/eca-upstream-block-open-p ov))
                    (> bytes ck/eca-fold-native-fontify-max-bytes))
           (ck/eca--fold-desensitize (format "%dKB block" (/ bytes 1024))))
-        (eca-chat--expandable-content-toggle
-         (overlay-get ov 'eca-chat--expandable-content-id)))
+        (ck/eca-upstream-toggle-block (ck/eca-upstream-block-id ov)))
     (cond
-     ((and (eca-chat--prompt-context-field-ov) (eolp))
+     ((and (ck/eca-upstream-prompt-context-field-ov) (eolp))
       (completion-at-point))
      (t t))))
 
@@ -135,21 +120,18 @@ flips the whole conversation between dense and detailed.  Expanding
 sweeps to a fixpoint (each id tried once) so nested blocks revealed by
 opening their parent open too, without looping on content-less blocks."
   (interactive)
-  (if (seq-some (lambda (ov)
-                  (overlay-get ov 'eca-chat--expandable-content-toggle))
-                (ck/eca--block-overlays))
+  (if (seq-some #'ck/eca-upstream-block-open-p (ck/eca-upstream-block-overlays))
       ;; Any open -> collapse. Collapsing a parent destroys its children, so a
       ;; single pass over the open blocks suffices.
-      (dolist (ov (ck/eca--block-overlays))
-        (when (overlay-get ov 'eca-chat--expandable-content-toggle)
-          (eca-chat--expandable-content-toggle
-           (overlay-get ov 'eca-chat--expandable-content-id) t t)))
+      (dolist (ov (ck/eca-upstream-block-overlays))
+        (when (ck/eca-upstream-block-open-p ov)
+          (ck/eca-upstream-toggle-block (ck/eca-upstream-block-id ov) t t)))
     ;; None open -> expand to a fixpoint.  Bulk-revealing every block is the
     ;; worst reveal load in the UI, so gate on the total stored bytes first:
     ;; desensitize the buffer past the per-block ceiling, and confirm before a
     ;; genuinely huge dump (megabytes of collapsed tool output at once).
     (let ((total (apply #'+ (mapcar #'ck/eca--block-content-bytes
-                                    (ck/eca--block-overlays)))))
+                                    (ck/eca-upstream-block-overlays)))))
       (when (> total ck/eca-fold-native-fontify-max-bytes)
         (ck/eca--fold-desensitize (format "expand-all %dKB" (/ total 1024))))
       (when (or (<= total ck/eca-fold-expand-all-confirm-bytes)
@@ -163,12 +145,12 @@ opening their parent open too, without looping on content-less blocks."
               (changed t))
           (while changed
             (setq changed nil)
-            (dolist (ov (ck/eca--block-overlays))
-              (let ((id (overlay-get ov 'eca-chat--expandable-content-id)))
+            (dolist (ov (ck/eca-upstream-block-overlays))
+              (let ((id (ck/eca-upstream-block-id ov)))
                 (unless (or (gethash id seen)
-                            (overlay-get ov 'eca-chat--expandable-content-toggle))
+                            (ck/eca-upstream-block-open-p ov))
                   (puthash id t seen)
-                  (eca-chat--expandable-content-toggle id t nil)
+                  (ck/eca-upstream-toggle-block id t nil)
                   (setq changed t))))))))))
 
 (provide 'config/services/eca/fold)

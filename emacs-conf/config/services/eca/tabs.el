@@ -3,15 +3,10 @@
 
 (require 'prelude)
 (require 'cl-lib)
+(require 'config/services/eca/upstream)
 
 (declare-functions "eca-util"
-  eca-session
   eca-assert-session-running)
-(declare-functions "eca-chat"
-  eca-chat--switch-windows-to-sibling)
-(declare-functions "eca-api"
-  eca-api-request-sync)
-(declare-vars eca-chat--id eca-chat--closed)
 
 ;;; Tab management -----------------------------------------------------------
 ;;
@@ -29,10 +24,10 @@ hard no, so the chat can still be resumed later."
   (interactive)
   (unless (derived-mode-p 'eca-chat-mode)
     (user-error "Not in an ECA chat buffer"))
-  ;; `eca-chat--delete-chat' (on `kill-buffer-hook') only runs its cleanup
-  ;; when `this-command' looks like a kill, and it prompts via `yes-or-no-p'
-  ;; about server-side deletion; the chat buffer visits no file, so no other
-  ;; prompt can be swallowed by the stub.
+  ;; ECA's `kill-buffer-hook' cleanup only runs when `this-command' looks
+  ;; like a kill, and it prompts via `yes-or-no-p' about server-side
+  ;; deletion; the chat buffer visits no file, so no other prompt can be
+  ;; swallowed by the stub.
   (cl-letf (((symbol-function 'yes-or-no-p) (lambda (&rest _) nil)))
     (let ((this-command 'kill-buffer))
       (kill-buffer (current-buffer)))))
@@ -44,21 +39,21 @@ not the session's last-visited one.  Never prompts."
   (interactive)
   (unless (derived-mode-p 'eca-chat-mode)
     (user-error "Not in an ECA chat buffer"))
-  (let ((session (eca-session))
+  (let ((session (ck/eca-upstream-session))
         (buffer (current-buffer))
-        (chat-id eca-chat--id))
+        (chat-id (ck/eca-upstream-chat-id)))
     (eca-assert-session-running session)
     (if (not chat-id)
         (ck/eca-chat-close-tab)
       ;; Mark closed so the kill-buffer hook neither prompts nor sends a
       ;; second chat/delete; switch windows to a sibling chat first so the
       ;; chat window keeps showing a chat.
-      (setq-local eca-chat--closed t)
-      (eca-chat--switch-windows-to-sibling session buffer)
+      (ck/eca-upstream-mark-chat-closed)
+      (ck/eca-upstream-switch-windows-to-sibling session buffer)
       (unwind-protect
-          (eca-api-request-sync session
-                                :method "chat/delete"
-                                :params (list :chatId chat-id))
+          (ck/eca-upstream-request-sync session
+                                        :method "chat/delete"
+                                        :params (list :chatId chat-id))
         (when (buffer-live-p buffer)
           (kill-buffer buffer))))))
 
@@ -66,8 +61,9 @@ not the session's last-visited one.  Never prompts."
 ;;
 ;; ECA renames buffers for dead sessions to "<eca ...:closed ...>" instead of
 ;; killing them, so chat and process-stderr buffers pile up across restarts.
-;; Sweep them whenever a session winds down: after `eca-process-stop', after
-;; `eca-chat-exit', and when a chat buffer is killed by hand.
+;; Sweep them whenever a session winds down: on the adapter's chat-teardown
+;; hook (after a chat/process winds down) and when a chat buffer is killed by
+;; hand.
 
 (defvar ck/eca--sweeping nil
   "Reentrancy guard for `ck/eca--sweep-closed-buffers'.
@@ -86,5 +82,9 @@ the guard it would recurse into itself.")
 (defun ck/eca--sweep-on-chat-kill ()
   "Arrange a closed-buffer sweep when the current chat buffer is killed."
   (add-hook 'kill-buffer-hook #'ck/eca--sweep-closed-buffers nil t))
+
+;; Self-register the sweep on the adapter's chat-teardown hook at load time
+;; (the adapter owns the underlying `:after' advice on the wind-down paths).
+(ck/eca-upstream-add-chat-teardown-hook #'ck/eca--sweep-closed-buffers)
 
 (provide 'config/services/eca/tabs)

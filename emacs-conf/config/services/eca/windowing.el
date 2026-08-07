@@ -14,19 +14,7 @@
 
 (require 'prelude)
 (require 'cl-lib)
-
-(declare-functions "eca" eca-session)
-(declare-functions "eca-api" eca-api-request-async)
-(declare-functions "eca-chat"
-  eca-chat--apply-history-meta
-  eca-chat--prompt-field-start-point
-  eca-chat--protect-non-prompt
-  eca-chat--refresh-load-older-control
-  eca-chat--set-prompt)
-(declare-vars eca-chat--id
-              eca-chat--chat-loading
-              eca-chat--history-loading
-              eca-chat--pending-question)
+(require 'config/services/eca/upstream)
 
 (defcustom ck/eca-chat-render-max-bytes (* 128 1024)
   "Rendered chat size above which the local transcript is re-windowed.
@@ -54,10 +42,10 @@ an active turn has finished and never while the chat is selected."
   (and (buffer-live-p buffer)
        (with-current-buffer buffer
          (and (derived-mode-p 'eca-chat-mode)
-              eca-chat--id
-              (not eca-chat--chat-loading)
-              (not eca-chat--history-loading)
-              (not eca-chat--pending-question)
+              (ck/eca-upstream-chat-id buffer)
+              (not (ck/eca-upstream-chat-loading-p buffer))
+              (not (ck/eca-upstream-history-loading-p buffer))
+              (not (ck/eca-upstream-pending-question buffer))
               (> (buffer-size) ck/eca-chat-render-max-bytes)))))
 
 (defun ck/eca-chat--safe-to-window-p (buffer)
@@ -103,7 +91,7 @@ an active turn has finished and never while the chat is selected."
 
 (defun ck/eca-chat--prompt-text ()
   "Return the current prompt text without properties, or nil."
-  (when-let* ((start (eca-chat--prompt-field-start-point)))
+  (when-let* ((start (ck/eca-upstream-prompt-field-start-point)))
     (buffer-substring-no-properties start (point-max))))
 
 (defun ck/eca-chat--finish-window (buffer)
@@ -118,11 +106,11 @@ an active turn has finished and never while the chat is selected."
     (when-let* ((buffer (ck/eca-chat--next-window-buffer)))
       (setq ck/eca-chat--window-active buffer)
       (with-current-buffer buffer
-        (let ((session (eca-session))
-              (chat-id eca-chat--id)
+        (let ((session (ck/eca-upstream-session))
+              (chat-id (ck/eca-upstream-chat-id))
               (prompt (ck/eca-chat--prompt-text))
               (old-size (buffer-size)))
-          (eca-api-request-async
+          (ck/eca-upstream-request-async
            session
            :method "chat/open"
            :params (append (list :chatId chat-id)
@@ -134,11 +122,11 @@ an active turn has finished and never while the chat is selected."
                (with-current-buffer buffer
                  (if (not (plist-get res :found?))
                      (message "eca: could not re-window chat %s" chat-id)
-                   (eca-chat--apply-history-meta (plist-get res :meta))
-                   (eca-chat--refresh-load-older-control)
-                   (eca-chat--protect-non-prompt)
+                   (ck/eca-upstream-apply-history-meta (plist-get res :meta))
+                   (ck/eca-upstream-refresh-load-older-control)
+                   (ck/eca-upstream-protect-non-prompt)
                    (when (and prompt (not (string-empty-p prompt)))
-                     (eca-chat--set-prompt prompt))
+                     (ck/eca-upstream-set-prompt prompt))
                    (message "eca: transcript window %dKB -> %dKB"
                             (/ old-size 1024) (/ (buffer-size) 1024)))))
              (ck/eca-chat--finish-window buffer))

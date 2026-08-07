@@ -7,45 +7,39 @@
 ;;
 ;;   - A session's chats are tab-line tabs sharing ONE window; only the
 ;;     selected tab is that window's buffer, but a background tab can still
-;;     need attention (its `eca-chat--pending-question' / pending-approval
+;;     need attention (its `ck/eca-upstream-pending-question' / pending-approval
 ;;     state is buffer-local and lives whether or not the tab is visible).
 ;;   - ECA never pins a session to an EXWM workspace; a session's location is
 ;;     simply wherever its one window currently sits.
 ;;
 ;; So we locate by SESSION, not by the target buffer: if the session's window
 ;; exists on any frame, switch to that EXWM workspace and toggle its tab to
-;; the target (reusing `eca-chat--switch-to-buffer' plus this file's
+;; the target (reusing `ck/eca-upstream-switch-to-buffer' plus this file's
 ;; `ck/eca-display-reuse-same-workspace-window' display action, which swaps
 ;; the tab in place).  If the session has no window anywhere, the same call
 ;; falls through `display-buffer-alist' to a fresh left pane in the current
-;; workspace.  We reuse ECA's own `eca-chat--needs-attention-p' predicate and
-;; delegate the `last-chat-buffer' bookkeeping to `eca-chat--switch-to-buffer'
-;; (so we never `setf' a struct slot -- avoiding the native-comp setf-expander
-;; trap that would bake a call to a nonexistent setter into the cached .eln).
+;; workspace.  We reuse ECA's own `ck/eca-upstream-needs-attention-p' predicate
+;; and delegate the `last-chat-buffer' bookkeeping to
+;; `ck/eca-upstream-switch-to-buffer' (so we never `setf' a struct slot --
+;; avoiding the native-comp setf-expander trap that would bake a call to a
+;; nonexistent setter into the cached .eln).
 
 (require 'prelude)
 (require 'cl-lib)
+(require 'config/services/eca/upstream)
 
-(declare-functions "eca-chat"
-  eca-chat--needs-attention-p
-  eca-chat--switch-to-buffer)
-(declare-functions "eca-util"
-  eca-vals
-  eca-info
-  eca--session-id
-  eca--session-chats)
 (declare-functions "exwm-workspace" exwm-workspace-switch)
-(declare-vars eca--sessions eca-chat--chat-loading exwm-workspace--list)
+(declare-vars exwm-workspace--list)
 
 (defun ck/eca--sessions-ordered ()
   "Return all ECA sessions ordered by creation id (stable across calls)."
-  (when (boundp 'eca--sessions)
-    (sort (copy-sequence (eca-vals eca--sessions))
-          (lambda (a b) (< (eca--session-id a) (eca--session-id b))))))
+  (sort (copy-sequence (ck/eca-upstream-sessions))
+        (lambda (a b) (< (ck/eca-upstream-session-id a)
+                         (ck/eca-upstream-session-id b)))))
 
 (defun ck/eca--session-chats (session)
   "Return SESSION's chat buffers in tab order (oldest-first)."
-  (reverse (eca-vals (eca--session-chats session))))
+  (reverse (ck/eca-upstream-session-chats session)))
 
 (defun ck/eca--entries ()
   "Return a flat list of (SESSION . BUFFER) for every live chat.
@@ -62,8 +56,8 @@ These are the chats you can immediately send a new message to."
   (and (buffer-live-p buffer)
        (with-current-buffer buffer
          (and (derived-mode-p 'eca-chat-mode)
-              (not eca-chat--chat-loading)
-              (not (eca-chat--needs-attention-p buffer))))))
+              (not (ck/eca-upstream-chat-loading-p buffer))
+              (not (ck/eca-upstream-needs-attention-p buffer))))))
 
 (defun ck/eca--rotate (pred &optional backward)
   "Return the next (SESSION . BUFFER) whose buffer satisfies PRED.
@@ -97,6 +91,9 @@ floating child frame), and no-ops the switch when WIN is already on the
 selected frame."
   (let ((frame (window-frame win)))
     (unless (eq frame (selected-frame))
+      ;; `exwm-workspace--list' is an EXWM boundary crossing, deliberately
+      ;; outside the ECA Upstream Adapter; a future band-model module absorbs
+      ;; it.
       (if (and (boundp 'exwm-workspace--list)
                (memq frame exwm-workspace--list)
                (fboundp 'exwm-workspace-switch))
@@ -108,12 +105,12 @@ selected frame."
 (defun ck/eca--reveal (session buffer)
   "Reveal chat BUFFER of SESSION and put focus on it.
 If SESSION already has a window somewhere, hop to that EXWM workspace
-first, then let `eca-chat--switch-to-buffer' (via `display-buffer-alist')
+first, then let `ck/eca-upstream-switch-to-buffer' (via `display-buffer-alist')
 toggle the tab in place; otherwise it opens a fresh pane in the current
 workspace."
   (when-let* ((win (ck/eca--session-window session)))
     (ck/eca--exwm-goto-window win))
-  (eca-chat--switch-to-buffer buffer session)
+  (ck/eca-upstream-switch-to-buffer buffer session)
   (when-let* ((win (get-buffer-window buffer t)))
     (select-window win)))
 
@@ -124,7 +121,7 @@ works before any session buffer is current."
   (require 'eca-chat)
   (if-let* ((entry (ck/eca--rotate pred backward)))
       (ck/eca--reveal (car entry) (cdr entry))
-    (eca-info none-msg)))
+    (ck/eca-upstream-info none-msg)))
 
 ;;;###autoload
 (defun ck/eca-jump-to-attention ()
@@ -133,14 +130,14 @@ A chat waits when it has a pending tool-call approval or an unanswered
 question.  Lands in the chat's own EXWM workspace when it is already
 open there, otherwise opens it as a pane in the current workspace."
   (interactive)
-  (ck/eca--jump #'eca-chat--needs-attention-p nil
+  (ck/eca--jump #'ck/eca-upstream-needs-attention-p nil
                 "No ECA chat needs attention"))
 
 ;;;###autoload
 (defun ck/eca-jump-to-attention-back ()
   "Like `ck/eca-jump-to-attention' but rotating in the opposite direction."
   (interactive)
-  (ck/eca--jump #'eca-chat--needs-attention-p t
+  (ck/eca--jump #'ck/eca-upstream-needs-attention-p t
                 "No ECA chat needs attention"))
 
 ;;;###autoload
