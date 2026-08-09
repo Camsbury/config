@@ -174,62 +174,38 @@ to the Emacs frame's black background over a still-rendering game."
 ;;
 ;; Verification caveat: the crash is intermittent and not reproducible on
 ;; demand, so this fix cannot be positively proven.  It is deterministic in
-;; mechanism, low-risk, and confined to config.  See
-;; `.eca/docs/todos.md' (BUG-2) and the decision doc.
+;; mechanism, low-risk, and confined to config.
 ;;
-;; TEMPORARY monitoring (remove once confident): until the coredump record
-;; empirically confirms the fix (weeks with no new `window--delete' SIGSEGV
-;; core), each managed-window unmanage logs one crash-surviving line to
-;; `~/.cache/cmacs/bug2-test.log' -- timestamp, X id, WM_CLASS class/instance,
-;; and whether the advice saw a floating frame; floating closes add the
-;; round-trip outcome.  It logs NO window titles, buffer contents, or
-;; keystrokes (apps are separate X clients).  Live-verified 2026-07-06: the
-;; real Bitwarden popup (`class=firefox inst=Navigator floating=t') drained
-;; and the session survived.  Retire this probe (drop `ck/bug2-test-log' and
-;; the logging in the advice) when BUG-2 is closed; tracked in `todos.md'.
-
-(defun ck/bug2-test-log (fmt &rest args)
-  "Append a timestamped line to the crash-surviving BUG-2 monitor log.
-TEMPORARY (see the commentary above): each line is flushed to disk
-immediately so it survives a session death.  Errors here are swallowed so
-logging can never affect window teardown."
-  (ignore-errors
-    (let ((line (concat (format-time-string "%F %T.%3N ")
-                        (apply #'format fmt args) "\n"))
-          (file (expand-file-name "~/.cache/cmacs/bug2-test.log")))
-      (make-directory (file-name-directory file) t)
-      (let ((coding-system-for-write 'utf-8-unix))
-        (write-region line nil file t 'no-message)))))
+;; Empirical outcome
+;; -----------------
+;; A temporary disk-backed probe logged every unmanage (and every floating
+;; drain) from 2026-07-06 to 2026-08-08.  Over those 33 days: 143 floating
+;; closes, every one draining cleanly, zero round-trip errors, including 12
+;; closes of the original reproducer class (`firefox'/`Navigator', the
+;; Bitwarden popup).  The coredump record shows no Emacs SIGSEGV core at all
+;; in that span, against 12 in the 58 days before the fix (an unchanged
+;; crash rate would have produced ~7).  The probe was retired 2026-08-08;
+;; only the fix below remains.
 
 (defun ck/exwm--unmanage-drain-x (orig-fn id &rest args)
   "Around advice for `exwm-manage--unmanage-window' fixing BUG-2.
 When the window being unmanaged had a floating frame, force one X round-trip
 after ORIG-FN's destroy burst so the pending X events drain before the
-deferred `kill-buffer' runs `delete-frame'.  See the commentary above.
-Also logs each invocation + the round-trip outcome via `ck/bug2-test-log'
-(TEMPORARY monitoring, remove once BUG-2 is empirically closed)."
+deferred `kill-buffer' runs `delete-frame'.  See the commentary above."
   (let* ((buf (exwm--id->buffer id))
-         (floating-p (when buf (buffer-local-value 'exwm--floating-frame buf)))
-         (cls  (when buf (buffer-local-value 'exwm-class-name buf)))
-         (inst (when buf (buffer-local-value 'exwm-instance-name buf))))
-    (ck/bug2-test-log "ENTER unmanage id=#x%x class=%s inst=%s floating=%s"
-                      id cls inst (and floating-p t))
+         (floating-p (when buf (buffer-local-value 'exwm--floating-frame buf))))
     (apply orig-fn id args)
     (when (and floating-p
                exwm--connection
                (slot-value exwm--connection 'connected))
-      (ck/bug2-test-log "  drain: round-trip start id=#x%x" id)
       (condition-case err
-          (progn
-            ;; Called purely for the forced X round-trip; the reply object is
-            ;; discarded on purpose (`ignore' marks the value as intentionally
-            ;; unused, silencing the macro's `car'-value warning).
-            (ignore
-             (xcb:+request-unchecked+reply exwm--connection
-                 (make-instance 'xcb:GetInputFocus)))
-            (ck/bug2-test-log "  drain: round-trip OK id=#x%x" id))
+          ;; Called purely for the forced X round-trip; the reply object is
+          ;; discarded on purpose (`ignore' marks the value as intentionally
+          ;; unused, silencing the macro's `car'-value warning).
+          (ignore
+           (xcb:+request-unchecked+reply exwm--connection
+               (make-instance 'xcb:GetInputFocus)))
         (error
-         (ck/bug2-test-log "  drain: round-trip ERROR id=#x%x %S" id err)
          (exwm--log "BUG-2 drain round-trip failed: %S" err))))))
 
 (advice-add 'exwm-manage--unmanage-window
