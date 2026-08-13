@@ -6,6 +6,9 @@
   transient-defaults
   theme
   search
+  ;; After `search': the floating-prompt layer shares the cover machinery with
+  ;; vertico-posframe and reads its faces and sizing.
+  prompts
   navigation
   env
   text

@@ -36,33 +36,56 @@
 ;; when its popup closes (minibuffer exit / hydra hide), so the next popup
 ;; re-anchors at the new cursor.
 ;;
+;; Keyed by the posframe's own buffer, since several popups can be live at once
+;; (a hydra hint under a floating minibuffer, a nested minibuffer): one shared
+;; cell would let the inner teardown drop the outer popup's anchor.
+;;
 ;; EXWM buffers are the exception: their point maps to the X window's
 ;; top-left corner, so anchoring at point drops the box in the corner.  When
 ;; the pre-popup window shows an `exwm-mode' buffer, centre the box in that
 ;; window instead (applies to every caller, since they share this handler).
-(defvar ck/posframe--point-anchor nil
-  "Frozen `(x . y)' for a cursor-anchored posframe, or nil between popups.")
+(defvar ck/posframe--point-anchors nil
+  "Alist of (BUFFER . (X . Y)): frozen anchors of the live posframes.
+BUFFER is the posframe's own buffer, from the poshandler's
+`:posframe-buffer'.  Entries are dropped by
+`ck/posframe-point-anchor-reset' as each popup closes.")
 (defun ck/posframe-poshandler-point (info)
   "Anchor the posframe at the parent window's point, frozen once per popup.
 For an `exwm-mode' parent window point is meaningless (it maps to the X
-window's top-left corner), so centre the box in that window instead.  See
-the comment above for why the position is cached rather than recomputed on
-every posframe refresh."
-  (or ck/posframe--point-anchor
-      (setq ck/posframe--point-anchor
-            (let* ((win (plist-get info :parent-window))
-                   (buf (and (window-live-p win) (window-buffer win))))
-              (if (and (bufferp buf)
-                       (with-current-buffer buf (derived-mode-p 'exwm-mode)))
-                  (posframe-poshandler-window-center info)
-                (let ((pt (and (window-live-p win) (window-point win))))
-                  (posframe-poshandler-point-bottom-left-corner
-                   (if (integerp pt)
-                       (plist-put (copy-sequence info) :position pt)
-                     info))))))))
-(defun ck/posframe-point-anchor-reset (&rest _)
-  "Clear the frozen posframe anchor so the next popup re-anchors at point."
-  (setq ck/posframe--point-anchor nil))
+window's top-left corner), so centre the box in that window instead."
+  (let ((key (plist-get info :posframe-buffer)))
+    (or (cdr (assoc key ck/posframe--point-anchors))
+        (let ((anchor
+               (let* ((win (plist-get info :parent-window))
+                      (buf (and (window-live-p win) (window-buffer win))))
+                 (if (and (bufferp buf)
+                          (with-current-buffer buf (derived-mode-p 'exwm-mode)))
+                     (posframe-poshandler-window-center info)
+                   (let ((pt (and (window-live-p win) (window-point win))))
+                     (posframe-poshandler-point-bottom-left-corner
+                      (if (integerp pt)
+                          (plist-put (copy-sequence info) :position pt)
+                        info)))))))
+          ;; Drop anchors of popups that died without a reset.
+          (setq ck/posframe--point-anchors
+                (seq-filter (lambda (cell) (buffer-live-p (car cell)))
+                            ck/posframe--point-anchors))
+          (push (cons key anchor) ck/posframe--point-anchors)
+          anchor))))
+(defun ck/posframe-point-anchor-reset (&optional buffer &rest _)
+  "Drop BUFFER's frozen posframe anchor so its next popup re-anchors at point.
+With BUFFER nil, drop every anchor."
+  (if buffer
+      (setq ck/posframe--point-anchors
+            (assoc-delete-all buffer ck/posframe--point-anchors))
+    (setq ck/posframe--point-anchors nil)))
+(defvar ck/hydra-posframe-buffer " *hydra-posframe*"
+  "Buffer name hydra hardcodes in `hydra-posframe-show' for its hint.")
+(defun ck/hydra-posframe-anchor-reset (&rest _)
+  "Clear the hydra hint's anchor, leaving other popups' anchors alone.
+`hydra-posframe-hide' takes no arguments, so look the buffer up by name."
+  (ck/posframe-point-anchor-reset
+   (or (get-buffer ck/hydra-posframe-buffer) (current-buffer))))
 
 ;; Under EXWM a posframe is only drawn OVER focused X clients when posframe
 ;; renders it as a TOP-LEVEL frame (reparented under the workspace container
@@ -87,6 +110,31 @@ X clients under EXWM."
             (cons (slot-value info 'x) (slot-value info 'y))))
         (cons 0 0))))
 
+;; A box's first appearance is tiny because EXWM re-configures it.  EXWM leaves
+;; Emacs's own frames alone by two marks: OverrideRedirect on the X window and
+;; membership in `exwm-manage--frame-outer-id-list' (see the ConfigureRequest
+;; handler in exwm-manage.el).  Both are applied from
+;; `after-make-frame-functions', which posframe binds to nil, so a box gets
+;; neither.  Apply them by hand at creation.
+(declare-vars exwm-manage--frame-outer-id-list)
+(defun ck/posframe-exwm-disown (frame)
+  "Mark posframe FRAME as Emacs's own so EXWM stops re-configuring it."
+  (when (and (bound-and-true-p exwm--connection)
+             (framep frame)
+             (display-graphic-p frame))
+    (when-let* ((id (frame-parameter frame 'outer-window-id))
+                (id (string-to-number id)))
+      (unless (memq id exwm-manage--frame-outer-id-list)
+        (push id exwm-manage--frame-outer-id-list))
+      (xcb:+request exwm--connection
+          (make-instance 'xcb:ChangeWindowAttributes
+                         :window id
+                         :value-mask xcb:CW:OverrideRedirect
+                         :override-redirect 1))
+      (xcb:flush exwm--connection)))
+  frame)
+(advice-add 'posframe--create-posframe :filter-return #'ck/posframe-exwm-disown)
+
 (use-package hydra
   :config
   ;;; allows easy remapping in hydras
@@ -110,7 +158,7 @@ X clients under EXWM."
               ;; Render the hint as a TOP-LEVEL frame under EXWM so it draws
               ;; over focused X clients (see `ck/posframe-refposhandler').
               :refposhandler #'ck/posframe-refposhandler))
-  (advice-add 'hydra-posframe-hide :after #'ck/posframe-point-anchor-reset))
+  (advice-add 'hydra-posframe-hide :after #'ck/hydra-posframe-anchor-reset))
 
 ;; nice tooltip for unbound mode hydras
 (defun ck/empty-mode-leader ()

@@ -211,10 +211,11 @@ In `find-file' this swaps the entire path for the clipboard in one step."
 ;; `posframe' to vertico-multiform settings as well, that would double-manage
 ;; the mode (per the vertico-posframe README).  Childframes are EXWM-safe
 ;; here (corfu already draws them).
-;; Toplevel so its `make-variable-buffer-local' runs at load time (a
-;; `defvar-local' buried in the `:config' block below would warn).
-(defvar-local ck/vertico-posframe--cover-ov nil
-  "Overlay blanking the real minibuffer window during a posframe session.")
+;; The cover itself (blanking the real minibuffer under the box) lives in
+;; config/prompts.el, which floats every OTHER kind of prompt through the same
+;; machinery; only the vertico-specific parts stay here.
+(declare-functions "config/prompts"
+  ck/prompt-posframe-cover ck/prompt-posframe-uncover)
 
 (use-package vertico-posframe
   :if (locate-library "vertico-posframe")
@@ -237,68 +238,26 @@ In `find-file' this swaps the entire path for the clipboard in one step."
         vertico-posframe-width 100
         vertico-posframe-parameters '((left-fringe . 8)
                                       (right-fringe . 8)))
-  ;; Hide the real minibuffer while the posframe is up.
-  ;;
-  ;; vertico-posframe's own hide (resize the mini window to zero height, then
-  ;; vscroll its content out of view) does not work in this config: the frame
-  ;; owns its minibuffer, so an active one-line mini window clamps back to a
-  ;; line, and `auto-window-vscroll' is nil (init-options.el) so the vscroll
-  ;; resets every redisplay.  The result is the prompt, input, and count
-  ;; showing a second time at the bottom of the frame under the floating box.
-  ;;
-  ;; So cover the real minibuffer instead.  During a posframe session two
-  ;; windows show the same minibuffer buffer: the real minibuffer window
-  ;; (`window-minibuffer-p' t) and the posframe's window (a normal window on
-  ;; an EXWM top-level frame, so `window-minibuffer-p' nil and no
-  ;; `parent-frame').  An overlay scoped, via its `window' property, to the
-  ;; real minibuffer window blanks the prompt and input there while the
-  ;; posframe still shows them.  Vertico draws the count `[n/m]' with a
-  ;; before-string overlay pinned at point-min, outside the cover range, so
-  ;; pin it to the posframe window too.  (The candidate list needs no pin: it
-  ;; is newline-led, so the one-line real minibuffer clips it below the fold
-  ;; and it never leaks.)  Finally the real
-  ;; minibuffer window is selected (cursor from `cursor-type') while the
-  ;; posframe window is not (cursor from `cursor-in-non-selected-windows'):
-  ;; kill the former, keep a box for the latter.  Everything is undone on
-  ;; minibuffer exit so a later plain minibuffer is untouched.
+  ;; Hide the real minibuffer while the posframe is up, through the shared
+  ;; cover in config/prompts.el (see that file for why vertico-posframe's own
+  ;; hide cannot work in this config).  What is vertico's alone stays here:
+  ;; the package's rule for deliberately showing the real minibuffer, and the
+  ;; candidate count `[n/m]', which vertico draws as a before-string overlay
+  ;; pinned at point-min, outside the cover range, so it has to be re-scoped to
+  ;; the posframe's window by hand.  (The candidate list needs no pin: it is
+  ;; newline-led, so the one-line real minibuffer clips it below the fold and
+  ;; it never leaks.)
   (defun ck/vertico-posframe--cover (&rest _)
-    "Blank the real minibuffer window while vertico-posframe shows its
-buffer in a child frame.  See the comment above `vertico-posframe-mode'
-for why vertico-posframe's built-in hide fails in this config."
+    "Blank the real minibuffer window while vertico-posframe shows its buffer."
     (ignore-errors
-      (let* ((mbwin (active-minibuffer-window))
-             (b1 (and (window-live-p mbwin) (window-buffer mbwin)))
-             (pfwin (and (bufferp b1)
-                         (seq-find (lambda (w)
-                                     (and (not (eq w mbwin))
-                                          (not (window-minibuffer-p w))))
-                                   (get-buffer-window-list b1 nil t)))))
-        (when (and (window-live-p mbwin) (bufferp b1)
-                   (not (vertico-posframe--show-minibuffer-p)))
-          (with-current-buffer b1
-            ;; REAR-ADVANCE t: a character typed at the end of the input is
-            ;; absorbed into the overlay as it is inserted, so it never
-            ;; flashes in the real minibuffer before the next re-cover.
-            (unless (overlayp ck/vertico-posframe--cover-ov)
-              (setq ck/vertico-posframe--cover-ov
-                    (make-overlay (point-min) (point-max) nil nil t)))
-            (move-overlay ck/vertico-posframe--cover-ov (point-min) (point-max))
-            (overlay-put ck/vertico-posframe--cover-ov 'window mbwin)
-            (overlay-put ck/vertico-posframe--cover-ov 'display "")
-            (setq-local cursor-type nil
-                        cursor-in-non-selected-windows 'box)
-            (when (and (window-live-p pfwin)
-                       (boundp 'vertico--count-ov) (overlayp vertico--count-ov))
-              (overlay-put vertico--count-ov 'window pfwin)))))))
+      (unless (vertico-posframe--show-minibuffer-p)
+        (let ((pfwin (ck/prompt-posframe-cover)))
+          (when (and (window-live-p pfwin)
+                     (boundp 'vertico--count-ov) (overlayp vertico--count-ov))
+            (overlay-put vertico--count-ov 'window pfwin))))))
   (defun ck/vertico-posframe--uncover ()
     "Undo `ck/vertico-posframe--cover' when the minibuffer exits."
-    (when (overlayp ck/vertico-posframe--cover-ov)
-      (delete-overlay ck/vertico-posframe--cover-ov)
-      (setq ck/vertico-posframe--cover-ov nil))
-    (kill-local-variable 'cursor-type)
-    (kill-local-variable 'cursor-in-non-selected-windows)
-    ;; Drop the frozen cursor anchor so the next minibuffer re-anchors.
-    (ck/posframe-point-anchor-reset))
+    (ck/prompt-posframe-uncover))
   (advice-add 'vertico-posframe--show :after #'ck/vertico-posframe--cover)
   (add-hook 'minibuffer-exit-hook #'ck/vertico-posframe--uncover)
   (vertico-posframe-mode 1))
