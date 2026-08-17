@@ -68,10 +68,24 @@
 ;;   do this; if a future entry strands input, ungrab in the hide advice.
 ;;
 ;; To protect another game: add its `exwm-class-name' or `exwm-instance-name'
-;; (the buffer name from `exwm-update-class-hook'; Proton games are usually
-;; "steam_app_<APPID>") to `ck/exwm-no-unmap-classes'.
+;; to `ck/exwm-no-unmap-classes'. Read the string off the RUNNING client, never
+;; guess it from the Steam AppID:
+;;
+;;   emacsclient --eval '(mapcar (lambda (p) (with-current-buffer (cdr p)
+;;     (list (buffer-name) exwm-class-name exwm-instance-name)))
+;;     exwm--id-buffer-alist)'
+;;
+;; The class depends on how the game is built and launched, not on the game.
+;; A Proton/Wine title reports "steam_app_<APPID>"; the same title shipped as a
+;; native Linux build reports its own name (Slay the Spire 2 is a native Godot
+;; build: class "Slay the Spire 2", instance "Godot_Engine"). So a game can
+;; silently fall out of this list when it switches to a native build, and the
+;; unmap symptoms come back. Match on the class, not the instance, when the
+;; instance names an engine ("Godot_Engine", "Unity") shared by other apps.
 
-(defvar ck/exwm-no-unmap-classes '("steam_app_4597250")
+(defvar ck/exwm-no-unmap-classes
+  '("steam_app_4597250"                 ; Order of the Sinking Star Demo (Proton)
+    "Slay the Spire 2")                 ; native Godot build
   "EXWM `exwm-class-name'/`exwm-instance-name's to keep mapped on workspace
 switch instead of unmapping. Prevents the Vulkan surface-lost crash/black-screen
 described above. See the commentary in this file before extending.")
