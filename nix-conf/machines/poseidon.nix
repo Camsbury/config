@@ -71,7 +71,7 @@
         Option "UseEDID" "true"
         Option "UseEDIDFreqs" "true"
         Option "ModeValidation" "AllowNonEdidModes"
-        Option "MetaModes" "DPY-1: 3840x2160_240 +0+0"
+        Option "MetaModes" "DPY-1: 3840x2160_240 +0+0 {AllowGSYNC=Off, AllowGSYNCCompatible=Off}"
       '';
       xrandrHeads = [
         {
