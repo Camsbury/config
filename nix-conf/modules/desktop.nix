@@ -27,6 +27,7 @@
       corefonts
       dejavu_fonts
       go-font
+      google-fonts
       noto-fonts
       powerline-fonts
       roboto-mono
