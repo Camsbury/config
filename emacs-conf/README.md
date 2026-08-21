@@ -344,7 +344,7 @@ emacsclient --eval \
 
 Files with top-level hooks, advice, or list mutation need targeted reloads.
 Repeated `load-file` calls do not undo old global registrations. The
-project-local `patch-live-cmacs` skill documents the safe procedure when the
+`cam-config:patch-live-cmacs` skill documents the safe procedure when the
 agent docs are present.
 
 ### Verify before finishing
