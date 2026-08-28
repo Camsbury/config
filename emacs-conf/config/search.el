@@ -450,13 +450,21 @@ consult-xref -> xref-edit (Emacs 31+).  Edit, then save as usual."
 ;; abandoned session lingers to block later minibuffer commands.
 ;;
 ;; For consult grep-style sessions the edit buffer shows the FULL
-;; expression in two sections: the base command args (e.g.
-;; `consult-ripgrep-args') and the minibuffer input.  Edited args are in
-;; effect for the relaunched search only, since consult captures the args
-;; in a closure at session start.  Within each section lines join with
-;; spaces, so flags can sit one per line while editing.  Any other
-;; minibuffer gets the input-only version of the same flow, relaunched
-;; via `call-interactively'.
+;; expression in sections: the base command args (e.g.
+;; `consult-ripgrep-args'), the search directory, and the minibuffer
+;; input.  Edited args are in effect for the relaunched search only,
+;; since consult captures the args in a closure at session start.
+;; Within each section lines join with spaces, so flags can sit one per
+;; line while editing.  Any other minibuffer gets the input-only version
+;; of the same flow, relaunched via `call-interactively'.
+;;
+;; M-D is the directory-only shortcut: it closes the search, picks a new
+;; root with `read-directory-name' (find-file style completion), and
+;; relaunches with args and input unchanged.  Path and flag edits
+;; compose across relaunches because consult binds `default-directory'
+;; to the search root for the whole minibuffer session, so each capture
+;; reads the previous relaunch's directory back out of
+;; `default-directory'.
 (defvar ck/minibuffer-edit--grep-args-vars
   '((consult-ripgrep  . consult-ripgrep-args)
     (consult-grep     . consult-grep-args)
@@ -506,17 +514,21 @@ A flag's value stays on the flag's line; the section parser joins the
 lines back with spaces on confirm."
   (replace-regexp-in-string "[ \t]+\\(--\\)" "\n\\1" args))
 
+(defconst ck/minibuffer-edit--dir-header
+  ";; Search directory -- C-c C-d picks one with completion:")
+
 (defconst ck/minibuffer-edit--input-header
   ";; Minibuffer input:")
 
 (defvar-keymap ck/minibuffer-input-edit-mode-map
   "C-c C-c" #'ck/minibuffer-input-edit-confirm
-  "C-c C-k" #'ck/minibuffer-input-edit-abort)
+  "C-c C-k" #'ck/minibuffer-input-edit-abort
+  "C-c C-d" #'ck/minibuffer-edit-set-directory)
 
 (define-derived-mode ck/minibuffer-input-edit-mode text-mode "MiniEdit"
   "Edit a minibuffer input string in a full buffer."
   (setq-local header-line-format
-              "Edit search -- C-c C-c: apply, C-c C-k: restore original (lines join with spaces)"))
+              "Edit search -- C-c C-c: apply, C-c C-k: restore original, C-c C-d: pick directory (lines join with spaces)"))
 
 (defun ck/minibuffer-edit-input ()
   "Capture the minibuffer session, close it, and edit it in a buffer.
@@ -537,11 +549,45 @@ live minibuffer waits behind the edit."
       (user-error "Cannot relaunch this minibuffer's command (%S)" command))
     ;; `abort-minibuffers' throws out of this command, so nothing after
     ;; it runs: hand the buffer setup to a poller first.
-    (ck/minibuffer-edit--open-when-clear session (minibuffer-depth))
+    (ck/minibuffer-edit--call-when-clear
+     #'ck/minibuffer-edit--open session (minibuffer-depth))
     (abort-minibuffers)))
 
-(defun ck/minibuffer-edit--open-when-clear (session depth &optional tries)
-  "Open SESSION's edit buffer once minibuffer DEPTH has unwound.
+(defun ck/minibuffer-edit-directory ()
+  "Capture the search session, close it, and pick a new search directory.
+The directory is read with `read-directory-name' (find-file style
+completion) and the search relaunches there with the same args and
+input.  Only grep-style commands (those in
+`ck/minibuffer-edit--grep-args-vars') take a directory."
+  (interactive)
+  (unless (minibufferp)
+    (user-error "No active minibuffer session to redirect"))
+  (let* ((command ck/minibuffer-edit--invoking-command)
+         (args-var (alist-get command ck/minibuffer-edit--grep-args-vars)))
+    (unless args-var
+      (user-error "%S does not search a directory" command))
+    (let ((session (list :command command
+                         :args-var args-var
+                         :args (symbol-value args-var)
+                         :dir default-directory
+                         :input (minibuffer-contents))))
+      (ck/minibuffer-edit--call-when-clear
+       #'ck/minibuffer-edit--pick-directory session (minibuffer-depth))
+      (abort-minibuffers))))
+
+(defun ck/minibuffer-edit--pick-directory (session)
+  "Prompt for a directory and relaunch SESSION's search there."
+  (let ((dir (read-directory-name "Search directory: "
+                                  (plist-get session :dir) nil t)))
+    (ck/minibuffer-edit--relaunch (plist-get session :command)
+                                  (plist-get session :args-var)
+                                  (plist-get session :args)
+                                  dir
+                                  (plist-get session :input))))
+
+(defun ck/minibuffer-edit--call-when-clear (continue session depth
+                                                     &optional tries)
+  "Call CONTINUE with SESSION once minibuffer DEPTH has unwound.
 A zero-delay timer can fire during the aborted session's teardown
 (consult kills its rg process inside the minibuffer's unwind, and that
 process wait runs timers), so poll until the depth drops below DEPTH,
@@ -549,12 +595,12 @@ the aborted session's depth.  Give up after ~2s."
   (let ((tries (or tries 0)))
     (cond
      ((< (minibuffer-depth) depth)
-      (ck/minibuffer-edit--open session))
+      (funcall continue session))
      ((> tries 40)
       (message "Minibuffer edit abandoned: the aborted session never exited"))
      (t
-      (run-with-timer 0.05 nil #'ck/minibuffer-edit--open-when-clear
-                      session depth (1+ tries))))))
+      (run-with-timer 0.05 nil #'ck/minibuffer-edit--call-when-clear
+                      continue session depth (1+ tries))))))
 
 (defun ck/minibuffer-edit--open (session)
   "Pop up the edit buffer for the captured SESSION."
@@ -566,6 +612,9 @@ the aborted session's depth.  Give up after ~2s."
       (when (plist-get session :args-var)
         (insert ck/minibuffer-edit--args-header "\n"
                 (ck/minibuffer-edit--args-lines (plist-get session :args))
+                "\n\n"
+                ck/minibuffer-edit--dir-header "\n"
+                (abbreviate-file-name (plist-get session :dir))
                 "\n\n"
                 ck/minibuffer-edit--input-header "\n"))
       (insert (plist-get session :input))
@@ -589,6 +638,36 @@ the aborted session's depth.  Give up after ~2s."
                             (split-string (buffer-substring beg end) "\n")))
          " ")))))
 
+(defun ck/minibuffer-edit--replace-section (header new-text)
+  "Replace the body of the section under HEADER with NEW-TEXT."
+  (save-excursion
+    (goto-char (point-min))
+    (unless (search-forward header nil t)
+      (user-error "Section header missing: %s" header))
+    (forward-line 1)
+    (let ((beg (point))
+          (end (if (re-search-forward "^;;" nil t)
+                   (line-beginning-position)
+                 (point-max))))
+      (delete-region beg end)
+      (goto-char beg)
+      (insert new-text "\n\n"))))
+
+(defun ck/minibuffer-edit-set-directory ()
+  "Pick the search directory with completion and write it into the buffer."
+  (interactive)
+  (let ((session ck/minibuffer-edit--session))
+    (unless (plist-get session :args-var)
+      (user-error "This session's command does not search a directory"))
+    (let ((dir (read-directory-name
+                "Search directory: "
+                (or (ck/minibuffer-edit--section
+                     ck/minibuffer-edit--dir-header)
+                    (plist-get session :dir))
+                nil t)))
+      (ck/minibuffer-edit--replace-section ck/minibuffer-edit--dir-header
+                                           (abbreviate-file-name dir)))))
+
 (defun ck/minibuffer-edit--relaunch (command args-var args dir input)
   "Run COMMAND with INPUT preinserted in its minibuffer.
 Grep-style commands (ARGS-VAR non-nil) run in DIR with ARGS-VAR set to
@@ -606,17 +685,17 @@ ARGS for just that session; anything else relaunches via
             (set args-var old)))
       (call-interactively command))))
 
-(defun ck/minibuffer-edit--relaunch-session (session args input)
-  "Relaunch SESSION's command with ARGS and INPUT, closing the edit buffer."
+(defun ck/minibuffer-edit--relaunch-session (session args dir input)
+  "Relaunch SESSION's command with ARGS, DIR and INPUT, closing the edit buffer."
   (quit-window t)
   (ck/minibuffer-edit--relaunch (plist-get session :command)
                                 (plist-get session :args-var)
                                 args
-                                (plist-get session :dir)
+                                dir
                                 input))
 
 (defun ck/minibuffer-input-edit-confirm ()
-  "Relaunch the captured command with the edited args and input."
+  "Relaunch the captured command with the edited args, directory and input."
   (interactive)
   (let* ((session ck/minibuffer-edit--session)
          (args-var (plist-get session :args-var))
@@ -624,6 +703,11 @@ ARGS for just that session; anything else relaunches via
                         (or (ck/minibuffer-edit--section
                              ck/minibuffer-edit--args-header)
                             (user-error "Base-args section header missing"))))
+         (new-dir (if args-var
+                      (or (ck/minibuffer-edit--section
+                           ck/minibuffer-edit--dir-header)
+                          (user-error "Directory section header missing"))
+                    (plist-get session :dir)))
          (input (if args-var
                     (or (ck/minibuffer-edit--section
                          ck/minibuffer-edit--input-header)
@@ -632,7 +716,7 @@ ARGS for just that session; anything else relaunches via
                    (delete "" (mapcar #'string-trim
                                       (split-string (buffer-string) "\n")))
                    " "))))
-    (ck/minibuffer-edit--relaunch-session session new-args input)))
+    (ck/minibuffer-edit--relaunch-session session new-args new-dir input)))
 
 (defun ck/minibuffer-input-edit-abort ()
   "Abandon the edit and relaunch with the original args and input."
@@ -640,10 +724,12 @@ ARGS for just that session; anything else relaunches via
   (let ((session ck/minibuffer-edit--session))
     (ck/minibuffer-edit--relaunch-session session
                                           (plist-get session :args)
+                                          (plist-get session :dir)
                                           (plist-get session :input))))
 
 (general-define-key :keymaps 'minibuffer-local-map
- "M-e" #'ck/minibuffer-edit-input)
+ "M-e" #'ck/minibuffer-edit-input
+ "M-D" #'ck/minibuffer-edit-directory)
 
 (with-eval-after-load 'grep
   (evil-set-initial-state 'grep-mode 'normal)
