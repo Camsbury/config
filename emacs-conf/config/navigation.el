@@ -112,6 +112,30 @@ beside the whole subtree; select it so callers act in the new band."
   (interactive)
   (select-window (split-window (ck/band-window) nil 'right)))
 
+(defun ck/display-buffer-right-band (buffer alist)
+  "Display BUFFER in a new vertical band right of the current band.
+A `display-buffer' action function: the `ck/spawn-right' behavior for
+programmatic buffer display.  Splits at the band level
+(`ck/band-window'), so a stacked band shifts as a unit.  Returns nil
+when the band cannot be split (frame too narrow), letting
+`display-buffer' fall through to its next action."
+  (when-let ((window (ignore-errors
+                       (split-window (ck/band-window) nil 'right))))
+    (window--display-buffer buffer window 'window alist)))
+
+;; Default display policy: never land a buffer in the pane below.
+;; `split-height-threshold' nil (config/prog.el) already stops below-splits,
+;; but when the current band is narrower than `split-width-threshold' the
+;; pop-up action fails entirely and `display-buffer's fallback
+;; (`display-buffer-use-some-window') reuses the least-recently-used window,
+;; usually the bottom pane of a stacked band.  This base action runs before
+;; that fallback for every `display-buffer' call without an explicit action
+;; (magit-status, help, shell output, link targets): reuse a window already
+;; showing the buffer, else open a new band to the right.
+(setq display-buffer-base-action
+      '((display-buffer-reuse-window
+         ck/display-buffer-right-band)))
+
 (defun ck/spawn-file-link (file-key)
   "Spawn a new vertical band before opening FILE-KEY in it."
   (interactive)
