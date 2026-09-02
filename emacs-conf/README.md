@@ -361,6 +361,8 @@ agent docs are present.
 | `M-x ck/latest-loadpath` | Refresh Nix-built package paths after a rebuild |
 | `M-x ck/fix-monitor-blackouts` | Reset PG32UCDP wake blackouts via 120 Hz |
 | `M-x ck/lock-screen` | Lock through the logind and xss-lock stack |
+| `M-x ck/caffeinate` | Pause idle lock, screen blank, and suspend |
+| `M-x ck/decaffeinate` | Restore them (safe to run any time) |
 | `M-x ck/restart-display-manager` | Restart the graphical session |
 
 `ck/fix-monitor-blackouts` switches `DP-0` to 4K at 119.88 Hz, waits one
