@@ -43,7 +43,7 @@
 ;; pin the ONE source of truth: the download decision, the release URL, and
 ;; the on-disk eca-version marker all use it, so they can never disagree (the
 ;; drift that stranded us on a stale binary).
-(defvar ck/eca-server-version "0.153.0"
+(defvar ck/eca-server-version "0.158.0"
   "Pinned eca server version (a github.com/editor-code-assistant/eca release tag).")
 
 (defun ck/eca--pinned-server-version (&rest _)
