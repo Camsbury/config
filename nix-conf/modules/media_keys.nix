@@ -60,7 +60,9 @@ let
   # as the user but with a bare env; HOME is not reliable, so the home path is
   # resolved at eval time). It wakes the panel (DPMS on, a harmless no-op when
   # already awake) then retrains the DisplayPort link by modesetting DP-0 through
-  # 4K 120 Hz and back to 240 Hz. Mirrors `ck/fix-monitor-blackouts`
+  # 4K 120 Hz and back to 240 Hz. `+dpms` comes first because the X server
+  # answers `dpms force on` with BadMatch while DPMS is disabled, so the wake
+  # step would silently do nothing after any `xset -dpms`. Mirrors `ck/fix-monitor-blackouts`
   # (emacs-conf/config/desktop/commands/system.el) but runs BELOW the i3lock X
   # keyboard grab, so it recovers the black overnight wake even while the screen
   # is locked (the EXWM `s-m` binding cannot, since the locker owns the grab).
@@ -69,6 +71,7 @@ let
   monitorRecover = pkgs.writeShellScript "monitor-recover" ''
     export DISPLAY=:0
     export XAUTHORITY=/home/${username}/.Xauthority
+    ${xset} +dpms
     ${xset} dpms force on
     ${xrandr} --output DP-0 --mode 3840x2160 --rate 119.88
     ${pkgs.coreutils}/bin/sleep 1

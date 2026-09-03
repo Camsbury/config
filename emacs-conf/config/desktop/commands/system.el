@@ -120,7 +120,10 @@ wait does not block the WM Emacs."
     (user-error "A PG32UCDP retrain is already running"))
   ;; Wake the panel first in case DPMS forced it off (the overnight lock chain
   ;; blanks it via `xset dpms force off').  Harmless when it is already awake:
-  ;; `force on' is a no-op then.  Synchronous, but xset returns instantly.
+  ;; `force on' is a no-op then.  `+dpms' comes first because the X server
+  ;; answers `force on' with BadMatch while DPMS is disabled.  Synchronous, but
+  ;; xset returns instantly.
+  (call-process "xset" nil nil nil "+dpms")
   (call-process "xset" nil nil nil "dpms" "force" "on")
   (message "Retraining PG32UCDP DisplayPort link via 4K 120 Hz")
   (ck/pg32ucdp--set-refresh
