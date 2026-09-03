@@ -226,82 +226,52 @@ wait does not block the WM Emacs."
   (shell-command "shutdown now"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Caffeine: keep the machine awake, unlocked, and lit
+;; Caffeine: stretch the idle lock instead of disabling it
 
-;; The idle chain (nix-conf/modules/screen_lock.nix) has independent parts:
-;; the xidlehook user service (idle lock, then DPMS blank), the X screensaver
-;; timeout that xss-lock turns into a fallback lock, DPMS itself, and logind
-;; suspend.  `ck/caffeinate' pauses every part; `ck/decaffeinate' restores
-;; them.  xidlehook reads the X screensaver idle counter, so the timeout must
-;; be non-zero again before xidlehook restarts.
+;; The idle chain lives in nix-conf/modules/screen_lock.nix as two user
+;; units that conflict with each other: `xidlehook' (lock after 5 min) and
+;; `xidlehook-caffeinated' (lock after an hour).  Each unit sets the X
+;; screensaver and DPMS fallbacks it expects when it starts, so caffeine is
+;; a unit swap and nothing else.  The chain still ends in a lock and a
+;; blanked panel, so a forgotten caffeine cannot leave the OLED lit all
+;; night, and the state is readable from systemd rather than from an Emacs
+;; variable that a restart would lose.
 
-(defconst ck/caffeine--default-screensaver-timeout 600
-  "X server default screensaver timeout in seconds.
-Used when `ck/decaffeinate' has no saved value or the saved value is zero.")
+(defconst ck/caffeine--normal-unit "xidlehook"
+  "User unit running the normal idle chain.")
 
-(defvar ck/caffeine--inhibitor nil
-  "The `systemd-inhibit' process holding the sleep and idle lock, or nil.")
+(defconst ck/caffeine--caffeinated-unit "xidlehook-caffeinated"
+  "User unit running the idle chain with the long lock delay.")
 
-(defvar ck/caffeine--screensaver-timeout nil
-  "X screensaver timeout in seconds saved by `ck/caffeinate', or nil.")
-
-(defun ck/caffeine--run (program &rest args)
-  "Run PROGRAM with ARGS synchronously and signal an error on non-zero exit."
-  (let ((status (apply #'call-process program nil nil nil args)))
+(defun ck/caffeine--start-unit (unit)
+  "Start user UNIT synchronously and signal an error on failure.
+The conflicting chain unit stops as part of the same transaction."
+  (let ((status (call-process "systemctl" nil nil nil "--user" "start" unit)))
     (unless (and (integerp status) (zerop status))
-      (error "%s %s exited with status %s"
-             program (string-join args " ") status))))
-
-(defun ck/caffeine--x-screensaver-timeout ()
-  "Return the X screensaver timeout in seconds reported by `xset q'."
-  (with-temp-buffer
-    (unless (zerop (call-process "xset" nil t nil "q"))
-      (error "xset q failed"))
-    (goto-char (point-min))
-    (unless (re-search-forward "^ *timeout: +\\([0-9]+\\)" nil t)
-      (error "Could not read the X screensaver timeout from xset q"))
-    (string-to-number (match-string 1))))
+      (error "systemctl --user start %s exited with status %s" unit status))))
 
 (defun ck/caffeinated-p ()
-  "Return non-nil while `ck/caffeinate' holds the machine awake."
-  (process-live-p ck/caffeine--inhibitor))
+  "Return non-nil while the caffeinated idle chain is the active one."
+  (zerop (call-process "systemctl" nil nil nil "--user" "--quiet"
+                       "is-active" ck/caffeine--caffeinated-unit)))
 
 (defun ck/caffeinate ()
-  "Keep the machine awake, unlocked, and lit until `ck/decaffeinate'.
-Stop the xidlehook idle timer, zero the X screensaver timeout so the
-xss-lock fallback lock never fires, disable DPMS, and hold a logind sleep
-and idle inhibitor."
+  "Delay the idle lock to an hour until `ck/decaffeinate' or the next login.
+Swap the idle chain to `ck/caffeine--caffeinated-unit'.  Screen blanking
+and locking still happen, just later."
   (interactive)
   (when (ck/caffeinated-p)
     (user-error "Already caffeinated; run `ck/decaffeinate' to restore"))
-  (setq ck/caffeine--screensaver-timeout (ck/caffeine--x-screensaver-timeout))
-  (ck/caffeine--run "systemctl" "--user" "stop" "xidlehook")
-  (ck/caffeine--run "xset" "s" "off")
-  (ck/caffeine--run "xset" "-dpms")
-  (setq ck/caffeine--inhibitor
-        (make-process
-         :name "caffeinate"
-         :command '("systemd-inhibit" "--what=sleep:idle" "--who=cmacs"
-                    "--why=ck/caffeinate" "sleep" "infinity")
-         :noquery t))
-  (message "Caffeinated: no idle lock, no screen blank, no suspend"))
+  (ck/caffeine--start-unit ck/caffeine--caffeinated-unit)
+  (message "Caffeinated: idle lock delayed to an hour"))
 
 (defun ck/decaffeinate ()
-  "Undo `ck/caffeinate': restore idle lock, screen blanking, and suspend.
-Safe to run when not caffeinated, for example after an Emacs restart left
-the X screensaver off; every step is idempotent."
+  "Restore the normal idle chain.
+Safe to run when not caffeinated: starting an already running unit is a
+no-op."
   (interactive)
-  (when (ck/caffeinated-p)
-    (kill-process ck/caffeine--inhibitor))
-  (setq ck/caffeine--inhibitor nil)
-  (let ((timeout (or ck/caffeine--screensaver-timeout 0)))
-    (when (zerop timeout)
-      (setq timeout ck/caffeine--default-screensaver-timeout))
-    (ck/caffeine--run "xset" "s" (number-to-string timeout)))
-  (setq ck/caffeine--screensaver-timeout nil)
-  (ck/caffeine--run "xset" "+dpms")
-  (ck/caffeine--run "systemctl" "--user" "start" "xidlehook")
-  (message "Decaffeinated: idle lock, screen blank, and suspend restored"))
+  (ck/caffeine--start-unit ck/caffeine--normal-unit)
+  (message "Decaffeinated: idle lock back to the normal schedule"))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

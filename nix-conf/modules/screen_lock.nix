@@ -20,6 +20,15 @@
 #                the `xset s` screensaver counter, so the DPMS timer does not
 #                touch the idle counter xidlehook relies on.
 #
+# Caffeine (ck/caffeinate in emacs-conf) is the same chain with a longer lock
+# delay, not a disabled one: a second unit, `xidlehook-caffeinated`, locks
+# after an hour instead of 5 min. The two units conflict, so starting one stops
+# the other, and each unit sets the X screensaver and DPMS fallbacks it expects
+# in ExecStartPre. The chain therefore always ends in a lock and a blanked
+# panel, even when caffeine is forgotten overnight (an OLED with a static image
+# lit all night is the failure this prevents). Only the normal unit is wanted
+# by the session target, so every login starts decaffeinated.
+#
 # Manual lock is `loginctl lock-session` (see ck/lock-screen in emacs-conf),
 # routed through xss-lock so there is a single locker of record.
 #
@@ -130,6 +139,38 @@ let
     ${pkgs.xset}/bin/xset +dpms
     ${pkgs.xset}/bin/xset dpms force off
   '';
+
+  # One idle chain per lock delay. `lockAfter` seconds of idle lock the session;
+  # `blankAfter` more seconds blank the panel. The X server's own screensaver
+  # (xss-lock's fallback lock) and DPMS timers are set to fire `blankAfter`
+  # seconds after the xidlehook lock, so xidlehook, with its fullscreen/audio
+  # guards, always gets the first shot and the X fallbacks only cover a dead
+  # xidlehook. Setting them in ExecStartPre keeps every fallback in one place
+  # and re-asserts the normal values on each login.
+  mkIdleChain =
+    {
+      description,
+      lockAfter,
+      blankAfter,
+    }:
+    let
+      fallback = toString (lockAfter + blankAfter);
+      setFallbacks = pkgs.writeShellScript "idle-fallbacks-${fallback}" ''
+        ${pkgs.xset}/bin/xset s ${fallback}
+        ${pkgs.xset}/bin/xset dpms ${fallback} ${fallback} ${fallback}
+      '';
+    in
+    {
+      inherit description;
+      partOf = [ "graphical-session.target" ];
+      serviceConfig = {
+        Type = "simple";
+        ExecStartPre = "${setFallbacks}";
+        ExecStart = "${pkgs.xidlehook}/bin/xidlehook --not-when-fullscreen --not-when-audio --timer ${toString lockAfter} '${pkgs.systemd}/bin/loginctl lock-session' '' --timer ${toString blankAfter} '${dpmsOff}' ''";
+        Restart = "always";
+        RestartSec = "2s";
+      };
+    };
 in
 {
   environment.systemPackages = [
@@ -173,21 +214,34 @@ in
     serviceConfig.RestartSec = "2s";
   };
 
-  # Primary idle lock with fullscreen/audio guards. Fires before the 600s X
+  # Primary idle lock with fullscreen/audio guards. Fires before the X
   # screensaver fallback, and triggers the same single locker path via logind.
   # A second, chained timer blanks the monitor (DPMS off) 300s AFTER the lock
   # fires (xidlehook timers are relative to the previous), i.e. 5 min after lock
   # / 600s total idle. Both timers inherit the fullscreen/audio guards, so a
   # movie or music neither locks nor blanks the screen. DISPLAY is inherited
   # from the graphical session, same as xss-lock.
-  systemd.user.services.xidlehook = {
-    description = "Idle screen locker (xidlehook -> loginctl lock-session)";
-    wantedBy = [ "graphical-session.target" ];
-    partOf = [ "graphical-session.target" ];
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.xidlehook}/bin/xidlehook --not-when-fullscreen --not-when-audio --timer 300 '${pkgs.systemd}/bin/loginctl lock-session' '' --timer 300 '${dpmsOff}' ''";
-      Restart = "always";
+  systemd.user.services.xidlehook =
+    mkIdleChain {
+      description = "Idle screen locker (xidlehook -> loginctl lock-session)";
+      lockAfter = 300;
+      blankAfter = 300;
+    }
+    // {
+      wantedBy = [ "graphical-session.target" ];
+      conflicts = [ "xidlehook-caffeinated.service" ];
     };
-  };
+
+  # The caffeinated chain: identical guards and locker, but an hour of idle
+  # before the lock. Started by ck/caffeinate; starting the normal unit again
+  # (ck/decaffeinate, or the next login) stops it through the conflict.
+  systemd.user.services.xidlehook-caffeinated =
+    mkIdleChain {
+      description = "Idle screen locker, caffeinated (lock after an hour)";
+      lockAfter = 3600;
+      blankAfter = 300;
+    }
+    // {
+      conflicts = [ "xidlehook.service" ];
+    };
 }
