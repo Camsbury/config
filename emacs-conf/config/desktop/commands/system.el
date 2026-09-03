@@ -190,10 +190,14 @@ wait does not block the WM Emacs."
   (shell-command "pkill -SIGUSR2 dunst"))
 
 (defun ck/lock-screen ()
-  "Lock the screen through xss-lock (logind lock-session -> xsecurelock)."
+  "Lock the screen through xss-lock (logind lock-session -> i3lock-color).
+A manual lock means leaving the machine, so it ends caffeine first: the
+locked screen then blanks on the normal schedule instead of staying lit."
   (interactive)
   (when (minibufferp)
     (abort-recursive-edit))
+  (when (ck/caffeinated-p)
+    (ck/decaffeinate))
   (start-process "lock-session" nil "loginctl" "lock-session"))
 
 (defun ck/search-for-file (filename)
