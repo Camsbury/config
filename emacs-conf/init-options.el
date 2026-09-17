@@ -10,6 +10,20 @@
 ;; don't litter backup files
 (setq make-backup-files nil)
 
+;; Keep autosaves (#file#) and lock files (.#file) out of project trees.
+;; ECA reads every file under .eca/rules/ regardless of name, so a stray
+;; autosave there loads as a duplicate rule and a dangling lock symlink
+;; logs a parse warning.  Redirect both to the cache dir instead of
+;; disabling them, which keeps crash recovery and edit-collision warnings.
+(let ((dir (expand-file-name "emacs/" (or (getenv "XDG_CACHE_HOME")
+                                          "~/.cache/"))))
+  (make-directory (concat dir "auto-save/") t)
+  (make-directory (concat dir "lock/") t)
+  (setq auto-save-file-name-transforms
+        `((".*" ,(concat dir "auto-save/") t))
+        lock-file-name-transforms
+        `((".*" ,(concat dir "lock/") t))))
+
 ;; scroll options
 (setq scroll-margin 1
       scroll-step 1
