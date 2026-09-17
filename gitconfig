@@ -16,7 +16,7 @@
 [merge]
 	conflictstyle = diff3
 [rerere]
-	enabled = 1
+	enabled = false
 [github]
 	user = Camsbury
 [filter "lfs"]
