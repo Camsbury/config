@@ -36,7 +36,7 @@ in
       peek # screen recorder
       pgn-extract # chess utils
       # scid-vs-pc # chess
-      # signal-desktop
+      signal-desktop
       slack
       spotify # non-free
       telegram-desktop
