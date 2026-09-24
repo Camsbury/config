@@ -46,7 +46,6 @@ let
     dotenv-mode
     dumb-jump
     eca
-    ein
     elfeed
     elfeed-org
     elfeed-score

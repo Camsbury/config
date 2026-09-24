@@ -131,8 +131,7 @@ Toggled by `ck/toggle-org-alerts'.")
    (sql . t)
    (sqlite . t)
    (R . t)
-   (http . t)
-   (ein . t)))
+   (http . t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org styling
