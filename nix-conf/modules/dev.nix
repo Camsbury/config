@@ -2,10 +2,13 @@
 
 let
   codeMaatDer = import ../derivations/code-maat/default.nix;
-  code-maat = with builtins; with pkgs; callPackage codeMaatDer {
-    inherit stdenvNoCC;
-    inherit fetchurl;
-  };
+  code-maat =
+    with builtins;
+    with pkgs;
+    callPackage codeMaatDer {
+      inherit stdenvNoCC;
+      inherit fetchurl;
+    };
 in
 {
   imports = [
@@ -20,7 +23,7 @@ in
       code-maat
       difftastic
       direnv
-      (emacsPackages.emacsWithPackages (import ../packages/emacs.nix))
+      cmacs-emacs
       entr
       gdb
       gh
@@ -46,7 +49,7 @@ in
     ];
 
     variables = {
-      DEV_HOME="/home/${toString config.users.users.default.name}/projects";
+      DEV_HOME = "/home/${toString config.users.users.default.name}/projects";
     };
   };
   services.lorri.enable = true;

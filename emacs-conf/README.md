@@ -352,7 +352,9 @@ agent docs are present.
 
 - Run `tools/fc-check.sh` on changed Emacs Lisp.
 - Run `tools/wm-free-check.sh` after load-order or boundary changes.
-- Run `tools/eca-upstream-guard.sh` after an `eca` package bump.
+- `nixos-rebuild` runs the ECA upstream guard as a system check, so an
+  `eca` bump that breaks the adapter fails the rebuild. Run
+  `tools/eca-upstream-guard.sh` to check before rebuilding.
 - Exercise the real interactive path in the running Emacs.
 - Read back state after the command completes.
 

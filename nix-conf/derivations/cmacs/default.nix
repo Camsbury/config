@@ -3,13 +3,12 @@
 with pkgs;
 with builtins;
 let
-  custom-emacs = emacsPackages.emacsWithPackages (import ../../packages/emacs.nix);
+  custom-emacs = cmacs-emacs;
   config-path = ../../../emacs-conf;
-  init-file   = ../../../emacs-conf/init.el;
+  init-file = ../../../emacs-conf/init.el;
 
   # directory that contains the compiled GSettings schemas
-  gsettingsSchemas =
-    "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}/glib-2.0/schemas";
+  gsettingsSchemas = "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}/glib-2.0/schemas";
 in
 pkgs.writeShellScriptBin "cmacs" ''
   set -eu

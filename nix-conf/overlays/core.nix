@@ -1,4 +1,9 @@
-{ config, pkgs, sources, ... }:
+{
+  config,
+  pkgs,
+  sources,
+  ...
+}:
 
 let
   unstablePkgs = import sources.nixpkgs-unstable {
@@ -16,11 +21,14 @@ in
       {
 
         alias-tips = callPackage (import ../derivations/alias-tips) { };
-        check-low-battery =
-          callPackage (import ../derivations/check-low-battery) { };
+        check-low-battery = callPackage (import ../derivations/check-low-battery) { };
         cmacs = callPackage (import ../derivations/cmacs) { };
-        cmacs-load-path =
-          callPackage (import ../derivations/cmacs-load-path) { };
+        # The Emacs and package set cmacs runs.  Every consumer of that
+        # set uses this attribute, so the build-time checks test what
+        # actually runs.
+        cmacs-emacs = emacsPackages.emacsWithPackages (import ../packages/emacs.nix);
+        cmacs-eca-upstream-guard = callPackage (import ../derivations/cmacs-eca-upstream-guard) { };
+        cmacs-load-path = callPackage (import ../derivations/cmacs-load-path) { };
         pgn-extract = callPackage (import ../derivations/pgn-extract) { };
       }
       // (with unstablePkgs; {
@@ -32,10 +40,7 @@ in
         inherit netdata;
         inherit ouch;
         inherit spotify;
-        emacsPackages =
-          unstablePkgs.emacsPackages.overrideScope (
-            import ./emacs.nix unstablePkgs
-          );
+        emacsPackages = unstablePkgs.emacsPackages.overrideScope (import ./emacs.nix unstablePkgs);
       })
     )
   ];

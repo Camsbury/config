@@ -1,8 +1,13 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   environment.variables = {
-    EMACSLOADPATH = "${(pkgs.emacsPackages.emacsWithPackages (import ../packages/emacs.nix)).deps}/share/emacs/site-lisp";
+    EMACSLOADPATH = "${pkgs.cmacs-emacs.deps}/share/emacs/site-lisp";
   };
   services.displayManager.defaultSession = "none+exwm";
   services.xserver = {
