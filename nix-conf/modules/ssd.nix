@@ -1,7 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, sources, ... }:
 
 {
   imports = [
-    "${(import ../pins.nix).hardware}/common/pc/ssd"
+    "${sources.nixos-hardware}/common/pc/ssd"
   ];
 }

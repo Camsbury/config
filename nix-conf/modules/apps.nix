@@ -1,12 +1,5 @@
 { config, pkgs, ... }:
 
-let
-  discordPkgs = import (import ../pins.nix).discord {
-    config = {
-      allowUnfree = true;
-    };
-  };
-in
 {
   services.transmission = {
     enable = true;
@@ -28,7 +21,7 @@ in
       audacity
       baobab
       chromium
-      discordPkgs.discord
+      discord
       # element-desktop
       firefox
       gimp

@@ -1,21 +1,15 @@
-self: super:
-
+super: eSelf: eSuper:
 let
-  basePkgs = import (import ../pins.nix).unstable {
-    config = {
-      allowUnfree = true;
-    };
-  };
-  # Would be sweet to use the ones from nixpkgs instead
-  compileEmacsFiles = basePkgs.callPackage ./emacsBuilder.nix;
-  emacsOverrides = eSelf: eSuper: {
-    melpaPackages = eSuper.melpaPackages // {
-      eca =
-        let
-          version = "20260908.909";
-          rev = "b702e4c08ca7c8850a9a3cbb7b3db7b61d86d31e";
-          hash = "sha256-SUursaO/LuwOUV41Ms8GDzMbxHicJ0E/SuYjeKU6sZM=";
-        in
+  compileEmacsFiles =  super.callPackage ./emacsBuilder.nix;
+in
+{
+  melpaPackages = eSuper.melpaPackages // {
+    eca =
+      let
+        version = "20260924.1516";
+        rev = "4647946db593a0a1e45f77b1a996d4843f6e24a9";
+        hash = "sha256-2EL1fTQthbahEiqht/QsR7GbRg2X/swPIT6dXWgG5+M=";
+      in
         eSelf.melpaBuild {
           pname = "eca";
           version = version;
@@ -37,63 +31,41 @@ let
             hash = hash;
           };
         };
-    };
-
-    magit-difftastic = compileEmacsFiles {
-      name = "magit-difftastic.el";
-      src = builtins.fetchurl {
-        url = "https://raw.githubusercontent.com/rschmukler/magit-difftastic/1e2a1f60288341893a9d21d8a900739be9f34e40/magit-difftastic.el";
-        sha256 = "0zr0n9x2029f4f2x33kjs7r826zc1kz7iziq4ik58w1nj4247qxz";
-      };
-      buildInputs = with eSelf.melpaPackages; [
-        cond-let
-        difftastic
-        llama
-        magit
-        magit-section
-        transient
-        with-editor
-      ];
-    };
-
-    etymology-of-word = compileEmacsFiles {
-      name = "etymology-of-word.el";
-      src = builtins.fetchurl {
-        url = "https://raw.githubusercontent.com/Camsbury/etymology-of-word/master/etymology-of-word.el";
-        sha256 = "09yk4qrk3k5ygdqlj3ksdqzxh5532ychs4msphqrw3nim5dxhklw";
-      };
-      buildInputs = with eSelf.melpaPackages; [
-        dash
-      ];
-    };
-
-    explain-pause-mode = eSelf.melpaBuild {
-      pname = "explain-pause-mode";
-      version = "0.1";
-
-      recipe = builtins.toFile "recipe.el" ''
-        (explain-pause-mode :fetcher github
-                            :repo "lastquestion/explain-pause-mode")
-      '';
-
-      src = super.fetchFromGitHub {
-        owner = "lastquestion";
-        repo = "explain-pause-mode";
-        rev = "35f7d780a9c164b5c502023746473b1de3857904";
-        sha256 = "0d9lwzqqwmz0n94i7959rj7m24265yf3825a5g8cd7fyzxznl1pc";
-      };
-    };
-
-    hide-comnt = compileEmacsFiles {
-      name = "hide-comnt.el";
-      src = builtins.fetchurl {
-        url = "https://raw.githubusercontent.com/emacsmirror/emacswiki.org/601b51e25e758083e66fab433cf61d22713fed51/hide-comnt.el";
-        sha256 = "0v3wgl9r9w0qbvs1cxgl7am9hvpy6hyhvfbsjqix5n0zmdg68s4n";
-      };
-    };
   };
 
-in
-{
-  emacsPackages = basePkgs.emacsPackages.overrideScope emacsOverrides;
+  magit-difftastic = compileEmacsFiles {
+    name = "magit-difftastic.el";
+    src = builtins.fetchurl {
+      url = "https://raw.githubusercontent.com/rschmukler/magit-difftastic/1e2a1f60288341893a9d21d8a900739be9f34e40/magit-difftastic.el";
+      sha256 = "0zr0n9x2029f4f2x33kjs7r826zc1kz7iziq4ik58w1nj4247qxz";
+    };
+    buildInputs = with eSelf.melpaPackages; [
+      cond-let
+      difftastic
+      llama
+      magit
+      magit-section
+      transient
+      with-editor
+    ];
+  };
+
+  etymology-of-word = compileEmacsFiles {
+    name = "etymology-of-word.el";
+    src = builtins.fetchurl {
+      url = "https://raw.githubusercontent.com/Camsbury/etymology-of-word/master/etymology-of-word.el";
+      sha256 = "09yk4qrk3k5ygdqlj3ksdqzxh5532ychs4msphqrw3nim5dxhklw";
+    };
+    buildInputs = with eSelf.melpaPackages; [
+      dash
+    ];
+  };
+
+  hide-comnt = compileEmacsFiles {
+    name = "hide-comnt.el";
+    src = builtins.fetchurl {
+      url = "https://raw.githubusercontent.com/emacsmirror/emacswiki.org/601b51e25e758083e66fab433cf61d22713fed51/hide-comnt.el";
+      sha256 = "0v3wgl9r9w0qbvs1cxgl7am9hvpy6hyhvfbsjqix5n0zmdg68s4n";
+    };
+  };
 }

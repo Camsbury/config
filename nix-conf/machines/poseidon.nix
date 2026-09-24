@@ -81,7 +81,9 @@
       ];
       dpi = 139;
       displayManager.sessionCommands = ''
-        echo "Xft.dpi: 139" | ${pkgs.xrdb}/bin/xrdb -merge
+        echo "Xft.dpi: ${toString config.services.xserver.dpi}" | ${pkgs.xrdb}/bin/xrdb -merge
+        ${config.hardware.nvidia.package.settings}/bin/nvidia-settings \
+          -a AllowVRR=0
       '';
     };
 

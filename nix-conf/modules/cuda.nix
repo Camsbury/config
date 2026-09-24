@@ -1,8 +1,10 @@
-{ config, pkgs, ... }:
+{ config, pkgs, sources, ... }:
 
 let
-  cudaPkgs = import (import ../pins.nix).cuda {
-    config = { allowUnfree = true; };
+  cudaPkgs = import sources.nixpkgs-unstable {
+    config = {
+      allowUnfree = true;
+    };
   };
 in
   {

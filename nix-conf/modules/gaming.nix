@@ -1,7 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, sources, ... }:
 
 let
-  winePkgs  = import (import ../pins.nix).wine {
+  winePkgs  = import sources.nixpkgs-unstable {
     config = {
       allowUnfree = true;
     };

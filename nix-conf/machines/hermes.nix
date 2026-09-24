@@ -1,11 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, sources, ... }:
 
 {
   imports = [
     ../modules/core.nix
 
     # hardware
-    "${(import ../pins.nix).hardware}/dell/xps/13-9310"
+    "${sources.nixos-hardware}/dell/xps/13-9310"
     ../modules/intel.nix
     ../modules/ssd.nix
     ../modules/laptop.nix

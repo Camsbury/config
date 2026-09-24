@@ -32,7 +32,6 @@ in
       ".Xresources".source = ../../Xresources;
       ".clojure".source = sym ../../clojure;
       ".config/dunst/dunstrc".source = sym ../../dunstrc;
-      ".config/gollama/config.json".source = sym ../../gollama-conf.json;
       ".config/msmtp/config".source = ../../msmtp-config;
       ".gitconfig".source = sym ../../gitconfig;
       ".gitignore".source = sym ../../global-gitignore;

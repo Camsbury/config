@@ -1,12 +1,12 @@
 {stdenv, fetchurl, pkgs}:
 
 stdenv.mkDerivation (rec {
-  version = "45e4e97ba4ec30c7e23296a75427964fc27fb029";
+  version = "41cb143ccc3b8cc444bf20257276cb43275f65c4";
   pname = "alias-tips";
   name = "${pname}-${version}";
   src = fetchurl {
-    url = https://github.com/djui/alias-tips/archive/45e4e97.zip;
-    sha256 = "1w7br909l9rmpywphqp4qh57gczwrgc2zrfnx24xzpadv1dgimv9";
+    url = https://github.com/djui/alias-tips/archive/41cb143.zip;
+    hash = "sha256-gvq+PA031bPGGL6Yt0xDgBlZVm5WARwWFmCQM6dVWlg=";
   };
   nativeBuildInputs = [ pkgs.unzip ];
   buildInputs = [ pkgs.unzip ];

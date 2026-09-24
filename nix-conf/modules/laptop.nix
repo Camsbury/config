@@ -1,8 +1,8 @@
-{ config, pkgs, ... }:
+{ config, pkgs, sources, ... }:
 
 {
   imports = [
-    "${(import ../pins.nix).hardware}/common/pc/laptop"
+    "${sources.nixos-hardware}/common/pc/laptop"
     ./check-battery.nix
   ];
   boot.kernelParams = [

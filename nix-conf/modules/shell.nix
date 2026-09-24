@@ -25,6 +25,7 @@
       killall
       man-pages
       nix-index
+      npins
       oh-my-zsh
       pciutils
       sourceHighlight
@@ -43,7 +44,6 @@
   services.udisks2.enable = true;
 
   console = {
-    # font = "Go Mono";
     useXkbConfig = true;
   };
 

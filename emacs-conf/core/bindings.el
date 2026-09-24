@@ -338,7 +338,7 @@ X clients under EXWM."
   ("s-s" #'ck/unescape-clipboard-string  "unescape clipboard string")
   ("t" #'hydra-nav/body               "nav")
   ("s-t" #'ck/cycle-theme                "cycle theme")
-  ("T" #'explain-pause-top            "emacs top")
+  ;; ("T")
   ("u" #'ck/prettify-windows             "prettify")
   ;; ("U")
   ("v" #'hydra-window/body            "window")

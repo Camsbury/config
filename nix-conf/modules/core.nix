@@ -27,11 +27,6 @@
     ./utils.nix
   ];
 
-  environment.variables = {
-    USER_EMAIL = "camsbury7@gmail.com";
-    SHAREPATH = "/home/${toString config.users.users.default.name}/Dropbox/lxndr";
-  };
-
   systemd.settings.Manager.DefaultTimeoutStopSec = 10;
 
   # Needed for Home Manager to set GTK themes
@@ -46,6 +41,10 @@
         "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}"
         "${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}"
       ];
+    };
+    variables = {
+      USER_EMAIL = "camsbury7@gmail.com";
+      SHAREPATH = "/home/${toString config.users.users.default.name}/Dropbox/lxndr";
     };
   };
   qt = {

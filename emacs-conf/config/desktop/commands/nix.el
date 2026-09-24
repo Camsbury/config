@@ -16,18 +16,17 @@
      "nix-channel --update"
      (generate-new-buffer-name "*Nix Update Channels*"))))
 
+
 (defun ck/nixos-channel-version ()
   "Get the nixos channel version"
   (interactive)
   (kill-new
-   ;; (shell-command-to-string "nix-instantiate --eval -E '(import <nixos> {}).lib.version'")
    (shell-command-to-string "cat /nix/var/nix/profiles/per-user/root/channels/nixos/svn-revision")))
 
 (defun ck/nixpkgs-channel-version ()
   "Get the nixpkgs channel version"
   (interactive)
   (kill-new
-   ;; (shell-command-to-string "nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'")
    (shell-command-to-string "cat /nix/var/nix/profiles/per-user/root/channels/nixpkgs/svn-revision")))
 
 (defun ck/nixos-rebuild-switch ()

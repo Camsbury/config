@@ -112,11 +112,6 @@
       gseg = "gdb --batch --ex run --ex bt --ex q --args";
       bam = "bear -a make";
 
-      # redshift
-      red = "redshift -PO 1000k";
-      orng = "redshift -PO 2000k";
-      blue = "redshift -x";
-
       # nix
       ncu = "sudo nix-channel --update";
       npk = ''
@@ -125,7 +120,9 @@
       '';
       npka = "sudo nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq";
       nxp = "lorri init && direnv allow";
-      nxb = "nh os switch -f '<nixpkgs/nixos>' -- -I nixos-config=/etc/nixos/configuration.nix";
+      # Build through system.nix, not <nixpkgs/nixos>: it holds the pins
+      # and passes the home-manager-pkgs arg user.nix needs.
+      nxb = "nh os switch -f /etc/nixos/system.nix";
       nxs = "sudo nixos-rebuild switch";
       nxsr = "cd ~ && sudo nixos-rebuild switch && sudo reboot";
       nxt = "cd ~ && sudo nixos-rebuild test; cd -";
@@ -141,8 +138,7 @@
       nq = "nix-query";
       nqu = "NIXPKGS_ALLOW_UNFREE=1 nix-env -qaP";
       nr = "nix repl";
-      nrn = ''nix repl --expr "import <nixpkgs/nixos> { configuration = import <nixos-config>; }"'';
-      nrp = ''nix repl "<nixpkgs>"'';
+      nrn = "nix repl --file nix-conf/system.nix";
       ns = "nix-shell";
       nsd = "nix show-derivation";
       nsp = "nix-shell --pure";
@@ -150,7 +146,6 @@
       nsrefr = "nix-store-referrers";
       nst = "nix-store";
       nstp = "nix-store-path";
-      nsu = "nix-shell --arg nixpkgs 'import <nixpkgs-unstable> {}'";
       # cabal
       cbw = ''ghcid -c "cabal repl lib:bobby" | source-highlight -s haskell -f esc'';
       ctw = ''ghcid -c "cabal repl test:bobby-tests" --warnings --test "Main.main" | source-highlight -s haskell -f esc'';

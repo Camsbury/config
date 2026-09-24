@@ -1,7 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, sources, ... }:
 
 {
   imports = [
-    "${(import ../pins.nix).hardware}/common/cpu/intel"
+    "${sources.nixos-hardware}/common/cpu/intel"
   ];
 }

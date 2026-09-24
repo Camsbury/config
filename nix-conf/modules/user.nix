@@ -1,7 +1,7 @@
-{ config, pkgs, lib, home-manager-pkgs, ... }:
+{ config, pkgs, lib, sources, ... }:
 
 {
-  imports = [ (import "${home-manager-pkgs}/nixos") ];
+  imports = [ (import "${sources.home-manager}/nixos") ];
 
   users = {
     mutableUsers = false;

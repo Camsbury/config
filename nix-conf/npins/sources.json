@@ -1,0 +1,43 @@
+{
+  "pins": {
+    "home-manager": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nix-community",
+        "repo": "home-manager"
+      },
+      "branch": "release-26.05",
+      "submodules": false,
+      "revision": "a6631107a83ceab5872f298a2ea710859c80c4cb",
+      "url": "https://github.com/nix-community/home-manager/archive/a6631107a83ceab5872f298a2ea710859c80c4cb.tar.gz",
+      "hash": "sha256-VkR1rMGyjU9jtw8ISFx5uqR9e+LEaOlhHwrseFkiIVk="
+    },
+    "nixos-hardware": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "NixOS",
+        "repo": "nixos-hardware"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "9ebcb7766700d7e006d9505247bd7ce0426f4232",
+      "url": "https://github.com/NixOS/nixos-hardware/archive/9ebcb7766700d7e006d9505247bd7ce0426f4232.tar.gz",
+      "hash": "sha256-FIRXajv1pPZ+l6On6ekkmcQ6le0Zi0ncRUoR3nB0vKA="
+    },
+    "nixpkgs": {
+      "type": "Channel",
+      "name": "nixos-26.05",
+      "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.10529.c508844df6c2/nixexprs.tar.xz",
+      "hash": "sha256-qdM4Skrqq9Xps3OPNi9PWC6/hrWK9eDx5DUAUUaoz+o="
+    },
+    "nixpkgs-unstable": {
+      "type": "Channel",
+      "name": "nixpkgs-unstable",
+      "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.11pre1078969.34ca302a9572/nixexprs.tar.xz",
+      "hash": "sha256-nuO5fxDxKTeYxSEfD4mVB+XwzOy5qj9T2LxVc5vk4Bc="
+    }
+  },
+  "version": 7
+}
