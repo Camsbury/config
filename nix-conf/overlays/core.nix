@@ -29,6 +29,9 @@ in
         cmacs-emacs = emacsPackages.emacsWithPackages (import ../packages/emacs.nix);
         cmacs-eca-upstream-guard = callPackage (import ../derivations/cmacs-eca-upstream-guard) { };
         cmacs-load-path = callPackage (import ../derivations/cmacs-load-path) { };
+        peon-ping = callPackage (import ../derivations/peon-ping) {
+          src = sources.peon-ping.outPath;
+        };
         pgn-extract = callPackage (import ../derivations/pgn-extract) { };
       }
       // (with unstablePkgs; {
