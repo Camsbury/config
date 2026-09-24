@@ -2,6 +2,7 @@
 (require 'prelude)
 (require 'projectile)
 (require 'exwm)
+(require 'core/desktop) ; ck/wm-home-workspace
 (require 'lib/shell)   ; ck/-run-shell-command
 
 (defun ck/mtgo ()
@@ -130,7 +131,7 @@ todos): the rename waits on a sleep-and-match race instead of
                (0 "Spotify")))
     (exwm-workspace-switch (car i))
     (exwm-workspace-switch-to-buffer (cadr i)))
-  (exwm-workspace-switch 1))
+  (exwm-workspace-switch ck/wm-home-workspace))
 
 (defun ck/exwm-run-command ()
   "Pick a command to run from those available"

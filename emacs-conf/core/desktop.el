@@ -14,7 +14,6 @@
           (lambda ()
             (exwm-workspace-rename-buffer exwm-class-name)))
 (customize-set-variable 'exwm-workspace-number 10)
-(customize-set-variable 'exwm-workspace-current-index 1)
 
 (defun ck/set-exwm-global-keys (bindings)
   "Set EXWM global keys from a list of (KEY-STRING COMMAND) pairs.
@@ -106,16 +105,23 @@ Both keys are key description strings."
 
 ;; --- WM activation seam ---------------------------------------------------
 ;; Loading this file only DEFINES the WM setup; it must never enable EXWM at
-;; load time, so the whole config stays usable on a plain TTY (no X).  The two
-;; activation steps (become the WM, create workspaces) are gathered into
-;; `ck/enable-wm', which init.el calls only when `ck/wm-session-p' is non-nil.
+;; load time, so the whole config stays usable on a plain TTY (no X).  EXWM
+;; starts only from `ck/enable-wm', which init.el calls only when
+;; `ck/wm-session-p' is non-nil.  EXWM creates the workspaces itself, and
+;; `ck/wm--on-init' runs once they exist.
 ;; This is the TTY-vs-WM dispatch seam (decision 0016).  The WM-free load
 ;; invariant is machine-checked by tools/wm-free-check.sh.
 
 (defvar ck/wm-active-p nil
-  "Non-nil once `ck/enable-wm' has started EXWM in this session.
+  "Non-nil while EXWM, started by `ck/enable-wm', is running.
 Lets any feature branch on \"am I the window manager?\" without probing
-EXWM internals.  Stays nil on a TTY session.")
+EXWM internals.  Stays nil on a TTY session or when EXWM fails to start,
+and returns to nil when EXWM exits.")
+
+(defconst ck/wm-home-workspace 1
+  "Index of the workspace the session rests on.
+The session lands here once EXWM is up, and
+`ck/align-all-applications' returns here after placing the apps.")
 
 (defun ck/wm-session-p ()
   "Non-nil when this Emacs should act as the EXWM window manager.
@@ -123,14 +129,32 @@ True for the graphical X login session, nil on a plain TTY (where
 `initial-window-system' is nil)."
   (eq initial-window-system 'x))
 
+(defun ck/wm--on-init ()
+  "Finish WM activation once EXWM has built its workspaces.
+Runs on `exwm-init-hook', after EXWM has created `exwm-workspace-number'
+workspaces and selected workspace 0.
+
+EXWM runs this hook inside its init error handler, which shuts EXWM
+down on any error.  Errors here are demoted to messages so a bad switch
+costs only the home workspace, never the window manager."
+  (setq ck/wm-active-p t)
+  (with-demoted-errors "ck/wm--on-init: %S"
+    (exwm-workspace-switch ck/wm-home-workspace)))
+
+(defun ck/wm--on-exit ()
+  "Clear `ck/wm-active-p' when EXWM exits.  Runs on `exwm-exit-hook'."
+  (setq ck/wm-active-p nil))
+
 (defun ck/enable-wm ()
-  "Become the X window manager: start EXWM and create workspaces.
+  "Become the X window manager by starting EXWM.
 Call only from a real X session (see `ck/wm-session-p'); on a TTY EXWM
-cannot connect to X and would abort startup."
-  (exwm-wm-mode)
-  (dolist (i (number-sequence 0 9))
-    (exwm-workspace-switch-create i))
-  (exwm-workspace-switch 1)
-  (setq ck/wm-active-p t))
+cannot connect to X and would abort startup.
+
+During init, `exwm-wm-mode' only schedules EXWM on `window-setup-hook',
+so no workspace exists when this returns.  EXWM creates the workspaces
+itself; everything that needs them runs from `ck/wm--on-init'."
+  (add-hook 'exwm-init-hook #'ck/wm--on-init)
+  (add-hook 'exwm-exit-hook #'ck/wm--on-exit)
+  (exwm-wm-mode))
 
 (provide 'core/desktop)

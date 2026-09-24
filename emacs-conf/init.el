@@ -44,8 +44,9 @@
 ;; TTY (`ck/wm-session-p' nil) EXWM cannot connect to X, so we skip activation
 ;; and the config runs editor-only.  The whole tree is already WM-free at load
 ;; time (tools/wm-free-check.sh); this gate is the one place the WM turns on.
-;; The activation body (start EXWM, create workspaces) lives in `ck/enable-wm'
-;; in core/desktop.el.  TTY-vs-WM dispatch seam: decision 0016.
+;; The activation body (start EXWM, then land on the home workspace once
+;; EXWM has created its workspaces) lives in `ck/enable-wm' in
+;; core/desktop.el.  TTY-vs-WM dispatch seam: decision 0016.
 (when (ck/wm-session-p)
   (ck/enable-wm))
 
