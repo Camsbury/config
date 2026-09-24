@@ -122,9 +122,9 @@ Ignores docstring warnings (out of scope for the dependency refactor)."
       (cond
        ((string-match-p "docstring" line) nil)
        ((string-match-p "\\(is not known to be defined\\|might not be defined at runtime\\)" line)
-        (when-let ((s (cmacs-deps--between-quotes line))) (push s fns)))
+        (when-let* ((s (cmacs-deps--between-quotes line))) (push s fns)))
        ((string-match-p "reference to free variable" line)
-        (when-let ((s (cmacs-deps--between-quotes line))) (push s vars)))))
+        (when-let* ((s (cmacs-deps--between-quotes line))) (push s vars)))))
     (cons (sort (delete-dups fns) #'string<)
           (sort (delete-dups vars) #'string<))))
 

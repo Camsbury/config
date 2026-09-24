@@ -92,7 +92,7 @@ described above. See the commentary in this file before extending.")
 
 (defun ck/exwm--protected-id-p (id)
   "Non-nil if X window ID belongs to a `ck/exwm-no-unmap-classes' client."
-  (when-let ((buf (exwm--id->buffer id)))
+  (when-let* ((buf (exwm--id->buffer id)))
     (with-current-buffer buf
       (and (derived-mode-p 'exwm-mode)
            (or (member exwm-class-name    ck/exwm-no-unmap-classes)

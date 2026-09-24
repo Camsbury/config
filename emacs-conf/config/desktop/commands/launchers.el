@@ -93,8 +93,8 @@ todos): the rename waits on a sleep-and-match race instead of
 (defun ck/kill-project-xterm ()
   "Kill the xterm associated with the project"
   (interactive)
-  (when-let (p-name (when (stringp (projectile-project-root))
-                      (car (last (f-split (projectile-project-root))))))
+  (when-let* ((root (projectile-project-root))
+              (p-name (car (last (f-split root)))))
     (shell-command
      (concat "tmux kill-session -t " p-name))))
 

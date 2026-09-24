@@ -33,11 +33,14 @@ fi
 
 # Capture the live session's load-path once (includes emacs-conf/ + every Nix
 # package dir).  emacsclient writes it as a `(setq load-path '(...))' form that
-# the batch process loads before compiling.
+# the batch process loads before compiling.  The cookie keeps Emacs 31 from
+# warning that the generated file lacks `lexical-binding'.
 lp="$(mktemp --suffix=.el)"
 trap 'rm -f "$lp"' EXIT
 if ! emacsclient --eval \
-     "(with-temp-file \"$lp\" (prin1 \`(setq load-path ',load-path) (current-buffer)))" \
+     "(with-temp-file \"$lp\"
+        (insert \";; -*- lexical-binding: t; -*-\n\")
+        (prin1 \`(setq load-path ',load-path) (current-buffer)))" \
      >/dev/null 2>&1; then
   echo "fc-check: no live WM Emacs (emacsclient failed); start it first." >&2
   exit 1

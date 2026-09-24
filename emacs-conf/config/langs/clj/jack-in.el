@@ -17,8 +17,8 @@
 
 (defun ck/cider--tmux-session ()
   "tmux session name for the current project's nREPL server, or nil."
-  (when-let (p-name (when (stringp (projectile-project-root))
-                      (car (last (f-split (projectile-project-root))))))
+  (when-let* ((root (projectile-project-root))
+              (p-name (car (last (f-split root)))))
     (concat "cider-" p-name)))
 
 (defun ck/cider-kill-tmux ()

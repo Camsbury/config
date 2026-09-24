@@ -119,8 +119,8 @@ programmatic buffer display.  Splits at the band level
 (`ck/band-window'), so a stacked band shifts as a unit.  Returns nil
 when the band cannot be split (frame too narrow), letting
 `display-buffer' fall through to its next action."
-  (when-let ((window (ignore-errors
-                       (split-window (ck/band-window) nil 'right))))
+  (when-let* ((window (ignore-errors
+                        (split-window (ck/band-window) nil 'right))))
     (window--display-buffer buffer window 'window alist)))
 
 ;; Default display policy: never land a buffer in the pane below.
