@@ -19,7 +19,13 @@
    sendmail-program "/run/current-system/sw/bin/msmtp"
    mail-specify-envelope-from t
    mail-envelope-from 'header
-   shr-color-visible-luminance-min 80)
+   shr-color-visible-luminance-min 80
+   ;; mbsync.service syncs and sorts mail, but it cannot write the mu
+   ;; database while mu4e's server holds the lock, so mu4e indexes on
+   ;; the same 5-minute cadence while it runs. Keep the default full
+   ;; (non-lazy) check: a lazy one can miss files the sorter moved in
+   ;; the same second as the last scan of their folder.
+   mu4e-update-interval 300)
   (with-eval-after-load 'mu4e
     (evil-collection-mu4e-setup)))
 
