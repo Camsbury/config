@@ -39,7 +39,7 @@ Each entry is (KIND SESSION . ARGS) where KIND is `async' or `sync'.")
 (defvar-local ck/eca-upstream-fake--chat-id nil)
 (defvar-local ck/eca-upstream-fake--chat-loading nil)
 (defvar-local ck/eca-upstream-fake--history-loading nil)
-(defvar-local ck/eca-upstream-fake--pending-question nil)
+(defvar-local ck/eca-upstream-fake--pending-questions nil)
 (defvar-local ck/eca-upstream-fake--closed nil)
 (defvar-local ck/eca-upstream-fake--last-user-message-pos nil)
 (defvar-local ck/eca-upstream-fake--prompt-field-start-point nil)
@@ -60,7 +60,7 @@ Each entry is (KIND SESSION . ARGS) where KIND is `async' or `sync'.")
 
 (cl-defun ck/eca-upstream-fake-setup-chat
     (&key (buffer (current-buffer))
-          id chat-loading history-loading pending-question closed
+          id chat-loading history-loading pending-questions closed
           last-user-message-pos prompt-field-start-point
           prompt-area-start-point (prompt-content ""))
   "Establish fake chat state in BUFFER from the keyword arguments.
@@ -70,7 +70,7 @@ write; each keyword maps to the matching `ck/eca-upstream-' accessor."
     (setq-local ck/eca-upstream-fake--chat-id id
                 ck/eca-upstream-fake--chat-loading chat-loading
                 ck/eca-upstream-fake--history-loading history-loading
-                ck/eca-upstream-fake--pending-question pending-question
+                ck/eca-upstream-fake--pending-questions pending-questions
                 ck/eca-upstream-fake--closed closed
                 ck/eca-upstream-fake--last-user-message-pos last-user-message-pos
                 ck/eca-upstream-fake--prompt-field-start-point prompt-field-start-point
@@ -129,8 +129,9 @@ captured from `eca-api-request-async'."
 (defun ck/eca-upstream-history-loading-p (&optional buffer)
   (ck/eca-upstream--fake-blocal 'ck/eca-upstream-fake--history-loading buffer))
 
-(defun ck/eca-upstream-pending-question (&optional buffer)
-  (ck/eca-upstream--fake-blocal 'ck/eca-upstream-fake--pending-question buffer))
+(defun ck/eca-upstream-pending-questions (&optional buffer)
+  (ck/eca-upstream--fake-blocal
+   'ck/eca-upstream-fake--pending-questions buffer))
 
 (defun ck/eca-upstream-chat-closed-p (&optional buffer)
   (ck/eca-upstream--fake-blocal 'ck/eca-upstream-fake--closed buffer))
@@ -204,9 +205,13 @@ captured from `eca-api-request-async'."
 ;;; Chat navigation / attention ----------------------------------------------
 
 (defun ck/eca-upstream-needs-attention-p (buffer)
-  (or (ck/eca-upstream-pending-question buffer)
-      (with-current-buffer buffer
-        (ck/eca-upstream-buffer-has-pending-approval-p))))
+  ;; Mirror upstream's guards: only a live chat buffer can need attention.
+  (and (buffer-live-p buffer)
+       (with-current-buffer buffer
+         (and (derived-mode-p 'eca-chat-mode)
+              (or (ck/eca-upstream-pending-questions buffer)
+                  (ck/eca-upstream-buffer-has-pending-approval-p))
+              t))))
 
 (defun ck/eca-upstream-switch-to-buffer (buffer _session)
   (when (buffer-live-p buffer)

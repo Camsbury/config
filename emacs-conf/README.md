@@ -233,6 +233,7 @@ running configuration.
 | `tools/cmacs-deps.el` | Inspect dependencies and classify modules |
 | `tools/lib-guard.sh` | Protect the library and application boundary |
 | `tools/wm-free-check.sh` | Prove the tree loads without activating EXWM |
+| `tools/eca-upstream-guard.sh` | Check the ECA adapter's upstream names exist |
 
 ## Command surfaces
 
@@ -351,6 +352,7 @@ agent docs are present.
 
 - Run `tools/fc-check.sh` on changed Emacs Lisp.
 - Run `tools/wm-free-check.sh` after load-order or boundary changes.
+- Run `tools/eca-upstream-guard.sh` after an `eca` package bump.
 - Exercise the real interactive path in the running Emacs.
 - Read back state after the command completes.
 

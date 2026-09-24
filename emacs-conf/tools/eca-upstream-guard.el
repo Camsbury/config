@@ -41,7 +41,7 @@
 
 (defconst ck/eca-upstream-guard--variables
   '(eca--sessions eca-chat--id eca-chat--chat-loading
-    eca-chat--history-loading eca-chat--pending-question
+    eca-chat--history-loading eca-chat--pending-questions
     eca-chat--closed eca-chat--last-user-message-pos)
   "Upstream variables the adapter reads; each must stay `boundp'.")
 

@@ -45,7 +45,7 @@ an active turn has finished and never while the chat is selected."
               (ck/eca-upstream-chat-id buffer)
               (not (ck/eca-upstream-chat-loading-p buffer))
               (not (ck/eca-upstream-history-loading-p buffer))
-              (not (ck/eca-upstream-pending-question buffer))
+              (not (ck/eca-upstream-pending-questions buffer))
               (> (buffer-size) ck/eca-chat-render-max-bytes)))))
 
 (defun ck/eca-chat--safe-to-window-p (buffer)

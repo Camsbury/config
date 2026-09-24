@@ -35,6 +35,13 @@
       (insert "01234567890")
       (ck/eca-upstream-fake-setup-chat :id "chat-1" :chat-loading t)
       (ck/eca-chat--maybe-window)
+      (should-not ck/eca-chat--window-queue))
+    (setq ck/eca-chat--window-queue nil)
+    (ck/eca-windowing-test--with-chat
+      (insert "01234567890")
+      (ck/eca-upstream-fake-setup-chat
+       :id "chat-1" :pending-questions (list '(:question "q?")))
+      (ck/eca-chat--maybe-window)
       (should-not ck/eca-chat--window-queue))))
 
 (ert-deftest ck/eca-windowing-reopens-with-a-bounded-latest-page ()

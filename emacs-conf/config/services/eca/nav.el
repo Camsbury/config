@@ -7,8 +7,9 @@
 ;;
 ;;   - A session's chats are tab-line tabs sharing ONE window; only the
 ;;     selected tab is that window's buffer, but a background tab can still
-;;     need attention (its `ck/eca-upstream-pending-question' / pending-approval
-;;     state is buffer-local and lives whether or not the tab is visible).
+;;     need attention (its `ck/eca-upstream-pending-questions' /
+;;     pending-approval state is buffer-local and lives whether or not the
+;;     tab is visible).
 ;;   - ECA never pins a session to an EXWM workspace; a session's location is
 ;;     simply wherever its one window currently sits.
 ;;

@@ -69,7 +69,7 @@
               eca-chat--id
               eca-chat--chat-loading
               eca-chat--history-loading
-              eca-chat--pending-question
+              eca-chat--pending-questions
               eca-chat--closed
               eca-chat--last-user-message-pos)
 
@@ -137,9 +137,11 @@
   "Non-nil when BUFFER is loading older history."
   (ck/eca-upstream--blocal 'eca-chat--history-loading buffer))
 
-(defun ck/eca-upstream-pending-question (&optional buffer)
-  "Return BUFFER's unanswered question, or nil."
-  (ck/eca-upstream--blocal 'eca-chat--pending-question buffer))
+(defun ck/eca-upstream-pending-questions (&optional buffer)
+  "Return BUFFER's unanswered questions in arrival order, or nil.
+Parallel `ask_user' tool calls can leave several pending at once.
+Arrival order is not display order: upstream sorts that separately."
+  (ck/eca-upstream--blocal 'eca-chat--pending-questions buffer))
 
 (defun ck/eca-upstream-chat-closed-p (&optional buffer)
   "Non-nil when BUFFER's chat is marked closed."
