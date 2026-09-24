@@ -8,26 +8,11 @@
   (interactive)
   (man "configuration.nix"))
 
-(defun ck/nix-channel-update ()
-  "Rebuild nixos"
-  (interactive)
-  (let ((default-directory "/sudo::"))
-    (async-shell-command
-     "nix-channel --update"
-     (generate-new-buffer-name "*Nix Update Channels*"))))
-
-
-(defun ck/nixos-channel-version ()
-  "Get the nixos channel version"
+(defun ck/nixos-revision ()
+  "Copy the nixpkgs revision the running system was built from."
   (interactive)
   (kill-new
-   (shell-command-to-string "cat /nix/var/nix/profiles/per-user/root/channels/nixos/svn-revision")))
-
-(defun ck/nixpkgs-channel-version ()
-  "Get the nixpkgs channel version"
-  (interactive)
-  (kill-new
-   (shell-command-to-string "cat /nix/var/nix/profiles/per-user/root/channels/nixpkgs/svn-revision")))
+   (string-trim (shell-command-to-string "nixos-version --revision"))))
 
 (defun ck/nixos-rebuild-switch ()
   "Rebuild nixos"
@@ -48,11 +33,14 @@
    (generate-new-buffer-name (concat "*Searching for package: " pkg "*"))))
 
 (defun ck/nixos-option (option)
-  "Determine attributes of an option in current nixos expression"
+  "Print the value of OPTION in the system built from system.nix.
+Evaluates /etc/nixos/system.nix, which passes the npins `sources' the
+modules need; `nixos-option' goes through <nixpkgs/nixos> and cannot."
   (interactive "sOption: ")
   (async-shell-command
-   (concat "nixos-option " option)
-   (generate-new-buffer-name (concat  "*Describing Option: " option "*"))))
+   (concat "nix eval -f /etc/nixos/system.nix "
+           (shell-quote-argument (concat "config." option)))
+   (generate-new-buffer-name (concat "*Describing Option: " option "*"))))
 
 (defun ck/ergodox-build-and-flash ()
   "Rebuild ergodox"

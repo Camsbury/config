@@ -113,15 +113,15 @@
       bam = "bear -a make";
 
       # nix
-      ncu = "sudo nix-channel --update";
       npk = ''
-        sudo nixos-option environment.systemPackages | head -n -2 | tail -n -1 |
-        sed -e 's/ /\n/g' | cut -d- -f2- | sort | uniq;
+        nix eval --json -f /etc/nixos/system.nix \
+          config.environment.systemPackages \
+          --apply 'map (p: p.name)' | jq -r '.[]' | sort -u
       '';
       npka = "sudo nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq";
       nxp = "lorri init && direnv allow";
       # Build through system.nix, not <nixpkgs/nixos>: it holds the pins
-      # and passes the home-manager-pkgs arg user.nix needs.
+      # and passes the `sources` arg the modules need.
       nxb = "nh os switch -f /etc/nixos/system.nix";
       nxs = "sudo nixos-rebuild switch";
       nxsr = "cd ~ && sudo nixos-rebuild switch && sudo reboot";

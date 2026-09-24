@@ -267,10 +267,8 @@ X clients under EXWM."
   "nixos commands"
   ("g" #'ck/nix-collect-garbage     "clean nix store")
   ("m" #'ck/nixos-man               "open man page for configuration.nix")
-  ("o" #'ck/nixos-option            "inspect a configuration.nix option")
-  ("O" #'ck/nixos-channel-version   "copy nixos channel version")
-  ("p" #'ck/nixpkgs-channel-version "copy nixpkgs channel version")
-  ("u" #'ck/nix-channel-update      "update channels")
+  ("o" #'ck/nixos-option            "print a NixOS option's value")
+  ("O" #'ck/nixos-revision          "copy system nixpkgs revision")
   ("x" #'ck/nixos-rebuild-switch    "update nixos")
   ("f" #'ck/nix-search              "search nixpkgs")
   ("F" #'nix-search-update-cache    "update search cache")
