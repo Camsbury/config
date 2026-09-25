@@ -1,12 +1,13 @@
 # John Weigley's builder!
-{ stdenv
-, lib
-, emacs
-, name
-, src
-, buildInputs ? []
-, patches ? []
-, preBuild ? ""
+{
+  stdenv,
+  lib,
+  emacs,
+  name,
+  src,
+  buildInputs ? [ ],
+  patches ? [ ],
+  preBuild ? "",
 }:
 
 stdenv.mkDerivation {
@@ -17,8 +18,7 @@ stdenv.mkDerivation {
   buildInputs = [ emacs ] ++ buildInputs;
   buildPhase = ''
     ${preBuild}
-    ARGS=$(find ${lib.concatStrings
-                  (builtins.map (arg: arg + "/share/emacs/site-lisp ") buildInputs)} \
+    ARGS=$(find ${lib.concatStrings (builtins.map (arg: arg + "/share/emacs/site-lisp ") buildInputs)} \
                  -type d -exec echo -L {} \;)
     ${emacs}/bin/emacs -Q -nw -L . $ARGS --batch -f batch-byte-compile *.el
   '';
@@ -28,7 +28,7 @@ stdenv.mkDerivation {
   '';
   meta = {
     description = "Emacs projects from the Internet that just compile .el files";
-    homepage = http://www.emacswiki.org;
+    homepage = "http://www.emacswiki.org";
     platforms = lib.platforms.all;
   };
 }

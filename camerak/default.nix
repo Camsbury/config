@@ -1,6 +1,6 @@
 let
   pkgs = import ./pinned.nix {
-    overlays = [(import ./overlays.nix)];
+    overlays = [ (import ./overlays.nix) ];
   };
 in
 

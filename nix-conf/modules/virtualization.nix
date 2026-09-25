@@ -4,7 +4,7 @@
   # NOTE: run `virsh net-autostart default`
   environment = {
     variables = {
-      LIBVIRT_DEFAULT_URI="qemu:///system";
+      LIBVIRT_DEFAULT_URI = "qemu:///system";
     };
     systemPackages = with pkgs; [
       virt-viewer
@@ -29,7 +29,10 @@
   users.users.default.extraGroups = [ "libvirtd" ];
 
   # Pick the right module for your CPU:
-  boot.kernelModules = [ "kvm" "kvm_intel" ];
+  boot.kernelModules = [
+    "kvm"
+    "kvm_intel"
+  ];
 
   # Optional: UEFI firmware and TPM for modern guests
 }

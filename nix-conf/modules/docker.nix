@@ -7,8 +7,8 @@
   ];
 
   users = {
-    groups.docker = {};
-    users.default.extraGroups = ["docker"];
+    groups.docker = { };
+    users.default.extraGroups = [ "docker" ];
   };
 
   virtualisation.docker = {

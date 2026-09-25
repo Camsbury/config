@@ -2,5 +2,5 @@
 
 {
   services.trezord.enable = true;
-  environment.systemPackages = [pkgs.trezor-udev-rules];
+  environment.systemPackages = [ pkgs.trezor-udev-rules ];
 }

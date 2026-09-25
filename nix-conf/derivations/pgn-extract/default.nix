@@ -1,4 +1,4 @@
-{stdenv, fetchurl}:
+{ stdenv, fetchurl }:
 
 stdenv.mkDerivation (rec {
   version = "24-11";
@@ -8,12 +8,11 @@ stdenv.mkDerivation (rec {
     url = "https://www.cs.kent.ac.uk/~djb/${pname}/${pname}-${version}.tgz";
     hash = "sha256-6aMqypVmb8qG5WOi30hDv2wPZQjXd6rS10OK1riMf/U=";
   };
-  installPhase =
-    ''
+  installPhase = ''
     mkdir -p $out/bin
     cp ${pname} $out/bin/${pname}
     chmod +x $out/bin/${pname}
-    '';
+  '';
   phases = [
     "unpackPhase"
     "buildPhase"

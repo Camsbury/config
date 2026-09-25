@@ -1,4 +1,9 @@
-{ config, pkgs, sources, ... }:
+{
+  config,
+  pkgs,
+  sources,
+  ...
+}:
 
 let
   cudaPkgs = import sources.nixpkgs-unstable {
@@ -7,11 +12,11 @@ let
     };
   };
 in
-  {
-    hardware.graphics.enable = true;
-    # hardware.opengl.setLdLibraryPath = true;
+{
+  hardware.graphics.enable = true;
+  # hardware.opengl.setLdLibraryPath = true;
 
-    environment.systemPackages = [
-      cudaPkgs.cudatoolkit
-    ];
-  }
+  environment.systemPackages = [
+    cudaPkgs.cudatoolkit
+  ];
+}

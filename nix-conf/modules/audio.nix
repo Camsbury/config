@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   environment.systemPackages = with pkgs; [
@@ -14,7 +19,7 @@
     alsa.support32Bit = true;
     extraConfig.pipewire = {
       "99-disable-bell" = {
-        "context.properties"= {
+        "context.properties" = {
           "module.x11.bell" = false;
         };
       };
@@ -32,7 +37,10 @@
           "bluez5.enable-sbc-xq" = true;
           "bluez5.enable-msbc" = true;
           "bluez5.enable-hw-volume" = true;
-          "bluez5.roles" = [ "a2dp_sink" "a2dp_source" ];
+          "bluez5.roles" = [
+            "a2dp_sink"
+            "a2dp_source"
+          ];
         };
       };
     };

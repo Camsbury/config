@@ -1,11 +1,15 @@
-{stdenv, fetchurl, pkgs}:
+{
+  stdenv,
+  fetchurl,
+  pkgs,
+}:
 
 stdenv.mkDerivation (rec {
   version = "41cb143ccc3b8cc444bf20257276cb43275f65c4";
   pname = "alias-tips";
   name = "${pname}-${version}";
   src = fetchurl {
-    url = https://github.com/djui/alias-tips/archive/41cb143.zip;
+    url = "https://github.com/djui/alias-tips/archive/41cb143.zip";
     hash = "sha256-gvq+PA031bPGGL6Yt0xDgBlZVm5WARwWFmCQM6dVWlg=";
   };
   nativeBuildInputs = [ pkgs.unzip ];

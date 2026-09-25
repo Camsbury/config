@@ -1,6 +1,6 @@
 super: eSelf: eSuper:
 let
-  compileEmacsFiles =  super.callPackage ./emacsBuilder.nix;
+  compileEmacsFiles = super.callPackage ./emacsBuilder.nix;
 in
 {
   melpaPackages = eSuper.melpaPackages // {
@@ -10,27 +10,27 @@ in
         rev = "4647946db593a0a1e45f77b1a996d4843f6e24a9";
         hash = "sha256-2EL1fTQthbahEiqht/QsR7GbRg2X/swPIT6dXWgG5+M=";
       in
-        eSelf.melpaBuild {
-          pname = "eca";
-          version = version;
+      eSelf.melpaBuild {
+        pname = "eca";
+        version = version;
 
-          recipe = builtins.toFile "recipe.el" ''
-            (eca :fetcher github :repo "editor-code-assistant/eca-emacs")
-          '';
+        recipe = builtins.toFile "recipe.el" ''
+          (eca :fetcher github :repo "editor-code-assistant/eca-emacs")
+        '';
 
-          buildInputs = with eSelf.melpaPackages; [
-            dash
-            f
-            markdown-mode
-          ];
+        buildInputs = with eSelf.melpaPackages; [
+          dash
+          f
+          markdown-mode
+        ];
 
-          src = super.fetchFromGitHub {
-            owner = "editor-code-assistant";
-            repo = "eca-emacs";
-            rev = rev;
-            hash = hash;
-          };
+        src = super.fetchFromGitHub {
+          owner = "editor-code-assistant";
+          repo = "eca-emacs";
+          rev = rev;
+          hash = hash;
         };
+      };
   };
 
   magit-difftastic = compileEmacsFiles {

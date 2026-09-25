@@ -6,7 +6,7 @@
     path = [ pkgs.libnotify ];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = ''${pkgs.check-low-battery}/bin/check-low-battery'';
+      ExecStart = "${pkgs.check-low-battery}/bin/check-low-battery";
     };
   };
   systemd.user.timers.check-low-battery = {
@@ -18,6 +18,6 @@
     };
   };
 
- systemd.user.services.check-low-battery.enable = true;
- systemd.user.timers.check-low-battery.enable = true;
+  systemd.user.services.check-low-battery.enable = true;
+  systemd.user.timers.check-low-battery.enable = true;
 }

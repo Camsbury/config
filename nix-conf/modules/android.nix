@@ -2,8 +2,8 @@
 
 {
   users = {
-    groups.adbusers = {};
-    users.default.extraGroups = ["adbusers"];
+    groups.adbusers = { };
+    users.default.extraGroups = [ "adbusers" ];
   };
   environment.systemPackages = with pkgs; [
     android-studio

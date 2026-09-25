@@ -1,5 +1,8 @@
-{stdenv, fetchurl, pkgs}:
-
+{
+  stdenv,
+  fetchurl,
+  pkgs,
+}:
 
 stdenv.mkDerivation (rec {
   version = "1.0.0";
