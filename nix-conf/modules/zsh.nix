@@ -103,8 +103,8 @@
       gsbu = "git status -sbu";
       gtt = "git-task-types";
       gpu = ''git push -u origin "$(git symbolic-ref --short HEAD)"'';
-      gsn = '''git add .; git commit --no-verify -m "wip"; git reset HEAD~'';
-      pulls = '''open "https://github.com:/$(git remote -v | /usr/bin/grep -oP "(?< = git@github.com:).+(? = \.git)" | HEAD -n 1)/pulls"'';
+      gsn = ''git add .; git commit --no-verify -m "wip"; git reset HEAD~'';
+      pulls = ''xdg-open "https://github.com/$(git remote get-url origin | grep -oP 'github\.com[:/]\K.+?(?=(\.git)?$)')/pulls"'';
       cdg = "cd-git-head";
       ghsh = "git rev-parse --short head";
 

@@ -46,7 +46,7 @@ let
   # hex values must be quoted and '#'-prefixed.
   miniConf = pkgs.writeText "lightdm-mini-greeter.conf" ''
     [greeter]
-    user = camsbury
+    user = ${config.users.users.default.name}
     show-password-label = true
     password-label-text = Password:
     invalid-password-text = nope

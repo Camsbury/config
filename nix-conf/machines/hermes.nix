@@ -1,4 +1,9 @@
-{ config, pkgs, sources, ... }:
+{
+  config,
+  pkgs,
+  sources,
+  ...
+}:
 
 {
   imports = [
@@ -13,7 +18,6 @@
 
     #functionality
     ../modules/bluetooth.nix
-    # ../modules/tract.nix
     ../modules/email.nix
     ../modules/gaming.nix
     ../modules/art.nix
@@ -28,13 +32,15 @@
   users.users.default.name = "camsbury";
 
   services.xserver.xrandrHeads = [
-    { output = "eDP-1";
+    {
+      output = "eDP-1";
       primary = true;
       monitorConfig = ''
         DisplaySize 406 228
       '';
     }
-    { output = "DP-3";
+    {
+      output = "DP-3";
       monitorConfig = ''
         DisplaySize 508 285
       '';

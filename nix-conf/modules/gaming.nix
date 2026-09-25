@@ -1,13 +1,20 @@
-{ config, pkgs, sources, ... }:
+{
+  config,
+  pkgs,
+  sources,
+  ...
+}:
 
 let
-  winePkgs  = import sources.nixpkgs-unstable {
+  winePkgs = import sources.nixpkgs-unstable {
     config = {
       allowUnfree = true;
     };
     overlays = [
       (self: super: {
-        openldap = super.openldap.overrideAttrs (_: { doCheck = false; });
+        openldap = super.openldap.overrideAttrs (_: {
+          doCheck = false;
+        });
       })
     ];
   };
@@ -58,12 +65,6 @@ in
 
   boot.kernel.sysctl = {
     "vm.max_map_count" = 1000000;
-  };
-
-  hardware.graphics = {
-    enable = true;
-    # driSupport = true;
-    enable32Bit = true;
   };
 
   systemd.services.joystickwake = {
