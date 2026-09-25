@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
 
+# The graphical session: X, the display manager, fonts, notifications, and
+# the desktop pieces imported below.
 {
   imports = [
     ./theme.nix
@@ -15,9 +17,6 @@
     libnotify
     redshift
     speechd # tts
-    xkb-switch
-    xbacklight
-    xmodmap
   ];
 
   fonts = {
@@ -35,17 +34,21 @@
     ];
   };
 
-  i18n = {
-    defaultLocale = "en_US.UTF-8";
-  };
-
   services.xserver = {
-    autoRepeatDelay = 300;
-    autoRepeatInterval = 15;
     enable = true;
-    xkb.layout = "us";
     displayManager.lightdm.enable = true;
   };
 
-  time.timeZone = "America/New_York";
+  # Lets cmacs's ck/restart-display-manager recover a broken session.
+  security.sudo.extraRules = [
+    {
+      users = [ "ALL" ];
+      commands = [
+        {
+          command = "/usr/bin/env systemctl restart display-manager.service";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
 }

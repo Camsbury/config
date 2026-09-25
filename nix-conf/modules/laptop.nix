@@ -1,4 +1,9 @@
-{ config, pkgs, sources, ... }:
+{
+  config,
+  pkgs,
+  sources,
+  ...
+}:
 
 {
   imports = [
@@ -18,5 +23,19 @@
   };
   environment.systemPackages = with pkgs; [
     check-low-battery
+    xbacklight
+  ];
+
+  # Lets scripts/brightness.sh set the panel brightness without a password.
+  security.sudo.extraRules = [
+    {
+      users = [ "ALL" ];
+      commands = [
+        {
+          command = "/usr/bin/env tee /sys/class/backlight/intel_backlight/brightness";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
   ];
 }

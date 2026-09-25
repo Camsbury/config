@@ -5,6 +5,34 @@
   ...
 }:
 
+let
+  # Blind monitor recovery, bound to F17 below. It wakes the panel (DPMS on,
+  # a harmless no-op when already awake), then retrains the DisplayPort link
+  # by modesetting DP-0 through 4K 120 Hz and back to 240 Hz. `+dpms` comes
+  # first because the X server answers `dpms force on` with BadMatch while
+  # DPMS is disabled, so the wake step would silently do nothing after any
+  # `xset -dpms`. Mirrors `ck/fix-monitor-blackouts`
+  # (emacs-conf/config/desktop/commands/system.el), but triggerhappy
+  # (modules/media_keys.nix) runs it BELOW the i3lock X keyboard grab, so it
+  # recovers a black overnight wake even while the screen is locked.
+  #
+  # xset and xrandr talk to X, so the script names the running server and
+  # the user's auth cookie explicitly: triggerhappy runs as the user but
+  # with a bare environment, and HOME is not reliable there, so the home
+  # path is resolved at eval time.
+  username = toString config.users.users.default.name;
+  xset = "${pkgs.xset}/bin/xset";
+  xrandr = "${pkgs.xrandr}/bin/xrandr";
+  monitorRecover = pkgs.writeShellScript "monitor-recover" ''
+    export DISPLAY=:0
+    export XAUTHORITY=/home/${username}/.Xauthority
+    ${xset} +dpms
+    ${xset} dpms force on
+    ${xrandr} --output DP-0 --mode 3840x2160 --rate 119.88
+    ${pkgs.coreutils}/bin/sleep 1
+    ${xrandr} --output DP-0 --mode 3840x2160 --rate 240.02
+  '';
+in
 {
   imports = [
     ../modules/core.nix
@@ -86,6 +114,15 @@
           -a AllowVRR=0
       '';
     };
+
+    # Monitor recovery (F17, mapped in QMK). Merges with the media-key
+    # bindings in modules/media_keys.nix.
+    triggerhappy.bindings = [
+      {
+        keys = [ "F17" ];
+        cmd = "${monitorRecover}";
+      }
+    ];
 
     # machine specific dl dir for transmission
     transmission.settings.download-dir = "/mnt/hdd16t/transmission-downloads";

@@ -1,16 +1,14 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
+# Reading and writing documents: viewers, typesetting, and the tools that
+# writing uses (plotting, spell checking).
 {
-  imports = [
-  ];
   environment.systemPackages = with pkgs; [
-    cachix
     calibre # ebook stuff
     ghostscript # for viewing pdfs
     gnuplot
     ispell # used for spell check
-    mpg123 # used in emacs and other quick mp3 playing
-    ouch # for easy compression semantics
     texliveFull # latex!
+    zathura
   ];
 }

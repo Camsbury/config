@@ -1,7 +1,17 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   documentation.dev.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    man-pages
+    tldr
+  ];
 
   # Publish the NixOS option docs at a stable path, so tools can read
   # option names, types, and descriptions without evaluating the system.

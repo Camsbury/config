@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
 
+# The interactive command line: the login shell, its configuration
+# (zsh.nix), and the command-line tools used from it.
 {
   imports = [
     ./zsh.nix
@@ -11,6 +13,7 @@
       HISTCONTROL = "ignorespace";
     };
     systemPackages = with pkgs; [
+      aria2
       autojump
       bat
       bottom
@@ -23,13 +26,10 @@
       httpie
       jq
       killall
-      man-pages
-      nix-index
-      npins
       oh-my-zsh
+      ouch # for easy compression semantics
       pciutils
       sourceHighlight
-      tldr
       tree
       unzip
       usbutils
@@ -39,12 +39,6 @@
       zip
       zsh
     ];
-  };
-
-  services.udisks2.enable = true;
-
-  console = {
-    useXkbConfig = true;
   };
 
   programs.bash.completion.enable = true;

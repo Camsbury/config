@@ -7,7 +7,9 @@
 
 # Shared desktop theme: the doom-molokam palette plus ONE processed wallpaper,
 # consumed by both the lock screen (screen_lock.nix) and the login greeter
-# (login_greeter.nix) so the two paint one palette over one background.
+# (login_greeter.nix) so the two paint one palette over one background. It
+# also sets the system side of GTK and Qt application theming (see the end of
+# the file).
 #
 # This is a proper NixOS module. It exposes `ck.theme.palette` and
 # `ck.theme.wallpaper` as options; read them through `config.ck.theme.*` in the
@@ -130,7 +132,30 @@ in
     };
   };
 
-  config.ck.theme = {
-    inherit palette wallpaper wallpaperLogoShifted;
+  config = {
+    ck.theme = {
+      inherit palette wallpaper wallpaperLogoShifted;
+    };
+
+    # GTK and Qt application theming. Home Manager sets the GTK theme
+    # (modules/home.nix) and needs dconf to store it.
+    programs.dconf.enable = true;
+    environment = {
+      systemPackages = with pkgs; [
+        gsettings-desktop-schemas
+        gtk3
+      ];
+      sessionVariables = {
+        XDG_DATA_DIRS = [
+          "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}"
+          "${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}"
+        ];
+      };
+    };
+    qt = {
+      enable = true;
+      platformTheme = "gnome";
+      style = "adwaita-dark";
+    };
   };
 }

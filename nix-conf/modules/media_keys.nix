@@ -1,12 +1,11 @@
 { config, pkgs, ... }:
 
-# Evdev hotkeys that must fire BELOW the locker's X keyboard grab. Two users:
-# media keys and blind monitor recovery (F17). Both share one hard requirement,
-# that they work while the screen is LOCKED, which an EXWM global binding cannot
-# meet because i3lock grabs the X keyboard. triggerhappy reads /dev/input below
-# X, so it fires regardless of the grab. See the F17 binding near the bottom for
-# the monitor-recovery case (a black overnight wake while locked); the rest of
-# this file is the media-key routing.
+# Evdev hotkeys that must fire BELOW the locker's X keyboard grab: they must
+# work while the screen is LOCKED, which an EXWM global binding cannot manage
+# because i3lock grabs the X keyboard. triggerhappy reads /dev/input below X,
+# so it fires regardless of the grab. This file owns the daemon and the
+# media-key routing; machines add their own bindings (poseidon's F17 monitor
+# recovery lives in machines/poseidon.nix).
 #
 # The hardware XF86Audio* keys used to be EXWM global bindings that shelled out
 # to Spotify over D-Bus. Two problems: they were hardcoded to one player, and
@@ -53,30 +52,6 @@ let
   # -l 1.0 caps volume at 100% so repeated raises cannot drive it into clipping.
   volUp = mkMedia "media-vol-up" "${wpctl} set-volume -l 1.0 @DEFAULT_SINK@ 5%+";
   volDown = mkMedia "media-vol-down" "${wpctl} set-volume @DEFAULT_SINK@ 5%-";
-
-  # Blind monitor recovery, bound to F17 below. Unlike the media wrappers (which
-  # only need the session bus), xset/xrandr talk to X, so this wrapper points at
-  # the running server and the user's auth cookie explicitly (triggerhappy runs
-  # as the user but with a bare env; HOME is not reliable, so the home path is
-  # resolved at eval time). It wakes the panel (DPMS on, a harmless no-op when
-  # already awake) then retrains the DisplayPort link by modesetting DP-0 through
-  # 4K 120 Hz and back to 240 Hz. `+dpms` comes first because the X server
-  # answers `dpms force on` with BadMatch while DPMS is disabled, so the wake
-  # step would silently do nothing after any `xset -dpms`. Mirrors `ck/fix-monitor-blackouts`
-  # (emacs-conf/config/desktop/commands/system.el) but runs BELOW the i3lock X
-  # keyboard grab, so it recovers the black overnight wake even while the screen
-  # is locked (the EXWM `s-m` binding cannot, since the locker owns the grab).
-  xset = "${pkgs.xset}/bin/xset";
-  xrandr = "${pkgs.xrandr}/bin/xrandr";
-  monitorRecover = pkgs.writeShellScript "monitor-recover" ''
-    export DISPLAY=:0
-    export XAUTHORITY=/home/${username}/.Xauthority
-    ${xset} +dpms
-    ${xset} dpms force on
-    ${xrandr} --output DP-0 --mode 3840x2160 --rate 119.88
-    ${pkgs.coreutils}/bin/sleep 1
-    ${xrandr} --output DP-0 --mode 3840x2160 --rate 240.02
-  '';
 in
 {
   environment.systemPackages = [ pkgs.playerctl ];
@@ -137,12 +112,6 @@ in
         keys = [ "VOLUMEDOWN" ];
         event = "hold";
         cmd = "${volDown}";
-      }
-      # Monitor recovery (F17, mapped in QMK). Works while the screen is locked
-      # because triggerhappy reads evdev below the i3lock X grab.
-      {
-        keys = [ "F17" ];
-        cmd = "${monitorRecover}";
       }
     ];
   };
