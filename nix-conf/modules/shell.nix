@@ -47,8 +47,6 @@
     useXkbConfig = true;
   };
 
-  documentation.dev.enable = true;
-
   programs.bash.completion.enable = true;
 
   users.users.default.shell = pkgs.zsh;

@@ -19,6 +19,7 @@
     ./desktop.nix
     ./dev.nix
     ./display.nix
+    ./documentation.nix
     ./dropbox.nix
     ./search.nix
     ./security.nix
