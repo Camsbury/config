@@ -266,7 +266,6 @@ X clients under EXWM."
 (defhydra hydra-nixos (:exit t :columns 5)
   "nixos commands"
   ("g" #'ck/nix-collect-garbage     "clean nix store")
-  ("m" #'ck/nixos-man               "open man page for configuration.nix")
   ("o" #'ck/nixos-option            "print a NixOS option's value")
   ("O" #'ck/nixos-revision          "copy system nixpkgs revision")
   ("x" #'ck/nixos-rebuild-switch    "update nixos")
