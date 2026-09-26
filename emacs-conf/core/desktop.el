@@ -48,14 +48,14 @@ Both keys are key description strings."
             (number-sequence 0 9))
    ;; XF86 hardware keys.
    ;; Audio/media keys (volume, mute, play/prev/next) are OWNED below X by
-   ;; triggerhappy (nix-conf/modules/media_keys.nix), so they keep working
-   ;; while the screen is locked. But triggerhappy reads evdev BEFORE X, so
-   ;; the keysym still propagates up to whichever X window has focus. We grab
-   ;; these audio keys bound to `ignore' purely to SWALLOW that stray keysym:
-   ;; it stops Emacs echoing "<XF86Audio...> is undefined" when an Emacs
-   ;; buffer is focused, and stops a focused X app (browser, player) from
-   ;; acting on the key a second time. `ignore' takes no media action, so
-   ;; there is no double-fire with triggerhappy.
+   ;; triggerhappy (nix-conf/modules/desktop/media-keys.nix), so they keep
+   ;; working while the screen is locked. But triggerhappy reads evdev
+   ;; BEFORE X, so the keysym still propagates up to whichever X window has
+   ;; focus. We grab these audio keys bound to `ignore' purely to SWALLOW
+   ;; that stray keysym: it stops Emacs echoing "<XF86Audio...> is undefined"
+   ;; when an Emacs buffer is focused, and stops a focused X app (browser,
+   ;; player) from acting on the key a second time. `ignore' takes no media
+   ;; action, so there is no double-fire with triggerhappy.
    ("<XF86AudioPlay>"        ignore)
    ("<XF86AudioPrev>"        ignore)
    ("<XF86AudioNext>"        ignore)

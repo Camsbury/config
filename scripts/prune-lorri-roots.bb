@@ -32,7 +32,7 @@
 ;;
 ;; It only removes links; the store paths they held go at the next garbage
 ;; collection (the nh-clean timer). The lorri-prune user service in
-;; nix-conf/modules/dev.nix runs it daily.
+;; nix-conf/modules/dev/default.nix runs it daily.
 ;;
 ;; Usage:
 ;;   scripts/prune-lorri-roots.bb         # prune roots

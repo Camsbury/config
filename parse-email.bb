@@ -1,7 +1,7 @@
 #!/run/current-system/sw/bin/bb
 ;; Sort synced mail into folders by the rules in mail-rules.edn.
 ;;
-;; mbsync.service (nix-conf/modules/email.nix) runs this after
+;; mbsync.service (nix-conf/modules/apps/email.nix) runs this after
 ;; `mbsync -a`. The mu database has one writer at a time: while mu4e
 ;; is open, its `mu server` holds the write lock, and `mu index`,
 ;; `mu add`, `mu remove` and `mu move` fail. So this script moves

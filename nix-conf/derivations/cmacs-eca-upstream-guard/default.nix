@@ -4,8 +4,8 @@
 # wraps private names from the eca-emacs package.  An eca bump that renames
 # one breaks the running window manager at runtime.  Running the guard here,
 # against the same Emacs and package set the cmacs launcher uses, turns that
-# into a failed rebuild instead.  modules/cmacs.nix adds this derivation to
-# `system.checks`.
+# into a failed rebuild instead.  The "cmacs and EXWM" section of
+# modules/desktop/default.nix adds this derivation to `system.checks`.
 { pkgs, ... }:
 
 let

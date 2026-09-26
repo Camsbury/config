@@ -13,8 +13,9 @@ let
   # DPMS is disabled, so the wake step would silently do nothing after any
   # `xset -dpms`. Mirrors `ck/fix-monitor-blackouts`
   # (emacs-conf/config/desktop/commands/system.el), but triggerhappy
-  # (modules/media_keys.nix) runs it BELOW the i3lock X keyboard grab, so it
-  # recovers a black overnight wake even while the screen is locked.
+  # (modules/desktop/media-keys.nix) runs it BELOW the i3lock X keyboard
+  # grab, so it recovers a black overnight wake even while the screen is
+  # locked.
   #
   # xset and xrandr talk to X, so the script names the running server and
   # the user's auth cookie explicitly: triggerhappy runs as the user but
@@ -35,33 +36,37 @@ let
 in
 {
   imports = [
-    ../modules/core.nix
+    ../modules/core
 
     # hardware
-    ../modules/intel.nix
-    ../modules/rtx-5070-ti.nix
-    ../modules/ssd.nix
-    ../modules/slimblade.nix
+    # No hardware/intel-graphics.nix on purpose: the Arrow Lake iGPU is
+    # present but unused, and everything draws on the RTX card. Adding the
+    # line back pulls in i915 at early boot, the VAAPI drivers and the Intel
+    # compute runtime for a part nothing touches.
+    ../modules/hardware/intel-cpu.nix
+    ../modules/hardware/rtx-5070-ti.nix
+    ../modules/hardware/kensington-slimblade.nix
 
     #functionality
-    ../modules/android.nix
-    ../modules/art.nix
-    ../modules/bluetooth.nix
-    ../modules/crypto.nix
-    ../modules/cuda.nix
-    ../modules/gaming.nix
-    ../modules/music.nix
-    ../modules/influxdb.nix
-    ../modules/rgb.nix
+    ../modules/dev/android.nix
+    ../modules/apps/art.nix
+    ../modules/hardware/bluetooth.nix
+    ../modules/hardware/trezor.nix
+    ../modules/apps/gaming.nix
+    ../modules/apps/music.nix
+    ../modules/dev/influxdb.nix
+    ../modules/hardware/rgb-lighting.nix
 
-    ../modules/gen-ai.nix
-    ../modules/email.nix
-    ../modules/virtualization.nix
-    ../modules/razer.nix
-    ../modules/foreign.nix
-    ../modules/printing.nix
-    ../modules/svalboard.nix
+    ../modules/apps/gen-ai.nix
+    ../modules/apps/email.nix
+    ../modules/dev/virtualization.nix
+    ../modules/hardware/razer-deathadder-v2.nix
+    ../modules/desktop/compose-key.nix
+    ../modules/hardware/hp-printer.nix
+    ../modules/hardware/svalboard.nix
   ];
+
+  # tuning
 
   # Make JVM stuff smoother
   systemd.tmpfiles.rules = [
@@ -78,6 +83,18 @@ in
       options = [ "discard" ];
     }
   ];
+
+  boot.kernel.sysctl = {
+    "vm.dirty_background_bytes" = 268435456; # start flushing early
+    "vm.dirty_bytes" = 1073741824; # ceiling before throttling
+    "kernel.nmi_watchdog" = 0;
+  };
+
+  # influxdb2 (modules/dev/influxdb.nix) stores its engine on this
+  # machine's data mount, so the path is wiring, not module policy.
+  environment.variables = {
+    INFLUXD_ENGINE_PATH = "/media/camsbury/influxdbv2/engine";
+  };
 
   services = {
     # Persist the monitor selection. The EDID is pinned from a repo-tracked
@@ -116,7 +133,7 @@ in
     };
 
     # Monitor recovery (F17, mapped in QMK). Merges with the media-key
-    # bindings in modules/media_keys.nix.
+    # bindings in modules/desktop/media-keys.nix.
     triggerhappy.bindings = [
       {
         keys = [ "F17" ];
@@ -126,55 +143,33 @@ in
 
     # machine specific dl dir for transmission
     transmission.settings.download-dir = "/mnt/hdd16t/transmission-downloads";
-
-    # Per-class I/O scheduler
-    # NVMe → none (don't let bfq add latency to fast queues)
-    # HDD → bfq (fairness/interactivity on seeks)
-    udev.extraRules = ''
-      ACTION=="add|change", KERNEL=="nvme[0-9]*n[0-9]*", ATTR{queue/scheduler}="none"
-      ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
-    '';
   };
 
-  hardware = {
-    cpu.intel.updateMicrocode = true;
-    enableRedistributableFirmware = true;
-  };
-
-  boot = {
-    # kernelPackages = pkgs.linuxPackages_latest;
-    kernel.sysctl = {
-      "vm.dirty_background_bytes" = 268435456; # start flushing early
-      "vm.dirty_bytes" = 1073741824; # ceiling before throttling
-      "kernel.nmi_watchdog" = 0;
-    };
-    # if you ever need to test memory after changing settings
-    # loader.grub.memtest86.enable = true;
-    initrd = {
-      systemd.services = {
-        "systemd-cryptsetup@cryptedStore" = {
-          overrideStrategy = "asDropin";
-          after = [ "systemd-cryptsetup@crypted.service" ];
-        };
-        "systemd-cryptsetup@cryptedHDD16T" = {
-          overrideStrategy = "asDropin";
-          after = [ "systemd-cryptsetup@crypted.service" ];
-        };
-        "systemd-cryptsetup@cryptedSSD500G" = {
-          overrideStrategy = "asDropin";
-          after = [ "systemd-cryptsetup@crypted.service" ];
-        };
+  # kernelPackages = pkgs.linuxPackages_latest;
+  # if you ever need to test memory after changing settings
+  # loader.grub.memtest86.enable = true;
+  boot.initrd = {
+    systemd.services = {
+      "systemd-cryptsetup@cryptedStore" = {
+        overrideStrategy = "asDropin";
+        after = [ "systemd-cryptsetup@crypted.service" ];
       };
-      luks.devices = {
-        crypted.device = "/dev/disk/by-uuid/a5f95eb4-a033-40c9-81a1-4ae489adfc7c";
-        cryptedStore.device = "/dev/disk/by-uuid/77a45769-1398-44bd-a7a4-ebb05bfad2f6";
-        cryptedSSD500G.device = "/dev/disk/by-uuid/88df2045-baed-444d-ad6f-3832d841ee61";
-        cryptedHDD16T.device = "/dev/disk/by-uuid/720ce7b5-e3aa-4b7e-a079-e06c9c3e42a0";
+      "systemd-cryptsetup@cryptedHDD16T" = {
+        overrideStrategy = "asDropin";
+        after = [ "systemd-cryptsetup@crypted.service" ];
+      };
+      "systemd-cryptsetup@cryptedSSD500G" = {
+        overrideStrategy = "asDropin";
+        after = [ "systemd-cryptsetup@crypted.service" ];
       };
     };
+    luks.devices = {
+      crypted.device = "/dev/disk/by-uuid/a5f95eb4-a033-40c9-81a1-4ae489adfc7c";
+      cryptedStore.device = "/dev/disk/by-uuid/77a45769-1398-44bd-a7a4-ebb05bfad2f6";
+      cryptedSSD500G.device = "/dev/disk/by-uuid/88df2045-baed-444d-ad6f-3832d841ee61";
+      cryptedHDD16T.device = "/dev/disk/by-uuid/720ce7b5-e3aa-4b7e-a079-e06c9c3e42a0";
+    };
   };
-
-  fileSystems."/".options = [ "x-systemd.device-timeout=infinity" ];
 
   networking.hostName = "poseidon";
   users.users.default.name = "camsbury";

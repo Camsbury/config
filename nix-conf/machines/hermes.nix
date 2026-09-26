@@ -7,24 +7,26 @@
 
 {
   imports = [
-    ../modules/core.nix
+    ../modules/core
 
     # hardware
+    # The Dell profile already imports the Intel CPU and GPU stacks,
+    # common/pc/laptop and common/pc/ssd. The lines below name the parts
+    # hermes has; they do not switch the nixos-hardware halves on.
     "${sources.nixos-hardware}/dell/xps/13-9310"
-    ../modules/intel.nix
-    ../modules/ssd.nix
-    ../modules/laptop.nix
-    ../modules/non-ergodox.nix
+    ../modules/hardware/intel-cpu.nix
+    ../modules/hardware/intel-graphics.nix
+    ../modules/hardware/laptop.nix
+    ../modules/hardware/builtin-keyboard.nix
 
     #functionality
-    ../modules/bluetooth.nix
-    ../modules/email.nix
-    ../modules/gaming.nix
-    ../modules/art.nix
-    ../modules/virtualization.nix
+    ../modules/hardware/bluetooth.nix
+    ../modules/apps/email.nix
+    ../modules/apps/gaming.nix
+    ../modules/apps/art.nix
+    ../modules/dev/virtualization.nix
   ];
 
-  fileSystems."/".options = [ "x-systemd.device-timeout=infinity" ];
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/559bcebb-ef43-4d84-8550-8b371bfb6aa6";
   boot.kernelPackages = pkgs.linuxPackages_latest;
 

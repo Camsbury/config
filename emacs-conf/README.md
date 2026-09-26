@@ -89,8 +89,7 @@ runtime.
 
 | Path | Responsibility |
 |------|----------------|
-| `../nix-conf/modules/cmacs.nix` | Installs cmacs and imports EXWM setup |
-| `../nix-conf/modules/exwm.nix` | Registers the display-manager session |
+| `../nix-conf/modules/desktop/default.nix` | Its "cmacs and EXWM" section installs cmacs and registers the `none+exwm` display-manager session |
 | `../nix-conf/derivations/cmacs/default.nix` | Builds the launcher |
 | `../nix-conf/packages/emacs.nix` | Defines the Emacs package set |
 

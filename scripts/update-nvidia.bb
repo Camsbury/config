@@ -1,6 +1,6 @@
 #!/usr/bin/env bb
 ;; Bump the pinned NVIDIA driver in
-;; $DEV_HOME/Camsbury/config/nix-conf/modules/rtx-5070-ti.nix.
+;; $DEV_HOME/Camsbury/config/nix-conf/modules/hardware/rtx-5070-ti.nix.
 ;;
 ;; Finds the newest Linux x64 driver on NVIDIA's download page for the card,
 ;; prefetches every source that nixpkgs' `nvidiaPackages.mkDriver` fetches
@@ -44,8 +44,9 @@
   (let [dev-home (System/getenv "DEV_HOME")]
     (when (str/blank? dev-home)
       (throw (ex-info "DEV_HOME is not set" {})))
-    (str (fs/path dev-home
-                  "Camsbury/config/nix-conf/modules/rtx-5070-ti.nix"))))
+    (str (fs/path
+          dev-home
+          "Camsbury/config/nix-conf/modules/hardware/rtx-5070-ti.nix"))))
 
 (def driver-list-url
   ;; psid/pfid select the RTX 50 series / RTX 5070 Ti; osid 12 is Linux x64.

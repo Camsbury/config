@@ -2,15 +2,14 @@
 
 {
   imports = [
-    ../modules/core.nix
-    ../modules/intel.nix
-    ../modules/laptop.nix
-    ../modules/non-ergodox.nix
-    ../modules/ssd.nix
-    ../modules/music.nix
+    ../modules/core
+    ../modules/hardware/intel-cpu.nix
+    ../modules/hardware/intel-graphics.nix
+    ../modules/hardware/laptop.nix
+    ../modules/hardware/builtin-keyboard.nix
+    ../modules/apps/music.nix
   ];
 
-  fileSystems."/".options = [ "x-systemd.device-timeout=infinity" ];
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/33edaf89-8028-4432-9489-2bedeedb73df";
 
   networking.hostName = "feather";

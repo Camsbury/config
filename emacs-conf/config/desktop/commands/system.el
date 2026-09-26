@@ -52,9 +52,10 @@
   (shell-command "bash ~/.scripts/cycle-sound.sh"))
 
 ;; Volume, mute, and media transport (play/pause, prev, next) are handled
-;; outside Emacs by triggerhappy at the evdev layer (nix-conf/modules/
-;; media_keys.nix), so the XF86Audio* keys keep working while the screen is
-;; locked and transport routes to the active MPRIS player via playerctld.
+;; outside Emacs by triggerhappy at the evdev layer
+;; (nix-conf/modules/desktop/media-keys.nix), so the XF86Audio* keys keep
+;; working while the screen is locked and transport routes to the active
+;; MPRIS player via playerctld.
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -232,7 +233,7 @@ locked screen then blanks on the normal schedule instead of staying lit."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Caffeine: stretch the idle lock instead of disabling it
 
-;; The idle chain lives in nix-conf/modules/screen_lock.nix as two user
+;; The idle chain lives in nix-conf/modules/desktop/screen-lock.nix as two user
 ;; units that conflict with each other: `xidlehook' (lock after 5 min) and
 ;; `xidlehook-caffeinated' (lock after an hour).  Each unit sets the X
 ;; screensaver and DPMS fallbacks it expects when it starts, so caffeine is
