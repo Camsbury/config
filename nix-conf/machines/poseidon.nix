@@ -96,6 +96,9 @@ in
     INFLUXD_ENGINE_PATH = "/media/camsbury/influxdbv2/engine";
   };
 
+  # DP-0's panel mode, used to size the lock screen and greeter wallpaper.
+  ck.theme.screenResolution = "3840x2160";
+
   services = {
     # Persist the monitor selection. The EDID is pinned from a repo-tracked
     # dump (nix-conf/machines/poseidon.edid) baked into the nix store, so the

@@ -43,11 +43,11 @@ let
     in
     builtins.listToAttrs (builtins.filter (x: x != null) (map entry lines));
 
-  # Panel resolution for poseidon's DP-0. The mini greeter draws its background
-  # CENTERED and UNSCALED, so the shared image must already be panel-sized to
-  # fill; the locker's `--fill` then no-ops on an already-panel-sized image.
-  # Host-specific; bump if the panel changes.
-  screenRes = "3840x2160";
+  # Panel resolution, set by each machine file (`ck.theme.screenResolution`).
+  # The mini greeter draws its background CENTERED and UNSCALED, so the shared
+  # image must already be panel-sized to fill; the locker's `--fill` then
+  # no-ops on an already-panel-sized image.
+  screenRes = config.ck.theme.screenResolution;
 
   # The login greeter's password box is hardcoded to screen center (mini-greeter
   # src/ui.c place_main_window; no offset config exists), so to keep the logo
@@ -104,6 +104,17 @@ let
 in
 {
   options.ck.theme = {
+    screenResolution = lib.mkOption {
+      type = lib.types.str;
+      example = "3840x2160";
+      description = ''
+        The panel mode as `WIDTHxHEIGHT`, set by each machine file. The
+        greeter background and the lock screen background are cover-scaled to
+        it, and the greeter draws its copy unscaled, so a wrong value leaves a
+        border on or crops those two screens. Read it from the panel with
+        `xrandr | grep '*'`.
+      '';
+    };
     palette = lib.mkOption {
       type = lib.types.attrsOf lib.types.str;
       readOnly = true;

@@ -33,6 +33,9 @@
   networking.hostName = "hermes";
   users.users.default.name = "camsbury";
 
+  # eDP-1's panel mode, used to size the lock screen and greeter wallpaper.
+  ck.theme.screenResolution = "3840x2400";
+
   services.xserver.xrandrHeads = [
     {
       output = "eDP-1";
