@@ -14,6 +14,9 @@
   ...
 }:
 
+let
+  sharePath = "${config.users.users.default.home}/Dropbox/lxndr";
+in
 {
   imports = [
     /etc/nixos/hardware-configuration.nix
@@ -57,7 +60,7 @@
         USER_EMAIL = "camsbury7@gmail.com";
         USER_GPG_ID = "D3F6CEF58C6E0F38";
         # Books, notes, summaries, and sounds shared across machines.
-        SHAREPATH = "/home/${toString config.users.users.default.name}/Dropbox/lxndr";
+        SHAREPATH = sharePath;
       };
     }
 
@@ -133,6 +136,9 @@
       environment = {
         variables = {
           SSH_ASKPASS_REQUIRE = "force";
+        };
+        sessionVariables = {
+          PASSWORD_STORE_DIR = "${sharePath}/password-store";
         };
         systemPackages = with pkgs; [
           gnupg
