@@ -9,6 +9,7 @@
   irc
   lsp
   notifications
+  password-store
   radio
   server
   spotify

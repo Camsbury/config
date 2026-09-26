@@ -124,6 +124,7 @@ let
     origami
     paredit
     parseedn
+    pass
     pkg-info
     pomidor
     posframe
