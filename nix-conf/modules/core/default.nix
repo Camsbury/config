@@ -78,12 +78,8 @@ in
           efi.canTouchEfiVariables = true;
         };
         tmp.cleanOnBoot = true;
+        initrd.systemd.settings.Manager.DefaultDeviceTimeoutSec = "infinity";
       };
-
-      # Every root here is on LUKS, so unlocking can take as long as it
-      # takes: no device timeout on /. Was repeated in all three machine
-      # files with this exact value.
-      fileSystems."/".options = [ "x-systemd.device-timeout=infinity" ];
 
       # Bounds how long systemd waits for a unit to stop, so a hung service
       # cannot stall a shutdown or reboot for the default 90 s.
