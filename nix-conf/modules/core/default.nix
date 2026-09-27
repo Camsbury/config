@@ -22,7 +22,7 @@ in
     /etc/nixos/hardware-configuration.nix
     "${sources.home-manager}/nixos"
     ../../overlays/core.nix
-    ../../private.nix
+    ../../hashed-password.nix
 
     ./nix.nix
     ./observability.nix
