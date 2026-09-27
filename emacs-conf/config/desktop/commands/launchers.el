@@ -51,10 +51,10 @@
   (interactive)
   (ck/find-or-open-application "steam" "Steam"))
 
-(defun ck/open-telegram ()
-  "Opens Telegram"
+(defun ck/open-signal ()
+  "Opens Signal"
   (interactive)
-  (ck/find-or-open-application "Telegram" "TelegramDesktop"))
+  (ck/find-or-open-application "signal-desktop" "signal"))
 
 (defun ck/open-thunderbird ()
   "Opens Thunderbird"
