@@ -15,9 +15,7 @@
 ;; NOTE: this needs to be before magit so it runs before
 ;; evil-collection-magit-setup
 (use-package forge
-  :after (magit)
-  :config
-  (setq auth-sources '("~/.authinfo.gpg")))
+  :after (magit))
 (use-package magit
   :init
   ;; NOTE: deal with seq issues temporarily (probably can remove later)

@@ -1,5 +1,8 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
+(require 'auth-source-pass)
+
+(setq auth-sources '(password-store))
 
 (defvar undo-tree-auto-save-history)
 (defvar pass-buffer-name)
