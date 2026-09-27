@@ -1,26 +1,15 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
 
-;; This file's own config vars: populated from the environment inside the
-;; circe `:config' block below, then spliced into `circe-network-options'.
-(defvar irc-sasl-username nil
-  "SASL username shared across IRC networks (from $SASL_USERNAME).")
-(defvar freenode-sasl-password nil
-  "Freenode SASL password (from $FREENODE_PASSWORD).")
-(defvar hackint-sasl-password nil
-  "HackInt SASL password (from $HACKINT_PASSWORD).")
-(defvar libera-sasl-password nil
-  "Libera SASL password (from $LIBERA_PASSWORD).")
-
 ;; `circe' is deferred; declare the one command `ck/join-irc' calls at runtime.
 (declare-functions "circe" circe)
 
+(defun ck/irc-password (host)
+  "The SASL password for HOST from auth-source."
+  (auth-source-pick-first-password :host host))
+
 (use-package circe
   :config
-  (setq irc-sasl-username (getenv "SASL_USERNAME"))
-  (setq freenode-sasl-password (getenv "FREENODE_PASSWORD"))
-  (setq hackint-sasl-password (getenv "HACKINT_PASSWORD"))
-  (setq libera-sasl-password (getenv "LIBERA_PASSWORD"))
   (setq irc-debug-log t)
   (add-to-list
    'circe-network-defaults
@@ -45,39 +34,16 @@
      :nickserv-ghost-command "PRIVMSG NickServ :GHOST {nick} {password}"
      :nickserv-ghost-confirmation "has been ghosted\\.$\\|is not online\\.$"))
   (setq circe-network-options
-        `(("HackInt"
+        '(("HackInt"
            :tls t
            :nick "camsbury"
-           ;; :sasl-username ,irc-sasl-username
-           ;; :sasl-password ,hackint-sasl-password
            :channels ("#tvl"))
           ("Libera"
            :tls t
            :nick "camsbury"
-           :sasl-username ,irc-sasl-username
-           :sasl-password ,libera-sasl-password
-           :channels ("#nixos"))
-          ("Freenode"
-           :tls t
-           :port 6697
-           :nick "camsbury"
-           :sasl-username ,irc-sasl-username
-           :sasl-password ,freenode-sasl-password
-           :channels (;; "#bash"
-                      ;; "##c"
-                      ;; "#docker"
-                      ;; "#emacs"
-                      ;; "#emacs-circe"
-                      ;; "#git"
-                      ;; "#hardware"
-                      ;; "#haskell"
-                      ;; "#javascript"
-                      ;; "##math"
-                      ;; "##networking"
-                      ;; "#postgresql"
-                      ;; "#python"
-                      ;; "##security"
-                      )))))
+           :sasl-username "camsbury"
+           :sasl-password ck/irc-password
+           :channels ("#nixos")))))
 (use-package circe-notifications
   :after (circe)
   :config
