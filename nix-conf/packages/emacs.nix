@@ -169,6 +169,7 @@ let
   ];
   elpas = with epkgs.elpaPackages; [
     exwm
+    use-package
     vertico-posframe # emacs nouveau
   ];
   elpaDevels = with epkgs.elpaDevelPackages; [
@@ -177,7 +178,6 @@ let
     kind-icon
     rainbow-mode
     undo-tree
-    use-package
   ];
   others = with epkgs; [
     magit-difftastic
