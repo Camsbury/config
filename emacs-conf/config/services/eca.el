@@ -8,6 +8,7 @@
 ;; bindings that must wait for eca to load).
 ;;
 ;; Feature files (see each for its own commentary):
+;;   pair      one command opening a cam-pair actor and critic chat
 ;;   latex     LaTeX-fragment image previews in chat buffers
 ;;   tables    re-align every table + a wrapped reading view
 ;;   tabs      close/delete a chat tab + sweep closed buffers
@@ -52,6 +53,7 @@
 
 (m-require config/services/eca
   upstream
+  pair
   latex
   tables
   deferred-render
