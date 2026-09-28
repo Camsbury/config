@@ -14,9 +14,10 @@
 ;; Two kinds of surface:
 ;;
 ;;   Accessors     intention-revealing readers/writers grouped by concept
-;;                 (session lookup, chat state, prompt geometry, history
-;;                 replay, request crossing, block overlays, table overlays,
-;;                 pending-approval scan).  Each wraps one or more upstream
+;;                 (session lookup and lifecycle, chat state, prompt
+;;                 geometry, history replay, request crossing, block
+;;                 overlays, table overlays, pending-approval scan).
+;;                 Each wraps one or more upstream
 ;;                 privates but names the CONCEPT, not the private.
 ;;
 ;;   Extension     for every upstream function we advise, the adapter owns the
@@ -34,6 +35,9 @@
 ;; every upstream symbol wrapped below still exists in the installed package.
 
 (require 'prelude)
+;; `cl-struct-slot-offset' is how the one slot this adapter WRITES is reached;
+;; see `ck/eca-upstream-set-session-default-agent'.
+(require 'cl-lib)
 
 ;; Forward declarations so byte-compiling this file (before the deferred eca
 ;; package loads) stays warning-free.  These are the ONLY upstream names this
@@ -44,11 +48,21 @@
   eca-info
   eca-vals
   eca--session-id
-  eca--session-chats)
+  eca--session-chats
+  eca-session-for-root
+  eca-create-session
+  eca--session-last-chat-buffer
+  eca--session-chat-default-agent
+  eca--session-status)
+(declare-functions "eca"
+  eca-start-session)
 (declare-functions "eca-api"
   eca-api-request-async
   eca-api-request-sync)
 (declare-functions "eca-chat"
+  eca-chat--new-chat
+  eca-chat--set-agent
+  eca-chat-status
   eca-chat--apply-history-meta
   eca-chat--prompt-field-start-point
   eca-chat--prompt-area-start-point
@@ -67,6 +81,7 @@
   eca-chat--expandable-content-toggle)
 (declare-vars eca--sessions
               eca-chat--id
+              eca-chat--selected-agent
               eca-chat--chat-loading
               eca-chat--history-loading
               eca-chat--pending-questions
@@ -116,6 +131,57 @@
   "Show an ECA info message built from FORMAT and ARGS."
   (apply #'eca-info format args))
 
+;;; Session lifecycle --------------------------------------------------------
+;;
+;; Finding, starting, and populating a session for one workspace root: what a
+;; launcher needs before it can talk to a chat (see eca/pair.el).
+
+(defun ck/eca-upstream-session-for-root (root)
+  "Return the ECA session owning workspace ROOT, or nil when none does."
+  (eca-session-for-root root))
+
+(defun ck/eca-upstream-session-starting-p (session)
+  "Non-nil when SESSION's server is still initializing.
+`eca-start-session' answers a starting session with a note and never
+runs its ON-READY (eca.el:427), so a caller whose whole behavior lives
+in that callback must ask this before starting."
+  (and session (eq 'starting (eca--session-status session))))
+
+(defun ck/eca-upstream-start-session (session root on-ready)
+  "Start SESSION, or a fresh session for ROOT when SESSION is nil.
+ON-READY is called with the usable session: at once when it is already
+started, and after the server initializes otherwise.  A root ECA has
+never seen owns no session yet, so this wraps `eca-create-session' as
+well as `eca-start-session'."
+  (eca-start-session (or session (eca-create-session (list root)))
+                     on-ready))
+
+(defun ck/eca-upstream-new-chat (session)
+  "Create a fresh chat in SESSION and return its buffer.
+`eca-chat--new-chat' answers with the opened window rather than the
+buffer, so the buffer is read back out of the session's last-chat slot,
+which that call has just set."
+  (eca-chat--new-chat session)
+  (eca--session-last-chat-buffer session))
+
+(defun ck/eca-upstream-session-default-agent (session)
+  "Return the agent a new chat of SESSION inherits."
+  (eca--session-chat-default-agent session))
+
+(defun ck/eca-upstream-set-session-default-agent (session agent)
+  "Make AGENT the agent a new chat of SESSION inherits.
+The write cannot use the accessor's own setf place: this file is compiled
+and loaded before the deferred eca package defines the struct, so
+`(setf (eca--session-chat-default-agent ...))' has no setf expander yet
+and compiles into a call to a function that never exists.  The slot index
+is therefore resolved at run time instead, when the struct is defined; a
+slot that has been renamed upstream signals `cl-struct-unknown-slot'
+here, and the drift guard names that slot so the rename is caught before
+a session ever runs."
+  (aset session
+        (cl-struct-slot-offset 'eca--session 'chat-default-agent)
+        agent))
+
 ;;; Chat buffer state --------------------------------------------------------
 ;;
 ;; Each reads a buffer-local eca-chat slot; BUFFER defaults to the current
@@ -155,6 +221,29 @@ Arrival order is not display order: upstream sorts that separately."
 (defun ck/eca-upstream-last-user-message-pos (&optional buffer)
   "Return the position of BUFFER's last user message, or nil."
   (ck/eca-upstream--blocal 'eca-chat--last-user-message-pos buffer))
+
+(defun ck/eca-upstream-chat-agent (&optional buffer)
+  "Return the agent explicitly selected in BUFFER, or nil.
+Nil means the chat inherits the session default.  This reads only what
+was selected in the buffer itself, so a chat that never chose an agent
+cannot report the session's current default as its own -- which matters
+while a caller is mid-launch and that default is deliberately moving."
+  (let ((buffer (or buffer (current-buffer))))
+    (when (local-variable-p 'eca-chat--selected-agent buffer)
+      (buffer-local-value 'eca-chat--selected-agent buffer))))
+
+(defun ck/eca-upstream-chat-set-agent (session agent &optional buffer)
+  "Select AGENT in chat BUFFER of SESSION (default: its last chat).
+Upstream makes AGENT the session default as a side effect; a caller that
+must leave that default alone restores it with
+`ck/eca-upstream-set-session-default-agent'."
+  (eca-chat--set-agent session agent buffer))
+
+(defun ck/eca-upstream-chat-status (buffer)
+  "Return the status symbol of chat BUFFER.
+One of `idle', `running', `stopping', `waiting-approval', or
+`waiting-answer'."
+  (eca-chat-status buffer))
 
 ;;; Prompt geometry / content ------------------------------------------------
 

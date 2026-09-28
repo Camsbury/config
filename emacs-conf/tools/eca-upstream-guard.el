@@ -15,10 +15,15 @@
 ;; EMACSLOADPATH from the cmacs launcher, exactly like lib-guard.sh).
 
 (require 'find-func)
+(require 'cl-lib)
 
 (defconst ck/eca-upstream-guard--functions
   '(;; accessor targets
     eca-session eca-info eca-vals eca--session-id eca--session-chats
+    eca-session-for-root eca-create-session eca-start-session
+    eca--session-last-chat-buffer eca--session-chat-default-agent
+    eca--session-status
+    eca-chat--new-chat eca-chat--set-agent eca-chat-status
     eca-api-request-async eca-api-request-sync
     eca-chat--apply-history-meta eca-chat--prompt-field-start-point
     eca-chat--prompt-area-start-point eca-chat--prompt-content
@@ -40,10 +45,17 @@
   "Upstream functions the adapter calls or advises; each must stay `fboundp'.")
 
 (defconst ck/eca-upstream-guard--variables
-  '(eca--sessions eca-chat--id eca-chat--chat-loading
+  '(eca--sessions eca-chat--id eca-chat--selected-agent
+    eca-chat--chat-loading
     eca-chat--history-loading eca-chat--pending-questions
     eca-chat--closed eca-chat--last-user-message-pos)
   "Upstream variables the adapter reads; each must stay `boundp'.")
+
+(defconst ck/eca-upstream-guard--slots
+  '((eca--session . chat-default-agent))
+  "Struct slots the adapter writes by name through `cl-struct-slot-offset'.
+A slot reached that way is invisible to `fboundp', so each is checked
+against the struct's own slot table instead.")
 
 (defconst ck/eca-upstream-guard--properties
   '(("eca-chat--expandable-content-id"      . "eca-chat")
@@ -83,6 +95,15 @@ whose source must still mention each (properties are not `fboundp'-checkable).")
   (dolist (sym ck/eca-upstream-guard--variables)
     (let ((ok (boundp sym)))
       (princ (format "%-46s var     %s\n" sym (if ok "OK" "MISSING")))
+      (unless ok (setq failures (1+ failures)))))
+
+  (dolist (pair ck/eca-upstream-guard--slots)
+    (let* ((struct (car pair))
+           (slot (cdr pair))
+           (ok (and (assq slot (ignore-errors (cl-struct-slot-info struct)))
+                    t)))
+      (princ (format "%-46s slot@%-9s %s\n"
+                     slot struct (if ok "OK" "MISSING")))
       (unless ok (setq failures (1+ failures)))))
 
   (dolist (pair ck/eca-upstream-guard--properties)
