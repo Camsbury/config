@@ -8,6 +8,11 @@
 # NVIDIA card. Nothing asks for CUDA in this file.
 {
   environment = {
+    vairables = {
+      ECA_LIGHT_MODEL="claude-sonnet-5-5";
+      ECA_DEFAULT_MODEL="claude-opus-5-5";
+      ECA_HEAVY_MODEL="claude-fable-5-1";
+    };
     systemPackages = with pkgs; [
       llama-cpp
       lmstudio
