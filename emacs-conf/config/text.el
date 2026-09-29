@@ -106,17 +106,17 @@
 
 (use-package cape
   :init
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file)
   :config
-  ;; Make backend capfs composable: `nonexclusive' lets the dabbrev/file
-  ;; capfs still contribute when lsp/comint/pcomplete would otherwise claim
-  ;; the completion exclusively; `noninterruptible' keeps lsp's capf stable.
+  ;; Make backend capfs composable
   (when (fboundp 'lsp-completion-at-point)
     (advice-add 'lsp-completion-at-point :around #'cape-wrap-noninterruptible)
     (advice-add 'lsp-completion-at-point :around #'cape-wrap-nonexclusive))
   (advice-add 'comint-completion-at-point :around #'cape-wrap-nonexclusive)
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
+
+(setq text-mode-ispell-word-completion nil)
 
 (defun ck/point-to-right-columns ()
   "Visible columns from point to the right window edge."
@@ -145,13 +145,6 @@
   (advice-add 'beacon-blink :before #'ck/beacon-update-size)
   ;; (beacon-mode 1)
   )
-
-;; (use-package corfu)
-;; (use-package kind-icon
-;;   :ensure t
-;;   :after corfu
-;;   :config
-;;   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
