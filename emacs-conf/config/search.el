@@ -127,7 +127,6 @@ In `find-file' this swaps the entire path for the clipboard in one step."
    "C-S-y" #'ck/minibuffer-replace-with-clipboard
    [escape] #'minibuffer-keyboard-quit))
 
-;; NOTE: still want this to only work for find-file
 (use-package vertico-directory
   :after vertico
   :ensure nil

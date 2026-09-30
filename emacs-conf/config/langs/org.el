@@ -4,7 +4,6 @@
 (require 'core/env)
 (require 'config/search)
 (require 'config/langs/sql)
-;; TODO: https://stackoverflow.com/questions/17478260/completely-hide-the-properties-drawer-in-org-mode
 (require 'org-id)
 ;; org owns org-capture-templates, set in the capture block below.
 (declare-vars org-capture-templates)
@@ -24,7 +23,6 @@ Toggled by `ck/toggle-org-alerts'.")
         'visual-line-mode
         'prettify-mode))
 
-;; FIXME
 (use-package org-download
   :config
   (customize-set-variable

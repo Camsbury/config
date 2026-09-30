@@ -5,12 +5,10 @@
 (require 'core/definers)
 (use-package nix-mode
   :mode "\\.nix\\'")
-;; CLEAN: maybe don't need
 (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
 (use-package nix-update
   :after (nix-mode))
 
-;; Treesitter nix formatting - TODO: need some nixpkgs and such...
 (general-def 'normal nix-mode-map
   [remap ck/empty-mode-leader] #'hydra-nix/body)
 

@@ -80,8 +80,6 @@ to \"XTerm - SESSION\".  The rename needs that buffer to exist, and the
                   (-map #'buffer-name (buffer-list)))
       (with-current-buffer "XTerm"
         (exwm-workspace-rename-buffer xterm-name))
-      ;; FIXME: switching to the buffers old window - maybe remove the
-      ;; exwm-workspace prefix here, but then the cursor isn't in the terminal
       (exwm-workspace-switch-to-buffer xterm-name))))
 
 (defun ck/open-xterm ()

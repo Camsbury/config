@@ -215,7 +215,6 @@
         (with-current-buffer (marker-buffer m)
           (goto-char m)
           (org-todo)
-          ;; FIXME: this is too fast for some reason for the habit hooks
           (save-buffer))))))
 
 (defun gtd--get-org-mode-link-label (str)

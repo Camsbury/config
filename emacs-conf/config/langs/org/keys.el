@@ -29,7 +29,6 @@
   [remap evil-save-modified-and-close] #'org-capture-finalize
   [remap evil-quit]                    #'org-capture-kill)
 
-;; FIXME: conflicts below
 (general-emacs-define-key org-mode-map
   [remap org-meta-return]   #'org-todo
   [remap org-return-indent] #'evil-window-down
@@ -38,7 +37,6 @@
   "M-j"                     #'org-forward-heading-same-level
   "M-k"                     #'org-backward-heading-same-level
   "M-l"                     #'org-next-visible-heading
-   ;; NOTE: trying this out instead of shallow to see how annoying it is
   "M-o"                     #'org-cycle
   "M-O"                     #'org-show-subtree)
 

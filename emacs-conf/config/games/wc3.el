@@ -22,7 +22,6 @@
 (defvar wbo-steps nil
   "Timers for the currently running build order's spoken steps.")
 
-;; NOTE: call this to refresh from `builds.edn'
 (defun ck/wbo-get-wbos ()
   "(Re)load the build-order list from `wbo-file'."
   (interactive)

@@ -6,7 +6,6 @@
 (require 'prelude)
 (require 'core/env)
 
-;; TODO: could assign these individual default volumes too
 (defvar ck/audio-sink-names
   '(("alsa_output.usb-QTIL_Audioengine_HD3_ABCDEF0123456789-00.analog-stereo"
      . "speakers")

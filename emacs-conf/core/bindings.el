@@ -161,7 +161,6 @@ X clients under EXWM."
   (interactive)
   (message "current visual mode hydra is unbound"))
 
-;; CLEAN: remove stuff I never use, or shove behind another hydra
 (defhydra hydra-spawn (:exit t :columns 5)
   "spawn"
   ("a" (ck/spawnify #'org-roam-dailies-goto-today) "daybook")
@@ -188,7 +187,6 @@ X clients under EXWM."
   ("X" (ck/spawnify #'ck/open-global-xterm)        "global xterm")
   ("z" (ck/spawnify #'ck/open-zoom)                "zoom"))
 
-;; CLEAN: remove stuff I never use, or shove behind another hydra
 (defhydra hydra-nav (:exit t :columns 5)
   "nav to"
   ("a" #'org-roam-dailies-goto-today           "daybook")
@@ -229,7 +227,6 @@ X clients under EXWM."
   ("w" #'window-configuration-to-register "save window config")
   ("q" nil))
 
-;;; TODO: find out how to make this mode aware??
 (defhydra hydra-merge ()
   "merge"
   ("a" #'smerge-keep-all "keep all")
@@ -272,7 +269,6 @@ X clients under EXWM."
   ("s" #'ck/open-project-shell-nix "shell.nix")
   ("q" nil))
 
-;; CLEAN: reorganize and get rid of things you never use
 (defhydra hydra-leader (:exit t :columns 5 :idle 1.5)
   "leader"
   ("[" #'hydra-describe/body          "describe")
@@ -344,7 +340,6 @@ X clients under EXWM."
   ("s" #'sort-lines         "sort lines")
   ("S" #'ck/shuffle-selection  "shuffle selection"))
 
-;; CLEAN: reorganize and get rid of things you never use
 (defhydra hydra-left-leader (:exit t :columns 5)
   "left leader"
   ("b" #'ck/bookmark-set-and-save   "create bookmark at point")
@@ -355,7 +350,6 @@ X clients under EXWM."
   ("n" #'buf-move-left           "move window left")
   ("x" #'org-previous-block      "previous org block"))
 
-;; CLEAN: reorganize and get rid of things you never use
 (defhydra hydra-right-leader (:exit t :columns 5)
   "right leader"
   ("b" #'consult-bookmark    "open/create bookmark")
@@ -391,7 +385,6 @@ X clients under EXWM."
   "M-d" #'evil-multiedit-match-symbol-and-next
   "M-D" #'evil-multiedit-match-symbol-and-prev)
 
-;; CLEAN: reorganize and get rid of things you never use
 (general-def '(normal visual) '(text-mode-map prog-mode-map)
   "C-t" #'ck/toggle-tests
   "C-u" #'evil-scroll-up

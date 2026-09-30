@@ -71,7 +71,6 @@
              nil
              (-map (lambda (x) x) s))))))
 
-;; TODO: don't remove commas if it's just a string
 (defun ck/cider-copy-last-result-dwim ()
   (interactive)
   (cider-interactive-eval

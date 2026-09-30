@@ -57,7 +57,6 @@ With non-nil ARG return number of characters skipped."
   "j"    #'evil-next-visual-line
   "k"    #'evil-previous-visual-line
   "l"    #'evil-forward-char
-
   )
 
 (general-define-key :keymaps 'paredit-mode-map

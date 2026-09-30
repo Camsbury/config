@@ -16,7 +16,6 @@
    ;; timeout applies).
    alert-default-style 'notifications))
 
-;; TODO: make this on save hook for dunstrc
 (defun ck/kill-dunst ()
   (interactive)
   (shell-command "pgrep dunst | xargs kill"))

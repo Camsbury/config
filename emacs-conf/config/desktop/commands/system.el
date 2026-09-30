@@ -66,7 +66,7 @@
 ;; Display / screen
 
 (defun ck/cycle-displays ()
-  "Cycle the eDP-1 and DP-3 layout through disper's stages." ;TODO: pimp out with exwm-randr
+  "Cycle the eDP-1 and DP-3 layout through disper's stages."
   (interactive)
   (shell-command "disper -d eDP-1,DP-3 -r auto --cycle-stages=\"-s:-c:-e\" --cycle -t right"))
 
