@@ -109,9 +109,8 @@
             args)))
   ;; Replace the WHOLE minibuffer path with the clipboard in one key.  Plain
   ;; `yank' appends to the current directory, and `vertico-directory-tidy'
-  ;; only collapses the shadowed prefix on `self-insert-command' (typing a
-  ;; `/'), never on a yank -- so a paste leaves `~/dir//pasted/path'.  Deleting
-  ;; the field first means there is no prefix to double up, so no tidy needed.
+  ;; only collapses the shadowed prefix on a typed `/', never on a yank.
+  ;; Deleting the field first leaves no prefix to double up.
   (defun ck/minibuffer-replace-with-clipboard ()
     "Replace the whole minibuffer contents with the clipboard, then yank.
 In `find-file' this swaps the entire path for the clipboard in one step."
@@ -129,15 +128,12 @@ In `find-file' this swaps the entire path for the clipboard in one step."
    [escape] #'minibuffer-keyboard-quit))
 
 ;; NOTE: still want this to only work for find-file
-;; Configure directory extension.
 (use-package vertico-directory
   :after vertico
   :ensure nil
-  ;; More convenient directory navigation commands
   :bind (:map vertico-map
               ("M-DEL" . #'vertico-directory-up)
               ("RET" . vertico-directory-enter))
-  ;; Tidy shadowed file names
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
 ;; Resume the last minibuffer session (query, candidate, position).  The
@@ -199,18 +195,16 @@ In `find-file' this swaps the entire path for the clipboard in one step."
                  (ck/vertico-transform-functions
                   . ck/vertico-highlight-enabled-mode))))
 
-;; Render the vertico minibuffer in a centered floating child frame.
-;; From GNU ELPA (declared in nix-conf/packages/emacs.nix, elpaPackages);
-;; the `:if (locate-library ...)' guard keeps this inert until the rebuild
-;; lands, so a restart before the rebuild does not error on a missing pkg.
+;; Render the vertico minibuffer in a centered floating child frame.  The
+;; package comes from GNU ELPA, declared in nix-conf/packages/emacs.nix.  The
+;; `:if (locate-library ...)' guard below keeps the whole block inert when the
+;; package is missing from the load path.
 ;;
 ;; Enabled as a plain global mode on purpose: posframe is NOT one of the
-;; display modes vertico-multiform manages (buffer/flat/grid/reverse/
-;; unobtrusive/vertical), so the global mode is orthogonal to our multiform
-;; candidate-transform highlighting and the two compose cleanly.  Do NOT add
-;; `posframe' to vertico-multiform settings as well, that would double-manage
-;; the mode (per the vertico-posframe README).  Childframes are EXWM-safe
-;; here (corfu already draws them).
+;; display modes vertico-multiform manages, so it is orthogonal to the
+;; multiform candidate transforms.  Do NOT add `posframe' to the multiform
+;; settings as well, that would double-manage the mode (the vertico-posframe
+;; README says so).
 ;; The cover itself (blanking the real minibuffer under the box) lives in
 ;; config/prompts.el, which floats every OTHER kind of prompt through the same
 ;; machinery; only the vertico-specific parts stay here.
@@ -224,14 +218,11 @@ In `find-file' this swaps the entire path for the clipboard in one step."
   :config
   ;; Anchor the floating minibuffer at the cursor (not dead centre), clamped on
   ;; screen and frozen for the session so previewing commands do not bounce it.
-  ;; The poshandler is the shared `ck/posframe-poshandler-point' from
-  ;; core/bindings.el (also used by hydra hints); the anchor is cleared in
-  ;; `ck/vertico-posframe--uncover' on minibuffer exit.
+  ;; The poshandler is shared with the hydra hints (see core/bindings.el).
   ;;
-  ;; Default min-width is 62% of the frame, which leaves a wide band of empty
-  ;; space to the right of short candidates (and pushes marginalia annotations
-  ;; out to that far edge).  A small floor lets the box hug its content, while
-  ;; the cap keeps long file paths from sprawling across the whole frame.
+  ;; The default min-width is 62% of the frame, which leaves a wide empty band
+  ;; to the right of short candidates.  The small floor lets the box hug its
+  ;; content, while the cap keeps long file paths from sprawling.
   (setq vertico-posframe-poshandler #'ck/posframe-poshandler-point
         vertico-posframe-border-width 3
         vertico-posframe-min-width 40
@@ -240,13 +231,9 @@ In `find-file' this swaps the entire path for the clipboard in one step."
                                       (right-fringe . 8)))
   ;; Hide the real minibuffer while the posframe is up, through the shared
   ;; cover in config/prompts.el (see that file for why vertico-posframe's own
-  ;; hide cannot work in this config).  What is vertico's alone stays here:
-  ;; the package's rule for deliberately showing the real minibuffer, and the
-  ;; candidate count `[n/m]', which vertico draws as a before-string overlay
-  ;; pinned at point-min, outside the cover range, so it has to be re-scoped to
-  ;; the posframe's window by hand.  (The candidate list needs no pin: it is
-  ;; newline-led, so the one-line real minibuffer clips it below the fold and
-  ;; it never leaks.)
+  ;; hide cannot work in this config).  Vertico draws the candidate count
+  ;; `[n/m]' as a before-string overlay pinned at point-min, outside the
+  ;; cover range, so it has to be re-scoped to the posframe's window by hand.
   (defun ck/vertico-posframe--cover (&rest _)
     "Blank the real minibuffer window while vertico-posframe shows its buffer."
     (ignore-errors
@@ -270,13 +257,10 @@ In `find-file' this swaps the entire path for the clipboard in one step."
   ;; Space-separated components; escape space with \  when needed.
   (orderless-component-separator #'orderless-escapable-split-on-space)
   :config
-  ;; Per-component matching styles via an affix character on a component:
-  ;;   !foo  without-literal   =foo  literal        ^foo  literal-prefix
-  ;;   `foo  initialism        ~foo  flex           %foo  char-fold
-  ;;   &foo  annotation
+  ;; Per-component matching styles via an affix character on a component.
   ;; The affix may be a prefix or a suffix and can be escaped with a
   ;; backslash.  A bare "foo$" anchors at end; a bare ".ext" matches a file
-  ;; extension.  Adapted from doom's dispatchers.
+  ;; extension.
   (setq orderless-affix-dispatch-alist
         '((?! . orderless-without-literal)
           (?& . orderless-annotation)
@@ -315,11 +299,7 @@ In `find-file' this swaps the entire path for the clipboard in one step."
                  (derived-mode-p 'eshell-mode))
              (string-match-p "\\`\\.." word))
         `(orderless-regexp . ,(concat "\\." (substring word 1) tofu-re)))))))
-;; Enable rich annotations using the Marginalia package
 (use-package marginalia
-  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
-  ;; available in the *Completions* buffer, add it to the
-  ;; `completion-list-mode-map'.
   :demand t
   :bind (:map minibuffer-local-map
               ("M-a" . marginalia-cycle))
@@ -373,9 +353,8 @@ In `find-file' this swaps the entire path for the clipboard in one step."
 
   ;; Never auto-preview EXWM buffers.  An EXWM buffer *is* an X client window,
   ;; so consult's preview `switch-to-buffer' physically yanks that window into
-  ;; the current frame/workspace, wrecking the layout.  Skip preview for them
-  ;; (selection on RET still switches normally); regular buffers preview as
-  ;; before.
+  ;; the current frame/workspace, wrecking the layout.  Selection on RET still
+  ;; switches normally.
   (setq consult-preview-excluded-buffers '(derived-mode . exwm-mode))
 
   ;; Gate the heavy previews behind `C-SPC' instead of auto-previewing every
@@ -441,30 +420,22 @@ consult-xref -> xref-edit (Emacs 31+).  Edit, then save as usual."
   :after (embark consult)
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 
-;; Edit the current search in a real buffer, mirroring isearch's `M-e'
-;; (`isearch-edit-string').  M-e captures the session (invoking command,
-;; base args, directory, input), CLOSES the minibuffer, then opens the
-;; edit buffer.  `C-c C-c' relaunches the command with the edited values;
-;; `C-c C-k' relaunches it with the originals.  No minibuffer stays alive
-;; behind the edit, so recursive minibuffers stay disabled and no
-;; abandoned session lingers to block later minibuffer commands.
+;; Edit the current search in a real buffer, mirroring isearch's `M-e'.
+;; M-e captures the session (invoking command, base args, directory,
+;; input), CLOSES the minibuffer, then opens the edit buffer.  Closing
+;; first keeps recursive minibuffers disabled and leaves no abandoned
+;; session behind to block later minibuffer commands.
 ;;
-;; For consult grep-style sessions the edit buffer shows the FULL
-;; expression in sections: the base command args (e.g.
-;; `consult-ripgrep-args'), the search directory, and the minibuffer
-;; input.  Edited args are in effect for the relaunched search only,
-;; since consult captures the args in a closure at session start.
-;; Within each section lines join with spaces, so flags can sit one per
-;; line while editing.  Any other minibuffer gets the input-only version
-;; of the same flow, relaunched via `call-interactively'.
+;; For consult grep-style sessions the edit buffer shows sections: base
+;; command args, search directory, and minibuffer input.  Edited args are
+;; in effect for the relaunched search only, since consult captures the
+;; args in a closure at session start.  Within each section lines join
+;; with spaces, so flags can sit one per line while editing.
 ;;
-;; M-D is the directory-only shortcut: it closes the search, picks a new
-;; root with `read-directory-name' (find-file style completion), and
-;; relaunches with args and input unchanged.  Path and flag edits
-;; compose across relaunches because consult binds `default-directory'
-;; to the search root for the whole minibuffer session, so each capture
-;; reads the previous relaunch's directory back out of
-;; `default-directory'.
+;; Path and flag edits compose across relaunches because consult binds
+;; `default-directory' to the search root for the whole minibuffer
+;; session, so each capture reads the previous relaunch's directory back
+;; out of `default-directory'.
 (defvar ck/minibuffer-edit--grep-args-vars
   '((consult-ripgrep  . consult-ripgrep-args)
     (consult-grep     . consult-grep-args)
@@ -477,11 +448,10 @@ A hydra head runs as a generated wrapper such as
 `hydra-leader/consult-ripgrep-and-exit', and that wrapper is what
 `current-minibuffer-command' reports, so the args-var lookup (and any
 relaunch) must use the wrapped command instead.
-COMMAND may be any binding target, not just a symbol: upstream packages
-bind keys and buttons to closures (eca-chat's resume entry runs as
-`(lambda (&rest _) (eca-chat-resume))'), and `this-command' carries that
-closure verbatim.  Only symbols can be hydra wrappers, so anything else
-passes through unchanged."
+COMMAND may be any binding target, not just a symbol: keys and buttons
+can be bound to closures, which `this-command' carries verbatim.  Only
+symbols can be hydra wrappers, so anything else passes through
+unchanged."
   (let ((name (and (symbolp command) command (symbol-name command))))
     (if (and name
              (string-match "\\`hydra-[^/]+/\\(.+?\\)\\(-and-exit\\)?\\'" name))

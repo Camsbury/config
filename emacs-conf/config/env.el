@@ -15,13 +15,12 @@
 ;;
 ;; direnv `message's a single-line summary of every environment change; a big
 ;; nix devshell delta is long enough to wrap across several lines and grow the
-;; echo area / minibuffer on every buffer switch.  We want the full delta kept
-;; in *Messages* (readable in full there) but only a one-line version shown in
-;; the echo area.  `set-message-functions' (Emacs 29+, a list run in order)
-;; governs echo-area DISPLAY only: *Messages* logging already happened in the
-;; C core by the time these run, so a keyed entry here shortens the echo
-;; without touching the log.  Prepending keeps us ahead of the default
-;; `set-minibuffer-message'.
+;; echo area on every buffer switch.  `set-message-functions' (Emacs 29+, a
+;; list run in order) governs echo-area DISPLAY only: *Messages* logging
+;; already happened in the C core by the time these run, so an entry here
+;; shortens the echo without touching the log.  The entry must go at the
+;; FRONT of the list: the default `set-minibuffer-message' runs last and
+;; would otherwise display the long message first.
 
 (defcustom ck/echo-truncate-prefixes '("direnv: ")
   "Message prefixes whose echo-area display is capped to one line.

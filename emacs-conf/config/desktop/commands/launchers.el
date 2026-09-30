@@ -14,7 +14,10 @@
 ;; open applications
 
 (defun ck/find-or-open-application (command name &optional projectp)
-  "Finds or opens the application"
+  "Switch to the buffer matching NAME, or run COMMAND to start it.
+NAME is a regexp matched against buffer names with `s-match'; the first
+match wins.  COMMAND is a shell command line.  With PROJECTP non-nil the
+command runs from the projectile root, otherwise from ~."
   (let* (
          (buffers (-map #'buffer-name (buffer-list)))
          (match (-first (lambda (buffer) (s-match name buffer)) buffers)))
@@ -27,47 +30,46 @@
         (ck/-run-shell-command command)))))
 
 (defun ck/open-firefox ()
-  "Opens the firefox browser"
+  "Switch to the Firefox buffer, or start Firefox."
   (interactive)
   (ck/find-or-open-application "firefox" "firefox"))
 
 (defun ck/open-lutris ()
-  "Opens Lutris"
+  "Switch to the Lutris buffer, or start Lutris."
   (interactive)
   (ck/find-or-open-application "lutris" "Lutris"))
 
 (defun ck/open-spotify ()
-  "Opens Spotify"
+  "Switch to the Spotify buffer, or start Spotify."
   (interactive)
   (ck/find-or-open-application "spotify" "Spotify"))
 
 (defun ck/open-slack ()
-  "Opens Slack"
+  "Switch to the Slack buffer, or start Slack."
   (interactive)
   (ck/find-or-open-application "slack" "Slack"))
 
 (defun ck/open-steam ()
-  "Opens Steam"
+  "Switch to the Steam buffer, or start Steam."
   (interactive)
   (ck/find-or-open-application "steam" "Steam"))
 
 (defun ck/open-signal ()
-  "Opens Signal"
+  "Switch to the Signal buffer, or start Signal."
   (interactive)
   (ck/find-or-open-application "signal-desktop" "signal"))
 
 (defun ck/open-thunderbird ()
-  "Opens Thunderbird"
+  "Switch to the Thunderbird buffer, or start Thunderbird."
   (interactive)
   (ck/find-or-open-application "thunderbird" "thunderbird"))
 
 (defun ck/--open-tmux-xterm (session &optional projectp)
   "Open (or focus) an xterm attached to tmux SESSION.
 Spawns from the project root when PROJECTP, else from ~ (matters only
-when the tmux session does not exist yet).  Names the EXWM buffer
-\"XTerm - SESSION\" once the window maps.  Known smell (tracked in
-todos): the rename waits on a sleep-and-match race instead of
-`exwm-manage-finish-hook'."
+when the tmux session does not exist yet).  Then renames the EXWM buffer
+to \"XTerm - SESSION\".  The rename needs that buffer to exist, and the
+`sleep-for' is the only thing that waits for it."
   (let ((xterm-name (concat "XTerm - " session)))
     (ck/find-or-open-application
      (concat "xterm -e 'tmux new -A -s " session "'")
@@ -92,7 +94,7 @@ todos): the rename waits on a sleep-and-match race instead of
       (ck/open-global-xterm))))
 
 (defun ck/kill-project-xterm ()
-  "Kill the xterm associated with the project"
+  "Kill the tmux session named after the current project."
   (interactive)
   (when-let* ((root (projectile-project-root))
               (p-name (car (last (f-split root)))))
@@ -110,7 +112,7 @@ todos): the rename waits on a sleep-and-match race instead of
   (ck/--open-tmux-xterm "global"))
 
 (defun ck/open-zoom ()
-  "Opens Zoom"
+  "Switch to the Zoom buffer, or start Zoom."
   (interactive)
   (ck/find-or-open-application "zoom-us" "zoom"))
 
@@ -134,7 +136,7 @@ todos): the rename waits on a sleep-and-match race instead of
   (exwm-workspace-switch ck/wm-home-workspace))
 
 (defun ck/exwm-run-command ()
-  "Pick a command to run from those available"
+  "Read an executable name from $PATH and run it."
   (interactive)
   (ck/-run-shell-command
    (completing-read "Run command: " (s-lines (shell-command-to-string "print -rC1 -- ${(ko)commands}")))))

@@ -5,7 +5,7 @@
 ;; separator is still visible (you are near the bottom) it yanks point to
 ;; `point-max' and recenters so the view follows new output.  It already
 ;; suppresses itself once you have scrolled far enough up that the prompt
-;; leaves the window, but not while the prompt is still on screen -- so
+;; leaves the window, but not while the prompt is still on screen.  So
 ;; clicking up into the transcript to read or select mid-stream leaves point
 ;; near the bottom, and the next chunk snaps the cursor back to the prompt.
 ;;

@@ -131,13 +131,11 @@ afterward."
     (when (and send (string-empty-p text))
       (user-error "Refusing to send an empty prompt"))
     (with-current-buffer src
-      ;; Fill the prompt, then route through the same dispatcher RET uses so a
-      ;; composed message behaves like one typed at the prompt: it answers a
-      ;; pending freeform question, steers/queues while the chat is loading, or
-      ;; sends when idle.  The bare idle-send path only sends and skips the
-      ;; question and steer handling.  Move point into the
-      ;; prompt field first so the dispatcher's earlier point-dependent branches
-      ;; (button / expandable / link at point) cannot fire.
+      ;; Routing through the dispatcher RET uses, rather than the bare
+      ;; idle-send path, is what makes a composed message answer a pending
+      ;; question or steer a loading chat.  Move point into the prompt field
+      ;; first so the dispatcher's earlier point-dependent branches (button /
+      ;; expandable / link at point) cannot fire.
       (ck/eca-upstream-set-prompt text)
       (when send
         (goto-char (point-max))

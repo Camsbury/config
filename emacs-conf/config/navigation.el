@@ -75,11 +75,9 @@
 ;; Spawn Functions
 
 ;; Vertical-band tiling model (decision 0010): the frame is a row of
-;; full-height vertical bands.  A band may hold at most ONE top/bottom
-;; (stacked) split, scoped to that band.  `ck/spawn-right' therefore splits
-;; at the BAND level, so a stacked band shifts as a unit and a new band opens
-;; beside it (never nesting a pane inside the current one); `ck/spawn-below'
-;; refuses to stack a band that is already split.
+;; full-height vertical bands, and a band may hold at most ONE top/bottom
+;; split.  `ck/spawn-right' splits at the BAND level, so a stacked band shifts
+;; as a unit; `ck/spawn-below' refuses to stack a band that is already split.
 
 (defun ck/band-window (&optional window)
   "Return the vertical-band subtree window containing WINDOW.
@@ -128,9 +126,8 @@ when the band cannot be split (frame too narrow), letting
 ;; but when the current band is narrower than `split-width-threshold' the
 ;; pop-up action fails entirely and `display-buffer's fallback
 ;; (`display-buffer-use-some-window') reuses the least-recently-used window,
-;; usually the bottom pane of a stacked band.  This base action runs before
-;; that fallback for every `display-buffer' call without an explicit action
-;; (magit-status, help, shell output, link targets): reuse a window already
+;; usually the bottom pane of a stacked band.
+;; This base action runs before that fallback: reuse a window already
 ;; showing the buffer, else open a new band to the right.
 (setq display-buffer-base-action
       '((display-buffer-reuse-window

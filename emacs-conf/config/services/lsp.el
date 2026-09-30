@@ -4,18 +4,17 @@
 (use-package lsp-mode
   :custom
   (lsp-keymap-prefix "s-o")
-  (lsp-server-trace "verbose") ;; gimme logs!
-  (lsp-log-io       t)         ;; log more!
-  (lsp-lens-enable  t) ;; do cool stuff!
+  (lsp-server-trace "verbose")
+  (lsp-log-io       t)
+  (lsp-lens-enable  t)
   (lsp-idle-delay 0.6)
   (lsp-keep-workspace-alive nil))
 
-;; lsp perf. NB: no gc-cons-threshold here on purpose. It used to setq 100MB
-;; globally, which fought (and lowered) the steady-state GC configured in
-;; init.el / config/performance.el. GC is now owned solely by ck/gc-idle-install
-;; (256MB + idle collection); this file only bumps the process-output buffer so
-;; a chatty language server's stdout is read in bigger chunks.
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
+;; lsp perf.  No gc-cons-threshold here on purpose: GC is owned solely by
+;; `ck/gc-idle-install' (256MB + idle collection), and a setq here would fight
+;; and lower it.  This file only bumps the process-output buffer so a chatty
+;; language server's stdout is read in bigger chunks.
+(setq read-process-output-max (* 1024 1024))
 
 (use-package lsp-ui)
 (require 'lsp-ui-flycheck)

@@ -18,7 +18,6 @@
 (setq js2-mode-show-strict-warnings nil)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
 
-;; All the prettiers
 (general-add-hook 'css-mode-hook
                   (list 'prettier-js-mode))
 (general-add-hook 'json-mode-hook

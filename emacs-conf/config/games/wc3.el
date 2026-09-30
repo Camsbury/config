@@ -2,7 +2,7 @@
 ;; Warcraft 3 build-order caller: reads timed build steps from EDN under
 ;; $SHAREPATH and speaks them via espeak on schedule.  The XF86 keys are
 ;; registered in the EXWM global map so they work inside the fullscreen
-;; game (tier wm; NOT part of the WM layer -- decision 0011 ruling).
+;; game (tier wm, NOT part of the WM layer: decision 0011 ruling).
 (require 'prelude)
 (require 'exwm)
 (require 'core/env)   ; cmacs-share-path (read at load below)
@@ -76,10 +76,9 @@
           (--map (run-at-time (aref it 0) nil #'ck/espeak (aref it 1))
                  steps))))
 
-;; Register the build-order keys in the global WM map.  core/desktop sets
-;; the base list wholesale earlier in the boot; this append is idempotent
-;; (replaces any prior binding for these keys instead of accumulating on
-;; live re-eval).
+;; Register the build-order keys in the global WM map.  core/desktop sets the
+;; base list wholesale earlier in the boot; this append replaces any prior
+;; binding for these keys instead of accumulating on a live re-eval.
 (let ((keys `((,(kbd "<XF86Launch7>") . ck/wbo-initiate)
               (,(kbd "<XF86Launch5>") . ck/wbo-clear)
               (,(kbd "<XF86Launch6>") . ck/wbo-cycle))))

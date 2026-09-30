@@ -10,7 +10,7 @@
     (concat "tmux list-panes -t " session " -F '#{pane_pid}'"))))
 
 (defun ck/tmux-send-stdout (text)
-  "Send a string to tmux stderr"
+  "Send TEXT to the tmux session pane's stdout."
   (interactive "sText: ")
   (let* ((session     (car (last (f-split (projectile-project-root)))))
          (session-pid (ck/tmux-session-pid session)))

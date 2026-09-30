@@ -32,7 +32,7 @@
           (breeze-mode)
           (setq-local face-remapping-alist
                       '((default :height 2.0)))
-          (font-lock-ensure))  ; Ensure font-lock is applied
+          (font-lock-ensure))
       (message "Clipboard is empty"))))
 
 (provide 'config/modes/breeze-mode)

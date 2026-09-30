@@ -28,17 +28,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Bindings
 
-;; NOTE: was a pain to get this working, but makes some sense, would rather not
-;; have to choose between the two (non-overlapping keys)
-
-;; 0) Load the map (it's not autoloaded)
+;; Evil yields to the cider-debug map only with this whole recipe: load the map
+;; (it is not autoloaded), mark it overriding, renormalize keymaps when debug
+;; mode toggles, and bind through Evil's higher-precedence `evil-define-key*'.
 (with-eval-after-load 'cider-debug
-  ;; 1) Make the CIDER debug minor-mode map override Evil's state maps
   (evil-make-overriding-map cider--debug-mode-map 'normal 'motion)
-  ;; 2) Recompute keymaps when the debug mode toggles, so overriding takes effect
   (add-hook 'cider--debug-mode-hook #'evil-normalize-keymaps)
 
-  ;; 3) Bind with Evil’s higher-precedence API
   (evil-define-key* '(normal motion) cider--debug-mode-map
     "n" (lambda ()
           (interactive)
@@ -198,8 +194,7 @@
 ;; This is a keybinding/hydra dispatch hub: it forward-references CIDER,
 ;; clj-refactor and clojure-mode commands defined elsewhere and invoked only
 ;; at runtime, so the "unresolved" byte-compile class is all noise here.  Keep
-;; every other warning class live.  `(not unresolved)' is a safe-local value,
-;; so opening the file prompts nothing.
+;; every other warning class live.
 ;; Local Variables:
 ;; byte-compile-warnings: (not unresolved)
 ;; End:

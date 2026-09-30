@@ -6,11 +6,9 @@
 ;; live `eca-emacs' package, so a test can drive the satellites without a
 ;; running ECA server, session, or chat.
 ;;
-;; It exists to replace the ad-hoc `cl-letf' / `setq-local' fakery that tests
-;; grow (see tools/eca-windowing-test.el): set chat state with
-;; `ck/eca-upstream-fake-setup-chat', point the session at a value, run the
-;; code under test, then read the captured request with
-;; `ck/eca-upstream-fake-last-request'.
+;; Usage in a test: set chat state with `ck/eca-upstream-fake-setup-chat',
+;; point the session at a value, run the code under test, then read the
+;; captured request with `ck/eca-upstream-fake-last-request'.
 ;;
 ;; Loading this file DEFINES the same `ck/eca-upstream-' function names the
 ;; real adapter does; whichever loads last wins, so a test requires this after
@@ -105,14 +103,13 @@ write; each keyword maps to the matching `ck/eca-upstream-' accessor."
 (defun ck/eca-upstream-fake-set-session-status (session status)
   "Set SESSION's server STATUS: `stopped', `starting', or `started'.
 Mirrors the `eca--session' status slot that `eca-start-session'
-branches on (eca.el:417-428)."
+branches on."
   (setf (ck/eca-upstream-fake-session-status session) status))
 
 (defun ck/eca-upstream-fake-set-last-chat (session buffer)
   "Make BUFFER the chat a start of SESSION reopens.
 Stands for `eca--session-last-chat-buffer', which is what
-`eca-chat-open' tests for liveness before creating a chat
-\(eca-chat.el:5787-5789)."
+`eca-chat-open' tests for liveness before creating a chat."
   (setf (ck/eca-upstream-fake-session-last-chat session) buffer))
 
 (defun ck/eca-upstream-fake-sent-prompts ()
@@ -124,9 +121,12 @@ Stands for `eca--session-last-chat-buffer', which is what
              ck/eca-upstream-fake--requests)))
 
 (defun ck/eca-upstream-fake-reset ()
-  "Clear captured requests and reset session/handler state to defaults.
+  "Clear captured requests and reset most session and handler state.
 Kills the chat buffers the fake created, so one test's chats cannot be
-found by the next one."
+found by the next one.  It leaves
+`ck/eca-upstream-fake--history-calls' and
+`ck/eca-upstream-fake--block-at-point' alone, so a test that reads either
+must set it itself."
   (dolist (session ck/eca-upstream-fake--sessions)
     (dolist (buffer (ck/eca-upstream-fake-session-chats session))
       (when (buffer-live-p buffer) (kill-buffer buffer))))
@@ -180,14 +180,13 @@ captured from `eca-api-request-async'."
             ck/eca-upstream-fake--sessions))
 
 (defun ck/eca-upstream-start-session (session root on-ready)
-  "Mirror `eca-start-session' (eca.el:417-428) against in-memory state.
+  "Mirror `eca-start-session' against in-memory state.
 Every branch upstream takes is here, because what the launcher must
 survive is what the start does BEFORE ON-READY: a started session runs
-`eca-chat-open' (eca.el:425) and a cold start runs it inside
-`eca--initialize' (eca.el:341), so both open a chat and take a window.
-A `starting' session only reports itself and never calls ON-READY.  The
-fake server answers at once, so the cold start is synchronous here
-while upstream's is asynchronous."
+`eca-chat-open' and a cold start runs it inside `eca--initialize', so
+both open a chat and take a window.  A `starting' session only reports
+itself and never calls ON-READY.  The fake server answers at once, so
+the cold start is synchronous here while upstream's is asynchronous."
   (let ((session (or session
                      (let ((new (ck/eca-upstream-fake--make-session
                                  :id (cl-incf
@@ -224,14 +223,12 @@ while upstream's is asynchronous."
     buffer))
 
 (defun ck/eca-upstream-fake--chat-open (session)
-  "Mirror `eca-chat-open' (eca-chat.el:5785-5814) for SESSION.
+  "Mirror `eca-chat-open' for SESSION.
 Creates a chat when the session has no live one, then selects the
 window already showing it or opens a new one to the right, which is
 what cmacs runs (`eca-chat-window-side' at its default `right', with
 `eca-chat-use-side-window' nil, and `eca-chat-focus-on-open' t).  A
-caller that must keep its layout has to take that window back; without
-this line a launcher's stray chat and stray window are invisible to
-every check."
+caller that must keep its layout has to take that window back."
   (let ((buffer (ck/eca-upstream-fake-session-last-chat session)))
     (unless (buffer-live-p buffer)
       (setq buffer (ck/eca-upstream-fake--create-chat session)))
@@ -244,10 +241,10 @@ every check."
     buffer))
 
 (defun ck/eca-upstream-new-chat (session)
-  ;; Mirror `eca-chat--new-chat' (eca-chat.el:6639-6647): the new buffer
-  ;; becomes the session's last chat and is then opened, which changes the
-  ;; window configuration.  A caller that must not disturb the layout has to
-  ;; wrap this in `save-window-excursion', and this is what proves it does.
+  ;; Mirror `eca-chat--new-chat': the new buffer becomes the session's last
+  ;; chat and is then opened, which changes the window configuration.  A
+  ;; caller that must not disturb the layout has to wrap this in
+  ;; `save-window-excursion'.
   (let ((buffer (ck/eca-upstream-fake--create-chat session)))
     (setf (ck/eca-upstream-fake-session-last-chat session) buffer)
     (ck/eca-upstream-fake--chat-open session)
@@ -380,9 +377,8 @@ every check."
               t))))
 
 (defun ck/eca-upstream-switch-to-buffer (buffer session)
-  ;; Upstream also records the buffer as the session's last chat
-  ;; (eca-chat.el:3460-3468), which is what a later `eca-chat-open' reopens
-  ;; instead of creating a chat.
+  ;; Upstream also records the buffer as the session's last chat, which is
+  ;; what a later `eca-chat-open' reopens instead of creating a chat.
   (when (buffer-live-p buffer)
     (if-let* ((window (get-buffer-window buffer)))
         (select-window window)

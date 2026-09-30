@@ -4,35 +4,12 @@
 ;; `M-x ck/eca-pair-open' puts the owner in front of a cam-pair session: the
 ;; actor chat in the selected window, the critic chat in a band to its right,
 ;; both on this workspace root's ECA session, each opened with the
-;; `/cam-pair:enter' command.  The design is
-;; .eca/docs/design/cam-pair/design.md ("Open item 8: the cmacs command").
-;;
-;; What the command hides, and why each piece is here rather than in the
-;; owner's hands:
-;;
-;;   Chat creation     upstream always opens a new chat in a window, so each
-;;                     creation runs inside `save-window-excursion' and this
-;;                     file places the two buffers itself.
-;;   Session start     starting a session opens a chat too, before the
-;;                     launcher's callback runs: `eca-start-session' calls
-;;                     `eca-chat-open' on a started session (eca.el:425) and
-;;                     `eca--initialize' calls it on a cold start
-;;                     (eca.el:341).  Upstream offers no start without it, so
-;;                     the launch adopts the chat it opened as a pair chat
-;;                     and takes its window back.
-;;   Agent selection   selecting an agent also moves the SESSION default, so
-;;                     the launch puts that default back; otherwise every
-;;                     later chat of the session would start as `pair-actor'.
-;;   Window placement  both chats carry one ECA workspace tag, so the chat
-;;                     entry in `display-buffer-alist' would drop the second
-;;                     buffer into the first one's window.  Both placements
-;;                     therefore go through `display-buffer-overriding-action',
-;;                     which `display-buffer' consults BEFORE that alist.
-;;   Upstream names    every crossing goes through the ECA upstream adapter,
-;;                     so this file names no eca internal at all.
-;;
-;; Re-running the command is the recovery path for a closed chat buffer: it
-;; reuses whichever pair chat still exists and creates the other.
+;; `/cam-pair:enter' command.  It hides the chat creation, session start,
+;; agent selection, and window placement that upstream would otherwise do its
+;; own way, and names no eca internal itself: every crossing goes through the
+;; ECA upstream adapter.  Re-running the command is the recovery path for a
+;; closed chat buffer: it reuses whichever pair chat still exists and creates
+;; the other.
 
 (require 'prelude)
 (require 'config/services/eca/upstream)
@@ -54,8 +31,8 @@ tools it can see.")
   "ECA session is starting; run again when it is ready"
   "What the launch says when the session is still initializing.
 `eca-start-session' answers a starting session with a note of its own
-and never runs the ready callback (eca.el:427), so without this the
-command would look like it did nothing.")
+and never runs the ready callback, so without this the command would
+look like it did nothing.")
 
 (defconst ck/eca-pair-current-file ".eca/pair/current"
   "Workspace-relative file naming the open pair session.
@@ -103,7 +80,7 @@ the session this very launch started."
 ADOPT is a chat this launch opened that nothing owns yet; taking it
 over is what keeps an upstream-opened chat from becoming a stray third
 one.  Without one, a chat is created inside `save-window-excursion',
-because creating a chat also opens it (eca-chat.el:6639-6647)."
+because creating a chat also opens it."
   (let ((buffer (if (buffer-live-p adopt)
                     adopt
                   (save-window-excursion
@@ -125,10 +102,10 @@ to become pair chats."
 
 (defun ck/eca-pair--reopen-a-pair-chat (session)
   "Name one of SESSION's pair chats as the chat a start reopens.
-`eca-chat-open' creates a chat only when the session's last one is dead
-\(eca-chat.el:5787-5789), so a launch made after that buffer was killed
-reopens a pair chat instead of adding a third.  Recording the buffer
-also shows it (eca-chat.el:3460-3468), hence the excursion."
+`eca-chat-open' creates a chat only when the session's last one is dead,
+so a launch made after that buffer was killed reopens a pair chat
+instead of adding a third.  Recording the buffer also shows it, hence
+the excursion."
   (when-let* ((chat (or (ck/eca-pair--chat-for-agent
                          session ck/eca-pair-actor-agent)
                         (ck/eca-pair--chat-for-agent
@@ -160,10 +137,9 @@ dedicated or side window still shows the actor."
 
 (defun ck/eca-pair--reclaim-chat-windows (session keep)
   "Delete every window showing a chat of SESSION, except KEEP.
-The start opened a chat window before this launcher ran (eca.el:425 on
-a started session, eca.el:341 on a cold start).  The launcher owns the
-layout, so it takes those windows back and then places the two pair
-chats itself."
+The start opened a chat window before this launcher ran, on a started
+session and on a cold start alike.  The launcher owns the layout, so it
+takes those windows back and then places the two pair chats itself."
   (dolist (buffer (ck/eca-upstream-session-chats session))
     (when (buffer-live-p buffer)
       (dolist (window (get-buffer-window-list buffer nil nil))

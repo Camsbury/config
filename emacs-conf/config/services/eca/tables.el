@@ -32,9 +32,9 @@ ever perturbs ECA's overlays."
 ;; a monospace, but `fixed-pitch' resolves to the generic "Monospace" family,
 ;; not the chat's own font.  Pin tables to an explicit family instead.  The
 ;; remap is installed from `eca-chat-mode-hook', which runs after ECA's own
-;; `markdown-table-face' remap in the mode body, so this later relative remap
-;; wins on `:family' (last relative remap has highest priority) while ECA keeps
-;; owning alignment and the colour/zebra overlays layered on top.
+;; remap in the mode body, so this later relative remap wins on `:family'
+;; (last relative remap has highest priority) while ECA keeps owning alignment
+;; and the colour/zebra overlays layered on top.
 
 (defcustom ck/eca-chat-table-font "Go Mono"
   "Monospace family for markdown tables in ECA chat buffers.
@@ -60,16 +60,15 @@ the table font changes.  A no-op when the configured font is unavailable."
 ;;; Table alignment ---------------------------------------------------------
 ;;
 ;; ECA aligns markdown tables only within the just-finished turn, so a table
-;; that falls outside that window stays raw and jagged.  Re-run ECA's own
-;; aligner/beautifier over the whole chat content area to keep every table
-;; consistent.  The operation is idempotent on already-aligned tables.
+;; outside that window stays raw.  Re-running ECA's own aligner over the whole
+;; content area is idempotent on an already aligned table.
 
 (defun ck/eca-chat-align-tables (&optional beg end)
   "Align and beautify markdown tables in the current ECA chat buffer.
 With no region (interactive use) aligns the whole content area.  BEG/END
 bound the pass so callers can scope it: ECA's `eca-table-align' re-processes
 its whole region from scratch with no early-out, so a whole-buffer pass is
-O(history) and froze Emacs ~1.3s on large chats.  The finish-time auto-align
+O(history) and stalls redisplay on a large chat.  The finish-time auto-align
 scopes to just the new turn instead."
   (interactive)
   (unless (derived-mode-p 'eca-chat-mode)
@@ -86,7 +85,7 @@ scopes to just the new turn instead."
 Scoped to the finished turn (from the chat's last-user-message position,
 mirroring `ck/eca-chat--auto-preview-latex' and ECA's own end-of-stream
 scoping) so cost does not grow with chat history.  A whole-buffer align runs
-ECA's O(history) aligner and froze Emacs ~1.3s on large chats."
+ECA's O(history) aligner and stalls redisplay on a large chat."
   (when (and ck/eca-chat-auto-align-tables (derived-mode-p 'eca-chat-mode))
     (ignore-errors
       (ck/eca-chat-align-tables

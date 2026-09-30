@@ -9,8 +9,8 @@
 # symbol list honest mechanically.
 #
 # Resolves the emacs binary and EMACSLOADPATH from the real cmacs launcher
-# (the ambient `emacs' is a different build; see gotchas), matching
-# lib-guard.sh.  Pure batch: no X, no server, safe to run anytime.
+# (the ambient `emacs' is a different build), matching lib-guard.sh.
+# Pure batch: no X, no server, safe to run anytime.
 #
 # Usage: tools/eca-upstream-guard.sh   # exits 0 PASS, 1 FAIL, 2 setup-error
 

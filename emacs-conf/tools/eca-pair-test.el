@@ -154,8 +154,8 @@
 
 (ert-deftest ck/eca-pair-open-adopts-the-chat-the-start-opened ()
   "Starting a session opens a chat and takes a window before the launcher
-runs (`eca-chat-open' from eca.el:425 and eca.el:341).  That chat must
-become one of the two pair chats, and the window must go back."
+runs, through `eca-chat-open'.  That chat must become one of the two pair
+chats, and the window must go back."
   (let ((root "/tmp/ck-eca-pair-start-chat/"))
     (ck/eca-pair-test--in-workspace root
       (let ((origin (selected-window)))
@@ -185,8 +185,8 @@ become one of the two pair chats, and the window must go back."
 
 (ert-deftest ck/eca-pair-open-reopens-a-pair-chat-rather-than-adding-one ()
   "With both pair chats alive but the session's last chat gone, upstream
-would create a third one on the way in (eca-chat.el:5787-5789).  The
-launch points the session at a pair chat first, so it does not."
+would create a third one on the way in.  The launch points the session at
+a pair chat first, so it does not."
   (let ((root "/tmp/ck-eca-pair-last-chat/"))
     (ck/eca-pair-test--in-workspace root
       (ck/eca-pair-open)
@@ -198,8 +198,8 @@ launch points the session at a pair chat first, so it does not."
         (should (equal chats (ck/eca-upstream-session-chats session)))))))
 
 (ert-deftest ck/eca-pair-open-refuses-a-starting-session ()
-  "A session that is still initializing never runs the ready callback
-\(eca.el:427), so the launch must say so instead of doing nothing."
+  "A session that is still initializing never runs the ready callback,
+so the launch must say so instead of doing nothing."
   (let ((root "/tmp/ck-eca-pair-starting/"))
     (ck/eca-pair-test--in-workspace root
       (let* ((session (ck/eca-upstream-start-session nil root nil))

@@ -1,11 +1,9 @@
 ;; -*- lexical-binding: t; -*-
-;; Flycheck byte-compiles each file in a fresh subprocess.  By default that
-;; subprocess starts with an empty `load-path', so every `require' (packages,
-;; elisp libs, and our own `provide'd sibling features) fails and cascades into
-;; spurious "not known to be defined" / "free variable" warnings.  `inherit'
-;; hands the checker this session's `load-path' so those requires resolve; the
-;; residual warnings are then the real ones (dependencies a file uses without
-;; requiring), which the per-file `require' + `declare-functions' work targets.
+;; Flycheck byte-compiles each file in a fresh subprocess whose `load-path' is
+;; empty by default, so every `require' fails and cascades into spurious "not
+;; known to be defined" and "free variable" warnings.  The `inherit' setting
+;; below hands the checker this session's `load-path', so what remains is the
+;; real warnings: dependencies a file uses without requiring them.
 (require 'prelude)
 ;; defhydra/general-def/general-add-hook macros come from here, so they expand
 ;; in byte-compile isolation instead of depending on the core/bindings hub.

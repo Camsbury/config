@@ -5,22 +5,22 @@
 ;; server-first: eca-emacs prefers a per-category `:color' (and a `:freeColor'
 ;; for the unused region) that the ECA server pushes as hex strings, and only
 ;; falls back to the client faces (`eca-chat-context-*-face') for older
-;; servers that omit them.  Our pinned server sends colors, so the faces --
-;; and thus the doom theme -- never get a say by default.
+;; servers that omit them.  Our pinned server sends colors, so the faces, and
+;; thus the doom theme, never get a say by default.
 ;;
 ;; Strip that server color before the resolvers see it, so each one falls
 ;; through to its client face.  Those faces are themed from the palette in
 ;; `config/theme/doom-*.edn' (`:eca-chat-context-*-face'), which is how the
-;; bar ends up inheriting the doom colors: the seven category hues from the
-;; palette roles, and the free/unused region as `base4'.
+;; bar ends up inheriting the doom colors: the category hues from the palette
+;; roles, and the free/unused region as `base4'.
 ;;
-;; Rendering quirk worth knowing (drove the EDN choice): in a graphical frame
-;; each bar segment is a space whose `:background' is set to the color the
-;; resolver returns, and that color is read from the face's FOREGROUND
-;; (`face-foreground').  So the free region shows `base4' because the EDN sets
-;; `eca-chat-context-free-face' :foreground to base4, even though visually it
-;; paints as a background.  Terminal frames draw a `?█' glyph in the face
-;; foreground, so the same foreground attribute is correct there too.
+;; The color comes out of the face FOREGROUND.  In a graphical frame each bar
+;; segment is a space whose `:background' is set to the color the resolver
+;; returns, and that color is read with `face-foreground'.  So the free region
+;; shows `base4' because the EDN sets `eca-chat-context-free-face' :foreground
+;; to base4, even though visually it paints as a background.  Terminal frames
+;; draw a `?█' glyph in the face foreground, so the same attribute is correct
+;; there too.
 ;;
 ;; The strip filters install through the adapter's context color/help
 ;; extension points, self-registered at the bottom of this file (the adapter
@@ -60,10 +60,10 @@ breakdown plist); with `:freeColor' gone both fall through to the themed
 ;; server-sent `:emoji' (and `:freeEmoji' for the free region), only falling
 ;; back to a `█' block drawn in the themed `eca-chat-context-*-face-spec' when
 ;; the emoji is absent.  Since our server sends emoji, the tooltip painted the
-;; server's fixed emoji palette while the bar segments -- with `:color'
-;; stripped above -- painted the doom theme, so the two disagreed.  Strip the
-;; emoji here too and the swatch takes the block fallback, whose face-spec is
-;; the same doom color the matching bar segment uses.
+;; server's fixed emoji palette while the bar segments, with `:color' stripped
+;; above, painted the doom theme.  Strip the emoji here too and the swatch
+;; takes the block fallback, whose face-spec is the same doom color the
+;; matching bar segment uses.
 
 (defun ck/eca--strip-help-emoji (args)
   "Adapter bar-help filter dropping server emoji swatches from the tooltip.
@@ -79,7 +79,7 @@ Non-destructive: the server breakdown is left intact for other consumers."
                                :categories cats)))
     (cons breakdown (cdr args))))
 
-;; Self-register the three strippers at load time through the adapter.
+;; Self-register the strippers at load time through the adapter.
 (ck/eca-upstream-set-context-category-color-filter #'ck/eca--strip-cat-color)
 (ck/eca-upstream-set-context-free-color-filter #'ck/eca--strip-free-color)
 (ck/eca-upstream-set-context-bar-help-filter #'ck/eca--strip-help-emoji)

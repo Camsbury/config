@@ -47,14 +47,12 @@ Both keys are key description strings."
               (lambda () (interactive) (exwm-workspace-switch-create ,it)))
             (number-sequence 0 9))
    ;; XF86 hardware keys.
-   ;; Audio/media keys (volume, mute, play/prev/next) are OWNED below X by
-   ;; triggerhappy (nix-conf/modules/desktop/media-keys.nix), so they keep
-   ;; working while the screen is locked. But triggerhappy reads evdev
-   ;; BEFORE X, so the keysym still propagates up to whichever X window has
-   ;; focus. We grab these audio keys bound to `ignore' purely to SWALLOW
-   ;; that stray keysym: it stops Emacs echoing "<XF86Audio...> is undefined"
-   ;; when an Emacs buffer is focused, and stops a focused X app (browser,
-   ;; player) from acting on the key a second time. `ignore' takes no media
+   ;; Audio/media keys are OWNED below X by triggerhappy
+   ;; (nix-conf/modules/desktop/media-keys.nix), so they keep working while
+   ;; the screen is locked. But triggerhappy reads evdev BEFORE X, so the
+   ;; keysym still reaches whichever X window has focus. Grabbing these keys
+   ;; to `ignore' swallows that stray keysym: no "<XF86Audio...> is undefined"
+   ;; echo, and no second action by a focused X app. `ignore' takes no media
    ;; action, so there is no double-fire with triggerhappy.
    ("<XF86AudioPlay>"        ignore)
    ("<XF86AudioPrev>"        ignore)
@@ -103,14 +101,13 @@ Both keys are key description strings."
    ("s-V" "C-V")
    ("s-v" "C-v")))
 
-;; --- WM activation seam ---------------------------------------------------
+;; --- WM activation ---------------------------------------------------------
 ;; Loading this file only DEFINES the WM setup; it must never enable EXWM at
 ;; load time, so the whole config stays usable on a plain TTY (no X).  EXWM
 ;; starts only from `ck/enable-wm', which init.el calls only when
 ;; `ck/wm-session-p' is non-nil.  EXWM creates the workspaces itself, and
-;; `ck/wm--on-init' runs once they exist.
-;; This is the TTY-vs-WM dispatch seam (decision 0016).  The WM-free load
-;; invariant is machine-checked by tools/wm-free-check.sh.
+;; `ck/wm--on-init' runs once they exist.  The WM-free load invariant is
+;; machine-checked by tools/wm-free-check.sh.
 
 (defvar ck/wm-active-p nil
   "Non-nil while EXWM, started by `ck/enable-wm', is running.
@@ -131,12 +128,10 @@ True for the graphical X login session, nil on a plain TTY (where
 
 (defun ck/wm--on-init ()
   "Finish WM activation once EXWM has built its workspaces.
-Runs on `exwm-init-hook', after EXWM has created `exwm-workspace-number'
-workspaces and selected workspace 0.
-
-EXWM runs this hook inside its init error handler, which shuts EXWM
-down on any error.  Errors here are demoted to messages so a bad switch
-costs only the home workspace, never the window manager."
+Runs on `exwm-init-hook'.  EXWM runs that hook inside its init error
+handler, which shuts EXWM down on any error, so errors here are demoted
+to messages: a bad switch costs only the home workspace, never the
+window manager."
   (setq ck/wm-active-p t)
   (with-demoted-errors "ck/wm--on-init: %S"
     (exwm-workspace-switch ck/wm-home-workspace)))

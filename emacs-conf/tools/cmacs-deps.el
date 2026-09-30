@@ -2,8 +2,8 @@
 ;;
 ;; Loaded into the LIVE WM Emacs, which alone knows `symbol-file'/`macrop' for
 ;; every config + package symbol.  The whole pipeline runs here in the server;
-;; the only subprocess is an independent `emacs -Q --batch' byte-compile (it
-;; never talks back to the server, so there is no re-entrancy deadlock).
+;; the only subprocess is an independent `emacs -Q --batch' byte-compile, which
+;; never talks back to the server, so there is no re-entrancy deadlock.
 ;;
 ;; What it does, per file:
 ;;   1. byte-compile a copy in a clean emacs -Q with this session's load-path
@@ -11,14 +11,10 @@
 ;;   2. resolve each symbol via `symbol-file'/`macrop';
 ;;   3. emit a dependency header and (optionally) splice it in, then re-check.
 ;;
-;; Header policy (see .eca/docs/plans/module-dependency-refactor.md):
-;;   - `(require 'prelude)' first: it owns the `declare-*' macros + dash.
-;;   - a MACRO provider must be `require'd (the compiler needs it to expand);
-;;     found by fixpoint (adding a require can reveal a nested macro).
-;;   - everything else is forward-declared (`declare-functions'/`declare-vars'),
-;;     which never force-loads, so deferred packages stay deferred (decision
-;;     0001) and no load cycle is introduced.  Promoting a genuine load-time
-;;     sibling function from declare to `require' is a deliberate human step.
+;; Header policy: a file that uses a macro must `require' its provider,
+;; because the byte compiler has to load the provider to expand the macro.
+;; Everything else gets a forward declaration, which never loads anything,
+;; so deferred packages stay deferred.
 
 (require 'prelude)
 (require 'subr-x)
@@ -262,7 +258,7 @@ the header is prefixed with a MANUAL banner instead of being trusted."
     ;; library.  Wiring the mode in (add-hook, keybinding) is what makes
     ;; a file application, and those heads stay in the application list.
     define-minor-mode define-globalized-minor-mode define-derived-mode
-    ;; comments/no-ops that carry no wiring
+    ;; symbol plist writes: they run at load, but wire nothing in the editor
     put function-put)
   "Heads that define reusable code without side-effecting the editor.
 Their bodies run only when called (a `defun') or merely compute a value (a
@@ -313,8 +309,10 @@ Return a plist: :class (`library'/`application'/`mixed'/`empty') :evidence
 (alist head -> count for the application heads seen) :def-heads (defn heads
 seen) :other-heads :top-forms.  A file is `application' if any wiring head is
 reachable at load time (see `cmacs-deps--scan-app'), `library' if only
-definitional heads appear, `mixed' if it wires but is dominated by
-definitions (informational only; the tag stays `application')."
+definitional heads appear, and `mixed' if it wires but has more
+definitional forms than wiring forms.  A `mixed' file wires the editor, so
+a caller that wants every wiring file must accept `mixed' as well as
+`application'."
   (with-temp-buffer
     (insert-file-contents file)
     (goto-char (point-min))
@@ -349,9 +347,7 @@ definitions (informational only; the tag stays `application')."
 ;; A SECOND axis, orthogonal to library/application: what runtime environment
 ;; a file's BEHAVIOR needs.  This is mechanical evidence only; the
 ;; architectural "layer" call (WM implementation vs feature touchpoint) stays
-;; a human judgment.  Ruling that motivated the split: games/wc3 is tier `wm'
-;; because its XF86 keybindings need EXWM (to reach them inside a fullscreen
-;; game), yet it is NOT part of the WM layer - it is a feature touchpoint.
+;; a human judgment.
 ;;
 ;;   editor      no EXWM references; behavior testable in a plain Emacs
 ;;   wm-guarded  only degrade-gracefully guards (`exwm-mode' checks); testable
@@ -448,8 +444,9 @@ needs no WM.  Returns a plist :tier :wm-api :wm-guards :display."
               :display (sort display #'string<))))))
 
 (defun cmacs-deps-env-tier-report ()
-  "Tier every config file.  Return a list of (FEATURE TIER WM-API DISPLAY),
-sorted wm first, then wm-guarded, then editor."
+  "Tier every config file.
+Return a list of (FEATURE TIER WM-API DISPLAY), sorted wm first, then
+wm-guarded, then editor."
   (let ((rows '()))
     (dolist (f (cmacs-deps--all-files))
       (let* ((pl (cmacs-deps-env-tier f))
@@ -472,14 +469,13 @@ sorted wm first, then wm-guarded, then editor."
 ;;      copy of every config file + a manifest.  No compiling here.
 ;;   2. compile (PLAIN SHELL, parallel): one isolated `emacs -Q --batch'
 ;;      byte-compile per copy, run under `xargs -P'.  Kept OFF the WM server so
-;;      the 30s of work does not freeze the desktop (Emacs is the WM).
+;;      the compile work does not freeze the desktop (Emacs is the WM).
 ;;   3. collect (server, instant): read each copy's warnings, resolve every
 ;;      undefined symbol via `symbol-file' (config sibling vs package), and
 ;;      build the DAG + per-file classification.
-;; Isolation matters: byte-compiling a file evaluates its top-level `require's
-;; into the process, so compiling many files in ONE process leaks earlier
-;; files' requires and hides real edges.  Separate processes reproduce exactly
-;; what flycheck sees per file.
+;; One process per file matters: byte-compiling evaluates the file's top-level
+;; `require's into the process, so a shared process leaks earlier files'
+;; requires and hides real edges.
 
 (defvar cmacs-deps-dag-dir "/tmp/cmacs-dag"
   "Working directory for the whole-config DAG scan.")

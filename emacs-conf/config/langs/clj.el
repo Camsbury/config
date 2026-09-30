@@ -19,7 +19,6 @@
   ;; prevent firing the missiles in some projects
   (setq cljr-eagerly-build-asts-on-startup nil)
   ;; (setq cljr-warn-on-eval nil) ;; turned off for the above
-  ;; setup some extra namespace auto completion for great awesome
   (dolist (mapping '(("re-frame" . "re-frame.core")
                      ("reagent"  . "reagent.core")
                      ("str"      . "clojure.string")))
@@ -64,7 +63,6 @@
 (setq cider-auto-select-error-buffer nil)
 (setq clojure-align-forms-automatically t)
 
-;; systemic nice to haves
 (put 'defsys 'clojure-doc-string-elt 2)
 
 (general-add-hook

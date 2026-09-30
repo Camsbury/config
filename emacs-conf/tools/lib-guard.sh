@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# lib-guard.sh -- the library-seam guard (decision 0009, rollout step 6).
+# lib-guard.sh -- the guard for the library and application split.
 #
 # Fails when any feature under lib/ classifies as application: lib/ is the
 # wiring-free layer, pulled by `require' on demand, and this keeps it that
@@ -8,10 +8,10 @@
 # wiring heads vs pure definitions).
 #
 # Resolves the emacs binary and EMACSLOADPATH from the real cmacs launcher
-# (the ambient `emacs' is a different build; see gotchas).  Pure batch: no
-# X, no server, safe to run anytime.
+# (the ambient `emacs' is a different build).  Pure batch: no X, no server,
+# safe to run anytime.
 #
-# Usage: tools/lib-guard.sh    # exits 0 on PASS, 1 on FAIL
+# Usage: tools/lib-guard.sh    # exits 0 on PASS, 1 on FAIL, 2 on setup error
 
 set -euo pipefail
 

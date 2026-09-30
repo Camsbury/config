@@ -1,10 +1,14 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
-(require 'core/env)
+(require 'core/env) ; user-gpg-id, cmacs defgroup
 (require 'lib/shell)   ; ck/-run-shell-command
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Brightness
+
+;; Two scales live here.  `ck/set-brightness' passes an xrandr software
+;; fraction (0.0 to 1.0) to set-brightness.sh.  The raise and lower commands
+;; pass a percentage step of the sysfs backlight range to brightness.sh.
 
 (defun ck/set-brightness (brightness)
   (shell-command
@@ -27,12 +31,12 @@
   (ck/set-brightness 0.6))
 
 (defun ck/raise-brightness ()
-  "raises brightness"
+  "Raise the sysfs backlight by 20 percent of its range."
   (interactive)
   (shell-command "sh ~/.scripts/brightness.sh +20"))
 
 (defun ck/lower-brightness ()
-  "lowers brightness"
+  "Lower the sysfs backlight by 20 percent of its range."
   (interactive)
   (shell-command "sh ~/.scripts/brightness.sh -20"))
 
@@ -62,7 +66,7 @@
 ;; Display / screen
 
 (defun ck/cycle-displays ()
-  "cycle displays" ;TODO: pimp out with exwm-randr
+  "Cycle the eDP-1 and DP-3 layout through disper's stages." ;TODO: pimp out with exwm-randr
   (interactive)
   (shell-command "disper -d eDP-1,DP-3 -r auto --cycle-stages=\"-s:-c:-e\" --cycle -t right"))
 
@@ -186,7 +190,7 @@ wait does not block the WM Emacs."
   (shell-command "pkill -SIGUSR1 dunst"))
 
 (defun ck/unpause-notifications ()
-  "pause dunst notifications"
+  "unpause dunst notifications"
   (interactive)
   (shell-command "pkill -SIGUSR2 dunst"))
 
@@ -233,14 +237,10 @@ locked screen then blanks on the normal schedule instead of staying lit."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Caffeine: stretch the idle lock instead of disabling it
 
-;; The idle chain lives in nix-conf/modules/desktop/screen-lock.nix as two user
-;; units that conflict with each other: `xidlehook' (lock after 5 min) and
-;; `xidlehook-caffeinated' (lock after an hour).  Each unit sets the X
-;; screensaver and DPMS fallbacks it expects when it starts, so caffeine is
-;; a unit swap and nothing else.  The chain still ends in a lock and a
-;; blanked panel, so a forgotten caffeine cannot leave the OLED lit all
-;; night, and the state is readable from systemd rather than from an Emacs
-;; variable that a restart would lose.
+;; The idle chain lives in nix-conf/modules/desktop/screen-lock.nix as user
+;; units that conflict with each other.  So caffeine here is a unit start and
+;; nothing else: systemd stops the other unit in the same transaction, and
+;; `ck/caffeinated-p' reads the state back from systemd.
 
 (defconst ck/caffeine--normal-unit "xidlehook"
   "User unit running the normal idle chain.")

@@ -1,21 +1,13 @@
 ;; -*- lexical-binding: t; -*-
 ;;
-;; config/theme/editor.el -- load doom themes from EDN, and (later) edit them
-;; live.  This file is the Emacs side of the "EDN is the source of truth"
-;; design: `doom-molokam.edn' is parsed and assembled into a `def-doom-theme'
-;; form, so the theme is derivable from EDN and hand/tool edits to the EDN can
-;; be re-applied to the running Emacs performantly.
-;;
-;; The EDN files are pure DATA with NO symbols (a user ruling); this file is
-;; both their compiler and their documentation.  The goal is RENDER-equivalence,
-;; not byte-parity with the old hand-written `.el': loading the EDN reproduces
-;; the same resolved palette and face attributes.  The earlier byte-for-byte
-;; `.el' round-trip was migration scaffolding and has been intentionally retired
-;; -- it forced transcribing elisp reader syntax (quasiquote/unquote/car) into
-;; the EDN, which is exactly what the no-symbols rule forbids.  Equivalence is
-;; checked by diffing a full `face-all-attributes' dump before/after a reload.
-;; See `.eca/docs/reference/theme-editor-crash-postmortem.md' for why we persist
-;; to disk first and test deliberately.
+;; Loads doom themes from EDN and edits them live.  `doom-molokam.edn' is
+;; parsed and assembled into a `def-doom-theme' form, so the theme is derivable
+;; from EDN and edits to the EDN can be re-applied to the running Emacs.  The
+;; EDN files are pure DATA with NO symbols, so this file is both their compiler
+;; and their documentation.  The target is RENDER-equivalence, not byte-parity
+;; with a hand-written `.el': loading the EDN reproduces the same resolved
+;; palette and face attributes.  Check that by diffing a full
+;; `face-all-attributes' dump before and after a reload.
 
 (require 'prelude)
 
@@ -31,17 +23,16 @@
 
 ;;; EDN -> elisp translation -------------------------------------------------
 ;;
-;; EDN has no reader macros for elisp quoting, so the EDN uses explicit forms
-;; that we translate back here:
+;; EDN has no reader macros for elisp quoting, so the EDN spells the forms out
+;; and we translate them back here:
 ;;   - a vector []            -> a quoted list  (a [gui 256 16] color triple)
 ;;   - (quote x)              -> 'x
 ;;   - (quasiquote x)         -> `x   (built with the reader's backquote symbol)
 ;;   - (unquote x)            -> ,x
 ;;   - (unquote-splicing x)   -> ,@x
 ;; Any other list is a verbatim elisp form (doom-lighten, if, when, ...) whose
-;; elements are translated structurally.  Symbols/atoms pass through unchanged;
-;; doom's own colorizer later rewrites color-named symbols into `doom-color'
-;; lookups, exactly as it does for the hand-written .el theme.
+;; elements are translated structurally.  Atoms pass through unchanged; doom's
+;; own colorizer later rewrites color-named symbols into `doom-color' lookups.
 
 (defun ck/doom-theme--translate (x)
   "Translate EDN-parsed datum X into an elisp theme form."
@@ -133,41 +124,23 @@ Shared by the flat-classic and semantic compile paths."
 
 ;;; Semantic compile (three-tier -> def-doom-theme) --------------------------
 ;;
-;; A theme EDN written in the semantic three-tier form (`:palette', `:roles',
-;; `:families', `:extends') is compiled here into the same `def-doom-theme'
-;; form the verified assembler produces, so the round-trip guarantee carries.
-;;
-;; EDN convention: the files are PURE DATA -- no symbols anywhere (by user
-;; ruling).  Everything an elisp theme needs is encoded as keywords, strings,
-;; numbers, booleans, vectors, and maps, and `ck/doom-theme--xlate' maps it
-;; back onto elisp:
-;;   - a keyword that NAMES a :palette or :roles entry resolves to that color
-;;     symbol; any OTHER keyword becomes a quoted literal symbol (:bold, :wave,
-;;     :unspecified, :italic, an :inherit face name, ...);
-;;   - color math is a closed grammar: a vector [:lighten C amt] / [:darken C
-;;     amt] (nestable) -- these two ops are all that is allowed;
-;;   - a [gui term256 term16] triple is a plain 3-string vector;
-;;   - EDN true/false/nil map to elisp t/nil (so no `t'/`nil' symbols);
-;;   - a nested plist (an :underline or :box spec) is written as a map.
-;;   :palette {:name [gui 256 16], ...}   -> leading let-bindings (primitives)
-;;   :roles   {:name expr, ...}           -> trailing let-bindings (semantics)
-;;   :faces   {:face {:prop val}}         -> face overrides (:&override marker)
+;; A theme EDN written in the semantic three-tier form compiles here into the
+;; same `def-doom-theme' form the flat assembler produces:
+;;   :palette  {:name [gui 256 16], ...}  -> leading let-bindings (primitives)
+;;   :roles    {:name expr, ...}          -> trailing let-bindings (semantics)
+;;   :faces    {:face {:prop val}}        -> face overrides (:&override marker)
 ;;   :families {:rainbow [...] :outline [...]} -> generated face specs
-;;   :extends "structural"                -> merge that file's :faces UNDER these
-;; The theme :name is a string, interned on compile.  Themes carry no :toggles;
-;; the toggle plumbing below stays only as dormant capability.
-;; Map insertion order is preserved, so :palette emits before :roles (roles
-;; reference palette colors, not vice versa).
+;;   :extends  "structural"               -> that file's :faces merged UNDER
+;; Map insertion order is preserved, so :palette emits before :roles, which
+;; reference palette colors.  The theme :name is a string, interned on compile.
+;; `ck/doom-theme--xlate' documents how the symbol-free data maps onto elisp.
 ;;
-;; The EDN files (`doom-molokam.edn', `structural.edn') are pure data, no
-;; comments -- this file is their documentation.  `structural.edn' is the shared
-;; boilerplate layer, seeded from doom-molokam's own face overrides (molokam
-;; descends from an old molokai) and generalized into role terms so future
-;; themes reuse it.  It is applied over `doom-themes-base', so its face set is
-;; intentionally bounded to what molokam overrode -- that is why loading molokam
-;; via EDN reproduces the hand-written .el look exactly.  The two repeated groups
-;; molokam had (rainbow-delimiters depth 1-7, outline 1-2) are NOT in structural;
-;; they are generated from each theme's `:families' shorthands instead.
+;; The EDN files carry no comments, so this file documents them.
+;; `structural.edn' is the shared boilerplate layer, written in role terms so
+;; future themes reuse it.  It is applied over `doom-themes-base' and its face
+;; set is bounded to what molokam overrode.  The repeated groups
+;; (rainbow-delimiters depths, outline levels) are NOT in structural; they are
+;; generated from each theme's `:families' shorthands instead.
 
 (defun ck/doom-theme--semantic-p (data)
   "Non-nil if DATA is a semantic (three-tier) theme, not the flat form.
@@ -190,7 +163,7 @@ Discriminated by a `:palette' key (the flat form uses `:defs')."
   '((:lighten . doom-lighten) (:darken . doom-darken))
   "Color operations the symbol-free EDN grammar allows: op-keyword -> elisp fn.
 These are the ONLY operations; a vector headed by one is compiled into the
-corresponding call.  Extend deliberately -- the grammar is closed on purpose.")
+corresponding call.  The grammar is closed on purpose, so extend deliberately.")
 
 (defun ck/doom-theme--as-name (x)
   "Coerce a theme name X (a string in the EDN, or already a symbol) to a symbol."
@@ -212,8 +185,8 @@ elisp a `def-doom-theme' body expects:
     {:style :wave :color :red} becomes (list :style \\='wave :color red);
   - numbers, strings, and t/nil (from EDN true/false/nil) pass through.
 
-TOKENS is a hash-set of palette+role name strings.  NAME and TOGGLES are kept
-for signature compatibility; TOGGLES is empty now that themes carry none."
+TOKENS is a hash-set of palette+role name strings.  TOGGLES is empty while no
+theme defines toggles; a toggle name resolves to its NAME-prefixed variable."
   (cond
    ((keywordp x)
     (let ((n (substring (symbol-name x) 1)))
@@ -385,14 +358,11 @@ Returns the theme name (a symbol)."
 
 ;;; Gallery preview buffer ---------------------------------------------------
 ;;
-;; A read-only canvas that renders the faces a theme touches -- syntax classes,
-;; UI chrome, diagnostics, VC/diff, org, rainbow-delimiters -- so a look can be
-;; judged at a glance.  It is drawn with explicit `face' text properties (not
-;; live font-lock), so it is deterministic and mode-independent; when the theme
-;; re-applies, every face changes globally and this buffer restyles for free
-;; (no rebuild needed per edit).  `display-line-numbers' and `hl-line-mode'
-;; bring in the line-number and hl-line faces; the window's own mode-line shows
-;; `mode-line' / `mode-line-inactive'.
+;; A read-only canvas that renders the faces a theme touches, so a look can be
+;; judged at a glance.  It is drawn with explicit `face' text properties rather
+;; than live font-lock, so re-applying the theme restyles the buffer with no
+;; rebuild.  `display-line-numbers' and `hl-line-mode' bring in their faces;
+;; the window's own mode-line shows `mode-line' / `mode-line-inactive'.
 
 (defvar ck/doom-theme-gallery-buffer "*doom-theme-gallery*"
   "Name of the theme preview buffer.")
@@ -410,13 +380,11 @@ mode-specific face first and a stock font-lock fallback second."
 
 (defun ck/doom-theme--fontify (code mode &rest minor-modes)
   "Return CODE fontified as MODE would render it, carrying `face' properties.
-Runs real font-lock in a throwaway MODE buffer, so tokens get exactly the faces
-they get in a live buffer (e.g. a Clojure ns name is `font-lock-type-face', not
-default).  Any MINOR-MODES that are `fboundp' are enabled first, so e.g.
-rainbow-delimiters colors the parens too.  Mode hooks are skipped, so this stays
-fast and free of side effects (no lsp/cider/flycheck attaching to a temp
-buffer); the trade-off is that it shows static fontification, not the extra
-symbol highlighting a live REPL connection would add."
+Runs real font-lock in a throwaway MODE buffer, so tokens get the faces they
+get in a live buffer.  Any MINOR-MODES that are `fboundp' are enabled first, so
+rainbow-delimiters can color the parens too.  Mode hooks are skipped, which
+keeps lsp/cider/flycheck from attaching to a temp buffer, so the result is
+static fontification without what a live REPL connection would add."
   (with-temp-buffer
     (insert code)
     (delay-mode-hooks (funcall mode))
@@ -451,9 +419,7 @@ symbol highlighting a live REPL connection would add."
   (insert (ck/doom-theme--seg (format "Doom Theme Gallery  -  %s\n" name)
                               'mode-line-emphasis)
           "\n")
-  ;; code sample -- fontified by REAL clojure-mode (+ rainbow-delimiters when
-  ;; available), so every token gets exactly the face it gets in a live Clojure
-  ;; buffer instead of a hand-guessed one.
+  ;; code sample, fontified by real clojure-mode when it is available
   (insert (ck/doom-theme--seg ";;; clojure\n" 'font-lock-comment-face))
   (if (fboundp 'clojure-mode)
       (insert (ck/doom-theme--fontify ck/doom-theme--clojure-sample
@@ -520,11 +486,11 @@ symbol highlighting a live REPL connection would add."
 ;;; Live edit session --------------------------------------------------------
 ;;
 ;; `ck/doom-theme-edit' opens an EDN theme in a buffer running
-;; `ck/doom-theme-edit-mode', which re-applies the theme (debounced) on every
-;; buffer change -- so edits show up live -- and also installs a filenotify
-;; watch on the file, so an external writer (e.g. a future browser editor)
-;; applies too.  The watch is reload-safe: a single global descriptor is
-;; removed before any new one is added, and removed again on teardown.
+;; `ck/doom-theme-edit-mode', which re-applies the theme on every buffer change
+;; (debounced) so edits show up live.  It also installs a filenotify watch on
+;; the file, so an external writer applies too.  The watch is reload-safe: the
+;; single global descriptor is removed before a new one is added, and again on
+;; teardown.
 
 (defgroup ck/doom-theme nil
   "Live editing of EDN-sourced doom themes."

@@ -37,9 +37,8 @@
       random-choice
       ck/play-puzzle-theme))
 
-;; The lichess TSVs carry only eco/name/pgn (they used to include FEN);
-;; `ck/openings-add-fens' derives each line's final FEN locally via
-;; pgn-extract, so the FEN commands below work again.
+;; The lichess TSVs carry only eco/name/pgn, so `ck/openings-add-fens'
+;; derives each line's final FEN locally via pgn-extract.
 (defun ck/extract-eco-and-detail (line)
   (string-match "\\(.*\t.*\\)\t\\(.*\\)" line)
   (list (match-string 1 line)
@@ -109,8 +108,6 @@
 
 (defun ck/fen-distance (fen-a fen-b)
   "Calculate how similar one chess position is to another"
-  ;; was `--fen-distance', a function that never existed under that name
-  ;; (latent void-function error; caught by the byte-compile sweep)
   (ck/expanded-fen-distance
    (ck/expand-fen fen-a)
    (ck/expand-fen fen-b)))

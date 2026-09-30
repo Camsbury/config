@@ -6,29 +6,12 @@
 ;; eca private (a `eca-chat--' function, a `eca--session' struct slot, a
 ;; `eca-vals' / `eca-info' helper, an internal text or overlay property) and
 ;; every advice we install on an upstream function goes THROUGH here, so a
-;; breaking rename upstream lands in exactly one file instead of a dozen.
+;; breaking rename upstream lands in one file.  The accessors below name the
+;; CONCEPT rather than the private they wrap; the extension points own every
+;; `advice-add' and let a satellite register a handler for it.
 ;;
 ;; Loaded FIRST in the eca aggregator's require list, before the satellites, so
 ;; every `ck/eca-upstream-' name is defined by the time a satellite calls it.
-;;
-;; Two kinds of surface:
-;;
-;;   Accessors     intention-revealing readers/writers grouped by concept
-;;                 (session lookup and lifecycle, chat state, prompt
-;;                 geometry, history replay, request crossing, block
-;;                 overlays, table overlays, pending-approval scan).
-;;                 Each wraps one or more upstream
-;;                 privates but names the CONCEPT, not the private.
-;;
-;;   Extension     for every upstream function we advise, the adapter owns the
-;;   points        `advice-add' and exposes a named registration function.  A
-;;                 satellite registers its handler; the adapter installs a
-;;                 single dispatch advice lazily (on first registration) and
-;;                 routes the upstream call to the registered handler(s).  All
-;;                 four combinator shapes are covered: `:after' (teardown
-;;                 hook), `:filter-args' (context-bar color/emoji strippers),
-;;                 `:override' (pending-approval check, server-version source)
-;;                 and `:before-while' (prompt-follow predicate).
 ;;
 ;; A parallel in-memory implementation of this same interface lives in
 ;; tools/eca-upstream-fake.el for tests; tools/eca-upstream-guard.sh asserts
@@ -143,8 +126,8 @@
 (defun ck/eca-upstream-session-starting-p (session)
   "Non-nil when SESSION's server is still initializing.
 `eca-start-session' answers a starting session with a note and never
-runs its ON-READY (eca.el:427), so a caller whose whole behavior lives
-in that callback must ask this before starting."
+runs its ON-READY, so a caller whose whole behavior lives in that
+callback must ask this before starting."
   (and session (eq 'starting (eca--session-status session))))
 
 (defun ck/eca-upstream-start-session (session root on-ready)
@@ -170,14 +153,12 @@ which that call has just set."
 
 (defun ck/eca-upstream-set-session-default-agent (session agent)
   "Make AGENT the agent a new chat of SESSION inherits.
-The write cannot use the accessor's own setf place: this file is compiled
-and loaded before the deferred eca package defines the struct, so
+The write cannot use the accessor's own setf place: this file loads
+before the deferred eca package defines the struct, so
 `(setf (eca--session-chat-default-agent ...))' has no setf expander yet
 and compiles into a call to a function that never exists.  The slot index
-is therefore resolved at run time instead, when the struct is defined; a
-slot that has been renamed upstream signals `cl-struct-unknown-slot'
-here, and the drift guard names that slot so the rename is caught before
-a session ever runs."
+is resolved at run time instead, and a slot renamed upstream signals
+`cl-struct-unknown-slot' here."
   (aset session
         (cl-struct-slot-offset 'eca--session 'chat-default-agent)
         agent))
@@ -226,8 +207,8 @@ Arrival order is not display order: upstream sorts that separately."
   "Return the agent explicitly selected in BUFFER, or nil.
 Nil means the chat inherits the session default.  This reads only what
 was selected in the buffer itself, so a chat that never chose an agent
-cannot report the session's current default as its own -- which matters
-while a caller is mid-launch and that default is deliberately moving."
+cannot report the session's current default as its own.  That matters
+while a caller is mid-launch and deliberately moving that default."
   (let ((buffer (or buffer (current-buffer))))
     (when (local-variable-p 'eca-chat--selected-agent buffer)
       (buffer-local-value 'eca-chat--selected-agent buffer))))
@@ -375,8 +356,8 @@ pending satellite)."
 ;; registers a handler through the named function below; the adapter installs
 ;; a single dispatch advice on first registration and routes the upstream call
 ;; to the handler.  Lazy install keeps upstream untouched until something opts
-;; in, and means an `:override' / `:before-while' dispatcher only ever runs
-;; with a handler present.
+;; in, so an `:override' / `:before-while' dispatcher only ever runs with a
+;; handler present.
 
 (defvar ck/eca-upstream--installed (make-hash-table :test 'eq)
   "Upstream symbols this adapter has already installed dispatch advice on.")

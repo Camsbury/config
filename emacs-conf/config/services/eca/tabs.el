@@ -11,8 +11,8 @@
 ;;; Tab management -----------------------------------------------------------
 ;;
 ;; Two closing flavors for the chat tab-line: close just the tab (buffer),
-;; or close it and delete the chat server-side.  Cycling left/right is
-;; stock `tab-line' -- ECA's tabs carry `buffer' entries, which
+;; or close it and delete the chat server-side.  Cycling left/right needs
+;; nothing here: ECA's tabs carry `buffer' entries, which stock
 ;; `tab-line-switch-to-{prev,next}-tab' understands, wrapping at the ends
 ;; via `tab-line-switch-cycling'.
 

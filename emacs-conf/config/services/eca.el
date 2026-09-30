@@ -3,26 +3,10 @@
 ;;
 ;; Personal ECA (Editor Code Assistant) chat customizations, split across the
 ;; `config/services/eca/' subdirectory.  This aggregator owns the shared
-;; customization group, pulls in the feature files, and wires the `eca'
-;; package itself (hooks, window placement, and the `eca-chat-mode-map'
-;; bindings that must wait for eca to load).
-;;
-;; Feature files (see each for its own commentary):
-;;   pair      one command opening a cam-pair actor and critic chat
-;;   latex     LaTeX-fragment image previews in chat buffers
-;;   tables    re-align every table + a wrapped reading view
-;;   tabs      close/delete a chat tab + sweep closed buffers
-;;   window    workspace-scoped chat window reuse
-;;   compose   dedicated prompt compose buffer
-;;   palette   command/skill/prompt picker
-;;   crash     dormant opt-in to re-disable native code-block fontify
-;;   fold      fold expandable blocks from inside their content
-;;   windowing bound rendered transcripts to the newest server-history page
-;;   pending   O(1) memoized pending-approval check for the mode + tab line
-;;   scroll    follow the stream only while point is in the prompt
-;;   nav       jump/rotation navigation across all chats
-;;   colors    make the context-usage bar inherit the doom theme
-;;   keys      the in-chat and global navigation hydras
+;; customization group, pulls in the feature files listed in the `m-require'
+;; below (each carries its own commentary), and wires the `eca' package itself
+;; (hooks, window placement, and the `eca-chat-mode-map' bindings that must
+;; wait for eca to load).
 
 (require 'prelude)
 ;; general-def comes from here.  The one hub symbol this file names,
@@ -42,8 +26,8 @@
 ;; rewritten together by scripts/update-eca.bb; do not hand-edit one alone.
 ;; The adapter override (registered after the require list below) makes the
 ;; pin the ONE source of truth: the download decision, the release URL, and
-;; the on-disk eca-version marker all use it, so they can never disagree (the
-;; drift that stranded us on a stale binary).
+;; the on-disk eca-version marker all use it, so they cannot disagree and
+;; strand the session on a stale binary.
 (defvar ck/eca-server-version "0.161.1"
   "Pinned eca server version (a github.com/editor-code-assistant/eca release tag).")
 
@@ -70,12 +54,8 @@
   colors
   keys)
 
-;; Register the server-version pin through the adapter (see the defvar/defun
-;; above).  The adapter installs the `:override' on eca's "latest server
-;; version" lookup, so eca never contacts GitHub to decide "latest".  This
-;; lives here rather than in a satellite because the pin is aggregator-owned
-;; (rewritten in lockstep with nix-conf/overlays/emacs.nix by
-;; scripts/update-eca.bb).
+;; Registered here rather than from a satellite: the pin is aggregator-owned
+;; (see the defvar above).
 (ck/eca-upstream-set-server-version-source #'ck/eca--pinned-server-version)
 
 (declare-vars eca-chat-mode-map)
@@ -97,11 +77,11 @@
   ;; mid-stream font-lock, jit-lock still colors the visible area, and one
   ;; final ensure runs at end-of-stream" (ECA's blessed mode; finished output
   ;; is identical, only off-screen streaming text stays uncolored until
-  ;; scrolled to or done).  The stock 0.15s timer re-ran `font-lock-ensure'
-  ;; over the whole growing turn on every fire: O(n^2) buffer-substring
-  ;; scans on long answers, the string-alloc bursts that tripped whole-heap
-  ;; GCs.  nil also cuts how often native code-block fontify sweeps a stream,
-  ;; lowering the reentrant-mutation SIGSEGV exposure (see eca/crash.el).
+  ;; scrolled to or done).  The stock timer re-ran `font-lock-ensure' over the
+  ;; whole growing turn on every fire, which is O(n^2) buffer scanning on a
+  ;; long answer.  nil also cuts how often native code-block fontify sweeps a
+  ;; stream, lowering the reentrant-mutation SIGSEGV exposure (see
+  ;; eca/crash.el).
   (setq eca-chat-fontify-debounce-interval nil)
 
   ;; Window placement for eca chats:
@@ -120,12 +100,10 @@
                  (window . root)
                  (body-function . (lambda (_w) (ck/prettify-windows)))))
 
-  ;; Finish-time render is DEFERRED (see eca/deferred-render.el): the LaTeX +
-  ;; table passes run only when you are viewing the finished chat, or the moment
-  ;; you next navigate into it, so a chat that completes while you are in a
-  ;; game / another buffer / another workspace no longer hitches the WM with
-  ;; off-screen render churn.  The transcript size-bounding stays on finish; it
-  ;; already self-defers.
+  ;; Finish-time render is DEFERRED (see eca/deferred-render.el): the LaTeX and
+  ;; table passes run only when you are viewing the finished chat, or the
+  ;; moment you next navigate into it.  The transcript size-bounding stays on
+  ;; finish; it already self-defers.
   (add-hook 'eca-chat-finished-hook #'ck/eca-chat--render-or-defer)
   (add-hook 'window-selection-change-functions
             #'ck/eca-chat--render-pending-on-select)
@@ -136,18 +114,12 @@
 
   ;; Every advice on an eca internal is owned by the ECA upstream adapter
   ;; (eca/upstream.el); each satellite self-registers its handler through the
-  ;; adapter's extension points at its own load time (before this deferred
+  ;; adapter's extension points at its own load time, before this deferred
   ;; package loads, so the adapter's dispatch advice attaches to the not-yet-
-  ;; defined upstream symbol and applies once eca defines it):
-  ;;   - closed-buffer sweep on chat/process wind-down  -> eca/tabs.el
-  ;;   - context-bar color + hover-emoji strip          -> eca/colors.el
-  ;;   - memoized pending-approval scan                 -> eca/pending.el
-  ;;   - prompt-follow stream scroll gate               -> eca/scroll.el
-  ;; The server-version pin has no satellite home, so it is registered from
-  ;; this aggregator right after the require list above.
+  ;; defined upstream symbol and applies once eca defines it.
 
   ;; `C-c C-c' toggles the prompt into (and, from the compose buffer, back
-  ;; out of) a dedicated edit buffer -- one chord either direction.  Bound
+  ;; out of) a dedicated edit buffer: one chord either direction.  Bound
   ;; outside an evil state so it works whether typing (insert) or navigating
   ;; (normal) in the prompt.
   (define-key eca-chat-mode-map (kbd "C-c C-c") #'ck/eca-toggle-compose)

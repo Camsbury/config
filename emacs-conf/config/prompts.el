@@ -210,13 +210,12 @@ FN is always called; only its prompt display is taken over."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; In-buffer completion inside a floated prompt
 ;;
-;; corfu measures its popup in the selected window -- the covered minibuffer at
-;; the bottom of the screen -- so candidates detach from the prompt.  Point it
-;; at the box instead, in two steps: measure with the box's window selected,
-;; then place in root coordinates, since corfu computes X and Y against the
-;; selected window's frame and its EXWM support unparents the popup afterwards.
-;; The two agree only for a frame at the root origin, which is why corfu is
-;; correct untouched everywhere else.
+;; corfu measures its popup in the selected window, which here is the covered
+;; minibuffer at the bottom of the screen, so candidates detach from the
+;; prompt.  Point it at the box instead, in two steps: measure with the box's
+;; window selected, then place in root coordinates, since corfu computes X and
+;; Y against the selected window's frame and its EXWM support unparents the
+;; popup afterwards.
 
 (declare-functions "corfu" corfu--popup-show corfu--make-frame)
 

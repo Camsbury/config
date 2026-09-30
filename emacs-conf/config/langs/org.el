@@ -6,8 +6,7 @@
 (require 'config/langs/sql)
 ;; TODO: https://stackoverflow.com/questions/17478260/completely-hide-the-properties-drawer-in-org-mode
 (require 'org-id)
-;; org owns org-capture-templates; org-alert-active-p is this file's own toggle
-;; flag tracking whether the alert timer is armed.
+;; org owns org-capture-templates, set in the capture block below.
 (declare-vars org-capture-templates)
 (defvar org-alert-active-p nil
   "Non-nil when org-alert notifications are enabled.
@@ -19,7 +18,6 @@ Toggled by `ck/toggle-org-alerts'.")
 
 (use-package org-bullets)
 
-;; org hooks
 (general-add-hook 'org-mode-hook
   (list 'org-bullets-mode
         'org-indent-mode
@@ -110,7 +108,6 @@ Toggled by `ck/toggle-org-alerts'.")
                            (,(concat cmacs-share-path "/org-roam/reference.org.gpg") :level . 1))
       org-archive-location (concat cmacs-share-path "/archive/" (format-time-string "%Y-%m") ".org::"))
 
-;; auto save on refile
 (advice-add 'org-refile :after
         (lambda (&rest _)
         (org-save-all-org-buffers)))
@@ -118,7 +115,6 @@ Toggled by `ck/toggle-org-alerts'.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org-babel
 
-;; don't ask for confirmation on org-babel evaluation
 (setq org-confirm-babel-evaluate nil)
 
 (customize-set-variable
@@ -136,18 +132,16 @@ Toggled by `ck/toggle-org-alerts'.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; org styling
 
-;; Open file with all folded
 (customize-set-variable 'org-startup-folded 'fold)
 ;; Don't use subpar references
 (setq org-table-use-standard-references nil)
-;; Don't have lines get sucked into folds
+;; Keep blank lines from being sucked into folds
 (setq org-cycle-separator-lines -1)
-;; Allow letters for ordered lists
 (setq org-list-allow-alphabetical 1)
 (setq org-ellipsis " ▾")
 (setq org-bullets-bullet-list '("•"))
 (defun ck/org-faces-init ()
-  "Initialize org faces"
+  "Set org heading faces: level 1 at normal height, none bold, fixed colors."
   (interactive)
   (set-face-attribute 'org-level-1 nil :height 1.0)
   (-each '( org-level-1
@@ -185,7 +179,7 @@ Toggled by `ck/toggle-org-alerts'.")
 ;;; my org functions
 
 (defun ck/org-append-link ()
-  "Append link instead of replacing current point"
+  "Insert a link after point instead of replacing what is at point."
   (interactive)
   (insert " ")
   (call-interactively #'org-insert-link))
@@ -203,7 +197,7 @@ Toggled by `ck/toggle-org-alerts'.")
   (org-table-align))
 
 (defun ck/org-insert-heading ()
-  "Insert top level heading"
+  "Open a line below and start a heading there."
   (interactive)
   (call-interactively #'evil-open-below)
   (if (org-current-level)
@@ -211,7 +205,7 @@ Toggled by `ck/toggle-org-alerts'.")
     (insert "* ")))
 
 (defun ck/org-insert-todo-heading ()
-  "Insert top level heading"
+  "Open a line below, start a heading there, and set its TODO state."
   (interactive)
   (call-interactively #'evil-open-below)
   (if (org-current-level)
@@ -220,7 +214,7 @@ Toggled by `ck/toggle-org-alerts'.")
   (call-interactively #'org-todo))
 
 (defun ck/org-cycle-shallow (&optional arg)
-  "Toggle org-cycle for only one level"
+  "Toggle folding of the heading at point only, not its whole subtree."
   (interactive "P")
   (unless (eq this-command 'org-shifttab)
     (save-excursion
@@ -237,19 +231,19 @@ Toggled by `ck/toggle-org-alerts'.")
           t)))))
 
 (defun ck/org-sparse-tree-at-point ()
-  "Focus in on the current point"
+  "Fold the buffer, then reveal only the context around point."
   (interactive)
   (org-overview)
   (org-fold-show-context))
 
 (defun ck/org-new-item ()
-  "Add a list item"
+  "Open a line below and start a list item there."
   (interactive)
   (call-interactively #'evil-open-below)
   (call-interactively #'org-insert-item))
 
 (defun ck/org-add-extant-tags ()
-  "Add tags based on those that already exist"
+  "Set tags on this entry, choosing from the tags the agenda file already uses."
   (interactive)
   (let* ((selected (org-get-tags nil t))
          (tags (->>

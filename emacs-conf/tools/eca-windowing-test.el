@@ -53,7 +53,7 @@
     (ck/eca-windowing-test--with-chat
       (insert "01234567890")
       ;; An empty prompt: the field starts at point-max, so the re-window
-      ;; carries no pending prompt text (mirrors the old point-max fake).
+      ;; carries no pending prompt text.
       (ck/eca-upstream-fake-setup-chat :id "chat-1"
                                        :prompt-field-start-point (point-max))
       (ck/eca-chat--maybe-window)

@@ -1,8 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
 ;; general (+ general-evil-setup) and hydra macros come from here.  This file
-;; references no core/bindings hub symbols, so requiring the foundation instead
-;; of the hub removes the hub edge entirely.
+;; needs no core/bindings hub symbols, so it requires the foundation instead.
 (require 'core/definers)
 (require 'lib/utils)   ; ck/lisp-eval-sexp-at-point
 (use-package paredit)
@@ -27,31 +26,27 @@ With non-nil ARG return number of characters skipped."
     (if arg rel-move (point))))
 
 (defun ck/lisp-tree-forward ()
-  "Move forward in the lisp tree"
+  "Move forward past the next sexp, then over any whitespace after it."
   (interactive)
   (paredit-forward)
   (when (or (= 32 (following-char)) (= 10 (following-char)))
     (ck/sp-forward-whitespace)))
 
 (defun ck/lisp-tree-last ()
-  "Move to the last element of the list"
+  "Move to the last element of the list around point."
   (interactive)
   (paredit-backward-up)
   (paredit-forward)
   (paredit-backward-down))
 
 (defun ck/lisp-open-above ()
-  "Open above the current list"
+  "Open a line above the list at point and enter insert state there."
   (interactive)
   (if (= 40 (following-char))
       (progn
         (call-interactively #'paredit-forward-down)
         (call-interactively #'lispyville-open-above-list))
     (call-interactively #'lispyville-open-above-list)))
-
-;; `ck/lisp-eval-sexp-at-point' used to live here; it is consumed across
-;; areas (lib/shell's `ck/run-async-from-desc', the binding below), so it
-;; moved to lib/utils.el.
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

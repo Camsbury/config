@@ -2,28 +2,21 @@
 ;;; Jump / rotation navigation ----------------------------------------------
 ;;
 ;; Jump to the chat that wants you, from anywhere (bound globally via the
-;; leader hydra and an EXWM chord, not just from inside a chat).  The design
-;; leans on two ECA facts:
+;; leader hydra and an EXWM chord, not just from inside a chat).
 ;;
-;;   - A session's chats are tab-line tabs sharing ONE window; only the
-;;     selected tab is that window's buffer, but a background tab can still
-;;     need attention (its `ck/eca-upstream-pending-questions' /
-;;     pending-approval state is buffer-local and lives whether or not the
-;;     tab is visible).
-;;   - ECA never pins a session to an EXWM workspace; a session's location is
-;;     simply wherever its one window currently sits.
+;; Two ECA facts shape it.  A session's chats are tab-line tabs sharing ONE
+;; window, so a background tab can still need attention: its pending-question
+;; and pending-approval state is buffer-local whether or not the tab is
+;; visible.  And ECA never pins a session to an EXWM workspace; a session sits
+;; wherever its one window currently is.
 ;;
-;; So we locate by SESSION, not by the target buffer: if the session's window
-;; exists on any frame, switch to that EXWM workspace and toggle its tab to
-;; the target (reusing `ck/eca-upstream-switch-to-buffer' plus this file's
-;; `ck/eca-display-reuse-same-workspace-window' display action, which swaps
-;; the tab in place).  If the session has no window anywhere, the same call
-;; falls through `display-buffer-alist' to a fresh left pane in the current
-;; workspace.  We reuse ECA's own `ck/eca-upstream-needs-attention-p' predicate
-;; and delegate the `last-chat-buffer' bookkeeping to
-;; `ck/eca-upstream-switch-to-buffer' (so we never `setf' a struct slot --
-;; avoiding the native-comp setf-expander trap that would bake a call to a
-;; nonexistent setter into the cached .eln).
+;; So we locate by SESSION, not by the target buffer.  When the session has a
+;; window on any frame, switch to that EXWM workspace and toggle its tab to
+;; the target; when it has none, the same call falls through
+;; `display-buffer-alist' to a fresh left pane here.  The `last-chat-buffer'
+;; bookkeeping goes through `ck/eca-upstream-switch-to-buffer' so we never
+;; `setf' a struct slot: native-comp would bake a call to a nonexistent setter
+;; into the cached .eln.
 
 (require 'prelude)
 (require 'cl-lib)
@@ -93,8 +86,7 @@ selected frame."
   (let ((frame (window-frame win)))
     (unless (eq frame (selected-frame))
       ;; `exwm-workspace--list' is an EXWM boundary crossing, deliberately
-      ;; outside the ECA Upstream Adapter; a future band-model module absorbs
-      ;; it.
+      ;; outside the ECA Upstream Adapter.
       (if (and (boundp 'exwm-workspace--list)
                (memq frame exwm-workspace--list)
                (fboundp 'exwm-workspace-switch))

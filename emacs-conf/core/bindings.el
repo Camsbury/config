@@ -1,10 +1,9 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude)
-;; general (+ general-evil-setup) and the hydra macro come from here.  The hub
-;; configures and USES them below (which-key, hydra hints, the hydras and
-;; general-def bindings) but no longer bootstraps them itself: keybinding files
-;; require the same foundation so their macros expand without depending on the
-;; hub having loaded first.
+;; general (+ general-evil-setup) and the hydra macro come from here.  This hub
+;; configures and USES them below but does not bootstrap them itself, so every
+;; keybinding file can require the same foundation and have its macros expand
+;; without depending on the hub having loaded first.
 (require 'core/definers)
 ;; ck/delete-file-and-buffer, ck/unescape-clipboard-string and
 ;; ck/shuffle-selection (bound in the leaders below) are cross-cutting library
@@ -20,30 +19,25 @@
   (which-key-mode)
   (setq which-key-max-display-columns 5))
 ;; Cursor-anchored posframe positioning, shared by vertico-posframe (the
-;; floating minibuffer, see config/search.el) and hydra hints (below).  Anchor
-;; the box at the cursor of the window active before the popup, instead of dead
-;; centre, clamped to stay fully on screen.  Neither caller passes a
-;; `:position' to posframe, but posframe sets `:parent-window' in the poshandler
-;; info to that pre-popup window, so read its point, inject it as `:position',
-;; and defer to posframe's point poshandler (it clamps X into the frame and
-;; flips the box upward when placing it below point would overflow the bottom
-;; edge, so screen-edge cases stay fully visible for free).
+;; floating minibuffer, see config/search.el) and hydra hints (below).  Neither
+;; caller passes a `:position' to posframe, but posframe sets `:parent-window'
+;; in the poshandler info to the window active before the popup, so read its
+;; point, inject it as `:position', and defer to posframe's point poshandler
+;; (which clamps the box to stay fully on screen for free).
 ;;
 ;; FREEZE the result for the life of the popup.  posframe re-runs the poshandler
 ;; on every refresh, so recomputing from the live point makes previewing
 ;; commands (switch-to-buffer, consult-line) bounce the box around as they move
-;; point.  Cache the first `(x . y)' and reuse it; each caller clears the cache
-;; when its popup closes (minibuffer exit / hydra hide), so the next popup
-;; re-anchors at the new cursor.
+;; point.  So the first `(x . y)' is cached and reused, and each caller clears
+;; that cache when its popup closes, so the next popup re-anchors at the new
+;; cursor.
 ;;
 ;; Keyed by the posframe's own buffer, since several popups can be live at once
 ;; (a hydra hint under a floating minibuffer, a nested minibuffer): one shared
 ;; cell would let the inner teardown drop the outer popup's anchor.
 ;;
-;; EXWM buffers are the exception: their point maps to the X window's
-;; top-left corner, so anchoring at point drops the box in the corner.  When
-;; the pre-popup window shows an `exwm-mode' buffer, centre the box in that
-;; window instead (applies to every caller, since they share this handler).
+;; EXWM buffers are the exception: their point maps to the X window's top-left
+;; corner, so centre the box in that window instead.
 (defvar ck/posframe--point-anchors nil
   "Alist of (BUFFER . (X . Y)): frozen anchors of the live posframes.
 BUFFER is the posframe's own buffer, from the poshandler's
@@ -88,16 +82,14 @@ With BUFFER nil, drop every anchor."
    (or (get-buffer ck/hydra-posframe-buffer) (current-buffer))))
 
 ;; Under EXWM a posframe is only drawn OVER focused X clients when posframe
-;; renders it as a TOP-LEVEL frame (reparented under the workspace container
-;; alongside the client windows) instead of a child frame (trapped inside the
-;; Emacs workspace frame's stacking, behind the client).  posframe switches to
-;; a top-level frame exactly when its `:refposhandler' returns non-nil, and
-;; then offsets the placement by that value into root coordinates.  So a
-;; refposhandler returning the workspace origin is posframe's official EXWM
-;; support -- vertico-posframe ships its own, which is why the M-x box overlays
-;; X windows; hydra's params carry none, so its hint used to hide behind them.
-;; Give hydra the same handler (kept independent of vertico-posframe).  Off
-;; EXWM it returns nil, so posframe's normal child-frame behaviour is untouched.
+;; renders it as a TOP-LEVEL frame (reparented under the workspace container)
+;; instead of a child frame trapped inside the Emacs workspace frame's
+;; stacking.  posframe switches to a top-level frame exactly when its
+;; `:refposhandler' returns non-nil, and then offsets the placement by that
+;; value into root coordinates.  So a refposhandler returning the workspace
+;; origin is posframe's EXWM support; vertico-posframe ships its own, and this
+;; gives hydra the same thing, kept independent of it.  Off EXWM it returns
+;; nil, so posframe's normal child-frame behaviour is untouched.
 (declare-vars exwm-workspace--workareas exwm-workspace-current-index)
 (defun ck/posframe-refposhandler (&optional _frame)
   "Posframe refposhandler: EXWM workspace origin `(x . y)', or nil off EXWM.
@@ -232,7 +224,7 @@ X clients under EXWM."
   ("X" #'ck/open-global-xterm                  "global xterm")
   ("z" #'ck/open-zoom                          "zoom"))
 
-;; USEIT: need to try these out and ese how they compare to bookmarks
+;; USEIT: need to try these out and see how they compare to bookmarks
 (defhydra hydra-register (:exit t :columns 5)
   "set register"
   ("p" #'point-to-register                "save point")
@@ -425,19 +417,17 @@ X clients under EXWM."
 
 (provide 'core/bindings)
 
-;; This is THE dispatch hub: the leader hydras forward-reference ~120 commands
+;; This is THE dispatch hub: the leader hydras forward-reference commands
 ;; defined across the config and invoked only at runtime (cider, org,
 ;; projectile, feature hydras like hydra-git/body, ...).  Cannot `require' them
 ;; (would force-load deferred packages and invert core-before-config order), so
 ;; the "unresolved" class is all noise here.  Suppress only it; keep every
-;; other class live.  (This also removes the hub's outbound forward-ref
-;; edges from the dependency DAG, dissolving the core/bindings <-> dev/git and
-;; core/bindings <-> info cycles.)
+;; other class live.
 ;;
-;; `docstrings' is suppressed for the same reason as org/keys.el: defhydra
-;; writes each head's docstring itself, printing lambda bodies and long head
-;; names into "Call the head ..." lines that overflow 80 columns and carry
-;; unescaped quotes.  Those strings are generated, not editable text.
+;; `docstrings' is suppressed because defhydra writes each head's docstring
+;; itself, printing lambda bodies and long head names into "Call the head ..."
+;; lines that overflow 80 columns and carry unescaped quotes.  Those strings
+;; are generated, not editable text.
 ;; Local Variables:
 ;; byte-compile-warnings: (not unresolved docstrings)
 ;; End:

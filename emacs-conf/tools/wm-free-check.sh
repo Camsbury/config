@@ -8,10 +8,10 @@
 # SAME emacs binary, EMACSLOADPATH, and flags as the real `cmacs' launcher
 # (resolved from the launcher at runtime; store paths rot, never hardcode).
 #
-# This is the load-side check for the editor-vs-WM seam: a regression here
+# This is the load-side check for the editor/WM boundary: a regression here
 # means some file grew a hard load-time WM dependency.
 #
-# Usage: tools/wm-free-check.sh        # exits 0 on PASS, 1 on FAIL
+# Usage: tools/wm-free-check.sh   # exits 0 on PASS, 1 on FAIL, 2 on setup error
 #
 # See wm-free-check.el for what is stubbed and why the check is safe to run
 # beside the live WM (no server socket, no shared state writes).

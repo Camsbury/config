@@ -2,7 +2,6 @@
 ;; Shell-command operations: fire-and-forget process spawns, async background
 ;; buffers, escaping, and nix-shell command building.  Pure library, no
 ;; wiring; NOT in the m-require boot chain, consumers `(require 'lib/shell)'.
-;; Moved from config/desktop/commands.el (library/application seam).
 (require 'prelude)
 (require 'lib/utils)   ; ck/lisp-eval-sexp-at-point
 

@@ -4,11 +4,10 @@
 ;; ECA's per-redisplay pending-approval scan walks the chat buffer with
 ;; `text-property-search-forward' from `point-min'.  With nothing pending (the
 ;; common case) it finds no match and scans all the way to `point-max'.  The
-;; mode line and, worse, the tab line call it on every redisplay -- the tab
-;; line once per chat in the session -- so a handful of long transcripts turn
-;; each repaint into hundreds of kilobytes of property scanning.  Under EXWM
-;; that pins a core and stalls the whole desktop (profiled: 84% redisplay,
-;; with this leaf dominating the Lisp share and growing with the transcript).
+;; mode line and, worse, the tab line call it on every redisplay, the tab line
+;; once per chat in the session, so a handful of long transcripts turn each
+;; repaint into hundreds of kilobytes of property scanning.  Under EXWM that
+;; pins a core and stalls the whole desktop.
 ;;
 ;; The pending marker is a text property stored in the buffer text, so its
 ;; presence cannot change without the buffer text changing.  That makes
@@ -17,8 +16,8 @@
 ;; O(1); only the one actively streaming buffer rescans, and only itself.
 ;;
 ;; The raw full-buffer scan lives behind the adapter
-;; (`ck/eca-upstream-buffer-has-pending-approval-p'); this file only memoizes
-;; it and self-registers as the adapter's pending-approval check at the bottom
+;; (`ck/eca-upstream-buffer-has-pending-approval-p'); this file memoizes it
+;; and self-registers as the adapter's pending-approval check at the bottom
 ;; (the adapter owns the underlying `:override').
 
 (require 'prelude)

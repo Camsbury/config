@@ -4,10 +4,6 @@
 (require 'exwm-layout)
 (use-package buffer-move)
 
-;; `ck/set-window-width' used to live here; it is pure and consumed across
-;; areas (text.el, modes/prettify-mode.el), so it moved to lib/utils.el.
-
-;; EXWM manage windows
 (setq exwm-manage-configurations '((t managed t)))
 
 
@@ -29,43 +25,25 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Keep certain X windows mapped across workspace switches
 ;;
-;; Problem
-;; -------
 ;; On a workspace switch EXWM hides off-workspace clients via
-;; `exwm-layout--hide', which `xcb:UnmapWindow's the client AND marks it
-;; IconicState / _NET_WM_STATE_HIDDEN. For a fullscreen Proton/Wine game that
-;; unmap makes its Vulkan WSI surface go "surface-lost / out-of-date".
+;; `exwm-layout--hide', which unmaps the client AND marks it IconicState /
+;; _NET_WM_STATE_HIDDEN.  For a fullscreen Proton/Wine game that unmap makes
+;; its Vulkan WSI surface go "surface-lost", which hard-crashes the game and
+;; is also the root of a wider class of EXWM + fullscreen game bugs (black
+;; screen on return, self-minimizing, resolution flips).  It only happens
+;; under EXWM: most stacking WMs keep the window mapped-but-hidden, so the
+;; surface never dies.
 ;;
-;; Concrete failure that motivated this (Steam AppID 4597250, Proton
-;; Experimental, NVIDIA, DXVK v2.7.1): on surface loss the game's present-timing
-;; frame pacing calls `vkGetPastPresentationTimingEXT', whose Proton winevulkan
-;; loader thunk asserts `!status' and access-violates (0xc0000005 in
-;; winevulkan.so) -> hard crash. Proven from the PROTON_LOG=1 backtrace:
-;;   err:msvcrt:_wassert (L"!status && \"vkGetPastPresentationTimingEXT\"",
-;;                        L".../winevulkan/loader_thunks.c", 5414)
-;; It only happens under EXWM because EXWM genuinely unmaps the window; most
-;; stacking WMs keep it mapped-but-hidden, so the surface never dies.
-;;
-;; The same unmap/iconify is the root of a wider class of EXWM + fullscreen
-;; game bugs: black screen on return, the game self-minimizing and not
-;; restoring, and resolution/gamma flips on switch.
-;;
-;; Fix
-;; ---
-;; For an allowlisted window, DON'T unmap on hide -- just lower it so the
-;; opaque active-workspace Emacs frame occludes it (surface stays valid, the
-;; game keeps presenting, the present-timing call keeps returning VK_SUCCESS).
+;; For an allowlisted window, DON'T unmap on hide: just lower it so the opaque
+;; active-workspace Emacs frame occludes it and the surface stays valid.
 ;; `exwm-layout--show' re-maps but does NOT restore stack order, so on the way
 ;; back we must re-raise the window or you return to the frame's black
 ;; background covering a still-rendering game.
 ;;
-;; Tradeoffs (why this is opt-in per class, not global)
-;; ----------------------------------------------------
-;; - Kept-mapped games keep rendering in the background (GPU + battery) instead
-;;   of idling while iconified.
-;; - A game holding an active XGrabKeyboard/XGrabPointer would keep the grab
-;;   while you're away (unmap would have released it). None of the listed games
-;;   do this; if a future entry strands input, ungrab in the hide advice.
+;; This is opt-in per class, not global.  A kept-mapped game keeps rendering
+;; in the background instead of idling while iconified.  And a
+;; game holding an active XGrabKeyboard/XGrabPointer would keep the grab while
+;; you are away; if a future entry strands input, ungrab in the hide advice.
 ;;
 ;; To protect another game: add its `exwm-class-name' or `exwm-instance-name'
 ;; to `ck/exwm-no-unmap-classes'. Read the string off the RUNNING client, never
@@ -77,11 +55,10 @@
 ;;
 ;; The class depends on how the game is built and launched, not on the game.
 ;; A Proton/Wine title reports "steam_app_<APPID>"; the same title shipped as a
-;; native Linux build reports its own name (Slay the Spire 2 is a native Godot
-;; build: class "Slay the Spire 2", instance "Godot_Engine"). So a game can
-;; silently fall out of this list when it switches to a native build, and the
-;; unmap symptoms come back. Match on the class, not the instance, when the
-;; instance names an engine ("Godot_Engine", "Unity") shared by other apps.
+;; native Linux build reports its own name.  So a game can silently fall out of
+;; this list when it switches to a native build, and the unmap symptoms come
+;; back.  Match on the class, not the instance, when the instance names an
+;; engine ("Godot_Engine", "Unity") shared by other apps.
 
 (defvar ck/exwm-no-unmap-classes
   '("steam_app_4597250"                 ; Order of the Sinking Star Demo (Proton)
@@ -99,9 +76,8 @@ described above. See the commentary in this file before extending.")
                (member exwm-instance-name ck/exwm-no-unmap-classes))))))
 
 (defun ck/exwm-layout--hide-keep-mapped (orig-fn id)
-  "Around advice for `exwm-layout--hide'.
-For protected windows, lower instead of unmapping so the GPU surface stays
-valid; otherwise hide normally."
+  "Lower a protected window instead of unmapping it, keeping its surface valid.
+ORIG-FN is `exwm-layout--hide', which hides any other window ID normally."
   (if (ck/exwm--protected-id-p id)
       (progn
         (exwm--log "Protected #x%x: lowering, NOT unmapping" id)
@@ -114,10 +90,10 @@ valid; otherwise hide normally."
     (funcall orig-fn id)))
 
 (defun ck/exwm-layout--show-raise-protected (id &optional _window &rest _)
-  "After advice for `exwm-layout--show'.
-Re-raise protected windows when shown; we lowered (not unmapped) them on hide,
-and `exwm-layout--show' does not restore stack order, so without this you return
-to the Emacs frame's black background over a still-rendering game."
+  "Re-raise a protected window when it is shown.
+We lowered rather than unmapped it on hide, and `exwm-layout--show' does not
+restore stack order, so without this you return to the Emacs frame's black
+background over a still-rendering game."
   (when (ck/exwm--protected-id-p id)
     (xcb:+request exwm--connection
         (make-instance 'xcb:ConfigureWindow
@@ -132,80 +108,38 @@ to the Emacs frame's black background over a still-rendering game."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; BUG-2: session death when closing a managed FLOATING window
 ;;
-;; Symptom
-;; -------
-;; Closing certain floating clients (the reproducer is a Bitwarden autofill
-;; popup dismissed after a wrong password) killed the whole X session back to
-;; the lightdm greeter.  21 of the 24 SIGSEGV WM coredumps over Jan-Jun 2026
-;; are this one crash; it is the dominant session-killer, not the rare
-;; native-fontify crash (that is a singleton -- see
-;; `config/services/eca/crash.el').
+;; Closing a floating client killed the whole X session back to the greeter.
+;; Because Emacs IS the window manager, the abort takes X down with it.
 ;;
-;; Root cause (pinned from the PID 8321 gdb backtrace, 2026-06-29)
-;; --------------------------------------------------------------
-;; `exwm-manage--unmanage-window' (exwm-manage.el) tears a floating client
-;; down in two steps: first it fires an X request burst for the floating
-;; frame's container -- UnmapWindow / ReparentWindow / DestroyWindow -- and
-;; `xcb:flush'es it; then it DEFERS the buffer kill via `exwm--defer 0' (an
-;; idle-0 timer).  When that deferred `kill-buffer' runs, the buffer is the
-;; sole occupant of the floating child frame's only window, so the kill
-;; cascades into an implicit `delete-frame' on that frame.  Deep inside
-;; `delete_frame', `Fdelq' (removing the frame from the frame list) hits a
-;; QUIT checkpoint -> `process_pending_signals' -> `gobble_input', which reads
-;; the STILL-PENDING X destroy burst from the socket -> `handle_one_xevent' ->
-;; `gui_consider_frame_title' -> `format_mode_line_unwind_data' on the
-;; half-deleted floating frame -> SIGSEGV.  Because Emacs IS the window
-;; manager, that abort takes X down with it.
+;; Cause: `exwm-manage--unmanage-window' tears a floating client down in two
+;; steps.  First it flushes an X request burst for the floating frame's
+;; container, then it DEFERS the buffer kill to an idle-0 timer.  That deferred
+;; `kill-buffer' cascades into `delete-frame' on the floating child frame, and
+;; deep inside it `Fdelq' hits a QUIT checkpoint that runs
+;; `process_pending_signals' and reads the STILL-PENDING destroy burst, so X
+;; input processing reenters the half-deleted frame and segfaults.
 ;;
-;; This is a reentrancy bug: a non-reentrant structural mutation (frame
-;; teardown) is re-entered by X input processing at a QUIT checkpoint while
-;; the frame's own destroy events are still in flight.  `inhibit-quit' does
-;; NOT help -- `maybe_quit' calls `process_pending_signals' whenever
-;; `pending_signals' is set regardless of `inhibit-quit' -- and elisp cannot
-;; `block_input'.  The earlier "NVIDIA driver / Xid 8" theory was an
-;; unrelated red herring for these 21 crashes (the X log ends cleanly and a
-;; fresh Emacs coredump is produced -- a pure Emacs abort).
+;; This is a reentrancy bug: a non-reentrant frame teardown is re-entered by X
+;; input processing while the frame's own destroy events are still in flight.
+;; `inhibit-quit' does NOT help: `maybe_quit' processes pending signals
+;; regardless, and elisp cannot `block_input'.
 ;;
-;; Fix
-;; ---
-;; Close the race at a SAFE point.  After `exwm-manage--unmanage-window' has
-;; flushed the destroy burst but BEFORE its deferred timer fires, force one
-;; full X round-trip (a `GetInputFocus' reply).  The server cannot answer the
-;; query until it has processed every earlier request, so by the time the
-;; reply arrives all the resulting Unmap/Destroy notify events have been read
-;; off the socket (and dispatched by xelb, harmlessly -- the ids are already
-;; out of `exwm--id-buffer-alist').  The socket is then empty, so when the
-;; deferred `kill-buffer' later runs `delete-frame', the QUIT checkpoint finds
-;; nothing pending and never reenters `handle_one_xevent' on the dying frame.
+;; Fix: after `exwm-manage--unmanage-window' has flushed the destroy burst but
+;; BEFORE its deferred timer fires, force one full X round-trip (a
+;; `GetInputFocus' reply).  The server cannot answer until it has processed
+;; every earlier request, so by the time the reply arrives the resulting
+;; notify events have been read off the socket.  The QUIT checkpoint in the
+;; later `delete-frame' then finds nothing pending.
 ;;
-;; The round-trip is only done when the window being unmanaged actually had a
-;; floating frame (tiled windows never hit this path), and the whole thing is
-;; wrapped so a failure here can never itself break window closing: the worst
-;; case is falling back to the pre-existing (rare) crash, never a NEW failure
-;; mode.  NOTE: `exwm-floating--unset-floating' (float->tile toggle) has the
-;; same latent race with its synchronous `delete-frame'; it was never observed
-;; crashing, so it is left alone and only noted here.
-;;
-;; Verification caveat: the crash is intermittent and not reproducible on
-;; demand, so this fix cannot be positively proven.  It is deterministic in
-;; mechanism, low-risk, and confined to config.
-;;
-;; Empirical outcome
-;; -----------------
-;; A temporary disk-backed probe logged every unmanage (and every floating
-;; drain) from 2026-07-06 to 2026-08-08.  Over those 33 days: 143 floating
-;; closes, every one draining cleanly, zero round-trip errors, including 12
-;; closes of the original reproducer class (`firefox'/`Navigator', the
-;; Bitwarden popup).  The coredump record shows no Emacs SIGSEGV core at all
-;; in that span, against 12 in the 58 days before the fix (an unchanged
-;; crash rate would have produced ~7).  The probe was retired 2026-08-08;
-;; only the fix below remains.
+;; The round-trip is only done when the window had a floating frame (tiled
+;; windows never hit this path), and it is wrapped so a failure here falls back
+;; to the pre-existing crash rather than a NEW failure mode.
 
 (defun ck/exwm--unmanage-drain-x (orig-fn id &rest args)
-  "Around advice for `exwm-manage--unmanage-window' fixing BUG-2.
-When the window being unmanaged had a floating frame, force one X round-trip
-after ORIG-FN's destroy burst so the pending X events drain before the
-deferred `kill-buffer' runs `delete-frame'.  See the commentary above."
+  "Call ORIG-FN on ID and ARGS, then force one X round-trip.
+The round-trip only happens when ID had a floating frame.  Draining the
+pending X events before the deferred `kill-buffer' runs `delete-frame'
+closes the BUG-2 crash race described in the commentary above."
   (let* ((buf (exwm--id->buffer id))
          (floating-p (when buf (buffer-local-value 'exwm--floating-frame buf))))
     (apply orig-fn id args)
@@ -213,9 +147,9 @@ deferred `kill-buffer' runs `delete-frame'.  See the commentary above."
                exwm--connection
                (slot-value exwm--connection 'connected))
       (condition-case err
-          ;; Called purely for the forced X round-trip; the reply object is
-          ;; discarded on purpose (`ignore' marks the value as intentionally
-          ;; unused, silencing the macro's `car'-value warning).
+          ;; The reply is discarded on purpose, and `ignore' says so to the
+          ;; byte compiler: without it the macro warns about the unused
+          ;; `car' of the reply.
           (ignore
            (xcb:+request-unchecked+reply exwm--connection
                (make-instance 'xcb:GetInputFocus)))

@@ -85,8 +85,6 @@
         ;; and when nothing matches, instead of quitting mid-input.
         corfu-quit-at-boundary 'separator
         corfu-quit-no-match 'separator)
-  ;; Documentation panel beside the selected candidate (childframe, same
-  ;; mechanism as corfu's own popup, already EXWM-proven here).
   (require 'corfu-popupinfo)
   (setq corfu-popupinfo-delay '(0.5 . 1.0))
   (corfu-popupinfo-mode 1)

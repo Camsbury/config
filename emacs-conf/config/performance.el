@@ -1,13 +1,10 @@
 ;; redisplay / responsiveness tuning  -*- lexical-binding: t; -*-
 ;;
-;; Problem this addresses: under EXWM every workspace frame is an X-mapped
-;; window that reports `visibility t', so Emacs redisplays buffers that are
-;; churning on *inactive* workspaces too (e.g. an ECA agent streaming output
-;; while you work elsewhere). Redisplay is single-threaded and per-frame, so
-;; one busy buffer stalls the whole WM. We cannot cheaply suppress those
-;; forced redisplays, so the strategy is: make each redisplay cheap, and keep
-;; global GC pauses (from agent JSON parsing / fontification consing) out of
-;; the redisplay path.
+;; Under EXWM every workspace frame is an X-mapped window that reports
+;; `visibility t', so Emacs redisplays buffers churning on inactive workspaces
+;; too, and redisplay is single-threaded: one busy buffer stalls the whole WM.
+;; Those forced redisplays cannot be cheaply suppressed, so the strategy is to
+;; make each redisplay cheap and keep GC pauses out of the redisplay path.
 ;;
 ;; The GC threshold itself lives in init.el (it is set last during boot, so a
 ;; module-level setq here would be clobbered).
@@ -64,39 +61,20 @@
 (setq fast-but-imprecise-scrolling t
       inhibit-compacting-font-caches t)
 
-;; Idle GC (GCMH-style). A single full-heap GC on this long-lived WM session
-;; measures ~150ms; when it fires mid-interaction it is a hard redisplay stall,
-;; i.e. a whole-desktop freeze (Emacs is the WM). Strategy: hold the threshold
-;; high so GC rarely fires during activity, then force one collection after a
-;; short idle so the pause lands off the interactive hot path.
+;; Idle GC (GCMH-style). This session's live heap is large, so EVERY full GC
+;; costs ~140ms whatever the garbage volume: the cost is sweeping the live set.
+;; Mid-interaction that pause is a whole-desktop freeze (Emacs is the WM). So
+;; hold the threshold high, then force one collection after a short idle.
 ;;
-;; EXWM gate (the subtle part): under char-mode, keystrokes to an X application
-;; go straight to the X client and never reset Emacs's idle timer or run
-;; `post-command-hook'. A naive idle-GC would therefore fire its ~150ms pause
-;; *while the user is actively using an X app* (game, browser), stuttering it.
-;; So we skip the collection when the selected buffer is an X window; the high
-;; threshold is the backstop until focus returns to an Emacs buffer and idles.
+;; EXWM gate: under char-mode, keystrokes to an X application go straight to
+;; the X client and never reset Emacs's idle timer or run `post-command-hook'.
+;; A naive idle GC would fire its pause while the user is actively using that
+;; app, so we skip the collection when the selected buffer is an X window.
 ;;
-;; ECA lifecycle: agents stream via process filters (no user input), so Emacs
-;; goes "idle" during a stream lull with a normal (non-exwm) eca-chat buffer
-;; selected, and the gate allows one idle-GC ~`ck/gc-idle-delay's in to sweep
-;; the streaming garbage. A long uninterrupted stream leans on the threshold
-;; backstop, which is the honest tradeoff.
-;;
-;; The threshold itself is set by `ck/gc-idle-install', called from init.el so
-;; it stays the authoritative last word on GC during boot (a module-level setq
-;; here would be clobbered, per the note at the top of this file).
-;;
-;; Consing gate: this session's live heap is large (multiple long-lived ECA
-;; chats + big buffers), so EVERY full GC costs ~140ms no matter how much
-;; garbage there is -- the cost is sweeping the live set, not the garbage.
-;; Measured 2026-07-06: with a naive 4s idle-GC, ~14 collections fired over 8
-;; minutes (one every ~35s), many collecting almost nothing, each a 140ms
-;; pause that can collide with a notification glance or the user re-engaging.
-;; So the idle GC only runs when a meaningful amount was actually allocated
-;; since the last one (`ck/gc-min-consed') and not more often than
-;; `ck/gc-min-interval'. Fewer collections -> fewer collision chances; the
-;; 256MB threshold is the backstop if consing outruns the gate.
+;; Consing and interval gates: collecting on a pause that consed almost nothing
+;; is pure stall, so the idle GC also needs `ck/gc-min-consed' allocated since
+;; the last one and waits `ck/gc-min-interval' between collections.  The high
+;; threshold is the backstop when consing outruns the gates.
 (defvar ck/gc-idle-delay 4
   "Seconds of idle before an off-hot-path `garbage-collect'.")
 
@@ -142,14 +120,11 @@ our last snapshot measures allocation regardless of any intervening GC."
       total)))
 
 (defun ck/gc-idle-collect ()
-  "Collect garbage once the session has gone idle. Three gates keep the ~140ms
-full-heap pause off the interactive path and rare:
- - skip when the selected buffer is an `exwm-mode' X window (under char-mode the
-   user may be actively typing into it without resetting the idle timer, and a
-   GC pause there would stutter the application);
- - skip when less than `ck/gc-min-consed' has been allocated since the last
-   collection (nothing worth a full sweep);
- - skip when the last collection was under `ck/gc-min-interval' seconds ago."
+  "Collect garbage once the session has gone idle.
+Skip the collection when the selected buffer is an `exwm-mode' X window, when
+less than `ck/gc-min-consed' has been allocated since the last one, or when
+the last one was under `ck/gc-min-interval' seconds ago.  The idle-GC
+commentary in config/performance.el says why each gate is there."
   (unless (or (with-current-buffer (window-buffer (selected-window))
                 (derived-mode-p 'exwm-mode))
               (< (- (float-time) ck/gc--last-time) ck/gc-min-interval)

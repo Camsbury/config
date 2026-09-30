@@ -46,14 +46,11 @@
     "Face for overwork state in the Pomidor mode line."
     :group 'pomidor)
 
-  ;; Variable holding the modeline status string
   (defvar pomidor-mode-line-string ""
     "String displaying current Pomidor status in the mode line.")
 
   (defun pomidor-update-modeline ()
-    "Update `pomidor-mode-line-string' based on the current Pomidor state.
-    Shows a hammer emoji for work, a relaxing emoji for break,
-    and a warning emoji for overwork."
+    "Update `pomidor-mode-line-string' based on the current Pomidor state."
     (let* ((work (or (pomidor-work-duration) (seconds-to-time 0)))
            (over (pomidor-overwork-duration))
            (brk (pomidor-break-duration))
@@ -88,15 +85,13 @@
                         'local-map click-map))
       (force-mode-line-update)))
 
-  ;; Hook the modeline update into Pomidor's update cycle.
   (advice-add 'pomidor--update :after #'pomidor-update-modeline)
   (advice-add 'pomidor-hold :after #'pomidor-update-modeline)
 
-  ;; Ensure the Pomidor status string appears in the global mode line.
   (add-to-list 'global-mode-string  '(:eval pomidor-mode-line-string) t)
 
   :hook (pomidor-mode . (lambda ()
-                          (display-line-numbers-mode -1) ; Emacs 26.1+
+                          (display-line-numbers-mode -1)
                           (setq left-fringe-width 0 right-fringe-width 0)
                           (setq left-margin-width 2 right-margin-width 0)
                           ;; force fringe update
@@ -155,8 +150,7 @@
 
 (defun gtd--build-tags (tags selected fn)
   ;; DONE leads the candidate list (order preserved), so it starts
-  ;; preselected and a bare RET finishes the tag set (the old ivy
-  ;; :preselect behavior).
+  ;; preselected and a bare RET finishes the tag set.
   (let ((tag (ck/completing-read-in-order
               "Tag: " (cons "DONE" tags))))
     (if (string= "DONE" tag)

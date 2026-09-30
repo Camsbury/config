@@ -47,10 +47,9 @@
 ;; whole buffer list on a timer (or spins up a file-watcher per buffer), which
 ;; is exactly the background churn config/performance.el fights: under EXWM
 ;; every workspace frame reports visible, so a poll touches buffers you are not
-;; even looking at. Instead we revert lazily -- only the buffers visible in the
+;; even looking at. Instead we revert lazily: only the buffers visible in the
 ;; current frame, and only when you switch buffer/window, refocus Emacs from
-;; another app, or save. Ported from Doom's `doom-auto-revert-mode' but rebuilt
-;; on stock hooks (Doom's relied on `doom-switch-*-hook'/`doom-visible-buffers').
+;; another app, or save.
 (require 'autorevert)
 (setq auto-revert-verbose t          ; tell us when a revert happens
       auto-revert-use-notify nil     ; no per-buffer file watchers

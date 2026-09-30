@@ -45,9 +45,8 @@ non-cons tail, so a vector tail would hide every tag."
 (defun exwm-browser-link--read-tags (&optional narrow)
   "Read tags until DONE; return the selection (newest first).
 DONE leads the candidate list (order preserved), so it starts
-preselected and a bare RET finishes the set (the old ivy :preselect
-behavior).  With NARROW, each pick restricts the next offers to tags
-co-occurring with the selection so far."
+preselected and a bare RET finishes the set.  With NARROW, each pick
+restricts the next offers to tags co-occurring with the selection so far."
   (let ((tags (exwm-browser-link--get-tags '()))
         (selected '()))
     (catch 'done

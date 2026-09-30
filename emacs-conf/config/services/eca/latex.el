@@ -13,14 +13,14 @@
 ;; and (strictly, to avoid currency/shell false positives) $...$.
 ;;
 ;; Rendering is ASYNC.  Emacs is the EXWM window manager, so a synchronous
-;; `call-process' to latex/dvisvgm (~300-800ms per uncached fragment) freezes
-;; the whole desktop, and `while-no-input' cannot save us: when an X app is
-;; focused the command loop never runs, so there is no input event to abort
-;; on.  Instead each render runs as a `make-process' chain (latex -> image)
-;; behind a bounded queue.  On a cache miss we drop a PLACEHOLDER overlay
-;; immediately (raw text stays visible, region is reserved, re-enqueue is
-;; blocked) and swap in the image from the process sentinel when it is ready.
-;; Cache hits are cheap and rendered inline on the spot.
+;; `call-process' to latex/dvisvgm freezes the whole desktop, and
+;; `while-no-input' cannot save us: when an X app is focused the command loop
+;; never runs, so there is no input event to abort on.  Instead each render
+;; runs as a `make-process' chain (latex -> image) behind a bounded queue.  On
+;; a cache miss we drop a PLACEHOLDER overlay immediately (raw text stays
+;; visible, region is reserved, re-enqueue is blocked) and swap in the image
+;; from the process sentinel when it is ready.  Cache hits are cheap and
+;; rendered inline on the spot.
 
 (require 'prelude)
 (require 'color)
@@ -86,8 +86,8 @@ Each chain spawns latex then dvisvgm/dvipng; the queue holds the rest."
 
 (defun ck/eca-chat--latex-paths (fragment rgb)
   "Return a plist of render paths for FRAGMENT colored RGB.
-Keys: :key (content hash), :fmt, :tex, :dvi, :out.  The hash formula matches
-the historical one so the on-disk cache stays valid across this rewrite."
+Keys: :key (content hash), :fmt, :tex, :dvi, :out.  Changing the hash
+formula invalidates every image already cached on disk."
   (let* ((dir ck/eca-chat-latex-image-dir)
          (dpi ck/eca-chat-latex-dpi)
          (fmt (ck/eca-chat--effective-format))
@@ -100,10 +100,6 @@ the historical one so the on-disk cache stays valid across this rewrite."
 ;;; Async render queue ------------------------------------------------------
 ;;
 ;; A job is a plist: (:buffer :overlay :frag :rgb :key :fmt :tex :dvi :out).
-;; `--latex-pump' starts jobs up to `ck/eca-chat-latex-max-jobs'; each job
-;; runs latex then the image backend as chained `make-process' calls, and
-;; `--latex-finish' swaps the placeholder overlay for the image (or drops it
-;; on failure), then pumps the next job.
 
 (defvar ck/eca-chat--latex-queue nil
   "List of pending async LaTeX render jobs (plists).")

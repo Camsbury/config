@@ -1,10 +1,8 @@
 ;; Global transient defaults  -*- lexical-binding: t; -*-
 ;;
-;; transient is now a built-in Emacs package.  magit's command menus are built
-;; on it, and more packages lean on it every release, so its defaults belong in
-;; one editor-wide place rather than buried in the magit config where they used
-;; to live.  Doom made the same move (out of `:tools magit' into core) once
-;; transient started shipping with Emacs.
+;; transient is a built-in Emacs package.  magit's command menus are built on
+;; it, and more packages lean on it every release, so its defaults belong in
+;; one editor-wide place rather than in any single package's config.
 
 (require 'prelude)
 
@@ -28,8 +26,7 @@
 
 (with-eval-after-load 'transient
   ;; Level 7 exposes the advanced/less-common suffixes (e.g. the extra magit
-  ;; push/commit switches).  Previously set in config/dev/git.el; hoisted here
-  ;; so it governs every transient, not just magit's.
+  ;; push/commit switches).
   (setq transient-default-level 7)
   ;; Pop the transient up directly below the window it was invoked from
   ;; (dedicated, never reusing that same window).  On a large display with many
@@ -39,8 +36,7 @@
           (dedicated . t)
           (inhibit-same-window . t)))
   ;; Keep a transient visible while typing into a minibuffer prompt it spawned
-  ;; (e.g. reading an argument value) instead of hiding it.  Harmless no-op on
-  ;; transient versions that predate this variable.
+  ;; (e.g. reading an argument value) instead of hiding it.
   (setq transient-show-during-minibuffer-read t)
   ;; Uniform escape: ESC backs out one transient level everywhere.
   (define-key transient-map [escape] #'transient-quit-one))

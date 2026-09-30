@@ -60,8 +60,7 @@
 ;; Keybinding/hydra file: it forward-references the leader hydra
 ;; (hydra-leader/body, in the core/bindings hub) and helpful/describe commands,
 ;; invoked only at runtime.  Suppress just the unresolved class; keep every
-;; other class live.  Removing these forward-ref edges from the DAG is what
-;; dissolves the core/bindings <-> info cycle.
+;; other class live.
 ;; Local Variables:
 ;; byte-compile-warnings: (not unresolved)
 ;; End:

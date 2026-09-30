@@ -14,10 +14,6 @@
 
 (use-package deadgrep)
 
-;; The shell-command helpers (`ck/-run-shell-command', `rafd--*',
-;; `ck/run-async-from-desc', ...) moved to lib/shell.el (library/application
-;; seam); consumers require that directly.
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Child modules: hardware/desktop commands, nix tooling, app launchers

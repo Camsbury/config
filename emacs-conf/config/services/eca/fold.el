@@ -3,14 +3,8 @@
 ;;
 ;; ECA renders tool calls, subagents, and reasoning as expandable blocks.
 ;; Stock, TAB folds one only from its header line, so a long scrolling block
-;; forces you to hunt back up to the top to collapse it.  These commands fold
-;; from anywhere:
-;;
-;;   `ck/eca-chat-tab-dwim'          toggle the block at *or around* point,
-;;                                   using ECA's own dwim overlay lookup so a
-;;                                   block collapses from inside its content.
-;;   `ck/eca-chat-toggle-all-blocks' collapse all when any block is open,
-;;                                   else expand all (nested to a fixpoint).
+;; forces you to hunt back up to the top to collapse it.  The commands here
+;; fold from anywhere inside a block, using ECA's own dwim overlay lookup.
 ;;
 ;; Wired to TAB / shift-TAB (and the block navigators to `M-j' / `M-k') in the
 ;; `eca-chat-mode-map' section of the eca aggregator's `use-package' `:config'.
@@ -28,23 +22,22 @@
 ;; Unfolding a block dumps its whole stored content into the buffer in one
 ;; shot; with `markdown-fontify-code-blocks-natively' on, font-lock then spins
 ;; up a real language mode over every fence in that mass, SYNCHRONOUSLY.  On a
-;; big tool-result block (measured up to ~400KB here) that stalls redisplay,
-;; and since Emacs is the window manager the whole desktop freezes -- the same
-;; path can also SIGSEGV the session (see eca/crash.el).  Each block stashes
-;; its text off-buffer in its stored segment / overlay-content, so we can size
-;; a block BEFORE revealing it and, when it is large, turn native code fontify
-;; off for the buffer first.  The reveal then renders as fast plain monospace
-;; (losing only per-language + native-diff coloring on that chat); normal
-;; small blocks are untouched.
+;; big tool-result block that stalls redisplay, and since Emacs is the window
+;; manager the whole desktop freezes; the same path can also SIGSEGV the
+;; session (see eca/crash.el).  Each block stashes its text off-buffer in its
+;; stored segment / overlay-content, so we can size a block BEFORE revealing
+;; it and, when it is large, turn native code fontify off for the buffer
+;; first.  The reveal then renders as fast plain monospace (losing only
+;; per-language + native-diff coloring on that chat); normal small blocks are
+;; untouched.
 
 (defcustom ck/eca-fold-native-fontify-max-bytes 50000
   "Stored-content byte ceiling for unfolding with native code fontify on.
 When a block (single TAB) or a bulk expand (shift-TAB) whose stored text
 exceeds this many bytes is about to be revealed, native code-block
 fontification is turned off buffer-locally FIRST, so a huge reveal cannot
-freeze or crash the WM Emacs.  Blocks here cluster far below this (<2KB)
-or far above (>=56KB), so 50KB sits cleanly in the gap.  Raise to allow
-bigger colored reveals; lower to be more conservative."
+freeze or crash the WM Emacs.  Raise to allow bigger colored reveals;
+lower to be more conservative."
   :type 'integer
   :group 'ck/eca)
 
@@ -63,8 +56,8 @@ block's rendered text in, so the total approximates how much text will be
 fontified when the block opens.  Walks the structure with an explicit
 heap stack, NOT the call stack: a big subagent's segment list is a chain
 of thousands of conses, and structural recursion down its spine blows
-`max-lisp-eval-depth' -- on exactly the giant blocks this gate exists to
-tame.  An explicit stack bounds depth by the heap instead."
+`max-lisp-eval-depth' on exactly the giant blocks this gate exists to
+tame."
   (let ((stack (list x))
         (total 0))
     (while stack

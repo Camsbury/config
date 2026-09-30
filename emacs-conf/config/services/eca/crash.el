@@ -5,30 +5,20 @@
 ;; makes markdown-mode spin up each fenced block's real major mode to
 ;; highlight it (per-language coloring plus green/red native diff coloring).
 ;; On Emacs 30.2 + native-comp that path CAN SIGSEGV deep in the C core while
-;; fontifying a code block (a `delete-region' reentered by pending X input --
-;; the same reentrant-teardown class as BUG-2), and because Emacs is the
-;; window manager here that abort kills the whole X session.  Full postmortem:
-;; `.eca/docs/reference/theme-editor-crash-postmortem.md'.
+;; fontifying a code block (a `delete-region' reentered by pending X input),
+;; and because Emacs is the window manager here that abort kills the whole X
+;; session.
 ;;
-;; History / decision (2026-07-06): this fired exactly ONCE (2026-07-05,
-;; ~85% confidence), under an abnormal load -- a peer agent streaming 150-250
-;; line walls of elisp/EDN fenced blocks into chat, turn after turn.  Native
-;; fontify had been on for MONTHS of normal use with no crash, and ECA ships
-;; it on by default.  Disabling it after that single stressed data point was
-;; an overreaction, so the mitigation is REMOVED from the hook and native
-;; fontify is on again.  Two later changes cut the crash exposure further:
-;; `eca-chat-fontify-debounce-interval' set to nil (no repeated mid-stream
-;; full-turn re-fontify) and the idle-GC work (fewer GC-timing collisions).
-;; The real safeguard remains discipline: write code to files, keep chat lean
-;; -- that is what starves this crash (never stream big code walls into chat).
+;; Native fontify is nonetheless ON: the crash needs an abnormal load, walls
+;; of fenced code streamed into chat turn after turn, and the safeguard is
+;; discipline about that (write code to files, keep chat lean).
 ;;
-;; A SECOND trigger of this same path is UNFOLDING a big collapsed block (a
-;; large tool result dumped into view at once), independent of streaming.
-;; `config/services/eca/fold.el' now size-gates both fold commands: past a
-;; byte threshold it turns native code fontify off buffer-locally BEFORE the
-;; reveal, so a huge unfold renders as cheap monospace instead of freezing /
-;; SIGSEGV-ing.  That is the live mitigation for the fold path; this dormant
-;; hook is still the blunt whole-buffer opt-out if the crash ever recurs.
+;; UNFOLDING a big collapsed block (a large tool result dumped into view at
+;; once) reaches the same path without any streaming.
+;; `config/services/eca/fold.el' size-gates both fold commands: past a byte
+;; threshold it turns native code fontify off buffer-locally BEFORE the
+;; reveal.  That is the live mitigation for the fold path; this dormant hook
+;; is still the blunt whole-buffer opt-out if the crash ever recurs.
 ;;
 ;; This function is kept DORMANT (not wired to any hook).  To re-disable
 ;; native fontify if the crash recurs, add it back:

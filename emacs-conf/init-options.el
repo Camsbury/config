@@ -7,7 +7,6 @@
 ;; start with scratch buffer
 (setq initial-buffer-choice t)
 
-;; don't litter backup files
 (setq make-backup-files nil)
 
 ;; Keep autosaves (#file#) and lock files (.#file) out of project trees.

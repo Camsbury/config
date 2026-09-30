@@ -18,7 +18,8 @@
   :after (magit))
 (use-package magit
   :init
-  ;; NOTE: deal with seq issues temporarily (probably can remove later)
+  ;; Redefines `seq-keep' on every Emacs, including the ones whose seq.el
+  ;; already provides it.
   (defun seq-keep (function sequence)
     "Apply FUNCTION to SEQUENCE and return the list of all the non-nil results."
     (delq nil (seq-map function sequence)))
@@ -128,8 +129,6 @@ nil means the command is a no-op instead of a void-variable error.")
 (transient-suffix-put 'magit-push "u" :key "U")
 (transient-append-suffix 'magit-push "U"
   '("u" "Smart Upstream" magit-push-smart-upstream))
-;; `transient-default-level' now lives in config/transient-defaults.el so it
-;; applies to every transient, not just magit's.
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -190,9 +189,7 @@ nil means the command is a no-op instead of a void-variable error.")
 ;; Keybinding/hydra file: it forward-references the leader hydras
 ;; (hydra-leader/body, hydra-left-leader/body, ...) defined in the core/bindings
 ;; hub and magit/git-timemachine commands, all invoked only at runtime.
-;; Suppress just the unresolved class; keep every other class live.  Removing
-;; these forward-ref edges from the DAG is what dissolves the
-;; core/bindings <-> dev/git cycle.
+;; Suppress just the unresolved class; keep every other class live.
 ;; Local Variables:
 ;; byte-compile-warnings: (not unresolved)
 ;; End:

@@ -30,8 +30,9 @@
     (message "Killed tmux session %S" session)))
 
 (defun ck/cider--nrepl-ready-filter (proc chunk)
-  "Append CHUNK to PROC's buffer; on the nREPL readiness line, connect
-from the launcher's calling buffer, then kill PROC's buffer."
+  "Append CHUNK to PROC's buffer and connect once the server reports ready.
+The readiness line carries the port; connect from the launcher's calling
+buffer, then kill PROC's buffer."
   (let ((buf (process-buffer proc)))
     (when (buffer-live-p buf)
       (with-current-buffer buf
@@ -75,9 +76,7 @@ from the launcher's calling buffer, then kill PROC's buffer."
                        ;; Run the sync connect INSIDE the letrec so the error
                        ;; handler can see `place'.  On a synchronous connect
                        ;; failure, undo the hook and the pop-to-buffer override
-                       ;; then re-signal.  The old form put this after the letrec
-                       ;; closed, so the handler referenced a void-variable
-                       ;; `place' and leaked both the hook and the setting.
+                       ;; then re-signal.
                        (condition-case err
                            (if (buffer-live-p caller)
                                (with-current-buffer caller (cider-connect-clj params))
@@ -103,7 +102,7 @@ A process buffer streams the server's output while waiting; the connect
 fires off the server's own readiness line - no clock anywhere.
 
 Refuses to run if this project's tmux session already exists; quit it
-first with `ck/cider-nrepl-tmux-kill'."
+first with `ck/cider-kill-tmux'."
   (interactive)
   (let* ((params  (cider--update-project-dir nil))
          (root    (plist-get params :project-dir))
@@ -130,26 +129,21 @@ first with `ck/cider-nrepl-tmux-kill'."
            (script  (format
                      (concat
                       ;; Capture the pane PID atomically as the session is
-                      ;; created (-P -F prints it before the pane's process can
-                      ;; race ahead and exit).  The old two-step form queried
-                      ;; the PID afterwards, so a server that died instantly
-                      ;; left no session to query, yielding an empty PID and the
-                      ;; opaque `tail: invalid PID' error that hid the real
-                      ;; failure.
+                      ;; created: -P -F prints it before the pane's process can
+                      ;; race ahead and exit, so a server that dies instantly
+                      ;; still yields a PID.
                       ;;
                       ;; tmux's own stderr goes to $errf, not the process
                       ;; buffer: $(...) captures stdout (the PID) only, so a
-                      ;; socket-creation failure (e.g. a stale or racy
-                      ;; /tmp/tmux-<uid> dir under boot.tmp.cleanOnBoot) would
-                      ;; otherwise print unlabeled and be misattributed to the
-                      ;; nREPL server by the guard below.  We replay $errf under
-                      ;; a clear `tmux error' heading on any failure path.
+                      ;; socket-creation failure would otherwise print
+                      ;; unlabeled and be misattributed to the nREPL server by
+                      ;; the guard below.  Replay $errf under a clear `tmux
+                      ;; error' heading on any failure path.
                       "errf=$(mktemp)\n"
                       "p=$(tmux new-session -d -P -F '#{pane_pid}' -s %s -c %s %s 2>\"$errf\")\n"
-                      ;; Guard: an empty PID (tmux exited non-zero, e.g. it
-                      ;; could not create its socket) or a non-numeric PID.
-                      ;; Surface tmux's stderr and any server log so the real
-                      ;; cause reaches the process buffer instead of vanishing.
+                      ;; Guard an empty or non-numeric PID (tmux exited
+                      ;; non-zero).  Surface tmux's stderr and any server log so
+                      ;; the real cause reaches the process buffer.
                       "case \"$p\" in ''|*[!0-9]*)\n"
                       "  echo ';; nREPL launcher: tmux failed to create the session (no pane PID).' 1>&2\n"
                       "  echo ';; --- tmux error ---' 1>&2\n"
@@ -161,8 +155,8 @@ first with `ck/cider-nrepl-tmux-kill'."
                       "rm -f \"$errf\"\n"
                       ;; Stream the log until the pane process dies.  If the
                       ;; server failed fast the PID is already dead, so tail
-                      ;; prints the captured error and exits cleanly (the
-                      ;; sentinel then reports the failure and points at BUF).
+                      ;; prints the captured error and exits cleanly; the
+                      ;; sentinel then reports the failure.
                       "exec tail -n +1 -F --pid=\"$p\" %s")
                      (shell-quote-argument session)
                      (shell-quote-argument root)

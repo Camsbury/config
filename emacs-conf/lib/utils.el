@@ -8,7 +8,7 @@
 (declare-functions "evil-commands" evil-window-left evil-window-right)
 
 (defun ck/random-uuid ()
-  "Returns a random UUID V4"
+  "Copy a fresh random UUID V4 to the kill ring."
   (interactive)
   (kill-new (uuidgen-4)))
 
@@ -38,20 +38,17 @@
 
 (defun ck/set-window-width (window count)
   "Set the reading-column width of WINDOW's vertical band to COUNT columns.
-Climbs from WINDOW to its enclosing band -- the nearest ancestor that is
-horizontally combined with its siblings (a column in the row of bands) --
-and moves that band's right edge.  This is what lets a stacked top/bottom
-band resize as a UNIT: its panes are combined vertically, so resizing a
-pane directly no-ops (a pane has no right edge to donate across), while
-the band above them does.  No-op when the band is rightmost (no sibling
-to donate/absorb the difference).
+Climbs from WINDOW to its enclosing band, the nearest ancestor that is
+horizontally combined with its siblings, and moves that band's right
+edge.  This is what lets a stacked top/bottom band resize as a UNIT: its
+panes are combined vertically, so resizing a pane directly no-ops (a pane
+has no right edge to donate across), while the band above them does.
+No-op when the band is rightmost, with no sibling to donate or absorb the
+difference.
 
-Measures a live LEAF of the band itself (descending via `window-child'),
-not `frame-first-window', which returns the whole FRAME's first window:
-when the band is not leftmost that would measure a DIFFERENT band, and if
-that band already sits at COUNT the delta is zero and this band is
-silently skipped (the bug that let a non-leftmost stacked band go
-uncapped)."
+Measures a live LEAF of the band itself, not `frame-first-window', which
+returns the whole FRAME's first window: when the band is not leftmost
+that would measure a DIFFERENT band and silently skip this one."
   (let ((band window))
     (while (and band (not (window-combined-p band t)))
       (setq band (window-parent band)))
@@ -77,8 +74,9 @@ one), regardless of which pane you left from.")
   "Return the vertical-band root window containing WINDOW.
 Climbs past any top/bottom (vertical) combination to the child of the
 row-of-bands, or the frame root when no bands exist yet. Mirrors
-`ck/band-window' in `config/navigation.el' (kept separate here: `lib/'
-cannot depend on `config/', decision 0009's library/application seam)."
+`ck/band-window' in `config/navigation.el'.  It is duplicated because a
+file in `lib/' must load without `config/': that is the library and
+application split the `tools/lib-guard.sh' check enforces."
   (let ((w (or window (selected-window))))
     (while (let ((p (window-parent w)))
              (and p (not (window-left-child p))))
