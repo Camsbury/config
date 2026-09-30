@@ -18,7 +18,6 @@
   :config
   ;; prevent firing the missiles in some projects
   (setq cljr-eagerly-build-asts-on-startup nil)
-  ;; (setq cljr-warn-on-eval nil) ;; turned off for the above
   (dolist (mapping '(("re-frame" . "re-frame.core")
                      ("reagent"  . "reagent.core")
                      ("str"      . "clojure.string")))

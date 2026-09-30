@@ -66,9 +66,7 @@
               help-mode
               gud-mode
               vterm-mode)
-        ;; lsp-completion-provider :capf
         )
-  ;; (global-company-mode)
   )
 (use-package company-box
   :hook (company-mode . company-box-mode))
@@ -141,7 +139,6 @@
   :config
   (add-to-list 'beacon-dont-blink-major-modes 'exwm-mode)
   (advice-add 'beacon-blink :before #'ck/beacon-update-size)
-  ;; (beacon-mode 1)
   )
 
 

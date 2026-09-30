@@ -41,11 +41,6 @@
    ;; NOTE: trying this out instead of shallow to see how annoying it is
   "M-o"                     #'org-cycle
   "M-O"                     #'org-show-subtree)
-;;; #-org-forward-element - needed on M-l?
-;;; #'org-clock-in
-;;; #'org-slurp-forward, etc.
-;;; #'org-transpose-forward...
-;;; org-cycle
 
 (general-def 'normal org-mode-map
  "]" #'hydra-right-leader/body

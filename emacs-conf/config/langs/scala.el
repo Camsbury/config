@@ -6,7 +6,6 @@
 (declare-functions "lsp-mode"
   lsp-deferred lsp-dependency lsp-register-custom-settings)
 
-;; (use-package ammonite-term-repl)
 (use-package scala-mode)
 (general-add-hook
  'scala-mode-hook
@@ -20,12 +19,8 @@
       '(:system "metals"))
      (lsp-deferred))))
 
-     ;; (flycheck-add-next-checker 'lsp 'scala)
-
 
 (use-package lsp-metals)
-;; (customize-set-variable 'lsp-metals-server-args
-;;                         '("-J-Dmetals.allow-multiline-string-formatting=off"))
 
 
 (use-package sbt-mode

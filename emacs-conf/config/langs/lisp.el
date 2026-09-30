@@ -58,11 +58,6 @@ With non-nil ARG return number of characters skipped."
   "k"    #'evil-previous-visual-line
   "l"    #'evil-forward-char
 
-  ;; "I"   #'lispyville-insert-at-beginning-of-list
-  ;; "A"   #'lispyville-insert-at-end-of-list
-
-  ;; "o"   #'lispyville-open-below-list
-  ;; "O"   #'ck/lisp-open-above
   )
 
 (general-define-key :keymaps 'paredit-mode-map

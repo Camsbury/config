@@ -153,12 +153,10 @@
 
 (defhydra hydra-clj-jack-in (:exit t)
   "cider-jack-in"
-  ;; ("q" #'sesman-quit         "Quit cider session")
   ("q" #'ck/cider-kill-tmux     "Quit cider session")
   ("r" #'sesman-restart         "Restart cider session")
   ("c" #'cider-connect          "Connect to running nREPL")
   ("j" #'ck/cider-jack-in-tmux  "Jack in clj via tmux")
-  ;; ("j" #'cider-jack-in-clj   "Jack in clj")
   ("s" #'cider-jack-in-cljs     "Jack in cljs")
   ("b" #'cider-jack-in-clj&cljs "Jack in both"))
 
@@ -182,7 +180,6 @@
 
 (nmap :states 'normal :keymaps 'cider-mode-map
   "<RET>"   #'cider-inspector-operate-on-point
-  ;; "M-k"     #'cider-inspector-pop
   "M-<RET>" #'cider-eval-sexp-at-point
   "gh"     #'hydra-clj/hydra-cljr-help-menu/body)
 

@@ -41,17 +41,6 @@
   :bind (:map magit-status-mode-map
               ("D" . difftastic-magit-diff)
               ("S" . difftastic-magit-show)))
-;; (use-package magit-difftastic
-;;   :after (magit)
-;;   :config (magit-difftastic-mode +1))
-
-;; (let ((token (getenv "GH_NOTIF_TOKEN")))
-;;   (when token
-;;     (use-package github-notifier
-;;       :init
-;;       (customize-set-variable 'github-notifier-token token)
-;;       :config
-;;       (github-notifier-mode 1))))
 ;; USEIT
 (use-package browse-at-remote)
 

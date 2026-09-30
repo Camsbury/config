@@ -25,7 +25,6 @@
   (setq epa-file-encrypt-to '("camsbury7@gmail.com"))
   (add-hook 'exwm-init-hook
             (lambda () (run-with-idle-timer 1 nil #'org-roam-db-autosync-mode)))
-  ;; (org-roam-db-autosync-mode)
   )
 
 (defun gtd--visit-roam-node (node-name)

@@ -59,7 +59,6 @@ Toggled by `ck/toggle-org-alerts'.")
    org-alert-active-p t)
   (add-hook 'exwm-init-hook
             (lambda () (run-with-timer 5 nil #'org-alert-enable)))
-  ;; (org-alert-enable)
   )
 
 (defun ck/toggle-org-alerts ()
@@ -120,7 +119,6 @@ Toggled by `ck/toggle-org-alerts'.")
 (customize-set-variable
  'org-babel-load-languages
  '(
-   ;; (ammonite . t)
    (emacs-lisp . t)
    (elixir . t)
    (shell . t)

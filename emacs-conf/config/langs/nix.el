@@ -11,9 +11,6 @@
   :after (nix-mode))
 
 ;; Treesitter nix formatting - TODO: need some nixpkgs and such...
-;; (setq treesit-language-source-alist
-;;       '((nix . ("https://github.com/nix-community/tree-sitter-nix"))))
-
 (general-def 'normal nix-mode-map
   [remap ck/empty-mode-leader] #'hydra-nix/body)
 

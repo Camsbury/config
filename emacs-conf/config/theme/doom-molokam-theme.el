@@ -185,7 +185,6 @@ Can be an integer to determine the exact padding."
    (rainbow-delimiters-depth-7-face :foreground green))
 
   ;;;; Base theme variable overrides
-  ;; ()
   )
 
 ;;; doom-molokam-theme.el ends here

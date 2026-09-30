@@ -42,21 +42,11 @@
     'rust-analyzer
     `(:system ,(getenv "RUST_ANALYZER"))
     '(:system "rust-analyzer"))
-   ;; (cargo-minor-mode)
    (lsp-deferred)
    (flycheck-add-next-checker
     'lsp
     '(info . rustic-clippy))
    (flycheck-mode)))
-
-;; (dap-register-debug-template
-;;  "Rust::GDB Run Configuration"
-;;  (list :type "gdb"
-;;        :request "launch"
-;;        :name "GDB::Run"
-;;        :gdbpath "rust-gdb"
-;;        :target nil
-;;        :cwd nil))
 
 (defun ck/rustic-cargo-run-with-args ()
   (interactive)

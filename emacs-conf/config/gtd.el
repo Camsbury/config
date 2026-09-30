@@ -269,14 +269,11 @@
 
 (defhydra hydra-gtd (:exit t :columns 5)
   "set register"
-  ;; ("SPC" #'ck/toggle-org-alerts        "toggle org alerts")
   ("SPC" #'ck/pomodoro-dwim            "pomodoro dwim")
-  ;; ("P" #'gtd-projects->next-actions "projects->next-actions")
   ("a" #'ck/pomodoro-hold-dwim         "pomodoro hold dwim")
   ("P" #'gtd-projects               "projects list")
   ("c" #'gtd-contexts->next-actions "contexts->next-actions")
   ("e" #'gtd-search-mark-done       "search and mark done")
-  ;; ("l" #'org-agenda-list            "calendar")
   ("l" #'gtd-agenda-next-actions    "next actions")
   ("n" #'gtd-topics->next-actions   "topics->next-actions")
   ("o" #'gtd-edit-config            "gtd.el")
