@@ -159,4 +159,56 @@ closes the BUG-2 crash race described in the commentary above."
 (advice-add 'exwm-manage--unmanage-window
             :around #'ck/exwm--unmanage-drain-x)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Floor floating client geometry at its WM_NORMAL_HINTS minimum
+;;
+;; A new floating client can end up in a frame far narrower than its
+;; container.  Observed with Firefox's Bitwarden extension popup (class
+;; firefox/Navigator, type DIALOG, min hints 139x139): the Emacs frame
+;; shrinks to 141 px (139 + 2 internal border) while the container stays at
+;; the original 704 px.
+;;
+;; Cause: `exwm-floating--set-floating' resizes the new floating frame with
+;; a raw X ConfigureWindow and immediately calls `exwm-layout--show', which
+;; sizes the client from Emacs's cached window edges.  On that first call
+;; the cache still describes the 10x4-column placeholder frame, so the
+;; client receives a size below its WM_NORMAL_HINTS minimum.  A GTK client
+;; answers with a ConfigureRequest for its minimum, and EXWM's floating
+;; ConfigureRequest handler shrinks the Emacs frame to that width.  Upstream
+;; marks the gap with "FIXME: check normal hints restrictions" in
+;; exwm-floating.el.
+;;
+;; Fix: wrap `exwm--set-geometry', the one function that sends client
+;; geometry to X.  For a floating client, raise each requested dimension to
+;; the client's min hint when both are numbers.  The stale first size is
+;; then harmless, and the normal `window-size-change-functions' ->
+;; `exwm-layout--refresh' path sets the real size afterwards.  Tiled
+;; clients, containers, and frame outer windows pass through untouched at
+;; the cost of one alist lookup.  A nil dimension means "do not touch", so
+;; it stays nil; a value is never lowered.
+
+(defun ck/exwm--floor-floating-geometry (orig-fn xwin x y width height)
+  "Call ORIG-FN with WIDTH and HEIGHT floored at XWIN's min size hints.
+Only a live floating client is floored.  X and Y pass through.  A nil
+WIDTH or HEIGHT stays nil, and a nil hint leaves its dimension unchanged."
+  (let ((buf (exwm--id->buffer xwin)))
+    (if (not (and buf
+                  (buffer-live-p buf)
+                  (buffer-local-value 'exwm--floating-frame buf)))
+        (funcall orig-fn xwin x y width height)
+      (let* ((min-w (buffer-local-value 'exwm--normal-hints-min-width buf))
+             (min-h (buffer-local-value 'exwm--normal-hints-min-height buf))
+             (new-w (if (and (numberp width) (numberp min-w))
+                        (max width min-w)
+                      width))
+             (new-h (if (and (numberp height) (numberp min-h))
+                        (max height min-h)
+                      height)))
+        (unless (and (eql new-w width) (eql new-h height))
+          (exwm--log "Floating #x%x: floored %sx%s to %sx%s (min hints)"
+                     xwin width height new-w new-h))
+        (funcall orig-fn xwin x y new-w new-h)))))
+
+(advice-add 'exwm--set-geometry :around #'ck/exwm--floor-floating-geometry)
+
 (provide 'config/desktop/windows)
