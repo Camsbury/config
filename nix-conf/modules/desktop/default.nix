@@ -89,6 +89,11 @@
     })
 
     # --- fonts ---
+    # Emacs (the WM) searches every installed font the first time it draws
+    # a glyph no fontset entry covers, freezing the desktop for the length
+    # of the scan.  Keep the font set small: install named Google Fonts
+    # families rather than the whole collection, and install Symbola, the
+    # font Emacs's default fontset names for symbols.
     {
       fonts = {
         fontDir.enable = true;
@@ -97,10 +102,11 @@
           corefonts
           dejavu_fonts
           go-font
-          google-fonts
+          (google-fonts.override { fonts = [ "Spectral" ]; })
           noto-fonts
           powerline-fonts
           roboto-mono
+          symbola
           ubuntu-classic
         ];
       };
