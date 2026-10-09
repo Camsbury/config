@@ -211,4 +211,48 @@ WIDTH or HEIGHT stays nil, and a nil hint leaves its dimension unchanged."
 
 (advice-add 'exwm--set-geometry :around #'ck/exwm--floor-floating-geometry)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Heal the X request-sequence tally when the server runs ahead
+;;
+;; X matches replies to requests by position: Emacs counts the requests it
+;; sends, the server counts the ones it receives, and each reply carries
+;; the low 16 bits of the server's count.  xelb widens that stamp with
+;; Emacs's tally and treats a stamp above the tally as a 16-bit wrap,
+;; subtracting 65536.  Once the server has counted one request more than
+;; Emacs (a send cut short by C-g is one way), every stamp is above the
+;; tally, every reply is filed under a negative number, every reply wait
+;; hits `xcb:connection-timeout', and no new window can be managed.
+;; Upstream has no recovery path; only a restart resets both counts.
+;;
+;; A real wrap and a desync never look alike: a wrap shows a gap close to
+;; 65536, a desync a gap of a few.  On a small gap, trust the server and
+;; raise the tally to the stamp.  The one reply in flight at that moment
+;; may be delivered to the wrong request (the protocol gives no way to
+;; tell); everything after it is matched correctly.
+
+(defconst ck/xcb-sequence-desync-max 32768
+  "Largest gap between a stamp and the tally that counts as a desync.
+Half the 16-bit range: a real wrap always shows a gap above this.")
+
+(defun ck/xcb--heal-sequence-desync (orig-fn conn sequence16)
+  "Call ORIG-FN on CONN and SEQUENCE16, healing a small forward gap.
+When SEQUENCE16 is ahead of CONN's tally by less than
+`ck/xcb-sequence-desync-max', the server has counted requests Emacs did
+not: raise the tally to the stamp and return the stamp.  Otherwise return
+ORIG-FN's result, which handles the real 16-bit wrap."
+  (let* ((tally (slot-value conn 'request-sequence))
+         (stamp (logior (logand tally xcb:-SEQUENCE-SEGMENT-MASK)
+                        sequence16))
+         (gap (- stamp tally)))
+    (if (< 0 gap ck/xcb-sequence-desync-max)
+        (progn
+          (message
+           "cmacs: X sequence desync, server ahead by %d; tally %d -> %d"
+           gap tally stamp)
+          (setf (slot-value conn 'request-sequence) stamp)
+          stamp)
+      (funcall orig-fn conn sequence16))))
+
+(advice-add 'xcb:-convert-sequence :around #'ck/xcb--heal-sequence-desync)
+
 (provide 'config/desktop/windows)

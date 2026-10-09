@@ -233,6 +233,7 @@ running configuration.
 | `tools/lib-guard.sh` | Protect the library and application boundary |
 | `tools/wm-free-check.sh` | Prove the tree loads without activating EXWM |
 | `tools/eca-upstream-guard.sh` | Check the ECA adapter's upstream names exist |
+| `tools/exwm-sequence-test.el` | Prove the X request-sequence heal against the live display |
 
 ## Command surfaces
 
@@ -371,6 +372,14 @@ agent docs are present.
 `ck/fix-monitor-blackouts` switches `DP-0` to 4K at 119.88 Hz, waits one
 second for the monitor to lock, and restores 240.02 Hz. The wait is
 asynchronous, so Emacs remains responsive during the transition.
+
+A `cmacs: X sequence desync` line in `*Messages*` means the X server had
+counted more requests than EXWM's connection, and the heal in
+`config/desktop/windows.el` resynchronised the tally. Without it every
+X reply wait times out with `[XELB] Retrieve reply timeout`, each one a
+three-second freeze, and no new window can be managed until restart. The
+one reply in flight at the heal may reach the wrong request; everything
+after it is matched correctly.
 
 ## External state
 
