@@ -160,6 +160,50 @@ closes the BUG-2 crash race described in the commentary above."
             :around #'ck/exwm--unmanage-drain-x)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Dedicate and undedicate the fullscreen client's own window
+;;
+;; `exwm-layout-set-fullscreen', `exwm-layout-unset-fullscreen' and
+;; `exwm-manage--unmanage-window' find the window to dedicate with
+;; `(get-buffer-window)', which searches the selected frame only.  A client
+;; that goes fullscreen or exits while another workspace is selected gets
+;; nil there, so set-fullscreen dedicates the selected window instead (the
+;; buffer you are looking at) and unmanage never clears the client's own
+;; window.  `exwm-layout--refresh-workspace' later tries to put another
+;; buffer in that window and throws "Window is dedicated", which aborts
+;; the refresh and the workspace-switch focus hand-off.
+
+(defun ck/exwm--with-client-window-selected (orig-fn &rest args)
+  "Call ORIG-FN with ARGS while the client's window is selected.
+The client buffer is `(car ARGS)' as an X id, or the current buffer.  Its
+window is looked up on every frame so upstream's frame-local
+`get-buffer-window' finds the window it dedicates or undedicates.  The
+selection is norecord, so EXWM's focus timer does not fire.  Without a
+window ORIG-FN runs unchanged."
+  (let* ((id (car args))
+         (buf (if id (exwm--id->buffer id) (current-buffer)))
+         (window (and buf (get-buffer-window buf t))))
+    (if (window-live-p window)
+        (with-selected-window window
+          (apply orig-fn args))
+      (apply orig-fn args))))
+
+(defun ck/exwm--unmanage-with-fullscreen-window (orig-fn id &rest args)
+  "Call ORIG-FN on ID and ARGS, selecting ID's window when it is fullscreen.
+Only a fullscreen client has a dedicated tiling window to clear, and the
+floating teardown path is left untouched."
+  (let ((buf (exwm--id->buffer id)))
+    (if (and buf (with-current-buffer buf (exwm-layout--fullscreen-p)))
+        (apply #'ck/exwm--with-client-window-selected orig-fn id args)
+      (apply orig-fn id args))))
+
+(advice-add 'exwm-layout-set-fullscreen
+            :around #'ck/exwm--with-client-window-selected)
+(advice-add 'exwm-layout-unset-fullscreen
+            :around #'ck/exwm--with-client-window-selected)
+(advice-add 'exwm-manage--unmanage-window
+            :around #'ck/exwm--unmanage-with-fullscreen-window)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Floor floating client geometry at its WM_NORMAL_HINTS minimum
 ;;
 ;; A new floating client can end up in a frame far narrower than its
