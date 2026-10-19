@@ -204,6 +204,35 @@ floating teardown path is left untouched."
             :around #'ck/exwm--unmanage-with-fullscreen-window)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Adopt a cross-workspace client before focusing it
+;;
+;; With `exwm-layout-show-all-buffers' any switch command (consult-buffer,
+;; `evil-next-buffer', a mouse click) can show an X client whose
+;; `exwm--frame' still names another workspace.  `exwm-input--update-focus'
+;; then does not focus the client: it switches to that other workspace.
+;; Upstream relies on `exwm-layout--refresh' (a redisplay hook) to move the
+;; window here first, but the focus timer can fire before redisplay, and
+;; the refresh can throw.  Doing the move at the decision point makes the
+;; order irrelevant; the two are idempotent with each other.
+
+(defun ck/exwm--adopt-window-before-focus (window)
+  "Move WINDOW's tiling X client to the current workspace before focusing.
+Runs before `exwm-input--update-focus'.  Only acts when WINDOW is live, on
+the current workspace frame, and shows a tiling `exwm-mode' buffer whose
+`exwm--frame' is another workspace.  Floating clients are left alone."
+  (when (and (window-live-p window)
+             (eq (window-frame window) exwm-workspace--current))
+    (with-current-buffer (window-buffer window)
+      (when (and (derived-mode-p 'exwm-mode)
+                 (not exwm--floating-frame)
+                 (not (eq exwm--frame exwm-workspace--current)))
+        (exwm--log "Adopting #x%x into %s" exwm--id exwm-workspace--current)
+        (exwm-workspace-move-window exwm-workspace--current exwm--id)))))
+
+(advice-add 'exwm-input--update-focus
+            :before #'ck/exwm--adopt-window-before-focus)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Floor floating client geometry at its WM_NORMAL_HINTS minimum
 ;;
 ;; A new floating client can end up in a frame far narrower than its

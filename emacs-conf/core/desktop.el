@@ -4,6 +4,12 @@
 (require 'exwm-randr)
 (require 'lib/utils) ; ck/window-left, ck/window-right
 
+;; Any X client can be reached from any workspace: the buffer list shows
+;; them all, and displaying one from another workspace moves its window
+;; here.  That move must run before EXWM's focus timer, or the timer sees
+;; a workspace mismatch and skips the X focus hand-off.
+;; `ck/exwm--adopt-window-before-focus' in config/desktop/windows.el
+;; guarantees the order for every switch command.
 (setq exwm-workspace-show-all-buffers t)
 (setq exwm-layout-show-all-buffers t)
 
