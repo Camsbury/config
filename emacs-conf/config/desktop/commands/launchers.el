@@ -123,7 +123,7 @@ to \"XTerm - SESSION\".  The rename needs that buffer to exist, and the
   (ck/open-firefox)
   (ck/open-xterm)
   (ck/open-slack)
-  (ck/open-telegram)
+  (ck/open-signal)
   (ck/open-spotify))
 
 (defun ck/align-all-applications ()
@@ -131,7 +131,7 @@ to \"XTerm - SESSION\".  The rename needs that buffer to exist, and the
   (dolist (i '((2 "firefox")
                (4 "XTerm")
                (8 "Slack")
-               (9 "TelegramDesktop")
+               (9 "signal")
                (0 "Spotify")))
     (exwm-workspace-switch (car i))
     (exwm-workspace-switch-to-buffer (cadr i)))
