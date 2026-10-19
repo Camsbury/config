@@ -233,6 +233,41 @@ the current workspace frame, and shows a tiling `exwm-mode' buffer whose
             :before #'ck/exwm--adopt-window-before-focus)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Answer a workspace activation with the X client it shows
+;;
+;; `exwm-workspace-switch' ends with `x-focus-frame' on the workspace
+;; frame.  Under an EWMH window manager Emacs implements that by sending a
+;; _NET_ACTIVE_WINDOW client message, which EXWM itself receives a moment
+;; later in `exwm--on-net-active-window' and answers with a raw
+;; `XSetInputFocus' on the Emacs frame.  That request lands after the
+;; `SetInputFocus' EXWM already sent to the client in the selected window,
+;; so the client loses focus and its keys run as Emacs commands.  When the
+;; activated workspace shows a tiling X client, answer by focusing the
+;; client through EXWM's own focus path instead.
+
+(defun ck/exwm--activate-workspace-through-client (orig-fn id data)
+  "Handle _NET_ACTIVE_WINDOW for ID, focusing the client the workspace shows.
+Runs around `exwm--on-net-active-window'.  When ID is the outer id of the
+current workspace and its selected window shows a tiling `exwm-mode'
+buffer, hand that window to EXWM's focus update, which sends
+`SetInputFocus' to the client.  Every other case goes to ORIG-FN."
+  (let* ((frame exwm-workspace--current)
+         (window (and (frame-live-p frame) (frame-selected-window frame))))
+    (if (and window
+             (eq id (frame-parameter frame 'exwm-outer-id))
+             (with-current-buffer (window-buffer window)
+               (and (derived-mode-p 'exwm-mode)
+                    (not exwm--floating-frame))))
+        (progn
+          (exwm--log "Workspace %s activated; focusing its client" frame)
+          (setq exwm-input--update-focus-window window)
+          (exwm-input--update-focus-defer))
+      (funcall orig-fn id data))))
+
+(advice-add 'exwm--on-net-active-window
+            :around #'ck/exwm--activate-workspace-through-client)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Floor floating client geometry at its WM_NORMAL_HINTS minimum
 ;;
 ;; A new floating client can end up in a frame far narrower than its
