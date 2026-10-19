@@ -17,12 +17,16 @@
   "Switch to the buffer matching NAME, or run COMMAND to start it.
 NAME is a regexp matched against buffer names with `s-match'; the first
 match wins.  COMMAND is a shell command line.  With PROJECTP non-nil the
-command runs from the projectile root, otherwise from ~."
-  (let* (
-         (buffers (-map #'buffer-name (buffer-list)))
+command runs from the projectile root, otherwise from ~.
+
+An EXWM buffer on another workspace is moved to the current one before
+it is shown.  Plain `switch-to-buffer' would show it while `exwm--frame'
+still names the old workspace, and EXWM's focus timer then skips the
+X focus hand-off, leaving keys in Emacs."
+  (let* ((buffers (-map #'buffer-name (buffer-list)))
          (match (-first (lambda (buffer) (s-match name buffer)) buffers)))
     (if match
-        (switch-to-buffer match)
+        (exwm-workspace-switch-to-buffer match)
       (let ((default-directory
              (if projectp
                  (or  (projectile-project-root) "~")
