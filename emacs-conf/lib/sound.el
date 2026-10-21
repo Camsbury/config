@@ -27,7 +27,10 @@
             nodes)))
 
 (defun ck/switch-audio-sink ()
-  "Switch default audio sink via wpctl with completion."
+  "Pick a sink by friendly name, make it the default, and unmute it.
+Volume is left alone: WirePlumber restores the level it last saw on
+that sink (its default-routes state), and each device has its own
+comfortable range, so one shared level is wrong for all of them."
   (interactive)
   (let* ((sinks (ck/audio-sinks))
          (choice (completing-read "Sink: " (mapcar #'car sinks) nil t))
@@ -38,7 +41,6 @@
     (when (string-empty-p id)
       (user-error "Sink %s not found" choice))
     (shell-command (format "wpctl set-default %s" id))
-    (shell-command (format "wpctl set-mute %s 0" id))
-    (shell-command (format "wpctl set-volume %s 0.7" id))))
+    (shell-command (format "wpctl set-mute %s 0" id))))
 
 (provide 'lib/sound)
