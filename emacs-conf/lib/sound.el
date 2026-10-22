@@ -43,4 +43,36 @@ comfortable range, so one shared level is wrong for all of them."
     (shell-command (format "wpctl set-default %s" id))
     (shell-command (format "wpctl set-mute %s 0" id))))
 
+(defun ck/mpris-players ()
+  "Return an alist of (display . instance) for every MPRIS player.
+Display is \"name  status  artist - title\"; instance is the
+`playerctl -p' target.  One `playerctl -a metadata' call feeds both."
+  (let ((lines (split-string
+                (shell-command-to-string
+                 (concat "playerctl -a metadata --format "
+                         "'{{playerInstance}}\t{{playerName}}"
+                         "\t{{status}}\t{{artist}} - {{title}}'"))
+                "\n" t)))
+    (mapcar (lambda (line)
+              (pcase-let ((`(,instance ,name ,status ,track)
+                           (split-string line "\t")))
+                (cons (format "%-10s %-8s %s" name status track)
+                      instance)))
+            lines)))
+
+(defun ck/play-pause-player ()
+  "Pick an MPRIS player with completion and toggle its play/pause.
+One-shot: the hardware play key keeps following playerctld's
+last-active player; this is the fallback when that player is not
+the one you want."
+  (interactive)
+  (let ((players (ck/mpris-players)))
+    (unless players
+      (user-error "No MPRIS players running"))
+    (let* ((choice (completing-read "Play/pause: " (mapcar #'car players)
+                                    nil t))
+           (instance (alist-get choice players nil nil #'string=)))
+      (shell-command (format "playerctl -p %s play-pause"
+                             (shell-quote-argument instance))))))
+
 (provide 'lib/sound)
