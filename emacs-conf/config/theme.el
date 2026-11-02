@@ -16,8 +16,18 @@
 
 (defvar normal-font-height
   (if (ck/laptop-p)
-      90
-    100))
+      100
+    110)
+  "Default face height in tenths of a point; the one source of font size.")
+
+(defun ck/set-default-font ()
+  "Set Go Mono at `normal-font-height' on all frames, current and future.
+Uses the face override spec, which outranks every theme, so any theme
+enable (including `consult-theme') keeps this font and size.
+`set-frame-font' is the wrong tool: it rounds the height through the
+font's pixel size and saves it into the user's Custom spec."
+  (face-spec-set 'default
+                 `((t :family "Go Mono" :height ,normal-font-height))))
 
 
 (use-package doom-modeline
@@ -36,8 +46,7 @@
      (load-theme 'doom-molokam t)))
   (set-face-attribute 'font-lock-function-name-face nil
                       :weight 'normal :inherit nil)
-  (set-frame-font "Go Mono 10" nil t)
-  (set-face-attribute 'default nil :height normal-font-height))
+  (ck/set-default-font))
 (use-package rainbow-delimiters)
 (use-package rainbow-mode)
 
@@ -53,7 +62,7 @@
 
 (defun ck/set-theme
     (theme)
-  "Set THEME and resize.
+  "Set THEME.
 If an EDN source exists for THEME in `ck/doom-theme-dir', load it through
 the EDN pipeline so cycling to it matches the authoritative boot render;
 otherwise fall back to `load-theme'."
@@ -62,8 +71,7 @@ otherwise fall back to `load-theme'."
         (ck/doom-theme-load-edn edn)
       (load-theme theme t)))
   (set-face-attribute 'font-lock-function-name-face nil
-                      :weight 'normal :inherit nil)
-  (set-face-attribute 'default nil :height normal-font-height))
+                      :weight 'normal :inherit nil))
 
 (defun ck/cycle-theme ()
   "Cycle through themes"

@@ -306,12 +306,11 @@ the structural layer's role references resolve against this theme."
 
 (defun ck/doom-theme--post-apply ()
   "Re-assert the non-theme face tweaks after (re)enabling the theme.
-Mirrors the fixups in `ck/set-theme' (config/theme.el): a non-bold, no-inherit
-function-name face and the configured default height."
+Mirrors the fixup in `ck/set-theme' (config/theme.el): a non-bold, no-inherit
+function-name face.  The default font needs no fixup: `ck/set-default-font'
+sets it as an override spec, which outranks the theme."
   (set-face-attribute 'font-lock-function-name-face nil
-                      :weight 'normal :inherit nil)
-  (when (boundp 'normal-font-height)
-    (set-face-attribute 'default nil :height (symbol-value 'normal-font-height))))
+                      :weight 'normal :inherit nil))
 
 (defun ck/doom-theme--apply-form (name toggles form)
   "Define NAME's TOGGLES defcustoms, eval theme FORM, enable, and fix up.
