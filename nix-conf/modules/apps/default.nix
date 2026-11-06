@@ -54,7 +54,7 @@
         ispell # used for spell check
         pandoc
         texliveFull # latex!
-        zathura
+        zathura # also for viewing pdfs
       ];
     }
 
