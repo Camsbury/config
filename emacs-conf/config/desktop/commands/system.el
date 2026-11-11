@@ -278,23 +278,4 @@ no-op."
   (ck/caffeine--start-unit ck/caffeine--normal-unit)
   (message "Decaffeinated: idle lock back to the normal schedule"))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Keychain
-
-(defun ck/ssh-keychain ()
-  "Adds the ssh key to the keychain"
-  (interactive)
-  (ck/-run-shell-command
-   (concat
-    "keychain --eval /home/"
-    (user-login-name)
-    "/.ssh/id_rsa")))
-
-(defun ck/gpg-keychain ()
-  "Adds the gpg key to the keychain"
-  (interactive)
-  (ck/-run-shell-command
-   (concat "keychain --eval " user-gpg-id)))
-
 (provide 'config/desktop/commands/system)

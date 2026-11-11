@@ -141,7 +141,6 @@ in
           gnutls
           keybase
           keybase-gui
-          keychain
           openssh
           openssl
           pass

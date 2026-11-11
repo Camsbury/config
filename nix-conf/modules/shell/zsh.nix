@@ -22,12 +22,6 @@
       source "${../../../helpers.zsh.inc}"
 
       ################################################################################
-      # set up keychain
-      export GPG_TTY=$(tty)
-      eval $(keychain --eval id_rsa)
-      eval $(keychain --eval D3F6CEF58C6E0F38)
-
-      ################################################################################
       # set up direnv
       eval "$(direnv hook zsh)"
     '';

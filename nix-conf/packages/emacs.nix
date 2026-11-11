@@ -90,7 +90,6 @@ let
     js2-mode
     json-navigator
     kaocha-runner
-    keychain-environment
     # know-your-http-well
     lispy
     lispyville

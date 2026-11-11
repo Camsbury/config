@@ -1,13 +1,10 @@
 ;; -*- lexical-binding: t; -*-
 (require 'prelude) ; dash/s/f (-remove, -concat, s-match, f-directories)
 
-;; direnv / keychain-environment are deferred; their mode commands run only in
-;; the `use-package :config' blocks below (decision 0001).
+;; direnv is deferred; its mode command runs only in the `use-package
+;; :config' block below (decision 0001).
 (declare-functions "direnv" direnv-mode)
-(declare-functions "keychain-environment" keychain-refresh-environment)
 
-(use-package keychain-environment
-  :config (keychain-refresh-environment))
 (use-package direnv
   :config (direnv-mode))
 
