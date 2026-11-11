@@ -37,6 +37,13 @@
 # notifications pop on unlock. Restored via an EXIT trap so a crashed locker
 # never strands dunst paused.
 #
+# idle-trace (scripts/idle-trace.py) logs, every 5 s, what the chain above
+# reads: the idle counter, screensaver and DPMS state, xidlehook's gates,
+# the lock, and raw input per device. It keeps about a day of files under
+# ~/.local/state/idle-trace/; read them after a screen that would not lock
+# or blank. xidlehook's fullscreen gate walks the WHOLE window tree, so a
+# fullscreen window hidden on another workspace silences the chain.
+#
 # Media keys while locked are NOT handled here. i3lock-color grabs the X
 # keyboard, so EXWM's media bindings die while locked; the fix lives in
 # media-keys.nix, which reads evdev below X and works regardless of the grab.
@@ -141,6 +148,10 @@ let
     ${pkgs.xset}/bin/xset dpms force off
   '';
 
+  idleTrace = pkgs.writers.writePython3 "idle-trace" {
+    libraries = [ pkgs.python3Packages.xlib ];
+  } (builtins.readFile ../../../scripts/idle-trace.py);
+
   # One idle chain per lock delay. `lockAfter` seconds of idle lock the session;
   # `blankAfter` more seconds blank the panel. The X server's own screensaver
   # (xss-lock's fallback lock) and DPMS timers are set to fire `blankAfter`
@@ -232,6 +243,26 @@ in
       wantedBy = [ "graphical-session.target" ];
       conflicts = [ "xidlehook-caffeinated.service" ];
     };
+
+  # Always-on trace of the idle chain's inputs (see the header). Like
+  # xss-lock it holds one session's X connection and dies with it, so the
+  # start limit is off and it retries until the next session's X is up.
+  systemd.user.services.idle-trace = {
+    description = "Trace the X idle counter and the idle-blanking gates";
+    wantedBy = [ "graphical-session.target" ];
+    partOf = [ "graphical-session.target" ];
+    path = [
+      pkgs.pulseaudio
+      pkgs.systemd
+    ];
+    startLimitIntervalSec = 0;
+    serviceConfig = {
+      ExecStart = "${idleTrace}";
+      Restart = "always";
+      RestartSec = "2s";
+      Nice = 10;
+    };
+  };
 
   # The caffeinated chain: identical guards and locker, but an hour of idle
   # before the lock. Started by ck/caffeinate; starting the normal unit again
