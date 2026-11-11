@@ -197,6 +197,7 @@ X clients under EXWM."
   ("e" #'projectile-find-file                  "project file")
   ("E" #'projectile-switch-to-buffer           "project open buffer")
   ("f" #'ck/elfeed-open                        "elfeed feeds")
+  ("F" #'ck/elfeed-select-view                 "elfeed view")
   ("g" #'ck/open-signal                        "signal")
   ("j" #'org-journal-new-entry                 "org-journal entry")
   ("J" #'org-journal-open-current-journal-file "org-journal")
