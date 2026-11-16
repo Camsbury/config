@@ -7,6 +7,9 @@
   cider--update-jack-in-cmd
   cider--update-project-dir
   cider-connect-clj)
+(declare-functions "cider-jack-in"
+  cider-project-type
+  cider--combined-aliases)
 (declare-functions "cider-connection" cider-quit)
 (declare-functions "cider-session" cider-current-repl)
 (declare-functions "projectile" projectile-project-root)
@@ -96,6 +99,20 @@ buffer, then kill PROC's buffer."
   "CPU list in taskset -c syntax (e.g. \"0-21\") to pin this project's nREPL JVM to.")
 (put 'ck/cider-cpuset 'safe-local-variable #'stringp)
 
+(defun ck/cider--deps-prep-cmd ()
+  "Shell command that preps the current buffer's jack-in aliases.
+Covers git and local deps that need a build step, which `clojure'
+refuses to load until prepped.  Read in the caller buffer so
+dir-local aliases apply."
+  (let ((aliases (split-string (cider--combined-aliases) ":" t)))
+    (concat "clojure -X:deps prep"
+            (when aliases
+              (concat " :aliases "
+                      (shell-quote-argument
+                       (format "[%s]"
+                               (mapconcat (lambda (a) (concat ":" a))
+                                          aliases " "))))))))
+
 (defun ck/cider-jack-in-tmux ()
   "Launch CIDER's nREPL server in a detached tmux session.
 A process buffer streams the server's output while waiting; the connect
@@ -110,9 +127,14 @@ first with `ck/cider-kill-tmux'."
     (unless (stringp root) (user-error "No project directory resolved here"))
     (when (zerop (call-process "tmux" nil nil nil "has-session" "-t" session))
       (user-error
-       "tmux session %S is already running - quit it first with `M-x ck/cider-nrepl-tmux-kill'"
+       (concat "tmux session %S is already running - quit it first"
+               " with `M-x ck/cider-kill-tmux'")
        session))
     (let* ((root    (expand-file-name root))
+           ;; Resolve once and hand it to CIDER, so a project with
+           ;; several build files prompts only once.
+           (type    (cider-project-type root))
+           (params  (plist-put params :project-type type))
            (cmd (let ((base (plist-get (cider--update-jack-in-cmd params) :jack-in-cmd)))
                   (if ck/cider-cpuset
                       (concat "taskset -c " ck/cider-cpuset " " base)
@@ -122,8 +144,14 @@ first with `ck/cider-kill-tmux'."
            (qlog    (shell-quote-argument log))   ; referenced several times below
            (buf     (get-buffer-create (format "*starting nrepl for %s*" session)))
            (caller  (current-buffer))
-           (inner (format "direnv exec %s %s 2>&1 | tee %s"
-                          (shell-quote-argument root)
+           (qroot   (shell-quote-argument root))
+           ;; A prep failure stops the launch; its output lands in the log.
+           (prep    (when (eq type 'clojure-cli)
+                      (format "direnv exec %s %s && "
+                              qroot (ck/cider--deps-prep-cmd))))
+           (inner (format "{ %sdirenv exec %s %s; } 2>&1 | tee %s"
+                          (or prep "")
+                          qroot
                           cmd           ; stays UNQUOTED
                           qlog))
            (script  (format
