@@ -367,6 +367,7 @@ agent docs are present.
 | `M-x ck/lock-screen` | Lock through the logind and xss-lock stack (ends caffeine first) |
 | `M-x ck/caffeinate` | Delay the idle lock to an hour (`xidlehook-caffeinated` unit) |
 | `M-x ck/decaffeinate` | Restore the normal idle chain (safe to run any time) |
+| `M-x ck/unlock-keys` | Cache SSH and GPG passphrases in gpg-agent now |
 | `M-x ck/restart-display-manager` | Restart the graphical session |
 
 `ck/fix-monitor-blackouts` switches `DP-0` to 4K at 119.88 Hz, waits one

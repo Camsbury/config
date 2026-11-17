@@ -278,4 +278,64 @@ no-op."
   (ck/caffeine--start-unit ck/caffeine--normal-unit)
   (message "Decaffeinated: idle lock back to the normal schedule"))
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Key unlocking
+
+;; gpg-agent holds the GPG key and also serves the SSH key, and it caches a
+;; passphrase when a signature needs it.  So "unlock" signs empty input:
+;; pinentry asks only when the cache is cold.  The signer must run async.
+;; A blocking call freezes EXWM, which then cannot map the pinentry window.
+
+(defcustom ck/ssh-public-key-file "~/.ssh/id_rsa.pub"
+  "Public half of the SSH key that `ck/unlock-ssh-key' unlocks.
+`ssh-keygen' asks the agent to sign with the matching private key."
+  :type 'file
+  :group 'cmacs)
+
+(defun ck/keys--unlock (label command)
+  "Run signing COMMAND on empty input so gpg-agent caches LABEL's key.
+Report the result in the echo area; on failure show the stderr buffer."
+  (let ((errors (get-buffer-create (format " *unlock %s*" label))))
+    (with-current-buffer errors
+      (erase-buffer))
+    (process-send-eof
+     (make-process
+      :name (concat "unlock-" label)
+      :command command
+      :connection-type 'pipe
+      :stderr errors
+      :noquery t
+      :sentinel
+      (lambda (process _event)
+        (when (memq (process-status process) '(exit signal))
+          (if (zerop (process-exit-status process))
+              (message "%s key unlocked" label)
+            (display-buffer errors)
+            (message "%s key unlock failed" label))))))))
+
+(defun ck/unlock-ssh-key ()
+  "Cache the SSH key passphrase in gpg-agent, prompting if needed."
+  (interactive)
+  (ck/keys--unlock
+   "SSH"
+   (list "ssh-keygen" "-Y" "sign" "-n" "cmacs-unlock"
+         "-f" (expand-file-name ck/ssh-public-key-file))))
+
+(defun ck/unlock-gpg-key ()
+  "Cache the `user-gpg-id' passphrase in gpg-agent, prompting if needed."
+  (interactive)
+  (unless user-gpg-id
+    (user-error "`user-gpg-id' is unset (USER_GPG_ID)"))
+  (ck/keys--unlock
+   "GPG"
+   (list "gpg" "--batch" "--local-user" user-gpg-id
+         "--sign" "--output" "-")))
+
+(defun ck/unlock-keys ()
+  "Unlock both the SSH key and the GPG key."
+  (interactive)
+  (ck/unlock-ssh-key)
+  (ck/unlock-gpg-key))
+
 (provide 'config/desktop/commands/system)
