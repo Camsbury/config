@@ -140,7 +140,7 @@ in
           gnupg
           gnutls
           keybase
-          keybase-gui
+          # keybase-gui
           openssh
           openssl
           pass

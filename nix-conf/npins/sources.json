@@ -9,9 +9,9 @@
       },
       "branch": "release-26.05",
       "submodules": false,
-      "revision": "a6631107a83ceab5872f298a2ea710859c80c4cb",
-      "url": "https://github.com/nix-community/home-manager/archive/a6631107a83ceab5872f298a2ea710859c80c4cb.tar.gz",
-      "hash": "sha256-VkR1rMGyjU9jtw8ISFx5uqR9e+LEaOlhHwrseFkiIVk="
+      "revision": "6480d7d8533b88c78cc6dcda395ab89cd546e450",
+      "url": "https://github.com/nix-community/home-manager/archive/6480d7d8533b88c78cc6dcda395ab89cd546e450.tar.gz",
+      "hash": "sha256-XYoMPsqRFZ6jOaYI1KAAu8fzqif4tkCX8mhEKrViDXQ="
     },
     "nixos-hardware": {
       "type": "Git",
@@ -22,21 +22,21 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "9ebcb7766700d7e006d9505247bd7ce0426f4232",
-      "url": "https://github.com/NixOS/nixos-hardware/archive/9ebcb7766700d7e006d9505247bd7ce0426f4232.tar.gz",
-      "hash": "sha256-FIRXajv1pPZ+l6On6ekkmcQ6le0Zi0ncRUoR3nB0vKA="
+      "revision": "ff49dbf39553717ac8e0f4d5085fa0ca10c1031f",
+      "url": "https://github.com/NixOS/nixos-hardware/archive/ff49dbf39553717ac8e0f4d5085fa0ca10c1031f.tar.gz",
+      "hash": "sha256-HoBMYHQYxai9NTe3ED6MrZwo2S56ocxgMwTgwmybjJM="
     },
     "nixpkgs": {
       "type": "Channel",
       "name": "nixos-26.05",
-      "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.10529.c508844df6c2/nixexprs.tar.xz",
-      "hash": "sha256-qdM4Skrqq9Xps3OPNi9PWC6/hrWK9eDx5DUAUUaoz+o="
+      "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.15079.0dc498bfe49b/nixexprs.tar.xz",
+      "hash": "sha256-RThZ6/XvhVczW74iClJaGo9+fXjvfm5mvvzTy6hrcYU="
     },
     "nixpkgs-unstable": {
       "type": "Channel",
       "name": "nixpkgs-unstable",
-      "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.11pre1080404.3181085bfd08/nixexprs.tar.xz",
-      "hash": "sha256-KveNUoALIFda3G7m2VWk38jiTIky80vwY3h9gGOoF2g="
+      "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.11pre1126808.619c39f6eac5/nixexprs.tar.xz",
+      "hash": "sha256-3Xq+XlDu5l+UJ0cc+Jigs84+tz7Qu92NgXVHgJwC52M="
     },
     "peon-ping": {
       "type": "GitRelease",

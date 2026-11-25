@@ -160,7 +160,6 @@ let
     vertico # emacs nouveau
     # visual-fill-column
     wgrep
-    which-key
     with-simulated-input
     yaml-mode
     yapfify # python-lsp
